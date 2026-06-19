@@ -10,6 +10,7 @@
     --bg:#f4f2ee; --bg2:#ebe8e2; --card:#ffffff; --ink:#1b232c; --muted:#5d6873;
     --line:#e2ddd4; --accent:#0f6e6a; --accent-ink:#0b4f4c; --accent-soft:#dcefed;
     --amber:#c9821f; --amber-soft:#f7ecd9; --violet:#6d5bd0; --violet-soft:#e9e6fa;
+    --good:#1f8a4c; --good-soft:#e2f3e8;
     --shadow:0 1px 2px rgba(20,30,40,.05),0 6px 18px rgba(20,30,40,.05);
     --shadow-lg:0 2px 6px rgba(20,30,40,.06),0 18px 40px rgba(20,30,40,.10);
     --r:14px; --r-lg:20px; --ease:cubic-bezier(.2,.8,.2,1);
@@ -18,6 +19,7 @@
     --bg:#11151a; --bg2:#161b22; --card:#1b222b; --ink:#e7ecf1; --muted:#9aa6b2;
     --line:#2a323c; --accent:#3fb9b2; --accent-ink:#7fd6d0; --accent-soft:#163230;
     --amber:#e0a64a; --amber-soft:#2e2515; --violet:#a99cf0; --violet-soft:#221d3a;
+    --good:#46c178; --good-soft:#16301f;
     --shadow:0 1px 2px rgba(0,0,0,.3),0 8px 24px rgba(0,0,0,.35);
     --shadow-lg:0 2px 8px rgba(0,0,0,.4),0 22px 48px rgba(0,0,0,.5);
   }
@@ -72,8 +74,7 @@
   .vak b{font-size:19px} .vak small{color:var(--muted);font-size:14px;line-height:1.5}
   .vak .go{margin-top:6px;display:inline-flex;align-items:center;gap:6px;color:var(--accent-ink);font-weight:600;font-size:14px}
   .vak .go .ic{width:16px;height:16px;transition:transform .2s var(--ease)} button.vak:hover .go .ic{transform:translateX(3px)}
-  .pill{position:absolute;top:16px;right:16px;font-size:11.5px;font-weight:700;padding:4px 10px;border-radius:999px;background:#e2f3e8;color:#1f8a4c;display:inline-flex;align-items:center;gap:5px;letter-spacing:.2px}
-  html[data-theme="dark"] .pill{background:#16301f;color:#46c178}
+  .pill{position:absolute;top:16px;right:16px;font-size:11.5px;font-weight:700;padding:4px 10px;border-radius:999px;background:var(--good-soft);color:var(--good);display:inline-flex;align-items:center;gap:5px;letter-spacing:.2px}
   .pill.soon{background:var(--amber-soft);color:var(--amber)} html[data-theme="dark"] .pill.soon{background:#2e2515;color:#e0a64a}
   .pill .dot{width:7px;height:7px;border-radius:50%;background:currentColor;animation:blink 1.8s var(--ease) infinite}
   .ghost .plus{width:42px;height:42px;border-radius:50%;border:1.5px dashed var(--line);display:grid;place-items:center;margin-bottom:10px} .ghost .plus .ic{width:20px;height:20px}
@@ -136,7 +137,7 @@
   function lset(k,v){ try{ localStorage.setItem(k,v); }catch(e){} }
 
   var view=document.getElementById("view");
-  var theme = ls("site_theme") || ls("mbg_theme") || "light";
+  var theme = ls("site_theme") || "light";
   function applyTheme(){ document.documentElement.setAttribute("data-theme",theme);
     document.getElementById("themeBtn").innerHTML=(theme==="dark"?ic("sun"):ic("moon"))+'<span>'+(theme==="dark"?"Licht":"Donker")+'</span>'; }
   applyTheme();
