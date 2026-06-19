@@ -46,6 +46,32 @@
   .hero h1{font-size:29px;margin:0 0 8px}
   .hero p{margin:0 auto;color:var(--muted);max-width:30em}
 
+  .bighero{text-align:center;margin:34px 0 26px;padding:0 8px}
+  .biglogo{width:74px;height:74px;border-radius:20px;margin:0 auto 16px;display:grid;place-items:center;color:#fff;
+    font-family:Georgia,serif;font-weight:700;font-size:38px;background:linear-gradient(150deg,var(--accent),var(--accent-ink));
+    box-shadow:0 12px 30px rgba(15,110,106,.32)}
+  .bighero h1{font-size:40px;margin:0 0 10px;line-height:1.05}
+  .bighero p{margin:0 auto;color:var(--muted);max-width:34em;font-size:16px}
+  @media(min-width:600px){.bighero{margin:52px 0 30px} .bighero h1{font-size:50px} .biglogo{width:84px;height:84px;font-size:44px}}
+  .seclabel.center{justify-content:center;text-align:center;margin:8px 0 16px}
+
+  #splash{position:fixed;inset:0;z-index:100;background:var(--bg);display:flex;align-items:center;justify-content:center;
+    transition:opacity .5s var(--ease)}
+  #splash.hide{opacity:0;pointer-events:none}
+  .sp-inner{text-align:center}
+  .sp-logo{width:88px;height:88px;border-radius:22px;margin:0 auto 18px;display:grid;place-items:center;color:#fff;
+    font-family:Georgia,serif;font-weight:700;font-size:46px;background:linear-gradient(150deg,var(--accent),var(--accent-ink));
+    box-shadow:0 14px 34px rgba(15,110,106,.35)}
+  .sp-name{font-family:Georgia,serif;font-size:26px;font-weight:700;letter-spacing:-.01em;margin-bottom:18px}
+  .sp-bar{width:150px;height:5px;border-radius:5px;background:var(--bg2);overflow:hidden;margin:0 auto}
+  .sp-bar>i{display:block;height:100%;width:40%;border-radius:5px;background:var(--accent)}
+  @media (prefers-reduced-motion: no-preference){
+    .sp-logo{animation:pop .6s var(--ease) both} .sp-name{animation:fwd .5s var(--ease) .1s both}
+    .sp-bar>i{animation:load 1.1s var(--ease) forwards}
+  }
+  @keyframes pop{0%{opacity:0;transform:scale(.7)}60%{transform:scale(1.05)}100%{opacity:1;transform:scale(1)}}
+  @keyframes load{from{width:0}to{width:100%}}
+
   .backlink{display:inline-flex;align-items:center;gap:5px;border:none;background:none;color:var(--muted);font-size:13.5px;font-weight:600;padding:6px 0;margin:6px 0 2px;transition:color .2s var(--ease)}
   .backlink:hover{color:var(--accent-ink)} .backlink .ic{width:16px;height:16px}
   .seclabel{display:flex;align-items:center;gap:8px;margin:22px 0 14px;font-weight:700;font-size:16px}
@@ -112,6 +138,7 @@
     <button class="iconbtn" id="themeBtn" aria-label="Wissel tussen licht en donker thema"></button>
   </div>
 </header>
+<div id="splash"><div class="sp-inner"><div class="sp-logo">B</div><div class="sp-name">Berie’s exam space</div><div class="sp-bar"><i></i></div></div></div>
 <div class="wrap"><div id="view"></div>
   <footer>Gemaakt om mee te oefenen · veel succes! 💪</footer>
 </div>
@@ -160,7 +187,8 @@
 
   function renderTrack(dir){
     var html=
-      '<div class="hero"><h1>Hoe wil je oefenen?</h1><p>Kies je manier van oefenen. Daarna kies je je vak.</p></div>'+
+      '<div class="bighero"><div class="biglogo">B</div><h1>Berie’s exam space</h1><p>Oefen slim voor je examen. Kies je manier van oefenen, daarna je vak — met directe feedback en uitleg bij elke vraag.</p></div>'+
+      '<div class="seclabel center">'+ic("sparkles")+'Hoe wil je oefenen?</div>'+
       '<div class="grid">'+
         '<button class="track" data-track="training"><span class="tile">'+ic("book")+'</span><b>Examen Training</b><small>Oefen op echt examenniveau. Directe feedback en uitleg bij elke vraag.</small><span class="go">Normaal niveau '+ic("arrowR")+'</span></button>'+
         '<button class="track alt" data-track="herkansing"><span class="tile">'+ic("sprout")+'</span><b>Herkansing</b><small>Rustig weer opbouwen, met begeleiding en aanmoediging. Jij bepaalt het tempo.</small><span class="go">Met begeleiding '+ic("arrowR")+'</span></button>'+
@@ -198,6 +226,13 @@
   }
 
   renderTrack("fwd");
+
+  // laadscherm netjes laten verdwijnen
+  var _sp=document.getElementById("splash");
+  if(_sp){
+    var _red=false; try{ _red=window.matchMedia("(prefers-reduced-motion: reduce)").matches; }catch(e){}
+    setTimeout(function(){ _sp.classList.add("hide"); setTimeout(function(){ if(_sp&&_sp.parentNode) _sp.parentNode.removeChild(_sp); }, 600); }, _red?250:1100);
+  }
 })();
 </script>
 </body>
