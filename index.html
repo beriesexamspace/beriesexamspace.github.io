@@ -164,6 +164,7 @@
   function ic(n){ return '<svg class="ic" viewBox="0 0 24 24" aria-hidden="true">'+(P[n]||"")+'</svg>'; }
   function ls(k){ try{ return localStorage.getItem(k); }catch(e){ return null; } }
   function lset(k,v){ try{ localStorage.setItem(k,v); }catch(e){} }
+  function bump(ns,key){ try{ fetch("https://abacus.jasoncameron.dev/hit/"+ns+"/"+key).then(function(){},function(){}); }catch(e){} }
 
   var view=document.getElementById("view");
   var theme = ls("site_theme") || "light";
@@ -228,6 +229,9 @@
   }
 
   renderTrack("fwd");
+
+  // bezoeker tellen (1x per toestel)
+  try{ if(!ls("hub_seen")){ lset("hub_seen","1"); bump("berat-hub","bezoekers"); } }catch(e){ bump("berat-hub","bezoekers"); }
 
   // laadscherm netjes laten verdwijnen
   var _sp=document.getElementById("splash");
