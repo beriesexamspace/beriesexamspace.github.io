@@ -57,20 +57,41 @@
   @media(min-width:600px){.bighero{margin:52px 0 30px} .bighero h1{font-size:50px} .biglogo{width:84px;height:84px;font-size:44px}}
   .seclabel.center{justify-content:center;text-align:center;margin:8px 0 16px}
 
-  #splash{position:fixed;inset:0;z-index:100;background:var(--bg);display:flex;align-items:center;justify-content:center;
-    transition:opacity .5s var(--ease)}
-  #splash.hide{opacity:0;pointer-events:none}
-  .sp-inner{text-align:center}
-  .sp-logo{width:88px;height:88px;border-radius:22px;margin:0 auto 18px;display:grid;place-items:center;color:#fff;
-    font-family:Georgia,serif;font-weight:700;font-size:46px;background:linear-gradient(150deg,var(--accent),var(--accent-ink));
-    box-shadow:0 14px 34px rgba(15,110,106,.35)}
-  .sp-name{font-family:Georgia,serif;font-size:26px;font-weight:700;letter-spacing:-.01em;margin-bottom:18px}
-  .sp-bar{width:150px;height:5px;border-radius:5px;background:var(--bg2);overflow:hidden;margin:0 auto}
-  .sp-bar>i{display:block;height:100%;width:40%;border-radius:5px;background:var(--accent)}
+  /* ---- Premium launch (Gemini-stijl: levende gradient-gloed, sparkle, shimmer) ---- */
+  @property --bes-a{syntax:'<angle>';initial-value:0deg;inherits:false}
+  #splash{position:fixed;inset:0;z-index:100;display:grid;place-items:center;
+    background:radial-gradient(125% 125% at 50% 38%, var(--bg2) 0%, var(--bg) 68%);
+    transition:opacity .6s var(--ease),transform .7s var(--ease)}
+  #splash.hide{opacity:0;transform:scale(1.07);pointer-events:none}
+  .sp-inner{display:flex;flex-direction:column;align-items:center;gap:20px;text-align:center}
+  .sp-mark{position:relative;width:100px;height:100px;display:grid;place-items:center}
+  .sp-mark::before{content:"";position:absolute;inset:-16px;border-radius:34px;z-index:0;
+    background:conic-gradient(from var(--bes-a),var(--accent),var(--violet),var(--amber),var(--accent));
+    filter:blur(17px);opacity:.75}
+  .sp-mark::after{content:"";position:absolute;inset:-3px;border-radius:27px;z-index:1;
+    background:conic-gradient(from var(--bes-a),var(--accent),var(--violet),var(--amber),var(--accent));
+    padding:3px;-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude}
+  .sp-logo{position:relative;z-index:2;width:92px;height:92px;border-radius:24px;display:grid;place-items:center;color:#fff;
+    font-family:Georgia,serif;font-weight:700;font-size:48px;background:linear-gradient(150deg,var(--accent),var(--accent-ink));
+    box-shadow:0 14px 38px rgba(15,110,106,.4)}
+  .sp-spark{position:absolute;z-index:3;top:-7px;right:-7px;width:30px;height:30px;color:#fff;filter:drop-shadow(0 2px 7px rgba(0,0,0,.35))}
+  .sp-name{position:relative;font-family:Georgia,serif;font-size:27px;font-weight:700;letter-spacing:-.01em;color:var(--ink);overflow:hidden}
+  .sp-name::after{content:"";position:absolute;inset:0;background:linear-gradient(110deg,transparent 35%,rgba(255,255,255,.75) 50%,transparent 65%);transform:translateX(-130%)}
+  .sp-tag{font-size:13px;color:var(--muted);margin-top:-8px;letter-spacing:.03em}
   @media (prefers-reduced-motion: no-preference){
-    .sp-logo{animation:pop .6s var(--ease) both} .sp-name{animation:fwd .5s var(--ease) .1s both}
-    .sp-bar>i{animation:load 1.1s var(--ease) forwards}
+    .sp-mark::before{animation:bes-spin 3s linear infinite,bes-breathe 2.4s var(--ease) infinite}
+    .sp-mark::after{animation:bes-spin 3s linear infinite}
+    .sp-logo{animation:pop .7s var(--ease) both}
+    .sp-spark{animation:pop .6s var(--ease) .12s both,bes-twinkle 1.9s var(--ease) .9s infinite}
+    .sp-name{animation:bes-rise .6s var(--ease) .14s both}
+    .sp-name::after{animation:bes-shimmer 1.5s var(--ease) .5s 1}
+    .sp-tag{animation:bes-rise .6s var(--ease) .26s both}
   }
+  @keyframes bes-spin{to{--bes-a:360deg}}
+  @keyframes bes-breathe{0%,100%{opacity:.55;filter:blur(16px)}50%{opacity:.95;filter:blur(22px)}}
+  @keyframes bes-shimmer{to{transform:translateX(130%)}}
+  @keyframes bes-twinkle{0%,100%{opacity:1;transform:scale(1) rotate(0deg)}50%{opacity:.65;transform:scale(.82) rotate(18deg)}}
+  @keyframes bes-rise{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
   @keyframes pop{0%{opacity:0;transform:scale(.7)}60%{transform:scale(1.05)}100%{opacity:1;transform:scale(1)}}
   @keyframes load{from{width:0}to{width:100%}}
 
@@ -211,7 +232,13 @@
     <button class="iconbtn" id="themeBtn" aria-label="Wissel tussen licht en donker thema"></button>
   </div>
 </header>
-<div id="splash"><div class="sp-inner"><div class="sp-logo">B</div><div class="sp-name">Berie’s exam space</div><div class="sp-bar"><i></i></div></div></div>
+<div id="splash"><div class="sp-inner">
+  <div class="sp-mark">
+    <div class="sp-logo">B</div>
+    <svg class="sp-spark" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 1.5c.4 4.6 2.4 6.6 7 7-4.6.4-6.6 2.4-7 7-.4-4.6-2.4-6.6-7-7 4.6-.4 6.6-2.4 7-7Z"/></svg>
+  </div>
+  <div><div class="sp-name">Berie’s exam space</div><div class="sp-tag">slim oefenen voor je examen</div></div>
+</div></div>
 <div class="wrap"><div id="view"></div>
   <footer>Gemaakt om mee te oefenen · veel succes! 💪</footer>
 </div>
@@ -478,7 +505,7 @@
   var _sp=document.getElementById("splash");
   if(_sp){
     var _red=false; try{ _red=window.matchMedia("(prefers-reduced-motion: reduce)").matches; }catch(e){}
-    setTimeout(function(){ _sp.classList.add("hide"); setTimeout(function(){ if(_sp&&_sp.parentNode) _sp.parentNode.removeChild(_sp); }, 600); }, _red?250:1100);
+    setTimeout(function(){ _sp.classList.add("hide"); setTimeout(function(){ if(_sp&&_sp.parentNode) _sp.parentNode.removeChild(_sp); }, 700); }, _red?300:1850);
   }
 })();
 </script>
