@@ -181,6 +181,26 @@
   .usecount .uc-dot{width:8px;height:8px;border-radius:50%;background:var(--good);flex:none}
   @media (prefers-reduced-motion: no-preference){ .usecount .uc-dot{animation:ucpulse 2.2s var(--ease) infinite} }
   @keyframes ucpulse{0%,100%{box-shadow:0 0 0 0 rgba(31,138,76,.45)}70%{box-shadow:0 0 0 7px rgba(31,138,76,0)}}
+
+  /* ---- Wat is nieuw ---- */
+  .whatsnew{border:1.5px solid var(--line);border-radius:var(--r-lg);background:var(--card);box-shadow:var(--shadow);overflow:hidden;margin:0 0 22px}
+  .wn-head{display:flex;align-items:center;gap:10px;padding:14px 18px;cursor:pointer;user-select:none;transition:background .18s var(--ease);border:none;background:none;width:100%;text-align:left;color:var(--ink);font-family:inherit;font-size:15px;font-weight:700}
+  .wn-head:hover{background:var(--bg2)}
+  .wn-badge{font-size:11px;font-weight:700;padding:3px 9px;border-radius:999px;background:var(--good-soft);color:var(--good);letter-spacing:.3px;flex:none}
+  .wn-badge.hide{display:none}
+  .wn-chev{margin-left:auto;width:18px;height:18px;stroke:var(--muted);stroke-width:2;stroke-linecap:round;stroke-linejoin:round;fill:none;transition:transform .28s var(--ease);flex:none}
+  .whatsnew.open .wn-chev{transform:rotate(180deg)}
+  .wn-body{max-height:0;overflow:hidden;transition:max-height .38s cubic-bezier(.4,0,.2,1)}
+  .whatsnew.open .wn-body{max-height:600px}
+  .wn-list{padding:4px 18px 18px;display:flex;flex-direction:column;gap:10px}
+  .wn-item{display:flex;gap:11px;align-items:flex-start}
+  .wn-dot{width:8px;height:8px;border-radius:50%;background:var(--accent);flex:none;margin-top:6px}
+  .wn-dot.amber{background:var(--amber)}
+  .wn-dot.violet{background:var(--violet)}
+  .wn-item b{font-size:14px;display:block;line-height:1.3}
+  .wn-item small{color:var(--muted);font-size:12.5px;line-height:1.5}
+  .wn-date{font-size:11px;color:var(--muted);padding:0 18px 14px;text-align:right}
+  @media (prefers-reduced-motion: no-preference){ .wn-item{animation:upin .32s var(--ease) both} }
 </style>
 </head>
 <body>
@@ -284,15 +304,56 @@
       }, 30000);
     }
   }
+  var WN_KEY="bes_wn_seen_v1";
+  var WN_ITEMS=[
+    {dot:"accent", title:"574 extra oefenvragen toegevoegd aan MBG", sub:"Naast de 240 kern- en 251 examenvragen heb je nu ook 574 extra oefenvragen."},
+    {dot:"accent", title:"Statistiek II uitgebreid naar 35 vragen", sub:"5 nieuwe vragen over regressie en betrouwbaarheidsintervallen toegevoegd."},
+    {dot:"violet", title:"Herkansing-modus verbeterd", sub:"Hints, 50/50-hulp en automatische uitleg bij elk fout antwoord."},
+    {dot:"amber", title:"Meer vakken komen eraan", sub:"Inleiding Psychologie, Ontwikkelingspsychologie en meer — zodra er materiaal is."}
+  ];
+  function whatsNewHTML(){
+    var seen=ls(WN_KEY)==="1";
+    return '<div class="whatsnew'+(seen?"":" open")+'" id="wnBox">'+
+      '<button class="wn-head" id="wnBtn" aria-expanded="'+(seen?"false":"true")+'">'+
+        '<svg class="ic" style="width:18px;height:18px;color:var(--good)" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2v4"/><path d="m4.93 4.93 2.83 2.83"/><path d="M2 12h4"/><path d="m4.93 19.07 2.83-2.83"/><path d="M12 18v4"/><path d="m19.07 19.07-2.83-2.83"/><path d="M22 12h-4"/><path d="m19.07 4.93-2.83 2.83"/></svg>'+
+        'Wat is nieuw?'+
+        '<span class="wn-badge'+(seen?" hide":"")+'" id="wnBadge">NIEUW</span>'+
+        '<svg class="wn-chev" viewBox="0 0 24 24" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>'+
+      '</button>'+
+      '<div class="wn-body" id="wnBody">'+
+        '<div class="wn-list">'+
+          WN_ITEMS.map(function(it,i){
+            return '<div class="wn-item" style="animation-delay:'+(i*60)+'ms">'+
+              '<span class="wn-dot '+it.dot+'"></span>'+
+              '<div><b>'+esc(it.title)+'</b><small>'+esc(it.sub)+'</small></div>'+
+            '</div>';
+          }).join("")+
+        '</div>'+
+        '<div class="wn-date">Bijgewerkt: 20 juni 2026</div>'+
+      '</div>'+
+    '</div>';
+  }
+  function bindWhatsNew(){
+    var box=document.getElementById("wnBox"), btn=document.getElementById("wnBtn"), badge=document.getElementById("wnBadge");
+    if(!box||!btn) return;
+    btn.onclick=function(){
+      var open=box.classList.toggle("open");
+      btn.setAttribute("aria-expanded", open?"true":"false");
+      if(open){ lset(WN_KEY,"0"); } else { lset(WN_KEY,"1"); if(badge) badge.classList.add("hide"); }
+    };
+  }
+
   function renderTrack(dir){
     var html=
-      '<div class="bighero"><div class="biglogo">B</div><h1>Berie’s exam space</h1><p>Oefen slim voor je examen. Kies je manier van oefenen, daarna je vak — met directe feedback en uitleg bij elke vraag.</p><div class="usecount" id="useCount" aria-live="polite"></div></div>'+
+      '<div class="bighero"><div class="biglogo">B</div><h1>Berie\'s exam space</h1><p>Oefen slim voor je examen. Kies je manier van oefenen, daarna je vak — met directe feedback en uitleg bij elke vraag.</p><div class="usecount" id="useCount" aria-live="polite"></div></div>'+
+      whatsNewHTML()+
       '<div class="seclabel center">'+ic("sparkles")+'Hoe wil je oefenen?</div>'+
       '<div class="grid">'+
         '<button class="track" data-track="training"><span class="tile">'+ic("book")+'</span><b>Examen Training</b><small>Oefen op echt examenniveau. Directe feedback en uitleg bij elke vraag.</small><span class="go">Normaal niveau '+ic("arrowR")+'</span></button>'+
         '<button class="track alt" data-track="herkansing"><span class="tile">'+ic("sprout")+'</span><b>Herkansing</b><small>Rustig weer opbouwen, met begeleiding en aanmoediging. Jij bepaalt het tempo.</small><span class="go">Met begeleiding '+ic("arrowR")+'</span></button>'+
       '</div>';
     paint(html, dir);
+    bindWhatsNew();
     [].slice.call(view.querySelectorAll(".track")).forEach(function(el){ el.onclick=function(){ state.track=el.dataset.track; state.step="vak"; renderVak("fwd"); }; });
     showUseCount();
   }
@@ -303,7 +364,7 @@
       ? '<div class="warmcard">'+ic("heart")+'<div><b>Een nieuwe kans — rustig aan.</b><p>Herkansen betekent niet dat je het niet kunt. Stap voor stap kom je er. Jij kunt dit. 💚</p></div></div>'
       : '';
     var toggle = herk
-      ? '<div class="card" style="margin-bottom:14px"><div class="row"><div><b>Rustige modus</b><div style="color:var(--muted);font-size:12.5px">Aanmoediging en kalme sfeer. Zet uit als je liever recht-voor-z’n-raap oefent.</div></div><button class="toggle'+(calm?" on":"")+'" id="calmToggle" role="switch" aria-checked="'+(calm?"true":"false")+'" aria-label="Rustige modus aan of uit"><span class="knob"></span></button></div></div>'
+      ? '<div class="card" style="margin-bottom:14px"><div class="row"><div><b>Rustige modus</b><div style="color:var(--muted);font-size:12.5px">Aanmoediging en kalme sfeer. Zet uit als je liever recht-voor-z\'n-raap oefent.</div></div><button class="toggle'+(calm?" on":"")+'" id="calmToggle" role="switch" aria-checked="'+(calm?"true":"false")+'" aria-label="Rustige modus aan of uit"><span class="knob"></span></button></div></div>'
       : '';
     var cards = VAKKEN.map(function(v){
       if(v.status==="live") return '<button class="vak" data-href="'+v.href+'"><span class="pill"><span class="dot"></span>Live</span><span class="tile '+v.tile+'">'+ic(v.icon)+'</span><b>'+v.title+'</b><small>'+v.desc+'</small><span class="go">Openen '+ic("arrowR")+'</span></button>';
