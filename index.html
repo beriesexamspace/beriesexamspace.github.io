@@ -178,7 +178,16 @@
   .clabel{display:block;font-size:13px;font-weight:600;margin:16px 0 6px}
   .cinput{width:100%;padding:12px 14px;border:1px solid var(--line);border-radius:11px;background:var(--card);color:var(--ink);font-family:inherit;font-size:15px;outline:none;transition:border-color .2s var(--ease),box-shadow .2s var(--ease);box-sizing:border-box}
   .cinput:focus{border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-soft)}
-  select.cinput{cursor:pointer} textarea.cinput{resize:vertical;min-height:64px}
+  select.cinput{cursor:pointer;appearance:none;-webkit-appearance:none;-moz-appearance:none;padding-right:42px;background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 24 24' fill='none' stroke='%23888' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'><path d='m6 9 6 6 6-6'/></svg>");background-repeat:no-repeat;background-position:right 13px center;background-size:18px}
+  select.cinput optgroup{font-weight:800;color:var(--accent-ink);font-size:12px;letter-spacing:.04em}
+  select.cinput option{font-weight:500}
+  textarea.cinput{resize:vertical;min-height:64px}
+  .cta{display:flex;align-items:center;gap:14px;width:100%;text-align:left;border:1.5px solid var(--accent);background:linear-gradient(135deg,var(--accent-soft),var(--card));border-radius:var(--r-lg);padding:15px 18px;margin:0 0 22px;cursor:pointer;box-shadow:var(--shadow);transition:transform .18s var(--ease),box-shadow .2s var(--ease)}
+  .cta:hover{transform:translateY(-2px);box-shadow:0 12px 30px rgba(0,0,0,.12)} .cta:active{transform:translateY(0)}
+  .cta .cta-ic{flex:none;width:42px;height:42px;border-radius:12px;display:grid;place-items:center;background:linear-gradient(150deg,var(--accent),var(--accent-ink))}
+  .cta .cta-ic .ic{width:22px;height:22px;color:#fff}
+  .cta .cta-tx{flex:1;min-width:0} .cta .cta-tx b{display:block;font-size:15.5px;margin-bottom:2px} .cta .cta-tx small{color:var(--muted);font-size:13px;line-height:1.45;display:block}
+  .cta .cta-go{flex:none;color:var(--accent-ink)} .cta .cta-go .ic{width:20px;height:20px}
   .csubmit{width:100%;margin-top:20px;background:var(--accent);color:#fff;border:none;border-radius:12px;min-height:50px;font-size:16px;font-weight:600;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;gap:9px;box-shadow:0 6px 16px rgba(15,110,106,.28);transition:transform .12s var(--ease),background .2s var(--ease)}
   .csubmit:hover{background:var(--accent-ink)} .csubmit:active{transform:scale(.985)} .csubmit:disabled{opacity:.65;cursor:default;box-shadow:none}
   .csubmit .ic{width:18px;height:18px}
@@ -279,6 +288,7 @@
 
   var calm = ls("bes_calm")!=="0";
   var state = { step:"track", track:"training" };
+  var contribOrigin = "vak";
 
   var VAKKEN=[
     { title:"MBG — Biologie & Genetica", desc:"Menselijke biologie en genetica.", icon:"flask", tile:"", href:"mbg/", status:"live" },
@@ -291,6 +301,25 @@
     { title:"Communicatie", desc:"Gespreks- en communicatievaardigheden.", icon:"book", tile:"a", status:"soon" },
     { title:"Filosofie & Wetenschapsleer", desc:"Denkkaders & wetenschapsleer.", icon:"sparkles", tile:"", status:"soon" }
   ];
+
+  // Vakken gegroepeerd per bachelorjaar — voor het keuzemenu bij "deel je samenvattingen".
+  var VAK_JAREN=[
+    { jaar:"1ste bachelor", vakken:["MBG — Biologie & Genetica","Statistiek II","Sociologie","Inleiding tot de Psychologie","Ontwikkelingspsychologie","Sociale Psychologie","Biologische Psychologie","Communicatie","Filosofie & Wetenschapsleer"] },
+    { jaar:"2de bachelor", vakken:["Arbeids- & Organisatiepsychologie (A&O)","Biologische Psychologie 2","Persoonlijkheidspsychologie","Klinische Psychologie","Statistiek 3","Projectweek 1","Sociale Psychologie 2","Theoretische & Historische Grondslagen (THG)","Cognitieve Psychologie","Cross-Culturele Psychologie","Onderzoeksmethoden & -technieken 2 (OMT 2)","Inleiding tot de Orthopedagogiek"] },
+    { jaar:"3de bachelor", vakken:["Evidence based kritisch handelen","Psychologische gespreksvoering","Differentiële psychologie","Gezondheidspsychologie","Organisatie van de hulpverlening","Observatiestage","Statistiek IV","PPKA","Forensische psychiatrie (keuzevak)","Onderwijspsychologie","Onderzoeksmethoden & -technieken 3 (OMT 3)"] }
+  ];
+  function vakOptions(preVak){
+    var found=false;
+    var html='<option value=""'+(preVak?'':' selected')+' disabled>— Kies je vak —</option>';
+    html+=VAK_JAREN.map(function(g){
+      return '<optgroup label="'+esc(g.jaar)+'">'+g.vakken.map(function(t){
+        var sel=(preVak===t); if(sel)found=true;
+        return '<option'+(sel?' selected':'')+'>'+esc(t)+'</option>';
+      }).join("")+'</optgroup>';
+    }).join("");
+    html+='<option'+((preVak&&!found)?' selected':'')+'>Ander vak</option>';
+    return html;
+  }
 
   function paint(html, dir){
     view.innerHTML=html;
@@ -375,6 +404,7 @@
   function renderTrack(dir){
     var html=
       '<div class="bighero"><div class="biglogo">B</div><h1>Berie\'s exam space</h1><p>Oefen slim voor je examen. Kies je manier van oefenen, daarna je vak — met directe feedback en uitleg bij elke vraag.</p><div class="usecount" id="useCount" aria-live="polite"></div></div>'+
+      '<button class="cta" id="ctaContribute"><span class="cta-ic">'+ic("upload")+'</span><span class="cta-tx"><b>Help mee — deel je samenvattingen 📚</b><small>Heb jij samenvattingen of oude examenvragen? Stuur ze in (élk vak, élk jaar — 1, 2 én 3 bach!) en wij maken er gratis een oefentool van.</small></span><span class="cta-go">'+ic("arrowR")+'</span></button>'+
       whatsNewHTML()+
       '<div class="seclabel center">'+ic("sparkles")+'Hoe wil je oefenen?</div>'+
       '<div class="grid">'+
@@ -383,6 +413,7 @@
       '</div>';
     paint(html, dir);
     bindWhatsNew();
+    var cta=document.getElementById("ctaContribute"); if(cta) cta.onclick=function(){ contribOrigin="track"; state.step="contribute"; renderContribute("fwd",""); };
     [].slice.call(view.querySelectorAll(".track")).forEach(function(el){ el.onclick=function(){ state.track=el.dataset.track; state.step="vak"; renderVak("fwd"); }; });
     showUseCount();
   }
@@ -414,13 +445,13 @@
       window.location.href=u;
     }; });
     [].slice.call(view.querySelectorAll("[data-contribute]")).forEach(function(el){ el.onclick=function(){
-      state.step="contribute"; renderContribute("fwd", el.getAttribute("data-contribute")||"");
+      contribOrigin="vak"; state.step="contribute"; renderContribute("fwd", el.getAttribute("data-contribute")||"");
     }; });
   }
 
   var cFiles=[];
   function renderContribute(dir, preVak){
-    var opts=VAKKEN.map(function(v){ return '<option'+(preVak===v.title?" selected":"")+'>'+esc(v.title)+'</option>'; }).join("")+'<option'+(preVak&&!VAKKEN.some(function(v){return v.title===preVak;})?" selected":"")+'>Ander vak</option>';
+    var opts=vakOptions(preVak);
     var html=
       '<button class="backlink" id="backBtn">'+ic("back")+'Terug</button>'+
       '<div class="cwrap">'+
@@ -437,7 +468,7 @@
       '<div id="cStatus"></div>'+
       '</div>';
     paint(html, dir);
-    document.getElementById("backBtn").onclick=function(){ state.step="vak"; renderVak("back"); };
+    document.getElementById("backBtn").onclick=function(){ if(contribOrigin==="track"){ state.step="track"; renderTrack("back"); } else { state.step="vak"; renderVak("back"); } };
     var dz=document.getElementById("dz"), fi=document.getElementById("fileInp"), chips=document.getElementById("chips");
     function renderChips(){
       chips.innerHTML=cFiles.map(function(f,i){ return '<div class="filechip">'+ic("file")+'<span class="fn">'+esc(f.name)+'</span><span class="fsz">'+fmtSize(f.size)+'</span><button class="rm" data-i="'+i+'" aria-label="Verwijderen">'+ic("x")+'</button></div>'; }).join("");
@@ -458,6 +489,7 @@
     var vak=document.getElementById("cVak").value;
     var msg=(document.getElementById("cMsg").value||"").trim();
     var st=document.getElementById("cStatus"); st.innerHTML="";
+    if(!vak){ st.innerHTML='<div class="cerr">Kies eerst een vak.</div>'; return; }
     if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)){ st.innerHTML='<div class="cerr">Vul een geldig e-mailadres in.</div>'; return; }
     if(cFiles.length===0 && !msg){ st.innerHTML='<div class="cerr">Voeg minstens een bestand toe, of schrijf een kort bericht.</div>'; return; }
     var total=cFiles.reduce(function(s,f){ return s+f.size; },0);
@@ -495,7 +527,7 @@
       '<div style="margin-top:24px"><button class="track" style="max-width:260px;margin:0 auto" id="cDone"><b>Terug naar de vakken</b><span class="go">'+ic("arrowR")+'</span></button></div>'+
       '</div>';
     paint(html,"fwd");
-    document.getElementById("cDone").onclick=function(){ state.step="vak"; renderVak("back"); };
+    document.getElementById("cDone").onclick=function(){ if(contribOrigin==="track"){ state.step="track"; renderTrack("back"); } else { state.step="vak"; renderVak("back"); } };
   }
 
   renderTrack("fwd");
