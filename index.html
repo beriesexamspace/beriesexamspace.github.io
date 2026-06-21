@@ -252,6 +252,7 @@
     heart:'<path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/>',
     flask:'<path d="M10 2v7.31"/><path d="M14 9.3V2"/><path d="M8.5 2h7"/><path d="M14 9.3a6.5 6.5 0 1 1-4 0"/><path d="M5.58 16.5h12.85"/>',
     chart:'<path d="M3 3v18h18"/><path d="M18 17V9"/><path d="M13 17V5"/><path d="M8 17v-3"/>',
+    users:'<path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>',
     plus:'<path d="M5 12h14"/><path d="M12 5v14"/>',
     sparkles:'<path d="M9.94 15.5A2 2 0 0 0 8.5 14.06l-6.14-1.58a.5.5 0 0 1 0-.96L8.5 9.94A2 2 0 0 0 9.94 8.5l1.58-6.14a.5.5 0 0 1 .96 0L14.06 8.5A2 2 0 0 0 15.5 9.94l6.14 1.58a.5.5 0 0 1 0 .96L15.5 14.06a2 2 0 0 0-1.44 1.44l-1.58 6.14a.5.5 0 0 1-.96 0z"/>',
     back:'<path d="m15 18-6-6 6-6"/>',
@@ -282,7 +283,8 @@
   var VAKKEN=[
     { title:"MBG — Biologie & Genetica", desc:"Menselijke biologie en genetica.", icon:"flask", tile:"", href:"mbg/", status:"live" },
     { title:"Statistiek II", desc:"SPSS & statistiek.", icon:"chart", tile:"a", href:"stat/", status:"live" },
-    { title:"Inleiding tot de Psychologie", desc:"Algemene psychologie.", icon:"heart", tile:"", status:"soon" },
+    { title:"Sociologie", desc:"112 examenvragen, H1–H16, met directe feedback.", icon:"users", tile:"", href:"sociologie/", status:"live" },
+    { title:"Inleiding tot de Psychologie", desc:"Algemene psychologie.", icon:"heart", tile:"a", status:"soon" },
     { title:"Ontwikkelingspsychologie", desc:"Ontwikkeling over de levensloop.", icon:"sprout", tile:"", status:"soon" },
     { title:"Sociale Psychologie", desc:"Gedrag in sociale context.", icon:"heart", tile:"a", status:"soon" },
     { title:"Biologische Psychologie", desc:"Brein, zenuwstelsel & gedrag.", icon:"flask", tile:"", status:"soon" },
@@ -331,12 +333,12 @@
       }, 30000);
     }
   }
-  var WN_KEY="bes_wn_seen_v1";
+  var WN_KEY="bes_wn_seen_v2";
   var WN_ITEMS=[
+    {dot:"accent", title:"Nieuw vak: Sociologie 🎉", sub:"112 examenvragen (H1–H16) met directe feedback — nu live, klaar om te oefenen."},
     {dot:"accent", title:"574 extra oefenvragen toegevoegd aan MBG", sub:"Naast de 240 kern- en 251 examenvragen heb je nu ook 574 extra oefenvragen."},
-    {dot:"accent", title:"Statistiek II uitgebreid naar 35 vragen", sub:"5 nieuwe vragen over regressie en betrouwbaarheidsintervallen toegevoegd."},
     {dot:"violet", title:"Herkansing-modus verbeterd", sub:"Hints, 50/50-hulp en automatische uitleg bij elk fout antwoord."},
-    {dot:"amber", title:"Meer vakken komen eraan", sub:"Inleiding Psychologie, Ontwikkelingspsychologie en meer — zodra er materiaal is."}
+    {dot:"amber", title:"Meer vakken komen eraan", sub:"Heb jij samenvattingen van jouw vak? Help mee — onderaan kun je ze delen."}
   ];
   function whatsNewHTML(){
     var seen=ls(WN_KEY)==="1";
@@ -356,7 +358,7 @@
             '</div>';
           }).join("")+
         '</div>'+
-        '<div class="wn-date">Bijgewerkt: 20 juni 2026</div>'+
+        '<div class="wn-date">Bijgewerkt: 21 juni 2026</div>'+
       '</div>'+
     '</div>';
   }
