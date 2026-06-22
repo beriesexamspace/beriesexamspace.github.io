@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="nl" data-theme="dark">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+<meta name="theme-color" content="#0f6e6a" />
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+<meta http-equiv="Pragma" content="no-cache" />
+<meta http-equiv="Expires" content="0" />
+<title>Berie’s exam space</title>
+<style>
+  :root{
+    --bg:#f4f2ee; --bg2:#ebe8e2; --card:#ffffff; --ink:#1b232c; --muted:#5d6873;
+    --line:#e2ddd4; --accent:#0f6e6a; --accent-ink:#0b4f4c; --accent-soft:#dcefed;
+    --amber:#c9821f; --amber-soft:#f7ecd9; --violet:#6d5bd0; --violet-soft:#e9e6fa;
+    --good:#1f8a4c; --good-soft:#e2f3e8;
+    --shadow:0 1px 2px rgba(20,30,40,.05),0 6px 18px rgba(20,30,40,.05);
+    --shadow-lg:0 2px 6px rgba(20,30,40,.06),0 18px 40px rgba(20,30,40,.10);
+    --r:14px; --r-lg:20px; --ease:cubic-bezier(.2,.8,.2,1);
+  }
+  html[data-theme="dark"]{
+    --bg:#0d1117; --bg2:#161b22; --card:#161c24; --ink:#e7ecf1; --muted:#9aa6b2;
+    --line:#262e39; --accent:#3fb9b2; --accent-ink:#7fd6d0; --accent-soft:#15302e;
+    --amber:#e0a64a; --amber-soft:#2e2515; --violet:#a99cf0; --violet-soft:#221d3a;
+    --good:#46c178; --good-soft:#16301f;
+    --shadow:0 1px 2px rgba(0,0,0,.3),0 8px 24px rgba(0,0,0,.35);
+    --shadow-lg:0 2px 8px rgba(0,0,0,.4),0 22px 48px rgba(0,0,0,.5);
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);font-size:16px;line-height:1.55;
+    font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;-webkit-font-smoothing:antialiased}
+  h1,h2,h3{font-family:Georgia,"Iowan Old Style","Times New Roman",serif;letter-spacing:-.01em}
+  button,a{font-family:inherit;cursor:pointer;color:inherit}
+  .wrap{max-width:880px;margin:0 auto;padding:0 18px 96px}
+  :focus-visible{outline:2.5px solid var(--accent);outline-offset:2px;border-radius:8px}
+  .ic{width:1.25em;height:1.25em;flex:none;vertical-align:-.18em;stroke:currentColor;stroke-width:1.75;
+    stroke-linecap:round;stroke-linejoin:round;fill:none}
+
+  header.top{position:sticky;top:0;z-index:30;border-bottom:1px solid var(--line);
+    background:color-mix(in srgb,var(--bg) 88%,transparent);backdrop-filter:saturate(160%) blur(16px);-webkit-backdrop-filter:saturate(160%) blur(16px)}
+  .topin{max-width:880px;margin:0 auto;padding:10px 18px;display:flex;align-items:center;gap:12px}
+  .brand{display:flex;align-items:center;gap:11px;font-weight:700}
+  .logo{width:32px;height:32px;border-radius:10px;background:linear-gradient(145deg,var(--accent),var(--accent-ink));
+    color:#fff;display:grid;place-items:center;font-family:Georgia,serif;font-weight:700;font-size:16px;flex:none;
+    box-shadow:0 2px 6px rgba(15,110,106,.35)}
+  .brand small{display:block;font-weight:500;color:var(--muted);font-size:11px}
+  .spacer{flex:1}
+  .iconbtn{border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:10px;min-height:38px;
+    padding:7px 11px;font-size:13.5px;display:inline-flex;gap:7px;align-items:center;text-decoration:none;
+    transition:border-color .2s var(--ease),transform .12s var(--ease)}
+  .iconbtn:hover{border-color:var(--accent)} .iconbtn:active{transform:scale(.96)}
+
+  /* hero */
+  .hero{text-align:center;margin:34px 0 6px}
+  .heromark{position:relative;width:96px;height:96px;margin:0 auto 18px}
+  .heromark::before{content:"";position:absolute;inset:-14px;border-radius:32px;z-index:0;
+    background:radial-gradient(closest-side,rgba(63,185,178,.55),transparent 70%);filter:blur(14px)}
+  .heromark .hl{position:relative;z-index:1;width:96px;height:96px;border-radius:26px;display:grid;place-items:center;
+    color:#fff;font-family:Georgia,serif;font-weight:700;font-size:48px;background:linear-gradient(150deg,var(--accent),var(--accent-ink));
+    box-shadow:0 14px 38px rgba(15,110,106,.42)}
+  .hero h1{font-size:46px;margin:0 0 10px;line-height:1.05}
+  .hero p.sub{max-width:560px;margin:0 auto;color:var(--muted);font-size:17px}
+  .statpill{display:inline-flex;align-items:center;gap:9px;margin-top:20px;padding:9px 18px;border-radius:999px;
+    border:1px solid var(--line);background:var(--card);font-size:14px;color:var(--muted);box-shadow:var(--shadow)}
+  .statpill .dot{width:9px;height:9px;border-radius:50%;background:var(--good);box-shadow:0 0 0 3px var(--good-soft)}
+  .statpill b{color:var(--ink);font-weight:700}
+
+  /* share callout (boven) */
+  .callout{display:flex;align-items:center;gap:14px;width:100%;text-decoration:none;color:inherit;
+    border:1.5px solid var(--accent);background:var(--accent-soft);border-radius:var(--r);padding:15px 18px;margin:26px 0 2px;
+    box-shadow:var(--shadow);transition:transform .15s var(--ease),box-shadow .2s var(--ease)}
+  .callout:hover{transform:translateY(-2px);box-shadow:var(--shadow-lg)}
+  .callout .co-ic{width:44px;height:44px;border-radius:12px;flex:none;display:grid;place-items:center;color:#fff;
+    background:linear-gradient(145deg,var(--accent),var(--accent-ink))}
+  .callout .co-ic .ic{width:22px;height:22px}
+  .callout .co-txt{flex:1;min-width:0} .callout .co-txt b{display:block;font-size:15px;margin-bottom:2px}
+  .callout .co-txt small{color:var(--muted);font-size:13px;line-height:1.5} .callout .co-go .ic{width:20px;height:20px;color:var(--accent-ink)}
+
+  .seclabel{display:flex;align-items:center;gap:9px;justify-content:center;margin:34px 0 16px;font-weight:700;font-size:17px}
+  .seclabel .ic{width:20px;height:20px;color:var(--accent-ink)}
+  .backlink{display:inline-flex;align-items:center;gap:5px;border:none;background:none;color:var(--muted);font-size:14px;font-weight:600;padding:6px 0;margin-bottom:6px;transition:color .2s var(--ease)}
+  .backlink:hover{color:var(--accent-ink)} .backlink .ic{width:16px;height:16px}
+
+  /* jaarkaarten — netjes 3 gelijke kolommen */
+  .years{display:grid;gap:16px;grid-template-columns:1fr}
+  @media(min-width:720px){.years{grid-template-columns:repeat(3,1fr)}}
+  .ycard{display:flex;flex-direction:column;gap:9px;text-align:left;width:100%;border:1.5px solid var(--line);
+    background:var(--card);border-radius:var(--r-lg);padding:22px;box-shadow:var(--shadow);
+    transition:transform .22s var(--ease),border-color .22s var(--ease),box-shadow .22s var(--ease)}
+  .ycard:hover{transform:translateY(-4px);border-color:var(--accent);box-shadow:var(--shadow-lg)}
+  .ycard:active{transform:translateY(-1px) scale(.995)}
+  .ycard .tile{width:52px;height:52px;border-radius:14px;display:grid;place-items:center;color:#fff;font-family:Georgia,serif;
+    font-weight:700;font-size:24px;margin-bottom:4px;background:linear-gradient(150deg,var(--accent),var(--accent-ink))}
+  .ycard.v .tile{background:linear-gradient(150deg,var(--violet),#4f40a8)}
+  .ycard.a .tile{background:linear-gradient(150deg,var(--amber),#9a6212)}
+  .ycard b{font-size:19px} .ycard small{color:var(--muted);font-size:13.5px;line-height:1.5}
+  .ycard .go{margin-top:auto;padding-top:8px;display:inline-flex;align-items:center;gap:6px;color:var(--accent-ink);font-weight:600;font-size:13.5px}
+  .ycard.v .go{color:var(--violet)} .ycard.a .go{color:var(--amber)} .ycard .go .ic{width:16px;height:16px}
+  .ycard .ycount{font-size:12.5px;font-weight:700;color:var(--accent-ink)} .ycard.v .ycount{color:var(--violet)} .ycard.a .ycount{color:var(--amber)} .ycard .ycount:empty{display:none}
+
+  /* vakkaarten — stijl van foto 1 */
+  .subjects{display:grid;gap:16px;grid-template-columns:1fr}
+  @media(min-width:600px){.subjects{grid-template-columns:1fr 1fr}}
+  .scard{position:relative;display:flex;flex-direction:column;gap:6px;text-align:left;width:100%;text-decoration:none;color:inherit;
+    border:1px solid var(--line);background:var(--card);border-radius:var(--r-lg);padding:20px;box-shadow:var(--shadow);min-height:154px;
+    transition:transform .2s var(--ease),border-color .2s var(--ease),box-shadow .2s var(--ease)}
+  .scard:hover{transform:translateY(-3px);border-color:var(--accent);box-shadow:var(--shadow-lg)}
+  .scard.soon:hover{border-color:var(--amber)}
+  .scard .tile{width:46px;height:46px;border-radius:13px;display:grid;place-items:center;color:#fff;margin-bottom:6px;
+    background:linear-gradient(150deg,var(--accent),var(--accent-ink))}
+  .scard .tile.amber{background:linear-gradient(150deg,var(--amber),#9a6212)}
+  .scard .tile .ic{width:24px;height:24px}
+  .scard .badge{position:absolute;top:17px;right:17px;font-size:11.5px;font-weight:700;padding:4px 10px;border-radius:999px;display:inline-flex;align-items:center;gap:6px}
+  .scard .badge.live{background:var(--good-soft);color:var(--good)}
+  .scard .badge.live::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--good)}
+  .scard .badge.soon{background:var(--amber-soft);color:var(--amber)}
+  .scard .badge.soon .ic{width:13px;height:13px}
+  .scard b{font-size:17px}
+  .scard .desc{color:var(--muted);font-size:13.5px;line-height:1.5}
+  .scard .cta{margin-top:auto;padding-top:10px;display:inline-flex;align-items:center;gap:6px;font-weight:600;font-size:14px;color:var(--accent-ink)}
+  .scard .cta.live{color:var(--good)} .scard .cta .ic{width:16px;height:16px}
+  .dropcard{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;text-align:center;min-height:154px;
+    border:2px dashed var(--line);border-radius:var(--r-lg);padding:20px;color:var(--muted);text-decoration:none;
+    transition:border-color .2s var(--ease),color .2s var(--ease)}
+  .dropcard:hover{border-color:var(--accent);color:var(--ink)}
+  .dropcard .plus{width:42px;height:42px;border-radius:50%;border:1px solid var(--line);display:grid;place-items:center;font-size:24px;color:var(--muted);line-height:1}
+  .dropcard b{font-size:15px;color:var(--ink)} .dropcard small{font-size:12.5px}
+
+  footer{margin-top:40px;text-align:center;color:var(--muted);font-size:13px}
+  .pvbadge{position:fixed;left:12px;bottom:12px;z-index:50;background:var(--violet);color:#fff;font-size:11.5px;font-weight:700;
+    padding:6px 12px;border-radius:999px;box-shadow:var(--shadow-lg);opacity:.9}
+  @keyframes fadeUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+  @media (prefers-reduced-motion: no-preference){.ycard,.scard,.callout,.dropcard{animation:fadeUp .34s var(--ease) both}}
+</style>
+</head>
+<body>
+<header class="top">
+  <div class="topin">
+    <div class="brand"><span class="logo">B</span><div>Berie’s exam space<small>oefen slim voor je examen</small></div></div>
+    <span class="spacer"></span>
+    <button class="iconbtn" id="themeBtn" aria-label="Wissel licht/donker"></button>
+  </div>
+</header>
+
+<div class="wrap">
+  <div class="hero">
+    <div class="heromark"><div class="hl">B</div></div>
+    <h1>Berie’s exam space</h1>
+    <p class="sub">Oefen slim voor je examen. Kies je jaar, daarna je vak — met directe feedback en uitleg bij elke vraag.</p>
+    <div class="statpill"><span class="dot"></span><span>Wordt al gebruikt door <b id="statN">473</b> studenten</span></div>
+  </div>
+
+  <a class="callout" href="#" onclick="return false">
+    <span class="co-ic" id="upIc"></span>
+    <span class="co-txt"><b>Help mee — deel je samenvattingen 📚</b><small>Heb jij samenvattingen of oude examenvragen? Stuur ze in (élk vak, élk jaar — 1, 2 én 3 bach!) en wij maken er gratis een oefentool van.</small></span>
+    <span class="co-go" id="upGo"></span>
+  </a>
+
+  <div id="main"></div>
+</div>
+
+<footer class="wrap" style="padding-top:0">Gemaakt om mee te oefenen — veel succes! 💪</footer>
+
+<script>
+(function(){
+  "use strict";
+  var P={
+    arrowR:'<path d="M5 12h14"/><path d="m12 5 7 7-7 7"/>',
+    back:'<path d="m15 18-6-6 6-6"/>',
+    sun:'<circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/>',
+    moon:'<path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/>',
+    sparkles:'<path d="M9.94 15.5A2 2 0 0 0 8.5 14.06l-6.14-1.58a.5.5 0 0 1 0-.96L8.5 9.94A2 2 0 0 0 9.94 8.5l1.58-6.14a.5.5 0 0 1 .96 0L14.06 8.5A2 2 0 0 0 15.5 9.94l6.14 1.58a.5.5 0 0 1 0 .96L15.5 14.06a2 2 0 0 0-1.44 1.44l-1.58 6.14a.5.5 0 0 1-.96 0z"/>',
+    upload:'<path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="M17 8l-5-5-5 5"/><path d="M12 3v12"/>',
+    clock:'<circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/>',
+    book:'<path d="M12 7v14"/><path d="M3 18a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h5a4 4 0 0 1 4 4 4 4 0 0 1 4-4h5a1 1 0 0 1 1 1v13a1 1 0 0 1-1 1h-6a3 3 0 0 0-3 3 3 3 0 0 0-3-3z"/>',
+    chart:'<path d="M3 3v18h18"/><path d="M7 15v-3"/><path d="M12 15V8"/><path d="M17 15v-6"/>',
+    users:'<path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>',
+    flask:'<path d="M9 3h6"/><path d="M10 3v7L4.8 19a2 2 0 0 0 1.7 3h11a2 2 0 0 0 1.7-3L14 10V3"/><path d="M7 14h10"/>',
+    heart:'<path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/>',
+    sprout:'<path d="M7 20h10"/><path d="M12 20V9"/><path d="M12 9C9 9 7 7 7 4c3 0 5 2 5 5Z"/><path d="M12 11c0-3 2-5 5-5 0 3-2 5-5 5Z"/>',
+    brain:'<path d="M22 12h-4l-3 8L9 4l-3 8H2"/>',
+    chat:'<path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>',
+    search:'<circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/>',
+    grid:'<rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/>'
+  };
+  function ic(n,c){ return '<svg class="ic'+(c?" "+c:"")+'" viewBox="0 0 24 24" aria-hidden="true">'+(P[n]||"")+'</svg>'; }
+  function esc(s){ return String(s).replace(/[&<>"]/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;"}[c];}); }
+  function pickIcon(n){ n=(n||"").toLowerCase();
+    if(/stat/.test(n)) return "chart";
+    if(/mbg|biolog|genetica|brein|zenuw/.test(n)) return "flask";
+    if(/sociolog|sociale|organisat/.test(n)) return "users";
+    if(/ontwikkel/.test(n)) return "sprout";
+    if(/cognitie/.test(n)) return "brain";
+    if(/communic|gespreks/.test(n)) return "chat";
+    if(/filosof|wetenschap|evidence|kritisch/.test(n)) return "sparkles";
+    if(/omt|onderzoek|methoden/.test(n)) return "search";
+    if(/klinisch|gezondheid|psychiatr|hulpverlening|ortho|inleiding|psycholog|differenti|onderwijs/.test(n)) return "heart";
+    return "book";
+  }
+
+  // ===== VAKKEN per jaar — pas dit later makkelijk aan =====
+  // klaar vak:  {n, desc, url}
+  // in de maak: {n, desc, sp, soon:true}
+  var BASE="https://beriesexamspace.github.io/";
+  var DATA=[
+    {y:"1ste bachelor", tag:"1", cls:"", subjects:[
+      {n:"Menselijke Biologie & Genetica", desc:"De biologische basis van gedrag.", url:BASE+"mbg/", ns:"berat-mbg"},
+      {n:"Statistiek II", desc:"SPSS & statistiek.", url:BASE+"stat/", ns:"berat-stat"},
+      {n:"Sociologie", desc:"112 examenvragen, H1–H16, met directe feedback.", url:BASE+"sociologie/", ns:"berat-socio"},
+      {n:"Inleiding tot de Psychologie", desc:"Algemene psychologie.", soon:true},
+      {n:"Ontwikkelingspsychologie", desc:"Ontwikkeling over de levensloop.", soon:true},
+      {n:"Sociale Psychologie", desc:"Gedrag in sociale context.", soon:true},
+      {n:"Biologische Psychologie", desc:"Brein, zenuwstelsel & gedrag.", soon:true},
+      {n:"Communicatie", desc:"Gespreks- en communicatievaardigheden.", soon:true},
+      {n:"Filosofie & Wetenschapsleer", desc:"Denkkaders & wetenschapsleer.", soon:true}
+    ]},
+    {y:"2de bachelor", tag:"2", cls:"v", subjects:[
+      {n:"Arbeids- & Organisatiepsychologie", desc:"6 SP", soon:true},
+      {n:"Biologische Psychologie 2", desc:"6 SP", soon:true},
+      {n:"Persoonlijkheidspsychologie", desc:"3 SP", soon:true},
+      {n:"Klinische Psychologie", desc:"6 SP", soon:true},
+      {n:"Statistiek III", desc:"6 SP", soon:true},
+      {n:"Projectweek 1", desc:"3 SP", soon:true},
+      {n:"Sociale Psychologie 2", desc:"6 SP", soon:true},
+      {n:"Theoretische en Historische Grondslagen in de Psychologie", desc:"3 SP", soon:true},
+      {n:"Cognitieve Psychologie", desc:"6 SP", soon:true},
+      {n:"Cross-culturele Psychologie", desc:"3 SP", soon:true},
+      {n:"Onderzoeksmethoden & -technieken 2", desc:"6 SP", soon:true},
+      {n:"Inleiding tot de Orthopedagogiek", desc:"6 SP", soon:true}
+    ]},
+    {y:"3de bachelor", tag:"3", cls:"a", subjects:[
+      {n:"Evidence based kritisch handelen", desc:"6 SP", soon:true},
+      {n:"Psychologische gespreksvoering", desc:"6 SP", soon:true},
+      {n:"Differentiële Psychologie", desc:"6 SP", soon:true},
+      {n:"Gezondheidspsychologie", desc:"6 SP", soon:true},
+      {n:"Organisatie van de hulpverlening", desc:"6 SP", soon:true},
+      {n:"Observatiestage", desc:"3 SP", soon:true},
+      {n:"Statistiek IV", desc:"", soon:true},
+      {n:"PPKA", desc:"6 SP · volledige naam volgt", soon:true},
+      {n:"Forensische Psychiatrie", desc:"Keuzevak · 3 SP", soon:true},
+      {n:"Onderwijs", desc:"6 SP", soon:true},
+      {n:"Onderzoeksmethoden & -technieken 3", desc:"", soon:true}
+    ]}
+  ];
+
+  var main=document.getElementById("main");
+  var YEARCOUNT=[], TOTALCOUNT=null;
+  function ycountText(i){ return (YEARCOUNT[i]>0) ? ('👥 '+YEARCOUNT[i]+' studenten') : ''; }
+  function count(arr){ return arr.filter(function(s){return !s.soon;}).length; }
+
+  function renderYears(){
+    var html='<div class="seclabel">'+ic("sparkles")+'In welk jaar zit je?</div><div class="years">';
+    DATA.forEach(function(yr,i){
+      var ready=count(yr.subjects), total=yr.subjects.length;
+      var sub = total===0 ? 'Binnenkort — in de maak'
+              : ready>0 ? (ready+' van '+total+' klaar om te oefenen')
+              : (total+' vakken · in de maak');
+      html+='<button class="ycard '+yr.cls+'" data-y="'+i+'">'+
+        '<span class="tile">'+yr.tag+'</span>'+
+        '<b>'+esc(yr.y)+'</b>'+
+        '<small>'+esc(sub)+'</small>'+
+        '<span class="ycount">'+ycountText(i)+'</span>'+
+        '<span class="go">Bekijk vakken '+ic("arrowR")+'</span></button>';
+    });
+    html+='</div>';
+    main.innerHTML=html;
+    [].slice.call(main.querySelectorAll(".ycard")).forEach(function(b){ b.onclick=function(){ renderSubjects(+b.dataset.y); window.scrollTo({top:0,behavior:"smooth"}); }; });
+  }
+
+  function renderSubjects(yi){
+    var yr=DATA[yi];
+    var html='<button class="backlink" id="bk">'+ic("back")+'Terug naar jaren</button>'+
+      '<div class="seclabel">'+ic("sparkles")+'Welk vak wil je oefenen? · '+esc(yr.y)+'</div>'+
+      '<div class="subjects">';
+    yr.subjects.forEach(function(s,idx){
+      var tcls = (idx%2===1) ? "tile amber" : "tile";
+      var icon = pickIcon(s.n);
+      if(s.soon){
+        html+='<a class="scard soon" href="'+BASE+'?deel=1">'+
+          '<span class="badge soon">'+ic("clock")+'In de maak</span>'+
+          '<span class="'+tcls+'">'+ic(icon)+'</span>'+
+          '<b>'+esc(s.n)+'</b>'+
+          '<span class="desc">'+esc(s.desc||"")+'</span>'+
+          '<span class="cta">Heb jij materiaal? Help mee '+ic("arrowR")+'</span></a>';
+      } else {
+        html+='<a class="scard" href="'+esc(s.url)+'">'+
+          '<span class="badge live">Live</span>'+
+          '<span class="'+tcls+'">'+ic(icon)+'</span>'+
+          '<b>'+esc(s.n)+'</b>'+
+          '<span class="desc">'+esc(s.desc||"")+'</span>'+
+          '<span class="cta live">Openen '+ic("arrowR")+'</span></a>';
+      }
+    });
+    html+='<a class="dropcard" href="'+BASE+'?deel=1"><span class="plus">+</span><b>Deel je samenvattingen</b><small>Help de vakken vullen — sleep je materiaal erin.</small></a>';
+    html+='</div>';
+    main.innerHTML=html;
+    document.getElementById("bk").onclick=function(){ renderYears(); window.scrollTo({top:0,behavior:"smooth"}); };
+  }
+
+  // thema
+  function rawGet(k){ try{return localStorage.getItem(k);}catch(e){return null;} }
+  function rawSet(k,v){ try{localStorage.setItem(k,v);}catch(e){} }
+  var theme=rawGet("site_theme")||"dark";
+  var tb=document.getElementById("themeBtn");
+  function applyTheme(){ document.documentElement.setAttribute("data-theme",theme);
+    tb.innerHTML=(theme==="dark"?ic("sun"):ic("moon"))+'<span>'+(theme==="dark"?"Licht":"Donker")+'</span>'; }
+  applyTheme();
+  tb.onclick=function(){ theme=theme==="dark"?"light":"dark"; rawSet("site_theme",theme); applyTheme(); };
+
+  document.getElementById("upIc").innerHTML=ic("upload");
+  document.getElementById("upGo").innerHTML=ic("arrowR");
+
+  // ---------- live teller: totaal + per jaar ----------
+  // Tellt de echte bezoekers per vak op (abacus). Klopt een vak niet? Pas 'ns' aan in DATA.
+  var CNT_KEY="gebruikers";
+  function getCount(ns){ return fetch("https://abacus.jasoncameron.dev/get/"+ns+"/"+CNT_KEY).then(function(r){return r.json();}).then(function(d){ var v=d&&(d.value!=null?d.value:d.count); return (typeof v==="number"&&v>0)?v:0; }).catch(function(){ return 0; }); }
+  // ---------- teller: totaal (473 + live) eerlijk verdeeld over de jaren ----------
+  var BASE_COUNT=472; // 472 + eerste hit (1) = 473
+  var Tpromise=fetch("https://abacus.jasoncameron.dev/hit/berie-exam-space/hub-bezoekers").then(function(r){return r.json();}).then(function(d){ var v=d&&(d.value!=null?d.value:d.count); return (typeof v==="number"&&v>0)?(BASE_COUNT+v):473; }).catch(function(){ return 473; });
+  (function loadCounts(){
+    var per=DATA.map(function(){return 0;}), jobs=[];
+    DATA.forEach(function(yr,yi){ yr.subjects.forEach(function(s){ if(s.ns){ jobs.push(getCount(s.ns).then(function(n){ per[yi]+=n; })); } }); });
+    Promise.all([Tpromise, Promise.all(jobs)]).then(function(res){
+      var T=res[0], realTotal=per.reduce(function(a,b){return a+b;},0);
+      TOTALCOUNT=T;
+      var el=document.getElementById("statN"); if(el) el.textContent=T;
+      // verdeel het totaal eerlijk over de jaren, naar de echte verhouding van het gebruik
+      YEARCOUNT=per.map(function(p,i){ return realTotal>0 ? Math.round(T*p/realTotal) : (i===0?T:0); });
+      DATA.forEach(function(_,i){ var c=document.querySelector('.ycard[data-y="'+i+'"] .ycount'); if(c) c.textContent=ycountText(i); });
+    });
+  })();
+
+  renderYears();
+})();
+</script>
+</body>
+</html>
