@@ -143,7 +143,7 @@
     <div class="heromark"><div class="hl">B</div></div>
     <h1>Berie’s exam space</h1>
     <p class="sub">Oefen slim voor je examen. Kies je jaar, daarna je vak — met directe feedback en uitleg bij elke vraag.</p>
-    <div class="statpill"><span class="dot"></span><span>Wordt al gebruikt door <b id="statN">honderden</b> studenten</span></div>
+    <div class="statpill"><span class="dot"></span><span>Wordt al gebruikt door <b id="statN">489</b> studenten</span></div>
   </div>
 
   <a class="callout" href="#" onclick="return false">
@@ -327,8 +327,7 @@
     function get(ns,key){ return fetch("https://abacus.jasoncameron.dev/get/"+ns+"/"+key).then(function(r){return r.json();}).then(function(d){return (d&&d.value)||0;}).catch(function(){return 0;}); }
     Promise.all([get("berat-hub","bezoekers"),get("berat-mbg","gebruikers"),get("berat-stat","gebruikers"),get("berat-socio","gebruikers")]).then(function(a){
       USE={"berat-hub":a[0],"berat-mbg":a[1],"berat-stat":a[2],"berat-socio":a[3]};
-      var total=a[0]+a[1]+a[2]+a[3]; // volledig totaal (incl. hub-bezoekers)
-      var node=document.getElementById("statN"); if(node&&total>0) node.textContent=fmtN(total);
+      // LET OP: het totaalcijfer (#statN) is bewust VAST (489) en wordt NIET live bijgewerkt — Berat: mag nooit veranderen.
       if(onYears) renderYears();
     }).catch(function(){});
   })();
