@@ -327,7 +327,7 @@
     function get(ns,key){ return fetch("https://abacus.jasoncameron.dev/get/"+ns+"/"+key).then(function(r){return r.json();}).then(function(d){return (d&&d.value)||0;}).catch(function(){return 0;}); }
     Promise.all([get("berat-hub","bezoekers"),get("berat-mbg","gebruikers"),get("berat-stat","gebruikers"),get("berat-socio","gebruikers")]).then(function(a){
       USE={"berat-hub":a[0],"berat-mbg":a[1],"berat-stat":a[2],"berat-socio":a[3]};
-      var total=DATA.reduce(function(s,yr){ return s+(yearUse(yr)||0); },0); // = som van de jaren
+      var total=a[0]+a[1]+a[2]+a[3]; // volledig totaal (incl. hub-bezoekers)
       var node=document.getElementById("statN"); if(node&&total>0) node.textContent=fmtN(total);
       if(onYears) renderYears();
     }).catch(function(){});
