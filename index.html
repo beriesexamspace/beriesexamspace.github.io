@@ -127,6 +127,23 @@
     padding:6px 12px;border-radius:999px;box-shadow:var(--shadow-lg);opacity:.9}
   @keyframes fadeUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
   @media (prefers-reduced-motion: no-preference){.ycard,.scard,.callout,.dropcard{animation:fadeUp .34s var(--ease) both}}
+  /* inlever-formulier */
+  .ccard{background:var(--card);border:1px solid var(--line);border-radius:var(--r-lg);padding:22px;box-shadow:var(--shadow);max-width:620px;margin:0 auto}
+  .ccard h2{margin:0 0 6px} .ccard .ci{color:var(--muted);margin:0 0 16px;font-size:14px;line-height:1.55}
+  .ccard label{display:block;font-size:13px;font-weight:600;margin:14px 0 6px}
+  .ccard input,.ccard select,.ccard textarea{width:100%;padding:11px 13px;border:1px solid var(--line);border-radius:11px;background:var(--bg2);color:var(--ink);font-family:inherit;font-size:15px;box-sizing:border-box}
+  .ccard textarea{min-height:80px;resize:vertical}
+  .ccard input:focus,.ccard select:focus,.ccard textarea:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-soft)}
+  .dz{border:2px dashed var(--line);border-radius:var(--r);padding:26px 16px;text-align:center;cursor:pointer;transition:border-color .2s var(--ease),background .2s var(--ease)}
+  .dz:hover,.dz.drag{border-color:var(--accent);background:var(--accent-soft)}
+  .dz .ic{width:34px;height:34px;color:var(--accent-ink)} .dz b{display:block;margin:6px 0 2px} .dz small{color:var(--muted);font-size:12.5px}
+  .fchip{display:inline-flex;align-items:center;gap:7px;background:var(--bg2);border:1px solid var(--line);border-radius:10px;padding:6px 10px;margin:8px 8px 0 0;font-size:13px}
+  .fchip button{border:none;background:none;color:var(--muted);cursor:pointer;font-size:16px;line-height:1}
+  .cerr{background:#fbe5ea;color:#c23b54;border-radius:10px;padding:10px 13px;font-size:13.5px;font-weight:600;margin-top:12px}
+  html[data-theme="dark"] .cerr{background:#331620;color:#ef6b82}
+  .csuccess{text-align:center;padding:10px 0}
+  .spin{display:inline-block;width:14px;height:14px;border:2px solid rgba(255,255,255,.5);border-top-color:#fff;border-radius:50%;animation:spin .7s linear infinite;vertical-align:-2px}
+  @keyframes spin{to{transform:rotate(360deg)}}
 </style>
 </head>
 <body>
@@ -146,7 +163,7 @@
     <div class="statpill"><span class="dot"></span><span>Wordt al gebruikt door <b id="statN">489</b> studenten</span></div>
   </div>
 
-  <a class="callout" href="#" onclick="return false">
+  <a class="callout" href="?deel=1">
     <span class="co-ic" id="upIc"></span>
     <span class="co-txt"><b>Help mee — deel je samenvattingen 📚</b><small>Heb jij samenvattingen of oude examenvragen? Stuur ze in (élk vak, élk jaar — 1, 2 én 3 bach!) en wij maken er gratis een oefentool van.</small></span>
     <span class="co-go" id="upGo"></span>
@@ -273,7 +290,7 @@
       var tcls = (idx%2===1) ? "tile amber" : "tile";
       var icon = pickIcon(s.n);
       if(s.soon){
-        html+='<a class="scard soon" href="'+BASE+'?deel=1">'+
+        html+='<a class="scard soon" href="'+BASE+'?deel=1&vak='+encodeURIComponent(s.n)+'">'+
           '<span class="badge soon">'+ic("clock")+'In de maak</span>'+
           '<span class="'+tcls+'">'+ic(icon)+'</span>'+
           '<b>'+esc(s.n)+'</b>'+
@@ -292,6 +309,76 @@
     html+='</div>';
     main.innerHTML=html;
     document.getElementById("bk").onclick=function(){ renderYears(); window.scrollTo({top:0,behavior:"smooth"}); };
+  }
+
+  // ===== inlever-formulier (deel je samenvattingen) =====
+  var cFiles=[];
+  function fmtSize(b){ return b<1024?b+" B":b<1048576?(b/1024).toFixed(0)+" KB":(b/1048576).toFixed(1)+" MB"; }
+  function renderContribute(preVak){
+    onYears=false; cFiles=[];
+    var opts=DATA.map(function(yr){ return '<optgroup label="'+esc(yr.y)+'">'+yr.subjects.map(function(s){ return '<option'+(preVak===s.n?' selected':'')+'>'+esc(s.n)+'</option>'; }).join("")+'</optgroup>'; }).join("")+'<option'+((preVak&&!DATA.some(function(yr){return yr.subjects.some(function(s){return s.n===preVak;});}))?' selected':'')+'>Ander vak</option>';
+    var html=
+      '<button class="backlink" id="bk">'+ic("back")+'Terug naar de vakken</button>'+
+      '<div class="ccard">'+
+        '<h2>Deel je samenvattingen</h2>'+
+        '<p class="ci">Heb jij goede samenvattingen, oefenvragen of oude examens? Stuur ze in, dan maken we er gratis een oefentool van — voor élk vak en élk jaar. Je naam mag, maar hoeft niet.</p>'+
+        '<div class="dz" id="dz">'+ic("upload")+'<b>Sleep je bestanden hierheen</b><small>of klik om te kiezen · PDF, Word, foto · max 5 MB samen</small></div>'+
+        '<input type="file" id="fi" multiple style="display:none">'+
+        '<div id="chips"></div>'+
+        '<label>Voor welk vak?</label><select id="cVak">'+opts+'</select>'+
+        '<label>Je e-mail *</label><input type="email" id="cEmail" placeholder="zodat we je kunnen bereiken" autocomplete="email">'+
+        '<label>Je naam (optioneel)</label><input type="text" id="cName" placeholder="mag ook anoniem">'+
+        '<label>Bericht (optioneel)</label><textarea id="cMsg" placeholder="bv. welk vak/jaar of wat erin staat"></textarea>'+
+        '<button class="btn" id="cSend" style="margin-top:16px;width:100%">'+ic("upload")+'Insturen</button>'+
+        '<div id="cStatus"></div>'+
+      '</div>';
+    main.innerHTML=html;
+    document.getElementById("bk").onclick=function(){ renderSubjects(0); window.scrollTo({top:0,behavior:"smooth"}); };
+    var dz=document.getElementById("dz"), fi=document.getElementById("fi"), chips=document.getElementById("chips");
+    function renderChips(){ chips.innerHTML=cFiles.map(function(f,i){ return '<span class="fchip">'+esc(f.name)+' <span class="muted">('+fmtSize(f.size)+')</span><button data-i="'+i+'" aria-label="verwijderen">×</button></span>'; }).join("");
+      [].slice.call(chips.querySelectorAll("button")).forEach(function(b){ b.onclick=function(){ cFiles.splice(+b.dataset.i,1); renderChips(); }; }); }
+    function addFiles(list){ for(var i=0;i<list.length;i++) cFiles.push(list[i]); renderChips(); }
+    dz.onclick=function(){ fi.click(); };
+    fi.onchange=function(){ addFiles(fi.files); fi.value=""; };
+    dz.ondragover=function(e){ e.preventDefault(); dz.classList.add("drag"); };
+    dz.ondragleave=function(){ dz.classList.remove("drag"); };
+    dz.ondrop=function(e){ e.preventDefault(); dz.classList.remove("drag"); if(e.dataTransfer&&e.dataTransfer.files) addFiles(e.dataTransfer.files); };
+    document.getElementById("cSend").onclick=submitContribute;
+  }
+  function submitContribute(){
+    var email=(document.getElementById("cEmail").value||"").trim();
+    var name=(document.getElementById("cName").value||"").trim();
+    var vak=document.getElementById("cVak").value;
+    var msg=(document.getElementById("cMsg").value||"").trim();
+    var st=document.getElementById("cStatus"); st.innerHTML="";
+    if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)){ st.innerHTML='<div class="cerr">Vul een geldig e-mailadres in.</div>'; return; }
+    if(cFiles.length===0 && !msg){ st.innerHTML='<div class="cerr">Voeg minstens een bestand toe, of schrijf een kort bericht.</div>'; return; }
+    var total=cFiles.reduce(function(s,f){ return s+f.size; },0);
+    if(total>5*1024*1024){ st.innerHTML='<div class="cerr">De bestanden zijn samen te groot (max 5 MB). Verwijder er een, of mail grote bestanden naar berat007yildirim@gmail.com.</div>'; return; }
+    var btn=document.getElementById("cSend"); btn.disabled=true; btn.innerHTML='<span class="spin"></span>Versturen...';
+    var ifr=document.createElement("iframe"); ifr.name="fsT"; ifr.style.display="none"; document.body.appendChild(ifr);
+    var form=document.createElement("form"); form.action="https://formsubmit.co/Berat007yildirim@gmail.com"; form.method="POST"; form.enctype="multipart/form-data"; form.target="fsT"; form.style.display="none";
+    function hid(n,v){ var i=document.createElement("input"); i.type="hidden"; i.name=n; i.value=v; form.appendChild(i); }
+    hid("_subject","Berie's exam space - Materiaal voor: "+vak); hid("_captcha","false"); hid("_template","table");
+    hid("Vak",vak); hid("email",email); hid("Naam",name||"(anoniem)"); hid("Bericht",msg||"(geen bericht)"); hid("Aantal_bestanden",String(cFiles.length));
+    try{ var dt=new DataTransfer(); cFiles.forEach(function(f){ dt.items.add(f); }); var finp=document.createElement("input"); finp.type="file"; finp.name="attachment"; finp.multiple=true; finp.files=dt.files; form.appendChild(finp); }catch(e){}
+    document.body.appendChild(form);
+    var done=false;
+    function cleanup(){ try{ form.parentNode.removeChild(form); ifr.parentNode.removeChild(ifr); }catch(e){} }
+    function thanks(){ if(done)return; done=true; cleanup();
+      main.innerHTML='<div class="ccard csuccess"><div style="font-size:44px">🙌</div><h2>Bedankt voor je bijdrage!</h2><p class="ci">We kijken je materiaal na en maken er oefenstof van. Heel veel succes met je examens! 💪</p><button class="btn" id="cBack">Terug naar de vakken</button></div>';
+      var b=document.getElementById("cBack"); if(b) b.onclick=function(){ renderSubjects(0); window.scrollTo({top:0,behavior:"smooth"}); };
+    }
+    function fail(){ if(done)return; done=true; cleanup();
+      var body="Materiaal voor: "+encodeURIComponent(vak)+"%0D%0ANaam: "+encodeURIComponent(name||"-")+"%0D%0AE-mail: "+encodeURIComponent(email)+"%0D%0A%0D%0ABericht:%0D%0A"+encodeURIComponent(msg||"-")+"%0D%0A%0D%0A(Vergeet je bestanden niet handmatig bij te voegen.)";
+      var mailto="mailto:berat007yildirim@gmail.com?subject="+encodeURIComponent("Berie's exam space - Materiaal voor: "+vak)+"&body="+body;
+      btn.disabled=false; btn.innerHTML=ic("upload")+"Insturen";
+      st.innerHTML='<div class="cerr">We kregen geen bevestiging dat het aankwam. Klik hier om het direct te mailen: <a href="'+mailto+'" style="text-decoration:underline;font-weight:700;color:inherit">mail je bijdrage</a> (hang je bestanden er dan zelf aan).</div>';
+    }
+    var submitted=false;
+    ifr.onload=function(){ if(submitted) thanks(); };
+    try{ submitted=true; form.submit(); }catch(e){ fail(); return; }
+    setTimeout(fail, 15000);
   }
 
   // thema
@@ -313,7 +400,13 @@
   function yearUse(yr){ if(!USE)return null; var t=0,has=false; yr.subjects.forEach(function(s){ if(!s.soon&&s.url){ var ns=nsForUrl(s.url); if(ns&&USE[ns]!=null){ t+=USE[ns]; has=true; } } }); return has?t:null; }
   function fmtN(n){ return Number(n).toLocaleString("nl-NL"); }
 
-  renderYears();
+  // deep-links: ?deel=1(&vak=) opent inlever-formulier · ?jaar=1/2/3 opent vakken van dat jaar
+  (function(){
+    var qs; try{ qs=new URLSearchParams(location.search); }catch(e){ qs=null; }
+    if(qs && qs.get("deel")){ renderContribute(qs.get("vak")||""); }
+    else if(qs && /^[123]$/.test(qs.get("jaar")||"")){ renderSubjects(+qs.get("jaar")-1); }
+    else { renderYears(); }
+  })();
 
   // live cijfers (abacus): totaal in de pill + ECHT aantal per jaar
   (function(){
