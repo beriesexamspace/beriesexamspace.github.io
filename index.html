@@ -304,6 +304,21 @@
   document.getElementById("upGo").innerHTML=ic("arrowR");
 
 
+  // echte gebruikersteller — live cijfers (abacus) i.p.v. het woord "honderden"
+  (function(){
+    var node=document.getElementById("statN"); if(!node) return;
+    function get(ns,key){ return fetch("https://abacus.jasoncameron.dev/get/"+ns+"/"+key).then(function(r){return r.json();}).then(function(d){return (d&&d.value)||0;}).catch(function(){return 0;}); }
+    function countUp(to){
+      var reduce=false; try{reduce=window.matchMedia("(prefers-reduced-motion: reduce)").matches;}catch(e){}
+      if(reduce||to<=0){ node.textContent=to.toLocaleString("nl-NL"); return; }
+      var dur=1100,t0=null;
+      function step(ts){ if(t0===null)t0=ts; var p=Math.min(1,(ts-t0)/dur); var e=1-Math.pow(1-p,3); node.textContent=Math.round(to*e).toLocaleString("nl-NL"); if(p<1) requestAnimationFrame(step); }
+      requestAnimationFrame(step); setTimeout(function(){ node.textContent=to.toLocaleString("nl-NL"); }, dur+160);
+    }
+    Promise.all([get("berat-hub","bezoekers"),get("berat-mbg","gebruikers"),get("berat-stat","gebruikers"),get("berat-socio","gebruikers")])
+      .then(function(a){ var t=a[0]+a[1]+a[2]+a[3]; if(t>0) countUp(t); }).catch(function(){});
+  })();
+
   renderYears();
 })();
 </script>
