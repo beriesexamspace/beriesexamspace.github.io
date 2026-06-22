@@ -72,6 +72,8 @@
   .callout .co-ic .ic{width:22px;height:22px}
   .callout .co-txt{flex:1;min-width:0} .callout .co-txt b{display:block;font-size:15px;margin-bottom:2px}
   .callout .co-txt small{color:var(--muted);font-size:13px;line-height:1.5} .callout .co-go .ic{width:20px;height:20px;color:var(--accent-ink)}
+  button.callout{font:inherit;text-align:left;cursor:pointer}
+  .callout .co-go{transition:transform .2s var(--ease)} .callout.open .co-go{transform:rotate(90deg)}
 
   .seclabel{display:flex;align-items:center;gap:9px;justify-content:center;margin:34px 0 16px;font-weight:700;font-size:17px}
   .seclabel .ic{width:20px;height:20px;color:var(--accent-ink)}
@@ -163,11 +165,12 @@
     <div class="statpill"><span class="dot"></span><span>Wordt al gebruikt door <b id="statN">489</b> studenten</span></div>
   </div>
 
-  <a class="callout" href="?deel=1">
+  <button class="callout" id="shareToggle" type="button" aria-expanded="false">
     <span class="co-ic" id="upIc"></span>
     <span class="co-txt"><b>Help mee — deel je samenvattingen 📚</b><small>Heb jij samenvattingen of oude examenvragen? Stuur ze in (élk vak, élk jaar — 1, 2 én 3 bach!) en wij maken er gratis een oefentool van.</small></span>
     <span class="co-go" id="upGo"></span>
-  </a>
+  </button>
+  <div id="contribWrap" style="display:none"></div>
 
   <div id="main"></div>
 </div>
@@ -286,11 +289,12 @@
     var html='<button class="backlink" id="bk">'+ic("back")+'Terug naar jaren</button>'+
       '<div class="seclabel">'+ic("sparkles")+'Welk vak wil je oefenen? · '+esc(yr.y)+'</div>'+
       '<div class="subjects">';
-    yr.subjects.forEach(function(s,idx){
+    var subs=yr.subjects.slice().sort(function(a,b){ return (a.soon?1:0)-(b.soon?1:0); });
+    subs.forEach(function(s,idx){
       var tcls = (idx%2===1) ? "tile amber" : "tile";
       var icon = pickIcon(s.n);
       if(s.soon){
-        html+='<a class="scard soon" href="'+BASE+'?deel=1&vak='+encodeURIComponent(s.n)+'">'+
+        html+='<a class="scard soon" href="#" data-vak="'+esc(s.n)+'">'+
           '<span class="badge soon">'+ic("clock")+'In de maak</span>'+
           '<span class="'+tcls+'">'+ic(icon)+'</span>'+
           '<b>'+esc(s.n)+'</b>'+
@@ -305,22 +309,22 @@
           '<span class="cta live">Openen '+ic("arrowR")+'</span></a>';
       }
     });
-    html+='<a class="dropcard" href="'+BASE+'?deel=1"><span class="plus">+</span><b>Deel je samenvattingen</b><small>Help de vakken vullen — sleep je materiaal erin.</small></a>';
+    html+='<a class="dropcard" href="#" data-vak=""><span class="plus">+</span><b>Deel je samenvattingen</b><small>Help de vakken vullen — sleep je materiaal erin.</small></a>';
     html+='</div>';
     main.innerHTML=html;
     document.getElementById("bk").onclick=function(){ renderYears(); window.scrollTo({top:0,behavior:"smooth"}); };
+    [].slice.call(main.querySelectorAll("[data-vak]")).forEach(function(el){ el.onclick=function(e){ e.preventDefault(); renderContribute(el.dataset.vak||"", true); }; });
   }
 
   // ===== inlever-formulier (deel je samenvattingen) =====
   var cFiles=[];
   function fmtSize(b){ return b<1024?b+" B":b<1048576?(b/1024).toFixed(0)+" KB":(b/1048576).toFixed(1)+" MB"; }
-  function renderContribute(preVak){
-    onYears=false; cFiles=[];
+  var contribOpen=false;
+  function renderContribute(preVak, scroll){
+    cFiles=[];
     var opts=DATA.map(function(yr){ return '<optgroup label="'+esc(yr.y)+'">'+yr.subjects.map(function(s){ return '<option'+(preVak===s.n?' selected':'')+'>'+esc(s.n)+'</option>'; }).join("")+'</optgroup>'; }).join("")+'<option'+((preVak&&!DATA.some(function(yr){return yr.subjects.some(function(s){return s.n===preVak;});}))?' selected':'')+'>Ander vak</option>';
     var html=
-      '<button class="backlink" id="bk">'+ic("back")+'Terug naar de vakken</button>'+
-      '<div class="ccard">'+
-        '<h2>Deel je samenvattingen</h2>'+
+      '<div class="ccard" style="margin:6px 0 2px">'+
         '<p class="ci">Heb jij goede samenvattingen, oefenvragen of oude examens? Stuur ze in, dan maken we er gratis een oefentool van — voor élk vak en élk jaar. Je naam mag, maar hoeft niet.</p>'+
         '<div class="dz" id="dz">'+ic("upload")+'<b>Sleep je bestanden hierheen</b><small>of klik om te kiezen · PDF, Word, foto · max 5 MB samen</small></div>'+
         '<input type="file" id="fi" multiple style="display:none">'+
@@ -329,11 +333,11 @@
         '<label>Je e-mail *</label><input type="email" id="cEmail" placeholder="zodat we je kunnen bereiken" autocomplete="email">'+
         '<label>Je naam (optioneel)</label><input type="text" id="cName" placeholder="mag ook anoniem">'+
         '<label>Bericht (optioneel)</label><textarea id="cMsg" placeholder="bv. welk vak/jaar of wat erin staat"></textarea>'+
-        '<button class="btn" id="cSend" style="margin-top:16px;width:100%">'+ic("upload")+'Insturen</button>'+
+        '<div class="row" style="gap:10px;margin-top:16px"><button class="btn" id="cSend" style="flex:1">'+ic("upload")+'Insturen</button><button class="btn ghost" id="cClose" type="button">Sluiten</button></div>'+
         '<div id="cStatus"></div>'+
       '</div>';
-    main.innerHTML=html;
-    document.getElementById("bk").onclick=function(){ renderSubjects(0); window.scrollTo({top:0,behavior:"smooth"}); };
+    var wrap=document.getElementById("contribWrap"); wrap.innerHTML=html; wrap.style.display="block"; contribOpen=true;
+    var tg=document.getElementById("shareToggle"); if(tg){ tg.setAttribute("aria-expanded","true"); tg.classList.add("open"); }
     var dz=document.getElementById("dz"), fi=document.getElementById("fi"), chips=document.getElementById("chips");
     function renderChips(){ chips.innerHTML=cFiles.map(function(f,i){ return '<span class="fchip">'+esc(f.name)+' <span class="muted">('+fmtSize(f.size)+')</span><button data-i="'+i+'" aria-label="verwijderen">×</button></span>'; }).join("");
       [].slice.call(chips.querySelectorAll("button")).forEach(function(b){ b.onclick=function(){ cFiles.splice(+b.dataset.i,1); renderChips(); }; }); }
@@ -344,7 +348,11 @@
     dz.ondragleave=function(){ dz.classList.remove("drag"); };
     dz.ondrop=function(e){ e.preventDefault(); dz.classList.remove("drag"); if(e.dataTransfer&&e.dataTransfer.files) addFiles(e.dataTransfer.files); };
     document.getElementById("cSend").onclick=submitContribute;
+    document.getElementById("cClose").onclick=closeContrib;
+    if(scroll){ try{ document.getElementById("contribWrap").scrollIntoView({behavior:"smooth",block:"start"}); }catch(e){} }
   }
+  function closeContrib(){ var w=document.getElementById("contribWrap"); if(w){ w.style.display="none"; w.innerHTML=""; } contribOpen=false; var tg=document.getElementById("shareToggle"); if(tg){ tg.setAttribute("aria-expanded","false"); tg.classList.remove("open"); } }
+  function toggleContrib(){ if(contribOpen) closeContrib(); else renderContribute("", false); }
   function submitContribute(){
     var email=(document.getElementById("cEmail").value||"").trim();
     var name=(document.getElementById("cName").value||"").trim();
@@ -366,8 +374,8 @@
     var done=false;
     function cleanup(){ try{ form.parentNode.removeChild(form); ifr.parentNode.removeChild(ifr); }catch(e){} }
     function thanks(){ if(done)return; done=true; cleanup();
-      main.innerHTML='<div class="ccard csuccess"><div style="font-size:44px">🙌</div><h2>Bedankt voor je bijdrage!</h2><p class="ci">We kijken je materiaal na en maken er oefenstof van. Heel veel succes met je examens! 💪</p><button class="btn" id="cBack">Terug naar de vakken</button></div>';
-      var b=document.getElementById("cBack"); if(b) b.onclick=function(){ renderSubjects(0); window.scrollTo({top:0,behavior:"smooth"}); };
+      var w=document.getElementById("contribWrap"); w.innerHTML='<div class="ccard csuccess"><div style="font-size:44px">🙌</div><h2>Bedankt voor je bijdrage!</h2><p class="ci">We kijken je materiaal na en maken er oefenstof van. Heel veel succes met je examens! 💪</p><button class="btn" id="cBack">Sluiten</button></div>';
+      var b=document.getElementById("cBack"); if(b) b.onclick=closeContrib;
     }
     function fail(){ if(done)return; done=true; cleanup();
       var body="Materiaal voor: "+encodeURIComponent(vak)+"%0D%0ANaam: "+encodeURIComponent(name||"-")+"%0D%0AE-mail: "+encodeURIComponent(email)+"%0D%0A%0D%0ABericht:%0D%0A"+encodeURIComponent(msg||"-")+"%0D%0A%0D%0A(Vergeet je bestanden niet handmatig bij te voegen.)";
@@ -393,6 +401,7 @@
 
   document.getElementById("upIc").innerHTML=ic("upload");
   document.getElementById("upGo").innerHTML=ic("arrowR");
+  document.getElementById("shareToggle").onclick=toggleContrib;
 
 
   var USE=null, onYears=false;
@@ -403,7 +412,7 @@
   // deep-links: ?deel=1(&vak=) opent inlever-formulier · ?jaar=1/2/3 opent vakken van dat jaar
   (function(){
     var qs; try{ qs=new URLSearchParams(location.search); }catch(e){ qs=null; }
-    if(qs && qs.get("deel")){ renderContribute(qs.get("vak")||""); }
+    if(qs && qs.get("deel")){ renderYears(); renderContribute(qs.get("vak")||"", true); }
     else if(qs && /^[123]$/.test(qs.get("jaar")||"")){ renderSubjects(+qs.get("jaar")-1); }
     else { renderYears(); }
   })();
