@@ -243,16 +243,22 @@
   function count(arr){ return arr.filter(function(s){return !s.soon;}).length; }
 
   function renderYears(){
+    onYears=true;
     var html='<div class="seclabel">'+ic("sparkles")+'In welk jaar zit je?</div><div class="years">';
     DATA.forEach(function(yr,i){
       var ready=count(yr.subjects), total=yr.subjects.length;
       var sub = total===0 ? 'Binnenkort — in de maak'
               : ready>0 ? (ready+' van '+total+' klaar om te oefenen')
               : (total+' vakken · in de maak');
+      var u=yearUse(yr);
+      var useHtml = (u!=null && u>0)
+        ? '<span style="display:inline-flex;align-items:center;gap:6px;margin-top:6px;font-size:12.5px;color:var(--good);font-weight:700">'+ic("users")+fmtN(u)+' studenten oefenen hier</span>'
+        : '';
       html+='<button class="ycard '+yr.cls+'" data-y="'+i+'">'+
         '<span class="tile">'+yr.tag+'</span>'+
         '<b>'+esc(yr.y)+'</b>'+
         '<small>'+esc(sub)+'</small>'+
+        useHtml+
         '<span class="go">Bekijk vakken '+ic("arrowR")+'</span></button>';
     });
     html+='</div>';
@@ -261,6 +267,7 @@
   }
 
   function renderSubjects(yi){
+    onYears=false;
     var yr=DATA[yi];
     var html='<button class="backlink" id="bk">'+ic("back")+'Terug naar jaren</button>'+
       '<div class="seclabel">'+ic("sparkles")+'Welk vak wil je oefenen? · '+esc(yr.y)+'</div>'+
@@ -304,22 +311,23 @@
   document.getElementById("upGo").innerHTML=ic("arrowR");
 
 
-  // echte gebruikersteller — live cijfers (abacus) i.p.v. het woord "honderden"
-  (function(){
-    var node=document.getElementById("statN"); if(!node) return;
-    function get(ns,key){ return fetch("https://abacus.jasoncameron.dev/get/"+ns+"/"+key).then(function(r){return r.json();}).then(function(d){return (d&&d.value)||0;}).catch(function(){return 0;}); }
-    function countUp(to){
-      var reduce=false; try{reduce=window.matchMedia("(prefers-reduced-motion: reduce)").matches;}catch(e){}
-      if(reduce||to<=0){ node.textContent=to.toLocaleString("nl-NL"); return; }
-      var dur=1100,t0=null;
-      function step(ts){ if(t0===null)t0=ts; var p=Math.min(1,(ts-t0)/dur); var e=1-Math.pow(1-p,3); node.textContent=Math.round(to*e).toLocaleString("nl-NL"); if(p<1) requestAnimationFrame(step); }
-      requestAnimationFrame(step); setTimeout(function(){ node.textContent=to.toLocaleString("nl-NL"); }, dur+160);
-    }
-    Promise.all([get("berat-hub","bezoekers"),get("berat-mbg","gebruikers"),get("berat-stat","gebruikers"),get("berat-socio","gebruikers")])
-      .then(function(a){ var t=a[0]+a[1]+a[2]+a[3]; if(t>0) countUp(t); }).catch(function(){});
-  })();
+  var USE=null, onYears=false;
+  function nsForUrl(u){ if(/mbg\//.test(u))return "berat-mbg"; if(/stat\//.test(u))return "berat-stat"; if(/sociologie\//.test(u))return "berat-socio"; return null; }
+  function yearUse(yr){ if(!USE)return null; var t=0,has=false; yr.subjects.forEach(function(s){ if(!s.soon&&s.url){ var ns=nsForUrl(s.url); if(ns&&USE[ns]!=null){ t+=USE[ns]; has=true; } } }); return has?t:null; }
+  function fmtN(n){ return Number(n).toLocaleString("nl-NL"); }
 
   renderYears();
+
+  // live cijfers (abacus): totaal in de pill + ECHT aantal per jaar
+  (function(){
+    function get(ns,key){ return fetch("https://abacus.jasoncameron.dev/get/"+ns+"/"+key).then(function(r){return r.json();}).then(function(d){return (d&&d.value)||0;}).catch(function(){return 0;}); }
+    Promise.all([get("berat-hub","bezoekers"),get("berat-mbg","gebruikers"),get("berat-stat","gebruikers"),get("berat-socio","gebruikers")]).then(function(a){
+      USE={"berat-hub":a[0],"berat-mbg":a[1],"berat-stat":a[2],"berat-socio":a[3]};
+      var total=a[0]+a[1]+a[2]+a[3];
+      var node=document.getElementById("statN"); if(node&&total>0) node.textContent=fmtN(total);
+      if(onYears) renderYears();
+    }).catch(function(){});
+  })();
 })();
 </script>
 </body>
