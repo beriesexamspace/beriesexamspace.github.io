@@ -281,7 +281,7 @@
               : ready>0 ? (ready+' van '+total+' klaar om te oefenen')
               : (total+' vakken · in de maak');
       var useHtml=""; // per-jaar cijfers TIJDELIJK verborgen — Berat: "we doen dat later" (logica staat klaar om terug te zetten)
-      html+='<button class="ycard '+yr.cls+'" data-y="'+i+'">'+
+      html+='<button class="ycard '+yr.cls+'" data-y="'+i+'" style="animation-delay:'+(i*75)+'ms">'+
         '<span class="tile">'+yr.tag+'</span>'+
         '<b>'+esc(yr.y)+'</b>'+
         '<small>'+esc(sub)+'</small>'+
@@ -304,14 +304,14 @@
       var tcls = (idx%2===1) ? "tile amber" : "tile";
       var icon = pickIcon(s.n);
       if(s.soon){
-        html+='<a class="scard soon" href="#" data-vak="'+esc(s.n)+'">'+
+        html+='<a class="scard soon" href="#" data-vak="'+esc(s.n)+'" style="animation-delay:'+(idx*55)+'ms">'+
           '<span class="badge soon">'+ic("clock")+'In de maak</span>'+
           '<span class="'+tcls+'">'+ic(icon)+'</span>'+
           '<b>'+esc(s.n)+'</b>'+
           '<span class="desc">'+esc(s.desc||"")+'</span>'+
           '<span class="cta">Heb jij materiaal? Help mee '+ic("arrowR")+'</span></a>';
       } else {
-        html+='<a class="scard" href="'+esc(s.url)+'">'+
+        html+='<a class="scard" href="'+esc(s.url)+'" style="animation-delay:'+(idx*55)+'ms">'+
           '<span class="badge live">Live</span>'+
           '<span class="'+tcls+'">'+ic(icon)+'</span>'+
           '<b>'+esc(s.n)+'</b>'+
