@@ -185,6 +185,7 @@
   @keyframes bes-rise{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
   @keyframes bes-shimmer{to{transform:translateX(130%)}}
 </style>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
 </head>
 <body>
 <div id="splash"><div class="sp-inner">
@@ -370,7 +371,7 @@
     var html=
       '<div class="ccard" style="margin:6px 0 2px">'+
         '<p class="ci">Heb jij goede samenvattingen, oefenvragen of oude examens? Stuur ze in, dan maken we er gratis een oefentool van — voor élk vak en élk jaar. Je naam mag, maar hoeft niet.</p>'+
-        '<div class="dz" id="dz">'+ic("upload")+'<b>Sleep je bestanden hierheen</b><small>of klik om te kiezen · PDF, Word, foto · max 5 MB samen</small></div>'+
+        '<div class="dz" id="dz">'+ic("upload")+'<b>Sleep je bestanden hierheen</b><small>of klik om te kiezen · PDF, Word, foto · tot 50 bestanden, samen max 20 MB</small></div>'+
         '<input type="file" id="fi" multiple style="display:none">'+
         '<div id="chips"></div>'+
         '<label>Voor welk vak?</label><select id="cVak">'+opts+'</select>'+
@@ -406,31 +407,48 @@
     if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)){ st.innerHTML='<div class="cerr">Vul een geldig e-mailadres in.</div>'; return; }
     if(cFiles.length===0 && !msg){ st.innerHTML='<div class="cerr">Voeg minstens een bestand toe, of schrijf een kort bericht.</div>'; return; }
     var total=cFiles.reduce(function(s,f){ return s+f.size; },0);
-    if(total>5*1024*1024){ st.innerHTML='<div class="cerr">De bestanden zijn samen te groot (max 5 MB). Verwijder er een, of mail grote bestanden naar berat007yildirim@gmail.com.</div>'; return; }
+    if(cFiles.length>50){ st.innerHTML='<div class="cerr">Maximaal 50 bestanden per keer. Stuur de rest in een tweede keer of als 1 zip.</div>'; return; }
+    if(total>20*1024*1024){ st.innerHTML='<div class="cerr">De bestanden zijn samen te groot (max 20 MB). Stuur grote sets in delen, als 1 zip, of via WhatsApp.</div>'; return; }
     var btn=document.getElementById("cSend"); btn.disabled=true; btn.innerHTML='<span class="spin"></span>Versturen...';
-    var ifr=document.createElement("iframe"); ifr.name="fsT"; ifr.style.display="none"; document.body.appendChild(ifr);
-    var form=document.createElement("form"); form.action="https://formsubmit.co/Berat007yildirim@gmail.com"; form.method="POST"; form.enctype="multipart/form-data"; form.target="fsT"; form.style.display="none";
-    function hid(n,v){ var i=document.createElement("input"); i.type="hidden"; i.name=n; i.value=v; form.appendChild(i); }
-    hid("_subject","Berie's exam space - Materiaal voor: "+vak); hid("_captcha","false"); hid("_template","table");
-    hid("Vak",vak); hid("email",email); hid("Naam",name||"(anoniem)"); hid("Bericht",msg||"(geen bericht)"); hid("Aantal_bestanden",String(cFiles.length));
-    try{ var dt=new DataTransfer(); cFiles.forEach(function(f){ dt.items.add(f); }); var finp=document.createElement("input"); finp.type="file"; finp.name="attachment"; finp.multiple=true; finp.files=dt.files; form.appendChild(finp); }catch(e){}
-    document.body.appendChild(form);
     var done=false;
-    function cleanup(){ try{ form.parentNode.removeChild(form); ifr.parentNode.removeChild(ifr); }catch(e){} }
-    function thanks(){ if(done)return; done=true; cleanup();
-      var w=document.getElementById("contribWrap"); w.innerHTML='<div class="ccard csuccess"><div style="font-size:44px">🙌</div><h2>Bedankt voor je bijdrage!</h2><p class="ci">We kijken je materiaal na en maken er oefenstof van. Heel veel succes met je examens! 💪</p><button class="btn" id="cBack">Sluiten</button></div>';
-      var b=document.getElementById("cBack"); if(b) b.onclick=closeContrib;
+    function send(files){
+      var ifr=document.createElement("iframe"); ifr.name="fsT"; ifr.style.display="none"; document.body.appendChild(ifr);
+      var form=document.createElement("form"); form.action="https://formsubmit.co/Berat007yildirim@gmail.com"; form.method="POST"; form.enctype="multipart/form-data"; form.target="fsT"; form.style.display="none";
+      function hid(n,v){ var i=document.createElement("input"); i.type="hidden"; i.name=n; i.value=v; form.appendChild(i); }
+      hid("_subject","Berie's exam space - Materiaal voor: "+vak); hid("_captcha","false"); hid("_template","table");
+      hid("Vak",vak); hid("email",email); hid("Naam",name||"(anoniem)"); hid("Bericht",msg||"(geen bericht)"); hid("Aantal_bestanden",String(cFiles.length));
+      try{ var dt=new DataTransfer(); files.forEach(function(f){ dt.items.add(f); }); var finp=document.createElement("input"); finp.type="file"; finp.name="attachment"; finp.multiple=true; finp.files=dt.files; form.appendChild(finp); }catch(e){}
+      document.body.appendChild(form);
+      function cleanup(){ try{ form.parentNode.removeChild(form); ifr.parentNode.removeChild(ifr); }catch(e){} }
+      function thanks(){ if(done)return; done=true; cleanup();
+        var w=document.getElementById("contribWrap"); w.innerHTML='<div class="ccard csuccess"><div style="font-size:44px">🙌</div><h2>Bedankt voor je bijdrage!</h2><p class="ci">We kijken je materiaal na en maken er oefenstof van. Heel veel succes met je examens! 💪</p><button class="btn" id="cBack">Sluiten</button></div>';
+        var b=document.getElementById("cBack"); if(b) b.onclick=closeContrib;
+      }
+      function fail(){ if(done)return; done=true; cleanup();
+        var body="Materiaal voor: "+encodeURIComponent(vak)+"%0D%0ANaam: "+encodeURIComponent(name||"-")+"%0D%0AE-mail: "+encodeURIComponent(email)+"%0D%0A%0D%0ABericht:%0D%0A"+encodeURIComponent(msg||"-")+"%0D%0A%0D%0A(Vergeet je bestanden niet handmatig bij te voegen.)";
+        var mailto="mailto:berat007yildirim@gmail.com?subject="+encodeURIComponent("Berie's exam space - Materiaal voor: "+vak)+"&body="+body;
+        btn.disabled=false; btn.innerHTML=ic("upload")+"Insturen";
+        st.innerHTML='<div class="cerr">We kregen geen bevestiging dat het aankwam. Klik hier om het direct te mailen: <a href="'+mailto+'" style="text-decoration:underline;font-weight:700;color:inherit">mail je bijdrage</a> (hang je bestanden er dan zelf aan).</div>';
+      }
+      var submitted=false;
+      ifr.onload=function(){ if(submitted) thanks(); };
+      try{ submitted=true; form.submit(); }catch(e){ fail(); return; }
+      setTimeout(fail, 20000);
     }
-    function fail(){ if(done)return; done=true; cleanup();
-      var body="Materiaal voor: "+encodeURIComponent(vak)+"%0D%0ANaam: "+encodeURIComponent(name||"-")+"%0D%0AE-mail: "+encodeURIComponent(email)+"%0D%0A%0D%0ABericht:%0D%0A"+encodeURIComponent(msg||"-")+"%0D%0A%0D%0A(Vergeet je bestanden niet handmatig bij te voegen.)";
-      var mailto="mailto:berat007yildirim@gmail.com?subject="+encodeURIComponent("Berie's exam space - Materiaal voor: "+vak)+"&body="+body;
-      btn.disabled=false; btn.innerHTML=ic("upload")+"Insturen";
-      st.innerHTML='<div class="cerr">We kregen geen bevestiging dat het aankwam. Klik hier om het direct te mailen: <a href="'+mailto+'" style="text-decoration:underline;font-weight:700;color:inherit">mail je bijdrage</a> (hang je bestanden er dan zelf aan).</div>';
+    // meerdere bestanden -> bundel tot 1 zip (FormSubmit gratis stuurt maar 1 bijlage door)
+    if(cFiles.length>=2 && window.JSZip){
+      btn.innerHTML='<span class="spin"></span>Bestanden bundelen...';
+      var zip=new JSZip();
+      cFiles.forEach(function(f){ zip.file(f.name, f); });
+      zip.generateAsync({type:"blob"}).then(function(blob){
+        var safe=(vak||"materiaal").replace(/[^a-zA-Z0-9]+/g,"-").slice(0,30);
+        var zf=new File([blob], "Berie-"+safe+".zip", {type:"application/zip"});
+        btn.innerHTML='<span class="spin"></span>Versturen...';
+        send([zf]);
+      }).catch(function(){ send(cFiles); });
+    } else {
+      send(cFiles);
     }
-    var submitted=false;
-    ifr.onload=function(){ if(submitted) thanks(); };
-    try{ submitted=true; form.submit(); }catch(e){ fail(); return; }
-    setTimeout(fail, 15000);
   }
 
   // thema
