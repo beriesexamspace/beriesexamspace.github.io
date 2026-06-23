@@ -129,6 +129,46 @@
   .dropcard .plus{width:42px;height:42px;border-radius:50%;border:1px solid var(--line);display:grid;place-items:center;font-size:24px;color:var(--muted);line-height:1}
   .dropcard b{font-size:15px;color:var(--ink)} .dropcard small{font-size:12.5px}
 
+  /* nav-links in de balk */
+  html{scroll-behavior:smooth}
+  @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+  section[id]{scroll-margin-top:78px}
+  .topnav{display:flex;gap:2px}
+  .navlink{color:var(--muted);font-weight:600;font-size:14px;text-decoration:none;padding:7px 11px;border-radius:9px;white-space:nowrap;
+    transition:color .2s var(--ease),background .2s var(--ease)}
+  .navlink:hover{color:var(--ink);background:var(--accent-soft)}
+  @media(max-width:560px){.brand>div{display:none}.navlink{padding:6px 9px;font-size:13px}}
+
+  /* Over mij — wie zit hier achter */
+  .aboutcard{display:flex;gap:20px;align-items:flex-start;border:1px solid var(--line);background:var(--card);
+    border-radius:var(--r-lg);padding:24px;box-shadow:var(--shadow)}
+  .aboutpfp{flex:none;width:84px;height:84px;border-radius:22px;display:grid;place-items:center;color:#fff;overflow:hidden;
+    font-family:Georgia,serif;font-weight:700;font-size:40px;background:linear-gradient(150deg,var(--accent),var(--accent-ink));
+    box-shadow:0 10px 26px rgba(15,110,106,.4)}
+  .aboutpfp img{width:100%;height:100%;object-fit:cover}
+  .abouttext{flex:1;min-width:0}
+  .abouttext p{margin:0 0 12px;line-height:1.6;color:var(--ink);font-size:15px}
+  .aboutpoints{display:flex;flex-direction:column;gap:11px;margin:16px 0}
+  .apoint{display:flex;gap:11px;align-items:flex-start;font-size:14px;line-height:1.5}
+  .apoint svg{flex:none;width:20px;height:20px;color:var(--accent);margin-top:1px;fill:none;stroke:currentColor;
+    stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
+  .apoint b{color:var(--ink)}
+  .aboutcontact{color:var(--muted);font-size:13.5px}
+  .aboutcontact a{color:var(--accent-ink);font-weight:600}
+  @media(max-width:560px){.aboutcard{flex-direction:column;gap:16px;padding:20px}.aboutpfp{width:64px;height:64px;font-size:30px;border-radius:18px}}
+
+  /* reviews */
+  .reviews{display:grid;gap:14px;grid-template-columns:1fr}
+  @media(min-width:600px){.reviews{grid-template-columns:1fr 1fr}}
+  .rcard{border:1px solid var(--line);background:var(--card);border-radius:var(--r-lg);padding:18px 20px;box-shadow:var(--shadow)}
+  .rcard .stars{color:var(--amber);font-size:14px;letter-spacing:2px;margin-bottom:8px}
+  .rcard p{margin:0 0 10px;line-height:1.55;color:var(--ink);font-size:14.5px}
+  .rcard .who{color:var(--muted);font-size:13px;font-weight:600}
+  .revempty{grid-column:1/-1;text-align:center;color:var(--muted);font-size:14px;line-height:1.6;
+    border:2px dashed var(--line);border-radius:var(--r-lg);padding:26px 20px}
+  .reviewcta{text-align:center;color:var(--muted);font-size:14px;margin-top:16px}
+  .reviewcta b{color:var(--accent-ink)}
+
   footer{margin-top:40px;text-align:center;color:var(--muted);font-size:13px}
   .pvbadge{position:fixed;left:12px;bottom:12px;z-index:50;background:var(--violet);color:#fff;font-size:11.5px;font-weight:700;
     padding:6px 12px;border-radius:999px;box-shadow:var(--shadow-lg);opacity:.9}
@@ -203,6 +243,10 @@
   <div class="topin">
     <div class="brand"><span class="logo">B</span><div>Berie’s exam space<small>oefen slim voor je examen</small></div></div>
     <span class="spacer"></span>
+    <nav class="topnav">
+      <a class="navlink" href="#over">Over mij</a>
+      <a class="navlink" href="#reviews">Reviews</a>
+    </nav>
     <button class="iconbtn" id="themeBtn" aria-label="Wissel licht/donker"></button>
   </div>
 </header>
@@ -224,6 +268,34 @@
 
   <div id="main"></div>
 </div>
+
+<section id="over" class="wrap" style="padding-top:8px">
+  <div class="seclabel"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg>Wie zit hier achter?</div>
+  <div class="aboutcard">
+    <div class="aboutpfp" aria-hidden="true">B<!-- vervang door foto: <img src="berat.jpg" alt="Berat"> --></div>
+    <div class="abouttext">
+      <p><b>Hoi, ik ben Berat 👋</b> Geen bedrijf en geen bot, gewoon iemand die studenten wil helpen om slimmer en rustiger te studeren.</p>
+      <p>Ik begon deze gratis oefentools te maken voor mijn zus, toen ze het lastig had met haar examens. Het hielp echt, en al snel vroegen andere studenten of ik hun vak er ook op kon zetten. Daarom staat alles nu gratis online voor iedereen.</p>
+      <div class="aboutpoints">
+        <div class="apoint"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg><span><b>100% gratis.</b> Geen reclame, geen account nodig, niets te kopen. Ik verkoop je gegevens niet.</span></div>
+        <div class="apoint"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg><span><b>Veilig.</b> De site draait op GitHub (github.io), een bekend en veilig platform. Geen rare downloads, geen phishing.</span></div>
+        <div class="apoint"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 7v14"/><path d="M3 18a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h5a4 4 0 0 1 4 4 4 4 0 0 1 4-4h5a1 1 0 0 1 1 1v13a1 1 0 0 1-1 1h-6a3 3 0 0 0-3 3 3 3 0 0 0-3-3z"/></svg><span><b>Met zorg gemaakt.</b> Ik bouw elke tool zelf en kijk de vragen na, zodat je er echt iets aan hebt.</span></div>
+      </div>
+      <p class="aboutcontact">Vragen, of twijfel je ergens over? Mail me gerust op <a href="mailto:berat007yildirim@gmail.com">berat007yildirim@gmail.com</a>. Staat jouw vak er nog niet op? Stuur je samenvattingen, dan maak ik er oefenstof van.</p>
+    </div>
+  </div>
+</section>
+
+<section id="reviews" class="wrap" style="padding-top:8px">
+  <div class="seclabel"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>Wat studenten zeggen</div>
+  <div class="reviews">
+    <!-- ECHTE REVIEW toevoegen = kopieer dit blok:
+    <div class="rcard"><div class="stars">★★★★★</div><p>"De oefenvragen waren precies wat ik nodig had."</p><div class="who">— student 1ste bach</div></div>
+    -->
+    <div class="revempty">Binnenkort lees je hier ervaringen van studenten die met de tools oefenen.<br>Heb jij ze al gebruikt? Laat een review achter via de <b>Feedback</b>-knop in een oefentool.</div>
+  </div>
+  <p class="reviewcta">Zelf iets kwijt? Laat een review achter via de <b>Feedback</b>-knop in een oefentool — de mooiste zet ik hier. 💬</p>
+</section>
 
 <footer class="wrap" style="padding-top:0">Gemaakt om mee te oefenen — veel succes! 💪<br><span style="opacity:.7">© 2026 Berie’s exam space · Alle rechten voorbehouden</span></footer>
 
