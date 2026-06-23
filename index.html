@@ -156,9 +156,44 @@
   .ccard select{appearance:none;-webkit-appearance:none;-moz-appearance:none;padding-right:42px;cursor:pointer;background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 24 24' fill='none' stroke='%23888' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'><path d='m6 9 6 6 6-6'/></svg>");background-repeat:no-repeat;background-position:right 14px center;background-size:18px}
   .ccard{max-width:560px;width:100%}
   #contribWrap{justify-content:center}
+  /* ---- opstart-animatie (Gemini-stijl) ---- */
+  @property --bes-a{syntax:'<angle>';initial-value:0deg;inherits:false}
+  #splash{position:fixed;inset:0;z-index:200;display:grid;place-items:center;background:radial-gradient(125% 125% at 50% 38%,var(--bg2) 0%,var(--bg) 68%);transition:opacity .6s var(--ease),transform .7s var(--ease)}
+  #splash.hide{opacity:0;transform:scale(1.07);pointer-events:none}
+  .sp-inner{display:flex;flex-direction:column;align-items:center;gap:20px;text-align:center}
+  .sp-mark{position:relative;width:100px;height:100px;display:grid;place-items:center}
+  .sp-mark::before{content:"";position:absolute;inset:-16px;border-radius:34px;z-index:0;background:conic-gradient(from var(--bes-a),var(--accent),var(--violet),var(--amber),var(--accent));filter:blur(17px);opacity:.75}
+  .sp-mark::after{content:"";position:absolute;inset:-3px;border-radius:27px;z-index:1;background:conic-gradient(from var(--bes-a),var(--accent),var(--violet),var(--amber),var(--accent));padding:3px;-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude}
+  .sp-logo{position:relative;z-index:2;width:92px;height:92px;border-radius:24px;display:grid;place-items:center;color:#fff;font-family:Georgia,serif;font-weight:700;font-size:46px;background:linear-gradient(150deg,var(--accent),var(--accent-ink));box-shadow:0 14px 38px rgba(15,110,106,.4)}
+  .sp-spark{position:absolute;z-index:3;top:-7px;right:-7px;width:30px;height:30px;color:#fff;filter:drop-shadow(0 2px 7px rgba(0,0,0,.35))}
+  .sp-name{position:relative;font-family:Georgia,serif;font-size:26px;font-weight:700;letter-spacing:-.01em;color:var(--ink);overflow:hidden}
+  .sp-name::after{content:"";position:absolute;inset:0;background:linear-gradient(110deg,transparent 35%,rgba(255,255,255,.75) 50%,transparent 65%);transform:translateX(-130%)}
+  .sp-tag{font-size:13px;color:var(--muted);margin-top:-8px;letter-spacing:.03em}
+  @media (prefers-reduced-motion: no-preference){
+    .sp-mark::before{animation:bes-spin 3s linear infinite,bes-breathe 2.4s var(--ease) infinite}
+    .sp-mark::after{animation:bes-spin 3s linear infinite}
+    .sp-logo{animation:bes-pop .7s var(--ease) both}
+    .sp-spark{animation:bes-pop .6s var(--ease) .12s both,bes-twinkle 1.9s var(--ease) .9s infinite}
+    .sp-name{animation:bes-rise .6s var(--ease) .14s both}
+    .sp-name::after{animation:bes-shimmer 1.5s var(--ease) .5s 1}
+    .sp-tag{animation:bes-rise .6s var(--ease) .26s both}
+  }
+  @keyframes bes-spin{to{--bes-a:360deg}}
+  @keyframes bes-breathe{0%,100%{opacity:.55;filter:blur(16px)}50%{opacity:.95;filter:blur(22px)}}
+  @keyframes bes-pop{0%{opacity:0;transform:scale(.5)}60%{transform:scale(1.08)}100%{opacity:1;transform:scale(1)}}
+  @keyframes bes-twinkle{0%,100%{opacity:1;transform:scale(1) rotate(0deg)}50%{opacity:.65;transform:scale(.82) rotate(18deg)}}
+  @keyframes bes-rise{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+  @keyframes bes-shimmer{to{transform:translateX(130%)}}
 </style>
 </head>
 <body>
+<div id="splash"><div class="sp-inner">
+  <div class="sp-mark">
+    <div class="sp-logo">B</div>
+    <svg class="sp-spark" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 1.5c.4 4.6 2.4 6.6 7 7-4.6.4-6.6 2.4-7 7-.4-4.6-2.4-6.6-7-7 4.6-.4 6.6-2.4 7-7Z"/></svg>
+  </div>
+  <div><div class="sp-name">Berie’s exam space</div><div class="sp-tag">oefen slim voor je examen</div></div>
+</div></div>
 <header class="top">
   <div class="topin">
     <div class="brand"><span class="logo">B</span><div>Berie’s exam space<small>oefen slim voor je examen</small></div></div>
@@ -436,6 +471,9 @@
     }).catch(function(){});
   })();
 })();
+</script>
+<script>
+(function(){ var s=document.getElementById("splash"); if(!s) return; var red=false; try{red=window.matchMedia("(prefers-reduced-motion: reduce)").matches;}catch(e){} setTimeout(function(){ s.classList.add("hide"); setTimeout(function(){ if(s&&s.parentNode) s.parentNode.removeChild(s); },700); }, red?300:1850); })();
 </script>
 </body>
 </html>
