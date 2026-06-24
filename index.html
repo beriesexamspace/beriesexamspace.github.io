@@ -3,6 +3,11 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+<script>
+  /* Open de pagina ALTIJD bovenaan: geen sprong naar een achtergebleven #anker en geen herstelde scrollpositie. Nav-links blijven werken bij een klik. */
+  try{ if('scrollRestoration' in history) history.scrollRestoration='manual'; }catch(e){}
+  try{ if(location.hash) history.replaceState(null,'',location.pathname+location.search); }catch(e){}
+</script>
 <meta name="theme-color" content="#0f6e6a" />
 <title>Berie’s exam space</title>
 <meta name="author" content="Berat Yildirim - Berie's exam space" />
@@ -598,6 +603,17 @@
     }).catch(function(){});
   })();
 })();
+</script>
+<script>
+  /* Forceer bovenaan openen (behalve bij ?deel-deeplink die bewust naar het inlever-formulier scrollt) */
+  (function(){
+    if(/[?&]deel=/.test(location.search)) return;
+    function toTop(){ try{ window.scrollTo(0,0); }catch(e){} }
+    toTop();
+    document.addEventListener("DOMContentLoaded", toTop);
+    window.addEventListener("load", toTop);
+    setTimeout(toTop,0); setTimeout(toTop,80); setTimeout(toTop,200);
+  })();
 </script>
 <script>
 (function(){ var s=document.getElementById("splash"); if(!s) return; var red=false; try{red=window.matchMedia("(prefers-reduced-motion: reduce)").matches;}catch(e){} setTimeout(function(){ s.classList.add("hide"); setTimeout(function(){ if(s&&s.parentNode) s.parentNode.removeChild(s); },700); }, red?300:1850); })();
