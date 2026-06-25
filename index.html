@@ -60,8 +60,15 @@
   /* hero */
   .hero{text-align:center;margin:34px 0 6px}
   .heromark{position:relative;width:96px;height:96px;margin:0 auto 18px}
-  .heromark::before{content:"";position:absolute;inset:-14px;border-radius:32px;z-index:0;
-    background:radial-gradient(closest-side,rgba(63,185,178,.55),transparent 70%);filter:blur(14px)}
+  .heromark::before{content:"";position:absolute;inset:-16px;border-radius:34px;z-index:0;
+    background:conic-gradient(from var(--bes-a),var(--accent),var(--violet),var(--amber),var(--accent));filter:blur(17px);opacity:.7}
+  .heromark::after{content:"";position:absolute;inset:-3px;border-radius:29px;z-index:0;
+    background:conic-gradient(from var(--bes-a),var(--accent),var(--violet),var(--amber),var(--accent));
+    padding:3px;-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude}
+  @media (prefers-reduced-motion: no-preference){
+    .heromark::before{animation:bes-spin 3s linear infinite,bes-breathe 2.4s var(--ease) infinite}
+    .heromark::after{animation:bes-spin 3s linear infinite}
+  }
   .heromark .hl{position:relative;z-index:1;width:96px;height:96px;border-radius:26px;display:grid;place-items:center;
     color:#fff;font-family:Georgia,serif;font-weight:700;font-size:48px;background:linear-gradient(150deg,var(--accent),var(--accent-ink));
     box-shadow:0 14px 38px rgba(15,110,106,.42)}
