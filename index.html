@@ -191,6 +191,18 @@
   .reviewcta{text-align:center;color:var(--muted);font-size:14px;margin-top:16px}
   .reviewcta b{color:var(--accent-ink)}
 
+  /* Wat is nieuw */
+  .news{display:flex;flex-direction:column;gap:10px}
+  .newsitem{display:flex;align-items:flex-start;gap:12px;border:1px solid var(--line);background:var(--card);
+    border-radius:var(--r);padding:13px 16px;box-shadow:var(--shadow);
+    transition:transform .15s var(--ease),border-color .2s var(--ease),box-shadow .2s var(--ease)}
+  .newsitem:hover{transform:translateY(-2px);border-color:var(--accent);box-shadow:var(--shadow-lg)}
+  .newsitem .nd{flex:none;margin-top:6px;width:8px;height:8px;border-radius:50%;background:var(--good);box-shadow:0 0 0 3px var(--good-soft)}
+  .newsitem .ntxt{flex:1;min-width:0}
+  .newsitem .ntxt b{display:block;font-size:14.5px}
+  .newsitem .ntxt small{color:var(--muted);font-size:13px;line-height:1.5}
+  .newsitem .nbadge{flex:none;align-self:center;font-size:11px;font-weight:700;color:var(--good);background:var(--good-soft);padding:3px 9px;border-radius:999px}
+
   footer{margin-top:40px;text-align:center;color:var(--muted);font-size:13px}
   .pvbadge{position:fixed;left:12px;bottom:12px;z-index:50;background:var(--violet);color:#fff;font-size:11.5px;font-weight:700;
     padding:6px 12px;border-radius:999px;box-shadow:var(--shadow-lg);opacity:.9}
@@ -293,6 +305,14 @@
     <span class="co-go" id="upGo"></span>
   </button>
   <div id="contribWrap" style="display:none"></div>
+
+  <div class="seclabel" style="margin-top:32px"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9.94 15.5A2 2 0 0 0 8.5 14.06l-6.14-1.58a.5.5 0 0 1 0-.96L8.5 9.94A2 2 0 0 0 9.94 8.5l1.58-6.14a.5.5 0 0 1 .96 0L14.06 8.5A2 2 0 0 0 15.5 9.94l6.14 1.58a.5.5 0 0 1 0 .96L15.5 14.06a2 2 0 0 0-1.44 1.44l-1.58 6.14a.5.5 0 0 1-.96 0z"/></svg>Wat is nieuw</div>
+  <div class="news">
+    <!-- Nieuwe update? Kopieer een blok en zet 'm bovenaan. Haal de "Nieuw"-badge weg als het niet meer nieuw is. -->
+    <div class="newsitem"><span class="nd"></span><span class="ntxt"><b>Orthopedagogiek staat online</b><small>122 examenvragen mét antwoorden — 2de bachelor. Het eerste vak voor het 2de jaar!</small></span><span class="nbadge">Nieuw</span></div>
+    <div class="newsitem"><span class="nd"></span><span class="ntxt"><b>Ontwikkelingspsychologie toegevoegd</b><small>84 oefenvragen over de hele levensloop — 1ste bachelor.</small></span><span class="nbadge">Nieuw</span></div>
+    <div class="newsitem"><span class="nd"></span><span class="ntxt"><b>Sociale Psychologie &amp; Sociologie</b><small>Eerder toegevoegd voor 1ste bachelor, met directe feedback en uitleg.</small></span></div>
+  </div>
 
   <div id="main"></div>
 </div>
