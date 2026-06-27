@@ -285,6 +285,7 @@
     <div class="brand"><span class="logo">B</span><div>Berie’s exam space<small>oefen slim voor je examen</small></div></div>
     <span class="spacer"></span>
     <nav class="topnav">
+      <a class="navlink" href="#nieuw">Wat is nieuw</a>
       <a class="navlink" href="#over">Over mij</a>
       <a class="navlink" href="#reviews">Reviews</a>
     </nav>
@@ -615,11 +616,25 @@
         setTimeout(fail,20000);
       });
     })();
+
+    /* ---- Nav-links laten scrollen naar hun sectie (offset onder de sticky balk) ---- */
+    (function(){
+      document.addEventListener('click', function(e){
+        var a=e.target.closest('.topnav a[href^="#"]'); if(!a) return;
+        var t=document.getElementById(a.getAttribute('href').slice(1)); if(!t) return;
+        e.preventDefault();
+        var de=document.documentElement, prev=de.style.scrollBehavior;
+        var rm=window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        var y=t.getBoundingClientRect().top+(window.pageYOffset||0)-78; if(y<0)y=0;
+        try{ de.style.scrollBehavior='auto'; window.scrollTo(0,y); }
+        finally{ de.style.scrollBehavior=prev||(rm?'auto':''); }
+      });
+    })();
   })();
   </script>
   <!-- ===== EINDE EXAMEN-INFO ===== -->
 
-  <div class="seclabel" style="margin-top:34px"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9.94 15.5A2 2 0 0 0 8.5 14.06l-6.14-1.58a.5.5 0 0 1 0-.96L8.5 9.94A2 2 0 0 0 9.94 8.5l1.58-6.14a.5.5 0 0 1 .96 0L14.06 8.5A2 2 0 0 0 15.5 9.94l6.14 1.58a.5.5 0 0 1 0 .96L15.5 14.06a2 2 0 0 0-1.44 1.44l-1.58 6.14a.5.5 0 0 1-.96 0z"/></svg>Wat is nieuw</div>
+  <div class="seclabel" id="nieuw" style="margin-top:34px;scroll-margin-top:78px"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9.94 15.5A2 2 0 0 0 8.5 14.06l-6.14-1.58a.5.5 0 0 1 0-.96L8.5 9.94A2 2 0 0 0 9.94 8.5l1.58-6.14a.5.5 0 0 1 .96 0L14.06 8.5A2 2 0 0 0 15.5 9.94l6.14 1.58a.5.5 0 0 1 0 .96L15.5 14.06a2 2 0 0 0-1.44 1.44l-1.58 6.14a.5.5 0 0 1-.96 0z"/></svg>Wat is nieuw</div>
   <div class="news">
     <!-- Nieuwe update? Kopieer een blok en zet 'm bovenaan. Haal de "Nieuw"-badge weg als het niet meer nieuw is. -->
     <div class="newsitem"><span class="nd"></span><span class="ntxt"><b>Orthopedagogiek staat online</b><small>122 examenvragen mét antwoorden · 2de bachelor. Het eerste vak voor het 2de jaar!</small></span><span class="nbadge">Nieuw</span></div>
