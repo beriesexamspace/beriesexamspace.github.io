@@ -143,6 +143,12 @@
 
   /* nav-links in de balk */
   html{scroll-behavior:smooth}
+  /* duidelijk zichtbare scroll-lijn aan de zijkant, zodat je ziet dat er meer onder staat */
+  html{scrollbar-width:thin;scrollbar-color:var(--accent-ink) var(--line)}
+  ::-webkit-scrollbar{width:11px}
+  ::-webkit-scrollbar-track{background:var(--line)}
+  ::-webkit-scrollbar-thumb{background:var(--accent-ink);border-radius:11px;border:2px solid var(--bg)}
+  ::-webkit-scrollbar-thumb:hover{background:var(--accent)}
   @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
   section[id]{scroll-margin-top:78px}
   .topnav{display:flex;gap:2px}
