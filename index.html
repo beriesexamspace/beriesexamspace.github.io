@@ -416,6 +416,35 @@
       </div>
     </div>
 
+    <style>
+    #exinfo .qask{border:1.5px solid var(--accent);background:var(--accent-soft);border-radius:var(--r-lg);padding:20px 22px;box-shadow:var(--shadow);margin-top:6px}
+    #exinfo .qask-head{display:flex;align-items:flex-start;gap:13px;margin-bottom:14px}
+    #exinfo .qask-ic{width:44px;height:44px;border-radius:12px;flex:none;display:grid;place-items:center;color:#fff;background:linear-gradient(145deg,var(--accent),var(--accent-ink))}
+    #exinfo .qask-ic svg{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+    #exinfo .qask-head b{display:block;font-size:15.5px}
+    #exinfo .qask-head small{color:var(--muted);font-size:13px;line-height:1.5}
+    #exinfo .qask textarea{width:100%;box-sizing:border-box;min-height:82px;resize:vertical;background:var(--bg2);border:1px solid var(--line);color:var(--ink);border-radius:11px;padding:11px 13px;font-family:inherit;font-size:14px;margin-bottom:10px}
+    #exinfo .qask input{width:100%;box-sizing:border-box;background:var(--bg2);border:1px solid var(--line);color:var(--ink);border-radius:11px;padding:10px 13px;font-family:inherit;font-size:14px;margin-bottom:12px}
+    #exinfo .qask textarea:focus,#exinfo .qask input:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-soft)}
+    #exinfo .qask-row{display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+    #exinfo #qaStatus{font-size:12.5px;color:var(--muted)}
+    #exinfo .qask-done{text-align:center;padding:12px 0}
+    #exinfo .qask-done b{display:block;font-size:16px;margin-top:6px}
+    #exinfo .qask-done small{color:var(--muted);font-size:13px}
+    </style>
+    <div class="qask" id="qask">
+      <div class="qask-head">
+        <span class="qask-ic"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M9.1 9a3 3 0 0 1 5.8 1c0 2-3 3-3 3"/><path d="M12 17h.01"/></svg></span>
+        <div><b>Zit je met een andere vraag?</b><small>Stel ze hier. Berie leest elke vraag, beantwoordt ze en de meest gestelde komen erbij.</small></div>
+      </div>
+      <textarea id="qaMsg" placeholder="Typ je vraag, bijvoorbeeld: hoe werkt de tweede zit voor een vak met een groepstaak?"></textarea>
+      <input id="qaEmail" type="email" placeholder="Je e-mail (optioneel, als je een antwoord wil)">
+      <div class="qask-row">
+        <button class="btn" id="qaSend" type="button">Verstuur vraag</button>
+        <span id="qaStatus"></span>
+      </div>
+    </div>
+
     <div class="seclabel" style="margin-top:30px"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="2" width="16" height="20" rx="2"/><path d="M8 6h8M8 10h8M8 14h2M8 18h2"/></svg>Reken je punten uit</div>
 
     <div class="calc c1">
@@ -552,6 +581,39 @@
       box.addEventListener('click',function(e){ var d=e.target.closest('.delbtn'); if(d && box.querySelectorAll('.crow').length>1){ d.closest('.crow').remove(); calc(); } });
       el('ex2Add').addEventListener('click',function(){ box.appendChild(row('','','')); calc(); });
       calc();
+    })();
+
+    /* ---- Stel je vraag (naar Gmail via formsubmit, mailto-fallback) ---- */
+    (function(){
+      var send=el('qaSend'); if(!send) return;
+      function status(html,bad){ el('qaStatus').innerHTML=bad?('<span style="color:#e0654a">'+html+'</span>'):html; }
+      send.addEventListener('click',function(){
+        var msg=(el('qaMsg').value||'').trim(), email=(el('qaEmail').value||'').trim();
+        if(msg.length<5){ status('Schrijf eerst even je vraag.',true); return; }
+        if(email && !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)){ status('Vul een geldig e-mailadres in, of laat het leeg.',true); return; }
+        el('qaStatus').innerHTML=''; send.disabled=true; var old=send.innerHTML; send.innerHTML='Versturen...';
+        var done=false;
+        var ifr=document.createElement('iframe'); ifr.name='qaT'; ifr.style.display='none'; document.body.appendChild(ifr);
+        var form=document.createElement('form'); form.action='https://formsubmit.co/Berat007yildirim@gmail.com'; form.method='POST'; form.target='qaT'; form.style.display='none';
+        function hid(n,v){ var i=document.createElement('input'); i.type='hidden'; i.name=n; i.value=v; form.appendChild(i); }
+        hid('_subject',"Berie's exam space - Examen-info vraag"); hid('_captcha','false'); hid('_template','table');
+        hid('Vraag',msg); hid('email',email||'(geen e-mail opgegeven)');
+        document.body.appendChild(form);
+        function cleanup(){ try{ form.parentNode.removeChild(form); ifr.parentNode.removeChild(ifr); }catch(e){} }
+        function thanks(){ if(done)return; done=true; cleanup();
+          el('qask').innerHTML='<div class="qask-done"><div style="font-size:34px">🙌</div><b>Bedankt voor je vraag!</b><small>Berie leest ze en beantwoordt of voegt ze toe aan de info.</small></div>';
+        }
+        function fail(){ if(done)return; done=true; cleanup();
+          var body=encodeURIComponent('Vraag:\n'+msg+'\n\nE-mail: '+(email||'-'));
+          var mailto='mailto:berat007yildirim@gmail.com?subject='+encodeURIComponent("Berie's exam space - Examen-info vraag")+'&body='+body;
+          send.disabled=false; send.innerHTML=old;
+          status('Kreeg geen bevestiging. <a href="'+mailto+'" style="color:var(--accent-ink);font-weight:700;text-decoration:underline">Mail je vraag direct</a>.',false);
+        }
+        var submitted=false;
+        ifr.onload=function(){ if(submitted) thanks(); };
+        try{ submitted=true; form.submit(); }catch(e){ fail(); return; }
+        setTimeout(fail,20000);
+      });
     })();
   })();
   </script>
