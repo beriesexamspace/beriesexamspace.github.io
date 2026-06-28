@@ -642,17 +642,22 @@
       });
     })();
 
-    /* ---- Nav-links laten scrollen naar hun sectie (offset onder de sticky balk) ---- */
+    /* ---- Nav-links: vloeiend naar hun sectie scrollen (eigen animatie, werkt ondanks de 'altijd bovenaan'-logica) ---- */
     (function(){
+      function ease(p){ return 1-Math.pow(1-p,3); }
       document.addEventListener('click', function(e){
         var a=e.target.closest('.topnav a[href^="#"]'); if(!a) return;
         var t=document.getElementById(a.getAttribute('href').slice(1)); if(!t) return;
         e.preventDefault();
-        var de=document.documentElement, prev=de.style.scrollBehavior;
+        var de=document.documentElement, prev=de.style.scrollBehavior; de.style.scrollBehavior='auto';
+        var start=window.pageYOffset||0;
+        var end=t.getBoundingClientRect().top+start-78; if(end<0)end=0;
         var rm=window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-        var y=t.getBoundingClientRect().top+(window.pageYOffset||0)-78; if(y<0)y=0;
-        try{ de.style.scrollBehavior='auto'; window.scrollTo(0,y); }
-        finally{ de.style.scrollBehavior=prev||(rm?'auto':''); }
+        var dist=end-start;
+        if(rm || Math.abs(dist)<4){ window.scrollTo(0,end); de.style.scrollBehavior=prev; return; }
+        var dur=Math.min(950,Math.max(420,Math.abs(dist)*0.6)), t0=null;
+        function step(ts){ if(t0===null)t0=ts; var p=Math.min(1,(ts-t0)/dur); window.scrollTo(0,start+dist*ease(p)); if(p<1){ requestAnimationFrame(step); } else { de.style.scrollBehavior=prev; } }
+        requestAnimationFrame(step);
       });
     })();
   })();
