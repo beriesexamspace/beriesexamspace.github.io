@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+<meta name="theme-color" content="#0f6e6a" />
+<meta http-equiv="Cache-Control" content="no-cache, must-revalidate" />
+<meta http-equiv="Pragma" content="no-cache" />
+<title>Logica & Wetenschapsfilosofie, Berie’s exam space</title>
+<meta name="author" content="Berat Yildirim - Berie's exam space" />
+<meta name="copyright" content="© 2026 Berat Yildirim. Alle rechten voorbehouden." />
+<!-- Berie's exam space © 2026 Berat Yildirim. Alle rechten voorbehouden. Originele bron: https://beriesexamspace.github.io  Kopieren of hergebruiken zonder schriftelijke toestemming is niet toegestaan. -->
+<style>
+  :root{
+    --bg:#f4f2ee; --bg2:#ebe8e2; --card:#ffffff; --ink:#1b232c; --muted:#5d6873;
+    --line:#e2ddd4; --accent:#0f6e6a; --accent-ink:#0b4f4c; --accent-soft:#dcefed;
+    --amber:#c9821f; --amber-soft:#f7ecd9; --violet:#6d5bd0; --violet-soft:#e9e6fa;
+    --good:#1f8a4c; --good-soft:#e2f3e8; --bad:#c23b54; --bad-soft:#fbe5ea;
+    --shadow:0 1px 2px rgba(20,30,40,.05),0 6px 18px rgba(20,30,40,.05);
+    --shadow-lg:0 2px 6px rgba(20,30,40,.06),0 18px 40px rgba(20,30,40,.10);
+    --r:14px; --r-lg:20px; --ease:cubic-bezier(.2,.8,.2,1);
+  }
+  html[data-theme="dark"]{
+    --bg:#11151a; --bg2:#161b22; --card:#1b222b; --ink:#e7ecf1; --muted:#9aa6b2;
+    --line:#2a323c; --accent:#3fb9b2; --accent-ink:#7fd6d0; --accent-soft:#163230;
+    --amber:#e0a64a; --amber-soft:#2e2515; --violet:#a99cf0; --violet-soft:#221d3a;
+    --good:#46c178; --good-soft:#16301f; --bad:#ef6b82; --bad-soft:#331620;
+    --shadow:0 1px 2px rgba(0,0,0,.3),0 8px 24px rgba(0,0,0,.35);
+    --shadow-lg:0 2px 8px rgba(0,0,0,.4),0 22px 48px rgba(0,0,0,.5);
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);font-size:16px;line-height:1.55;
+    font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;-webkit-font-smoothing:antialiased}
+  h1,h2,h3{font-family:Georgia,"Iowan Old Style","Times New Roman",serif;letter-spacing:-.01em}
+  button,a{font-family:inherit;cursor:pointer;color:inherit}
+  .wrap{max-width:880px;margin:0 auto;padding:0 18px 96px}
+  :focus-visible{outline:2.5px solid var(--accent);outline-offset:2px;border-radius:8px}
+  .ic{width:1.25em;height:1.25em;flex:none;vertical-align:-.18em;stroke:currentColor;stroke-width:1.75;
+    stroke-linecap:round;stroke-linejoin:round;fill:none}
+
+  header.top{position:sticky;top:0;z-index:30;border-bottom:1px solid var(--line);
+    background:color-mix(in srgb,var(--bg) 88%,transparent);backdrop-filter:saturate(160%) blur(16px);-webkit-backdrop-filter:saturate(160%) blur(16px);box-shadow:inset 0 -1px 0 0 rgba(0,0,0,.04)}
+  .topin{max-width:880px;margin:0 auto;padding:10px 18px;display:flex;align-items:center;gap:12px}
+  .brand{display:flex;align-items:center;gap:11px;font-weight:700}
+  .logo{width:32px;height:32px;border-radius:10px;background:linear-gradient(145deg,var(--accent),var(--accent-ink));
+    color:#fff;display:grid;place-items:center;font-family:Georgia,serif;font-weight:700;font-size:16px;flex:none;
+    box-shadow:0 2px 6px rgba(15,110,106,.35)}
+  .brand small{display:block;font-weight:500;color:var(--muted);font-size:11px}
+  .spacer{flex:1}
+  .iconbtn{border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:10px;min-height:38px;
+    padding:7px 11px;font-size:13.5px;display:inline-flex;gap:7px;align-items:center;text-decoration:none;
+    transition:border-color .2s var(--ease),transform .12s var(--ease)}
+  .iconbtn:hover{border-color:var(--accent)} .iconbtn:active{transform:scale(.96)}
+  nav.tabs{display:flex;gap:2px;overflow:auto;max-width:880px;margin:0 auto;padding:6px 12px 0;scrollbar-width:none}
+  nav.tabs::-webkit-scrollbar{display:none}
+  nav.tabs button{border:none;background:none;color:var(--muted);padding:10px 13px;border-radius:9px 9px 0 0;
+    font-size:14px;font-weight:600;white-space:nowrap;border-bottom:2px solid transparent;display:inline-flex;align-items:center;gap:6px;transition:color .2s var(--ease)}
+  nav.tabs button .ic{width:16px;height:16px}
+  nav.tabs button.on{color:var(--accent-ink);border-bottom-color:var(--accent)}
+  nav.tabs button:hover{color:var(--ink)}
+
+  .card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow)}
+  .pad{padding:20px}
+  .muted{color:var(--muted)}
+  .pill{display:inline-flex;align-items:center;gap:5px;font-size:12px;font-weight:600;padding:4px 10px;border-radius:999px;background:var(--accent-soft);color:var(--accent-ink)}
+  .pill.amber{background:var(--amber-soft);color:var(--amber)}
+  .row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+  .grid{display:grid;gap:14px}
+  @media(min-width:620px){.g2{grid-template-columns:1fr 1fr}}
+
+  .hero{display:flex;flex-wrap:wrap;align-items:center;gap:16px;margin:20px 0 8px}
+  .count{flex:none;background:linear-gradient(150deg,var(--accent),var(--accent-ink));color:#fff;border-radius:var(--r);padding:14px 20px;text-align:center;min-width:118px;box-shadow:0 8px 20px rgba(15,110,106,.28)}
+  .count b{font-family:Georgia,serif;font-size:32px;display:block;line-height:1}
+  .count span{font-size:12px;opacity:.92}
+  .herotext h1{margin:0 0 4px;font-size:25px}
+  .herotext p{margin:0;color:var(--muted)}
+
+  .brandstrip{display:flex;align-items:center;gap:13px;width:100%;text-decoration:none;color:inherit;border:1px solid var(--line);background:var(--card);border-radius:var(--r);padding:12px 16px;margin:14px 0 2px;box-shadow:var(--shadow);transition:border-color .2s var(--ease),transform .15s var(--ease)}
+  .brandstrip:hover{border-color:var(--accent);transform:translateY(-1px)}
+  .brandstrip .bs-logo{width:36px;height:36px;border-radius:10px;flex:none;display:grid;place-items:center;color:#fff;font-family:Georgia,serif;font-weight:700;font-size:17px;background:linear-gradient(145deg,var(--accent),var(--accent-ink))}
+  .brandstrip .bs-txt{flex:1;min-width:0} .brandstrip .bs-txt b{display:block;font-size:14.5px} .brandstrip .bs-txt small{color:var(--muted);font-size:12.5px}
+  .brandstrip .bs-go{color:var(--accent-ink);flex:none;display:inline-flex} .brandstrip .bs-go .ic{width:18px;height:18px}
+
+  .seclabel{display:flex;align-items:center;gap:8px;margin:24px 0 12px;font-weight:700;font-size:15px}
+  .seclabel .ic{width:18px;height:18px;color:var(--accent-ink)}
+  .backlink{display:inline-flex;align-items:center;gap:5px;border:none;background:none;color:var(--muted);font-size:13.5px;font-weight:600;padding:6px 0;margin-bottom:4px;transition:color .2s var(--ease)}
+  .backlink:hover{color:var(--accent-ink)} .backlink .ic{width:16px;height:16px}
+  .tracks{display:grid;gap:14px} @media(min-width:600px){.tracks{grid-template-columns:1fr 1fr}}
+  .track{display:flex;flex-direction:column;gap:8px;text-align:left;width:100%;border:1.5px solid var(--line);background:var(--card);border-radius:var(--r-lg);padding:20px;box-shadow:var(--shadow);transition:transform .22s var(--ease),border-color .22s var(--ease),box-shadow .22s var(--ease)}
+  .track:hover{transform:translateY(-3px);border-color:var(--accent);box-shadow:var(--shadow-lg)} .track:active{transform:translateY(-1px) scale(.995)}
+  .track .tile{width:46px;height:46px;border-radius:13px;display:grid;place-items:center;color:#fff;margin-bottom:4px;background:linear-gradient(150deg,var(--accent),var(--accent-ink))}
+  .track.alt .tile{background:linear-gradient(150deg,var(--violet),#4f40a8)} .track .tile .ic{width:24px;height:24px}
+  .track b{font-size:18px} .track small{color:var(--muted);font-size:13.5px;line-height:1.5}
+  .track .go{margin-top:6px;display:inline-flex;align-items:center;gap:6px;color:var(--accent-ink);font-weight:600;font-size:13.5px} .track.alt .go{color:var(--violet)} .track .go .ic{width:16px;height:16px}
+  .toggle{width:48px;height:28px;border-radius:999px;border:none;background:var(--line);position:relative;cursor:pointer;flex:none;transition:background .2s var(--ease)}
+  .toggle .knob{position:absolute;top:3px;left:3px;width:22px;height:22px;border-radius:50%;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.25);transition:left .2s var(--ease)}
+  .toggle.on{background:var(--violet)} .toggle.on .knob{left:23px}
+  .warmcard{border-color:var(--violet)!important;background:var(--violet-soft)} .warmcard .ic{width:22px;height:22px;color:var(--violet);flex:none}
+  .modebanner{display:flex;align-items:center;gap:10px;margin-bottom:14px;padding:11px 14px;border-radius:var(--r);background:var(--accent-soft);color:var(--accent-ink);font-size:13.5px;font-weight:600}
+  .modebanner.v{background:var(--violet-soft);color:var(--violet)} .modebanner .ic{width:18px;height:18px} .modebanner a,.modebanner .bnlink{margin-left:auto;font-size:13px;font-weight:600;cursor:pointer;text-decoration:underline;color:inherit;border:none;background:none;font-family:inherit;padding:0}
+  html.snappy .card,html.snappy .mode,html.snappy .tip,html.snappy .track{animation-duration:.12s!important}
+  .mode{display:flex;flex-direction:column;text-align:left;width:100%;border:1px solid var(--line);background:var(--card);border-radius:var(--r);padding:17px;gap:7px;box-shadow:var(--shadow);transition:transform .2s var(--ease),border-color .2s var(--ease),box-shadow .2s var(--ease)}
+  .mode:hover{border-color:var(--accent);transform:translateY(-3px);box-shadow:var(--shadow-lg)}
+  .mode .me{width:40px;height:40px;border-radius:11px;display:grid;place-items:center;background:var(--accent-soft);color:var(--accent-ink)} .mode .me .ic{width:22px;height:22px}
+  .mode b{font-size:16px} .mode small{color:var(--muted);font-size:13px}
+
+  label.fld{display:block;font-size:13px;font-weight:600;margin:16px 0 7px}
+  .chips{display:flex;flex-wrap:wrap;gap:8px}
+  .chip{border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:999px;min-height:38px;padding:7px 13px;font-size:13.5px;transition:all .18s var(--ease)}
+  .chip:hover{border-color:var(--accent)} .chip.on{background:var(--accent);color:#fff;border-color:var(--accent)}
+  .btn{background:var(--accent);color:#fff;border:none;border-radius:11px;min-height:46px;padding:12px 20px;font-size:15px;font-weight:600;display:inline-flex;align-items:center;gap:8px;justify-content:center;box-shadow:0 4px 12px rgba(15,110,106,.25);transition:background .2s var(--ease),transform .12s var(--ease)}
+  .btn:hover{background:var(--accent-ink)} .btn:active{transform:scale(.97) translateY(1px)} .btn .ic{width:18px;height:18px}
+  .btn.ghost{background:var(--card);color:var(--ink);border:1px solid var(--line);box-shadow:none} .btn.ghost:hover{border-color:var(--accent)}
+  .btn:disabled{opacity:.5;cursor:not-allowed;box-shadow:none}
+  input[type=search],input[type=text],input[type=email],textarea{font-family:inherit;font-size:15px;padding:9px 11px;border:1px solid var(--line);border-radius:10px;background:var(--card);color:var(--ink);width:100%}
+  input:focus,textarea:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-soft)}
+
+  .runtop{display:flex;align-items:center;gap:12px;margin:2px 0 14px;font-size:13px;color:var(--muted)}
+  .bar{height:8px;border-radius:6px;background:var(--bg2);overflow:hidden;flex:1}
+  .bar>i{display:block;height:100%;width:0;background:var(--accent);border-radius:6px;transition:width .7s var(--ease)}
+  .qtext{font-size:19px;font-weight:600;margin:8px 0 16px;font-family:Georgia,serif;line-height:1.45}
+  .opt{display:flex;gap:12px;align-items:flex-start;width:100%;text-align:left;border:1.5px solid var(--line);background:var(--card);color:var(--ink);border-radius:12px;padding:14px 15px;margin-bottom:10px;font-size:15px;transition:border-color .15s var(--ease),background .15s var(--ease),transform .12s var(--ease)}
+  .opt:hover:not(:disabled){border-color:var(--accent);background:var(--accent-soft)} .opt:active:not(:disabled){transform:scale(.99)}
+  .opt .k{flex:none;width:27px;height:27px;border-radius:8px;background:var(--bg2);color:var(--muted);display:grid;place-items:center;font-weight:700;font-size:13px}
+  .opt.correct{border-color:var(--good);background:var(--good-soft)} .opt.correct .k{background:var(--good);color:#fff}
+  .opt.wrong{border-color:var(--bad);background:var(--bad-soft)} .opt.wrong .k{background:var(--bad);color:#fff}
+  .opt:disabled{cursor:default}
+  .feedback{border-radius:12px;padding:13px 15px;margin:4px 0 12px;font-size:14.5px}
+  .feedback.ok{background:var(--good-soft);color:var(--good)} .feedback.no{background:var(--bad-soft);color:var(--bad)}
+  .feedback b{font-weight:700} .feedback .sub{display:block;margin-top:3px;color:var(--ink);font-weight:500;opacity:.92}
+  .whybtn{border:1px solid var(--line);background:var(--card);color:var(--accent-ink);border-radius:10px;min-height:40px;padding:9px 14px;font-size:13.5px;font-weight:600;display:inline-flex;align-items:center;gap:7px;transition:border-color .2s var(--ease),background .2s var(--ease)}
+  .whybtn:hover{border-color:var(--accent);background:var(--accent-soft)} .whybtn .ic{width:16px;height:16px}
+  .whybox{border:1px solid var(--accent);background:var(--accent-soft);border-radius:12px;padding:14px 16px;margin:12px 0 4px;font-size:14px;line-height:1.55}
+  .whybox h4{margin:0 0 6px;font-size:13px;text-transform:uppercase;letter-spacing:.5px;color:var(--accent-ink);font-family:system-ui;display:flex;align-items:center;gap:7px}
+  .whybox .ic{width:16px;height:16px}
+
+  .acc{border:1px solid var(--line);border-radius:var(--r);margin-bottom:10px;background:var(--card);overflow:hidden;box-shadow:var(--shadow)}
+  .acc>summary{padding:15px 16px;font-weight:700;cursor:pointer;list-style:none;display:flex;align-items:center;gap:11px}
+  .acc>summary::-webkit-details-marker{display:none}
+  .acc>summary .n{flex:none;width:28px;height:28px;border-radius:8px;background:var(--accent-soft);color:var(--accent-ink);display:grid;place-items:center;font-size:13px;font-weight:700}
+  .acc>summary .caret{margin-left:auto;color:var(--muted);transition:transform .25s var(--ease)} .acc[open]>summary .caret{transform:rotate(90deg)}
+  .acc[open]>summary{border-bottom:1px solid var(--line)} .acc .body{padding:6px 18px 16px}
+  .acc h4{margin:14px 0 6px;font-size:13px;color:var(--accent-ink);text-transform:uppercase;letter-spacing:.4px;font-family:system-ui}
+  .acc ul{margin:0;padding-left:20px} .acc li{margin:6px 0;font-size:14.5px;line-height:1.5}
+  .acc.hack li::marker{content:"💡  "} .acc.hack>summary .n{background:var(--violet-soft);color:var(--violet)}
+  mark{background:var(--amber-soft);color:inherit;padding:0 2px;border-radius:3px}
+
+  .tip{border:1px solid var(--line);background:var(--card);border-radius:var(--r);padding:15px;box-shadow:var(--shadow)}
+  .tip h4{margin:0 0 5px;font-size:14.5px;display:flex;align-items:center;gap:8px;font-family:system-ui} .tip h4 .ic{width:18px;height:18px;color:var(--violet)}
+  .tip p{margin:0;font-size:13.5px;color:var(--muted);line-height:1.55}
+  .tipgrid{display:grid;gap:12px} @media(min-width:620px){.tipgrid{grid-template-columns:1fr 1fr}}
+
+  .results .big{font-family:Georgia,serif;font-size:54px;text-align:center;margin:8px 0;line-height:1}
+  .center{text-align:center} .hide{display:none!important}
+  footer{margin-top:34px;text-align:center;color:var(--muted);font-size:13px}
+  .kbd{font-size:11px;border:1px solid var(--line);border-bottom-width:2px;border-radius:5px;padding:1px 6px;color:var(--muted)}
+  @keyframes fadeUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+  @keyframes slideIn{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:none}}
+  @keyframes pop{0%{transform:scale(1)}45%{transform:scale(1.03)}100%{transform:scale(1)}}
+  @keyframes optIn{from{opacity:0;transform:translateX(-9px)}to{opacity:1;transform:none}}
+  @media (prefers-reduced-motion: no-preference){
+    .card,.mode,.tip{animation:fadeUp .34s var(--ease) both}
+    .acc{animation:fadeUp .32s var(--ease) both}
+    .opt{animation:optIn .3s var(--ease) backwards;animation-delay:var(--oi,0s)}
+    .chip.on{animation:pop .22s var(--ease)}
+    .feedback{animation:slideIn .26s var(--ease) both} .whybox{animation:slideIn .28s var(--ease) .07s both} .opt.correct{animation:pop .34s var(--ease)}
+  }
+  @media (prefers-reduced-motion: reduce){*{animation-duration:.001ms!important;transition-duration:.001ms!important}}
+  /* ---- Premium launch (Gemini-stijl) + header-logo gloed ---- */
+  @property --bes-a{syntax:'<angle>';initial-value:0deg;inherits:false}
+  #splash{position:fixed;inset:0;z-index:200;display:grid;place-items:center;background:radial-gradient(125% 125% at 50% 38%,var(--bg2) 0%,var(--bg) 68%);transition:opacity .6s var(--ease),transform .7s var(--ease)}
+  #splash.hide{opacity:0;transform:scale(1.07);pointer-events:none}
+  .sp-inner{display:flex;flex-direction:column;align-items:center;gap:20px;text-align:center}
+  .sp-mark{position:relative;width:100px;height:100px;display:grid;place-items:center}
+  .sp-mark::before{content:"";position:absolute;inset:-16px;border-radius:34px;z-index:0;background:conic-gradient(from var(--bes-a),var(--accent),var(--violet),var(--amber),var(--accent));filter:blur(17px);opacity:.75}
+  .sp-mark::after{content:"";position:absolute;inset:-3px;border-radius:27px;z-index:1;background:conic-gradient(from var(--bes-a),var(--accent),var(--violet),var(--amber),var(--accent));padding:3px;-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude}
+  .sp-logo{position:relative;z-index:2;width:92px;height:92px;border-radius:24px;display:grid;place-items:center;color:#fff;font-family:Georgia,serif;font-weight:700;font-size:46px;background:linear-gradient(150deg,var(--accent),var(--accent-ink));box-shadow:0 14px 38px rgba(15,110,106,.4)}
+  .sp-spark{position:absolute;z-index:3;top:-7px;right:-7px;width:30px;height:30px;color:#fff;filter:drop-shadow(0 2px 7px rgba(0,0,0,.35))}
+  .sp-name{position:relative;font-family:Georgia,serif;font-size:26px;font-weight:700;letter-spacing:-.01em;color:var(--ink);overflow:hidden}
+  .sp-name::after{content:"";position:absolute;inset:0;background:linear-gradient(110deg,transparent 35%,rgba(255,255,255,.75) 50%,transparent 65%);transform:translateX(-130%)}
+  .sp-tag{font-size:13px;color:var(--muted);margin-top:-8px;letter-spacing:.03em}
+  @media (prefers-reduced-motion: no-preference){
+    .sp-mark::before{animation:bes-spin 3s linear infinite,bes-breathe 2.4s var(--ease) infinite}
+    .sp-mark::after{animation:bes-spin 3s linear infinite}
+    .sp-logo{animation:bes-pop .7s var(--ease) both}
+    .sp-spark{animation:bes-pop .6s var(--ease) .12s both,bes-twinkle 1.9s var(--ease) .9s infinite}
+    .sp-name{animation:bes-rise .6s var(--ease) .14s both}
+    .sp-name::after{animation:bes-shimmer 1.5s var(--ease) .5s 1}
+    .sp-tag{animation:bes-rise .6s var(--ease) .26s both}
+  }
+  @keyframes bes-spin{to{--bes-a:360deg}}
+  @keyframes bes-breathe{0%,100%{opacity:.55;filter:blur(16px)}50%{opacity:.95;filter:blur(22px)}}
+  @keyframes bes-shimmer{to{transform:translateX(130%)}}
+  @keyframes bes-twinkle{0%,100%{opacity:1;transform:scale(1) rotate(0deg)}50%{opacity:.65;transform:scale(.82) rotate(18deg)}}
+  @keyframes bes-rise{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+  /* mobiel: header-knoppen alleen iconen zodat niks zijwaarts overflowt */
+  @media(max-width:440px){ header.top .iconbtn span{display:none} header.top .iconbtn{padding:7px 9px;min-width:38px;justify-content:center} .topin{gap:8px} }
+</style>
+</head>
+<body>
+<div id="splash"><div class="sp-inner">
+  <div class="sp-mark">
+    <div class="sp-logo">LW</div>
+    <svg class="sp-spark" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 1.5c.4 4.6 2.4 6.6 7 7-4.6.4-6.6 2.4-7 7-.4-4.6-2.4-6.6-7-7 4.6-.4 6.6-2.4 7-7Z"/></svg>
+  </div>
+  <div><div class="sp-name">Logica & Wetenschapsfilosofie</div><div class="sp-tag">slim oefenen voor je examen</div></div>
+</div></div>
+<header class="top">
+  <div class="topin">
+    <div class="brand"><span class="logo">LW</span><div>Logica & Wetenschapsfilosofie<small>Berie’s exam space</small></div></div>
+    <span class="spacer"></span>
+    <a class="iconbtn" href="https://beriesexamspace.github.io/?jaar=1" title="Andere vakken"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true" style="width:16px;height:16px"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg><span>Vakken</span></a>
+    <button class="iconbtn" id="themeBtn" aria-label="Wissel tussen licht en donker thema"></button>
+  </div>
+  <nav class="tabs" id="tabs"></nav>
+</header>
+<div class="wrap" id="app"></div>
+<footer class="wrap" style="padding-top:0">Logica & Wetenschapsfilosofie · Berie’s exam space, oefen slim voor je examen · veel succes!<br><span style="opacity:.7">© 2026 Berie’s exam space · Alle rechten voorbehouden</span></footer>
+
+<script>
+window.LW = {"questions":[{"t":"1","q":"Wat wordt in de tekst omschreven als het doel of de finaliteit van de wetenschap?","o":["Enkel wiskundige formules zo elegant mogelijk opstellen","Vat krijgen en houden op de omringende werkelijkheid via theorieen die daarbij helpen","Zoveel mogelijk metafysische speculaties onderbouwen","Alle bestaande theorieen definitief bewijzen zonder enige onzekerheid"],"a":1,"u":"Volgens de tekst is het doel van de wetenschap greep krijgen en houden op de werkelijkheid, met theorieen als hulpmiddel."},{"t":"1","q":"Naast verklaren noemt de tekst nog een tweede kernfunctie van wetenschap die ons helpt te overleven. Welke?","o":["Een esthetische functie","Een voorspellende functie","Een louter beschrijvende functie","Een religieuze functie"],"a":1,"u":"De tekst zegt dat we willen verklaren maar ook willen overleven in diezelfde wereld, wat wijst op een voorspellende functie."},{"t":"1","q":"Waaraan herken je volgens de tekst een deductieve redenering?","o":["Als de premissen waar zijn, hoeft de conclusie nog niet waar te zijn","Als de premissen waar zijn, moet ook de conclusie waar zijn","Ze trekt conclusies over nog niet onderzochte gevallen","Ze steunt altijd op statistische waarschijnlijkheid"],"a":1,"u":"Bij deductie geldt: als de premissen waar zijn en de afleidingsregels aanvaard worden, dan moet ook de conclusie waar zijn."},{"t":"1","q":"Wat is kenmerkend voor een inductieve redenering volgens de tekst?","o":["Ze levert altijd absolute zekerheid","Je kunt van correcte premissen vertrekken en toch tot een foute conclusie komen","Ze werkt uitsluitend met wiskundige axioma's","De conclusie volgt met logische noodzaak uit de premissen"],"a":1,"u":"Bij inductie is het wel degelijk mogelijk om van correcte premissen te vertrekken en toch een verkeerde gevolgtrekking te maken, want de premissen leiden niet met zekerheid tot de conclusie."},{"t":"1","q":"Volgens de strenge verificatieleer worden welke uitspraken als wetenschappelijk aanvaard?","o":["Alle uitspraken die logisch consistent klinken","Direct verifieerbare waarnemingsrapporten en zinnen die daaruit met strenge logische middelen zijn samengesteld","Enkel uitspraken over de toekomst","Uitspraken die door een leerkracht bevestigd worden"],"a":1,"u":"De strenge verificatieleer aanvaardt type-1 zinnen (direct verifieerbare waarnemingsrapporten) en type-2 zinnen (met strenge logica daaruit samengesteld)."},{"t":"1","q":"Waarom vormen universele uitspraken zoals de wet van de eenparige beweging een probleem voor de verificatieleer?","o":["Omdat ze te vaag geformuleerd zijn","Omdat je onmogelijk elke massa of elke kom water ter wereld aan de test kunt onderwerpen","Omdat ze over het verleden gaan","Omdat ze geen universele quantor bevatten"],"a":1,"u":"Een universele uitspraak geldt voor elk object dat aan de voorwaarden voldoet, maar je kunt niet alle gevallen testen, tenzij je oneindige zinnen zou toelaten, wat absurd is."},{"t":"1","q":"Waarom is de uitspraak 'Op 11 november 1918 kwam een officieel einde aan de Eerste Wereldoorlog' problematisch voor verificatie?","o":["Ze is een universele uitspraak over elke oorlog","Wat voorbij is en zich niet laat herhalen, is niet vatbaar voor verificatie","Ze bevat een niet-observationele dispositie","Ze is te theoretisch geladen om te toetsen"],"a":1,"u":"Dit is een tijdsgebonden basiszin over het verleden; wat voorbij is en zich niet laat herhalen in een experiment kan niet geverifieerd worden."},{"t":"1","q":"Wat is volgens de tekst het traditionele antwoord op de onzekerheid over kennis die extern wordt aangeleverd, zoals historische feiten?","o":["Bronnenkritiek","De experimentele methode","Het betekenisholisme","De correspondentieregels"],"a":0,"u":"Bronnenkritiek is het traditionele antwoord: we brengen onze kennis in overeenstemming met alle als waarachtig bestempelde bronnen."},{"t":"1","q":"Wat maakt een uitspraak dispositioneel, zoals 'Suiker is oplosbaar in koffie'?","o":["Ze verwijst naar een historisch feit dat niet te herhalen is","Ze vereist dat eerst aan bepaalde randvoorwaarden of testcondities voldaan is voor ze gecontroleerd kan worden","Ze doet een bewering over elk object in het universum","Ze bevat geen enkele voorwaardelijke structuur"],"a":1,"u":"Een dispositionele uitspraak beschrijft niet-observationele eigenschappen (gedrag onder bepaalde omstandigheden) en kan pas getest worden als aan de antecedente randvoorwaarden voldaan is."},{"t":"1","q":"Welk bijkomend probleem noemt de tekst specifiek bij dispositionele uitspraken, naast het probleem van de testcondities?","o":["Dat het onderzochte object soms geschaad of zelfs vernietigd moet worden","Dat de uitspraak over het verleden gaat","Dat de universele quantor ontbreekt","Dat er geen enkele empirische component aanwezig is"],"a":0,"u":"Bij het testen van disposities moet het onderzochte object in veel gevallen geschaad of vernietigd worden, wat niet altijd wenselijk is, zoals mensen laten verdrinken."},{"t":"1","q":"Welke stelling past bij het logisch positivisme van Rudolf Carnap volgens de tekst?","o":["Metafysica vormt het stevigste fundament van de wetenschap","We kunnen enkel zinvol spreken over wat tot het domein van de zintuiglijkheid behoort; de rest is betekenisloos","De betekenis van een uitspraak is uitgesmeerd over de hele theorie","Waarneming is per definitie onbetrouwbaar als kennisbron"],"a":1,"u":"Carnaps logisch positivisme stelt de zintuiglijke waarneming als betrouwbaar fundament en verwerpt metafysica: alleen uitspraken binnen het zintuiglijke domein zijn zinvol, de rest is betekenisloos."},{"t":"1","q":"Wat houdt Quines betekenisholisme in volgens de tekst?","o":["Elke wetenschappelijke uitspraak correspondeert met precies een individueel object","De betekenis van een uitspraak is uitgesmeerd over de hele theorie waar ze deel van uitmaakt","Betekenis komt enkel voort uit zintuiglijke waarneming los van elke theorie","Wetenschappelijke taal is volledig herleidbaar tot observationele uitspraken"],"a":1,"u":"Voor Quine is de empirische inhoud en dus betekenis van een uitspraak geen simpele een-op-een relatie met objecten, maar uitgesmeerd over de gehele theorie waar ze een onderdeel van vormt."},{"t":"2","q":"Wat kenmerkt uitspraken van het derde type (confirmeerbare uitspraken) volgens de tekst?","o":["Ze zijn zelf niet verifieerbaar, maar er zijn wel verifieerbare uitspraken uit af te leiden","Ze zijn zelf direct verifieerbaar door waarneming","Ze bestaan enkel uit direct verifieerbare waarnemingsrapporten","Ze worden met logische middelen samengesteld uit al verifieerbare zinnen"],"a":0,"u":"Type (3) is niet zelf verifieerbaar, maar heet confirmeerbaar omdat je er met logische middelen wel verifieerbare uitspraken uit kunt afleiden. De laatste optie beschrijft eerder type (2)."},{"t":"2","q":"Wanneer wordt een hypothese H volgens de H-D methode geconfirmeerd?","o":["Zodra H logisch consistent is met andere hypothesen","Wanneer H zelf rechtstreeks verifieerbaar blijkt te zijn","Wanneer een verifieerbaar feit E uit H afleidbaar is en E ook echt wordt waargenomen","Zodra er geen enkel tegenvoorbeeld tegen H gevonden wordt"],"a":2,"u":"In het H-D model is H confirmeerbaar als E uit H afleidbaar is. Wordt zo'n correct afgeleide E ook echt waargenomen, dan is H geconfirmeerd."},{"t":"2","q":"Wat is volgens de H-D methode het gevolg als uit een hypothese geen enkel verifieerbaar feit E kan worden afgeleid?","o":["Ze wordt automatisch als geconfirmeerd beschouwd","Ze is enkel verifieerbaar maar niet confirmeerbaar","Ze blijft een geldige tijdsgebonden uitspraak","Ze is geen wetenschappelijke uitspraak"],"a":3,"u":"De tekst stelt dat een H waaruit geen enkel verifieerbaar feit E te deduceren valt, geen wetenschappelijke uitspraak is."},{"t":"2","q":"Waarom lost het H-D model het probleem van tijdsgebonden uitspraken op, zoals \"Op 11 november 1918 kwam een einde aan WOI\"?","o":["Omdat zulke uitspraken toch rechtstreeks verifieerbaar blijken","Omdat je er uitspraken uit kunt afleiden die wel voor verificatie in aanmerking komen","Omdat tijdsgebonden uitspraken per definitie waar zijn","Omdat bronnenkritiek de uitspraak overbodig maakt"],"a":1,"u":"Ook al is de uitspraak zelf niet verifieerbaar, via het H-D model leid je er, mede door bronnenkritiek, uitspraken uit af die wel verifieerbaar zijn. Zo blijven tijdsgebonden uitspraken confirmeerbaar."},{"t":"2","q":"Het voorbeeld \"Suiker is oplosbaar in koffie\" toont aan dat via confirmatie ook welk type uitspraken hanteerbaar wordt?","o":["Universele natuurwetten","Direct verifieerbare waarnemingsrapporten","Dispositionele uitspraken","Zuiver logische tautologieën"],"a":2,"u":"Het suiker-in-koffie-voorbeeld laat zien dat dispositionele uitspraken, over een eigenschap die zich enkel onder bepaalde omstandigheden toont, vatbaar kunnen zijn voor confirmatie."},{"t":"2","q":"Waarin bestaat de kern van de zwarte-raven-paradox?","o":["Zwarte raven confirmeren juist dat niet alle raven zwart zijn","Er bestaan geen confirmerende instanties voor universele uitspraken","\"Alle raven zijn zwart\" is logisch equivalent met \"alle niet-zwarte dingen zijn geen raaf\", waardoor bv. een blauwe stoel als bevestiging telt","Raven kunnen nooit als bewijsmateriaal dienen"],"a":2,"u":"\"Alle raven zijn zwart\" is equivalent met \"alle niet-zwarte dingen zijn geen raaf\". Daardoor lijken niet-zwarte niet-raven zoals een blauwe stoel de uitspraak te bevestigen, wat contra-intuïtief is."},{"t":"2","q":"Welke oplossing voor de raven-paradox wordt in de tekst genoemd, en waarom faalt de blauwe stoel eraan?","o":["Eisen dat bewijs laat kiezen tussen twee elkaar uitsluitende uitspraken; de blauwe stoel confirmeert zowel \"alle raven zijn zwart\" als \"alle raven zijn wit\"","Enkel raven als bewijs toelaten; de blauwe stoel is geen raaf","Meer instanties verzamelen; één blauwe stoel is te weinig","Eenvoud als criterium hanteren; de blauwe stoel is te complex"],"a":0,"u":"Een voorgestelde oplossing eist dat relevant bewijs laat kiezen tussen twee elkaar uitsluitende uitspraken. De blauwe stoel voldoet niet, want hij confirmeert zowel \"alle raven zijn zwart\" als \"alle raven zijn wit\"."},{"t":"2","q":"Wat toont de paradox van de irrelevante confirmatie aan met de uitspraak \"Alle raven zijn zwart en de aarde is vierkant\"?","o":["Dat conjuncties nooit geconfirmeerd kunnen worden","Dat een zwarte raaf via logische gevolgen ook \"de aarde is vierkant\" zou confirmeren","Dat de aarde vierkant moet zijn als raven zwart zijn","Dat irrelevante uitspraken niet in conjuncties mogen voorkomen"],"a":1,"u":"Als je aanneemt dat bewijs ook de logische gevolgen van geconfirmeerde uitspraken confirmeert, dan confirmeert een zwarte raaf via (&E) zelfs de irrelevante bewering dat de aarde vierkant is."},{"t":"2","q":"Hoe wordt het begrip \"grauw\" in de groen-grauw paradox gedefinieerd?","o":["Een mengkleur tussen groen en grauw","Blauw vóór 1 januari 2050 en groen daarna","Groen vóór 1 januari 2050 en blauw daarna","Een kleur die smaragden pas na observatie krijgen"],"a":2,"u":"Volgens de afspraak in de tekst is een object grauw als het groen is vóór 1 januari 2050 en blauw daarna."},{"t":"2","q":"Wat is de kerngedachte van het bootstrap-model als reactie op het ad-hoc-karakter van de eerdere oplossingen?","o":["Een hypothese wordt altijd als geïsoleerde bewering getoetst","Enkel verifieerbare hypothesen tellen als wetenschappelijk","Hulphypothesen mogen nooit worden gebruikt bij toetsing","Een hypothese wordt nooit op zichzelf getoetst, maar steeds tegen de achtergrond van een groter geheel van andere hypothesen"],"a":3,"u":"Het bootstrap-model stelt dat een hypothese nooit geïsoleerd wordt getoetst, maar steeds tegen de achtergrond van een samenhangend geheel van andere hypothesen. Dat biedt een systematisch antwoord zonder plaats voor irrelevante objecten."},{"t":"3","q":"Wat is volgens Popper het kenmerk waardoor een theorie wetenschappelijk is?","o":["Dat ze openstaat voor kritiek en pogingen om ze te weerleggen","Dat ze door zoveel mogelijk waarnemingen bevestigd wordt","Dat ze alles kan verklaren wat er gebeurt","Dat ze logisch uit eerdere theorieën is afgeleid"],"a":0,"u":"Een theorie is wetenschappelijk omdat ze openstaat voor kritiek en weerleggingspogingen, niet omdat ze onwaar zou zijn. Wat niet falsifieerbaar is, valt buiten de wetenschap."},{"t":"3","q":"Waarnaar gaat Popper in de eerste plaats op zoek bij het toetsen van een hypothese?","o":["Een bevestiging die de hypothese waarschijnlijker maakt","Een inductieregel die de hypothese rechtvaardigt","Een falsificator die de hypothese kan weerleggen","Een allesverklarende theorie die de hypothese omvat"],"a":2,"u":"In plaats van te bevestigen zoekt Popper de falsificator die de hypothese weerlegt. Zolang die niet gevonden wordt, blijft de hypothese overeind."},{"t":"3","q":"Een onderzoeker beweert 'alle zwanen zijn wit'. Waarom is deze uitspraak volgens de falsificatieleer wetenschappelijk?","o":["Omdat ze door duizenden witte zwanen bevestigd wordt","Omdat ze weerlegbaar is, want er kan een zwarte zwaan opduiken","Omdat ze niet weerlegd kan worden en dus zeker is","Omdat ze logisch volgt uit een inductieve veralgemening"],"a":1,"u":"De uitspraak is falsifieerbaar omdat het bestaan van een zwarte zwaan haar zou weerleggen. Falsifieerbaarheid, niet bevestiging, maakt haar wetenschappelijk."},{"t":"3","q":"Bekijk het schema: (a) uit hypothese H leidt men observatierapport E af, (b) men stelt niet E vast maar _E. Wat is stap (c)?","o":["Men leidt een nieuwe hypothese af uit E","Men herdefinieert H tot ze weer klopt","Men besluit dat H toch bevestigd is","Men kan logisch besluiten tot het verwerpen van H"],"a":3,"u":"Als de voorspelde observatie E uitblijft en men net _E vaststelt, dan volgt logisch dat H verworpen moet worden. Dat is de kern van de falsificerende redenering."},{"t":"3","q":"Welk filosofisch probleem wilde Popper met de falsificatieleer de wereld uit helpen?","o":["Het probleem van de symbolische logica","Humes probleem rond de onmogelijke rechtvaardiging van inductie","Het probleem van de zelfrefererende paradoxen","De onmogelijkheid van deductief redeneren"],"a":1,"u":"Popper wil radicaal komaf maken met het inductivisme en zo Humes probleem over de onmogelijke rechtvaardiging van inductie oplossen."},{"t":"3","q":"Wat betekent 'corroboratie' in de falsificatieleer?","o":["Een theorie die versterkt raakt doordat een weerleggingspoging mislukt is","Een theorie die door herhaalde inductie bevestigd is","Een theorie die alle mogelijke waarnemingen verklaart","Een theorie die door een tegenvoorbeeld weerlegd is"],"a":0,"u":"Corroboratie is de versterking van een theorie door een mislukte weerlegging. De hypothese blijft overeind na een serieuze poging om ze onderuit te halen."},{"t":"3","q":"Welk soort hypothesen wil de falsificatieleer volgens de tekst uitlokken?","o":["Voorzichtige hypothesen die alles verklaren","Hypothesen die niet weerlegbaar zijn","Gewaagde hypothesen, geen allesverklarende theorieën","Hypothesen die door inductie gerechtvaardigd zijn"],"a":2,"u":"De aanpak lokt gewaagde hypothesen uit en juist geen allesverklarende theorieën, want gewaagde uitspraken bieden meer aangrijpingspunten voor falsificatie."},{"t":"3","q":"Wat houdt het begrip 'verisimilitude' bij Popper in?","o":["Het asymptotisch naderen tot de waarheid door een hypothese","De mate waarin een theorie logisch consistent is","Het aantal keren dat een hypothese bevestigd is","De snelheid waarmee een hypothese weerlegd wordt"],"a":0,"u":"Verisimilitude is het naderen tot de waarheid van een hypothese, asymptotisch omdat het nooit voltooid wordt. Volgens Popper geeft de corroboratiegraad hier uitdrukking aan."},{"t":"3","q":"Volgens het tweede probleem (achtergrond) is het onduidelijk wat een mislukt experiment precies weerlegt. Met welk idee verbindt de tekst dit?","o":["Kuhns idee van paradigmawisselingen","Feyerabends anarchistische kentheorie","Quines probleem van het betekenisholisme","Carnaps logische opbouw van de wereld"],"a":2,"u":"De vraag of het de hypothese, een ander deel van de theorie of het experimentele opzet is dat weerlegd wordt, is Quines probleem van het betekenisholisme opnieuw. Popper antwoordt dat elke hulphypothese vatbaar is voor falsificatie."},{"t":"4","q":"Wat was volgens de tekst de kern van Kuhns kritiek op de heersende wetenschapsfilosofie (de normatieve benaderingen)?","o":["Dat wetenschappers de rationele methodologische regels in de praktijk niet of nauwelijks volgden, waardoor die regels geen goed historisch beeld gaven","Dat wetenschappers te weinig experimenten deden om hun theorieen te toetsen","Dat de logica in wetenschappelijke redeneringen vaak fouten bevatte","Dat wetenschappers zich niet aan ethische regels hielden bij hun onderzoek"],"a":0,"u":"Kuhn betwist de historische adequaatheid van de normatieve theorieen: de rationele methodologische regels werden in werkelijkheid niet of slechts beperkt gevolgd, dus deugen ze niet als ultiem criterium om theorieen te beoordelen."},{"t":"4","q":"In de oorspronkelijke betekenis van Kuhn verwijst een paradigma vooral naar iets. Welke omschrijving past het best?","o":["Een verzameling logische bewijsregels die voor alle wetenschappen gelden","Een geheel van exemplarische onderzoekspraktijken en concrete probleemoplossingen waarmee een onderzoeksgemeenschap zich gezamenlijk identificeert","Een enkele theorie die door een individuele wetenschapper wordt verdedigd","Een lijst van meetinstrumenten die in een laboratorium worden gebruikt"],"a":1,"u":"Oorspronkelijk is een paradigma het geheel van exemplarische onderzoekspraktijken en concrete oplossingen waarmee een gemeenschap zich identificeert; dat legt impliciet vast over welke objecten men spreekt en wat de basiswetten zijn."},{"t":"4","q":"Kuhn verbreedt en verfijnt later het begrip paradigma. Wat neemt hij daarbij extra in op?","o":["Ook institutionele overwegingen, methodologische keuzes en zelfs filosofische of metafysische overtuigingen","Uitsluitend de wiskundige formules die in een discipline gebruikt worden","Alleen de financiering van onderzoeksprojecten","Enkel de persoonlijke voorkeuren van een individuele onderzoeker"],"a":0,"u":"In de verbrede betekenis omvat een paradigma ook institutionele overwegingen (organisatie en communicatie), methodologische keuzes (probleemagenda's, experimentele technieken) en zelfs filosofische en metafysische overtuigingen."},{"t":"4","q":"Wat kenmerkt volgens Kuhn de fase van normale wetenschap?","o":["Wetenschappers proberen het heersende paradigma voortdurend te falsifieren, zoals Popper voorschrijft","Wetenschappers proberen zoveel mogelijk fenomenen te verklaren binnen de standaardtheorie en gaan ervan uit dat dit in principe steeds lukt","Wetenschappers verwerpen de standaardtheorie zodra er een probleem opduikt","Wetenschappers wisselen constant van paradigma om vernieuwend te blijven"],"a":1,"u":"In de normale wetenschap wijdt men zich aan het oplossen van openstaande problemen binnen de standaardtheorie, en men gaat er in principe van uit dat elk fenomeen daarbinnen verklaard kan worden."},{"t":"4","q":"Op welk punt zet Kuhn zich met de fase van normale wetenschap expliciet af tegen Popper?","o":["Kuhn vindt net als Popper dat falsificatie de motor van de wetenschap is","Kuhn meent dat theorieen nooit getoetst kunnen worden","Voor Kuhn is niet falsificatie maar probleemoplossing binnen het paradigma het doel, wat dichter bij de confirmatiegedachte aanleunt","Kuhn stelt dat wetenschappers hun theorie zo snel mogelijk moeten verwerpen"],"a":2,"u":"Volgens Kuhn is in de normale wetenschap niet falsificatie maar probleemoplossing in termen van het paradigma het doel, wat eerder aansluit bij de confirmatiegedachte dan bij Poppers falsificationisme."},{"t":"4","q":"Wat is een anomalie in Kuhns model, en wat gebeurt er als er te veel van opstapelen?","o":["Een toevallige meetfout die meteen verdwijnt zodra men beter meet","Een nieuw experiment dat het paradigma bevestigt en zo de theorie versterkt","Een filosofische regel die bepaalt welke theorie de beste is","Een hardnekkig probleem dat aan een oplossing binnen het paradigma blijft weerstaan; bij te veel anomalieen ontstaat een wetenschappelijke crisis"],"a":3,"u":"Anomalieen zijn hardnekkige problemen die ondanks pogingen niet binnen het paradigma opgelost raken; als hun reservoir te groot wordt, ontstaat een wetenschappelijke crisis waarin het heersende paradigma in vraag komt."},{"t":"4","q":"Kuhn beschrijft een wetenschappelijke revolutie soms als een Gestalt switch, een term uit de psychologie. Wat bedoelt hij daarmee?","o":["Dat men de werkelijkheid plots op een wezenlijk andere manier ziet, waardoor lang openstaande problemen opeens oplosbaar worden","Dat wetenschappers geleidelijk steeds meer kleine feiten toevoegen aan de bestaande kennis","Dat een theorie stap voor stap wordt bijgeschaafd zonder echte breuk","Dat de persoonlijkheid van de wetenschapper verandert tijdens zijn carriere"],"a":0,"u":"Een Gestalt switch betekent dat men (een deel van) de werkelijkheid plots op een wezenlijk andere manier ervaart, een omslag die in de wetenschap tegelijk veel oude problemen tot een oplossing brengt."},{"t":"4","q":"Welke historische omslag geldt in de tekst als het prototype van een wetenschappelijke revolutie?","o":["De overgang van de klassieke naar de kwantummechanica","De vervanging van het geocentrische model (Aristoteles-Ptolemaeus) door het heliocentrische model (Copernicus-Galilei)","De ontdekking van de evolutietheorie door Darwin","De overgang van alchemie naar moderne scheikunde"],"a":1,"u":"Het prototype van een wetenschappelijke revolutie is de verdringing van het geocentrische model van Aristoteles-Ptolemaeus door het heliocentrische model van Copernicus-Galilei, waarmee een einde kwam aan het ad hoc bijwerken van het oude model."},{"t":"4","q":"Wat betekent incommensurabiliteit bij Kuhn, en wat betekent het NIET volgens de tekst?","o":["Het betekent dat opeenvolgende paradigma's perfect met elkaar vergeleken kunnen worden aan de hand van vaste normen","Het betekent dat wetenschappelijke kennis lineair en cumulatief blijft groeien","Het betekent dat een nieuw denkkader essentieel onverenigbaar is met het oude; het betekent echter niet dat wetenschap pure willekeur of relativisme is","Het betekent dat wetenschappers altijd rationeel en volgens strikte regels kiezen tussen paradigma's"],"a":2,"u":"Incommensurabiliteit houdt in dat het nieuwe paradigma essentieel onverenigbaar is met het oude, maar tussen die vaststelling en pure willekeur of relativisme ligt een wereld van verschil; probleemoplossend vermogen blijft bijvoorbeeld een rol spelen."},{"t":"5","q":"Lakatos wilde iets combineren in zijn visie op wetenschappelijke ontwikkeling. Welke twee posities probeert hij te verzoenen?","o":["Poppers normatieve rationalisme en Kuhns descriptieve irrationalisme","Carnaps verificationisme en Quines holisme","Bloors sterk programma en Feyerabends anarchisme","Kuhns paradigma's en Poppers verificatieprincipe"],"a":0,"u":"Volgens de tekst is Lakatos' aanpak een synthese van Poppers normatieve rationalisme en Kuhns descriptieve irrationalisme over de wetenschappelijke ontwikkeling."},{"t":"5","q":"Wat bedoelt Lakatos met een 'rationele reconstructie' van de wetenschapsgeschiedenis?","o":["De geschiedenis herschrijven zodat ze aan het paradigma van Kuhn beantwoordt","De werkelijke gebeurtenissen consequent interpreteren als rationele, logische stappen","Enkel de succesvolle experimenten uit het verleden bewaren","Wetenschappelijke revoluties voorstellen als plotse, irrationele omwentelingen"],"a":1,"u":"Lakatos interpreteert of reconstrueert de werkelijke gebeurtenissen consequent als rationele of logische stappen. Volgens de tekst gaat dat juist in tegen Kuhns theorie."},{"t":"5","q":"In plaats van Kuhns 'paradigma' introduceert Lakatos een ander begrip. Welk?","o":["Het epistemologisch veld","De normale wetenschap","Het onderzoeksprogramma","De beschermende gordel als geheel"],"a":2,"u":"Lakatos vervangt Kuhns paradigma door het begrip onderzoeksprogramma, en benadrukt daarbij pluralisme en competitie binnen de wetenschap."},{"t":"5","q":"Wat is volgens Lakatos de 'harde kern' van een onderzoeksprogramma?","o":["De verzameling weerlegbare hulphypothesen rond een theorie","Een kern aan overtuigingen die wetenschappers slechts in uitzonderlijke omstandigheden willen opgeven","De experimentele data die het programma bevestigen","De sociale groep die het programma verdedigt"],"a":1,"u":"De harde kern is volgens de tekst de interne structuur aan overtuigingen die wetenschappers niet, of enkel in uitzonderlijke omstandigheden, wensen op te geven."},{"t":"5","q":"Wat kenmerkt de 'beschermende gordel' in Lakatos' model?","o":["Onaantastbare basisovertuigingen die nooit worden opgegeven","Meer specifieke, minder essentiële en dus wel weerlegbare hypothesen","De universele methodologische standaarden van het programma","De sociale context waarin het programma ontstaat"],"a":1,"u":"De beschermende gordel bestaat uit meer specifieke en tegelijk minder essentiële, en dus wel weerlegbare, hypothesen rond de harde kern."},{"t":"5","q":"Een onderzoeker past haar model steeds aan om de centrale overtuigingen intact te houden, terwijl ze de randhypothesen verfijnt om nieuwe voorspellingen te doen. Welke twee heuristieken van Lakatos illustreert dit?","o":["Verificatie en falsificatie","Negatieve heuristiek (kern ontzien) en positieve heuristiek (gordel versterken)","Symmetrie en onpartijdigheid","Descriptieve en normatieve heuristiek"],"a":1,"u":"De negatieve heuristiek ontziet de harde kern, terwijl de positieve heuristiek de beschermende gordel versterkt. Dat is precies wat het voorbeeld beschrijft."},{"t":"5","q":"Hoe verschilt Lakatos van Popper op het punt van falsificatie?","o":["Lakatos verwerpt falsificatie volledig als onwetenschappelijk","Bij Lakatos wordt falsificatie in de tijd uitgestrekt, zodat een jong programma zich kan bewijzen","Lakatos eist onmiddellijke verwerping bij de eerste tegenspraak","Lakatos beoordeelt losse hypothesen in plaats van ketens van theorieën"],"a":1,"u":"Bij Lakatos is falsificatie in de tijd uitgestrekt: een regressief of jong programma wordt niet te snel definitief verworpen en krijgt de kans zich te bewijzen, waarbij ketens van theorieen worden beoordeeld."},{"t":"5","q":"Wat betekent Feyerabends slogan 'anything goes' volgens de tekst precies?","o":["Alle theorieën zijn even waardevol en even waar","Alles is vatbaar voor kritisch onderzoek","Elke methode is verboden behalve de wetenschappelijke","Enkel universele methodologische standaarden zijn toegelaten"],"a":1,"u":"De slogan betekent niet dat alles evenwaardig is, maar dat alles vatbaar is voor kritisch onderzoek. Onderbouwd meningsverschil wordt daarbij steeds aangemoedigd."},{"t":"5","q":"Wat vindt Feyerabend van het te snel veroordelen van vermeende pseudo-wetenschap zonder er voldoende van af te weten?","o":["Het is net zo onaanvaardbaar als die praktijken zelf en getuigt van wetenschappelijke arrogantie","Het is de kerntaak van elke echte wetenschapper","Het is aanvaardbaar zolang men zich op autoriteit beroept","Het is nodig om normale van andersoortige wetenschap te onderscheiden"],"a":0,"u":"Volgens de tekst is een te makkelijke veroordeling zonder kennis van zaken even onaanvaardbaar als de praktijken zelf. Ze illustreert wetenschappelijke arrogantie die steunt op autoriteit in plaats van op argument."},{"t":"5","q":"Wat houdt Bloors 'sterk programma' in vergelijking met de eerdere 'zwakke' sociologie in?","o":["Sociologie mag enkel afwijkingen van de norm verklaren, niet de correcte kennis","Zowel de context als de inhoud van wetenschappelijke kennis wordt voorwerp van sociologische analyse","Wetenschappelijke kennis vormt een unieke uitzondering op andere groepsfenomenen","Rationaliteit blijft een zuiver intern-wetenschappelijke kwestie"],"a":1,"u":"Het sterk programma verwerpt de oude taakverdeling: niet alleen de context maar ook de inhoud van wetenschappelijke kennis wordt onderwerp van sociologische analyse, en die kennis is geen uitzondering op andere groepsfenomenen."}],"theory":[{"h":"Theorie, werkelijkheid & verificatie","items":["Finaliteit van de wetenschap: greep krijgen en houden op de omringende werkelijkheid door verklarende theorieen te ontwikkelen.","Voorspellende functie: theorieen helpen ons niet alleen verklaren, maar ook overleven door de toekomst in te schatten.","Systematische methode: de eis die wetenschap onderscheidt van niet-wetenschap, gericht op zowel het vergaren van empirische data als het formuleren van verklarende theorieen.","Deductie: redenering waarbij, als de premissen waar zijn en de afleidingsregels aanvaard worden, de conclusie noodzakelijk waar moet zijn.","Inductie: redenering die van observaties naar nog niet onderzochte gevallen stapt; correcte premissen kunnen hier toch tot een foute conclusie leiden.","Verificatieleer: strenge opvatting die enkel direct verifieerbare waarnemingsrapporten en daaruit logisch samengestelde zinnen als wetenschappelijk aanvaardt.","Universele uitspraken: wetten die over elk object gelden dat aan de voorwaarden voldoet, en daarom niet volledig te verifieren zijn zonder absurde oneindige zinnen.","Tijdsgebonden uitspraken: beweringen over verleden of toekomst die niet te verifieren zijn omdat wat voorbij is zich niet laat herhalen.","Bronnenkritiek: traditioneel antwoord op onzekerheid over extern aangeleverde kennis, door die af te toetsen aan als waarachtig bestempelde bronnen.","Dispositionele uitspraken: voorwaardelijke beweringen over niet-observeerbaar gedrag dat pas testbaar is als aan bepaalde randvoorwaarden voldaan is.","Logisch positivisme (Carnap): stroming die zintuiglijke waarneming als betrouwbaar fundament ziet, metafysica verwerpt en alleen het zintuiglijk toetsbare als zinvol beschouwt.","Correspondentieregels: vertaalmiddelen die theoretisch geladen uitdrukkingen moeten koppelen aan empirische, observationele uitdrukkingen.","Theoretisch geladen uitspraken: uitspraken waarvan de vertaalslag van theorie naar empirie niet te voleindigen valt, wat het positivisme deed stranden.","Betekenisholisme (Quine): idee dat de empirische inhoud en betekenis van een uitspraak niet een-op-een aan objecten hangt, maar uitgesmeerd is over de hele theorie."]},{"h":"Confirmatieleer","items":["Confirmeerbare uitspraak: een uitspraak die zelf niet verifieerbaar is, maar waaruit je met logische middelen wel verifieerbare uitspraken kunt afleiden.","Hypothetisch-deductief model (H-D): een hypothese H is confirmeerbaar als er een verifieerbaar feit E uit afleidbaar is; wordt zo'n E ook echt waargenomen, dan is H geconfirmeerd.","Confirmerende instantie: een concreet object of feit dat een uitspraak bevestigt, bv. een dier dat zowel raaf als zwart is voor \"alle raven zijn zwart\".","Verifieerbaar versus confirmeerbaar: verifieerbaar betekent rechtstreeks door waarneming te checken, confirmeerbaar betekent enkel indirect via afgeleide verifieerbare uitspraken.","Dispositionele uitspraak: uitspraak over een eigenschap die zich enkel onder bepaalde omstandigheden toont, bv. \"suiker is oplosbaar in koffie\".","Tijdsgebonden uitspraak: uitspraak over een specifiek tijdstip; via het H-D model toch confirmeerbaar doordat er verifieerbare gevolgen uit volgen.","Zwarte-raven paradox: omdat \"alle raven zijn zwart\" equivalent is met \"alle niet-zwarte dingen zijn geen raaf\", lijken niet-zwarte niet-raven (bv. een blauwe stoel) de uitspraak contra-intuïtief te bevestigen.","Irrelevante confirmatie paradox: als bewijs ook de logische gevolgen van geconfirmeerde uitspraken confirmeert, dan confirmeert een zwarte raaf via een conjunctie zelfs een irrelevante bewering zoals \"de aarde is vierkant\".","Groen-grauw paradox: een groene smaragd confirmeert zowel \"alle smaragden zijn groen\" als \"alle smaragden zijn grauw\", zodat huidig bewijs niet tussen beide hypothesen kan kiezen.","Grauw: gekunsteld predicaat dat groen betekent vóór 1 januari 2050 en blauw daarna.","Criterium van de eenvoud: strategie om tussen twee hypothesen te kiezen door de eenvoudigste eigenschap te verkiezen, bv. \"groen\" boven \"grauw\".","Ad-hoc karakter: het probleem dat de oplossingen voor de paradoxen niet systematisch maar gelegenheidsgebonden zijn.","Bootstrap-model: idee dat een hypothese nooit geïsoleerd wordt getoetst maar altijd tegen de achtergrond van een samenhangend geheel van andere hypothesen, die zelf ook enkel bootstrap-bevestigd worden.","Theoriegeladenheid van de waarneming: het onopgeloste probleem dat waarneming nooit los staat van theorie, waardoor observatie en losse hypothese niet éénduidig te koppelen zijn."]},{"h":"Falsificatieleer (Popper)","items":["Falsifieerbaarheid: een theorie is wetenschappelijk als ze openstaat voor weerlegging, dus als je kunt aangeven welke waarneming ze zou onderuithalen.","Demarcatiecriterium: falsifieerbaarheid is de grens tussen wetenschap en niet-wetenschap. Niet falsifieerbaar betekent niet wetenschappelijk.","Falsificator: een waarneming of feit dat een hypothese weerlegt. Popper zoekt actief naar zo'n weerlegger in plaats van naar bevestiging.","Kritisch rationalisme: Poppers houding waarbij je theorieën blootstelt aan strenge kritiek en weerleggingspogingen in plaats van ze te willen bewijzen.","Pseudo-wetenschap: een systeem dat wetenschappelijk lijkt maar niet falsifieerbaar is, omdat het niets uitsluit en dus nooit weerlegd kan worden.","Corroboratie: de versterking van een theorie doordat een serieuze weerleggingspoging is mislukt. Geen bewijs, wel voorlopige steun.","Verisimilitude: het asymptotisch, dus nooit voltooid, naderen tot de waarheid van een hypothese, waaraan de corroboratiegraad uitdrukking zou geven.","Inductivisme: de opvatting dat je via bevestigende waarnemingen algemene wetten rechtvaardigt. Popper verwerpt dit radicaal.","Humes probleem: de onmogelijke rechtvaardiging van inductie, die Popper met falsificatie omzeilt door niet te bevestigen maar te weerleggen.","Gewaagde hypothese: een uitspraak die veel uitsluit en dus veel risico op falsificatie loopt. Deze wordt door de methode juist uitgelokt.","Probleem van de achtergrond: bij een mislukt experiment is onduidelijk of de hypothese, een ander deel van de theorie of het experimentele opzet weerlegd is.","Betekenisholisme (Quine): het idee dat hypothesen niet los te toetsen zijn omdat ze samen met achtergrondaannames getoetst worden. Popper stelt dat elke hulphypothese falsifieerbaar is.","Groen-grauw paradox: voorbeeld waarbij twee hypothesen (H1 en H2) tot aan een toekomstig tegenvoorbeeld dezelfde corroboratiegraad hebben en dus niet te onderscheiden zijn."]},{"h":"Kuhn: paradigmas & revoluties","items":["Paradigma (oorspronkelijk): geheel van exemplarische onderzoekspraktijken en concrete probleemoplossingen waarmee een onderzoeksgemeenschap zich identificeert en dat vastlegt over welke objecten en basiswetten men spreekt.","Paradigma (verbreed): omvat later ook institutionele overwegingen, methodologische keuzes en filosofische of metafysische overtuigingen over kennisproductie.","Proto-wetenschappelijk stadium: beginfase waarin een onderzoeksdomein zich geleidelijk uitkristalliseert tot een zelfstandige (sub)discipline.","Normale wetenschap: fase waarin men binnen een standaardtheorie zoveel mogelijk fenomenen probeert te verklaren en openstaande problemen oplost.","Standaardtheorie: robuuste context van eensgezindheid binnen een domein, waarbinnen de normale wetenschap zich afspeelt.","Anomalie: hardnekkig probleem dat aan een oplossing binnen het paradigma blijft weerstaan.","Wetenschappelijke crisis: toestand die ontstaat als te veel anomalieen zich opstapelen, waardoor het heersende paradigma in vraag komt.","Wetenschappelijke revolutie: radicale vervanging van het oude paradigma door een nieuw, essentieel onverenigbaar denkkader.","Incommensurabiliteit: onvergelijkbaarheid van opeenvolgende paradigma's omdat ze fundamenteel onverenigbaar zijn en er strikte gemeenschappelijke normen ontbreken.","Gestalt switch: psychologische term voor het plots op een wezenlijk andere manier zien van de werkelijkheid, waardoor lang openstaande problemen opeens oplosbaar worden.","Prototype (geo naar heliocentrisme): modelvoorbeeld van een revolutie, de vervanging van het aardgerichte door het zongerichte kosmologische model.","Lineair-cumulatieve opvatting: verworpen idee dat kennis enkel groeit door steeds waarheden toe te voegen richting de glorieuze toestand van vandaag.","Presentisme: afgewezen perspectief waarin enkel de huidige stand van zaken telt en het verleden vanuit het heden wordt beoordeeld.","Contextuele factoren: (ook verborgen) invloeden die volgens Kuhn mee bepalen in welke richting een revolutie zich voltrekt, zonder dat wetenschap daarmee richtingloos of willekeurig wordt."]},{"h":"Lakatos, Feyerabend & Bloor","items":["Onderzoeksprogramma: Lakatos' alternatief voor Kuhns paradigma, een geheel van theorieën met een vaste kern waarrond competitie en pluralisme in de wetenschap draaien.","Rationele reconstructie: de werkelijke wetenschapsgeschiedenis achteraf uitleggen alsof ze uit rationele, logische stappen bestaat.","Harde kern: de centrale overtuigingen van een programma die wetenschappers enkel in uitzonderlijke gevallen willen opgeven.","Beschermende gordel: de laag van specifiekere, minder essentiële en dus weerlegbare hypothesen rond de harde kern.","Negatieve heuristiek: de strategie om de harde kern te ontzien en niet aan te vallen.","Positieve heuristiek: de strategie om de beschermende gordel te versterken en uit te bouwen.","Progressief vs. degeneratief programma: een programma is progressief als het theoretische vooruitgang en empirische groei oplevert, en degeneratief (regressief) als het enkel achteraf gaten dicht.","Uitgestrekte falsificatie: bij Lakatos wordt een programma niet meteen verworpen, maar over tijd beoordeeld via ketens van theorieën, zodat een jong programma zich kan bewijzen.","Methodologisch anarchisme: Feyerabends idee dat er geen enkele vaste universele methode bestaat, enkel tijdelijke en lokale standaarden.","Anything goes: Feyerabends slogan die niet zegt dat alles evenwaardig is, maar dat alles vatbaar is voor kritisch onderzoek.","Wetenschappelijke arrogantie: het veroordelen van vermeende pseudo-wetenschap zonder kennis van zaken, steunend op autoriteit in plaats van argument.","Sterk programma: Bloors aanpak waarbij zowel de context als de inhoud van wetenschappelijke kennis sociologisch verklaard wordt.","Radicale symmetrie: het principe dat ware en valse overtuigingen op dezelfde manier verklaard moeten worden, zonder aparte behandeling voor 'juiste' kennis.","School van Edinburgh: de groep sociologen rond Bloor die kennis als een groepsfenomeen bestudeert, voorbij rationaliteit als louter intern-wetenschappelijke kwestie."]}],"hacks":[{"h":"De 4 U-T-D-T problemen van verificatie","t":"Onthoud de vier struikelblokken van de verificatieleer met U-T-D-T: Universeel (kan niet alles testen), Tijdsgebonden (verleden en toekomst herhalen niet), Dispositioneel (eerst aan randvoorwaarden voldoen), Theoretisch geladen (vertaalslag theorie naar empirie lukt niet, waar Carnap struikelt en Quine met holisme opduikt). Ezelsbrugje: 'Ur Twee Denkers Toetsen', met de laatste T van de twee denkers Carnap en Quine."},{"h":"RIG-B: de vier bochten van de confirmatieleer","t":"Onthoud de volgorde van de problemen en de uitweg met RIG-B. R = Raven (blauwe stoel bevestigt \"alle raven zijn zwart\"), I = Irrelevant (zwarte raaf bewijst zogezegd dat de aarde vierkant is), G = Groen-grauw (groene smaragd past bij groen én grauw). Die drie R-I-G zijn de paradoxen; de B van Bootstrap is telkens de systematische uitweg: toets nooit één hypothese alleen, maar altijd in het geheel."},{"h":"FALS: Falsifieerbaar, Actief weerleggen, Loslaten of versterken, Steeds gewaagd","t":"Onthoud de kern van Popper met FALS. Falsifieerbaar = wetenschappelijk (kan het fout zijn?). Actief weerleggen in plaats van bevestigen (zoek de falsificator). Loslaten of versterken: weerlegd = verwerpen, mislukte weerlegging = corroboratie. Steeds gewaagd: liever gewaagde hypothesen dan allesverklarende theorieen. Zo koppel je meteen falsifieerbaarheid, kritisch rationalisme, corroboratie en het type hypothese aan elkaar."},{"h":"PNCR: de vier fasen van Kuhn op een rij","t":"Onthoud de volgorde met PNCR: Proto-wetenschap, Normale wetenschap, Crisis, Revolutie. Denk aan het zinnetje 'Prima Nieuwe Concepten Rijzen'. In de crisis stapelen anomalieen zich op, en de revolutie is de Gestalt switch met incommensurabiliteit (het nieuwe paradigma past niet meer op het oude). Prototype om te onthouden: aarde-in-het-midden wordt zon-in-het-midden."},{"h":"Kern beschermd, Gordel verwerkt","t":"Om Lakatos' twee lagen en heuristieken niet te verwarren: de harde Kern hou je beschermd (negatieve heuristiek, niet aanvallen), de gordel verwerk en versterk je (positieve heuristiek, uitbouwen). Ezelsbrug voor de drie denkers zelf: L-F-B = Lakatos houdt de logica erin (programma's), Feyerabend gooit de regels eruit (anything goes), Bloor stopt er sociologie in (sterk programma)."}]};
+</script>
+<style>
+  .choverview .chlist{display:flex;flex-direction:column;gap:3px;margin-top:2px}
+  .chrow{display:flex;align-items:center;gap:12px;width:100%;text-align:left;background:transparent;border:none;border-radius:10px;padding:9px 8px;cursor:pointer;color:var(--ink);font-family:inherit;transition:background .15s var(--ease),transform .1s var(--ease)}
+  .chrow:hover{background:var(--accent-soft)}
+  .chrow:active{transform:scale(.995)}
+  .chrow .chname{flex:0 0 auto;width:170px;font-size:14px;font-weight:600}
+  .chrow .chbar{flex:1;height:8px;border-radius:999px;background:var(--line);overflow:hidden}
+  .chrow .chbar>i{display:block;height:100%;border-radius:999px;background:linear-gradient(90deg,var(--accent),var(--accent-ink));transition:width .5s var(--ease)}
+  .chrow .chval{flex:0 0 auto;font-size:12.5px;color:var(--muted);min-width:40px;text-align:right;font-variant-numeric:tabular-nums}
+  .chrow .ic.caret{width:16px;height:16px;color:var(--muted);flex:0 0 auto}
+  @media(max-width:560px){.chrow .chname{width:auto;flex:1 1 auto;min-width:0}.chrow .chbar{flex:0 0 64px}}
+</style>
+<script>
+(function(){
+  "use strict";
+  var D=window.LW, app=document.getElementById("app");
+  var P={
+    book:'<path d="M12 7v14"/><path d="M3 18a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h5a4 4 0 0 1 4 4 4 4 0 0 1 4-4h5a1 1 0 0 1 1 1v13a1 1 0 0 1-1 1h-6a3 3 0 0 0-3 3 3 3 0 0 0-3-3z"/>',
+    bulb:'<path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5"/><path d="M9 18h6"/><path d="M10 22h4"/>',
+    help:'<circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><path d="M12 17h.01"/>',
+    search:'<circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/>',
+    sun:'<circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/>',
+    moon:'<path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/>',
+    arrowR:'<path d="M5 12h14"/><path d="m12 5 7 7-7 7"/>',
+    back:'<path d="m15 18-6-6 6-6"/>',
+    heart:'<path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/>',
+    chevR:'<path d="m9 18 6-6-6-6"/>',
+    sparkles:'<path d="M9.94 15.5A2 2 0 0 0 8.5 14.06l-6.14-1.58a.5.5 0 0 1 0-.96L8.5 9.94A2 2 0 0 0 9.94 8.5l1.58-6.14a.5.5 0 0 1 .96 0L14.06 8.5A2 2 0 0 0 15.5 9.94l6.14 1.58a.5.5 0 0 1 0 .96L15.5 14.06a2 2 0 0 0-1.44 1.44l-1.58 6.14a.5.5 0 0 1-.96 0z"/>',
+    target:'<circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/>',
+    rocket:'<path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z"/><path d="m12 15-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z"/><path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 0 5 0"/><path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5"/>',
+    msg:'<path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"/>',
+    refresh:'<path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/>',
+    send:'<path d="M14.54 21.69a.5.5 0 0 0 .94-.02l6.5-19a.5.5 0 0 0-.64-.64l-19 6.5a.5.5 0 0 0-.02.94l7.93 3.18a2 2 0 0 1 1.11 1.11z"/><path d="m21.85 2.15-10.94 10.94"/>'
+  };
+  function ic(n,c){ return '<svg class="ic'+(c?" "+c:"")+'" viewBox="0 0 24 24" aria-hidden="true">'+(P[n]||"")+'</svg>'; }
+  function esc(s){ return String(s).replace(/[&<>"]/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;"}[c];}); }
+  function shuffle(a){ a=a.slice(); for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=a[i];a[i]=a[j];a[j]=t;} return a; }
+  function pct(n,d){ return d?Math.round(100*n/d):0; }
+  function rnd(a){ return a[Math.floor(Math.random()*a.length)]; }
+  function lget(k,d){ try{ var v=JSON.parse(localStorage.getItem(k)); return v==null?d:v; }catch(e){ return d; } }
+  function lset(k,v){ try{ localStorage.setItem(k,JSON.stringify(v)); }catch(e){} }
+  function rawGet(k){ try{ return localStorage.getItem(k); }catch(e){ return null; } }
+  function rawSet(k,v){ try{ localStorage.setItem(k,v); }catch(e){} }
+  function bump(ns,key){ try{ fetch("https://abacus.jasoncameron.dev/hit/"+ns+"/"+key).then(function(){},function(){}); }catch(e){} }
+
+  D.questions.forEach(function(q,i){ q.id="q"+i; });
+  var theme=rawGet("site_theme") || lget("logica_theme","light");
+  function applyTheme(){ document.documentElement.setAttribute("data-theme",theme);
+    document.getElementById("themeBtn").innerHTML=(theme==="dark"?ic("sun"):ic("moon"))+'<span>'+(theme==="dark"?"Licht":"Donker")+'</span>'; }
+  applyTheme();
+  document.getElementById("themeBtn").onclick=function(){ theme=theme==="dark"?"light":"dark"; lset("logica_theme",theme); rawSet("site_theme",theme); applyTheme(); };
+  var calm=lget("logica_calm",true);
+  function applyCalm(){ document.documentElement.classList.toggle("snappy", !calm); }
+  applyCalm();
+  function wrongLead(){ return calm ? rnd(WARM) : "Fout."; }
+
+  var WARM=["Geen zorgen, hier leer je nu net van.","Bijna! Dit type vraag krijg je zo onder de knie.","Foutje mag, nu weet je wat je nog moet herhalen.","Niet erg, dit onthoud je de volgende keer wél.","Rustig, één foutje zegt niets over je examen."];
+  var PRAISE=["Juist!","Goed zo!","Correct!","Sterk!","Knap!"];
+  var TOPICS={"1":"Theorie, werkelijkheid & verificatie","2":"Confirmatieleer","3":"Falsificatieleer (Popper)","4":"Kuhn: paradigma's & revoluties","5":"Lakatos, Feyerabend & Bloor"};
+  function getProg(){ var p=lget("logica_prog",{ans:{}}); if(!p||typeof p!=="object"||!p.ans)p={ans:{}}; return p; }
+  function recordProg(qid,ok){ var p=getProg(); p.ans[qid]=ok?1:0; lset("logica_prog",p); }
+  function resetProg(){ lset("logica_prog",{ans:{}}); }
+  function chapterStats(){ var p=getProg(); var st={}; Object.keys(TOPICS).forEach(function(k){st[k]={total:0,done:0,correct:0};}); D.questions.forEach(function(q){ var s=st[q.t]; if(!s)return; s.total++; if(Object.prototype.hasOwnProperty.call(p.ans,q.id)){ s.done++; if(p.ans[q.id])s.correct++; } }); return st; }
+  function startChapter(k){ var items=shuffle(D.questions.filter(function(q){return q.t===k;})); state.view="quiz"; tabBtns.forEach(function(b){b.classList.toggle("on",b.dataset.view==="quiz");}); startQuiz(items); window.scrollTo(0,0); }
+
+  var TABS=[{v:"home",l:"Start",i:"book"},{v:"quiz",l:"Oefenvragen",i:"target"},{v:"theory",l:"Theorie",i:"search"},{v:"hacks",l:"Studie-hacks",i:"bulb"},{v:"feedback",l:"Feedback",i:"msg"}];
+  var tabsEl=document.getElementById("tabs");
+  tabsEl.innerHTML=TABS.map(function(t){return '<button data-view="'+t.v+'"'+(t.v==="home"?' class="on"':'')+'>'+ic(t.i)+'<span>'+t.l+'</span></button>';}).join("");
+  var tabBtns=[].slice.call(tabsEl.querySelectorAll("button"));
+  tabBtns.forEach(function(b){ b.onclick=function(){ state.fromHub=false; if(b.dataset.view==="home") state.step="track"; go(b.dataset.view); }; });
+  function go(v){ state.view=v; tabBtns.forEach(function(b){b.classList.toggle("on",b.dataset.view===v);}); render(); window.scrollTo(0,0); }
+
+  var state={view:"home", step:"track", track:lget("logica_track","training"), quiz:null, sel:{topics:{"1":true,"2":true,"3":true,"4":true,"5":true}, count:15, shuffle:true}, sumq:""};
+  function setHTML(h){ app.innerHTML=h; }
+
+  function render(){
+    if(state.view==="home") return renderHome();
+    if(state.view==="quiz") return renderQuizGate();
+    if(state.view==="theory") return renderTheory();
+    if(state.view==="hacks") return renderHacks();
+    if(state.view==="feedback") return renderFeedback();
+  }
+
+  function renderHome(){
+    if(state.step==="herkansing") return renderHerkansing();
+    if(state.step==="practice") return renderPractice();
+    return renderTrack();
+  }
+  function modeLabel(){ return state.track==="herkansing"?"Herkansing":"Examen Training"; }
+
+  function renderTrack(){
+    var byT={}; D.questions.forEach(function(q){byT[q.t]=(byT[q.t]||0)+1;});
+    var st=chapterStats(); var tD=0,tQ=0,tC=0; Object.keys(st).forEach(function(k){tD+=st[k].done;tQ+=st[k].total;tC+=st[k].correct;});
+    var html=
+      '<div class="hero">'+
+        '<div class="count"><b>'+D.questions.length+'</b><span>oefenvragen</span></div>'+
+        '<div class="herotext"><h1>Logica & Wetenschapsfilosofie oefenen</h1>'+
+        '<p>Oefenvragen per hoofdstuk, met uitleg</p></div>'+
+      '</div>'+
+      '<a class="brandstrip" href="https://beriesexamspace.github.io/" title="Naar Berie’s exam space"><span class="bs-logo">B</span><span class="bs-txt"><b>Berie’s exam space</b><small>Een ander vak leren? Bekijk alle vakken</small></span><span class="bs-go">'+ic("arrowR")+'</span></a>'+
+      '<a class="brandstrip" href="https://beriesexamspace.github.io/?deel=1" title="Deel je samenvattingen"><span class="bs-logo">📚</span><span class="bs-txt"><b>Help mee, deel je vak</b><small>Heb jij samenvattingen of oude examenvragen? Stuur ze in (élk jaar).</small></span><span class="bs-go">'+ic("arrowR")+'</span></a>'+
+      '<div class="seclabel">'+ic("rocket")+'Hoe wil je oefenen?</div>'+
+      '<div class="tracks">'+
+        '<button class="track" data-track="training"><span class="tile">'+ic("book")+'</span><b>Examen Training</b><small>Oefen op examenniveau. Vragen met directe feedback en uitleg.</small><span class="go">Normaal niveau '+ic("arrowR")+'</span></button>'+
+        '<button class="track alt" data-track="herkansing"><span class="tile">'+ic("heart")+'</span><b>Herkansing</b><small>Rustig opbouwen, met aanmoediging. Jij bepaalt het tempo.</small><span class="go">Met begeleiding '+ic("arrowR")+'</span></button>'+
+      '</div>'+
+      '<div class="card pad choverview" style="margin-top:18px">'+
+        '<div class="row" style="justify-content:space-between;align-items:center"><b>Kies een hoofdstuk</b>'+(tD>0?'<button type="button" class="bnlink" id="resetProg">'+ic("refresh")+'Reset</button>':'')+'</div>'+
+        '<p class="muted" style="font-size:12.5px;margin:6px 0 12px">Klik een hoofdstuk om alleen dat te oefenen.'+(tD>0?' &middot; '+tD+'/'+tQ+' geoefend &middot; '+pct(tC,tD)+'% juist':'')+'</p>'+
+        '<div class="chlist">'+Object.keys(TOPICS).map(function(k){var s=st[k];var w=pct(s.done,s.total);return '<button type="button" class="chrow" data-ch="'+k+'"><span class="chname">'+esc(TOPICS[k])+'</span><span class="chbar"><i style="width:'+w+'%"></i></span><span class="chval">'+s.done+'/'+s.total+'</span>'+ic("chevR","caret")+'</button>';}).join("")+'</div></div>';
+    setHTML(html);
+    [].slice.call(document.querySelectorAll(".chrow")).forEach(function(el){ el.onclick=function(){ startChapter(el.dataset.ch); }; });
+    var _rp=document.getElementById("resetProg"); if(_rp) _rp.onclick=function(){ resetProg(); renderHome(); };
+    [].slice.call(document.querySelectorAll(".track")).forEach(function(el){ el.onclick=function(){ var t=el.dataset.track; state.track=t; lset("logica_track",t); state.step=(t==="herkansing"?"herkansing":"practice"); renderHome(); window.scrollTo(0,0); }; });
+  }
+
+  function renderHerkansing(){
+    var html=
+      '<button class="backlink" id="backBtn">'+ic("back")+'Terug</button>'+
+      '<div class="seclabel" style="margin-top:2px">'+ic("heart")+'Herkansing</div>'+
+      (calm?'<div class="card pad warmcard"><div class="row" style="gap:11px;flex-wrap:nowrap;align-items:flex-start">'+ic("heart")+'<div><b>Een nieuwe kans, rustig aan.</b><p class="muted" style="margin:5px 0 0;font-size:13.5px">Herkansen betekent niet dat je het niet kunt. Stap voor stap kom je er. Jij kunt dit. 💙</p></div></div></div>':'')+
+      '<div class="card pad" style="margin-top:12px"><div class="row" style="justify-content:space-between;align-items:center;gap:14px"><div><b>Rustige modus</b><div class="muted" style="font-size:12.5px">Aanmoediging en kalme sfeer. Zet uit als je liever recht-voor-z’n-raap oefent.</div></div><button class="toggle'+(calm?" on":"")+'" id="calmToggle" role="switch" aria-checked="'+(calm?"true":"false")+'" aria-label="Rustige modus aan of uit"><span class="knob"></span></button></div></div>'+
+      '<div class="row" style="margin-top:16px"><button class="btn" id="beginBtn">Begin met oefenen '+ic("arrowR")+'</button></div>';
+    setHTML(html);
+    document.getElementById("backBtn").onclick=function(){ state.step="track"; renderHome(); window.scrollTo(0,0); };
+    document.getElementById("calmToggle").onclick=function(){ calm=!calm; lset("logica_calm",calm); applyCalm(); renderHerkansing(); };
+    document.getElementById("beginBtn").onclick=function(){ state.step="practice"; renderHome(); window.scrollTo(0,0); };
+  }
+
+  function renderPractice(){
+    var herk=state.track==="herkansing";
+    var html=
+      '<button class="backlink" id="backBtn">'+ic("back")+'Terug</button>'+
+      '<div class="modebanner'+(herk?" v":"")+'">'+ic(herk?"heart":"book")+'<span>'+modeLabel()+'</span><button type="button" class="bnlink" id="changeMode">wijzig</button></div>'+
+      '<div class="seclabel">'+ic("rocket")+'Waarmee wil je oefenen?</div>'+
+      '<div class="grid g2">'+
+        '<button class="mode" data-mode="quiz"><span class="me">'+ic("target")+'</span><b>Oefenvragen</b><small>Meerkeuze met directe feedback en uitleg. Kies je onderwerpen.</small></button>'+
+        '<button class="mode" id="quickStart"><span class="me">'+ic("rocket")+'</span><b>Snelle ronde</b><small>15 willekeurige vragen uit alle onderwerpen.</small></button>'+
+      '</div>';
+    setHTML(html);
+    document.getElementById("backBtn").onclick=function(){ if(state.fromHub){ location.href="https://beriesexamspace.github.io/"; return; } state.step=(herk?"herkansing":"track"); renderHome(); window.scrollTo(0,0); };
+    document.getElementById("changeMode").onclick=function(){ if(state.fromHub){ location.href="https://beriesexamspace.github.io/"; return; } state.step="track"; renderHome(); window.scrollTo(0,0); };
+    document.querySelector('[data-mode="quiz"]').onclick=function(){ go("quiz"); };
+    document.getElementById("quickStart").onclick=function(){ state.view="quiz"; tabBtns.forEach(function(b){b.classList.toggle("on",b.dataset.view==="quiz");}); startQuiz(shuffle(D.questions.slice()).slice(0,15)); window.scrollTo(0,0); };
+  }
+
+  function renderQuizGate(){
+    if(state.quiz) return renderQuiz();
+    var s=state.sel;
+    function pool(){ return D.questions.filter(function(q){return s.topics[q.t];}); }
+    var html='<div class="card pad"><h2 style="margin-top:0">Oefenvragen</h2>'+
+      '<p class="muted">Kies onderwerpen en het aantal vragen. Na elk antwoord krijg je meteen feedback én de uitleg.</p>'+
+      '<label class="fld">Onderwerpen</label><div class="chips" id="tps">'+
+        Object.keys(TOPICS).map(function(k){return '<button class="chip'+(s.topics[k]?" on":"")+'" data-tp="'+k+'">'+esc(TOPICS[k])+'</button>';}).join("")+'</div>'+
+      '<label class="fld">Aantal vragen</label><div class="chips" id="cnt">'+
+        [10,15,20,999].map(function(n){return '<button class="chip'+(s.count===n?" on":"")+'" data-n="'+n+'">'+(n===999?"Alle":n)+'</button>';}).join("")+'</div>'+
+      '<label class="fld"><input type="checkbox" id="shuf" '+(s.shuffle?"checked":"")+'> Willekeurige volgorde</label>'+
+      '<div class="row" style="margin-top:18px"><button class="btn" id="startQ">Start '+ic("arrowR")+'</button><span class="muted" id="poolN"></span></div></div>';
+    setHTML(html);
+    function refresh(){ var n=pool().length; document.getElementById("poolN").textContent=n+" vragen beschikbaar"; document.getElementById("startQ").disabled=n===0; }
+    [].slice.call(document.querySelectorAll("#tps .chip")).forEach(function(b){ b.onclick=function(){ s.topics[b.dataset.tp]=!s.topics[b.dataset.tp]; b.classList.toggle("on"); refresh(); }; });
+    [].slice.call(document.querySelectorAll("#cnt .chip")).forEach(function(b){ b.onclick=function(){ s.count=+b.dataset.n; renderQuizGate(); }; });
+    document.getElementById("shuf").onchange=function(e){ s.shuffle=e.target.checked; };
+    document.getElementById("startQ").onclick=function(){ var p=pool(); if(s.shuffle)p=shuffle(p); if(s.count<p.length)p=p.slice(0,s.count); startQuiz(p); };
+    refresh();
+  }
+
+  function startQuiz(items){ bump("berat-logica", state.track==="herkansing"?"herkansing":"training"); state.quiz={items:items.map(function(q){return {q:q,opts:shuffle(q.o.map(function(t,i){return {text:t,ok:i===q.a};}))};}), idx:0, answered:false, picked:-1, correct:0, wrong:[], done:false}; renderQuiz(); }
+
+  function renderQuiz(){
+    var Q=state.quiz; if(Q.done) return renderResult();
+    var cur=Q.items[Q.idx], q=cur.q;
+    var html='<button class="backlink" id="backBtn">'+ic("back")+'Terug</button>'+
+      '<div class="card pad">'+
+      '<div class="runtop"><span class="pill">'+esc(TOPICS[q.t])+'</span><div class="bar"><i data-w="'+pct(Q.idx,Q.items.length)+'"></i></div><span>'+(Q.idx+1)+'/'+Q.items.length+'</span></div>'+
+      '<div class="qtext">'+esc(q.q)+'</div>'+
+      '<div id="opts">'+cur.opts.map(function(o,i){return '<button class="opt" data-i="'+i+'" style="--oi:'+(i*55)+'ms"><span class="k">'+String.fromCharCode(65+i)+'</span><span>'+esc(o.text)+'</span></button>';}).join("")+'</div>'+
+      '<div id="fb"></div>'+
+      '<div class="row" style="justify-content:space-between;margin-top:6px"><span class="muted" style="font-size:12px">Toets <span class="kbd">A–D</span> · <span class="kbd">Enter</span> = volgende</span><button class="btn hide" id="nextBtn">Volgende '+ic("arrowR")+'</button></div></div>';
+    setHTML(html);
+    var i2=document.querySelector(".bar>i"); requestAnimationFrame(function(){ if(i2) i2.style.width=i2.getAttribute("data-w")+"%"; });
+    document.getElementById("backBtn").onclick=function(){ state.quiz=null; renderQuizGate(); };
+    var optBtns=[].slice.call(document.querySelectorAll("#opts .opt"));
+    var nb=document.getElementById("nextBtn"); nb.onclick=next;
+    function showAnswered(i){
+      optBtns.forEach(function(b){ var bi=+b.dataset.i; b.disabled=true; if(cur.opts[bi].ok)b.classList.add("correct"); else if(bi===i)b.classList.add("wrong"); });
+      var ok=cur.opts[i].ok, fb=document.getElementById("fb"); fb.className="feedback "+(ok?"ok":"no");
+      var juist=cur.opts.filter(function(o){return o.ok;})[0].text;
+      fb.innerHTML=ok?"<b>"+rnd(PRAISE)+" ✓</b>":"<b>"+wrongLead()+"</b><span class=\"sub\">Juiste antwoord: "+esc(juist)+"</span>";
+      var w=document.createElement("div"); w.innerHTML='<div class="whybox"><h4>'+ic("sparkles")+'Waarom?</h4>'+esc(q.u)+'</div>'; fb.appendChild(w);
+      nb.classList.remove("hide"); nb.innerHTML=(Q.idx+1>=Q.items.length)?"Bekijk resultaat "+ic("arrowR"):"Volgende "+ic("arrowR");
+    }
+    function pick(i){ if(Q.answered)return; Q.answered=true; Q.picked=i; var ok=cur.opts[i].ok; if(ok)Q.correct++; else Q.wrong.push(q); recordProg(q.id, ok); showAnswered(i); nb.focus(); }
+    optBtns.forEach(function(b){ b.onclick=function(){ pick(+b.dataset.i); }; });
+    function next(){ if(!Q.answered)return; Q.idx++; Q.answered=false; Q.picked=-1; if(Q.idx>=Q.items.length)Q.done=true; renderQuiz(); }
+    if(Q.answered) showAnswered(Q.picked);
+    state.key=function(e){ if(!Q.answered){ var k=e.key.toLowerCase(); var idx="abcde".indexOf(k); if(idx<0&&/[1-5]/.test(k))idx=+k-1; if(idx>=0&&idx<cur.opts.length){pick(idx);e.preventDefault();} } else if(e.key==="Enter"||e.key===" "){ next(); e.preventDefault(); } };
+  }
+
+  function renderResult(){
+    var Q=state.quiz, p=pct(Q.correct,Q.items.length);
+    var msg=p>=80?"Sterk werk! 🎉":p>=60?"Goed bezig 👍":"Blijf oefenen, je komt er 💪";
+    var html='<div class="card pad results center"><span class="pill">Logica & Wetenschapsfilosofie</span><div class="big">'+p+'%</div>'+
+      '<p style="font-weight:600;margin:0 0 4px;font-size:17px">'+msg+'</p><p class="muted">'+Q.correct+' van '+Q.items.length+' juist</p>'+
+      '<div class="row" style="justify-content:center;margin-top:14px">'+
+        (Q.wrong.length?'<button class="btn" id="retry">Herhaal '+Q.wrong.length+' foute vragen</button>':'')+
+        '<button class="btn ghost" id="again">Nieuwe ronde</button><button class="btn ghost" id="home">Naar start</button></div></div>';
+    setHTML(html);
+    var rt=document.getElementById("retry"); if(rt) rt.onclick=function(){ startQuiz(shuffle(Q.wrong)); };
+    document.getElementById("again").onclick=function(){ state.quiz=null; renderQuizGate(); };
+    document.getElementById("home").onclick=function(){ state.quiz=null; go("home"); };
+    state.key=null;
+  }
+
+  function renderTheory(){
+    var q=state.sumq||"";
+    var html='<div class="card pad" style="margin-bottom:14px"><h2 style="margin:0 0 8px">Theorie en samenvatting</h2>'+
+      '<input type="search" id="sq" placeholder="Zoek een begrip… (bv. falsificatie, paradigma, verificatie)" value="'+esc(q)+'"></div><div id="list">'+theoryList(q)+'</div>';
+    setHTML(html);
+    var si=document.getElementById("sq"); si.oninput=function(){ state.sumq=si.value; document.getElementById("list").innerHTML=theoryList(si.value); si.focus(); };
+  }
+  function theoryList(query){
+    var Q=query.trim().toLowerCase(), out="", n=0;
+    D.theory.forEach(function(sec){
+      var items=sec.items.filter(function(it){ return !Q || it.toLowerCase().indexOf(Q)>=0 || sec.h.toLowerCase().indexOf(Q)>=0; });
+      if(!items.length) return; n++;
+      out+='<details class="acc"'+(Q?" open":(n===1?" open":""))+'><summary><span class="n">'+ic("search")+'</span>'+esc(sec.h)+ic("chevR","caret")+'</summary><div class="body"><ul>'+items.map(function(it){return '<li>'+hl(esc(it),Q)+'</li>';}).join("")+'</ul></div></details>';
+    });
+    return out||'<p class="muted center">Geen resultaten voor "'+esc(query)+'".</p>';
+  }
+  function hl(t,q){ if(!q)return t; try{ return t.replace(new RegExp("("+q.replace(/[.*+?^${}()|[\]\\]/g,"\\$&")+")","ig"),"<mark>$1</mark>"); }catch(e){ return t; } }
+
+  function renderHacks(){
+    var html='<div class="card pad" style="margin-bottom:16px"><h2 style="margin:0 0 6px">Studie-hacks</h2><p class="muted" style="margin:0">Ezelsbruggetjes om de kernideeën van de wetenschapsfilosofie te onthouden.</p></div>'+
+      '<div class="tipgrid">'+D.hacks.map(function(t){return '<div class="tip"><h4>'+ic("bulb")+esc(t.h)+'</h4><p>'+esc(t.t)+'</p></div>';}).join("")+'</div>';
+    setHTML(html);
+  }
+
+  function renderFeedback(){
+    var html='<div class="card pad"><h2 style="margin-top:0">Feedback &amp; klachten</h2>'+
+      '<p class="muted">Fout in een vraag, een idee, of werkt iets niet? Laat het hier weten, het komt rechtstreeks bij de maker terecht. Een review of compliment mag ook: de mooiste tonen we op de hub. 💬</p>'+
+      '<label class="fld" for="fbMsg">Je bericht</label><textarea id="fbMsg" rows="5" placeholder="Beschrijf de fout of je idee…"></textarea>'+
+      '<label class="fld" for="fbWaar">Over welke vraag? <span class="muted">(optioneel)</span></label><input type="text" id="fbWaar" placeholder="bv. de vraag over de p-waarde">'+
+      '<label class="fld" for="fbNaam">Je naam <span class="muted">(optioneel)</span></label><input type="text" id="fbNaam" placeholder="zodat we je kunnen bedanken">'+
+      '<label class="fld" for="fbEmail">Je e-mail <span class="muted">(optioneel, als je een antwoord wilt)</span></label><input type="email" id="fbEmail" placeholder="naam@voorbeeld.be">'+
+      '<input type="text" id="fbBot" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;opacity:0">'+
+      '<div class="row" style="margin-top:16px;align-items:center"><button class="btn" id="fbSend">'+ic("send")+'Versturen</button><span id="fbStatus" style="font-size:13px"></span></div></div>';
+    setHTML(html);
+    document.getElementById("fbSend").onclick=function(){
+      var status=document.getElementById("fbStatus");
+      if(document.getElementById("fbBot").value) return;
+      var msg=document.getElementById("fbMsg").value.trim();
+      if(!msg){ status.style.color="var(--bad)"; status.textContent="Schrijf eerst een bericht."; return; }
+      var btn=document.getElementById("fbSend"); btn.disabled=true; status.style.color="var(--muted)"; status.textContent="Versturen…";
+      var em=document.getElementById("fbEmail").value.trim();
+      var nm=document.getElementById("fbNaam").value.trim();
+      var waar=document.getElementById("fbWaar").value.trim();
+      var payload={_subject:"Logica & Wetenschapsfilosofie-tool: feedback", _template:"table", _captcha:"false",
+        Naam:nm||"-", Over_welke_vraag:waar||"-", email:em||"-", Bericht:msg};
+      if(em) payload._replyto=em;
+      // vangnet: als de verzenddienst blokkeert (bv. spamfilter) of er is geen verbinding,
+      // bieden we een directe mailto-knop aan zodat de melding NOOIT stilletjes verdwijnt.
+      function failFallback(reden){
+        var body="Feedback Logica & Wetenschapsfilosofie-tool%0D%0A%0D%0ANaam: "+encodeURIComponent(nm||"-")+"%0D%0AOver welke vraag: "+encodeURIComponent(waar||"-")+"%0D%0AE-mail: "+encodeURIComponent(em||"-")+"%0D%0A%0D%0ABericht:%0D%0A"+encodeURIComponent(msg);
+        var mailto="mailto:berat007yildirim@gmail.com?subject="+encodeURIComponent("Logica & Wetenschapsfilosofie-tool: feedback")+"&body="+body;
+        setHTML('<div class="card pad"><h2 style="margin-top:0">Automatisch versturen lukte niet</h2><p class="muted">'+reden+' Geen zorgen, klik hieronder en je melding wordt geopend in je e-mail, helemaal klaar om te versturen:</p><a class="btn" href="'+mailto+'">'+ic("send")+'Mail mijn melding direct</a><div style="margin-top:14px"><button class="btn ghost" id="bk">Terug naar start</button></div></div>');
+        document.getElementById("bk").onclick=function(){go("home");};
+      }
+      fetch("https://formsubmit.co/ajax/Berat007yildirim@gmail.com",{method:"POST",headers:{Accept:"application/json"},body:new URLSearchParams(payload)})
+        .then(function(r){return r.json();}).then(function(d){
+          if(d&&(d.success===true||d.success==="true")){ setHTML('<div class="card pad results center"><div style="font-size:42px">✅</div><h2 style="margin:6px 0">Bedankt!</h2><p class="muted">Je melding is verstuurd.</p><button class="btn" id="bk" style="margin-top:8px">Terug naar start</button></div>'); document.getElementById("bk").onclick=function(){go("home");}; }
+          else { failFallback("Het automatisch versturen lukte niet."); }
+        }).catch(function(){ failFallback("Er was even geen verbinding."); });
+    };
+  }
+
+  document.addEventListener("keydown",function(e){ if(state.key) state.key(e); });
+  // bezoeker tellen (1x per toestel)
+  try{ if(!localStorage.getItem("logica_seen")){ localStorage.setItem("logica_seen","1"); bump("berat-logica","gebruikers"); } }catch(e){ bump("berat-logica","gebruikers"); }
+  // traject vanuit de hub overnemen → direct naar de oefenpagina
+  try{ var _q=new URLSearchParams(location.search); var _m=_q.get("m");
+    if(_m==="training"||_m==="herkansing"){ state.track=_m; lset("logica_track",_m);
+      var _c=_q.get("calm"); if(_c!=null){ calm=(_c!=="0"); lset("logica_calm",calm); applyCalm(); }
+      state.step="practice"; state.fromHub=true; }
+  }catch(e){}
+  render();
+  // launch-splash netjes laten verdwijnen
+  (function(){ var _sp=document.getElementById("splash"); if(!_sp) return; var _red=false; try{_red=window.matchMedia("(prefers-reduced-motion: reduce)").matches;}catch(e){} setTimeout(function(){ _sp.classList.add("hide"); setTimeout(function(){ if(_sp&&_sp.parentNode) _sp.parentNode.removeChild(_sp); }, 700); }, _red?300:1850); })();
+})();
+</script>
+</body>
+</html>
