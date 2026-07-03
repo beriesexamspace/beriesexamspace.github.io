@@ -357,6 +357,13 @@
   #exinfo .okpill::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--good)}
   #exinfo .srclink{font-size:11.5px;color:var(--accent-ink);text-decoration:none;border:1px solid var(--line);padding:4px 10px;border-radius:999px;transition:border-color .2s}
   #exinfo .srclink:hover{border-color:var(--accent)}
+  #exinfo .excats{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin:0 auto 20px;max-width:680px}
+  #exinfo .excat{border:1px solid var(--line);background:var(--card);color:var(--muted);border-radius:999px;padding:7px 14px;font-size:13px;font-weight:600;cursor:pointer;transition:background .18s var(--ease),color .18s var(--ease),border-color .18s var(--ease),transform .12s var(--ease)}
+  #exinfo .excat:hover{border-color:var(--accent);color:var(--ink)}
+  #exinfo .excat:active{transform:scale(.96)}
+  #exinfo .excat.on{background:var(--accent);color:#fff;border-color:var(--accent)}
+  #exinfo .qcard.exhide{display:none}
+  #exinfo .exempty{grid-column:1/-1;text-align:center;color:var(--muted);font-size:13.5px;padding:10px 0}
   #exinfo .calc{border:1px solid var(--line);background:var(--card);border-radius:var(--r-lg);padding:22px;box-shadow:var(--shadow);margin-bottom:16px}
   #exinfo .calctitle{display:flex;align-items:center;gap:8px;justify-content:center;font-weight:700;font-size:15.5px;margin-bottom:4px}
   #exinfo .calctitle svg{width:19px;height:19px;color:var(--accent-ink);fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
@@ -409,38 +416,176 @@
       <span class="statpill"><span class="dot"></span><span>Geverifieerd op het <b>VUB-reglement 2025-2026</b></span></span>
     </div>
 
-    <div class="exfaq">
-      <div class="qcard">
+    <div class="excats" id="excats">
+      <button class="excat on" data-cat="all" type="button">Alles</button>
+      <button class="excat" data-cat="delib" type="button">Deliberatie</button>
+      <button class="excat" data-cat="tweede" type="button">Tweede zit</button>
+      <button class="excat" data-cat="taken" type="button">Taken &amp; deelcijfers</button>
+      <button class="excat" data-cat="punten" type="button">Je puntenblad</button>
+      <button class="excat" data-cat="cijfer" type="button">Eindcijfer &amp; graad</button>
+      <button class="excat" data-cat="inzage" type="button">Inzage &amp; beroep</button>
+    </div>
+
+    <div class="exfaq" id="exfaq">
+      <!-- ===== Deliberatie en tolerantie ===== -->
+      <div class="qcard" data-cat="delib">
         <b>Vanaf welk punt kan je gedelibereerd worden?</b>
         <div class="desc">8/20 is de absolute ondergrens. Een resultaat lager dan 8 op 20 kan nooit getolereerd worden, niet na het eerste jaar en niet voor de hele bachelor.</div>
         <div class="srcrow"><span class="okpill">Bevestigd</span><a class="srclink" href="https://www.vub.be/sites/default/files/2025-07/2025_Reglementen_OER_2025-2026_NL.pdf" target="_blank" rel="noopener">OER Art. 139 ↗</a></div>
       </div>
-      <div class="qcard">
+      <div class="qcard" data-cat="delib">
         <b>Word je automatisch gedelibereerd?</b>
         <div class="desc">Ja, als je aan alle voorwaarden voldoet: gewogen gemiddelde minstens 55%, hoogstens drie punten tekort over maximaal twee vakken, en geen punt onder 8. De examencommissie kan daarnaast extra delibereren bij bijzondere omstandigheden.</div>
         <div class="srcrow"><span class="okpill">Bevestigd</span><a class="srclink" href="https://www.vub.be/sites/default/files/2025-07/2025_Reglementen_OER_2025-2026_NL.pdf" target="_blank" rel="noopener">OER Art. 139 ↗</a></div>
       </div>
-      <div class="qcard">
+      <div class="qcard" data-cat="delib">
+        <b>Wat is een getolereerde onvoldoende (tolerated fail)?</b>
+        <div class="desc">Een vak waar je onder de 10/20 staat, maar dat toch meetelt als geslaagd omdat je aan alle deliberatievoorwaarden voldoet. Je krijgt er geen creditbewijs voor en je hoeft het niet te hernemen, het wordt gewoon meegesleept.</div>
+        <div class="srcrow"><span class="okpill">Bevestigd</span><a class="srclink" href="https://www.vub.be/sites/default/files/2025-07/2025_Reglementen_OER_2025-2026_NL.pdf" target="_blank" rel="noopener">OER Art. 139 en 143 ↗</a></div>
+      </div>
+      <div class="qcard" data-cat="delib">
+        <b>Wat is het gewogen-punten-tekort (GPT)?</b>
+        <div class="desc">Per vak: (10 min je punt) maal het aantal studiepunten. Voorbeeld: 8/20 op een vak van 6 studiepunten is (10 min 8) maal 6, dus 12. Je telt alle tekorten op. Over de hele bachelor mag dat samen maximaal 18 zijn.</div>
+        <div class="srcrow"><span class="okpill">Bevestigd</span><a class="srclink" href="https://www.vub.be/sites/default/files/2025-07/2025_Reglementen_OER_2025-2026_NL.pdf" target="_blank" rel="noopener">OER Art. 139 ↗</a></div>
+      </div>
+      <div class="qcard" data-cat="delib">
         <b>Kunnen tweedejaarsvakken niet gedelibereerd worden?</b>
         <div class="desc">Misverstand. Ze kunnen wel getolereerd worden, maar pas in de eindeliberatie van de hele bachelor, niet als losse stap op het einde van het tweede jaar.</div>
-        <div class="srcrow"><span class="okpill">Bevestigd</span><a class="srclink" href="https://www.vub.be/sites/default/files/2025-09/2025_Reglementen_Facultaire_aanvullingen_OER_PE_2526_NL.pdf" target="_blank" rel="noopener">OER Art. 143 ↗</a></div>
+        <div class="srcrow"><span class="okpill">Bevestigd</span><a class="srclink" href="https://www.vub.be/sites/default/files/2025-07/2025_Reglementen_OER_2025-2026_NL.pdf" target="_blank" rel="noopener">OER Art. 143 ↗</a></div>
       </div>
-      <div class="qcard">
+      <div class="qcard" data-cat="delib">
+        <b>Welke vakken kunnen nooit getolereerd worden?</b>
+        <div class="desc">Je bachelorproef, masterproef en verplichte stage. Daarvoor moet je echt slagen (minstens 10/20), die kunnen nooit weggedelibereerd worden.</div>
+        <div class="srcrow"><span class="okpill">Bevestigd</span><a class="srclink" href="https://www.vub.be/sites/default/files/2025-07/2025_Reglementen_OER_2025-2026_NL.pdf" target="_blank" rel="noopener">OER Art. 143 ↗</a></div>
+      </div>
+      <div class="qcard" data-cat="delib">
+        <b>Kan ik een getolereerde onvoldoende toch hernemen?</b>
+        <div class="desc">Ja. Je mag hem in de tweede zit toch opnieuw afleggen. Vraag dat schriftelijk aan bij het faculteitssecretariaat binnen 7 kalenderdagen na de bekendmaking. Let op: je oorspronkelijke punt vervalt dan onherroepelijk, ook als je nieuwe punt lager is.</div>
+        <div class="srcrow"><span class="okpill">Bevestigd</span><a class="srclink" href="https://www.vub.be/sites/default/files/2025-07/2025_Reglementen_OER_2025-2026_NL.pdf" target="_blank" rel="noopener">OER Art. 139 en 143 ↗</a></div>
+      </div>
+
+      <!-- ===== Tweede zittijd ===== -->
+      <div class="qcard" data-cat="tweede">
         <b>Moet ik mij inschrijven voor de herexamens?</b>
-        <div class="desc">Nee. Je wordt automatisch ingeschreven voor elk vak waarvoor je nog geen credit haalde. Je hoeft daar zelf niets voor te doen.</div>
-        <div class="srcrow"><span class="okpill">Bevestigd</span><a class="srclink" href="https://www.vub.be/sites/default/files/2025-09/2025_Reglementen_Facultaire_aanvullingen_OER_PE_2526_NL.pdf" target="_blank" rel="noopener">OER Art. 110 ↗</a></div>
+        <div class="desc">Nee. Je wordt automatisch ingeschreven voor elk vak waarvoor je nog geen credit haalde. Een getolereerd vak wordt niet automatisch heringeschreven, dat mag je zelf kiezen.</div>
+        <div class="srcrow"><span class="okpill">Bevestigd</span><a class="srclink" href="https://www.vub.be/sites/default/files/2025-07/2025_Reglementen_OER_2025-2026_NL.pdf" target="_blank" rel="noopener">OER Art. 110 ↗</a></div>
       </div>
-      <div class="qcard">
+      <div class="qcard" data-cat="tweede">
         <b>Blijft mijn punt van de eerste zit staan?</b>
-        <div class="desc">Nee. Zodra je een vak herneemt, vervalt je eerste punt automatisch en komt het nieuwe resultaat in de plaats.</div>
-        <div class="srcrow"><span class="okpill">Bevestigd</span><a class="srclink" href="https://www.vub.be/sites/default/files/2025-09/2025_Reglementen_Facultaire_aanvullingen_OER_PE_2526_NL.pdf" target="_blank" rel="noopener">OER Art. 110 ↗</a></div>
+        <div class="desc">Nee. Zodra je een vak herneemt, vervalt je eerste punt automatisch en komt het nieuwe resultaat in de plaats, ook als dat lager is.</div>
+        <div class="srcrow"><span class="okpill">Bevestigd</span><a class="srclink" href="https://www.vub.be/sites/default/files/2025-07/2025_Reglementen_OER_2025-2026_NL.pdf" target="_blank" rel="noopener">OER Art. 110 ↗</a></div>
       </div>
-      <div class="qcard">
+      <div class="qcard" data-cat="tweede">
+        <b>Wanneer ken ik mijn rooster voor de tweede zit?</b>
+        <div class="desc">Het voorlopige rooster krijg je minstens 4 weken op voorhand, het definitieve rooster 2 weken voor de start van de examenperiode. Voor de tweede zit is die termijn dus korter dan in juni.</div>
+        <div class="srcrow"><span class="okpill">Bevestigd</span><a class="srclink" href="https://www.vub.be/sites/default/files/2025-07/2025_Reglementen_OER_2025-2026_NL.pdf" target="_blank" rel="noopener">OER Art. 106 ↗</a></div>
+      </div>
+      <div class="qcard" data-cat="tweede">
+        <b>Wanneer valt de tweede zit dit jaar?</b>
+        <div class="desc">Voor Psychologie en Educatiewetenschappen 2025-2026: van maandag 17 augustus tot zaterdag 5 september 2026, met de resultaten online op vrijdag 11 september 2026. Deze data kunnen per jaar wijzigen, check de facultaire kalender.</div>
+        <div class="srcrow"><span class="okpill">Bevestigd</span><a class="srclink" href="https://www.vub.be/sites/default/files/2025-10/2025_Examenregeling_Kalender_PE_2526_NL.pdf" target="_blank" rel="noopener">Examenkalender PE ↗</a></div>
+      </div>
+      <div class="qcard" data-cat="tweede">
+        <b>Kan ik een januari-vak al in juni herkansen?</b>
+        <div class="desc">Nee. Een vak uit het eerste semester dat je niet haalde, herneem je ten vroegste in de tweede zit (augustus of september), niet al in de juni-periode.</div>
+        <div class="srcrow"><span class="okpill">Bevestigd</span><a class="srclink" href="https://www.vub.be/sites/default/files/2025-07/2025_Reglementen_OER_2025-2026_NL.pdf" target="_blank" rel="noopener">OER Art. 104 ↗</a></div>
+      </div>
+      <div class="qcard" data-cat="tweede">
+        <b>Ik ben ziek op mijn examen, wat nu?</b>
+        <div class="desc">Bij overmacht meld je dat ten laatste op de dag zelf via het online overmachtsformulier van de faculteit, en je bezorgt je originele attest binnen 3 kalenderdagen aan het faculteitssecretariaat. Regel het dus meteen, niet later.</div>
+        <div class="srcrow"><span class="okpill">Bevestigd</span><a class="srclink" href="https://www.vub.be/sites/default/files/2025-09/2025_Reglementen_Facultaire_aanvullingen_OER_PE_2526_NL.pdf" target="_blank" rel="noopener">OER Art. 111 + PE ↗</a></div>
+      </div>
+
+      <!-- ===== Taken en deelcijfers ===== -->
+      <div class="qcard" data-cat="taken">
+        <b>Blijft een geslaagde taak staan voor de tweede zit?</b>
+        <div class="desc">Dat hangt van de vakfiche af. Een taak die je in de tweede zit niet meer kan overdoen (zoals een groepsopdracht tijdens het semester) blijft staan. Een taak die je wel opnieuw kan doen, telt standaard niet mee, tenzij de vakfiche uitdrukkelijk zegt dat je resultaat blijft.</div>
+        <div class="srcrow"><span class="okpill">Bevestigd</span><a class="srclink" href="https://www.vub.be/sites/default/files/2025-07/2025_Reglementen_OER_2025-2026_NL.pdf" target="_blank" rel="noopener">OER Art. 141 ↗</a></div>
+      </div>
+      <div class="qcard" data-cat="taken">
+        <b>Wat gebeurt met mijn deelcijfers in de tweede zit?</b>
+        <div class="desc">Deelresultaten die je niet kan hernemen, blijven behouden. Deelresultaten die je wel opnieuw aflegt, worden niet overgedragen tenzij de vakfiche anders bepaalt. Deelcijfers gaan sowieso niet mee naar een volgend academiejaar, tenzij de fiche dat toelaat.</div>
+        <div class="srcrow"><span class="okpill">Bevestigd</span><a class="srclink" href="https://www.vub.be/sites/default/files/2025-07/2025_Reglementen_OER_2025-2026_NL.pdf" target="_blank" rel="noopener">OER Art. 141 ↗</a></div>
+      </div>
+
+      <!-- ===== Je puntenblad ===== -->
+      <div class="qcard" data-cat="punten">
         <b>Waar staan mijn officiele punten?</b>
         <div class="desc">Alleen op cali.vub.be (SelfService), in je puntenblad. Canvas is enkel het leerplatform, daar staat je officiele resultaat niet. Wat je tijdens de examenperiode ziet is voorlopig tot de proclamatie.</div>
         <div class="srcrow"><span class="okpill">Bevestigd</span><a class="srclink" href="https://www.vub.be/nl/studeren-aan-de-vub/praktische-info-voor-studenten/examens-en-deliberatie/mijn-examenresultaten" target="_blank" rel="noopener">VUB examenresultaten ↗</a></div>
       </div>
+      <div class="qcard" data-cat="punten">
+        <b>Study Overview of Transcript of records?</b>
+        <div class="desc">In SelfService toont Study Overview snel je cijfers per academiejaar. Het Transcript of records is je officiele puntenblad: daar staat je proclamatiecode op. Voor de officiele beslissing kijk je dus in je transcript, niet enkel in het overzicht.</div>
+        <div class="srcrow"><span class="okpill">Bevestigd</span><a class="srclink" href="https://www.vub.be/nl/studeren-aan-de-vub/praktische-info-voor-studenten/examens-en-deliberatie/mijn-examenresultaten" target="_blank" rel="noopener">VUB examenresultaten ↗</a></div>
+      </div>
+      <div class="qcard" data-cat="punten">
+        <b>Wat betekent 'tolerated fail' op mijn puntenblad?</b>
+        <div class="desc">Dat is een getolereerd vak: je onderliggende cijfer staat onder 10/20 en je krijgt er geen creditbewijs voor, maar het telt wel mee in je geslaagd-beslissing. Twijfel je over een code of label? Vraag het na bij het faculteitssecretariaat.</div>
+        <div class="srcrow"><span class="okpill">Bevestigd</span><a class="srclink" href="https://www.vub.be/sites/default/files/2025-07/2025_Reglementen_OER_2025-2026_NL.pdf" target="_blank" rel="noopener">OER Art. 138 en 139 ↗</a></div>
+      </div>
+      <div class="qcard" data-cat="punten">
+        <b>Wat is de proclamatiecode?</b>
+        <div class="desc">Dat is de enige officiele uitslag over of je slaagt en of je je opleiding mag verderzetten. De examencommissie legt die vast na de deliberatie en je vindt hem op je Transcript of records, niet in het snelle cijferoverzicht.</div>
+        <div class="srcrow"><span class="okpill">Bevestigd</span><a class="srclink" href="https://www.vub.be/nl/studeren-aan-de-vub/praktische-info-voor-studenten/examens-en-deliberatie/mijn-examenresultaten" target="_blank" rel="noopener">VUB examenresultaten ↗</a></div>
+      </div>
+
+      <!-- ===== Eindcijfer en graad ===== -->
+      <div class="qcard" data-cat="cijfer">
+        <b>Hoe wordt mijn eindcijfer per vak opgebouwd?</b>
+        <div class="desc">Volgens de vakfiche: elk deel (examen, taak, werkcollege) heeft daar zijn eigen gewicht. Alleen het eindcijfer wordt afgerond, de deelcijfers zelf worden nooit afgerond.</div>
+        <div class="srcrow"><span class="okpill">Bevestigd</span><a class="srclink" href="https://www.vub.be/sites/default/files/2025-07/2025_Reglementen_OER_2025-2026_NL.pdf" target="_blank" rel="noopener">OER Art. 137 ↗</a></div>
+      </div>
+      <div class="qcard" data-cat="cijfer">
+        <b>Moet ik op elk deel apart slagen?</b>
+        <div class="desc">Er is geen algemene VUB-regel die dat oplegt. Zo'n eis (bijvoorbeeld minstens 8/20 op je examen) bestaat enkel als ze in de vakfiche van dat specifieke vak staat. Check dus altijd de fiche op Canvas.</div>
+        <div class="srcrow"><span class="okpill">Bevestigd</span><a class="srclink" href="https://www.vub.be/sites/default/files/2025-07/2025_Reglementen_OER_2025-2026_NL.pdf" target="_blank" rel="noopener">OER Art. 137 en 103 ↗</a></div>
+      </div>
+      <div class="qcard" data-cat="cijfer">
+        <b>Hoe wordt mijn eindpercentage berekend?</b>
+        <div class="desc">Als een gewogen gemiddelde: elk vak telt mee volgens zijn aantal studiepunten, dus een vak van 6 studiepunten weegt dubbel zo zwaar als een van 3. Dit is wat studenten soms hun grade point noemen. 55% is de deliberatiedrempel.</div>
+        <div class="srcrow"><span class="okpill">Bevestigd</span><a class="srclink" href="https://www.vub.be/sites/default/files/2025-07/2025_Reglementen_OER_2025-2026_NL.pdf" target="_blank" rel="noopener">OER Art. 140 ↗</a></div>
+      </div>
+      <div class="qcard" data-cat="cijfer">
+        <b>Welke graden van verdienste bestaan er?</b>
+        <div class="desc">Op basis van je gemiddeld eindresultaat: voldoening onder 68%, onderscheiding vanaf 68%, grote onderscheiding vanaf 77% en grootste onderscheiding vanaf 85%. Het percentage wordt afgerond, dus 67,5% wordt al 68%.</div>
+        <div class="srcrow"><span class="okpill">Bevestigd</span><a class="srclink" href="https://www.vub.be/sites/default/files/2025-07/2025_Reglementen_OER_2025-2026_NL.pdf" target="_blank" rel="noopener">OER Art. 144 ↗</a></div>
+      </div>
+
+      <!-- ===== Inzage en beroep ===== -->
+      <div class="qcard" data-cat="inzage">
+        <b>Mag ik mijn examen inkijken en feedback vragen?</b>
+        <div class="desc">Ja. Voor schriftelijke examens heb je recht op inzage in je kopij binnen 5 kalenderdagen na de bekendmaking. De afspraak vraag je aan binnen 3 kalenderdagen. Je kan in diezelfde periode ook feedback vragen.</div>
+        <div class="srcrow"><span class="okpill">Bevestigd</span><a class="srclink" href="https://www.vub.be/sites/default/files/2025-07/2025_Reglementen_OER_2025-2026_NL.pdf" target="_blank" rel="noopener">OER Art. 114 ↗</a></div>
+      </div>
+      <div class="qcard" data-cat="inzage">
+        <b>Kan ik beroep aantekenen tegen een resultaat?</b>
+        <div class="desc">Ja, binnen een vervaltermijn van 7 kalenderdagen na de bekendmaking van de resultaten. Valt je inzage later, vermeld dat dan in je verzoekschrift en onderbouw het binnen 7 kalenderdagen daarna.</div>
+        <div class="srcrow"><span class="okpill">Bevestigd</span><a class="srclink" href="https://www.vub.be/sites/default/files/2025-07/2025_Reglementen_OER_2025-2026_NL.pdf" target="_blank" rel="noopener">OER Art. 153 ↗</a></div>
+      </div>
+      <div class="qcard" data-cat="inzage">
+        <b>Hoe vind ik het mailadres van de prof of assistent?</b>
+        <div class="desc">De titularis organiseert vaak zelf een inzagemoment en kondigt dat aan via Canvas. Is er geen moment? Dan vraag je per e-mail een afspraak. Het adres vind je in de vakfiche of studiegids en op de faculteitspagina van Psychologie en Educatiewetenschappen.</div>
+        <div class="srcrow"><span class="okpill">Bevestigd</span><a class="srclink" href="https://www.vub.be/sites/default/files/2025-07/2025_Reglementen_OER_2025-2026_NL.pdf" target="_blank" rel="noopener">OER Art. 114 + PE ↗</a></div>
+      </div>
     </div>
+    <script>
+    (function(){
+      var cats=document.getElementById('excats'); if(!cats) return;
+      var faq=document.getElementById('exfaq');
+      var cards=[].slice.call(faq.querySelectorAll('.qcard'));
+      var btns=[].slice.call(cats.querySelectorAll('.excat'));
+      cats.addEventListener('click',function(e){
+        var b=e.target.closest('.excat'); if(!b) return;
+        var cat=b.getAttribute('data-cat');
+        btns.forEach(function(x){x.classList.toggle('on',x===b);});
+        cards.forEach(function(c){
+          var show=(cat==='all'||c.getAttribute('data-cat')===cat);
+          c.classList.toggle('exhide',!show);
+        });
+      });
+    })();
+    </script>
 
     <style>
     #exinfo .qask{border:1.5px solid var(--accent);background:var(--accent-soft);border-radius:var(--r-lg);padding:20px 22px;box-shadow:var(--shadow);margin-top:6px}
