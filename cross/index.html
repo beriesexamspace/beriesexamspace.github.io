@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+<meta name="theme-color" content="#0f6e6a" />
+<meta http-equiv="Cache-Control" content="no-cache, must-revalidate" />
+<meta http-equiv="Pragma" content="no-cache" />
+<title>Cross-culturele Psychologie, Berie’s exam space</title>
+<meta name="author" content="Berat Yildirim - Berie's exam space" />
+<meta name="copyright" content="© 2026 Berat Yildirim. Alle rechten voorbehouden." />
+<!-- Berie's exam space © 2026 Berat Yildirim. Alle rechten voorbehouden. Originele bron: https://beriesexamspace.github.io  Kopieren of hergebruiken zonder schriftelijke toestemming is niet toegestaan. -->
+<style>
+  :root{
+    --bg:#f4f2ee; --bg2:#ebe8e2; --card:#ffffff; --ink:#1b232c; --muted:#5d6873;
+    --line:#e2ddd4; --accent:#0f6e6a; --accent-ink:#0b4f4c; --accent-soft:#dcefed;
+    --amber:#c9821f; --amber-soft:#f7ecd9; --violet:#6d5bd0; --violet-soft:#e9e6fa;
+    --good:#1f8a4c; --good-soft:#e2f3e8; --bad:#c23b54; --bad-soft:#fbe5ea;
+    --shadow:0 1px 2px rgba(20,30,40,.05),0 6px 18px rgba(20,30,40,.05);
+    --shadow-lg:0 2px 6px rgba(20,30,40,.06),0 18px 40px rgba(20,30,40,.10);
+    --r:14px; --r-lg:20px; --ease:cubic-bezier(.2,.8,.2,1);
+  }
+  html[data-theme="dark"]{
+    --bg:#11151a; --bg2:#161b22; --card:#1b222b; --ink:#e7ecf1; --muted:#9aa6b2;
+    --line:#2a323c; --accent:#3fb9b2; --accent-ink:#7fd6d0; --accent-soft:#163230;
+    --amber:#e0a64a; --amber-soft:#2e2515; --violet:#a99cf0; --violet-soft:#221d3a;
+    --good:#46c178; --good-soft:#16301f; --bad:#ef6b82; --bad-soft:#331620;
+    --shadow:0 1px 2px rgba(0,0,0,.3),0 8px 24px rgba(0,0,0,.35);
+    --shadow-lg:0 2px 8px rgba(0,0,0,.4),0 22px 48px rgba(0,0,0,.5);
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);font-size:16px;line-height:1.55;
+    font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;-webkit-font-smoothing:antialiased}
+  h1,h2,h3{font-family:Georgia,"Iowan Old Style","Times New Roman",serif;letter-spacing:-.01em}
+  button,a{font-family:inherit;cursor:pointer;color:inherit}
+  .wrap{max-width:880px;margin:0 auto;padding:0 18px 96px}
+  :focus-visible{outline:2.5px solid var(--accent);outline-offset:2px;border-radius:8px}
+  .ic{width:1.25em;height:1.25em;flex:none;vertical-align:-.18em;stroke:currentColor;stroke-width:1.75;
+    stroke-linecap:round;stroke-linejoin:round;fill:none}
+
+  header.top{position:sticky;top:0;z-index:30;border-bottom:1px solid var(--line);
+    background:color-mix(in srgb,var(--bg) 88%,transparent);backdrop-filter:saturate(160%) blur(16px);-webkit-backdrop-filter:saturate(160%) blur(16px);box-shadow:inset 0 -1px 0 0 rgba(0,0,0,.04)}
+  .topin{max-width:880px;margin:0 auto;padding:10px 18px;display:flex;align-items:center;gap:12px}
+  .brand{display:flex;align-items:center;gap:11px;font-weight:700}
+  .logo{width:32px;height:32px;border-radius:10px;background:linear-gradient(145deg,var(--accent),var(--accent-ink));
+    color:#fff;display:grid;place-items:center;font-family:Georgia,serif;font-weight:700;font-size:16px;flex:none;
+    box-shadow:0 2px 6px rgba(15,110,106,.35)}
+  .brand small{display:block;font-weight:500;color:var(--muted);font-size:11px}
+  .spacer{flex:1}
+  .iconbtn{border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:10px;min-height:38px;
+    padding:7px 11px;font-size:13.5px;display:inline-flex;gap:7px;align-items:center;text-decoration:none;
+    transition:border-color .2s var(--ease),transform .12s var(--ease)}
+  .iconbtn:hover{border-color:var(--accent)} .iconbtn:active{transform:scale(.96)}
+  nav.tabs{display:flex;gap:2px;overflow:auto;max-width:880px;margin:0 auto;padding:6px 12px 0;scrollbar-width:none}
+  nav.tabs::-webkit-scrollbar{display:none}
+  nav.tabs button{border:none;background:none;color:var(--muted);padding:10px 13px;border-radius:9px 9px 0 0;
+    font-size:14px;font-weight:600;white-space:nowrap;border-bottom:2px solid transparent;display:inline-flex;align-items:center;gap:6px;transition:color .2s var(--ease)}
+  nav.tabs button .ic{width:16px;height:16px}
+  nav.tabs button.on{color:var(--accent-ink);border-bottom-color:var(--accent)}
+  nav.tabs button:hover{color:var(--ink)}
+
+  .card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow)}
+  .pad{padding:20px}
+  .muted{color:var(--muted)}
+  .pill{display:inline-flex;align-items:center;gap:5px;font-size:12px;font-weight:600;padding:4px 10px;border-radius:999px;background:var(--accent-soft);color:var(--accent-ink)}
+  .pill.amber{background:var(--amber-soft);color:var(--amber)}
+  .row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+  .grid{display:grid;gap:14px}
+  @media(min-width:620px){.g2{grid-template-columns:1fr 1fr}}
+
+  .hero{display:flex;flex-wrap:wrap;align-items:center;gap:16px;margin:20px 0 8px}
+  .count{flex:none;background:linear-gradient(150deg,var(--accent),var(--accent-ink));color:#fff;border-radius:var(--r);padding:14px 20px;text-align:center;min-width:118px;box-shadow:0 8px 20px rgba(15,110,106,.28)}
+  .count b{font-family:Georgia,serif;font-size:32px;display:block;line-height:1}
+  .count span{font-size:12px;opacity:.92}
+  .herotext h1{margin:0 0 4px;font-size:25px}
+  .herotext p{margin:0;color:var(--muted)}
+
+  .brandstrip{display:flex;align-items:center;gap:13px;width:100%;text-decoration:none;color:inherit;border:1px solid var(--line);background:var(--card);border-radius:var(--r);padding:12px 16px;margin:14px 0 2px;box-shadow:var(--shadow);transition:border-color .2s var(--ease),transform .15s var(--ease)}
+  .brandstrip:hover{border-color:var(--accent);transform:translateY(-1px)}
+  .brandstrip .bs-logo{width:36px;height:36px;border-radius:10px;flex:none;display:grid;place-items:center;color:#fff;font-family:Georgia,serif;font-weight:700;font-size:17px;background:linear-gradient(145deg,var(--accent),var(--accent-ink))}
+  .brandstrip .bs-txt{flex:1;min-width:0} .brandstrip .bs-txt b{display:block;font-size:14.5px} .brandstrip .bs-txt small{color:var(--muted);font-size:12.5px}
+  .brandstrip .bs-go{color:var(--accent-ink);flex:none;display:inline-flex} .brandstrip .bs-go .ic{width:18px;height:18px}
+
+  .seclabel{display:flex;align-items:center;gap:8px;margin:24px 0 12px;font-weight:700;font-size:15px}
+  .seclabel .ic{width:18px;height:18px;color:var(--accent-ink)}
+  .backlink{display:inline-flex;align-items:center;gap:5px;border:none;background:none;color:var(--muted);font-size:13.5px;font-weight:600;padding:6px 0;margin-bottom:4px;transition:color .2s var(--ease)}
+  .backlink:hover{color:var(--accent-ink)} .backlink .ic{width:16px;height:16px}
+  .tracks{display:grid;gap:14px} @media(min-width:600px){.tracks{grid-template-columns:1fr 1fr}}
+  .track{display:flex;flex-direction:column;gap:8px;text-align:left;width:100%;border:1.5px solid var(--line);background:var(--card);border-radius:var(--r-lg);padding:20px;box-shadow:var(--shadow);transition:transform .22s var(--ease),border-color .22s var(--ease),box-shadow .22s var(--ease)}
+  .track:hover{transform:translateY(-3px);border-color:var(--accent);box-shadow:var(--shadow-lg)} .track:active{transform:translateY(-1px) scale(.995)}
+  .track .tile{width:46px;height:46px;border-radius:13px;display:grid;place-items:center;color:#fff;margin-bottom:4px;background:linear-gradient(150deg,var(--accent),var(--accent-ink))}
+  .track.alt .tile{background:linear-gradient(150deg,var(--violet),#4f40a8)} .track .tile .ic{width:24px;height:24px}
+  .track b{font-size:18px} .track small{color:var(--muted);font-size:13.5px;line-height:1.5}
+  .track .go{margin-top:6px;display:inline-flex;align-items:center;gap:6px;color:var(--accent-ink);font-weight:600;font-size:13.5px} .track.alt .go{color:var(--violet)} .track .go .ic{width:16px;height:16px}
+  .toggle{width:48px;height:28px;border-radius:999px;border:none;background:var(--line);position:relative;cursor:pointer;flex:none;transition:background .2s var(--ease)}
+  .toggle .knob{position:absolute;top:3px;left:3px;width:22px;height:22px;border-radius:50%;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.25);transition:left .2s var(--ease)}
+  .toggle.on{background:var(--violet)} .toggle.on .knob{left:23px}
+  .warmcard{border-color:var(--violet)!important;background:var(--violet-soft)} .warmcard .ic{width:22px;height:22px;color:var(--violet);flex:none}
+  .modebanner{display:flex;align-items:center;gap:10px;margin-bottom:14px;padding:11px 14px;border-radius:var(--r);background:var(--accent-soft);color:var(--accent-ink);font-size:13.5px;font-weight:600}
+  .modebanner.v{background:var(--violet-soft);color:var(--violet)} .modebanner .ic{width:18px;height:18px} .modebanner a,.modebanner .bnlink{margin-left:auto;font-size:13px;font-weight:600;cursor:pointer;text-decoration:underline;color:inherit;border:none;background:none;font-family:inherit;padding:0}
+  html.snappy .card,html.snappy .mode,html.snappy .tip,html.snappy .track{animation-duration:.12s!important}
+  .mode{display:flex;flex-direction:column;text-align:left;width:100%;border:1px solid var(--line);background:var(--card);border-radius:var(--r);padding:17px;gap:7px;box-shadow:var(--shadow);transition:transform .2s var(--ease),border-color .2s var(--ease),box-shadow .2s var(--ease)}
+  .mode:hover{border-color:var(--accent);transform:translateY(-3px);box-shadow:var(--shadow-lg)}
+  .mode .me{width:40px;height:40px;border-radius:11px;display:grid;place-items:center;background:var(--accent-soft);color:var(--accent-ink)} .mode .me .ic{width:22px;height:22px}
+  .mode b{font-size:16px} .mode small{color:var(--muted);font-size:13px}
+
+  label.fld{display:block;font-size:13px;font-weight:600;margin:16px 0 7px}
+  .chips{display:flex;flex-wrap:wrap;gap:8px}
+  .chip{border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:999px;min-height:38px;padding:7px 13px;font-size:13.5px;transition:all .18s var(--ease)}
+  .chip:hover{border-color:var(--accent)} .chip.on{background:var(--accent);color:#fff;border-color:var(--accent)}
+  .btn{background:var(--accent);color:#fff;border:none;border-radius:11px;min-height:46px;padding:12px 20px;font-size:15px;font-weight:600;display:inline-flex;align-items:center;gap:8px;justify-content:center;box-shadow:0 4px 12px rgba(15,110,106,.25);transition:background .2s var(--ease),transform .12s var(--ease)}
+  .btn:hover{background:var(--accent-ink)} .btn:active{transform:scale(.97) translateY(1px)} .btn .ic{width:18px;height:18px}
+  .btn.ghost{background:var(--card);color:var(--ink);border:1px solid var(--line);box-shadow:none} .btn.ghost:hover{border-color:var(--accent)}
+  .btn:disabled{opacity:.5;cursor:not-allowed;box-shadow:none}
+  input[type=search],input[type=text],input[type=email],textarea{font-family:inherit;font-size:15px;padding:9px 11px;border:1px solid var(--line);border-radius:10px;background:var(--card);color:var(--ink);width:100%}
+  input:focus,textarea:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-soft)}
+
+  .runtop{display:flex;align-items:center;gap:12px;margin:2px 0 14px;font-size:13px;color:var(--muted)}
+  .bar{height:8px;border-radius:6px;background:var(--bg2);overflow:hidden;flex:1}
+  .bar>i{display:block;height:100%;width:0;background:var(--accent);border-radius:6px;transition:width .7s var(--ease)}
+  .qtext{font-size:19px;font-weight:600;margin:8px 0 16px;font-family:Georgia,serif;line-height:1.45}
+  .opt{display:flex;gap:12px;align-items:flex-start;width:100%;text-align:left;border:1.5px solid var(--line);background:var(--card);color:var(--ink);border-radius:12px;padding:14px 15px;margin-bottom:10px;font-size:15px;transition:border-color .15s var(--ease),background .15s var(--ease),transform .12s var(--ease)}
+  .opt:hover:not(:disabled){border-color:var(--accent);background:var(--accent-soft)} .opt:active:not(:disabled){transform:scale(.99)}
+  .opt .k{flex:none;width:27px;height:27px;border-radius:8px;background:var(--bg2);color:var(--muted);display:grid;place-items:center;font-weight:700;font-size:13px}
+  .opt.correct{border-color:var(--good);background:var(--good-soft)} .opt.correct .k{background:var(--good);color:#fff}
+  .opt.wrong{border-color:var(--bad);background:var(--bad-soft)} .opt.wrong .k{background:var(--bad);color:#fff}
+  .opt:disabled{cursor:default}
+  .feedback{border-radius:12px;padding:13px 15px;margin:4px 0 12px;font-size:14.5px}
+  .feedback.ok{background:var(--good-soft);color:var(--good)} .feedback.no{background:var(--bad-soft);color:var(--bad)}
+  .feedback b{font-weight:700} .feedback .sub{display:block;margin-top:3px;color:var(--ink);font-weight:500;opacity:.92}
+  .whybtn{border:1px solid var(--line);background:var(--card);color:var(--accent-ink);border-radius:10px;min-height:40px;padding:9px 14px;font-size:13.5px;font-weight:600;display:inline-flex;align-items:center;gap:7px;transition:border-color .2s var(--ease),background .2s var(--ease)}
+  .whybtn:hover{border-color:var(--accent);background:var(--accent-soft)} .whybtn .ic{width:16px;height:16px}
+  .whybox{border:1px solid var(--accent);background:var(--accent-soft);border-radius:12px;padding:14px 16px;margin:12px 0 4px;font-size:14px;line-height:1.55}
+  .whybox h4{margin:0 0 6px;font-size:13px;text-transform:uppercase;letter-spacing:.5px;color:var(--accent-ink);font-family:system-ui;display:flex;align-items:center;gap:7px}
+  .whybox .ic{width:16px;height:16px}
+
+  .acc{border:1px solid var(--line);border-radius:var(--r);margin-bottom:10px;background:var(--card);overflow:hidden;box-shadow:var(--shadow)}
+  .acc>summary{padding:15px 16px;font-weight:700;cursor:pointer;list-style:none;display:flex;align-items:center;gap:11px}
+  .acc>summary::-webkit-details-marker{display:none}
+  .acc>summary .n{flex:none;width:28px;height:28px;border-radius:8px;background:var(--accent-soft);color:var(--accent-ink);display:grid;place-items:center;font-size:13px;font-weight:700}
+  .acc>summary .caret{margin-left:auto;color:var(--muted);transition:transform .25s var(--ease)} .acc[open]>summary .caret{transform:rotate(90deg)}
+  .acc[open]>summary{border-bottom:1px solid var(--line)} .acc .body{padding:6px 18px 16px}
+  .acc h4{margin:14px 0 6px;font-size:13px;color:var(--accent-ink);text-transform:uppercase;letter-spacing:.4px;font-family:system-ui}
+  .acc ul{margin:0;padding-left:20px} .acc li{margin:6px 0;font-size:14.5px;line-height:1.5}
+  .acc.hack li::marker{content:"💡  "} .acc.hack>summary .n{background:var(--violet-soft);color:var(--violet)}
+  mark{background:var(--amber-soft);color:inherit;padding:0 2px;border-radius:3px}
+
+  .tip{border:1px solid var(--line);background:var(--card);border-radius:var(--r);padding:15px;box-shadow:var(--shadow)}
+  .tip h4{margin:0 0 5px;font-size:14.5px;display:flex;align-items:center;gap:8px;font-family:system-ui} .tip h4 .ic{width:18px;height:18px;color:var(--violet)}
+  .tip p{margin:0;font-size:13.5px;color:var(--muted);line-height:1.55}
+  .tipgrid{display:grid;gap:12px} @media(min-width:620px){.tipgrid{grid-template-columns:1fr 1fr}}
+
+  .results .big{font-family:Georgia,serif;font-size:54px;text-align:center;margin:8px 0;line-height:1}
+  .center{text-align:center} .hide{display:none!important}
+  footer{margin-top:34px;text-align:center;color:var(--muted);font-size:13px}
+  .kbd{font-size:11px;border:1px solid var(--line);border-bottom-width:2px;border-radius:5px;padding:1px 6px;color:var(--muted)}
+  @keyframes fadeUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+  @keyframes slideIn{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:none}}
+  @keyframes pop{0%{transform:scale(1)}45%{transform:scale(1.03)}100%{transform:scale(1)}}
+  @keyframes optIn{from{opacity:0;transform:translateX(-9px)}to{opacity:1;transform:none}}
+  @media (prefers-reduced-motion: no-preference){
+    .card,.mode,.tip{animation:fadeUp .34s var(--ease) both}
+    .acc{animation:fadeUp .32s var(--ease) both}
+    .opt{animation:optIn .3s var(--ease) backwards;animation-delay:var(--oi,0s)}
+    .chip.on{animation:pop .22s var(--ease)}
+    .feedback{animation:slideIn .26s var(--ease) both} .whybox{animation:slideIn .28s var(--ease) .07s both} .opt.correct{animation:pop .34s var(--ease)}
+  }
+  @media (prefers-reduced-motion: reduce){*{animation-duration:.001ms!important;transition-duration:.001ms!important}}
+  /* ---- Premium launch (Gemini-stijl) + header-logo gloed ---- */
+  @property --bes-a{syntax:'<angle>';initial-value:0deg;inherits:false}
+  #splash{position:fixed;inset:0;z-index:200;display:grid;place-items:center;background:radial-gradient(125% 125% at 50% 38%,var(--bg2) 0%,var(--bg) 68%);transition:opacity .6s var(--ease),transform .7s var(--ease)}
+  #splash.hide{opacity:0;transform:scale(1.07);pointer-events:none}
+  .sp-inner{display:flex;flex-direction:column;align-items:center;gap:20px;text-align:center}
+  .sp-mark{position:relative;width:100px;height:100px;display:grid;place-items:center}
+  .sp-mark::before{content:"";position:absolute;inset:-16px;border-radius:34px;z-index:0;background:conic-gradient(from var(--bes-a),var(--accent),var(--violet),var(--amber),var(--accent));filter:blur(17px);opacity:.75}
+  .sp-mark::after{content:"";position:absolute;inset:-3px;border-radius:27px;z-index:1;background:conic-gradient(from var(--bes-a),var(--accent),var(--violet),var(--amber),var(--accent));padding:3px;-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude}
+  .sp-logo{position:relative;z-index:2;width:92px;height:92px;border-radius:24px;display:grid;place-items:center;color:#fff;font-family:Georgia,serif;font-weight:700;font-size:46px;background:linear-gradient(150deg,var(--accent),var(--accent-ink));box-shadow:0 14px 38px rgba(15,110,106,.4)}
+  .sp-spark{position:absolute;z-index:3;top:-7px;right:-7px;width:30px;height:30px;color:#fff;filter:drop-shadow(0 2px 7px rgba(0,0,0,.35))}
+  .sp-name{position:relative;font-family:Georgia,serif;font-size:26px;font-weight:700;letter-spacing:-.01em;color:var(--ink);overflow:hidden}
+  .sp-name::after{content:"";position:absolute;inset:0;background:linear-gradient(110deg,transparent 35%,rgba(255,255,255,.75) 50%,transparent 65%);transform:translateX(-130%)}
+  .sp-tag{font-size:13px;color:var(--muted);margin-top:-8px;letter-spacing:.03em}
+  @media (prefers-reduced-motion: no-preference){
+    .sp-mark::before{animation:bes-spin 3s linear infinite,bes-breathe 2.4s var(--ease) infinite}
+    .sp-mark::after{animation:bes-spin 3s linear infinite}
+    .sp-logo{animation:bes-pop .7s var(--ease) both}
+    .sp-spark{animation:bes-pop .6s var(--ease) .12s both,bes-twinkle 1.9s var(--ease) .9s infinite}
+    .sp-name{animation:bes-rise .6s var(--ease) .14s both}
+    .sp-name::after{animation:bes-shimmer 1.5s var(--ease) .5s 1}
+    .sp-tag{animation:bes-rise .6s var(--ease) .26s both}
+  }
+  @keyframes bes-spin{to{--bes-a:360deg}}
+  @keyframes bes-breathe{0%,100%{opacity:.55;filter:blur(16px)}50%{opacity:.95;filter:blur(22px)}}
+  @keyframes bes-shimmer{to{transform:translateX(130%)}}
+  @keyframes bes-twinkle{0%,100%{opacity:1;transform:scale(1) rotate(0deg)}50%{opacity:.65;transform:scale(.82) rotate(18deg)}}
+  @keyframes bes-rise{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+  /* mobiel: header-knoppen alleen iconen zodat niks zijwaarts overflowt */
+  @media(max-width:440px){ header.top .iconbtn span{display:none} header.top .iconbtn{padding:7px 9px;min-width:38px;justify-content:center} .topin{gap:8px} }
+</style>
+</head>
+<body>
+<div id="splash"><div class="sp-inner">
+  <div class="sp-mark">
+    <div class="sp-logo">Cc</div>
+    <svg class="sp-spark" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 1.5c.4 4.6 2.4 6.6 7 7-4.6.4-6.6 2.4-7 7-.4-4.6-2.4-6.6-7-7 4.6-.4 6.6-2.4 7-7Z"/></svg>
+  </div>
+  <div><div class="sp-name">Cross-culturele Psychologie</div><div class="sp-tag">slim oefenen voor je examen</div></div>
+</div></div>
+<header class="top">
+  <div class="topin">
+    <div class="brand"><span class="logo">Cc</span><div>Cross-culturele Psychologie<small>Berie’s exam space</small></div></div>
+    <span class="spacer"></span>
+    <a class="iconbtn" href="https://beriesexamspace.github.io/?jaar=1" title="Andere vakken"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true" style="width:16px;height:16px"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg><span>Vakken</span></a>
+    <button class="iconbtn" id="themeBtn" aria-label="Wissel tussen licht en donker thema"></button>
+  </div>
+  <nav class="tabs" id="tabs"></nav>
+</header>
+<div class="wrap" id="app"></div>
+<footer class="wrap" style="padding-top:0">Cross-culturele Psychologie · Berie’s exam space, oefen slim voor je examen · veel succes!<br><span style="opacity:.7">© 2026 Berie’s exam space · Alle rechten voorbehouden</span></footer>
+
+<script>
+window.CC = {"questions":[{"t":"1","q":"Wat omschrijft het begrip 'superdiversiteit' in deze cursus het beste?","o":["De groeiende diversiteit binnen diversiteit in een grootstedelijke context","Het volledig aanpassen van minderheden aan de meerderheidsgroep","Het bewust van elkaar scheiden van etnische groepen in aparte wijken","Het wegvallen van culturele verschillen door globalisering"],"a":0,"u":"Superdiversiteit verwijst naar de toenemende diversiteit binnen diversiteit in een grootstedelijke context."},{"t":"1","q":"Een stadsbestuur kiest voor een aanpak die tolerantie promoot en de meerderheid aanzet om de minderheid te integreren, met respect voor collectieve groepsidentiteiten. Welke benadering is dit?","o":["Assimilatietheorie","Sociale desorganisatietheorie","Multiculturalisme","Transnationaliteit"],"a":2,"u":"Multiculturalisme promoot tolerantie en respect voor collectieve identiteiten en zet de meerderheid aan om de minderheid te integreren."},{"t":"1","q":"Welke situatie past het best bij het idee van 'majority-minority cities'?","o":["Een stad waar de historische meerderheid verdwenen is en enkel migranten overblijven","Een stad waar de minderheidsgroepen samen de meerderheid uitmaken","Een stad die alle migratie definitief heeft stopgezet","Een stad waar iedereen tot dezelfde etnische groep behoort"],"a":1,"u":"In majority-minority cities vormen de minderheidsgroepen samen de meerderheid, wat aansluit bij de verschuiving van wij/zij-denken naar wij zowel zij-denken."},{"t":"1","q":"Iemand woont in Belgie maar heeft intensief, bijna dagelijks contact met familie in het herkomstland en combineert beide leefwerelden. Welk begrip past hierbij?","o":["Convivialiteit","Sociale cohesie","Intersectionalisme","Transnationaliteit"],"a":3,"u":"Transnationaliteit is leven in een land en tegelijk elders, met intensieve contacten over de grenzen heen, mogelijk gemaakt door communicatietechnologie en goedkope mobiliteit."},{"t":"1","q":"Wat houdt 'convivialiteit' in superdiverse steden in?","o":["Diversiteit wordt als doodnormaal en alledaags ervaren en valt nauwelijks nog op","Verschillende groepen leven strikt gescheiden van elkaar","De meerderheid dwingt minderheden hun eigen cultuur op te geven","Diversiteit wordt actief behandeld als een probleem dat opgelost moet worden"],"a":0,"u":"Bij convivialiteit leven mensen met diverse achtergronden zo samen dat diversiteit als een alledaags en doodnormaal gegeven wordt gezien dat nauwelijks nog opvalt."},{"t":"1","q":"Volgens de kritiek op het multiculturalisme ging er te veel aandacht naar cultuur. Waarnaar ging er volgens die kritiek te weinig aandacht?","o":["Naar taalkundige verschillen tussen groepen","Naar de socio-economische deprivatie","Naar de psychologische identiteit van individuen","Naar de historische migratieachtergrond"],"a":1,"u":"Een probleem van het multiculturalisme was dat er meer aandacht ging naar cultuur dan naar de socio-economische deprivatie."},{"t":"2","q":"Wat is volgens de tekst het grootste gevaar wanneer het diversiteitsdenken vooral op gelijkwaardigheid focust?","o":["De ongelijkheid en de machtsverschillen raken uit beeld en enkel het 'verschil' blijft over","Er komt te veel nadruk op collectieve structuren in plaats van op het individu","Culturele verschillen worden volledig onzichtbaar gemaakt","De machtsverhoudingen tussen groepen worden juist overdreven"],"a":0,"u":"Door de focus op gelijkwaardigheid verdwijnt de aandacht voor ongelijkheid en machtsverschillen, waardoor alleen nog het verschil overblijft."},{"t":"2","q":"Welke reeks geeft volgens de tekst de vijf veronderstellingen van het diversiteitsdenken weer?","o":["Cultureel, sociaal, psychisch, biologisch, interpersoonlijk","Taal, kennis, waarden en normen, symbolen, rituelen","Controle, cultuurverschil, sociaal netwerk, kennis, persoonlijke variabelen","Dichotoom, machtsneutraal, eendimensionaal, statisch, onafhankelijk en hiërarchisch te ordenen"],"a":3,"u":"Het diversiteitsdenken gaat uit van vijf veronderstellingen: dichotoom, machtsneutraal, eendimensionaal, statisch en onafhankelijk (hiërarchisch te ordenen)."},{"t":"2","q":"Wie noemt de tekst als grondlegger van de 'critical race theory' die uitmondt in intersectioneel feminisme?","o":["Sojourner Truth","Kimberlé Crenshaw","Judith Butler","De black feminists als anonieme groep"],"a":1,"u":"Kimberlé Crenshaw wordt genoemd als grondlegger van de critical race theory die leidt tot intersectioneel feminisme. Sojourner Truth is een kruispuntdenker avant la lettre."},{"t":"2","q":"Hoe omschrijft de tekst intersectionaliteit als identiteitstheorie?","o":["Als het ordenen van identiteit op basis van één centraal kenmerk","Als machtsgeladen dimensies of assen van maatschappelijke betekenisgeving waarop ieder van ons gesitueerd is","Als een neutraal continuüm zonder machtsverhoudingen","Als de gemeenschappelijke wereld van betekenissen en gewoonten van een sociale groep"],"a":1,"u":"Intersectionaliteit ziet sociale ordeningsprincipes als machtsgeladen dimensies of assen van maatschappelijke betekenisgeving waarop iedereen gesitueerd is."},{"t":"2","q":"Iemand wordt tegelijk gediscrimineerd op gender én op afkomst, en die kenmerken versterken elkaar. Welk begrip past hier volgens de tekst het best bij?","o":["Enculturatie","Machtsneutraliteit","Kruispuntdenken (interplexiteit, een en-en verhaal)","Diversiteitsdenken"],"a":2,"u":"Kruispuntdenken vertrekt vanuit de samenhang en verwevenheid van kenmerken: deelidentiteiten kruisen en komen samen, ook wel interplexiteit of een en-en verhaal genoemd."},{"t":"2","q":"Wat is volgens de tekst het onderscheid tussen enculturatie en acculturatie?","o":["Enculturatie is verandering door contact met andere groepen, acculturatie is het verwerven via socialisatie","Enculturatie is het verwerven van cultuur door op te groeien, acculturatie is verandering door contact met andere groepen","Beide verwijzen naar het aanleren van taal en symbolen","Enculturatie gaat over machtsverhoudingen, acculturatie over gelijkwaardigheid"],"a":1,"u":"Enculturatie is het verwerven van cultuur door op te groeien via socialisatieprocessen; acculturatie is een beïnvloedings- of veranderingsproces door contact met verschillende groepen."},{"t":"2","q":"Welke rij geeft volgens de tekst de vier zichtbare elementen van cultuur weer?","o":["Menselijke natuur, culturen, individuele personen, socialisatie","Kleine machtsafstand, individualisme, masculiniteit, onzekerheidsvermijding","Betekenisverlening, normatieve kennis, zingevend kader, verbindend element","Taal, kennis en wereldbeeld, waarden en normen, symbolen, rituelen en helden"],"a":3,"u":"De vier zichtbare elementen van cultuur zijn: taal, kennis en wereldbeeld, waarden en normen, en symbolen, rituelen en helden."},{"t":"3","q":"In de bindkrachtvisie wordt armoede gezien als een netwerk van sociale uitsluitingen over meerdere levensgebieden. Wat is volgens die visie het typische gevolg?","o":["Er ontstaat een kloof met de gangbare leefpatronen die mensen niet op eigen kracht kunnen overbruggen","Mensen trekken zich uit vrije wil terug uit het maatschappelijke leven","De uitsluiting blijft beperkt tot een inkomenstekort op een enkel gebied","De situatie herstelt zich vanzelf zodra het inkomen boven de drempel komt"],"a":0,"u":"Armoede wordt omschreven als een netwerk van uitsluitingen over meerdere levensgebieden, met een kloof die mensen niet zelfstandig kunnen overbruggen."},{"t":"3","q":"Waarom typeert de tekst armoede als een wicked problem?","o":["Omdat er telkens een simpele, sluitende oplossing voorhanden is","Omdat maar een kleine groep mensen erbij betrokken raakt","Omdat de economische last ervan te verwaarlozen is","Omdat het verweven is met andere problemen, de kennis onvolledig of tegenstrijdig is en het nooit definitief opgelost raakt"],"a":3,"u":"Een wicked problem is verbonden met andere problemen, kent onvolledige of tegenstrijdige kennis en raakt nooit definitief opgelost."},{"t":"3","q":"De AROPE-graad is een objectieve maat voor armoede-risico. Wanneer wordt iemand er volgens deze maat toe gerekend?","o":["Zodra de persoon zichzelf als arm ervaart","Enkel wanneer er monetaire armoede is","Zodra minstens een van de drie risicofactoren boven de drempel ligt","Pas wanneer de drie factoren tegelijk aanwezig zijn"],"a":2,"u":"AROPE (at risk of poverty or social exclusion) telt iemand mee zodra minstens 1 van de 3 factoren (monetaire armoede, ernstige materiele deprivatie, zeer lage werkintensiteit) de drempel overschrijdt."},{"t":"3","q":"Hoe verhoudt het subjectieve armoede-risico zich tot het feitelijke armoede-risico?","o":["Het ligt hoger dan het feitelijke risico en komt vaker voor bij vrouwen","Het meet objectief of iemand onder de armoededrempel valt","Het ligt lager dan het feitelijke risico en komt vaker voor bij mannen","Het valt volledig samen met de AROPE-graad"],"a":0,"u":"Het subjectieve armoede-risico gaat over of mensen zich arm voelen, ligt hoger dan het feitelijke risico en is hoger bij vrouwen."},{"t":"3","q":"Iemand met blijvende bestaansonzekerheid houdt steeds minder mentale ruimte over om vooruit te denken. Welk psychologisch mechanisme sluit hier het best bij aan?","o":["Zelfstigma, waarbij armoede deel van de identiteit wordt","Chronische stress en cognitive load die de capacity to act aantasten","Expressieve acties binnen het sociale netwerk","Opwaartse sociale mobiliteit via onderwijs"],"a":1,"u":"Chronische stress en cognitive load door bestaansonzekerheid en schuldgevoelens tasten de capacity to act aan."},{"t":"3","q":"Wat wordt met scarcity-induced focus bedoeld?","o":["Mensen delen bewust hun schaarse middelen met hun netwerk","Het label armoede wordt een vast onderdeel van de eigen identiteit","De aandacht wordt naar de schaarste getrokken, wat via het brein de keuzes stuurt","Hulpverleners richten zich uitsluitend op de tekorten van de client"],"a":2,"u":"Scarcity-induced focus is een werkingsmechanisme van het brein waarbij de aandacht naar de schaarste gaat en zo de keuzes bepaalt."},{"t":"3","q":"Bij het onderscheid tussen instrumentele en expressieve acties: waarvoor zet iemand het sociale netwerk in bij expressieve acties?","o":["Om nieuwe hulpbronnen te verwerven","Om bestaande hulpbronnen te behouden en te verdedigen","Om elk contact met het netwerk juist te vermijden","Om uitsluitend opwaartse mobiliteit af te dwingen"],"a":1,"u":"Bij expressieve acties dient het netwerk om hulpbronnen te behouden en te verdedigen, terwijl instrumentele acties gericht zijn op het verwerven van hulpbronnen."},{"t":"3","q":"De tekst koppelt de emotionele en gedragsmatige ontwikkeling van kinderen aan de duur van de armoede. Wat hoort bij langdurige armoede?","o":["Externaliserend probleemgedrag","Internaliserend probleemgedrag","Een hoger geboortegewicht","Volledig herstel tegen de volwassenheid"],"a":1,"u":"Langdurige armoede wordt gekoppeld aan internaliserend probleemgedrag, momentane armoede aan externaliserend probleemgedrag."},{"t":"3","q":"Een hulpverlener verklaart al het gedrag van een client vanuit diens religie en benadert de persoon als vertegenwoordiger van die religie. Welk begrip beschrijft dit?","o":["Proportioneel universalisme","Decentreren","Reflexiviteit","Culturalisme"],"a":3,"u":"Culturalisme is mensen aanspreken als vertegenwoordiger van hun cultuur of religie en hun denken en doen daaruit verklaren."},{"t":"3","q":"Wat is de kern van proportioneel universalisme op structureel niveau?","o":["Iedereen krijgt precies evenveel hulp, waardoor de kloof even groot blijft","Enkel de meest kwetsbare doelgroep krijgt hulp, de rest niet","Hulp is er voor iedereen maar varieert in schaal en intensiteit per doelgroep, wat de sociale gradient verkleint","Hulp wordt geschrapt omdat armoede toch een wicked problem is"],"a":2,"u":"Proportioneel universalisme biedt dienstverlening aan iedereen maar varieert in schaal en intensiteit voor bepaalde doelgroepen, en verkleint zo de sociale gradient."},{"t":"4","q":"Wat wordt in de tekst bedoeld met 'fairness' als kernbegrip van faire diagnostiek?","o":["Het onpartijdig afnemen en toepassen van een test","Het enkel werken met Nederlandstalige testmateriaal","Het altijd doortrekken van een score naar de hele groep","Het weglaten van elk gesprek met de cliënt"],"a":0,"u":"Fairness staat in de tekst voor de onpartijdige toepassing van een test."},{"t":"4","q":"Een testscore wordt structureel beinvloed door iets dat zelf niet gemeten hoort te worden. Welke term hoort hierbij?","o":["Equivalentie","Vertekening (bias)","Triangulatie","Acculturatie"],"a":1,"u":"Vertekening is de systematische invloed op testscores die zelf niet het onderwerp van de test is."},{"t":"4","q":"Wat drukt 'equivalentie' in deze context uit?","o":["De vertrouwensband tussen diagnosticus en cliënt","Het aantal talen dat een kind spreekt","De mate waarin testscores vergelijkbaar zijn","De onpartijdige houding van de onderzoeker"],"a":2,"u":"Equivalentie verwijst naar de mate van vergelijkbaarheid van testscores."},{"t":"4","q":"Een stoornis uit zich in een andere cultuur anders dan in de cultuur waarvoor de test bedoeld is, waardoor het gemeten construct scheef ligt. Welke bias is dit?","o":["Methodebias","Itembias","Kwantitatieve bias","Constructbias"],"a":3,"u":"Bij constructbias raakt het construct vertekend doordat de uitingen van een stoornis per cultuur kunnen verschillen."},{"t":"4","q":"Welke omschrijving past bij de regulatieve cyclus volgens de tekst?","o":["Generaliserend en gericht op grote steekproeven","Eenmalig en enkel beschrijvend van aard","Gericht op beslissingen, specifiek (N=1) en doorlopend","Uitsluitend bedoeld om hypotheses in een lab te toetsen"],"a":2,"u":"De regulatieve cyclus richt zich op beslissingen nemen, is specifiek (N=1) en verloopt als een continu proces."},{"t":"4","q":"Wat zegt de tekst over acculturatie in relatie tot het gebruik van Vlaamse normen?","o":["Normen worden betrouwbaarder als het gezin sterker afwijkt van de gastcultuur","Hoe verder de culturele oriëntatie van het gezin van de gastcultuur af ligt, hoe problematischer Vlaamse normen worden","Acculturatie speelt geen enkele rol bij normgebruik","Normen gelden alleen voor eentalige kinderen"],"a":1,"u":"Naarmate de culturele oriëntatie van het gezin verder van de gastcultuur af ligt, wordt het gebruik van Vlaamse normen problematischer."},{"t":"4","q":"Wat is volgens de tekst een aandachtspunt bij advies en verslaggeving over meertalige kinderen?","o":["De thuistaal verzwijgen om vooroordelen te vermijden","Enkel de eindscore doorgeven zonder toelichting","De taal vermelden en culturele aanpassingen en interpretaties beschrijven","Alleen mondeling advies geven zonder samenvatting"],"a":2,"u":"Bij advies en verslaggeving hoor je onder meer de taal te vermelden en de culturele aanpassingen en interpretaties te beschrijven."},{"t":"5","q":"Wat delen alle kinderen op de vlucht volgens de samenvatting met elkaar?","o":["De ervaring van migratie","Dat ze niet begeleid zijn","Dat ze een trauma hebben meegemaakt","Een verstoorde band met hun ouders"],"a":0,"u":"Migratie wordt genoemd als het gemeenschappelijke kenmerk. Niet begeleid en minderjarig zijn juist de specifieke kenmerken."},{"t":"5","q":"Iemand raakt na de migratie vast in over-aanpassing en 'mummificatie'. Welk begrip dekt dit volgens de samenvatting het best?","o":["Een verbroken hechting","Stagnatie in een uitgesteld of gestokt rouwproces","Een intrusief symptoom van PTSS","Emergent resilience"],"a":1,"u":"Bij een uitgesteld of gestokt rouwproces koppelt de tekst stagnatie aan over-aanpassing en mummificatie."},{"t":"5","q":"Hoe ervaart iemand met een veilige hechting de wereld volgens de samenvatting?","o":["Als onvoorspelbaar en onbetrouwbaar","Als iets waartegen je je moet wapenen","Als voorspelbaar en betrouwbaar","Als leeg en afwezig"],"a":2,"u":"Veilige hechting hoort bij een wereld die voorspelbaar en betrouwbaar aanvoelt, terwijl onveilige hechting die als onvoorspelbaar en onbetrouwbaar kleurt."},{"t":"5","q":"Een traumatische gebeurtenis is volgens de samenvatting de blootstelling aan:","o":["langdurige acculturatiestress in een nieuw land","verlies van eigenwaarde en toekomstvertrouwen","een onvoorspelbare opvoedingsomgeving","feitelijke of dreigende dood, ernstige verwonding of seksueel geweld"],"a":3,"u":"De tekst omschrijft een traumatische gebeurtenis als blootstelling aan feitelijke of dreigende dood, ernstige verwonding of seksueel geweld."},{"t":"5","q":"Een kind herstelt na een eenmalige nare ervaring op eigen kracht, zonder dat de omgeving een grote rol speelt. Welk type veerkracht past hierbij volgens de samenvatting?","o":["Minimal impact resilience","Emergent resilience","Cultuurcongruente veerkracht","Responsabiliserende veerkracht"],"a":0,"u":"Minimal impact resilience heet enkelvoudig en individueel, terwijl emergent resilience meervoudig en omgevingsgebonden is."}],"theory":[{"h":"Superdiversiteit","items":["Superdiversiteit: de toenemende diversiteit binnen diversiteit in een grootstedelijke context en wat dat betekent.","Sociale desorganisatietheorie (Chicago school): verlies van sociale controle als gevolg van migratie en verstedelijking.","Multiculturalisme: promotie van tolerantie en respect voor collectieve identiteiten, waarbij de meerderheid wordt aangezet om de minderheid te laten integreren.","Assimilatietheorie: proces waarbij etnische minderheden zich aanpassen aan de normen en waarden van de meerderheid, met verwerping van een dubbele etnische identiteit.","Transnationaliteit: tegelijk in een land en elders leven via intensieve grensoverschrijdende contacten en het combineren van leefwerelden en culturen.","Majority-minority cities: steden waar de minderheidsgroepen samen de meerderheid vormen.","Convivialiteit: samenleven van mensen met diverse achtergronden waarbij diversiteit als doodnormaal en alledaags wordt gezien.","Sociale cohesie: vertrekken van en erkennen van pluriformiteit door ontmoeting te stimuleren.","Herverdeling: versterking van de sociaal-economische positie, vanuit een benadering van de ander als potentieel gelijke.","Erkenning: waardering van verschillen en van etnisch-culturele posities, met erkenning van fundamentele verschillen in identiteit.","Intersectionalisme: de identiteit van een individu ontstaat op het snijpunt van verschillende assen.","Actief pluralisme: basishouding die verschuift van cultuursensitief naar divers-sensitief, zonder te culturaliseren."]},{"h":"Identiteit & intersectionaliteit","items":["Diversiteitsdenken: denken dat focust op gelijkwaardigheid en verschil, waardoor ongelijkheid en machtsverschillen uit beeld verdwijnen en de nadruk op het individu en eigen verantwoordelijkheid komt te liggen.","Vijf veronderstellingen diversiteitsdenken: identiteit wordt gezien als dichotoom, machtsneutraal, eendimensionaal, statisch en onafhankelijk (hiërarchisch te ordenen).","Intersectionaliteit: identiteitstheorie die sociale ordeningsprincipes ziet als machtsgeladen dimensies of assen van maatschappelijke betekenisgeving waarop ieder van ons gesitueerd is.","Kruispuntdenken: vertrekt vanuit de samenhang en verwevenheid van kenmerken die mensen en groepen doen verschillen; deelidentiteiten kruisen en komen samen (interplexiteit, en-en verhaal).","Sojourner Truth: kruispuntdenker avant la lettre, bekend van de speech 'Aint I a woman?'.","Kimberlé Crenshaw: grondlegger van de critical race theory, die leidt tot intersectioneel feminisme.","Gender als performatief: volgens Judith Butler (gender trouble) is gender iets wat je doet ('doing gender'), niet een vaste eigenschap.","Collectieven: groepen waarin mensen worden geboren, opgroeien en leven.","Cultuur: de gemeenschappelijke wereld van betekenissen en gewoonten die een sociale groep kenmerken.","Vier elementen van cultuur (zichtbaar): taal, kennis/wereldbeeld, waarden en normen, en symbolen, rituelen en helden.","Enculturatie: het verwerven van cultuur door op te groeien via socialisatieprocessen (impliciet en expliciet leren).","Acculturatie: een beïnvloedings- of veranderingsproces dat ontstaat door contact met verschillende groepen."]},{"h":"Armoede","items":["Wicked problem: een probleem dat je niet definitief kunt oplossen, door onvolledige of tegenstrijdige kennis, veel betrokkenen, grote economische last en verwevenheid met andere problemen.","Armoede: een netwerk van sociale uitsluitingen over meerdere levensgebieden, dat een kloof creeert met de gangbare leefpatronen die mensen niet op eigen kracht kunnen overbruggen.","Maatschappelijke kwetsbaarheid: armoede zien als samenspel van factoren en gelaagd kijken, tegenover het individuele schuldmodel.","AROPE-graad: objectieve maat 'at risk of poverty or social exclusion' waarbij minstens 1 van 3 factoren (monetaire armoede, ernstige materiele deprivatie, zeer lage werkintensiteit) boven de drempel ligt.","Subjectief armoede-risico: of mensen zich arm voelen; dit ligt hoger dan het feitelijke risico en is hoger bij vrouwen.","Gezondheidsongelijkheid: systematische, sociaal geproduceerde verschillen in gezondheid tussen socio-economische groepen die vermijdbaar en onrechtvaardig zijn.","Scarcity-induced focus: mechanisme van het brein waarbij de aandacht naar de schaarste gaat en zo de keuzes bepaalt.","Zelfstigma: wanneer armoede als deel van de eigen identiteit en als label wordt beschouwd.","Instrumentele versus expressieve acties: het netwerk inzetten om nieuwe hulpbronnen te verwerven (instrumenteel) tegenover behouden en verdedigen van hulpbronnen (expressief).","Multi-problem gezin: gezin met chronische, complexe socio-economische en psycho-sociale problemen dat door hulpverleners als weerbarstig voor hulp wordt gezien.","Culturalisme: iemand aanspreken als vertegenwoordiger van zijn cultuur of religie en zijn denken en doen daaruit verklaren.","Proportioneel universalisme: hulp voor iedereen die in schaal en intensiteit varieert naar doelgroep, waardoor de sociale gradient verkleint."]},{"h":"Faire diagnostiek","items":["Fairness: het onpartijdig toepassen van een test.","Vertekening (bias): een systematische invloed op testscores die zelf niet het onderwerp van de test is.","Equivalentie: de mate waarin testscores vergelijkbaar zijn.","Constructbias: vertekening van het gemeten construct doordat een stoornis zich per cultuur anders kan uiten.","Methodebias: vertekening door methodische aspecten van het instrument, zoals de testsituatie of eigenschappen van de persoon.","Itembias: vreemde of onverwachte antwoorden die kunnen wijzen op misinterpretatie of ongeschiktheid van een item.","Cross-culturele diagnostiek: aanpak met oog voor de situationele en dynamische aard van culturele identiteit en een cultuursensitieve, procesgerichte houding.","Regulatieve cyclus: proces gericht op beslissingen nemen, specifiek (N=1) en continu, tegenover de generaliserende empirische cyclus.","Cultuurvrije tests: tests die cultuur-fair of culture-reduced zijn, maar nooit 100 procent cultuurvrij.","Acculturatie: mate waarin de culturele oriëntatie van een gezin aansluit bij of afwijkt van de gastcultuur, wat normgebruik beïnvloedt.","Triangulatie: informatie uit meerdere bronnen combineren, een van de tien toetsstenen van faire diagnostiek.","Breed evalueren: kijken of een kind met lage score met extra zorg optimaal kan ontwikkelen en of potentieel bij een hoge score verder gestimuleerd kan worden."]},{"h":"Migratie & trauma","items":["Gemeenschappelijk kenmerk (kind op vlucht): migratie is de ervaring die alle vluchtelingkinderen delen, ongeacht hun individuele situatie.","Specifieke kenmerken NBMV: de bijzondere positie van niet-begeleid en minderjarig zijn.","Drie uitdagingen: migratie, acculturatie en trauma als de kernproblemen waar het kind mee worstelt.","Psychosociale impact van migratie: een cluster van zware stressfactoren die samen op de persoon inwerken.","Rouw bij migratie: verlies van eigenwaarde, van vertrouwen in de ander en van vertrouwen in de toekomst.","Gestokt rouwproces: rouw die uitgesteld of geblokkeerd blijft door externe en interne factoren, met stagnatie zoals over-aanpassing en mummificatie.","Veilige hechting: de wereld wordt als voorspelbaar en betrouwbaar ervaren; onveilige hechting betekent onvoorspelbaar en onbetrouwbaar.","Herstel van hechting: verloopt via aanklampen, mobiliseren en responsabiliseren.","Classificatie NBMV op parcours: exilés, mandatés, exploités, fugueurs en errants, ingedeeld naar de aard van hun traject.","Traumatische gebeurtenis: blootstelling aan feitelijke of dreigende dood, ernstige verwonding of seksueel geweld.","PTSS: stoornis die na 6 tot 12 maanden optreedt met intrusieve symptomen, vermijding, negatieve gedachten en stemming, en verhoogde arousal en reactiviteit.","Veerkracht: minimal impact resilience is enkelvoudig en individueel, emergent resilience is meervoudig en omgevingsgerelateerd."]}],"hacks":[{"h":"HET-CAMIST: van of/of naar en/en","t":"Onthoud de kernbegrippen met 'CAMIST': Convivialiteit, Assimilatie, Multiculturalisme, Intersectionalisme, Superdiversiteit en Transnationaliteit. En de rode draad van het hoofdstuk: superdiversiteit betekent de sprong van of/of-denken (wij of zij) naar en/en-denken (wij zowel zij)."},{"h":"En-CULT vs. A-CULT: waar begint het?","t":"En-culturatie begint met 'En', denk aan 'Erin geboren worden': je groeit ergens in op en verwerft zo je eigen cultuur. A-culturatie begint met 'A' als in 'Andere groep': je cultuur verandert door contact met anderen. Zo verwar je de twee nooit meer."},{"h":"De 8 B's van proportioneel universalisme","t":"Onthoud dat goede dienstverlening 8 keer met een B begint: Betaalbaar, Bereikbaar, Bruikbaar, Betrouwbaar, Begripvol, Begrijpbaar, Beschikbaar en Bekend. Denk aan '8 Betere B's' om te checken of een dienst echt iedereen bereikt."},{"h":"CMI: de drie soorten bias","t":"Onthoud Construct, Methode, Item als 'CMI'. Construct = wat je meet uit anders per cultuur, Methode = hoe je meet (instrument, testsituatie, persoon), Item = welke vraag (vreemde antwoorden wijzen op een fout item)."},{"h":"MAT: 3 uitdagingen van een kind op de vlucht","t":"Denk aan MAT: Migratie, Acculturatie, Trauma. Zo onthoud je de drie uitdagingen waar een niet-begeleide minderjarige mee te maken krijgt volgens de samenvatting."}]};
+</script>
+<style>
+  .choverview .chlist{display:flex;flex-direction:column;gap:3px;margin-top:2px}
+  .chrow{display:flex;align-items:center;gap:12px;width:100%;text-align:left;background:transparent;border:none;border-radius:10px;padding:9px 8px;cursor:pointer;color:var(--ink);font-family:inherit;transition:background .15s var(--ease),transform .1s var(--ease)}
+  .chrow:hover{background:var(--accent-soft)}
+  .chrow:active{transform:scale(.995)}
+  .chrow .chname{flex:0 0 auto;width:170px;font-size:14px;font-weight:600}
+  .chrow .chbar{flex:1;height:8px;border-radius:999px;background:var(--line);overflow:hidden}
+  .chrow .chbar>i{display:block;height:100%;border-radius:999px;background:linear-gradient(90deg,var(--accent),var(--accent-ink));transition:width .5s var(--ease)}
+  .chrow .chval{flex:0 0 auto;font-size:12.5px;color:var(--muted);min-width:40px;text-align:right;font-variant-numeric:tabular-nums}
+  .chrow .ic.caret{width:16px;height:16px;color:var(--muted);flex:0 0 auto}
+  @media(max-width:560px){.chrow .chname{width:auto;flex:1 1 auto;min-width:0}.chrow .chbar{flex:0 0 64px}}
+</style>
+<script>
+(function(){
+  "use strict";
+  var D=window.CC, app=document.getElementById("app");
+  var P={
+    book:'<path d="M12 7v14"/><path d="M3 18a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h5a4 4 0 0 1 4 4 4 4 0 0 1 4-4h5a1 1 0 0 1 1 1v13a1 1 0 0 1-1 1h-6a3 3 0 0 0-3 3 3 3 0 0 0-3-3z"/>',
+    bulb:'<path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5"/><path d="M9 18h6"/><path d="M10 22h4"/>',
+    help:'<circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><path d="M12 17h.01"/>',
+    search:'<circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/>',
+    sun:'<circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/>',
+    moon:'<path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/>',
+    arrowR:'<path d="M5 12h14"/><path d="m12 5 7 7-7 7"/>',
+    back:'<path d="m15 18-6-6 6-6"/>',
+    heart:'<path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/>',
+    chevR:'<path d="m9 18 6-6-6-6"/>',
+    sparkles:'<path d="M9.94 15.5A2 2 0 0 0 8.5 14.06l-6.14-1.58a.5.5 0 0 1 0-.96L8.5 9.94A2 2 0 0 0 9.94 8.5l1.58-6.14a.5.5 0 0 1 .96 0L14.06 8.5A2 2 0 0 0 15.5 9.94l6.14 1.58a.5.5 0 0 1 0 .96L15.5 14.06a2 2 0 0 0-1.44 1.44l-1.58 6.14a.5.5 0 0 1-.96 0z"/>',
+    target:'<circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/>',
+    rocket:'<path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z"/><path d="m12 15-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z"/><path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 0 5 0"/><path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5"/>',
+    msg:'<path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"/>',
+    refresh:'<path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/>',
+    send:'<path d="M14.54 21.69a.5.5 0 0 0 .94-.02l6.5-19a.5.5 0 0 0-.64-.64l-19 6.5a.5.5 0 0 0-.02.94l7.93 3.18a2 2 0 0 1 1.11 1.11z"/><path d="m21.85 2.15-10.94 10.94"/>'
+  };
+  function ic(n,c){ return '<svg class="ic'+(c?" "+c:"")+'" viewBox="0 0 24 24" aria-hidden="true">'+(P[n]||"")+'</svg>'; }
+  function esc(s){ return String(s).replace(/[&<>"]/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;"}[c];}); }
+  function shuffle(a){ a=a.slice(); for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=a[i];a[i]=a[j];a[j]=t;} return a; }
+  function pct(n,d){ return d?Math.round(100*n/d):0; }
+  function rnd(a){ return a[Math.floor(Math.random()*a.length)]; }
+  function lget(k,d){ try{ var v=JSON.parse(localStorage.getItem(k)); return v==null?d:v; }catch(e){ return d; } }
+  function lset(k,v){ try{ localStorage.setItem(k,JSON.stringify(v)); }catch(e){} }
+  function rawGet(k){ try{ return localStorage.getItem(k); }catch(e){ return null; } }
+  function rawSet(k,v){ try{ localStorage.setItem(k,v); }catch(e){} }
+  function bump(ns,key){ try{ fetch("https://abacus.jasoncameron.dev/hit/"+ns+"/"+key).then(function(){},function(){}); }catch(e){} }
+
+  D.questions.forEach(function(q,i){ q.id="q"+i; });
+  var theme=rawGet("site_theme") || lget("cross_theme","light");
+  function applyTheme(){ document.documentElement.setAttribute("data-theme",theme);
+    document.getElementById("themeBtn").innerHTML=(theme==="dark"?ic("sun"):ic("moon"))+'<span>'+(theme==="dark"?"Licht":"Donker")+'</span>'; }
+  applyTheme();
+  document.getElementById("themeBtn").onclick=function(){ theme=theme==="dark"?"light":"dark"; lset("cross_theme",theme); rawSet("site_theme",theme); applyTheme(); };
+  var calm=lget("cross_calm",true);
+  function applyCalm(){ document.documentElement.classList.toggle("snappy", !calm); }
+  applyCalm();
+  function wrongLead(){ return calm ? rnd(WARM) : "Fout."; }
+
+  var WARM=["Geen zorgen, hier leer je nu net van.","Bijna! Dit type vraag krijg je zo onder de knie.","Foutje mag, nu weet je wat je nog moet herhalen.","Niet erg, dit onthoud je de volgende keer wél.","Rustig, één foutje zegt niets over je examen."];
+  var PRAISE=["Juist!","Goed zo!","Correct!","Sterk!","Knap!"];
+  var TOPICS={"1":"Superdiversiteit","2":"Identiteit & intersectionaliteit","3":"Armoede","4":"Faire diagnostiek","5":"Migratie & trauma"};
+  function getProg(){ var p=lget("cross_prog",{ans:{}}); if(!p||typeof p!=="object"||!p.ans)p={ans:{}}; return p; }
+  function recordProg(qid,ok){ var p=getProg(); p.ans[qid]=ok?1:0; lset("cross_prog",p); }
+  function resetProg(){ lset("cross_prog",{ans:{}}); }
+  function chapterStats(){ var p=getProg(); var st={}; Object.keys(TOPICS).forEach(function(k){st[k]={total:0,done:0,correct:0};}); D.questions.forEach(function(q){ var s=st[q.t]; if(!s)return; s.total++; if(Object.prototype.hasOwnProperty.call(p.ans,q.id)){ s.done++; if(p.ans[q.id])s.correct++; } }); return st; }
+  function startChapter(k){ var items=shuffle(D.questions.filter(function(q){return q.t===k;})); state.view="quiz"; tabBtns.forEach(function(b){b.classList.toggle("on",b.dataset.view==="quiz");}); startQuiz(items); window.scrollTo(0,0); }
+
+  var TABS=[{v:"home",l:"Start",i:"book"},{v:"quiz",l:"Oefenvragen",i:"target"},{v:"theory",l:"Theorie",i:"search"},{v:"hacks",l:"Studie-hacks",i:"bulb"},{v:"feedback",l:"Feedback",i:"msg"}];
+  var tabsEl=document.getElementById("tabs");
+  tabsEl.innerHTML=TABS.map(function(t){return '<button data-view="'+t.v+'"'+(t.v==="home"?' class="on"':'')+'>'+ic(t.i)+'<span>'+t.l+'</span></button>';}).join("");
+  var tabBtns=[].slice.call(tabsEl.querySelectorAll("button"));
+  tabBtns.forEach(function(b){ b.onclick=function(){ state.fromHub=false; if(b.dataset.view==="home") state.step="track"; go(b.dataset.view); }; });
+  function go(v){ state.view=v; tabBtns.forEach(function(b){b.classList.toggle("on",b.dataset.view===v);}); render(); window.scrollTo(0,0); }
+
+  var state={view:"home", step:"track", track:lget("cross_track","training"), quiz:null, sel:{topics:{"1":true,"2":true,"3":true,"4":true,"5":true}, count:15, shuffle:true}, sumq:""};
+  function setHTML(h){ app.innerHTML=h; }
+
+  function render(){
+    if(state.view==="home") return renderHome();
+    if(state.view==="quiz") return renderQuizGate();
+    if(state.view==="theory") return renderTheory();
+    if(state.view==="hacks") return renderHacks();
+    if(state.view==="feedback") return renderFeedback();
+  }
+
+  function renderHome(){
+    if(state.step==="herkansing") return renderHerkansing();
+    if(state.step==="practice") return renderPractice();
+    return renderTrack();
+  }
+  function modeLabel(){ return state.track==="herkansing"?"Herkansing":"Examen Training"; }
+
+  function renderTrack(){
+    var byT={}; D.questions.forEach(function(q){byT[q.t]=(byT[q.t]||0)+1;});
+    var st=chapterStats(); var tD=0,tQ=0,tC=0; Object.keys(st).forEach(function(k){tD+=st[k].done;tQ+=st[k].total;tC+=st[k].correct;});
+    var html=
+      '<div class="hero">'+
+        '<div class="count"><b>'+D.questions.length+'</b><span>oefenvragen</span></div>'+
+        '<div class="herotext"><h1>Cross-culturele Psychologie oefenen</h1>'+
+        '<p>Oefenvragen per hoofdstuk, met uitleg</p></div>'+
+      '</div>'+
+      '<a class="brandstrip" href="https://beriesexamspace.github.io/" title="Naar Berie’s exam space"><span class="bs-logo">B</span><span class="bs-txt"><b>Berie’s exam space</b><small>Een ander vak leren? Bekijk alle vakken</small></span><span class="bs-go">'+ic("arrowR")+'</span></a>'+
+      '<a class="brandstrip" href="https://beriesexamspace.github.io/?deel=1" title="Deel je samenvattingen"><span class="bs-logo">📚</span><span class="bs-txt"><b>Help mee, deel je vak</b><small>Heb jij samenvattingen of oude examenvragen? Stuur ze in (élk jaar).</small></span><span class="bs-go">'+ic("arrowR")+'</span></a>'+
+      '<div class="seclabel">'+ic("rocket")+'Hoe wil je oefenen?</div>'+
+      '<div class="tracks">'+
+        '<button class="track" data-track="training"><span class="tile">'+ic("book")+'</span><b>Examen Training</b><small>Oefen op examenniveau. Vragen met directe feedback en uitleg.</small><span class="go">Normaal niveau '+ic("arrowR")+'</span></button>'+
+        '<button class="track alt" data-track="herkansing"><span class="tile">'+ic("heart")+'</span><b>Herkansing</b><small>Rustig opbouwen, met aanmoediging. Jij bepaalt het tempo.</small><span class="go">Met begeleiding '+ic("arrowR")+'</span></button>'+
+      '</div>'+
+      '<div class="card pad choverview" style="margin-top:18px">'+
+        '<div class="row" style="justify-content:space-between;align-items:center"><b>Kies een hoofdstuk</b>'+(tD>0?'<button type="button" class="bnlink" id="resetProg">'+ic("refresh")+'Reset</button>':'')+'</div>'+
+        '<p class="muted" style="font-size:12.5px;margin:6px 0 12px">Klik een hoofdstuk om alleen dat te oefenen.'+(tD>0?' &middot; '+tD+'/'+tQ+' geoefend &middot; '+pct(tC,tD)+'% juist':'')+'</p>'+
+        '<div class="chlist">'+Object.keys(TOPICS).map(function(k){var s=st[k];var w=pct(s.done,s.total);return '<button type="button" class="chrow" data-ch="'+k+'"><span class="chname">'+esc(TOPICS[k])+'</span><span class="chbar"><i style="width:'+w+'%"></i></span><span class="chval">'+s.done+'/'+s.total+'</span>'+ic("chevR","caret")+'</button>';}).join("")+'</div></div>';
+    setHTML(html);
+    [].slice.call(document.querySelectorAll(".chrow")).forEach(function(el){ el.onclick=function(){ startChapter(el.dataset.ch); }; });
+    var _rp=document.getElementById("resetProg"); if(_rp) _rp.onclick=function(){ resetProg(); renderHome(); };
+    [].slice.call(document.querySelectorAll(".track")).forEach(function(el){ el.onclick=function(){ var t=el.dataset.track; state.track=t; lset("cross_track",t); state.step=(t==="herkansing"?"herkansing":"practice"); renderHome(); window.scrollTo(0,0); }; });
+  }
+
+  function renderHerkansing(){
+    var html=
+      '<button class="backlink" id="backBtn">'+ic("back")+'Terug</button>'+
+      '<div class="seclabel" style="margin-top:2px">'+ic("heart")+'Herkansing</div>'+
+      (calm?'<div class="card pad warmcard"><div class="row" style="gap:11px;flex-wrap:nowrap;align-items:flex-start">'+ic("heart")+'<div><b>Een nieuwe kans, rustig aan.</b><p class="muted" style="margin:5px 0 0;font-size:13.5px">Herkansen betekent niet dat je het niet kunt. Stap voor stap kom je er. Jij kunt dit. 💙</p></div></div></div>':'')+
+      '<div class="card pad" style="margin-top:12px"><div class="row" style="justify-content:space-between;align-items:center;gap:14px"><div><b>Rustige modus</b><div class="muted" style="font-size:12.5px">Aanmoediging en kalme sfeer. Zet uit als je liever recht-voor-z’n-raap oefent.</div></div><button class="toggle'+(calm?" on":"")+'" id="calmToggle" role="switch" aria-checked="'+(calm?"true":"false")+'" aria-label="Rustige modus aan of uit"><span class="knob"></span></button></div></div>'+
+      '<div class="row" style="margin-top:16px"><button class="btn" id="beginBtn">Begin met oefenen '+ic("arrowR")+'</button></div>';
+    setHTML(html);
+    document.getElementById("backBtn").onclick=function(){ state.step="track"; renderHome(); window.scrollTo(0,0); };
+    document.getElementById("calmToggle").onclick=function(){ calm=!calm; lset("cross_calm",calm); applyCalm(); renderHerkansing(); };
+    document.getElementById("beginBtn").onclick=function(){ state.step="practice"; renderHome(); window.scrollTo(0,0); };
+  }
+
+  function renderPractice(){
+    var herk=state.track==="herkansing";
+    var html=
+      '<button class="backlink" id="backBtn">'+ic("back")+'Terug</button>'+
+      '<div class="modebanner'+(herk?" v":"")+'">'+ic(herk?"heart":"book")+'<span>'+modeLabel()+'</span><button type="button" class="bnlink" id="changeMode">wijzig</button></div>'+
+      '<div class="seclabel">'+ic("rocket")+'Waarmee wil je oefenen?</div>'+
+      '<div class="grid g2">'+
+        '<button class="mode" data-mode="quiz"><span class="me">'+ic("target")+'</span><b>Oefenvragen</b><small>Meerkeuze met directe feedback en uitleg. Kies je onderwerpen.</small></button>'+
+        '<button class="mode" id="quickStart"><span class="me">'+ic("rocket")+'</span><b>Snelle ronde</b><small>15 willekeurige vragen uit alle onderwerpen.</small></button>'+
+      '</div>';
+    setHTML(html);
+    document.getElementById("backBtn").onclick=function(){ if(state.fromHub){ location.href="https://beriesexamspace.github.io/"; return; } state.step=(herk?"herkansing":"track"); renderHome(); window.scrollTo(0,0); };
+    document.getElementById("changeMode").onclick=function(){ if(state.fromHub){ location.href="https://beriesexamspace.github.io/"; return; } state.step="track"; renderHome(); window.scrollTo(0,0); };
+    document.querySelector('[data-mode="quiz"]').onclick=function(){ go("quiz"); };
+    document.getElementById("quickStart").onclick=function(){ state.view="quiz"; tabBtns.forEach(function(b){b.classList.toggle("on",b.dataset.view==="quiz");}); startQuiz(shuffle(D.questions.slice()).slice(0,15)); window.scrollTo(0,0); };
+  }
+
+  function renderQuizGate(){
+    if(state.quiz) return renderQuiz();
+    var s=state.sel;
+    function pool(){ return D.questions.filter(function(q){return s.topics[q.t];}); }
+    var html='<div class="card pad"><h2 style="margin-top:0">Oefenvragen</h2>'+
+      '<p class="muted">Kies onderwerpen en het aantal vragen. Na elk antwoord krijg je meteen feedback én de uitleg.</p>'+
+      '<label class="fld">Onderwerpen</label><div class="chips" id="tps">'+
+        Object.keys(TOPICS).map(function(k){return '<button class="chip'+(s.topics[k]?" on":"")+'" data-tp="'+k+'">'+esc(TOPICS[k])+'</button>';}).join("")+'</div>'+
+      '<label class="fld">Aantal vragen</label><div class="chips" id="cnt">'+
+        [10,15,20,999].map(function(n){return '<button class="chip'+(s.count===n?" on":"")+'" data-n="'+n+'">'+(n===999?"Alle":n)+'</button>';}).join("")+'</div>'+
+      '<label class="fld"><input type="checkbox" id="shuf" '+(s.shuffle?"checked":"")+'> Willekeurige volgorde</label>'+
+      '<div class="row" style="margin-top:18px"><button class="btn" id="startQ">Start '+ic("arrowR")+'</button><span class="muted" id="poolN"></span></div></div>';
+    setHTML(html);
+    function refresh(){ var n=pool().length; document.getElementById("poolN").textContent=n+" vragen beschikbaar"; document.getElementById("startQ").disabled=n===0; }
+    [].slice.call(document.querySelectorAll("#tps .chip")).forEach(function(b){ b.onclick=function(){ s.topics[b.dataset.tp]=!s.topics[b.dataset.tp]; b.classList.toggle("on"); refresh(); }; });
+    [].slice.call(document.querySelectorAll("#cnt .chip")).forEach(function(b){ b.onclick=function(){ s.count=+b.dataset.n; renderQuizGate(); }; });
+    document.getElementById("shuf").onchange=function(e){ s.shuffle=e.target.checked; };
+    document.getElementById("startQ").onclick=function(){ var p=pool(); if(s.shuffle)p=shuffle(p); if(s.count<p.length)p=p.slice(0,s.count); startQuiz(p); };
+    refresh();
+  }
+
+  function startQuiz(items){ bump("berat-cross", state.track==="herkansing"?"herkansing":"training"); state.quiz={items:items.map(function(q){return {q:q,opts:shuffle(q.o.map(function(t,i){return {text:t,ok:i===q.a};}))};}), idx:0, answered:false, picked:-1, correct:0, wrong:[], done:false}; renderQuiz(); }
+
+  function renderQuiz(){
+    var Q=state.quiz; if(Q.done) return renderResult();
+    var cur=Q.items[Q.idx], q=cur.q;
+    var html='<button class="backlink" id="backBtn">'+ic("back")+'Terug</button>'+
+      '<div class="card pad">'+
+      '<div class="runtop"><span class="pill">'+esc(TOPICS[q.t])+'</span><div class="bar"><i data-w="'+pct(Q.idx,Q.items.length)+'"></i></div><span>'+(Q.idx+1)+'/'+Q.items.length+'</span></div>'+
+      '<div class="qtext">'+esc(q.q)+'</div>'+
+      '<div id="opts">'+cur.opts.map(function(o,i){return '<button class="opt" data-i="'+i+'" style="--oi:'+(i*55)+'ms"><span class="k">'+String.fromCharCode(65+i)+'</span><span>'+esc(o.text)+'</span></button>';}).join("")+'</div>'+
+      '<div id="fb"></div>'+
+      '<div class="row" style="justify-content:space-between;margin-top:6px"><span class="muted" style="font-size:12px">Toets <span class="kbd">A–D</span> · <span class="kbd">Enter</span> = volgende</span><button class="btn hide" id="nextBtn">Volgende '+ic("arrowR")+'</button></div></div>';
+    setHTML(html);
+    var i2=document.querySelector(".bar>i"); requestAnimationFrame(function(){ if(i2) i2.style.width=i2.getAttribute("data-w")+"%"; });
+    document.getElementById("backBtn").onclick=function(){ state.quiz=null; renderQuizGate(); };
+    var optBtns=[].slice.call(document.querySelectorAll("#opts .opt"));
+    var nb=document.getElementById("nextBtn"); nb.onclick=next;
+    function showAnswered(i){
+      optBtns.forEach(function(b){ var bi=+b.dataset.i; b.disabled=true; if(cur.opts[bi].ok)b.classList.add("correct"); else if(bi===i)b.classList.add("wrong"); });
+      var ok=cur.opts[i].ok, fb=document.getElementById("fb"); fb.className="feedback "+(ok?"ok":"no");
+      var juist=cur.opts.filter(function(o){return o.ok;})[0].text;
+      fb.innerHTML=ok?"<b>"+rnd(PRAISE)+" ✓</b>":"<b>"+wrongLead()+"</b><span class=\"sub\">Juiste antwoord: "+esc(juist)+"</span>";
+      var w=document.createElement("div"); w.innerHTML='<div class="whybox"><h4>'+ic("sparkles")+'Waarom?</h4>'+esc(q.u)+'</div>'; fb.appendChild(w);
+      nb.classList.remove("hide"); nb.innerHTML=(Q.idx+1>=Q.items.length)?"Bekijk resultaat "+ic("arrowR"):"Volgende "+ic("arrowR");
+    }
+    function pick(i){ if(Q.answered)return; Q.answered=true; Q.picked=i; var ok=cur.opts[i].ok; if(ok)Q.correct++; else Q.wrong.push(q); recordProg(q.id, ok); showAnswered(i); nb.focus(); }
+    optBtns.forEach(function(b){ b.onclick=function(){ pick(+b.dataset.i); }; });
+    function next(){ if(!Q.answered)return; Q.idx++; Q.answered=false; Q.picked=-1; if(Q.idx>=Q.items.length)Q.done=true; renderQuiz(); }
+    if(Q.answered) showAnswered(Q.picked);
+    state.key=function(e){ if(!Q.answered){ var k=e.key.toLowerCase(); var idx="abcde".indexOf(k); if(idx<0&&/[1-5]/.test(k))idx=+k-1; if(idx>=0&&idx<cur.opts.length){pick(idx);e.preventDefault();} } else if(e.key==="Enter"||e.key===" "){ next(); e.preventDefault(); } };
+  }
+
+  function renderResult(){
+    var Q=state.quiz, p=pct(Q.correct,Q.items.length);
+    var msg=p>=80?"Sterk werk! 🎉":p>=60?"Goed bezig 👍":"Blijf oefenen, je komt er 💪";
+    var html='<div class="card pad results center"><span class="pill">Cross-culturele Psychologie</span><div class="big">'+p+'%</div>'+
+      '<p style="font-weight:600;margin:0 0 4px;font-size:17px">'+msg+'</p><p class="muted">'+Q.correct+' van '+Q.items.length+' juist</p>'+
+      '<div class="row" style="justify-content:center;margin-top:14px">'+
+        (Q.wrong.length?'<button class="btn" id="retry">Herhaal '+Q.wrong.length+' foute vragen</button>':'')+
+        '<button class="btn ghost" id="again">Nieuwe ronde</button><button class="btn ghost" id="home">Naar start</button></div></div>';
+    setHTML(html);
+    var rt=document.getElementById("retry"); if(rt) rt.onclick=function(){ startQuiz(shuffle(Q.wrong)); };
+    document.getElementById("again").onclick=function(){ state.quiz=null; renderQuizGate(); };
+    document.getElementById("home").onclick=function(){ state.quiz=null; go("home"); };
+    state.key=null;
+  }
+
+  function renderTheory(){
+    var q=state.sumq||"";
+    var html='<div class="card pad" style="margin-bottom:14px"><h2 style="margin:0 0 8px">Theorie en samenvatting</h2>'+
+      '<input type="search" id="sq" placeholder="Zoek een begrip… (bv. superdiversiteit, intersectionaliteit, armoede)" value="'+esc(q)+'"></div><div id="list">'+theoryList(q)+'</div>';
+    setHTML(html);
+    var si=document.getElementById("sq"); si.oninput=function(){ state.sumq=si.value; document.getElementById("list").innerHTML=theoryList(si.value); si.focus(); };
+  }
+  function theoryList(query){
+    var Q=query.trim().toLowerCase(), out="", n=0;
+    D.theory.forEach(function(sec){
+      var items=sec.items.filter(function(it){ return !Q || it.toLowerCase().indexOf(Q)>=0 || sec.h.toLowerCase().indexOf(Q)>=0; });
+      if(!items.length) return; n++;
+      out+='<details class="acc"'+(Q?" open":(n===1?" open":""))+'><summary><span class="n">'+ic("search")+'</span>'+esc(sec.h)+ic("chevR","caret")+'</summary><div class="body"><ul>'+items.map(function(it){return '<li>'+hl(esc(it),Q)+'</li>';}).join("")+'</ul></div></details>';
+    });
+    return out||'<p class="muted center">Geen resultaten voor "'+esc(query)+'".</p>';
+  }
+  function hl(t,q){ if(!q)return t; try{ return t.replace(new RegExp("("+q.replace(/[.*+?^${}()|[\]\\]/g,"\\$&")+")","ig"),"<mark>$1</mark>"); }catch(e){ return t; } }
+
+  function renderHacks(){
+    var html='<div class="card pad" style="margin-bottom:16px"><h2 style="margin:0 0 6px">Studie-hacks</h2><p class="muted" style="margin:0">Ezelsbruggetjes om de kernideeën van de cross-culturele psychologie te onthouden.</p></div>'+
+      '<div class="tipgrid">'+D.hacks.map(function(t){return '<div class="tip"><h4>'+ic("bulb")+esc(t.h)+'</h4><p>'+esc(t.t)+'</p></div>';}).join("")+'</div>';
+    setHTML(html);
+  }
+
+  function renderFeedback(){
+    var html='<div class="card pad"><h2 style="margin-top:0">Feedback &amp; klachten</h2>'+
+      '<p class="muted">Fout in een vraag, een idee, of werkt iets niet? Laat het hier weten, het komt rechtstreeks bij de maker terecht. Een review of compliment mag ook: de mooiste tonen we op de hub. 💬</p>'+
+      '<label class="fld" for="fbMsg">Je bericht</label><textarea id="fbMsg" rows="5" placeholder="Beschrijf de fout of je idee…"></textarea>'+
+      '<label class="fld" for="fbWaar">Over welke vraag? <span class="muted">(optioneel)</span></label><input type="text" id="fbWaar" placeholder="bv. de vraag over de p-waarde">'+
+      '<label class="fld" for="fbNaam">Je naam <span class="muted">(optioneel)</span></label><input type="text" id="fbNaam" placeholder="zodat we je kunnen bedanken">'+
+      '<label class="fld" for="fbEmail">Je e-mail <span class="muted">(optioneel, als je een antwoord wilt)</span></label><input type="email" id="fbEmail" placeholder="naam@voorbeeld.be">'+
+      '<input type="text" id="fbBot" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;opacity:0">'+
+      '<div class="row" style="margin-top:16px;align-items:center"><button class="btn" id="fbSend">'+ic("send")+'Versturen</button><span id="fbStatus" style="font-size:13px"></span></div></div>';
+    setHTML(html);
+    document.getElementById("fbSend").onclick=function(){
+      var status=document.getElementById("fbStatus");
+      if(document.getElementById("fbBot").value) return;
+      var msg=document.getElementById("fbMsg").value.trim();
+      if(!msg){ status.style.color="var(--bad)"; status.textContent="Schrijf eerst een bericht."; return; }
+      var btn=document.getElementById("fbSend"); btn.disabled=true; status.style.color="var(--muted)"; status.textContent="Versturen…";
+      var em=document.getElementById("fbEmail").value.trim();
+      var nm=document.getElementById("fbNaam").value.trim();
+      var waar=document.getElementById("fbWaar").value.trim();
+      var payload={_subject:"Cross-culturele Psychologie-tool: feedback", _template:"table", _captcha:"false",
+        Naam:nm||"-", Over_welke_vraag:waar||"-", email:em||"-", Bericht:msg};
+      if(em) payload._replyto=em;
+      // vangnet: als de verzenddienst blokkeert (bv. spamfilter) of er is geen verbinding,
+      // bieden we een directe mailto-knop aan zodat de melding NOOIT stilletjes verdwijnt.
+      function failFallback(reden){
+        var body="Feedback Cross-culturele Psychologie-tool%0D%0A%0D%0ANaam: "+encodeURIComponent(nm||"-")+"%0D%0AOver welke vraag: "+encodeURIComponent(waar||"-")+"%0D%0AE-mail: "+encodeURIComponent(em||"-")+"%0D%0A%0D%0ABericht:%0D%0A"+encodeURIComponent(msg);
+        var mailto="mailto:berat007yildirim@gmail.com?subject="+encodeURIComponent("Cross-culturele Psychologie-tool: feedback")+"&body="+body;
+        setHTML('<div class="card pad"><h2 style="margin-top:0">Automatisch versturen lukte niet</h2><p class="muted">'+reden+' Geen zorgen, klik hieronder en je melding wordt geopend in je e-mail, helemaal klaar om te versturen:</p><a class="btn" href="'+mailto+'">'+ic("send")+'Mail mijn melding direct</a><div style="margin-top:14px"><button class="btn ghost" id="bk">Terug naar start</button></div></div>');
+        document.getElementById("bk").onclick=function(){go("home");};
+      }
+      fetch("https://formsubmit.co/ajax/Berat007yildirim@gmail.com",{method:"POST",headers:{Accept:"application/json"},body:new URLSearchParams(payload)})
+        .then(function(r){return r.json();}).then(function(d){
+          if(d&&(d.success===true||d.success==="true")){ setHTML('<div class="card pad results center"><div style="font-size:42px">✅</div><h2 style="margin:6px 0">Bedankt!</h2><p class="muted">Je melding is verstuurd.</p><button class="btn" id="bk" style="margin-top:8px">Terug naar start</button></div>'); document.getElementById("bk").onclick=function(){go("home");}; }
+          else { failFallback("Het automatisch versturen lukte niet."); }
+        }).catch(function(){ failFallback("Er was even geen verbinding."); });
+    };
+  }
+
+  document.addEventListener("keydown",function(e){ if(state.key) state.key(e); });
+  // bezoeker tellen (1x per toestel)
+  try{ if(!localStorage.getItem("cross_seen")){ localStorage.setItem("cross_seen","1"); bump("berat-cross","gebruikers"); } }catch(e){ bump("berat-cross","gebruikers"); }
+  // traject vanuit de hub overnemen → direct naar de oefenpagina
+  try{ var _q=new URLSearchParams(location.search); var _m=_q.get("m");
+    if(_m==="training"||_m==="herkansing"){ state.track=_m; lset("cross_track",_m);
+      var _c=_q.get("calm"); if(_c!=null){ calm=(_c!=="0"); lset("cross_calm",calm); applyCalm(); }
+      state.step="practice"; state.fromHub=true; }
+  }catch(e){}
+  render();
+  // launch-splash netjes laten verdwijnen
+  (function(){ var _sp=document.getElementById("splash"); if(!_sp) return; var _red=false; try{_red=window.matchMedia("(prefers-reduced-motion: reduce)").matches;}catch(e){} setTimeout(function(){ _sp.classList.add("hide"); setTimeout(function(){ if(_sp&&_sp.parentNode) _sp.parentNode.removeChild(_sp); }, 700); }, _red?300:1850); })();
+})();
+</script>
+</body>
+</html>
