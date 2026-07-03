@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+<meta name="theme-color" content="#0f6e6a" />
+<meta http-equiv="Cache-Control" content="no-cache, must-revalidate" />
+<meta http-equiv="Pragma" content="no-cache" />
+<title>Biologische Psychologie I, Berie’s exam space</title>
+<meta name="author" content="Berat Yildirim - Berie's exam space" />
+<meta name="copyright" content="© 2026 Berat Yildirim. Alle rechten voorbehouden." />
+<!-- Berie's exam space © 2026 Berat Yildirim. Alle rechten voorbehouden. Originele bron: https://beriesexamspace.github.io  Kopieren of hergebruiken zonder schriftelijke toestemming is niet toegestaan. -->
+<style>
+  :root{
+    --bg:#f4f2ee; --bg2:#ebe8e2; --card:#ffffff; --ink:#1b232c; --muted:#5d6873;
+    --line:#e2ddd4; --accent:#0f6e6a; --accent-ink:#0b4f4c; --accent-soft:#dcefed;
+    --amber:#c9821f; --amber-soft:#f7ecd9; --violet:#6d5bd0; --violet-soft:#e9e6fa;
+    --good:#1f8a4c; --good-soft:#e2f3e8; --bad:#c23b54; --bad-soft:#fbe5ea;
+    --shadow:0 1px 2px rgba(20,30,40,.05),0 6px 18px rgba(20,30,40,.05);
+    --shadow-lg:0 2px 6px rgba(20,30,40,.06),0 18px 40px rgba(20,30,40,.10);
+    --r:14px; --r-lg:20px; --ease:cubic-bezier(.2,.8,.2,1);
+  }
+  html[data-theme="dark"]{
+    --bg:#11151a; --bg2:#161b22; --card:#1b222b; --ink:#e7ecf1; --muted:#9aa6b2;
+    --line:#2a323c; --accent:#3fb9b2; --accent-ink:#7fd6d0; --accent-soft:#163230;
+    --amber:#e0a64a; --amber-soft:#2e2515; --violet:#a99cf0; --violet-soft:#221d3a;
+    --good:#46c178; --good-soft:#16301f; --bad:#ef6b82; --bad-soft:#331620;
+    --shadow:0 1px 2px rgba(0,0,0,.3),0 8px 24px rgba(0,0,0,.35);
+    --shadow-lg:0 2px 8px rgba(0,0,0,.4),0 22px 48px rgba(0,0,0,.5);
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);font-size:16px;line-height:1.55;
+    font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;-webkit-font-smoothing:antialiased}
+  h1,h2,h3{font-family:Georgia,"Iowan Old Style","Times New Roman",serif;letter-spacing:-.01em}
+  button,a{font-family:inherit;cursor:pointer;color:inherit}
+  .wrap{max-width:880px;margin:0 auto;padding:0 18px 96px}
+  :focus-visible{outline:2.5px solid var(--accent);outline-offset:2px;border-radius:8px}
+  .ic{width:1.25em;height:1.25em;flex:none;vertical-align:-.18em;stroke:currentColor;stroke-width:1.75;
+    stroke-linecap:round;stroke-linejoin:round;fill:none}
+
+  header.top{position:sticky;top:0;z-index:30;border-bottom:1px solid var(--line);
+    background:color-mix(in srgb,var(--bg) 88%,transparent);backdrop-filter:saturate(160%) blur(16px);-webkit-backdrop-filter:saturate(160%) blur(16px);box-shadow:inset 0 -1px 0 0 rgba(0,0,0,.04)}
+  .topin{max-width:880px;margin:0 auto;padding:10px 18px;display:flex;align-items:center;gap:12px}
+  .brand{display:flex;align-items:center;gap:11px;font-weight:700}
+  .logo{width:32px;height:32px;border-radius:10px;background:linear-gradient(145deg,var(--accent),var(--accent-ink));
+    color:#fff;display:grid;place-items:center;font-family:Georgia,serif;font-weight:700;font-size:16px;flex:none;
+    box-shadow:0 2px 6px rgba(15,110,106,.35)}
+  .brand small{display:block;font-weight:500;color:var(--muted);font-size:11px}
+  .spacer{flex:1}
+  .iconbtn{border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:10px;min-height:38px;
+    padding:7px 11px;font-size:13.5px;display:inline-flex;gap:7px;align-items:center;text-decoration:none;
+    transition:border-color .2s var(--ease),transform .12s var(--ease)}
+  .iconbtn:hover{border-color:var(--accent)} .iconbtn:active{transform:scale(.96)}
+  nav.tabs{display:flex;gap:2px;overflow:auto;max-width:880px;margin:0 auto;padding:6px 12px 0;scrollbar-width:none}
+  nav.tabs::-webkit-scrollbar{display:none}
+  nav.tabs button{border:none;background:none;color:var(--muted);padding:10px 13px;border-radius:9px 9px 0 0;
+    font-size:14px;font-weight:600;white-space:nowrap;border-bottom:2px solid transparent;display:inline-flex;align-items:center;gap:6px;transition:color .2s var(--ease)}
+  nav.tabs button .ic{width:16px;height:16px}
+  nav.tabs button.on{color:var(--accent-ink);border-bottom-color:var(--accent)}
+  nav.tabs button:hover{color:var(--ink)}
+
+  .card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow)}
+  .pad{padding:20px}
+  .muted{color:var(--muted)}
+  .pill{display:inline-flex;align-items:center;gap:5px;font-size:12px;font-weight:600;padding:4px 10px;border-radius:999px;background:var(--accent-soft);color:var(--accent-ink)}
+  .pill.amber{background:var(--amber-soft);color:var(--amber)}
+  .row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+  .grid{display:grid;gap:14px}
+  @media(min-width:620px){.g2{grid-template-columns:1fr 1fr}}
+
+  .hero{display:flex;flex-wrap:wrap;align-items:center;gap:16px;margin:20px 0 8px}
+  .count{flex:none;background:linear-gradient(150deg,var(--accent),var(--accent-ink));color:#fff;border-radius:var(--r);padding:14px 20px;text-align:center;min-width:118px;box-shadow:0 8px 20px rgba(15,110,106,.28)}
+  .count b{font-family:Georgia,serif;font-size:32px;display:block;line-height:1}
+  .count span{font-size:12px;opacity:.92}
+  .herotext h1{margin:0 0 4px;font-size:25px}
+  .herotext p{margin:0;color:var(--muted)}
+
+  .brandstrip{display:flex;align-items:center;gap:13px;width:100%;text-decoration:none;color:inherit;border:1px solid var(--line);background:var(--card);border-radius:var(--r);padding:12px 16px;margin:14px 0 2px;box-shadow:var(--shadow);transition:border-color .2s var(--ease),transform .15s var(--ease)}
+  .brandstrip:hover{border-color:var(--accent);transform:translateY(-1px)}
+  .brandstrip .bs-logo{width:36px;height:36px;border-radius:10px;flex:none;display:grid;place-items:center;color:#fff;font-family:Georgia,serif;font-weight:700;font-size:17px;background:linear-gradient(145deg,var(--accent),var(--accent-ink))}
+  .brandstrip .bs-txt{flex:1;min-width:0} .brandstrip .bs-txt b{display:block;font-size:14.5px} .brandstrip .bs-txt small{color:var(--muted);font-size:12.5px}
+  .brandstrip .bs-go{color:var(--accent-ink);flex:none;display:inline-flex} .brandstrip .bs-go .ic{width:18px;height:18px}
+
+  .seclabel{display:flex;align-items:center;gap:8px;margin:24px 0 12px;font-weight:700;font-size:15px}
+  .seclabel .ic{width:18px;height:18px;color:var(--accent-ink)}
+  .backlink{display:inline-flex;align-items:center;gap:5px;border:none;background:none;color:var(--muted);font-size:13.5px;font-weight:600;padding:6px 0;margin-bottom:4px;transition:color .2s var(--ease)}
+  .backlink:hover{color:var(--accent-ink)} .backlink .ic{width:16px;height:16px}
+  .tracks{display:grid;gap:14px} @media(min-width:600px){.tracks{grid-template-columns:1fr 1fr}}
+  .track{display:flex;flex-direction:column;gap:8px;text-align:left;width:100%;border:1.5px solid var(--line);background:var(--card);border-radius:var(--r-lg);padding:20px;box-shadow:var(--shadow);transition:transform .22s var(--ease),border-color .22s var(--ease),box-shadow .22s var(--ease)}
+  .track:hover{transform:translateY(-3px);border-color:var(--accent);box-shadow:var(--shadow-lg)} .track:active{transform:translateY(-1px) scale(.995)}
+  .track .tile{width:46px;height:46px;border-radius:13px;display:grid;place-items:center;color:#fff;margin-bottom:4px;background:linear-gradient(150deg,var(--accent),var(--accent-ink))}
+  .track.alt .tile{background:linear-gradient(150deg,var(--violet),#4f40a8)} .track .tile .ic{width:24px;height:24px}
+  .track b{font-size:18px} .track small{color:var(--muted);font-size:13.5px;line-height:1.5}
+  .track .go{margin-top:6px;display:inline-flex;align-items:center;gap:6px;color:var(--accent-ink);font-weight:600;font-size:13.5px} .track.alt .go{color:var(--violet)} .track .go .ic{width:16px;height:16px}
+  .toggle{width:48px;height:28px;border-radius:999px;border:none;background:var(--line);position:relative;cursor:pointer;flex:none;transition:background .2s var(--ease)}
+  .toggle .knob{position:absolute;top:3px;left:3px;width:22px;height:22px;border-radius:50%;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.25);transition:left .2s var(--ease)}
+  .toggle.on{background:var(--violet)} .toggle.on .knob{left:23px}
+  .warmcard{border-color:var(--violet)!important;background:var(--violet-soft)} .warmcard .ic{width:22px;height:22px;color:var(--violet);flex:none}
+  .modebanner{display:flex;align-items:center;gap:10px;margin-bottom:14px;padding:11px 14px;border-radius:var(--r);background:var(--accent-soft);color:var(--accent-ink);font-size:13.5px;font-weight:600}
+  .modebanner.v{background:var(--violet-soft);color:var(--violet)} .modebanner .ic{width:18px;height:18px} .modebanner a,.modebanner .bnlink{margin-left:auto;font-size:13px;font-weight:600;cursor:pointer;text-decoration:underline;color:inherit;border:none;background:none;font-family:inherit;padding:0}
+  html.snappy .card,html.snappy .mode,html.snappy .tip,html.snappy .track{animation-duration:.12s!important}
+  .mode{display:flex;flex-direction:column;text-align:left;width:100%;border:1px solid var(--line);background:var(--card);border-radius:var(--r);padding:17px;gap:7px;box-shadow:var(--shadow);transition:transform .2s var(--ease),border-color .2s var(--ease),box-shadow .2s var(--ease)}
+  .mode:hover{border-color:var(--accent);transform:translateY(-3px);box-shadow:var(--shadow-lg)}
+  .mode .me{width:40px;height:40px;border-radius:11px;display:grid;place-items:center;background:var(--accent-soft);color:var(--accent-ink)} .mode .me .ic{width:22px;height:22px}
+  .mode b{font-size:16px} .mode small{color:var(--muted);font-size:13px}
+
+  label.fld{display:block;font-size:13px;font-weight:600;margin:16px 0 7px}
+  .chips{display:flex;flex-wrap:wrap;gap:8px}
+  .chip{border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:999px;min-height:38px;padding:7px 13px;font-size:13.5px;transition:all .18s var(--ease)}
+  .chip:hover{border-color:var(--accent)} .chip.on{background:var(--accent);color:#fff;border-color:var(--accent)}
+  .btn{background:var(--accent);color:#fff;border:none;border-radius:11px;min-height:46px;padding:12px 20px;font-size:15px;font-weight:600;display:inline-flex;align-items:center;gap:8px;justify-content:center;box-shadow:0 4px 12px rgba(15,110,106,.25);transition:background .2s var(--ease),transform .12s var(--ease)}
+  .btn:hover{background:var(--accent-ink)} .btn:active{transform:scale(.97) translateY(1px)} .btn .ic{width:18px;height:18px}
+  .btn.ghost{background:var(--card);color:var(--ink);border:1px solid var(--line);box-shadow:none} .btn.ghost:hover{border-color:var(--accent)}
+  .btn:disabled{opacity:.5;cursor:not-allowed;box-shadow:none}
+  input[type=search],input[type=text],input[type=email],textarea{font-family:inherit;font-size:15px;padding:9px 11px;border:1px solid var(--line);border-radius:10px;background:var(--card);color:var(--ink);width:100%}
+  input:focus,textarea:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-soft)}
+
+  .runtop{display:flex;align-items:center;gap:12px;margin:2px 0 14px;font-size:13px;color:var(--muted)}
+  .bar{height:8px;border-radius:6px;background:var(--bg2);overflow:hidden;flex:1}
+  .bar>i{display:block;height:100%;width:0;background:var(--accent);border-radius:6px;transition:width .7s var(--ease)}
+  .qtext{font-size:19px;font-weight:600;margin:8px 0 16px;font-family:Georgia,serif;line-height:1.45}
+  .opt{display:flex;gap:12px;align-items:flex-start;width:100%;text-align:left;border:1.5px solid var(--line);background:var(--card);color:var(--ink);border-radius:12px;padding:14px 15px;margin-bottom:10px;font-size:15px;transition:border-color .15s var(--ease),background .15s var(--ease),transform .12s var(--ease)}
+  .opt:hover:not(:disabled){border-color:var(--accent);background:var(--accent-soft)} .opt:active:not(:disabled){transform:scale(.99)}
+  .opt .k{flex:none;width:27px;height:27px;border-radius:8px;background:var(--bg2);color:var(--muted);display:grid;place-items:center;font-weight:700;font-size:13px}
+  .opt.correct{border-color:var(--good);background:var(--good-soft)} .opt.correct .k{background:var(--good);color:#fff}
+  .opt.wrong{border-color:var(--bad);background:var(--bad-soft)} .opt.wrong .k{background:var(--bad);color:#fff}
+  .opt:disabled{cursor:default}
+  .feedback{border-radius:12px;padding:13px 15px;margin:4px 0 12px;font-size:14.5px}
+  .feedback.ok{background:var(--good-soft);color:var(--good)} .feedback.no{background:var(--bad-soft);color:var(--bad)}
+  .feedback b{font-weight:700} .feedback .sub{display:block;margin-top:3px;color:var(--ink);font-weight:500;opacity:.92}
+  .whybtn{border:1px solid var(--line);background:var(--card);color:var(--accent-ink);border-radius:10px;min-height:40px;padding:9px 14px;font-size:13.5px;font-weight:600;display:inline-flex;align-items:center;gap:7px;transition:border-color .2s var(--ease),background .2s var(--ease)}
+  .whybtn:hover{border-color:var(--accent);background:var(--accent-soft)} .whybtn .ic{width:16px;height:16px}
+  .whybox{border:1px solid var(--accent);background:var(--accent-soft);border-radius:12px;padding:14px 16px;margin:12px 0 4px;font-size:14px;line-height:1.55}
+  .whybox h4{margin:0 0 6px;font-size:13px;text-transform:uppercase;letter-spacing:.5px;color:var(--accent-ink);font-family:system-ui;display:flex;align-items:center;gap:7px}
+  .whybox .ic{width:16px;height:16px}
+
+  .acc{border:1px solid var(--line);border-radius:var(--r);margin-bottom:10px;background:var(--card);overflow:hidden;box-shadow:var(--shadow)}
+  .acc>summary{padding:15px 16px;font-weight:700;cursor:pointer;list-style:none;display:flex;align-items:center;gap:11px}
+  .acc>summary::-webkit-details-marker{display:none}
+  .acc>summary .n{flex:none;width:28px;height:28px;border-radius:8px;background:var(--accent-soft);color:var(--accent-ink);display:grid;place-items:center;font-size:13px;font-weight:700}
+  .acc>summary .caret{margin-left:auto;color:var(--muted);transition:transform .25s var(--ease)} .acc[open]>summary .caret{transform:rotate(90deg)}
+  .acc[open]>summary{border-bottom:1px solid var(--line)} .acc .body{padding:6px 18px 16px}
+  .acc h4{margin:14px 0 6px;font-size:13px;color:var(--accent-ink);text-transform:uppercase;letter-spacing:.4px;font-family:system-ui}
+  .acc ul{margin:0;padding-left:20px} .acc li{margin:6px 0;font-size:14.5px;line-height:1.5}
+  .acc.hack li::marker{content:"💡  "} .acc.hack>summary .n{background:var(--violet-soft);color:var(--violet)}
+  mark{background:var(--amber-soft);color:inherit;padding:0 2px;border-radius:3px}
+
+  .tip{border:1px solid var(--line);background:var(--card);border-radius:var(--r);padding:15px;box-shadow:var(--shadow)}
+  .tip h4{margin:0 0 5px;font-size:14.5px;display:flex;align-items:center;gap:8px;font-family:system-ui} .tip h4 .ic{width:18px;height:18px;color:var(--violet)}
+  .tip p{margin:0;font-size:13.5px;color:var(--muted);line-height:1.55}
+  .tipgrid{display:grid;gap:12px} @media(min-width:620px){.tipgrid{grid-template-columns:1fr 1fr}}
+
+  .results .big{font-family:Georgia,serif;font-size:54px;text-align:center;margin:8px 0;line-height:1}
+  .center{text-align:center} .hide{display:none!important}
+  footer{margin-top:34px;text-align:center;color:var(--muted);font-size:13px}
+  .kbd{font-size:11px;border:1px solid var(--line);border-bottom-width:2px;border-radius:5px;padding:1px 6px;color:var(--muted)}
+  @keyframes fadeUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+  @keyframes slideIn{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:none}}
+  @keyframes pop{0%{transform:scale(1)}45%{transform:scale(1.03)}100%{transform:scale(1)}}
+  @keyframes optIn{from{opacity:0;transform:translateX(-9px)}to{opacity:1;transform:none}}
+  @media (prefers-reduced-motion: no-preference){
+    .card,.mode,.tip{animation:fadeUp .34s var(--ease) both}
+    .acc{animation:fadeUp .32s var(--ease) both}
+    .opt{animation:optIn .3s var(--ease) backwards;animation-delay:var(--oi,0s)}
+    .chip.on{animation:pop .22s var(--ease)}
+    .feedback{animation:slideIn .26s var(--ease) both} .whybox{animation:slideIn .28s var(--ease) .07s both} .opt.correct{animation:pop .34s var(--ease)}
+  }
+  @media (prefers-reduced-motion: reduce){*{animation-duration:.001ms!important;transition-duration:.001ms!important}}
+  /* ---- Premium launch (Gemini-stijl) + header-logo gloed ---- */
+  @property --bes-a{syntax:'<angle>';initial-value:0deg;inherits:false}
+  #splash{position:fixed;inset:0;z-index:200;display:grid;place-items:center;background:radial-gradient(125% 125% at 50% 38%,var(--bg2) 0%,var(--bg) 68%);transition:opacity .6s var(--ease),transform .7s var(--ease)}
+  #splash.hide{opacity:0;transform:scale(1.07);pointer-events:none}
+  .sp-inner{display:flex;flex-direction:column;align-items:center;gap:20px;text-align:center}
+  .sp-mark{position:relative;width:100px;height:100px;display:grid;place-items:center}
+  .sp-mark::before{content:"";position:absolute;inset:-16px;border-radius:34px;z-index:0;background:conic-gradient(from var(--bes-a),var(--accent),var(--violet),var(--amber),var(--accent));filter:blur(17px);opacity:.75}
+  .sp-mark::after{content:"";position:absolute;inset:-3px;border-radius:27px;z-index:1;background:conic-gradient(from var(--bes-a),var(--accent),var(--violet),var(--amber),var(--accent));padding:3px;-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude}
+  .sp-logo{position:relative;z-index:2;width:92px;height:92px;border-radius:24px;display:grid;place-items:center;color:#fff;font-family:Georgia,serif;font-weight:700;font-size:46px;background:linear-gradient(150deg,var(--accent),var(--accent-ink));box-shadow:0 14px 38px rgba(15,110,106,.4)}
+  .sp-spark{position:absolute;z-index:3;top:-7px;right:-7px;width:30px;height:30px;color:#fff;filter:drop-shadow(0 2px 7px rgba(0,0,0,.35))}
+  .sp-name{position:relative;font-family:Georgia,serif;font-size:26px;font-weight:700;letter-spacing:-.01em;color:var(--ink);overflow:hidden}
+  .sp-name::after{content:"";position:absolute;inset:0;background:linear-gradient(110deg,transparent 35%,rgba(255,255,255,.75) 50%,transparent 65%);transform:translateX(-130%)}
+  .sp-tag{font-size:13px;color:var(--muted);margin-top:-8px;letter-spacing:.03em}
+  @media (prefers-reduced-motion: no-preference){
+    .sp-mark::before{animation:bes-spin 3s linear infinite,bes-breathe 2.4s var(--ease) infinite}
+    .sp-mark::after{animation:bes-spin 3s linear infinite}
+    .sp-logo{animation:bes-pop .7s var(--ease) both}
+    .sp-spark{animation:bes-pop .6s var(--ease) .12s both,bes-twinkle 1.9s var(--ease) .9s infinite}
+    .sp-name{animation:bes-rise .6s var(--ease) .14s both}
+    .sp-name::after{animation:bes-shimmer 1.5s var(--ease) .5s 1}
+    .sp-tag{animation:bes-rise .6s var(--ease) .26s both}
+  }
+  @keyframes bes-spin{to{--bes-a:360deg}}
+  @keyframes bes-breathe{0%,100%{opacity:.55;filter:blur(16px)}50%{opacity:.95;filter:blur(22px)}}
+  @keyframes bes-shimmer{to{transform:translateX(130%)}}
+  @keyframes bes-twinkle{0%,100%{opacity:1;transform:scale(1) rotate(0deg)}50%{opacity:.65;transform:scale(.82) rotate(18deg)}}
+  @keyframes bes-rise{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+  /* mobiel: header-knoppen alleen iconen zodat niks zijwaarts overflowt */
+  @media(max-width:440px){ header.top .iconbtn span{display:none} header.top .iconbtn{padding:7px 9px;min-width:38px;justify-content:center} .topin{gap:8px} }
+</style>
+</head>
+<body>
+<div id="splash"><div class="sp-inner">
+  <div class="sp-mark">
+    <div class="sp-logo">B1</div>
+    <svg class="sp-spark" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 1.5c.4 4.6 2.4 6.6 7 7-4.6.4-6.6 2.4-7 7-.4-4.6-2.4-6.6-7-7 4.6-.4 6.6-2.4 7-7Z"/></svg>
+  </div>
+  <div><div class="sp-name">Biologische Psychologie I</div><div class="sp-tag">slim oefenen voor je examen</div></div>
+</div></div>
+<header class="top">
+  <div class="topin">
+    <div class="brand"><span class="logo">B1</span><div>Biologische Psychologie I<small>Berie’s exam space</small></div></div>
+    <span class="spacer"></span>
+    <a class="iconbtn" href="https://beriesexamspace.github.io/?jaar=1" title="Andere vakken"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true" style="width:16px;height:16px"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg><span>Vakken</span></a>
+    <button class="iconbtn" id="themeBtn" aria-label="Wissel tussen licht en donker thema"></button>
+  </div>
+  <nav class="tabs" id="tabs"></nav>
+</header>
+<div class="wrap" id="app"></div>
+<footer class="wrap" style="padding-top:0">Biologische Psychologie I · Berie’s exam space, oefen slim voor je examen · veel succes!<br><span style="opacity:.7">© 2026 Berie’s exam space · Alle rechten voorbehouden</span></footer>
+
+<script>
+window.BP1 = {"questions":[{"t":"1","q":"Welke drie grondvoorwaarden zijn volgens de tekst nodig om natuurlijke selectie te laten plaatsvinden?","o":["Mutatie, migratie en genetische drift","Overerving, variatie en selectie","Concordantie, heritabiliteit en pleiotropie","Genotype, fenotype en expressie"],"a":1,"u":"Natuurlijke selectie vereist overerfbare eigenschappen (overerving), variabiliteit in die eigenschappen (variatie) en een samenhang tussen bepaalde eigenschappen en groter reproductief succes (selectie)."},{"t":"1","q":"Waarom is 'survival of the fittest' volgens de bron een misleidende omschrijving van natuurlijke selectie?","o":["Omdat selectie enkel op groepsniveau werkt en niet op individuen","Omdat niet per se de sterkste of slimste wordt geselecteerd, maar wie in een context meer nakomelingen krijgt","Omdat fitheid altijd gemeten wordt in fysieke kracht","Omdat selectie alleen bij dieren en niet bij mensen optreedt"],"a":1,"u":"De tekst benadrukt dat selectie niet per se de sterkste of slimste betreft; 'natuurlijke selectie' is beter, want het gaat om eigenschappen die in een bepaalde context samenhangen met groter reproductief succes."},{"t":"1","q":"Een steriele werkster bij de honingbij krijgt zelf geen nakomelingen, maar helpt verwanten. Welk begrip verklaart dit het best?","o":["Seksuele selectie","Verwantenselectie","Pleiotropie","Obstetrisch dilemma"],"a":1,"u":"Bij verwantenselectie gaat het niet om selectie van individuen maar van genen; het voor- of nadeel voor verwanten telt mee, wat het altruisme van steriele werksters verklaart."},{"t":"1","q":"De onhandig grote staart van een pauw wordt in de tekst gebruikt als voorbeeld van welk proces?","o":["Verwantenselectie","Rijpingsvertraging","Seksuele selectie","Pruning"],"a":2,"u":"Bij seksuele selectie word je geselecteerd op kenmerken die je aantrekkelijkheid voor seksuele partners vergroten, zelfs als die kenmerken 'onhandig' zijn, zoals de pauwenstaart."},{"t":"1","q":"Wat verklaart volgens de bron waarom gedragsgenetica een 'kwalijke reputatie' heeft?","o":["Omdat het gebruik van tweelingstudies wetenschappelijk verboden is","Omdat het een racistische mantel kan hebben, met een negatieve ondertoon via onder meer eugenetica","Omdat het uitsluitend op dierproeven berust","Omdat het aantoont dat omgeving geen enkele rol speelt"],"a":1,"u":"De tekst noemt dat de leer van de overerfbaarheid van gedrag een racistische mantel kan hebben, met een sterke negatieve ondertoon via onder andere eugenetica."},{"t":"1","q":"Waarom is het menselijk brein volgens de tekst 'exceptioneel', ondanks dat het niet de grootste massa heeft?","o":["Omdat het de grootste relatieve massa heeft ten opzichte van het lichaamsgewicht","Omdat het de meeste rimpels van alle dieren heeft","Omdat het, voor zover geweten, het grootste aantal corticale neuronen heeft, in het bijzonder prefrontaal","Omdat het als enige brein postnataal blijft groeien"],"a":2,"u":"De potvis heeft meer massa en de olifant meer neuronen, maar de mens heeft (voor zover geweten) het grootste aantal corticale neuronen, vooral prefrontaal, en die zitten dicht op elkaar."},{"t":"1","q":"Wat is volgens de tekst de betekenis van de 'rimpeligheid' (groeven) van het brein?","o":["Hoe rimpeliger, hoe meer cortex, wat belangrijk is voor cognitieve functies","Rimpeligheid bepaalt rechtstreeks de absolute breinmassa","Meer rimpels betekent minder neuronen per gram","Rimpeligheid staat los van cognitie en is enkel esthetisch"],"a":0,"u":"De rimpeligheid vergroot de buitenste laag (cortex of schors), die belangrijk is voor cognitieve functies; hoe rimpeliger, hoe meer cortex."},{"t":"1","q":"Volgens de obstetrisch dilemma-hypothese ontstaan er complicaties bij de bevalling door een combinatie van twee factoren. Welke?","o":["Een groot brein en een breed geboortekanaal","Een klein brein en rechtop lopen","Een groot brein en een versmald geboortekanaal door het rechtop lopen","Snelle rijping van het brein en een grote schedel"],"a":2,"u":"Het rechtop lopen versmalt het geboortekanaal, terwijl het grote brein een grotere schedel vereist; die combinatie geeft complicaties en verklaart mee de rijpingsvertraging."},{"t":"1","q":"Wat houdt 'pruning' in de context van de breinontwikkeling in?","o":["Het aanmaken van nieuwe steuncellen na de geboorte","Het wegknippen van bestaande verbindingen om de beste te behouden","Het versnellen van de rijping van de prefrontale cortex","Het koken van voedsel om meer energie voor het brein vrij te maken"],"a":1,"u":"Pruning is het terug wegknippen van bestaande connecties; er worden 'te veel' verbindingen aangemaakt om vervolgens de beste te behouden, waardoor bedrading afgestemd raakt op omgeving en ervaring."},{"t":"1","q":"In welke volgorde verloopt het snoeien (pruning) volgens de tekst door het brein?","o":["Van vooraan naar achteraan, met de prefrontale cortex eerst","Van achteraan naar vooraan, met de prefrontale cortex het laatst","Gelijktijdig in het hele brein binnen de eerste twee jaar","Enkel in de prefrontale cortex, al vanaf de geboorte"],"a":1,"u":"Pruning gebeurt in het hele brein van achteraan naar vooraan, waarbij de prefrontale cortex in de late adolescentie het laatst aan de beurt is; die is cruciaal voor sociaal functioneren en zelfregulatie."},{"t":"1","q":"Wat stelt de sociale brein-hypothese?","o":["Dat de complexiteit van het sociale leven een drijvende factor is achter de vergroting van vooral de frontale cortex","Dat een groter brein vooral ontstond door het koken van voedsel","Dat sociale isolatie de cortex doet krimpen bij primaten","Dat paarvormende soorten altijd een kleinere cortex hebben"],"a":0,"u":"Volgens de sociale brein-hypothese is de complexiteit van het sociale leven een belangrijke drijvende factor achter de vergroting van vooral de frontale cortex; bij primaten voorspelt de groepsgrootte het corticale volume."},{"t":"1","q":"Wat is een belangrijke kritiek op de evolutionaire psychologie volgens de bron?","o":["Dat ze de rol van genen volledig ontkent","Dat verklaringen vaak 'maar verhalen' zijn die niet empirisch getoetst kunnen worden","Dat ze uitsluitend op tweelingstudies steunt","Dat ze het bestaan van natuurlijke selectie verwerpt"],"a":1,"u":"De kritiek is dat een evolutionair perspectief vaak als verklaring wordt gehanteerd zonder dat het empirisch getoetst kan worden, waardoor het 'maar verhalen' blijven, zoals bij geslachtsverschillen in partnerkeuze."},{"t":"1","q":"Wat wordt bedoeld met de 'overschatting van adaptiviteit'?","o":["Het idee dat evolutie altijd trager verloopt dan gedacht","Het idee dat alle kenmerken een functie hebben of het gevolg zijn van adaptieve evolutie","Het idee dat adoptiestudies de erfelijkheid overschatten","Het idee dat de omgeving belangrijker is dan genen"],"a":1,"u":"De overschatting van adaptiviteit is het idee dat alle kenmerken of trekken een functie hebben of het gevolg zijn van adaptieve evolutie, wat een valkuil vormt binnen het evolutionaire perspectief."},{"t":"1","q":"Hoe wordt heritabiliteit (erfelijkheid) in de tekst gedefinieerd?","o":["De mate waarin een eigenschap door de opvoeding wordt bepaald","De mate waarin variabiliteit in een eigenschap verklaard wordt door genetische variabiliteit, in een bepaalde omgeving of groep","Het percentage DNA dat twee mensen delen","De kans dat een eigenschap op elk individu van toepassing is"],"a":1,"u":"Heritabiliteit is de mate waarin variabiliteit in een eigenschap wordt verklaard door genetische variabiliteit, steeds gemeten in een bepaalde omgeving of groep."},{"t":"1","q":"Wat is het genetische verschil tussen monozygotische en dizygotische tweelingen?","o":["Monozygotische delen 50% en dizygotische 100% van hun genen","Monozygotische zijn genetisch identiek, dizygotische delen ongeveer 50% net als gewone broers of zussen","Beide zijn genetisch identiek maar hebben een verschillend geslacht","Dizygotische zijn genetisch identiek, monozygotische delen 50%"],"a":1,"u":"Monozygotische tweelingen komen uit een gesplitste bevruchte eicel en zijn genetisch identiek; dizygotische ontstaan uit twee bevruchte eicellen en delen ongeveer 50%, net als andere broers of zussen."},{"t":"1","q":"Volgens de formule van Falconer is de heritabiliteit gelijk aan (concordantie MZ min concordantie DZ) maal twee. Als de concordantie voor IQ bij MZ 0,86 is en bij DZ 0,60, wat is dan de heritabiliteit?","o":["26%","86%","52%","60%"],"a":2,"u":"(0,86 min 0,60) maal 2 is gelijk aan 0,52, dus een heritabiliteit van 52%; de x2 is nodig omdat MZ-tweelingen de helft van hun genoom extra delen ten opzichte van DZ."},{"t":"1","q":"Wat betekent het dat een eigenschap 'polygenetisch' bepaald is?","o":["Dat een enkel gen meerdere afzonderlijke eigenschappen beinvloedt","Dat een fenotypische eigenschap door meerdere, mogelijk honderden genen wordt bepaald","Dat de eigenschap enkel in het brein tot expressie komt","Dat de eigenschap volledig door de omgeving wordt bepaald"],"a":1,"u":"Polygenetisch betekent dat een fenotypische eigenschap wordt bepaald door meerdere genen; voor complexe eigenschappen kunnen mogelijk honderden genen relevant zijn."},{"t":"1","q":"Wat is het verschil tussen de strategie 'genotype eerst' (kandidaat-gen) en 'fenotype eerst' (GWAS)?","o":["Bij genotype eerst vergelijk je het hele genoom van groepen, bij GWAS vertrek je van een enkel bekend gen","Bij genotype eerst vertrek je van een kandidaat-gen met bekende functie, bij GWAS vergelijk je het hele genoom van groepen met een bepaald kenmerk","Beide vertrekken van een enkel gen, maar GWAS gebruikt tweelingen","GWAS vertrekt van een kandidaat-gen en genotype eerst van het fenotype"],"a":1,"u":"Bij 'genotype eerst' start je van een kandidaat-gen met enigszins bekende functie; bij GWAS keer je de volgorde om en vergelijk je het hele genoom van groepen met een bepaald fenotype om samenhangende variatie te detecteren."},{"t":"2","q":"Wat is de neuraxis?","o":["Een denkbeeldige lijn die door de lengte van het centraal zenuwstelsel loopt, van onderaan het ruggenmerg tot vooraan de hersenen","De harde buitenste laag van de hersenvliezen","Het holle kanaal in het midden van het ruggenmerg","De verbinding tussen de twee hersenhelften"],"a":0,"u":"De neuraxis is de denkbeeldige lengteas door het CZS, lopend van onderaan het ruggenmerg tot vooraan de hersenen."},{"t":"2","q":"Iemand beschrijft een structuur die 'aan de rugkant' ligt. Welke term hoort daarbij?","o":["Ventraal","Dorsaal","Rostraal","Mediaal"],"a":1,"u":"Dorsaal betekent rugkant, terwijl ventraal de buikkant aanduidt."},{"t":"2","q":"Wat betekent het als twee structuren zich 'contralateraal' tot elkaar verhouden?","o":["Ze liggen dicht bij het middenvlak","Ze liggen aan dezelfde kant","Ze liggen aan de tegenovergestelde kant","Ze liggen ver van het midden van het zenuwstelsel"],"a":2,"u":"Contralateraal betekent aan de tegenovergestelde kant; ipsilateraal is juist aan dezelfde kant."},{"t":"2","q":"Welke onderdelen behoren tot het centraal zenuwstelsel?","o":["Hersenzenuwen en ruggenmergzenuwen","Perifere ganglia en hersenzenuwen","Hersenen en ruggenmerg","Gladde spieren en klieren"],"a":2,"u":"Het centraal zenuwstelsel bestaat uit de hersenen en het ruggenmerg, weefsels die door bot beschermd worden. Hersenzenuwen en ganglia horen bij het perifere zenuwstelsel."},{"t":"2","q":"Waarom is het brein zo sterk afhankelijk van een continue bloedtoevoer?","o":["Omdat het brein zwaar is en veel bloed nodig heeft om te drijven","Omdat het weinig glucose kan opslaan en niet anaeroob kan verbranden","Omdat het brein voortdurend nieuwe neuronen aanmaakt","Omdat de hersenvliezen constant vernieuwd worden"],"a":1,"u":"Het brein slaat weinig glucose op en kan geen anaerobe verbranding gebruiken, waardoor het continu bloed en dus zuurstof en brandstof nodig heeft."},{"t":"2","q":"Welke van de hersenvliezen is de dikke en stugge buitenste laag?","o":["Pia mater","Arachnoïde mater","Dura mater","Choroïde plexus"],"a":2,"u":"De dura mater ('harde moeder') is de dikke, stugge buitenste laag van de drie hersenvliezen."},{"t":"2","q":"Waar bevindt zich het cerebrospinaal vocht dat het brein laat 'drijven'?","o":["In de subarachnoïdale ruimte tussen arachnoïde en pia mater","Tussen de dura mater en de schedel","In de witte stof van de cortex","In de dorsale wortelganglia"],"a":0,"u":"Het cerebrospinaal vocht zit in de subarachnoïdale ruimte tussen de arachnoïde en de pia mater en zorgt er onder meer voor dat het brein drijft."},{"t":"2","q":"Welk weefsel staat in voor de continue productie van cerebrospinaal vocht?","o":["De radiale glia","De choroïde plexus","De massa intermedia","De reticulaire formatie"],"a":1,"u":"De choroïde plexus produceert het cerebrospinaal vocht continu; het totale volume wordt meermaals per dag vervangen."},{"t":"2","q":"Bij een lumbaalpunctie wordt de naald bewust onder L3 geprikt. Wat is daarvan de reden?","o":["Omdat de dura mater daar ontbreekt","Omdat het ruggenmerg rond L2 eindigt en er lager enkel losse zenuwbundels zitten","Omdat de ventrikels daar het dichtst bij de huid liggen","Omdat de choroïde plexus zich daar bevindt"],"a":1,"u":"Het ruggenmerg eindigt rond L2; daaronder liggen de zenuwen in een losse bundel (cauda equina), zodat een prik onder L3 het ruggenmerg zelf niet raakt."},{"t":"2","q":"Tijdens de vroege embryonale ontwikkeling: uit welke van de drie kiemlagen ontwikkelt het zenuwstelsel zich?","o":["Het mesoderm","Het endoderm","De neurale buis","Het ectoderm"],"a":3,"u":"Het zenuwstelsel ontwikkelt zich uit de bovenste kiemlaag, het ectoderm, vanaf ongeveer de derde week na conceptie."},{"t":"2","q":"Tot welke drie primaire hersendelen groeien de rostrale kamers van de neurale buis uit?","o":["Voorhersenen, middenhersenen en achterhersenen","Cortex, thalamus en cerebellum","Telencephalon, pons en medulla","Tectum, tegmentum en hersenstam"],"a":0,"u":"De rostrale kamers vormen de grote driedeling: voorhersenen (prosencephalon), middenhersenen (mesencephalon) en achterhersenen (rhombencephalon)."},{"t":"2","q":"Welke rol spelen radiale glia tijdens de ontwikkeling van de cortex?","o":["Ze produceren cerebrospinaal vocht","Ze vormen een soort ladder waarlangs neuronen naar de oppervlakte migreren","Ze isoleren de axonen met myeline","Ze breken overbodige neuronen af via apoptose"],"a":1,"u":"Radiale glia zijn steuncellen waarvan de vezels als een ladder dienen waarlangs neuronen naar de buitenkant van de cortex migreren."},{"t":"2","q":"Wat gebeurt er met neuronen die tijdens de ontwikkeling geen geschikte contacten vinden?","o":["Ze migreren opnieuw naar de ventriculaire zone","Ze worden gemyeliniseerd","Ze sterven af","Ze veranderen in radiale glia"],"a":2,"u":"Bij de geboorte zijn er ongeveer 50% meer neuronen dan uiteindelijk nodig; neuronen zonder geschikte contacten sterven terug af."},{"t":"2","q":"Waarom heeft de witte stof in het brein een witachtige kleur?","o":["Door de myeline die de verbindingen isoleert","Door de cellichamen die er dicht opeen liggen","Door het cerebrospinaal vocht dat er doorheen loopt","Door de piramidale cellen in laag vijf"],"a":0,"u":"De witte stof bestaat uit verbindingen die door myeline geïsoleerd zijn; die isolatielaag geeft de witachtige kleur en versnelt signaaloverdracht."},{"t":"2","q":"Iemand met schade aan de visuele associatiecortex kan objecten wel zien maar niet meer identificeren. Hoe heet dit?","o":["Anterograde amnesie","Blindheid","Visuele agnosie","Tactiele agnosie"],"a":2,"u":"Visuele agnosie is het onvermogen om objecten te identificeren terwijl het basale perceptuele vermogen gespaard blijft."},{"t":"2","q":"Wat houdt somatotopie in?","o":["Naburige delen van de auditieve cortex verwerken nabijgelegen toonhoogtes","Naburige delen van de somatosensorische cortex verwerken nabijgelegen delen van het lichaam","Naburige delen van de visuele cortex verwerken nabijgelegen delen van het netvlies","Beide hemisferen verwerken dezelfde informatie tegelijk"],"a":1,"u":"Somatotopie betekent dat aangrenzende delen van de somatosensorische (of motorische) cortex betrokken zijn bij aangrenzende delen van het lichaam."},{"t":"2","q":"Wat verbindt de linker- en rechterhemisfeer met elkaar, vooral tussen gelijkaardige gebieden?","o":["De fornix","Het corpus callosum","De massa intermedia","De reticulaire formatie"],"a":1,"u":"Het corpus callosum is de grootste bundel verbindingen tussen de twee hemisferen, vooral tussen homologe (gelijkaardige) gebieden."},{"t":"2","q":"Volgens het triune brain-model van MacLean komt het limbisch systeem overeen met welke laag?","o":["Het rationele mensenbrein","Het emotionele zoogdierenbrein","Het instinctieve reptielenbrein","Het rationele neocorticale brein"],"a":1,"u":"In het drievoudig brein-model staat het limbisch systeem voor het 'zoogdierenbrein', het emotionele brein, tussen neocortex en reptielenbrein."},{"t":"2","q":"Welke functie wordt vooral toegeschreven aan de hippocampus?","o":["Detecteren van dreiging en angst","Vloeiend en geautomatiseerd bewegen","Consolidatie van declaratief langetermijngeheugen","Vrijgave van stresshormonen"],"a":2,"u":"De hippocampus speelt een cruciale rol in het geheugen, met name de consolidatie van declaratief langetermijngeheugen; bilaterale schade geeft anterograde amnesie."},{"t":"2","q":"Welke structuur wordt vooral in verband gebracht met angst en het detecteren van dreiging?","o":["De amygdala","De thalamus","De nucleus accumbens","Het cerebellum"],"a":0,"u":"De amygdala wordt vooral gelinkt aan negatieve emotie, met name angst, en aan het detecteren van dreiging en onzekerheid."},{"t":"2","q":"Welke rol vervult de thalamus binnen het diencephalon?","o":["Cockpit van het hormoonsysteem","Belangrijkste verdeelcentrum of schakelstation naar de cortex","Productie van dopamine voor het beloningssysteem","Coördinatie van evenwicht en postuur"],"a":1,"u":"De thalamus is het centraal gelegen verdeelcentrum dat informatie van vrijwel alle zintuigen (behalve geur) naar de juiste delen van de cortex doorstuurt."},{"t":"2","q":"Welk deel van het autonome zenuwstelsel mobiliseert de reserves in noodsituaties, met een verhoogde hartslag en verwijde pupillen?","o":["Het parasympathische zenuwstelsel","Het enterische zenuwstelsel","Het sympathische zenuwstelsel","Het somatische zenuwstelsel"],"a":2,"u":"Het sympathische zenuwstelsel 'gaat in het rood': het verhoogt hartslag en ademhaling, verwijdt de pupillen en legt de spijsvertering stil om reserves te mobiliseren."},{"t":"3","q":"Wat is de belangrijkste functie van de mitochondriën in een cel?","o":["Het opslaan van genetische informatie in chromosomen","Het omzetten van voedingsstoffen in ATP als bruikbare brandstof","Het produceren van ribosomen in de nucleolus","Het isoleren van axonen met een myelineschede"],"a":1,"u":"Mitochondriën spelen een cruciale rol in de energiehuishouding en zetten voedingsstoffen om in ATP, een direct bruikbare brandstof voor de cel."},{"t":"3","q":"Op welke stelling over mitochondriaal DNA is de bron gebaseerd?","o":["Mitochondriën bevatten in de regel enkel moederlijk DNA uit de eicel","Mitochondriaal DNA komt gelijk van beide ouders","De cel maakt mitochondriën volledig zelf aan zonder eigen DNA","Mitochondriaal DNA zit opgeslagen in de celkern"],"a":0,"u":"Mitochondriën bezitten eigen DNA en reproduceren zichzelf; ze bevatten in de regel enkel moederlijk mitochondriaal DNA afkomstig uit de eicel."},{"t":"3","q":"Een neuron ontvangt signalen van andere neuronen. Welk onderdeel is hiervoor het meest verantwoordelijk?","o":["Het axon","De eindknopen","De dendrieten","De myelineschede"],"a":2,"u":"Dendrieten (van dendron, boom) zijn de voelertjes die communicatie en signalen van andere neuronen ontvangen."},{"t":"3","q":"Wat verstaat men onder axoplasmatisch transport?","o":["Het transport van stoffen langs microtubuli tussen soma en zenuwuiteinden, dat energie kost","De passieve diffusie van ionen door het celmembraan","De vrijgave van neurotransmitters in de synaptische spleet","De heropname van neurotransmitters door de presynaptische cel"],"a":0,"u":"Axoplasmatisch transport is een actief proces dat energie kost, waarbij eiwitten en stoffen via het cytoskelet (microtubuli) tussen soma en zenuwuiteinden worden vervoerd."},{"t":"3","q":"Welke gliacel vormt in het centrale zenuwstelsel de myelineschede rond axonen?","o":["Astrocyten","Microglia","Schwann-cellen","Oligodendrocyten"],"a":3,"u":"Oligodendrocyten ondersteunen axonen en vormen in het CZS de myelineschede; één oligodendrocyt maakt ongeveer 50 segmenten."},{"t":"3","q":"Wat is een belangrijk verschil tussen Schwann-cellen en oligodendrocyten?","o":["Schwann-cellen komen enkel in het CZS voor","Elke Schwann-cel vormt slechts één myeline-segment, terwijl één oligodendrocyt er meerdere maakt","Schwann-cellen doen aan fagocytose van glucose","Oligodendrocyten kunnen beschadigde axonen herstellen via buizen"],"a":1,"u":"Schwann-cellen zitten in het PZS en vormen elk één myeline-segment, terwijl één oligodendrocyt in het CZS ongeveer 50 segmenten vormt."},{"t":"3","q":"Waarom kleurt een injectie van blauwe kleurstof wel de meeste weefsels, maar niet het centrale zenuwstelsel?","o":["Omdat CZS-weefsel geen bloedvaten bevat","Omdat de bloed-breinbarrière selectief permeabel is en de kiertjes tussen haarvaatcellen daar ontbreken","Omdat de kleurstof door astrocyten wordt opgegeten","Omdat het CZS enkel via lactaat en niet via bloed bevoorraad wordt"],"a":1,"u":"De bloed-breinbarrière is selectief permeabel; de kleine kiertjes tussen de cellen van haarvaatjes ontbreken in het CZS, waardoor de kleurstof het CZS niet bereikt."},{"t":"3","q":"In rusttoestand is de membraanpotentiaal van een neuron ongeveer -70mV. Welke factor draagt hier het sterkst aan bij?","o":["De grote permeabiliteit voor K+, waardoor kalium blijft weglekken tot een evenwicht ontstaat","De directe bijdrage van de natrium-kaliumpomp aan de negatieve lading","Het voortdurend openstaan van voltage-afhankelijke Na+ kanalen","De permanente uitstroom van chloor-anionen uit de cel"],"a":0,"u":"Het membraan is het meest permeabel voor K+; kalium lekt weg door diffusie tot de opgebouwde elektrostatische druk de diffusie uitmiddelt, rond -70mV."},{"t":"3","q":"Wat doet de natrium-kaliumpomp precies?","o":["Ze duwt 2 Na+ naar buiten in ruil voor 3 K+ naar binnen","Ze duwt 3 Na+ naar buiten in ruil voor 2 K+ naar binnen","Ze laat Ca2+ binnenstromen om vesikels te doen fuseren","Ze breekt neurotransmitters af in de synaptische spleet"],"a":1,"u":"De natrium-kaliumpomp is een transmembraaneiwit dat voortdurend 3 Na+ ionen naar buiten duwt in ruil voor 2 K+ ionen naar binnen, wat veel energie kost."},{"t":"3","q":"Wat gebeurt er meteen nadat de drempelpotentiaal (rond -50mV) wordt bereikt?","o":["De K+ kanalen openen eerst en zorgen voor hyperpolarisatie","De membraanpotentiaal keert direct terug naar de rustwaarde","De voltage-afhankelijke Na+ kanalen openen en Na+ stroomt binnen, wat snelle depolarisatie geeft","De Na-K pompen stoppen onmiddellijk met werken"],"a":2,"u":"Bij het bereiken van de drempel openen de voltage-afhankelijke Na+ kanalen; de influx van Na+ zorgt voor een snelle depolarisatie tot ongeveer +40mV."},{"t":"3","q":"Het 'alles of niets'-principe van de actiepotentiaal betekent dat...","o":["de grootte van de actiepotentiaal afhangt van hoe sterk de prikkel is","de actiepotentiaal enkel in ongemyeliniseerde axonen ontstaat","de actiepotentiaal bij het overschrijden van de drempel altijd even groot is en zich tot het uiteinde voortzet","de frequentie geen enkele rol speelt bij de sterkte van een spiercontractie"],"a":2,"u":"Zodra de drempel bereikt wordt, treedt de actiepotentiaal op als een kettingreactie tot het uiteinde van het axon en blijft altijd precies even groot."},{"t":"3","q":"Hoe wordt de intensiteit van een prikkel, zoals fel licht of een sterke spiercontractie, in het zenuwstelsel weergegeven?","o":["Door grotere actiepotentialen","Door de frequentie van actiepotentialen (rate law)","Door tragere saltatorische conductie","Door meer myeline op het axon"],"a":1,"u":"Volgens de rate law (wet van frequentie) is de frequentie van actiepotentialen doorslaggevend; een sneller vurend neuron geeft bijvoorbeeld een sterkere contractie."},{"t":"3","q":"Waarom verloopt de geleiding in gemyeliniseerde axonen sneller via saltatorische conductie?","o":["Omdat de actiepotentiaal onder de myeline actief wordt opgewekt","Omdat de passieve geleiding door het gemyeliniseerde segment snel gaat en de actiepotentiaal enkel bij de knopen van Ranvier opnieuw wordt getriggerd","Omdat myeline de Na+ kanalen permanent openhoudt","Omdat de Na-K pompen langs het hele axon extra hard werken"],"a":1,"u":"Onder de myelinesegmenten is het axon impermeabel voor Na+; de snelle passieve geleiding overbrugt het segment en bij elke knoop van Ranvier wordt een nieuwe actiepotentiaal getriggerd."},{"t":"3","q":"Wat kenmerkt een metabotrope receptor in vergelijking met een ionotrope receptor?","o":["Ze opent een ionkanaal dat rechtstreeks in de receptor zelf zit","Ze werkt sneller en kortduriger dan een ionotrope receptor","Ze activeert een G-proteïne en heeft tragere, langduriger en veelzijdiger effecten","Ze komt uitsluitend voor in het presynaptische membraan"],"a":2,"u":"Bij metabotrope receptoren zit het ionkanaal niet in de receptor zelf; de binding activeert een G-proteïne, wat trager, langduriger en veelzijdiger effecten geeft dan enkel postsynaptische potentialen."},{"t":"3","q":"Een geneesmiddel zoals Prozac (een SSRI) blokkeert de heropname van serotonine. Wat is het gevolg volgens de bron?","o":["Serotonine wordt sneller door enzymen afgebroken","De vrijgave van serotonine uit de vesikels stopt volledig","De receptoren voor serotonine verdwijnen uit het membraan","Serotonine blijft langer in de synaptische spleet, waardoor de invloed op de postsynaptische cel toeneemt"],"a":3,"u":"Een SSRI verhindert de reuptake, waardoor er meer en langer serotonine in de spleet blijft en de invloed op de postsynaptische cel toeneemt."},{"t":"3","q":"Wat is kenmerkend voor gap junctions (elektrische synapsen)?","o":["Ze gebruiken neurotransmitters die over een spleet van 20nm diffunderen","Poortjes verbinden de intracellulaire ruimte van twee cellen, zodat ionen rechtstreeks kunnen overgaan voor zeer snelle transmissie","Ze komen enkel axo-axonisch voor en moduleren de neurotransmittervrijgave","Ze werken uitsluitend via metabotrope autoreceptoren"],"a":1,"u":"Gap junctions zijn elektrische synapsen waarbij poortjes de intracellulaire ruimte van twee cellen verbinden, zodat ionen rechtstreeks kunnen diffunderen; dit geeft zeer snelle transmissie."},{"t":"4","q":"Wat is het kenmerkende verschil tussen een laesie-studie en experimentele ablatie?","o":["Bij een laesie-studie bestudeer je natuurlijk voorkomende letsels, terwijl je bij ablatie doelbewust weefsel vernietigt","Bij een laesie-studie vernietig je zelf weefsel, terwijl ablatie enkel natuurlijke letsels bekijkt","Beide vernietigen doelbewust weefsel, maar enkel ablatie gebeurt bij dieren","Laesie-studies zijn causaal, terwijl ablatie enkel correlationeel is"],"a":0,"u":"Een laesie-studie bestudeert de relatie tussen natuurlijk voorkomende letsels en gedrag, terwijl bij experimentele ablatie weefsel doelbewust wordt vernietigd."},{"t":"4","q":"Waarom is een klassieke laesie-studie eerder correlationeel dan causaal?","o":["Omdat de schade altijd omkeerbaar is en dus niet betrouwbaar","Omdat de functies niet doelgericht en experimenteel gecontroleerd beïnvloed worden","Omdat er nooit een controlegroep bestaat bij dieren","Omdat de laesie altijd het hele brein treft"],"a":1,"u":"Bij natuurlijke letsels worden functies niet doelgericht beïnvloed en is er geen experimentele controle, waardoor je enkel verbanden kunt vaststellen en geen oorzaak."},{"t":"4","q":"Een onderzoeker wil enkel de cellichamen in een klein hersengebied uitschakelen zonder de axonen te raken die er doorheen lopen. Welke methode past het best?","o":["Radiofrequente (RF-) laesie","Elektrische stimulatie","Excito-toxische laesie","Lobotomie"],"a":2,"u":"Een excito-toxische laesie met een exciterend aminozuur zoals kaïnezuur vernietigt de cellichamen aan de uitgang van het buisje maar spaart de passerende axonen, waardoor het lokaler werkt."},{"t":"4","q":"Wat maakt de immuunmethode (bv. met saporine) selectiever dan een gewone RF-laesie?","o":["Ze werkt zonder enige schade aan het weefsel","Ze richt zich enkel op basis van locatie in het brein","Ze is omkeerbaar en kan later terug uitgezet worden","Ze bindt via antilichaampjes selectief aan eiwitten die enkel in specifieke neuronen voorkomen"],"a":3,"u":"Bij de immuunmethode wordt een toxisch proteïne gekoppeld aan antilichaampjes die selectief binden aan eiwitten die alleen in bepaalde neuronen zitten, dus selectiviteit gaat verder dan enkel locatie."},{"t":"4","q":"Waarom vereisen laesie- en ablatiemethodes een sham-laesie als controleprocedure?","o":["Omdat deze methodes bijkomstige schade veroorzaken die je moet kunnen uitsluiten","Omdat de laesie anders omkeerbaar zou worden","Omdat proefdieren anders te snel zouden herstellen","Omdat je zonder sham geen temporele resolutie hebt"],"a":0,"u":"Alle laesie- en ablatiemethodes produceren bijkomstige schade, dus een sham-laesie is nodig als adequate controleprocedure om te weten wat door de eigenlijke laesie komt."},{"t":"4","q":"Hoe werkt muscimol als methode voor tijdelijke beïnvloeding van een hersenregio?","o":["Het exciteert de neuronen zodat ze extra actiepotentialen afvuren","Het is een GABA-A agonist die het doorgeven van actiepotentialen tijdelijk voorkomt","Het vernietigt de cellichamen definitief","Het maakt de neuronen lichtgevoelig"],"a":1,"u":"Muscimol is een GABA-A agonist die via lokale injectie het doorgeven van actiepotentialen in een bepaalde regio voorkomt, wat een tijdelijke verstoring van de activiteit geeft."},{"t":"4","q":"Wat is een belangrijke reden waarom optogenetica NIET bij mensen wordt toegepast?","o":["Het vereist een sterk magnetisch veld dat gevaarlijk is voor mensen","Het werkt enkel op harde weefsels zoals botten","Het steunt op genetische manipulatie met gewijzigde virussen, wat enkel bij proefdieren gebeurt","Het is volledig onschadelijk maar te duur voor klinisch gebruik"],"a":2,"u":"Optogenetica vereist genetische manipulatie via gewijzigde virussen die lichtgevoelige proteïnen laten produceren; dit wordt op proefdieren toegepast en niet op mensen."},{"t":"4","q":"Wat is een kernkenmerk van transcraniële magnetische stimulatie (TMS)?","o":["Ze brengt permanente schade toe aan het onderliggende weefsel","Ze werkt door de schedel heen met magnetische pulsen en heeft tijdelijke effecten","Ze vereist een ingeplante elektrode in de cortex","Ze meet enkel de bloedtoevoer in een regio"],"a":1,"u":"TMS is een non-invasieve techniek die door de schedel heen met sterke magnetische pulsen een regio kan exciteren of verstoren zonder het weefsel schade toe te brengen, met tijdelijke effecten."},{"t":"4","q":"Wat is het verschil tussen een knock-out gen en een knock-in gen bij targeted mutation?","o":["Een knock-out verhindert de expressie van een proteïne, een knock-in stimuleert of introduceert de productie van een proteïne","Een knock-out stimuleert een nieuwe proteïne, een knock-in verhindert alle expressie","Beide verhinderen expressie, maar enkel knock-in is omkeerbaar","Een knock-out werkt enkel bij muizen, een knock-in enkel bij ratten"],"a":0,"u":"Een knock-out gen verhindert de gebruikelijke productie van een proteïne, terwijl een knock-in gen die productie stimuleert of zelfs zorgt voor een proteïne die er normaal nooit zou aangemaakt worden."},{"t":"4","q":"Bij welke stap van de histologische verwerking wordt het bloed uit de bloedvaten gespoeld en vervangen door een fixatiemiddel?","o":["Kleuring","Versnijden","Perfusie","Observatie"],"a":2,"u":"Perfusie is de stap waarbij bloed uit de bloedvaten wordt verwijderd en er via de bloedvaten een zoutoplossing en fixatiemiddel wordt doorgepompt zodat afbraakprocessen stoppen."},{"t":"4","q":"Je wilt weten naar welke structuren de neuronen van een bepaalde regio hun axonale output sturen. Welke techniek gebruik je?","o":["Retrograad labelen met fluorogold","Anterograad labelen met PHA-L","Microdialyse van de neurotransmitters","Excito-toxische laesie van de doelregio"],"a":1,"u":"Anterograad labelen volgt de efferente axonen: een stof als PHA-L wordt opgenomen door dendrieten en soma en via axoplasmatisch transport naar de eindknopen gebracht, zodat je ziet waarheen de output gaat."},{"t":"4","q":"Wat is een belangrijk nadeel van CT vergeleken met MRI?","o":["CT geeft geen 3D-beelden","CT gebruikt bestraling die niet geheel onschadelijk is","CT is trager dan MRI","CT kan niet op levend menselijk weefsel toegepast worden"],"a":1,"u":"CT werkt met röntgenopnames en gebruikt bestraling die niet volledig onschadelijk is, terwijl MRI geen schadelijke langetermijngevolgen van het veld heeft."},{"t":"4","q":"Waarom is EEG bijzonder geschikt om het exacte tijdstip van een hersenrespons te bepalen?","o":["Door de zeer hoge spatiale resolutie waarmee je de bron precies lokaliseert","Door de zeer hoge temporele resolutie in de orde van milliseconden","Omdat het diep gelegen kernen scherp in beeld brengt","Omdat het metabole activiteit rechtstreeks meet"],"a":1,"u":"EEG heeft een zeer hoge temporele resolutie in milliseconden, waardoor je met grote precisie kunt zeggen wanneer een verschil tussen condities optreedt; de spatiale resolutie is juist laag."},{"t":"4","q":"Wat meet je precies met een EEG?","o":["De optelsom van postsynaptische potentialen van vele neuronen","De afzonderlijke actiepotentialen van één enkel neuron","De bloedtoevoer naar een hersengebied","De hoeveelheid afgescheiden neurotransmitter"],"a":0,"u":"EEG meet een elektrisch fenomeen dat neerkomt op een optelsom van postsynaptische potentialen van minstens duizenden neuronen, geen individuele actiepotentialen."},{"t":"4","q":"Wat is een voordeel van MEG ten opzichte van EEG?","o":["MEG is goedkoper en volledig mobiel","MEG heeft een betere spatiale resolutie omdat de magnetische veldjes minder verstoord worden door scalp en schedel","MEG kan als enige diep gelegen kernen goed meten","MEG heeft een veel betere temporele resolutie dan EEG"],"a":1,"u":"Omdat magnetische veldjes minder beïnvloed worden door scalp en schedel, heeft MEG een betere spatiale resolutie dan EEG, terwijl de temporele resolutie ongeveer gelijk is."},{"t":"4","q":"Wat meet het BOLD-signaal bij functionele MRI (fMRI)?","o":["De rechtstreekse elektrische activiteit van neuronen","Relatieve verschillen in regionale bloedtoevoer als indirecte maat voor metabolisme","De hoeveelheid gesynchroniseerde postsynaptische potentialen","De directe afscheiding van neurotransmitters via een membraan"],"a":1,"u":"Het BOLD-signaal steunt op het verschil in magnetische susceptibiliteit van hemoglobine met of zonder zuurstof en meet zo relatieve verschillen in regionale bloedtoevoer, wat een indirecte maat voor metabolisme is."}],"theory":[{"h":"Evolutie & gedragsgenetica","items":["Natuurlijke selectie: proces waarbij overerfbare eigenschappen die in een context samenhangen met meer nakomelingen vaker gaan voorkomen.","Verwantenselectie: evolutieproces waarbij niet individuen maar genen worden geselecteerd, doordat ook voor- of nadeel voor verwanten meetelt.","Seksuele selectie: selectie op kenmerken die je aantrekkelijkheid voor seksuele partners vergroten, zelfs als die kenmerken onhandig zijn.","Gedragsgenetica: de leer van de overerfbaarheid van gedrag, een discipline met een beladen reputatie door onder meer eugenetica.","Exceptioneel brein: het menselijk brein valt op door dicht opeengepakte corticale neuronen en, voor zover geweten, het grootste aantal ervan, vooral prefrontaal.","Obstetrisch dilemma-hypothese: het idee dat een groot brein plus een door rechtop lopen versmald geboortekanaal complicaties en rijpingsvertraging veroorzaakt.","Pruning: het wegknippen van bestaande hersenverbindingen om de beste te behouden en de bedrading af te stemmen op de omgeving.","Sociale brein-hypothese: de complexiteit van het sociale leven als drijvende factor achter de vergroting van vooral de frontale cortex.","Evolutionaire psychologie: het bekijken van psychologie via processen van natuurlijke selectie, vaak met kritiek dat verklaringen niet empirisch getoetst worden.","Heritabiliteit: de mate waarin variabiliteit in een eigenschap wordt verklaard door genetische variabiliteit binnen een bepaalde groep of omgeving.","Concordantie: de mate waarin tweelingen dezelfde eigenschap vertonen, zowel voor categorische als continue kenmerken.","Formule van Falconer: heritabiliteit geschat als het verschil in concordantie tussen MZ en DZ maal twee.","Genotype en fenotype: de genetische code van een individu tegenover de observeerbare eigenschappen die uit het samenspel van genen en omgeving voortkomen.","Pleiotropie: het verschijnsel waarbij een enkel gen meerdere afzonderlijke fenotypische eigenschappen beinvloedt."]},{"h":"Structuur van het zenuwstelsel","items":["Neuraxis: denkbeeldige lengteas door het centraal zenuwstelsel, van onderaan het ruggenmerg tot vooraan de hersenen.","Centraal zenuwstelsel: de hersenen en het ruggenmerg, weefsels die door bot beschermd worden.","Perifeer zenuwstelsel: hersenzenuwen, ruggenmergzenuwen en perifere ganglia buiten het botpantser, met slechts twee vliezen en geen CSV.","Hersenvliezen: de drie beschermlagen rond hersenen en ruggenmerg, van buiten naar binnen dura mater, arachnoïde mater en pia mater.","Cerebrospinaal vocht (CSV): vloeistof in de subarachnoïdale ruimte en ventrikels die het brein laat drijven, schokken buffert en afvalstoffen afvoert.","Ventrikels: holle, verbonden kamers gevuld met CSV, met de choroïde plexus die dat vocht continu produceert.","Cortex: de ongeveer 3 mm dikke buitenlaag grijze stof met vooral cellichamen, verdeeld in gyri door de sulci.","Witte stof: verbindingen tussen neuronen die door myeline geïsoleerd zijn, waardoor signalen sneller worden doorgegeven.","Limbisch systeem: samenhangend geheel van structuren zoals hippocampus en amygdala, cruciaal voor emotie, motivatie en geheugen.","Thalamus: centraal gelegen verdeelcentrum dat zintuiginformatie (behalve geur) naar de juiste delen van de cortex doorstuurt.","Hypothalamus: cockpit van het hormoon- en autonome systeem, sturend voor homeostase, stressrespons en de vier F-en.","Hersenstam: mesencephalon, pons en medulla samen (zonder cerebellum), met kernen voor vitale functies en neuromodulatie.","Cerebellum: de kleine hersenen met twee hemisferen, klassiek voor coördinatie en evenwicht en met circa 80% van alle neuronen.","Autonoom zenuwstelsel: het onbewuste deel van het perifere zenuwstelsel met sympathische, parasympathische en enterische divisie voor homeostase."]},{"h":"Microstructuur van het zenuwstelsel","items":["Neuron: zenuwcel opgebouwd uit soma, dendrieten, axon en eindknopen, die signalen ontvangt en doorgeeft.","Dendrieten: vertakte voelertjes van het neuron die signalen van andere neuronen ontvangen.","Axon: de zender van het neuron die de elektrische boodschap in de regel in één richting vervoert.","Myelineschede: isolerende vetlaag rond het axon die de geleiding versnelt, in het CZS gevormd door oligodendrocyten en in het PZS door Schwann-cellen.","Astrocyten: stervormige gliacellen die weefsel ondersteunen, synapsen isoleren, rommel opruimen en neuronen van energie voorzien.","Bloed-breinbarrière: selectief permeabele barrière tussen bloed en CZS die het brein beschermt en het extracellulaire milieu in balans houdt.","Natrium-kaliumpomp: transmembraaneiwit dat 3 Na+ naar buiten en 2 K+ naar binnen pompt en zo indirect de negatieve rustpotentiaal opbouwt.","Rustpotentiaal: de negatieve membraanspanning van rond -70mV, vooral bepaald door het weglekken van K+ tot een evenwicht.","Actiepotentiaal: een zelfstandig opgewekte golf van elektrische ontlading over het membraan die volgens het alles-of-niets-principe verloopt.","Saltatorische conductie: springende geleiding in gemyeliniseerde axonen waarbij de actiepotentiaal enkel bij de knopen van Ranvier opnieuw wordt opgewekt.","Synaps: contactplaats tussen de eindknoop van het presynaptische neuron en het membraan van het postsynaptische neuron.","Neurotransmitter: boodschapperstof die via exocytose wordt vrijgegeven en over de synaptische spleet diffundeert om het volgende neuron te beïnvloeden.","Ionotrope receptor: eenvoudige receptor waarbij binding van de ligand rechtstreeks een ionkanaal in de receptor opent.","Metabotrope receptor: indirecte receptor die via een G-proteïne trager en langduriger een naburig ionkanaal of enzym beïnvloedt."]},{"h":"Onderzoeksmethodes","items":["Laesie-studie: het bestuderen van het verband tussen een natuurlijk voorkomend hersenletsel en het gedrag, wat correlationeel blijft.","Experimentele ablatie: het doelbewust vernietigen van hersenweefsel om causale verbanden tussen structuur en functie te onderzoeken.","Radiofrequente (RF-) laesie: methode waarbij hoogfrequente wisselstroom door een geïsoleerde elektrode alle nabijgelegen weefsel vernietigt, zowel cellichamen als axonen.","Excito-toxische laesie: infusie van een exciterend aminozuur zoals kaïnezuur die enkel cellichamen vernietigt en passerende axonen spaart, dus preciezer werkt.","Stereotactisch apparaat: toestel dat de schedel fixeert en op basis van coördinaten en referentiepunten een elektrode nauwkeurig naar de doelregio brengt.","Optogenetica: techniek bij proefdieren waarbij neuronen via virussen lichtgevoelige proteïnen aanmaken, zodat je ze met bepaald licht kunt aan- of uitzetten.","Transcraniële magnetische stimulatie (TMS): non-invasieve techniek die met magnetische pulsen door de schedel heen een regio tijdelijk exciteert of verstoort zonder weefselschade.","Targeted mutation: het inbrengen van gemuteerde genen (knock-out of knock-in) om de expressie van proteïnen te verhinderen of te stimuleren.","Histologie: weefselleer waarbij weefsel via perfusie, fixatie, versnijden en kleuring zichtbaar en bestudeerbaar wordt gemaakt.","Tracing: het volgen van axonen met merkstoffen, anterograad (efferente output, bv. PHA-L) of retrograad (afferente input, bv. fluorogold).","EEG: registratie via macro-elektrodes van de optelsom van postsynaptische potentialen van vele neuronen, met hoge temporele en lage spatiale resolutie.","ERP (event related potential): het stukje EEG-respons dat volgt op een specifieke stimulus, gedefinieerd door locatie, polariteit, timing en functionele samenhang.","MEG: registratie van de kleine magnetische veldjes die door hersenactiviteit ontstaan, met betere spatiale resolutie dan EEG maar zeer dure apparatuur.","Functionele MRI (fMRI): meting van hersenfunctie via het BOLD-signaal, een indirecte maat voor metabolisme op basis van regionale bloedtoevoer."]}],"hacks":[{"h":"De 3 O's van natuurlijke selectie","t":"Onthoud de drie voorwaarden voor natuurlijke selectie als de 3 O's: Overerving (eigenschappen gaan over op nakomelingen), Ontwikkeling van variatie (verschillen, bv. door mutatie) en Overleving via reproductie (selectie: wie meer nakomelingen krijgt). Zonder een van de drie geen selectie."},{"h":"De drie moeders (hersenvliezen)","t":"Onthoud de hersenvliezen van buiten naar binnen als 'Dikke, Spinnende, Vrome moeder': Dura mater (harde, dikke moeder buiten), Arachnoïde mater (spinnenweb in het midden) en Pia mater (vrome, dunne moeder die zich meteen rond de hersenen plooit). De volgorde D · A · P loopt van de schedel naar binnen toe."},{"h":"Anterograde vs retrograde: 'A' als in 'Away'","t":"Anterograde transport gaat van het soma weg naar de eindknoop (Away van de kern), aangedreven door kinesine. Retrograde gaat de andere kant op, terug (Retour) naar het soma, met dyneïne. Onthou: A = Away van het cellichaam, R = Retour naar het cellichaam."},{"h":"Anterograad vs. retrograad: volg de A","t":"Anterograad label je met PHA-L en volg je met de stroom mee, van soma Af naar de eindknopen (efferente output). Retrograad label je met fluorogold en ga je Retour, van de eindknopen terug naar de soma (afferente input). Onthoud: Anterograad = Af (output), Retrograad = Retour (input)."}]};
+</script>
+<style>
+  .choverview .chlist{display:flex;flex-direction:column;gap:3px;margin-top:2px}
+  .chrow{display:flex;align-items:center;gap:12px;width:100%;text-align:left;background:transparent;border:none;border-radius:10px;padding:9px 8px;cursor:pointer;color:var(--ink);font-family:inherit;transition:background .15s var(--ease),transform .1s var(--ease)}
+  .chrow:hover{background:var(--accent-soft)}
+  .chrow:active{transform:scale(.995)}
+  .chrow .chname{flex:0 0 auto;width:170px;font-size:14px;font-weight:600}
+  .chrow .chbar{flex:1;height:8px;border-radius:999px;background:var(--line);overflow:hidden}
+  .chrow .chbar>i{display:block;height:100%;border-radius:999px;background:linear-gradient(90deg,var(--accent),var(--accent-ink));transition:width .5s var(--ease)}
+  .chrow .chval{flex:0 0 auto;font-size:12.5px;color:var(--muted);min-width:40px;text-align:right;font-variant-numeric:tabular-nums}
+  .chrow .ic.caret{width:16px;height:16px;color:var(--muted);flex:0 0 auto}
+  @media(max-width:560px){.chrow .chname{width:auto;flex:1 1 auto;min-width:0}.chrow .chbar{flex:0 0 64px}}
+</style>
+<script>
+(function(){
+  "use strict";
+  var D=window.BP1, app=document.getElementById("app");
+  var P={
+    book:'<path d="M12 7v14"/><path d="M3 18a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h5a4 4 0 0 1 4 4 4 4 0 0 1 4-4h5a1 1 0 0 1 1 1v13a1 1 0 0 1-1 1h-6a3 3 0 0 0-3 3 3 3 0 0 0-3-3z"/>',
+    bulb:'<path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5"/><path d="M9 18h6"/><path d="M10 22h4"/>',
+    help:'<circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><path d="M12 17h.01"/>',
+    search:'<circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/>',
+    sun:'<circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/>',
+    moon:'<path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/>',
+    arrowR:'<path d="M5 12h14"/><path d="m12 5 7 7-7 7"/>',
+    back:'<path d="m15 18-6-6 6-6"/>',
+    heart:'<path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/>',
+    chevR:'<path d="m9 18 6-6-6-6"/>',
+    sparkles:'<path d="M9.94 15.5A2 2 0 0 0 8.5 14.06l-6.14-1.58a.5.5 0 0 1 0-.96L8.5 9.94A2 2 0 0 0 9.94 8.5l1.58-6.14a.5.5 0 0 1 .96 0L14.06 8.5A2 2 0 0 0 15.5 9.94l6.14 1.58a.5.5 0 0 1 0 .96L15.5 14.06a2 2 0 0 0-1.44 1.44l-1.58 6.14a.5.5 0 0 1-.96 0z"/>',
+    target:'<circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/>',
+    rocket:'<path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z"/><path d="m12 15-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z"/><path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 0 5 0"/><path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5"/>',
+    msg:'<path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"/>',
+    refresh:'<path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/>',
+    send:'<path d="M14.54 21.69a.5.5 0 0 0 .94-.02l6.5-19a.5.5 0 0 0-.64-.64l-19 6.5a.5.5 0 0 0-.02.94l7.93 3.18a2 2 0 0 1 1.11 1.11z"/><path d="m21.85 2.15-10.94 10.94"/>'
+  };
+  function ic(n,c){ return '<svg class="ic'+(c?" "+c:"")+'" viewBox="0 0 24 24" aria-hidden="true">'+(P[n]||"")+'</svg>'; }
+  function esc(s){ return String(s).replace(/[&<>"]/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;"}[c];}); }
+  function shuffle(a){ a=a.slice(); for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=a[i];a[i]=a[j];a[j]=t;} return a; }
+  function pct(n,d){ return d?Math.round(100*n/d):0; }
+  function rnd(a){ return a[Math.floor(Math.random()*a.length)]; }
+  function lget(k,d){ try{ var v=JSON.parse(localStorage.getItem(k)); return v==null?d:v; }catch(e){ return d; } }
+  function lset(k,v){ try{ localStorage.setItem(k,JSON.stringify(v)); }catch(e){} }
+  function rawGet(k){ try{ return localStorage.getItem(k); }catch(e){ return null; } }
+  function rawSet(k,v){ try{ localStorage.setItem(k,v); }catch(e){} }
+  function bump(ns,key){ try{ fetch("https://abacus.jasoncameron.dev/hit/"+ns+"/"+key).then(function(){},function(){}); }catch(e){} }
+
+  D.questions.forEach(function(q,i){ q.id="q"+i; });
+  var theme=rawGet("site_theme") || lget("biopsy1_theme","light");
+  function applyTheme(){ document.documentElement.setAttribute("data-theme",theme);
+    document.getElementById("themeBtn").innerHTML=(theme==="dark"?ic("sun"):ic("moon"))+'<span>'+(theme==="dark"?"Licht":"Donker")+'</span>'; }
+  applyTheme();
+  document.getElementById("themeBtn").onclick=function(){ theme=theme==="dark"?"light":"dark"; lset("biopsy1_theme",theme); rawSet("site_theme",theme); applyTheme(); };
+  var calm=lget("biopsy1_calm",true);
+  function applyCalm(){ document.documentElement.classList.toggle("snappy", !calm); }
+  applyCalm();
+  function wrongLead(){ return calm ? rnd(WARM) : "Fout."; }
+
+  var WARM=["Geen zorgen, hier leer je nu net van.","Bijna! Dit type vraag krijg je zo onder de knie.","Foutje mag, nu weet je wat je nog moet herhalen.","Niet erg, dit onthoud je de volgende keer wél.","Rustig, één foutje zegt niets over je examen."];
+  var PRAISE=["Juist!","Goed zo!","Correct!","Sterk!","Knap!"];
+  var TOPICS={"1":"Evolutie & gedragsgenetica","2":"Structuur van het zenuwstelsel","3":"Microstructuur van het zenuwstelsel","4":"Onderzoeksmethodes"};
+  function getProg(){ var p=lget("biopsy1_prog",{ans:{}}); if(!p||typeof p!=="object"||!p.ans)p={ans:{}}; return p; }
+  function recordProg(qid,ok){ var p=getProg(); p.ans[qid]=ok?1:0; lset("biopsy1_prog",p); }
+  function resetProg(){ lset("biopsy1_prog",{ans:{}}); }
+  function chapterStats(){ var p=getProg(); var st={}; Object.keys(TOPICS).forEach(function(k){st[k]={total:0,done:0,correct:0};}); D.questions.forEach(function(q){ var s=st[q.t]; if(!s)return; s.total++; if(Object.prototype.hasOwnProperty.call(p.ans,q.id)){ s.done++; if(p.ans[q.id])s.correct++; } }); return st; }
+  function startChapter(k){ var items=shuffle(D.questions.filter(function(q){return q.t===k;})); state.view="quiz"; tabBtns.forEach(function(b){b.classList.toggle("on",b.dataset.view==="quiz");}); startQuiz(items); window.scrollTo(0,0); }
+
+  var TABS=[{v:"home",l:"Start",i:"book"},{v:"quiz",l:"Oefenvragen",i:"target"},{v:"theory",l:"Theorie",i:"search"},{v:"hacks",l:"Studie-hacks",i:"bulb"},{v:"feedback",l:"Feedback",i:"msg"}];
+  var tabsEl=document.getElementById("tabs");
+  tabsEl.innerHTML=TABS.map(function(t){return '<button data-view="'+t.v+'"'+(t.v==="home"?' class="on"':'')+'>'+ic(t.i)+'<span>'+t.l+'</span></button>';}).join("");
+  var tabBtns=[].slice.call(tabsEl.querySelectorAll("button"));
+  tabBtns.forEach(function(b){ b.onclick=function(){ state.fromHub=false; if(b.dataset.view==="home") state.step="track"; go(b.dataset.view); }; });
+  function go(v){ state.view=v; tabBtns.forEach(function(b){b.classList.toggle("on",b.dataset.view===v);}); render(); window.scrollTo(0,0); }
+
+  var state={view:"home", step:"track", track:lget("biopsy1_track","training"), quiz:null, sel:{topics:{"1":true,"2":true,"3":true,"4":true}, count:15, shuffle:true}, sumq:""};
+  function setHTML(h){ app.innerHTML=h; }
+
+  function render(){
+    if(state.view==="home") return renderHome();
+    if(state.view==="quiz") return renderQuizGate();
+    if(state.view==="theory") return renderTheory();
+    if(state.view==="hacks") return renderHacks();
+    if(state.view==="feedback") return renderFeedback();
+  }
+
+  function renderHome(){
+    if(state.step==="herkansing") return renderHerkansing();
+    if(state.step==="practice") return renderPractice();
+    return renderTrack();
+  }
+  function modeLabel(){ return state.track==="herkansing"?"Herkansing":"Examen Training"; }
+
+  function renderTrack(){
+    var byT={}; D.questions.forEach(function(q){byT[q.t]=(byT[q.t]||0)+1;});
+    var st=chapterStats(); var tD=0,tQ=0,tC=0; Object.keys(st).forEach(function(k){tD+=st[k].done;tQ+=st[k].total;tC+=st[k].correct;});
+    var html=
+      '<div class="hero">'+
+        '<div class="count"><b>'+D.questions.length+'</b><span>oefenvragen</span></div>'+
+        '<div class="herotext"><h1>Biologische Psychologie I oefenen</h1>'+
+        '<p>Oefenvragen per hoofdstuk, met uitleg</p></div>'+
+      '</div>'+
+      '<a class="brandstrip" href="https://beriesexamspace.github.io/" title="Naar Berie’s exam space"><span class="bs-logo">B</span><span class="bs-txt"><b>Berie’s exam space</b><small>Een ander vak leren? Bekijk alle vakken</small></span><span class="bs-go">'+ic("arrowR")+'</span></a>'+
+      '<a class="brandstrip" href="https://beriesexamspace.github.io/?deel=1" title="Deel je samenvattingen"><span class="bs-logo">📚</span><span class="bs-txt"><b>Help mee, deel je vak</b><small>Heb jij samenvattingen of oude examenvragen? Stuur ze in (élk jaar).</small></span><span class="bs-go">'+ic("arrowR")+'</span></a>'+
+      '<div class="seclabel">'+ic("rocket")+'Hoe wil je oefenen?</div>'+
+      '<div class="tracks">'+
+        '<button class="track" data-track="training"><span class="tile">'+ic("book")+'</span><b>Examen Training</b><small>Oefen op examenniveau. Vragen met directe feedback en uitleg.</small><span class="go">Normaal niveau '+ic("arrowR")+'</span></button>'+
+        '<button class="track alt" data-track="herkansing"><span class="tile">'+ic("heart")+'</span><b>Herkansing</b><small>Rustig opbouwen, met aanmoediging. Jij bepaalt het tempo.</small><span class="go">Met begeleiding '+ic("arrowR")+'</span></button>'+
+      '</div>'+
+      '<div class="card pad choverview" style="margin-top:18px">'+
+        '<div class="row" style="justify-content:space-between;align-items:center"><b>Kies een hoofdstuk</b>'+(tD>0?'<button type="button" class="bnlink" id="resetProg">'+ic("refresh")+'Reset</button>':'')+'</div>'+
+        '<p class="muted" style="font-size:12.5px;margin:6px 0 12px">Klik een hoofdstuk om alleen dat te oefenen.'+(tD>0?' &middot; '+tD+'/'+tQ+' geoefend &middot; '+pct(tC,tD)+'% juist':'')+'</p>'+
+        '<div class="chlist">'+Object.keys(TOPICS).map(function(k){var s=st[k];var w=pct(s.done,s.total);return '<button type="button" class="chrow" data-ch="'+k+'"><span class="chname">'+esc(TOPICS[k])+'</span><span class="chbar"><i style="width:'+w+'%"></i></span><span class="chval">'+s.done+'/'+s.total+'</span>'+ic("chevR","caret")+'</button>';}).join("")+'</div></div>';
+    setHTML(html);
+    [].slice.call(document.querySelectorAll(".chrow")).forEach(function(el){ el.onclick=function(){ startChapter(el.dataset.ch); }; });
+    var _rp=document.getElementById("resetProg"); if(_rp) _rp.onclick=function(){ resetProg(); renderHome(); };
+    [].slice.call(document.querySelectorAll(".track")).forEach(function(el){ el.onclick=function(){ var t=el.dataset.track; state.track=t; lset("biopsy1_track",t); state.step=(t==="herkansing"?"herkansing":"practice"); renderHome(); window.scrollTo(0,0); }; });
+  }
+
+  function renderHerkansing(){
+    var html=
+      '<button class="backlink" id="backBtn">'+ic("back")+'Terug</button>'+
+      '<div class="seclabel" style="margin-top:2px">'+ic("heart")+'Herkansing</div>'+
+      (calm?'<div class="card pad warmcard"><div class="row" style="gap:11px;flex-wrap:nowrap;align-items:flex-start">'+ic("heart")+'<div><b>Een nieuwe kans, rustig aan.</b><p class="muted" style="margin:5px 0 0;font-size:13.5px">Herkansen betekent niet dat je het niet kunt. Stap voor stap kom je er. Jij kunt dit. 💙</p></div></div></div>':'')+
+      '<div class="card pad" style="margin-top:12px"><div class="row" style="justify-content:space-between;align-items:center;gap:14px"><div><b>Rustige modus</b><div class="muted" style="font-size:12.5px">Aanmoediging en kalme sfeer. Zet uit als je liever recht-voor-z’n-raap oefent.</div></div><button class="toggle'+(calm?" on":"")+'" id="calmToggle" role="switch" aria-checked="'+(calm?"true":"false")+'" aria-label="Rustige modus aan of uit"><span class="knob"></span></button></div></div>'+
+      '<div class="row" style="margin-top:16px"><button class="btn" id="beginBtn">Begin met oefenen '+ic("arrowR")+'</button></div>';
+    setHTML(html);
+    document.getElementById("backBtn").onclick=function(){ state.step="track"; renderHome(); window.scrollTo(0,0); };
+    document.getElementById("calmToggle").onclick=function(){ calm=!calm; lset("biopsy1_calm",calm); applyCalm(); renderHerkansing(); };
+    document.getElementById("beginBtn").onclick=function(){ state.step="practice"; renderHome(); window.scrollTo(0,0); };
+  }
+
+  function renderPractice(){
+    var herk=state.track==="herkansing";
+    var html=
+      '<button class="backlink" id="backBtn">'+ic("back")+'Terug</button>'+
+      '<div class="modebanner'+(herk?" v":"")+'">'+ic(herk?"heart":"book")+'<span>'+modeLabel()+'</span><button type="button" class="bnlink" id="changeMode">wijzig</button></div>'+
+      '<div class="seclabel">'+ic("rocket")+'Waarmee wil je oefenen?</div>'+
+      '<div class="grid g2">'+
+        '<button class="mode" data-mode="quiz"><span class="me">'+ic("target")+'</span><b>Oefenvragen</b><small>Meerkeuze met directe feedback en uitleg. Kies je onderwerpen.</small></button>'+
+        '<button class="mode" id="quickStart"><span class="me">'+ic("rocket")+'</span><b>Snelle ronde</b><small>15 willekeurige vragen uit alle onderwerpen.</small></button>'+
+      '</div>';
+    setHTML(html);
+    document.getElementById("backBtn").onclick=function(){ if(state.fromHub){ location.href="https://beriesexamspace.github.io/"; return; } state.step=(herk?"herkansing":"track"); renderHome(); window.scrollTo(0,0); };
+    document.getElementById("changeMode").onclick=function(){ if(state.fromHub){ location.href="https://beriesexamspace.github.io/"; return; } state.step="track"; renderHome(); window.scrollTo(0,0); };
+    document.querySelector('[data-mode="quiz"]').onclick=function(){ go("quiz"); };
+    document.getElementById("quickStart").onclick=function(){ state.view="quiz"; tabBtns.forEach(function(b){b.classList.toggle("on",b.dataset.view==="quiz");}); startQuiz(shuffle(D.questions.slice()).slice(0,15)); window.scrollTo(0,0); };
+  }
+
+  function renderQuizGate(){
+    if(state.quiz) return renderQuiz();
+    var s=state.sel;
+    function pool(){ return D.questions.filter(function(q){return s.topics[q.t];}); }
+    var html='<div class="card pad"><h2 style="margin-top:0">Oefenvragen</h2>'+
+      '<p class="muted">Kies onderwerpen en het aantal vragen. Na elk antwoord krijg je meteen feedback én de uitleg.</p>'+
+      '<label class="fld">Onderwerpen</label><div class="chips" id="tps">'+
+        Object.keys(TOPICS).map(function(k){return '<button class="chip'+(s.topics[k]?" on":"")+'" data-tp="'+k+'">'+esc(TOPICS[k])+'</button>';}).join("")+'</div>'+
+      '<label class="fld">Aantal vragen</label><div class="chips" id="cnt">'+
+        [10,15,20,999].map(function(n){return '<button class="chip'+(s.count===n?" on":"")+'" data-n="'+n+'">'+(n===999?"Alle":n)+'</button>';}).join("")+'</div>'+
+      '<label class="fld"><input type="checkbox" id="shuf" '+(s.shuffle?"checked":"")+'> Willekeurige volgorde</label>'+
+      '<div class="row" style="margin-top:18px"><button class="btn" id="startQ">Start '+ic("arrowR")+'</button><span class="muted" id="poolN"></span></div></div>';
+    setHTML(html);
+    function refresh(){ var n=pool().length; document.getElementById("poolN").textContent=n+" vragen beschikbaar"; document.getElementById("startQ").disabled=n===0; }
+    [].slice.call(document.querySelectorAll("#tps .chip")).forEach(function(b){ b.onclick=function(){ s.topics[b.dataset.tp]=!s.topics[b.dataset.tp]; b.classList.toggle("on"); refresh(); }; });
+    [].slice.call(document.querySelectorAll("#cnt .chip")).forEach(function(b){ b.onclick=function(){ s.count=+b.dataset.n; renderQuizGate(); }; });
+    document.getElementById("shuf").onchange=function(e){ s.shuffle=e.target.checked; };
+    document.getElementById("startQ").onclick=function(){ var p=pool(); if(s.shuffle)p=shuffle(p); if(s.count<p.length)p=p.slice(0,s.count); startQuiz(p); };
+    refresh();
+  }
+
+  function startQuiz(items){ bump("berat-biopsy1", state.track==="herkansing"?"herkansing":"training"); state.quiz={items:items.map(function(q){return {q:q,opts:shuffle(q.o.map(function(t,i){return {text:t,ok:i===q.a};}))};}), idx:0, answered:false, picked:-1, correct:0, wrong:[], done:false}; renderQuiz(); }
+
+  function renderQuiz(){
+    var Q=state.quiz; if(Q.done) return renderResult();
+    var cur=Q.items[Q.idx], q=cur.q;
+    var html='<button class="backlink" id="backBtn">'+ic("back")+'Terug</button>'+
+      '<div class="card pad">'+
+      '<div class="runtop"><span class="pill">'+esc(TOPICS[q.t])+'</span><div class="bar"><i data-w="'+pct(Q.idx,Q.items.length)+'"></i></div><span>'+(Q.idx+1)+'/'+Q.items.length+'</span></div>'+
+      '<div class="qtext">'+esc(q.q)+'</div>'+
+      '<div id="opts">'+cur.opts.map(function(o,i){return '<button class="opt" data-i="'+i+'" style="--oi:'+(i*55)+'ms"><span class="k">'+String.fromCharCode(65+i)+'</span><span>'+esc(o.text)+'</span></button>';}).join("")+'</div>'+
+      '<div id="fb"></div>'+
+      '<div class="row" style="justify-content:space-between;margin-top:6px"><span class="muted" style="font-size:12px">Toets <span class="kbd">A–D</span> · <span class="kbd">Enter</span> = volgende</span><button class="btn hide" id="nextBtn">Volgende '+ic("arrowR")+'</button></div></div>';
+    setHTML(html);
+    var i2=document.querySelector(".bar>i"); requestAnimationFrame(function(){ if(i2) i2.style.width=i2.getAttribute("data-w")+"%"; });
+    document.getElementById("backBtn").onclick=function(){ state.quiz=null; renderQuizGate(); };
+    var optBtns=[].slice.call(document.querySelectorAll("#opts .opt"));
+    var nb=document.getElementById("nextBtn"); nb.onclick=next;
+    function showAnswered(i){
+      optBtns.forEach(function(b){ var bi=+b.dataset.i; b.disabled=true; if(cur.opts[bi].ok)b.classList.add("correct"); else if(bi===i)b.classList.add("wrong"); });
+      var ok=cur.opts[i].ok, fb=document.getElementById("fb"); fb.className="feedback "+(ok?"ok":"no");
+      var juist=cur.opts.filter(function(o){return o.ok;})[0].text;
+      fb.innerHTML=ok?"<b>"+rnd(PRAISE)+" ✓</b>":"<b>"+wrongLead()+"</b><span class=\"sub\">Juiste antwoord: "+esc(juist)+"</span>";
+      var w=document.createElement("div"); w.innerHTML='<div class="whybox"><h4>'+ic("sparkles")+'Waarom?</h4>'+esc(q.u)+'</div>'; fb.appendChild(w);
+      nb.classList.remove("hide"); nb.innerHTML=(Q.idx+1>=Q.items.length)?"Bekijk resultaat "+ic("arrowR"):"Volgende "+ic("arrowR");
+    }
+    function pick(i){ if(Q.answered)return; Q.answered=true; Q.picked=i; var ok=cur.opts[i].ok; if(ok)Q.correct++; else Q.wrong.push(q); recordProg(q.id, ok); showAnswered(i); nb.focus(); }
+    optBtns.forEach(function(b){ b.onclick=function(){ pick(+b.dataset.i); }; });
+    function next(){ if(!Q.answered)return; Q.idx++; Q.answered=false; Q.picked=-1; if(Q.idx>=Q.items.length)Q.done=true; renderQuiz(); }
+    if(Q.answered) showAnswered(Q.picked);
+    state.key=function(e){ if(!Q.answered){ var k=e.key.toLowerCase(); var idx="abcde".indexOf(k); if(idx<0&&/[1-5]/.test(k))idx=+k-1; if(idx>=0&&idx<cur.opts.length){pick(idx);e.preventDefault();} } else if(e.key==="Enter"||e.key===" "){ next(); e.preventDefault(); } };
+  }
+
+  function renderResult(){
+    var Q=state.quiz, p=pct(Q.correct,Q.items.length);
+    var msg=p>=80?"Sterk werk! 🎉":p>=60?"Goed bezig 👍":"Blijf oefenen, je komt er 💪";
+    var html='<div class="card pad results center"><span class="pill">Biologische Psychologie I</span><div class="big">'+p+'%</div>'+
+      '<p style="font-weight:600;margin:0 0 4px;font-size:17px">'+msg+'</p><p class="muted">'+Q.correct+' van '+Q.items.length+' juist</p>'+
+      '<div class="row" style="justify-content:center;margin-top:14px">'+
+        (Q.wrong.length?'<button class="btn" id="retry">Herhaal '+Q.wrong.length+' foute vragen</button>':'')+
+        '<button class="btn ghost" id="again">Nieuwe ronde</button><button class="btn ghost" id="home">Naar start</button></div></div>';
+    setHTML(html);
+    var rt=document.getElementById("retry"); if(rt) rt.onclick=function(){ startQuiz(shuffle(Q.wrong)); };
+    document.getElementById("again").onclick=function(){ state.quiz=null; renderQuizGate(); };
+    document.getElementById("home").onclick=function(){ state.quiz=null; go("home"); };
+    state.key=null;
+  }
+
+  function renderTheory(){
+    var q=state.sumq||"";
+    var html='<div class="card pad" style="margin-bottom:14px"><h2 style="margin:0 0 8px">Theorie en samenvatting</h2>'+
+      '<input type="search" id="sq" placeholder="Zoek een begrip… (bv. neuron, synaps, natuurlijke selectie)" value="'+esc(q)+'"></div><div id="list">'+theoryList(q)+'</div>';
+    setHTML(html);
+    var si=document.getElementById("sq"); si.oninput=function(){ state.sumq=si.value; document.getElementById("list").innerHTML=theoryList(si.value); si.focus(); };
+  }
+  function theoryList(query){
+    var Q=query.trim().toLowerCase(), out="", n=0;
+    D.theory.forEach(function(sec){
+      var items=sec.items.filter(function(it){ return !Q || it.toLowerCase().indexOf(Q)>=0 || sec.h.toLowerCase().indexOf(Q)>=0; });
+      if(!items.length) return; n++;
+      out+='<details class="acc"'+(Q?" open":(n===1?" open":""))+'><summary><span class="n">'+ic("search")+'</span>'+esc(sec.h)+ic("chevR","caret")+'</summary><div class="body"><ul>'+items.map(function(it){return '<li>'+hl(esc(it),Q)+'</li>';}).join("")+'</ul></div></details>';
+    });
+    return out||'<p class="muted center">Geen resultaten voor "'+esc(query)+'".</p>';
+  }
+  function hl(t,q){ if(!q)return t; try{ return t.replace(new RegExp("("+q.replace(/[.*+?^${}()|[\]\\]/g,"\\$&")+")","ig"),"<mark>$1</mark>"); }catch(e){ return t; } }
+
+  function renderHacks(){
+    var html='<div class="card pad" style="margin-bottom:16px"><h2 style="margin:0 0 6px">Studie-hacks</h2><p class="muted" style="margin:0">Ezelsbruggetjes om de kernideeën van biologische psychologie I te onthouden.</p></div>'+
+      '<div class="tipgrid">'+D.hacks.map(function(t){return '<div class="tip"><h4>'+ic("bulb")+esc(t.h)+'</h4><p>'+esc(t.t)+'</p></div>';}).join("")+'</div>';
+    setHTML(html);
+  }
+
+  function renderFeedback(){
+    var html='<div class="card pad"><h2 style="margin-top:0">Feedback &amp; klachten</h2>'+
+      '<p class="muted">Fout in een vraag, een idee, of werkt iets niet? Laat het hier weten, het komt rechtstreeks bij de maker terecht. Een review of compliment mag ook: de mooiste tonen we op de hub. 💬</p>'+
+      '<label class="fld" for="fbMsg">Je bericht</label><textarea id="fbMsg" rows="5" placeholder="Beschrijf de fout of je idee…"></textarea>'+
+      '<label class="fld" for="fbWaar">Over welke vraag? <span class="muted">(optioneel)</span></label><input type="text" id="fbWaar" placeholder="bv. de vraag over de p-waarde">'+
+      '<label class="fld" for="fbNaam">Je naam <span class="muted">(optioneel)</span></label><input type="text" id="fbNaam" placeholder="zodat we je kunnen bedanken">'+
+      '<label class="fld" for="fbEmail">Je e-mail <span class="muted">(optioneel, als je een antwoord wilt)</span></label><input type="email" id="fbEmail" placeholder="naam@voorbeeld.be">'+
+      '<input type="text" id="fbBot" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;opacity:0">'+
+      '<div class="row" style="margin-top:16px;align-items:center"><button class="btn" id="fbSend">'+ic("send")+'Versturen</button><span id="fbStatus" style="font-size:13px"></span></div></div>';
+    setHTML(html);
+    document.getElementById("fbSend").onclick=function(){
+      var status=document.getElementById("fbStatus");
+      if(document.getElementById("fbBot").value) return;
+      var msg=document.getElementById("fbMsg").value.trim();
+      if(!msg){ status.style.color="var(--bad)"; status.textContent="Schrijf eerst een bericht."; return; }
+      var btn=document.getElementById("fbSend"); btn.disabled=true; status.style.color="var(--muted)"; status.textContent="Versturen…";
+      var em=document.getElementById("fbEmail").value.trim();
+      var nm=document.getElementById("fbNaam").value.trim();
+      var waar=document.getElementById("fbWaar").value.trim();
+      var payload={_subject:"Biologische Psychologie I-tool: feedback", _template:"table", _captcha:"false",
+        Naam:nm||"-", Over_welke_vraag:waar||"-", email:em||"-", Bericht:msg};
+      if(em) payload._replyto=em;
+      // vangnet: als de verzenddienst blokkeert (bv. spamfilter) of er is geen verbinding,
+      // bieden we een directe mailto-knop aan zodat de melding NOOIT stilletjes verdwijnt.
+      function failFallback(reden){
+        var body="Feedback Biologische Psychologie I-tool%0D%0A%0D%0ANaam: "+encodeURIComponent(nm||"-")+"%0D%0AOver welke vraag: "+encodeURIComponent(waar||"-")+"%0D%0AE-mail: "+encodeURIComponent(em||"-")+"%0D%0A%0D%0ABericht:%0D%0A"+encodeURIComponent(msg);
+        var mailto="mailto:berat007yildirim@gmail.com?subject="+encodeURIComponent("Biologische Psychologie I-tool: feedback")+"&body="+body;
+        setHTML('<div class="card pad"><h2 style="margin-top:0">Automatisch versturen lukte niet</h2><p class="muted">'+reden+' Geen zorgen, klik hieronder en je melding wordt geopend in je e-mail, helemaal klaar om te versturen:</p><a class="btn" href="'+mailto+'">'+ic("send")+'Mail mijn melding direct</a><div style="margin-top:14px"><button class="btn ghost" id="bk">Terug naar start</button></div></div>');
+        document.getElementById("bk").onclick=function(){go("home");};
+      }
+      fetch("https://formsubmit.co/ajax/Berat007yildirim@gmail.com",{method:"POST",headers:{Accept:"application/json"},body:new URLSearchParams(payload)})
+        .then(function(r){return r.json();}).then(function(d){
+          if(d&&(d.success===true||d.success==="true")){ setHTML('<div class="card pad results center"><div style="font-size:42px">✅</div><h2 style="margin:6px 0">Bedankt!</h2><p class="muted">Je melding is verstuurd.</p><button class="btn" id="bk" style="margin-top:8px">Terug naar start</button></div>'); document.getElementById("bk").onclick=function(){go("home");}; }
+          else { failFallback("Het automatisch versturen lukte niet."); }
+        }).catch(function(){ failFallback("Er was even geen verbinding."); });
+    };
+  }
+
+  document.addEventListener("keydown",function(e){ if(state.key) state.key(e); });
+  // bezoeker tellen (1x per toestel)
+  try{ if(!localStorage.getItem("biopsy1_seen")){ localStorage.setItem("biopsy1_seen","1"); bump("berat-biopsy1","gebruikers"); } }catch(e){ bump("berat-biopsy1","gebruikers"); }
+  // traject vanuit de hub overnemen → direct naar de oefenpagina
+  try{ var _q=new URLSearchParams(location.search); var _m=_q.get("m");
+    if(_m==="training"||_m==="herkansing"){ state.track=_m; lset("biopsy1_track",_m);
+      var _c=_q.get("calm"); if(_c!=null){ calm=(_c!=="0"); lset("biopsy1_calm",calm); applyCalm(); }
+      state.step="practice"; state.fromHub=true; }
+  }catch(e){}
+  render();
+  // launch-splash netjes laten verdwijnen
+  (function(){ var _sp=document.getElementById("splash"); if(!_sp) return; var _red=false; try{_red=window.matchMedia("(prefers-reduced-motion: reduce)").matches;}catch(e){} setTimeout(function(){ _sp.classList.add("hide"); setTimeout(function(){ if(_sp&&_sp.parentNode) _sp.parentNode.removeChild(_sp); }, 700); }, _red?300:1850); })();
+})();
+</script>
+</body>
+</html>
