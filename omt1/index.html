@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+<meta name="theme-color" content="#0f6e6a" />
+<meta http-equiv="Cache-Control" content="no-cache, must-revalidate" />
+<meta http-equiv="Pragma" content="no-cache" />
+<title>OMT I: Psychometrie, Berie’s exam space</title>
+<meta name="author" content="Berat Yildirim - Berie's exam space" />
+<meta name="copyright" content="© 2026 Berat Yildirim. Alle rechten voorbehouden." />
+<!-- Berie's exam space © 2026 Berat Yildirim. Alle rechten voorbehouden. Originele bron: https://beriesexamspace.github.io  Kopieren of hergebruiken zonder schriftelijke toestemming is niet toegestaan. -->
+<style>
+  :root{
+    --bg:#f4f2ee; --bg2:#ebe8e2; --card:#ffffff; --ink:#1b232c; --muted:#5d6873;
+    --line:#e2ddd4; --accent:#0f6e6a; --accent-ink:#0b4f4c; --accent-soft:#dcefed;
+    --amber:#c9821f; --amber-soft:#f7ecd9; --violet:#6d5bd0; --violet-soft:#e9e6fa;
+    --good:#1f8a4c; --good-soft:#e2f3e8; --bad:#c23b54; --bad-soft:#fbe5ea;
+    --shadow:0 1px 2px rgba(20,30,40,.05),0 6px 18px rgba(20,30,40,.05);
+    --shadow-lg:0 2px 6px rgba(20,30,40,.06),0 18px 40px rgba(20,30,40,.10);
+    --r:14px; --r-lg:20px; --ease:cubic-bezier(.2,.8,.2,1);
+  }
+  html[data-theme="dark"]{
+    --bg:#11151a; --bg2:#161b22; --card:#1b222b; --ink:#e7ecf1; --muted:#9aa6b2;
+    --line:#2a323c; --accent:#3fb9b2; --accent-ink:#7fd6d0; --accent-soft:#163230;
+    --amber:#e0a64a; --amber-soft:#2e2515; --violet:#a99cf0; --violet-soft:#221d3a;
+    --good:#46c178; --good-soft:#16301f; --bad:#ef6b82; --bad-soft:#331620;
+    --shadow:0 1px 2px rgba(0,0,0,.3),0 8px 24px rgba(0,0,0,.35);
+    --shadow-lg:0 2px 8px rgba(0,0,0,.4),0 22px 48px rgba(0,0,0,.5);
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);font-size:16px;line-height:1.55;
+    font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;-webkit-font-smoothing:antialiased}
+  h1,h2,h3{font-family:Georgia,"Iowan Old Style","Times New Roman",serif;letter-spacing:-.01em}
+  button,a{font-family:inherit;cursor:pointer;color:inherit}
+  .wrap{max-width:880px;margin:0 auto;padding:0 18px 96px}
+  :focus-visible{outline:2.5px solid var(--accent);outline-offset:2px;border-radius:8px}
+  .ic{width:1.25em;height:1.25em;flex:none;vertical-align:-.18em;stroke:currentColor;stroke-width:1.75;
+    stroke-linecap:round;stroke-linejoin:round;fill:none}
+
+  header.top{position:sticky;top:0;z-index:30;border-bottom:1px solid var(--line);
+    background:color-mix(in srgb,var(--bg) 88%,transparent);backdrop-filter:saturate(160%) blur(16px);-webkit-backdrop-filter:saturate(160%) blur(16px);box-shadow:inset 0 -1px 0 0 rgba(0,0,0,.04)}
+  .topin{max-width:880px;margin:0 auto;padding:10px 18px;display:flex;align-items:center;gap:12px}
+  .brand{display:flex;align-items:center;gap:11px;font-weight:700}
+  .logo{width:32px;height:32px;border-radius:10px;background:linear-gradient(145deg,var(--accent),var(--accent-ink));
+    color:#fff;display:grid;place-items:center;font-family:Georgia,serif;font-weight:700;font-size:16px;flex:none;
+    box-shadow:0 2px 6px rgba(15,110,106,.35)}
+  .brand small{display:block;font-weight:500;color:var(--muted);font-size:11px}
+  .spacer{flex:1}
+  .iconbtn{border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:10px;min-height:38px;
+    padding:7px 11px;font-size:13.5px;display:inline-flex;gap:7px;align-items:center;text-decoration:none;
+    transition:border-color .2s var(--ease),transform .12s var(--ease)}
+  .iconbtn:hover{border-color:var(--accent)} .iconbtn:active{transform:scale(.96)}
+  nav.tabs{display:flex;gap:2px;overflow:auto;max-width:880px;margin:0 auto;padding:6px 12px 0;scrollbar-width:none}
+  nav.tabs::-webkit-scrollbar{display:none}
+  nav.tabs button{border:none;background:none;color:var(--muted);padding:10px 13px;border-radius:9px 9px 0 0;
+    font-size:14px;font-weight:600;white-space:nowrap;border-bottom:2px solid transparent;display:inline-flex;align-items:center;gap:6px;transition:color .2s var(--ease)}
+  nav.tabs button .ic{width:16px;height:16px}
+  nav.tabs button.on{color:var(--accent-ink);border-bottom-color:var(--accent)}
+  nav.tabs button:hover{color:var(--ink)}
+
+  .card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow)}
+  .pad{padding:20px}
+  .muted{color:var(--muted)}
+  .pill{display:inline-flex;align-items:center;gap:5px;font-size:12px;font-weight:600;padding:4px 10px;border-radius:999px;background:var(--accent-soft);color:var(--accent-ink)}
+  .pill.amber{background:var(--amber-soft);color:var(--amber)}
+  .row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+  .grid{display:grid;gap:14px}
+  @media(min-width:620px){.g2{grid-template-columns:1fr 1fr}}
+
+  .hero{display:flex;flex-wrap:wrap;align-items:center;gap:16px;margin:20px 0 8px}
+  .count{flex:none;background:linear-gradient(150deg,var(--accent),var(--accent-ink));color:#fff;border-radius:var(--r);padding:14px 20px;text-align:center;min-width:118px;box-shadow:0 8px 20px rgba(15,110,106,.28)}
+  .count b{font-family:Georgia,serif;font-size:32px;display:block;line-height:1}
+  .count span{font-size:12px;opacity:.92}
+  .herotext h1{margin:0 0 4px;font-size:25px}
+  .herotext p{margin:0;color:var(--muted)}
+
+  .brandstrip{display:flex;align-items:center;gap:13px;width:100%;text-decoration:none;color:inherit;border:1px solid var(--line);background:var(--card);border-radius:var(--r);padding:12px 16px;margin:14px 0 2px;box-shadow:var(--shadow);transition:border-color .2s var(--ease),transform .15s var(--ease)}
+  .brandstrip:hover{border-color:var(--accent);transform:translateY(-1px)}
+  .brandstrip .bs-logo{width:36px;height:36px;border-radius:10px;flex:none;display:grid;place-items:center;color:#fff;font-family:Georgia,serif;font-weight:700;font-size:17px;background:linear-gradient(145deg,var(--accent),var(--accent-ink))}
+  .brandstrip .bs-txt{flex:1;min-width:0} .brandstrip .bs-txt b{display:block;font-size:14.5px} .brandstrip .bs-txt small{color:var(--muted);font-size:12.5px}
+  .brandstrip .bs-go{color:var(--accent-ink);flex:none;display:inline-flex} .brandstrip .bs-go .ic{width:18px;height:18px}
+
+  .seclabel{display:flex;align-items:center;gap:8px;margin:24px 0 12px;font-weight:700;font-size:15px}
+  .seclabel .ic{width:18px;height:18px;color:var(--accent-ink)}
+  .backlink{display:inline-flex;align-items:center;gap:5px;border:none;background:none;color:var(--muted);font-size:13.5px;font-weight:600;padding:6px 0;margin-bottom:4px;transition:color .2s var(--ease)}
+  .backlink:hover{color:var(--accent-ink)} .backlink .ic{width:16px;height:16px}
+  .tracks{display:grid;gap:14px} @media(min-width:600px){.tracks{grid-template-columns:1fr 1fr}}
+  .track{display:flex;flex-direction:column;gap:8px;text-align:left;width:100%;border:1.5px solid var(--line);background:var(--card);border-radius:var(--r-lg);padding:20px;box-shadow:var(--shadow);transition:transform .22s var(--ease),border-color .22s var(--ease),box-shadow .22s var(--ease)}
+  .track:hover{transform:translateY(-3px);border-color:var(--accent);box-shadow:var(--shadow-lg)} .track:active{transform:translateY(-1px) scale(.995)}
+  .track .tile{width:46px;height:46px;border-radius:13px;display:grid;place-items:center;color:#fff;margin-bottom:4px;background:linear-gradient(150deg,var(--accent),var(--accent-ink))}
+  .track.alt .tile{background:linear-gradient(150deg,var(--violet),#4f40a8)} .track .tile .ic{width:24px;height:24px}
+  .track b{font-size:18px} .track small{color:var(--muted);font-size:13.5px;line-height:1.5}
+  .track .go{margin-top:6px;display:inline-flex;align-items:center;gap:6px;color:var(--accent-ink);font-weight:600;font-size:13.5px} .track.alt .go{color:var(--violet)} .track .go .ic{width:16px;height:16px}
+  .toggle{width:48px;height:28px;border-radius:999px;border:none;background:var(--line);position:relative;cursor:pointer;flex:none;transition:background .2s var(--ease)}
+  .toggle .knob{position:absolute;top:3px;left:3px;width:22px;height:22px;border-radius:50%;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.25);transition:left .2s var(--ease)}
+  .toggle.on{background:var(--violet)} .toggle.on .knob{left:23px}
+  .warmcard{border-color:var(--violet)!important;background:var(--violet-soft)} .warmcard .ic{width:22px;height:22px;color:var(--violet);flex:none}
+  .modebanner{display:flex;align-items:center;gap:10px;margin-bottom:14px;padding:11px 14px;border-radius:var(--r);background:var(--accent-soft);color:var(--accent-ink);font-size:13.5px;font-weight:600}
+  .modebanner.v{background:var(--violet-soft);color:var(--violet)} .modebanner .ic{width:18px;height:18px} .modebanner a,.modebanner .bnlink{margin-left:auto;font-size:13px;font-weight:600;cursor:pointer;text-decoration:underline;color:inherit;border:none;background:none;font-family:inherit;padding:0}
+  html.snappy .card,html.snappy .mode,html.snappy .tip,html.snappy .track{animation-duration:.12s!important}
+  .mode{display:flex;flex-direction:column;text-align:left;width:100%;border:1px solid var(--line);background:var(--card);border-radius:var(--r);padding:17px;gap:7px;box-shadow:var(--shadow);transition:transform .2s var(--ease),border-color .2s var(--ease),box-shadow .2s var(--ease)}
+  .mode:hover{border-color:var(--accent);transform:translateY(-3px);box-shadow:var(--shadow-lg)}
+  .mode .me{width:40px;height:40px;border-radius:11px;display:grid;place-items:center;background:var(--accent-soft);color:var(--accent-ink)} .mode .me .ic{width:22px;height:22px}
+  .mode b{font-size:16px} .mode small{color:var(--muted);font-size:13px}
+
+  label.fld{display:block;font-size:13px;font-weight:600;margin:16px 0 7px}
+  .chips{display:flex;flex-wrap:wrap;gap:8px}
+  .chip{border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:999px;min-height:38px;padding:7px 13px;font-size:13.5px;transition:all .18s var(--ease)}
+  .chip:hover{border-color:var(--accent)} .chip.on{background:var(--accent);color:#fff;border-color:var(--accent)}
+  .btn{background:var(--accent);color:#fff;border:none;border-radius:11px;min-height:46px;padding:12px 20px;font-size:15px;font-weight:600;display:inline-flex;align-items:center;gap:8px;justify-content:center;box-shadow:0 4px 12px rgba(15,110,106,.25);transition:background .2s var(--ease),transform .12s var(--ease)}
+  .btn:hover{background:var(--accent-ink)} .btn:active{transform:scale(.97) translateY(1px)} .btn .ic{width:18px;height:18px}
+  .btn.ghost{background:var(--card);color:var(--ink);border:1px solid var(--line);box-shadow:none} .btn.ghost:hover{border-color:var(--accent)}
+  .btn:disabled{opacity:.5;cursor:not-allowed;box-shadow:none}
+  input[type=search],input[type=text],input[type=email],textarea{font-family:inherit;font-size:15px;padding:9px 11px;border:1px solid var(--line);border-radius:10px;background:var(--card);color:var(--ink);width:100%}
+  input:focus,textarea:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-soft)}
+
+  .runtop{display:flex;align-items:center;gap:12px;margin:2px 0 14px;font-size:13px;color:var(--muted)}
+  .bar{height:8px;border-radius:6px;background:var(--bg2);overflow:hidden;flex:1}
+  .bar>i{display:block;height:100%;width:0;background:var(--accent);border-radius:6px;transition:width .7s var(--ease)}
+  .qtext{font-size:19px;font-weight:600;margin:8px 0 16px;font-family:Georgia,serif;line-height:1.45}
+  .opt{display:flex;gap:12px;align-items:flex-start;width:100%;text-align:left;border:1.5px solid var(--line);background:var(--card);color:var(--ink);border-radius:12px;padding:14px 15px;margin-bottom:10px;font-size:15px;transition:border-color .15s var(--ease),background .15s var(--ease),transform .12s var(--ease)}
+  .opt:hover:not(:disabled){border-color:var(--accent);background:var(--accent-soft)} .opt:active:not(:disabled){transform:scale(.99)}
+  .opt .k{flex:none;width:27px;height:27px;border-radius:8px;background:var(--bg2);color:var(--muted);display:grid;place-items:center;font-weight:700;font-size:13px}
+  .opt.correct{border-color:var(--good);background:var(--good-soft)} .opt.correct .k{background:var(--good);color:#fff}
+  .opt.wrong{border-color:var(--bad);background:var(--bad-soft)} .opt.wrong .k{background:var(--bad);color:#fff}
+  .opt:disabled{cursor:default}
+  .feedback{border-radius:12px;padding:13px 15px;margin:4px 0 12px;font-size:14.5px}
+  .feedback.ok{background:var(--good-soft);color:var(--good)} .feedback.no{background:var(--bad-soft);color:var(--bad)}
+  .feedback b{font-weight:700} .feedback .sub{display:block;margin-top:3px;color:var(--ink);font-weight:500;opacity:.92}
+  .whybtn{border:1px solid var(--line);background:var(--card);color:var(--accent-ink);border-radius:10px;min-height:40px;padding:9px 14px;font-size:13.5px;font-weight:600;display:inline-flex;align-items:center;gap:7px;transition:border-color .2s var(--ease),background .2s var(--ease)}
+  .whybtn:hover{border-color:var(--accent);background:var(--accent-soft)} .whybtn .ic{width:16px;height:16px}
+  .whybox{border:1px solid var(--accent);background:var(--accent-soft);border-radius:12px;padding:14px 16px;margin:12px 0 4px;font-size:14px;line-height:1.55}
+  .whybox h4{margin:0 0 6px;font-size:13px;text-transform:uppercase;letter-spacing:.5px;color:var(--accent-ink);font-family:system-ui;display:flex;align-items:center;gap:7px}
+  .whybox .ic{width:16px;height:16px}
+
+  .acc{border:1px solid var(--line);border-radius:var(--r);margin-bottom:10px;background:var(--card);overflow:hidden;box-shadow:var(--shadow)}
+  .acc>summary{padding:15px 16px;font-weight:700;cursor:pointer;list-style:none;display:flex;align-items:center;gap:11px}
+  .acc>summary::-webkit-details-marker{display:none}
+  .acc>summary .n{flex:none;width:28px;height:28px;border-radius:8px;background:var(--accent-soft);color:var(--accent-ink);display:grid;place-items:center;font-size:13px;font-weight:700}
+  .acc>summary .caret{margin-left:auto;color:var(--muted);transition:transform .25s var(--ease)} .acc[open]>summary .caret{transform:rotate(90deg)}
+  .acc[open]>summary{border-bottom:1px solid var(--line)} .acc .body{padding:6px 18px 16px}
+  .acc h4{margin:14px 0 6px;font-size:13px;color:var(--accent-ink);text-transform:uppercase;letter-spacing:.4px;font-family:system-ui}
+  .acc ul{margin:0;padding-left:20px} .acc li{margin:6px 0;font-size:14.5px;line-height:1.5}
+  .acc.hack li::marker{content:"💡  "} .acc.hack>summary .n{background:var(--violet-soft);color:var(--violet)}
+  mark{background:var(--amber-soft);color:inherit;padding:0 2px;border-radius:3px}
+
+  .tip{border:1px solid var(--line);background:var(--card);border-radius:var(--r);padding:15px;box-shadow:var(--shadow)}
+  .tip h4{margin:0 0 5px;font-size:14.5px;display:flex;align-items:center;gap:8px;font-family:system-ui} .tip h4 .ic{width:18px;height:18px;color:var(--violet)}
+  .tip p{margin:0;font-size:13.5px;color:var(--muted);line-height:1.55}
+  .tipgrid{display:grid;gap:12px} @media(min-width:620px){.tipgrid{grid-template-columns:1fr 1fr}}
+
+  .results .big{font-family:Georgia,serif;font-size:54px;text-align:center;margin:8px 0;line-height:1}
+  .center{text-align:center} .hide{display:none!important}
+  footer{margin-top:34px;text-align:center;color:var(--muted);font-size:13px}
+  .kbd{font-size:11px;border:1px solid var(--line);border-bottom-width:2px;border-radius:5px;padding:1px 6px;color:var(--muted)}
+  @keyframes fadeUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+  @keyframes slideIn{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:none}}
+  @keyframes pop{0%{transform:scale(1)}45%{transform:scale(1.03)}100%{transform:scale(1)}}
+  @keyframes optIn{from{opacity:0;transform:translateX(-9px)}to{opacity:1;transform:none}}
+  @media (prefers-reduced-motion: no-preference){
+    .card,.mode,.tip{animation:fadeUp .34s var(--ease) both}
+    .acc{animation:fadeUp .32s var(--ease) both}
+    .opt{animation:optIn .3s var(--ease) backwards;animation-delay:var(--oi,0s)}
+    .chip.on{animation:pop .22s var(--ease)}
+    .feedback{animation:slideIn .26s var(--ease) both} .whybox{animation:slideIn .28s var(--ease) .07s both} .opt.correct{animation:pop .34s var(--ease)}
+  }
+  @media (prefers-reduced-motion: reduce){*{animation-duration:.001ms!important;transition-duration:.001ms!important}}
+  /* ---- Premium launch (Gemini-stijl) + header-logo gloed ---- */
+  @property --bes-a{syntax:'<angle>';initial-value:0deg;inherits:false}
+  #splash{position:fixed;inset:0;z-index:200;display:grid;place-items:center;background:radial-gradient(125% 125% at 50% 38%,var(--bg2) 0%,var(--bg) 68%);transition:opacity .6s var(--ease),transform .7s var(--ease)}
+  #splash.hide{opacity:0;transform:scale(1.07);pointer-events:none}
+  .sp-inner{display:flex;flex-direction:column;align-items:center;gap:20px;text-align:center}
+  .sp-mark{position:relative;width:100px;height:100px;display:grid;place-items:center}
+  .sp-mark::before{content:"";position:absolute;inset:-16px;border-radius:34px;z-index:0;background:conic-gradient(from var(--bes-a),var(--accent),var(--violet),var(--amber),var(--accent));filter:blur(17px);opacity:.75}
+  .sp-mark::after{content:"";position:absolute;inset:-3px;border-radius:27px;z-index:1;background:conic-gradient(from var(--bes-a),var(--accent),var(--violet),var(--amber),var(--accent));padding:3px;-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude}
+  .sp-logo{position:relative;z-index:2;width:92px;height:92px;border-radius:24px;display:grid;place-items:center;color:#fff;font-family:Georgia,serif;font-weight:700;font-size:46px;background:linear-gradient(150deg,var(--accent),var(--accent-ink));box-shadow:0 14px 38px rgba(15,110,106,.4)}
+  .sp-spark{position:absolute;z-index:3;top:-7px;right:-7px;width:30px;height:30px;color:#fff;filter:drop-shadow(0 2px 7px rgba(0,0,0,.35))}
+  .sp-name{position:relative;font-family:Georgia,serif;font-size:26px;font-weight:700;letter-spacing:-.01em;color:var(--ink);overflow:hidden}
+  .sp-name::after{content:"";position:absolute;inset:0;background:linear-gradient(110deg,transparent 35%,rgba(255,255,255,.75) 50%,transparent 65%);transform:translateX(-130%)}
+  .sp-tag{font-size:13px;color:var(--muted);margin-top:-8px;letter-spacing:.03em}
+  @media (prefers-reduced-motion: no-preference){
+    .sp-mark::before{animation:bes-spin 3s linear infinite,bes-breathe 2.4s var(--ease) infinite}
+    .sp-mark::after{animation:bes-spin 3s linear infinite}
+    .sp-logo{animation:bes-pop .7s var(--ease) both}
+    .sp-spark{animation:bes-pop .6s var(--ease) .12s both,bes-twinkle 1.9s var(--ease) .9s infinite}
+    .sp-name{animation:bes-rise .6s var(--ease) .14s both}
+    .sp-name::after{animation:bes-shimmer 1.5s var(--ease) .5s 1}
+    .sp-tag{animation:bes-rise .6s var(--ease) .26s both}
+  }
+  @keyframes bes-spin{to{--bes-a:360deg}}
+  @keyframes bes-breathe{0%,100%{opacity:.55;filter:blur(16px)}50%{opacity:.95;filter:blur(22px)}}
+  @keyframes bes-shimmer{to{transform:translateX(130%)}}
+  @keyframes bes-twinkle{0%,100%{opacity:1;transform:scale(1) rotate(0deg)}50%{opacity:.65;transform:scale(.82) rotate(18deg)}}
+  @keyframes bes-rise{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+  /* mobiel: header-knoppen alleen iconen zodat niks zijwaarts overflowt */
+  @media(max-width:440px){ header.top .iconbtn span{display:none} header.top .iconbtn{padding:7px 9px;min-width:38px;justify-content:center} .topin{gap:8px} }
+</style>
+</head>
+<body>
+<div id="splash"><div class="sp-inner">
+  <div class="sp-mark">
+    <div class="sp-logo">O1</div>
+    <svg class="sp-spark" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 1.5c.4 4.6 2.4 6.6 7 7-4.6.4-6.6 2.4-7 7-.4-4.6-2.4-6.6-7-7 4.6-.4 6.6-2.4 7-7Z"/></svg>
+  </div>
+  <div><div class="sp-name">OMT I: Psychometrie</div><div class="sp-tag">slim oefenen voor je examen</div></div>
+</div></div>
+<header class="top">
+  <div class="topin">
+    <div class="brand"><span class="logo">O1</span><div>OMT I: Psychometrie<small>Berie’s exam space</small></div></div>
+    <span class="spacer"></span>
+    <a class="iconbtn" href="https://beriesexamspace.github.io/?jaar=1" title="Andere vakken"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true" style="width:16px;height:16px"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg><span>Vakken</span></a>
+    <button class="iconbtn" id="themeBtn" aria-label="Wissel tussen licht en donker thema"></button>
+  </div>
+  <nav class="tabs" id="tabs"></nav>
+</header>
+<div class="wrap" id="app"></div>
+<footer class="wrap" style="padding-top:0">OMT I: Psychometrie · Berie’s exam space, oefen slim voor je examen · veel succes!<br><span style="opacity:.7">© 2026 Berie’s exam space · Alle rechten voorbehouden</span></footer>
+
+<script>
+window.OMT1 = {"questions":[{"t":"1","q":"Cronbach omschrijft een psychologische test als een systematische procedure. Wat wordt er volgens die definitie precies vergeleken?","o":["Het gedrag van twee of meer personen, of het gedrag van eenzelfde persoon over de tijd heen","De hersenactiviteit van proefpersonen tijdens een experiment","De fysieke energie tegenover de mentale energie van een persoon","De verbale scores tegenover de non-verbale scores van een groep"],"a":0,"u":"Volgens Cronbach dienen psychologische tests om gedrag tussen twee of meer personen te vergelijken, of om het gedrag van een persoon te vergelijken over de tijd heen."},{"t":"1","q":"De cursus noemt drie kernkenmerken van een psychologische test. Welke rij geeft die drie correct weer?","o":["Ze zijn altijd verbaal, altijd erfelijk en altijd genormeerd","Ze leveren een staal van gedrag, gebruiken systematische procedures en werken met testscores","Ze meten hersengolven, gebruiken toevalsprocedures en leveren ruwe data","Ze meten enkel intelligentie, enkel aandacht en enkel geheugen"],"a":1,"u":"De drie kenmerken uit de tekst zijn: een test levert een staal van gedrag op, gebruikt systematische procedures en maakt gebruik van testscores."},{"t":"1","q":"Een test bevraagt maar een beperkt aantal situaties in plaats van al iemands gedrag te observeren. Welk begrip beschrijft dit idee het best?","o":["De meetfout","De objectieve scoring","Een staal van gedrag","Het basale niveau"],"a":2,"u":"Een goede test legt een staal (een representatieve greep) van gedrag vast dat typisch is voor de deelnemer, in plaats van al het gedrag te meten."},{"t":"1","q":"In de formule X = T + e voor een testscore, waar staat de e voor?","o":["De echte of ware score van de persoon","De geobserveerde score","De erfelijke component van de trek","De meetfout in de score"],"a":3,"u":"In X = T + e is X de geobserveerde score, T de true score en e de meetfout; elke testscore bevat volgens de tekst een meetfout."},{"t":"1","q":"Wat is volgens de cursus het onderscheid tussen objectieve en subjectieve scoring?","o":["Bij objectieve scoring vergelijkt men de respons met een vaste lijst van mogelijke antwoorden, bij subjectieve scoring beschikt de scorer enkel over enkele richtlijnen","Objectieve scoring gebeurt door een computer, subjectieve scoring altijd door twee beoordelaars","Objectieve scoring meet intelligentie, subjectieve scoring meet persoonlijkheid","Objectieve scoring bevat geen meetfout, subjectieve scoring bevat wel een meetfout"],"a":0,"u":"Bij objectieve scoring zet men de respons om in een cijfer door te vergelijken met een lijst van alle mogelijke responsen; bij subjectieve scoring heeft de scorer slechts enkele richtlijnen ter beschikking."},{"t":"1","q":"Iemand vergelijkt de score van dezelfde persoon op verschillende momenten in zijn leven. Naar welk soort verschillen kijkt die onderzoeker?","o":["Inter-individuele verschillen","Intra-individuele verschillen","Antropometrische verschillen","Erfelijke verschillen"],"a":1,"u":"Intra-individuele verschillen zijn verschillen binnen een persoon over de tijd heen; inter-individuele verschillen zijn verschillen tussen personen."},{"t":"1","q":"Wie richtte volgens de tekst als eerste een psychologisch laboratorium op en bouwde instrumenten zoals de gedachtenmeter?","o":["Francis Galton","James Cattell","Wilhelm Wundt","Alfred Binet"],"a":2,"u":"Wilhelm Wundt richtte in 1879 als eerste een psychologisch labo op en maakte instrumenten zoals de gedachtenmeter om de vlotheid van het mentale denken te meten."},{"t":"1","q":"Waarom wordt Francis Galton in de cursus de voorvader van de differentiële psychologie genoemd?","o":["Omdat hij als eerste een intelligentietest voor kinderen ontwikkelde","Omdat hij aantoonde dat veel menselijke kenmerken normaal verdeeld zijn en het idee van de correlatiecoëfficiënt ontwikkelde","Omdat hij de Army alpha en beta ontwierp voor het leger","Omdat hij het IQ introduceerde door met 100 te vermenigvuldigen"],"a":1,"u":"Galton toonde aan dat veel menselijke kenmerken normaal verdeeld zijn, ontwikkelde het idee van de correlatiecoëfficiënt en beschreef als eerste hoe je een meetfout kon corrigeren."},{"t":"1","q":"Wat houdt 'Wissler's mistake' volgens de tekst in?","o":["Het meten van aandacht in plaats van intelligentie","Het verwarren van de true score met de geobserveerde score","Het gebruiken van een te homogene steekproef in een onderzoek","Het erfelijk noemen van intelligentie zonder bewijs"],"a":2,"u":"Wissler's mistake is de fout die je maakt wanneer je als onderzoeker een te homogene steekproef gebruikt voor je onderzoek."},{"t":"1","q":"Binet had kritiek op de vroegere intelligentietests. Wat vond hij het probleem, en hoe wou hij het beter doen?","o":["Ze waren te lang, dus hij maakte kortere tests","Ze waren te duur, dus hij ontwierp goedkopere instrumenten","Ze waren niet erfelijk gebaseerd, dus hij voegde erfelijkheidsmetingen toe","Ze maten vooral de aandacht in plaats van echte intelligentie, dus hij gebruikte proeven die hogere orde mentale processen vergen"],"a":3,"u":"Binet vond dat de eerdere tests vooral de aandacht maten en niet echt de intelligentie; om intelligentie te meten waren proeven nodig die hogere orde mentale processen vergen."},{"t":"2","q":"Wat betekent betrouwbaarheid volgens de klassieke testtheorie (KTT) in de kern?","o":["De mate waarin de verschillen tussen geobserveerde scores consistent zijn met de verschillen tussen de true scores","De mate waarin een test daadwerkelijk het bedoelde psychologische construct meet","De mate waarin twee verschillende beoordelaars tot dezelfde score komen","De mate waarin de gemiddelde score van een groep gelijk blijft over de tijd"],"a":0,"u":"Volgens de KTT gaat betrouwbaarheid over de consistentie tussen de verschillen in geobserveerde scores en de verschillen in true scores. Dat een test het juiste construct meet, is validiteit, niet betrouwbaarheid."},{"t":"2","q":"De KTT gaat ervan uit dat meetfouten toevallig zijn. Welk gevolg heeft die veronderstelling volgens de tekst?","o":["De meetfout is voor iedere respondent even groot","De gemiddelde meetfout is 0 en de correlatie tussen meetfout en true score is 0","De meetfout is altijd gelijk aan de true score","De variantie van de meetfouten is per definitie gelijk aan nul"],"a":1,"u":"Toevallige meetfouten impliceren twee dingen: de gemiddelde meetfout is gelijk aan 0, en de correlatie tussen meetfout en true score is 0. Dat zegt niets over gelijke fouten per persoon of nul-variantie."},{"t":"2","q":"Een geobserveerde score wordt in de KTT opgevat als een combinatie van welke twee componenten?","o":["De validiteit en de betrouwbaarheid","De variantie en de standaardmeetfout","De true score en de meetfout","Het gemiddelde en de standaarddeviatie"],"a":2,"u":"In de KTT geldt: geobserveerde score = true score + meetfout. Elke waargenomen score bestaat dus uit een 'echt' deel en een foutcomponent."},{"t":"2","q":"Een testconstructeur ontdekt dat de variantie van de meetfouten in zijn test erg groot is. Wat betekent dit?","o":["De test meet automatisch het verkeerde construct","Dit wijst op een goede, gevoelige meting","Dit wijst op een slechte meting; je wil deze variantie juist zo klein mogelijk houden","De true score variantie wordt hierdoor automatisch groter"],"a":2,"u":"Een grote variantie van de meetfouten duidt op een slechte meting. Het doel is deze foutvariantie zo klein mogelijk te maken, zodat verschillen in geobserveerde scores echte verschillen weerspiegelen."},{"t":"2","q":"Betrouwbaarheid kan beschreven worden als het gebrek aan meetfoutvariantie. Wat wordt daar precies mee bedoeld?","o":["Betrouwbaarheid is enkel af te leiden uit het testgemiddelde","Hoe groter het aandeel foutvariantie in de totale variantie, hoe hoger de betrouwbaarheid","Meetfoutvariantie en betrouwbaarheid staan volledig los van elkaar","Betrouwbaarheid stijgt naarmate het aandeel meetfoutvariantie in de geobserveerde variantie kleiner is"],"a":3,"u":"Betrouwbaarheid kan gezien worden als 1 min het aandeel meetfoutvariantie in de geobserveerde variantie. Hoe kleiner dat foutaandeel, hoe hoger de betrouwbaarheid."},{"t":"2","q":"Wat vertelt de standaardmeetfout je over een test?","o":["Het exacte verschil tussen validiteit en betrouwbaarheid","De gemiddelde grootte van de meetfouten","Het aantal items dat een test moet bevatten","De correlatie tussen twee parallelle testen"],"a":1,"u":"De standaardmeetfout is de standaarddeviatie van de meetfouten en geeft dus informatie over de gemiddelde grootte van de meetfout. Ze zegt niets over validiteit of itemaantal."},{"t":"2","q":"Volgens de tekst is de standaardmeetfout nul wanneer de betrouwbaarheid gelijk is aan 1. Waarom is dat logisch?","o":["Omdat het testgemiddelde dan ook nul wordt","Omdat de true score dan gelijk is aan nul","Omdat de test dan geen items meer bevat","Omdat er bij een betrouwbaarheid van 1 geen meetfout meer is om over te variëren"],"a":3,"u":"Bij een perfecte betrouwbaarheid van 1 zit er geen meetfout in de scores, dus de spreiding van die fouten (de standaardmeetfout) is nul. Geobserveerde scores komen dan volledig overeen met true scores."},{"t":"3","q":"Bij de methode met parallelle testen, waar kijkt men precies naar om de betrouwbaarheid in te schatten?","o":["De mate waarin de geobserveerde scores van de ene test overeenstemmen met die van de andere test","De mate waarin de vragen van beide testen letterlijk identiek geformuleerd zijn","De tijd die respondenten nodig hebben om beide testen af te ronden","Het aantal items dat in beide testen samen wordt opgenomen"],"a":0,"u":"Volgens de tekst is de maat van betrouwbaarheid hier de mate waarin de geobserveerde scores van de ene test consistent zijn met die van de andere test."},{"t":"3","q":"Wat is volgens de tekst het grootste praktische probleem bij de parallelle-testenmethode?","o":["Parallelle testen kosten altijd meer geld dan een enkele afname","Respondenten weigeren vaak om twee testen na elkaar te maken","Je weet nooit met zekerheid of de twee testen echt parallel zijn","De scores van beide testen kunnen niet gecorreleerd worden"],"a":2,"u":"De tekst noemt het een mooi theoretisch idee, maar in de praktijk weet je nooit of de twee testen echt parallel zijn."},{"t":"3","q":"Wat wordt in de tekst bedoeld met carryover- of spillover-effecten?","o":["Effecten die ontstaan doordat items uit verschillende constructen door elkaar lopen","Effecten die optreden bij herhaaldelijke toetsing van de testen","Effecten van meetfouten die zich opstapelen bij lange testen","Effecten die ontstaan wanneer de testafnemer de scores verkeerd optelt"],"a":1,"u":"Carryover of spillover is een subtieler effect dat volgens de tekst tot stand komt bij herhaaldelijke toetsing van de testen."},{"t":"3","q":"Waarom wordt test-hertest betrouwbaarheid ook wel de stabiliteitscoefficient genoemd?","o":["Omdat de test elke keer stabiel dezelfde vragen bevat","Omdat de scores altijd stabiel rond het gemiddelde blijven schommelen","Omdat de steekproef stabiel dezelfde blijft over meerdere jaren","Omdat de methode ervan uitgaat dat het kenmerk stabiel blijft tussen de twee meetmomenten"],"a":3,"u":"Bij test-hertest vult men de test twee keer op verschillende tijdstippen in en gaat men uit van de stabiliteitsassumptie dat het kenmerk niet ernstig verandert; vandaar de naam stabiliteitscoefficient."},{"t":"3","q":"Een onderzoeker gebruikt test-hertest, maar laat een heel lang tijdsinterval tussen de twee afnames. Waarom is dat volgens de tekst problematisch?","o":["Bij een te groot tijdsinterval kan het kenmerk zelf veranderen, wat de basisassumpties schaadt","Een lang interval maakt de correlatie automatisch te hoog","Bij een lang interval mag je de scores niet meer correleren","Een lang interval verhoogt altijd de interne consistentie"],"a":0,"u":"De tekst stelt dat het tijdsinterval niet te groot mag zijn en dat niet elk psychologisch kenmerk stabiel blijft over de tijd; een groot interval bedreigt dus de stabiliteitsassumptie."},{"t":"3","q":"Wat is het kernidee achter interne-consistentiebetrouwbaarheid?","o":["Twee volledig verschillende testen bij dezelfde groep afnemen en de scores vergelijken","Dezelfde test op twee tijdstippen afnemen bij dezelfde respondenten","De test zo opdelen dat hij als het ware zijn eigen parallelle test wordt","De test door twee onafhankelijke beoordelaars laten scoren"],"a":2,"u":"Interne consistentie deelt een test op en correleert de delen, waardoor de test in feite zijn eigen parallelle test wordt binnen een afname."},{"t":"3","q":"Op welke manier wordt bij split-half betrouwbaarheid de test opgedeeld?","o":["Strikt in de eerste helft en de tweede helft van de vragenlijst","Op een gerandomiseerde wijze, waarna beide helften met elkaar worden gecorreleerd","Volgens moeilijkheidsgraad, van makkelijk naar moeilijk","Door de items van twee verschillende constructen te scheiden"],"a":1,"u":"Volgens de tekst splitst men bij split-half de test op een gerandomiseerde wijze en correleert men beide delen met elkaar."},{"t":"3","q":"Voor welk soort items is de KR20 volgens de tekst specifiek bedoeld?","o":["Items met een continue antwoordschaal","Items die door experts op inhoud worden beoordeeld","Dichotome items, waarbij men werkt met de proportie juiste en foute antwoorden","Items die op twee verschillende tijdstippen worden afgenomen"],"a":2,"u":"KR20 is de ruwe alpha voor dichotome items, waarbij p staat voor de proportie juiste antwoorden per item en q voor de proportie foute antwoorden."},{"t":"4","q":"Je correleert een aantal items met een kleine set specifieke variabelen om te zien hoe sterk ze samenhangen. Hoe noem je de correlaties die je dan berekent?","o":["Betrouwbaarheidscoëfficiënten","Validiteitscoëfficiënten","Methodevarianties","Range-restricties"],"a":1,"u":"Volgens de tekst heten de correlaties tussen items en die specifieke variabelen validiteitscoëfficiënten."},{"t":"4","q":"Een onderzoeker voert dezelfde soort validiteitsstudie uit over meerdere studies heen en combineert de resultaten. Welke term past hier volgens de tekst bij?","o":["Nomologisch netwerk","Range-restrictie","Validiteitsgeneralisatie of meta-analyse","Discriminante validiteit"],"a":2,"u":"De tekst zegt dat je, wanneer je dit bij meerdere studies doet, spreekt van validiteitsgeneralisatie of meta-analyse."},{"t":"4","q":"Wat wordt in de tekst bedoeld met een nomologisch netwerk?","o":["Het netwerk van alle verbanden binnen de test en/of met andere testen","De vier cellen van de multitrait-multimethode matrix","De correlatie tussen twee items van dezelfde schaal","De mate waarin een test vrij is van meetfouten"],"a":0,"u":"Een nomologisch netwerk is volgens de tekst het netwerk van alle verbanden die zich in de test en/of andere testen bevinden."},{"t":"4","q":"De multitrait-multimethode matrix bestaat volgens de tekst uit vier vormen. Welke van onderstaande hoort daar NIET bij?","o":["Heterotrait-heteromethode","Monotrait-heteromethode","Monotrait-monomethode","Multitrait-nomomethode"],"a":3,"u":"De tekst noemt heterotrait-heteromethode, heterotrait-monomethode, monotrait-heteromethode en monotrait-monomethode. 'Multitrait-nomomethode' staat er niet bij en bestaat niet."},{"t":"4","q":"Welke van de volgende wordt in de tekst genoemd als een factor die een validiteitscoëfficiënt beïnvloedt?","o":["Sociale wenselijkheid van de proefleider","Acquiescence bias","Range-restrictie","Het aantal items in een digit span"],"a":2,"u":"De tekst somt als factoren op: de werkelijke correlatie tussen variabelen, meetfouten en betrouwbaarheid, methodevariantie en range-restrictie."},{"t":"4","q":"Een respondent gaat telkens akkoord met stellingen zonder echt op de inhoud te letten. Om welke respons bias gaat het en hoe kun je die tegengaan?","o":["Acquiescence bias, tegen te gaan door tegenstrijdige stellingen in de test te zetten","Malingering, tegen te gaan door een even digit span te gebruiken","Sociale wenselijkheid, tegen te gaan met de PANAS","Extreme antwoorden, tegen te gaan door een kleine digit span"],"a":0,"u":"Acquiescence bias treedt op als iemand akkoord gaat zonder aandacht voor de inhoud. Je gaat hem tegen door tegenstrijdige stellingen in te voeren, zodat onoplettende respondenten door de mand vallen."},{"t":"4","q":"Wat is volgens de tekst het verschil tussen impression management en self-deception bij sociale wenselijkheid?","o":["Impression management gebeurt bij makkelijke items, self-deception bij moeilijke items","Impression management is bewust sociaal wenselijker overkomen, self-deception is dat onbewust doen","Impression management meet je met de PANAS, self-deception met de digit span","Impression management is zich slechter voordoen, self-deception zich beter voordoen"],"a":1,"u":"Volgens de tekst is impression management bewust sociaal wenselijker overkomen en self-deception onbewust sociaal wenselijker overkomen."},{"t":"5","q":"Wat drukt de item-moeilijkheidsindex (pi) precies uit?","o":["De correlatie tussen een item en de totale testscore","Het verschil in prestatie tussen de sterkste en zwakste respondenten","De proportie deelnemers uit de referentiegroep die het item correct beantwoordt","De kans dat een item door gokken juist wordt beantwoord"],"a":2,"u":"Volgens de bron is pi de proportie deelnemers uit de referentiegroep die item i correct hebben. Het gaat dus zuiver om hoeveel mensen het item goed maakten."},{"t":"5","q":"Welke pi-waarde beschouwt de vuistregel in de tekst als optimaal (het meest ideale midden)?","o":["0.5","0.3","0.7","1.0"],"a":0,"u":"De vuistregel stelt 0.5 als goed (optimaal), 0.3 als te moeilijk en 0.7 als te gemakkelijk. Rond 0.5 discrimineert een item doorgaans het best."},{"t":"5","q":"Een item heeft een pi van 0.30. Wat betekent dat volgens de vuistregel in de tekst?","o":["Het item is te gemakkelijk","Het item is precies optimaal","Het item bevat een gokelement","Het item is te moeilijk"],"a":3,"u":"De tekst koppelt 0.3 aan te moeilijk: slechts weinig deelnemers hadden het item juist. Alleen rond 0.5 spreekt men van een goed item."},{"t":"5","q":"Waarom wordt bij items met een gokelement een aangepaste optimale moeilijkheidswaarde gebruikt in plaats van gewoon 0.5?","o":["Omdat gokken de standaarddeviatie van de test altijd verlaagt","Omdat een deel van de correcte antwoorden door een geslaagde gok kan ontstaan","Omdat de referentiegroep dan groter moet zijn","Omdat de correlatie met de schaal dan wegvalt"],"a":1,"u":"De bron introduceert een formule met g als kans op een geslaagde gok. Omdat gokken correcte antwoorden kan opleveren, verschuift de optimale moeilijkheidswaarde ten opzichte van 0.5."},{"t":"5","q":"Wat is de kerngedachte achter de item-betrouwbaarheidsindex?","o":["Een goed item moet zo moeilijk mogelijk zijn","Een goed item mag nooit door gokken opgelost worden","Een goed item moet correleren met de score op de schaal of test","Een goed item moet door iedereen fout beantwoord worden"],"a":2,"u":"De tekst zegt dat succesvolle items bijdragen aan de schaal en dus moeten correleren met de schaalscore. Die correlatie zit mee vervat in de betrouwbaarheidsindex."},{"t":"5","q":"Waar staat de punt-biseriële correlatie (riT) in de context van itemanalyse voor?","o":["De correlatie tussen een binair item en de totale schaalscore","De correlatie tussen twee verschillende testafnames","Het verschil in moeilijkheid tussen twee items","De proportie deelnemers die het item juist heeft"],"a":0,"u":"riT is de punt-biseriële correlatiecoëfficiënt tussen het item en de schaal. Ze meet hoe sterk een binair (goed/fout) item samenhangt met de totale score."},{"t":"5","q":"Wat probeert de item-discriminatie-index in wezen te bepalen?","o":["Hoeveel deelnemers in totaal het item juist hadden","Hoe groot de kans op een geslaagde gok is","Hoe betrouwbaar de volledige test is over alle trait-levels heen","Of het item onderscheid maakt tussen de best en de slechtst scorende respondenten"],"a":3,"u":"De bron beschrijft discriminatie als de mate waarin een test onderscheid maakt tussen de best en slechtst scorende respondenten. Een goed discriminerend item wordt vaker juist gemaakt door de sterke groep."},{"t":"5","q":"Bij het klassiek berekenen van de discriminatie-index vergelijkt men een hoog scorende en een laag scorende groep. Welk aandeel van de deelnemers neemt men volgens de tekst in elke groep?","o":["50%","33%","27%","10%"],"a":2,"u":"De tekst stelt dat men in beide groepen even veel deelnemers neemt, namelijk telkens de 27% hoogst en 27% laagst scorende respondenten."},{"t":"5","q":"Wat betekent de sensitiviteit van een test?","o":["De mate waarin de test gezonde (negatieve) gevallen correct als negatief herkent","De mate waarin de test de werkelijk positieve gevallen correct als positief herkent","De totale proportie juiste antwoorden op de test","De oppervlakte onder de ROC-curve"],"a":1,"u":"Sensitiviteit gaat over de echt positieve gevallen: hoeveel daarvan de test correct als positief aanduidt. Specificiteit is de tegenhanger voor de negatieve gevallen."},{"t":"5","q":"Een test krijgt een Area Under the Curve (AUC) van 0.95. Hoe beoordeel je die testaccuraatheid volgens de richtlijnen in de tekst?","o":["Waardeloos","Matig","Goed","Excellent"],"a":3,"u":"De bron legt de grens .90 tot 1.00 vast als excellent. Een AUC van 0.95 valt in dat bereik en wijst dus op een uitstekende accuraatheid van de test."}],"theory":[{"h":"Psychometrie & tests","items":["Psychologische test: systematische procedure om gedrag van meerdere personen te vergelijken, of gedrag van één persoon over de tijd heen (definitie van Cronbach).","Staal van gedrag: een beperkte, representatieve steekproef van gedrag dat typisch is voor de deelnemer, in plaats van al het gedrag te observeren.","Systematische procedures: vaste keuzes over welke items je gebruikt, in welke omstandigheden je test en hoe je responsen tot scores omzet.","Testscore: het cijfer dat uit een test volgt; meet geen fysiek ding en bevat altijd een meetfout.","Objectieve scoring: respons wordt omgezet in een cijfer door ze te vergelijken met een vaste lijst van alle mogelijke antwoorden.","Subjectieve scoring: de scorer beschikt enkel over enkele richtlijnen om de respons te beoordelen, zonder volledige antwoordlijst.","Meetfout (e): de afwijking in X = T + e, waarbij X de geobserveerde score is en T de true score.","Inter-individuele verschillen: verschillen tussen personen onderling.","Intra-individuele verschillen: verschillen binnen één persoon over de tijd heen.","Antropometrie vs. psychometrie: bij Galton twee soorten metingen, respectievelijk van lichaamskenmerken en van psychologische kenmerken.","Wissler's mistake: de fout van een onderzoeker die een te homogene steekproef gebruikt.","IQ: het intelligentiequotiënt van Stern, door Terman vermenigvuldigd met 100.","Basale niveau: het leeftijdsniveau waarop de deelnemer hoogstens één vraag niet oplost (uit de tweede Simon-Binet test).","Army alpha en beta: rekruteringstests voor het Amerikaanse leger; alpha met verbale instructies, beta zonder, wat tot segregatie leidde."]},{"h":"Betrouwbaarheid & klassieke testtheorie","items":["Klassieke testtheorie (KTT): theorie die betrouwbaarheid afleidt uit geobserveerde scores, true scores en meetfouten.","Geobserveerde score: de score die je effectief meet; opgebouwd uit true score plus meetfout.","True score: het 'echte' niveau van een respondent op het construct, zonder toevallige fout; in de praktijk niet exact te kennen.","Meetfout: het toevallige deel van een score dat de geobserveerde score doet afwijken van de true score.","Betrouwbaarheid: de mate waarin verschillen in geobserveerde scores overeenkomen met verschillen in true scores; ook de verhouding true score variantie tot geobserveerde variantie.","Veronderstelling toevallige fout: KTT gaat ervan uit dat meetfouten toevallig zijn, waardoor de gemiddelde fout 0 is en de fout niet correleert met de true score.","Variantie van geobserveerde scores: de totale spreiding in waargenomen scores, opgebouwd uit true score variantie plus meetfoutvariantie.","Meetfoutvariantie: de spreiding in de meetfouten; hoe groter, hoe slechter de meting, dus je wil ze klein houden.","True score variantie: het deel van de spreiding dat door echte verschillen tussen respondenten komt.","Vier zichten op betrouwbaarheid: als verhouding true/geobserveerde variantie, als gebrek aan foutvariantie, als gekwadrateerde correlatie tussen geobserveerde en true scores, en als gebrek aan correlatie tussen geobserveerde scores en fouten.","Standaardmeetfout: de standaarddeviatie van de meetfouten; geeft de gemiddelde grootte van de meetfout weer en is nul bij een betrouwbaarheid van 1.","Parallelle testen: twee testen die hetzelfde construct meten (tau-equivalentie) en een even grote meetfoutvariantie hebben.","Tau-equivalentie: de voorwaarde dat beide testen hetzelfde psychologische construct meten."]},{"h":"Betrouwbaarheid schatten","items":["Betrouwbaarheid (parallelle testen): de mate waarin de geobserveerde scores van de ene test consistent zijn met die van een andere, parallelle test.","Parallelle testen: twee testen die hetzelfde meten; probleem in de praktijk is dat je nooit zeker weet of ze echt parallel zijn.","Carryover/spillover: storende effecten die ontstaan bij herhaaldelijke toetsing, doordat de ene afname de andere beïnvloedt.","Test-hertest betrouwbaarheid: dezelfde respondenten vullen dezelfde test twee keer in op verschillende tijdstippen, waarna de scores vergeleken worden.","Stabiliteitscoëfficiënt: andere naam voor test-hertest betrouwbaarheid, omdat ze steunt op de stabiliteit van het kenmerk over tijd.","Stabiliteitsassumptie: de aanname dat er tussen beide afnames niets ernstigs of turbulents gebeurt dat het gedrag van de respondent verandert.","Tijdsinterval: bij test-hertest mag de tussenperiode niet te groot zijn, want niet elk psychologisch kenmerk blijft stabiel over de tijd.","Interne consistentie: de test zo opdelen en de delen correleren dat de test in feite zijn eigen parallelle test wordt binnen één afname.","Split-half betrouwbaarheid: de test op gerandomiseerde wijze in twee helften splitsen en die helften met elkaar correleren.","Ruwe Cronbach alpha: interne-consistentiemaat gebaseerd op het aantal items (k), de covariantie tussen items en de totale variantie.","Gestandaardiseerde Cronbach alpha: variant van alpha die vertrekt van de gemiddelde correlatie tussen items in plaats van de ruwe covarianties.","KR20: de ruwe alpha specifiek voor dichotome items, gebaseerd op de proportie juiste (p) en foute (q) antwoorden per item.","p en q (bij KR20): p is de proportie juiste antwoorden op een item, q de proportie foute antwoorden."]},{"h":"Validiteit","items":["Validiteitscoëfficiënt: correlatie tussen (items van) een test en een specifieke variabele, die aangeeft hoe sterk het verband is.","Validiteitsgeneralisatie: het samenvatten van validiteitsresultaten over meerdere studies heen, ook wel meta-analyse genoemd.","Meta-analyse: statistische techniek om de uitkomsten van veel studies te combineren tot één algemeen beeld.","Convergente validiteit: mate waarin een test sterk samenhangt met andere metingen van hetzelfde of een verwant kenmerk.","Discriminante validiteit: mate waarin een test juist weinig samenhangt met metingen van iets wat ze niet hoort te meten.","Nomologisch netwerk: het geheel van alle verbanden binnen de test en met andere testen.","Multitrait-multimethode matrix: overzicht van correlaties over verschillende kenmerken (traits) en meetmethoden heen, met vier vormen (heterotrait-heteromethode, heterotrait-monomethode, monotrait-heteromethode, monotrait-monomethode).","Methodevariantie: deel van de spreiding in de scores dat door de gebruikte meetmethode komt in plaats van door het kenmerk zelf, en dat de validiteitscoëfficiënt beïnvloedt.","Range-restrictie: inperking van de spreiding op een variabele, waardoor de validiteitscoëfficiënt lager kan uitvallen dan ze eigenlijk is.","Meetfouten en betrouwbaarheid: bron van ruis die de gemeten correlatie tussen variabelen kan verzwakken.","Acquiescence bias: neiging om met stellingen akkoord te gaan zonder op de inhoud te letten, sterker als alle items dezelfde richting hebben.","Sociale wenselijkheid: neiging om antwoorden te geven die maatschappelijk gunstig overkomen, beïnvloed door testinhoud, testomstandigheden en persoonlijkheid.","Impression management vs self-deception: bewust sociaal wenselijker overkomen tegenover onbewust sociaal wenselijker overkomen.","Malingering: respons bias waarbij de respondent zich juist slechter voordoet dan hij of zij werkelijk is."]},{"h":"Itemanalyse & testkwaliteit","items":["Item-moeilijkheidsindex (pi): de proportie deelnemers uit de referentiegroep die een item correct beantwoordt, met 0.5 als optimale vuistregel.","Vuistregel moeilijkheid: 0.5 is goed, 0.3 wijst op te moeilijk en 0.7 op te gemakkelijk.","Gokelement (g): de kans op een geslaagde gok, waarmee de optimale moeilijkheidswaarde wordt bijgesteld wanneer raden mogelijk is.","Item-betrouwbaarheidsindex: maat die uitdrukt dat een goed item moet correleren met de score op de schaal of test.","Punt-biseriële correlatie (riT): de samenhang tussen een binair (goed/fout) item en de totale schaalscore.","Standaarddeviatie van binaire items: spreiding van een goed/fout-item, afhankelijk van hoe hoog of laag de proportie correct is.","Item-validiteitsindex: maat die aangeeft in welke mate een item bijdraagt aan wat de test hoort te meten.","Item-discriminatie-index: maat voor de mate waarin een item onderscheid maakt tussen de best en slechtst scorende respondenten.","27%-groepen: bij discriminatieberekening neemt men telkens de 27% hoogst en 27% laagst scorende deelnemers, even groot in aantal.","Analyse van meerkeuze-items: hierbij vergelijkt men gewoon de proportie correcte antwoorden van de hoge en de lage groep.","Sensitiviteit: de mate waarin een test de werkelijk positieve gevallen correct als positief aanduidt.","Specificiteit: de mate waarin een test de werkelijk negatieve gevallen correct als negatief aanduidt.","ROC-curve: grafiek die voor alle mogelijke cut-off waarden de balans tussen terecht- en onterecht-positieven weergeeft.","AUC (Area Under the Curve): oppervlakte onder de ROC die de accuraatheid van de hele test samenvat (.90-1.00 excellent, .50-.60 waardeloos)."]}],"hacks":[{"h":"De 3 S'en van een test: Staal, Systematisch, Score","t":"Onthoud dat elke psychologische test drie kenmerken heeft door aan drie S'en te denken. Staal van gedrag (een steekproef, niet alles), Systematische procedures (vaste items en omstandigheden) en Score (een cijfer met altijd een meetfout). Drie keer S en je hebt de kern van de definitie te pakken."},{"h":"GEO = TRUE + FOUT","t":"Onthoud de basisformule van de KTT als 'GEO = TRUE + FOUT': elke Geobserveerde score is de True score plus een toevallige Fout. Zo weet je meteen dat betrouwbaarheid stijgt naarmate het TRUE-deel groter is en het FOUT-deel kleiner. En: minder fout betekent een kleinere standaardmeetfout, tot die nul wordt bij betrouwbaarheid 1."},{"h":"PATIS: de vijf manieren om betrouwbaarheid te schatten","t":"Denk aan PATIS: Parallelle testen, Test-hertest, Interne consistentie, Split-half, en de alpha's (Cronbach ruw/gestandaardiseerd plus KR20). Handig geheugensteuntje daarbij: 'Hertest = stabiliteit in de Tijd' (twee momenten), terwijl 'Interne consistentie = de test splitst zichzelf' (één moment). Zo verwar je test-hertest (verschillende tijdstippen) nooit met split-half en Cronbachs alpha (alles binnen één afname)."},{"h":"MOMENT: de 4 factoren achter een validiteitscoëfficiënt","t":"Denk aan MOMENT: Meetfouten en betrouwbaarheid, Onderliggende (werkelijke) correlatie, Methodevariantie en raNge-restricTie. Zie je een validiteitscoëfficiënt die vreemd hoog of laag is, loop dan dit rijtje af om te bedenken welke factor ze vervormt. Voor de respons bias impression vs self-deception: 'impression = ik doe het express' (bewust), self-deception bedriegt jezelf (onbewust)."},{"h":"0.5 is de gulden middenweg","t":"Onthoud de moeilijkheidsvuistregel als een berg: bovenaan (0.7) is het te makkelijk want bijna iedereen geraakt erop, onderaan (0.3) te moeilijk want bijna niemand geraakt erboven, en precies in het midden (0.5) sta je perfect. Zo weet je meteen dat 0.5 het optimum is en dat lager = moeilijker, hoger = makkelijker."}]};
+</script>
+<style>
+  .choverview .chlist{display:flex;flex-direction:column;gap:3px;margin-top:2px}
+  .chrow{display:flex;align-items:center;gap:12px;width:100%;text-align:left;background:transparent;border:none;border-radius:10px;padding:9px 8px;cursor:pointer;color:var(--ink);font-family:inherit;transition:background .15s var(--ease),transform .1s var(--ease)}
+  .chrow:hover{background:var(--accent-soft)}
+  .chrow:active{transform:scale(.995)}
+  .chrow .chname{flex:0 0 auto;width:170px;font-size:14px;font-weight:600}
+  .chrow .chbar{flex:1;height:8px;border-radius:999px;background:var(--line);overflow:hidden}
+  .chrow .chbar>i{display:block;height:100%;border-radius:999px;background:linear-gradient(90deg,var(--accent),var(--accent-ink));transition:width .5s var(--ease)}
+  .chrow .chval{flex:0 0 auto;font-size:12.5px;color:var(--muted);min-width:40px;text-align:right;font-variant-numeric:tabular-nums}
+  .chrow .ic.caret{width:16px;height:16px;color:var(--muted);flex:0 0 auto}
+  @media(max-width:560px){.chrow .chname{width:auto;flex:1 1 auto;min-width:0}.chrow .chbar{flex:0 0 64px}}
+</style>
+<script>
+(function(){
+  "use strict";
+  var D=window.OMT1, app=document.getElementById("app");
+  var P={
+    book:'<path d="M12 7v14"/><path d="M3 18a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h5a4 4 0 0 1 4 4 4 4 0 0 1 4-4h5a1 1 0 0 1 1 1v13a1 1 0 0 1-1 1h-6a3 3 0 0 0-3 3 3 3 0 0 0-3-3z"/>',
+    bulb:'<path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5"/><path d="M9 18h6"/><path d="M10 22h4"/>',
+    help:'<circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><path d="M12 17h.01"/>',
+    search:'<circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/>',
+    sun:'<circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/>',
+    moon:'<path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/>',
+    arrowR:'<path d="M5 12h14"/><path d="m12 5 7 7-7 7"/>',
+    back:'<path d="m15 18-6-6 6-6"/>',
+    heart:'<path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/>',
+    chevR:'<path d="m9 18 6-6-6-6"/>',
+    sparkles:'<path d="M9.94 15.5A2 2 0 0 0 8.5 14.06l-6.14-1.58a.5.5 0 0 1 0-.96L8.5 9.94A2 2 0 0 0 9.94 8.5l1.58-6.14a.5.5 0 0 1 .96 0L14.06 8.5A2 2 0 0 0 15.5 9.94l6.14 1.58a.5.5 0 0 1 0 .96L15.5 14.06a2 2 0 0 0-1.44 1.44l-1.58 6.14a.5.5 0 0 1-.96 0z"/>',
+    target:'<circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/>',
+    rocket:'<path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z"/><path d="m12 15-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z"/><path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 0 5 0"/><path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5"/>',
+    msg:'<path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"/>',
+    refresh:'<path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/>',
+    send:'<path d="M14.54 21.69a.5.5 0 0 0 .94-.02l6.5-19a.5.5 0 0 0-.64-.64l-19 6.5a.5.5 0 0 0-.02.94l7.93 3.18a2 2 0 0 1 1.11 1.11z"/><path d="m21.85 2.15-10.94 10.94"/>'
+  };
+  function ic(n,c){ return '<svg class="ic'+(c?" "+c:"")+'" viewBox="0 0 24 24" aria-hidden="true">'+(P[n]||"")+'</svg>'; }
+  function esc(s){ return String(s).replace(/[&<>"]/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;"}[c];}); }
+  function shuffle(a){ a=a.slice(); for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=a[i];a[i]=a[j];a[j]=t;} return a; }
+  function pct(n,d){ return d?Math.round(100*n/d):0; }
+  function rnd(a){ return a[Math.floor(Math.random()*a.length)]; }
+  function lget(k,d){ try{ var v=JSON.parse(localStorage.getItem(k)); return v==null?d:v; }catch(e){ return d; } }
+  function lset(k,v){ try{ localStorage.setItem(k,JSON.stringify(v)); }catch(e){} }
+  function rawGet(k){ try{ return localStorage.getItem(k); }catch(e){ return null; } }
+  function rawSet(k,v){ try{ localStorage.setItem(k,v); }catch(e){} }
+  function bump(ns,key){ try{ fetch("https://abacus.jasoncameron.dev/hit/"+ns+"/"+key).then(function(){},function(){}); }catch(e){} }
+
+  D.questions.forEach(function(q,i){ q.id="q"+i; });
+  var theme=rawGet("site_theme") || lget("omt1_theme","light");
+  function applyTheme(){ document.documentElement.setAttribute("data-theme",theme);
+    document.getElementById("themeBtn").innerHTML=(theme==="dark"?ic("sun"):ic("moon"))+'<span>'+(theme==="dark"?"Licht":"Donker")+'</span>'; }
+  applyTheme();
+  document.getElementById("themeBtn").onclick=function(){ theme=theme==="dark"?"light":"dark"; lset("omt1_theme",theme); rawSet("site_theme",theme); applyTheme(); };
+  var calm=lget("omt1_calm",true);
+  function applyCalm(){ document.documentElement.classList.toggle("snappy", !calm); }
+  applyCalm();
+  function wrongLead(){ return calm ? rnd(WARM) : "Fout."; }
+
+  var WARM=["Geen zorgen, hier leer je nu net van.","Bijna! Dit type vraag krijg je zo onder de knie.","Foutje mag, nu weet je wat je nog moet herhalen.","Niet erg, dit onthoud je de volgende keer wél.","Rustig, één foutje zegt niets over je examen."];
+  var PRAISE=["Juist!","Goed zo!","Correct!","Sterk!","Knap!"];
+  var TOPICS={"1":"Psychometrie & tests","2":"Betrouwbaarheid & klassieke testtheorie","3":"Betrouwbaarheid schatten","4":"Validiteit","5":"Itemanalyse & testkwaliteit"};
+  function getProg(){ var p=lget("omt1_prog",{ans:{}}); if(!p||typeof p!=="object"||!p.ans)p={ans:{}}; return p; }
+  function recordProg(qid,ok){ var p=getProg(); p.ans[qid]=ok?1:0; lset("omt1_prog",p); }
+  function resetProg(){ lset("omt1_prog",{ans:{}}); }
+  function chapterStats(){ var p=getProg(); var st={}; Object.keys(TOPICS).forEach(function(k){st[k]={total:0,done:0,correct:0};}); D.questions.forEach(function(q){ var s=st[q.t]; if(!s)return; s.total++; if(Object.prototype.hasOwnProperty.call(p.ans,q.id)){ s.done++; if(p.ans[q.id])s.correct++; } }); return st; }
+  function startChapter(k){ var items=shuffle(D.questions.filter(function(q){return q.t===k;})); state.view="quiz"; tabBtns.forEach(function(b){b.classList.toggle("on",b.dataset.view==="quiz");}); startQuiz(items); window.scrollTo(0,0); }
+
+  var TABS=[{v:"home",l:"Start",i:"book"},{v:"quiz",l:"Oefenvragen",i:"target"},{v:"theory",l:"Theorie",i:"search"},{v:"hacks",l:"Studie-hacks",i:"bulb"},{v:"feedback",l:"Feedback",i:"msg"}];
+  var tabsEl=document.getElementById("tabs");
+  tabsEl.innerHTML=TABS.map(function(t){return '<button data-view="'+t.v+'"'+(t.v==="home"?' class="on"':'')+'>'+ic(t.i)+'<span>'+t.l+'</span></button>';}).join("");
+  var tabBtns=[].slice.call(tabsEl.querySelectorAll("button"));
+  tabBtns.forEach(function(b){ b.onclick=function(){ state.fromHub=false; if(b.dataset.view==="home") state.step="track"; go(b.dataset.view); }; });
+  function go(v){ state.view=v; tabBtns.forEach(function(b){b.classList.toggle("on",b.dataset.view===v);}); render(); window.scrollTo(0,0); }
+
+  var state={view:"home", step:"track", track:lget("omt1_track","training"), quiz:null, sel:{topics:{"1":true,"2":true,"3":true,"4":true,"5":true}, count:15, shuffle:true}, sumq:""};
+  function setHTML(h){ app.innerHTML=h; }
+
+  function render(){
+    if(state.view==="home") return renderHome();
+    if(state.view==="quiz") return renderQuizGate();
+    if(state.view==="theory") return renderTheory();
+    if(state.view==="hacks") return renderHacks();
+    if(state.view==="feedback") return renderFeedback();
+  }
+
+  function renderHome(){
+    if(state.step==="herkansing") return renderHerkansing();
+    if(state.step==="practice") return renderPractice();
+    return renderTrack();
+  }
+  function modeLabel(){ return state.track==="herkansing"?"Herkansing":"Examen Training"; }
+
+  function renderTrack(){
+    var byT={}; D.questions.forEach(function(q){byT[q.t]=(byT[q.t]||0)+1;});
+    var st=chapterStats(); var tD=0,tQ=0,tC=0; Object.keys(st).forEach(function(k){tD+=st[k].done;tQ+=st[k].total;tC+=st[k].correct;});
+    var html=
+      '<div class="hero">'+
+        '<div class="count"><b>'+D.questions.length+'</b><span>oefenvragen</span></div>'+
+        '<div class="herotext"><h1>OMT I: Psychometrie oefenen</h1>'+
+        '<p>Oefenvragen per hoofdstuk, met uitleg</p></div>'+
+      '</div>'+
+      '<a class="brandstrip" href="https://beriesexamspace.github.io/" title="Naar Berie’s exam space"><span class="bs-logo">B</span><span class="bs-txt"><b>Berie’s exam space</b><small>Een ander vak leren? Bekijk alle vakken</small></span><span class="bs-go">'+ic("arrowR")+'</span></a>'+
+      '<a class="brandstrip" href="https://beriesexamspace.github.io/?deel=1" title="Deel je samenvattingen"><span class="bs-logo">📚</span><span class="bs-txt"><b>Help mee, deel je vak</b><small>Heb jij samenvattingen of oude examenvragen? Stuur ze in (élk jaar).</small></span><span class="bs-go">'+ic("arrowR")+'</span></a>'+
+      '<div class="seclabel">'+ic("rocket")+'Hoe wil je oefenen?</div>'+
+      '<div class="tracks">'+
+        '<button class="track" data-track="training"><span class="tile">'+ic("book")+'</span><b>Examen Training</b><small>Oefen op examenniveau. Vragen met directe feedback en uitleg.</small><span class="go">Normaal niveau '+ic("arrowR")+'</span></button>'+
+        '<button class="track alt" data-track="herkansing"><span class="tile">'+ic("heart")+'</span><b>Herkansing</b><small>Rustig opbouwen, met aanmoediging. Jij bepaalt het tempo.</small><span class="go">Met begeleiding '+ic("arrowR")+'</span></button>'+
+      '</div>'+
+      '<div class="card pad choverview" style="margin-top:18px">'+
+        '<div class="row" style="justify-content:space-between;align-items:center"><b>Kies een hoofdstuk</b>'+(tD>0?'<button type="button" class="bnlink" id="resetProg">'+ic("refresh")+'Reset</button>':'')+'</div>'+
+        '<p class="muted" style="font-size:12.5px;margin:6px 0 12px">Klik een hoofdstuk om alleen dat te oefenen.'+(tD>0?' &middot; '+tD+'/'+tQ+' geoefend &middot; '+pct(tC,tD)+'% juist':'')+'</p>'+
+        '<div class="chlist">'+Object.keys(TOPICS).map(function(k){var s=st[k];var w=pct(s.done,s.total);return '<button type="button" class="chrow" data-ch="'+k+'"><span class="chname">'+esc(TOPICS[k])+'</span><span class="chbar"><i style="width:'+w+'%"></i></span><span class="chval">'+s.done+'/'+s.total+'</span>'+ic("chevR","caret")+'</button>';}).join("")+'</div></div>';
+    setHTML(html);
+    [].slice.call(document.querySelectorAll(".chrow")).forEach(function(el){ el.onclick=function(){ startChapter(el.dataset.ch); }; });
+    var _rp=document.getElementById("resetProg"); if(_rp) _rp.onclick=function(){ resetProg(); renderHome(); };
+    [].slice.call(document.querySelectorAll(".track")).forEach(function(el){ el.onclick=function(){ var t=el.dataset.track; state.track=t; lset("omt1_track",t); state.step=(t==="herkansing"?"herkansing":"practice"); renderHome(); window.scrollTo(0,0); }; });
+  }
+
+  function renderHerkansing(){
+    var html=
+      '<button class="backlink" id="backBtn">'+ic("back")+'Terug</button>'+
+      '<div class="seclabel" style="margin-top:2px">'+ic("heart")+'Herkansing</div>'+
+      (calm?'<div class="card pad warmcard"><div class="row" style="gap:11px;flex-wrap:nowrap;align-items:flex-start">'+ic("heart")+'<div><b>Een nieuwe kans, rustig aan.</b><p class="muted" style="margin:5px 0 0;font-size:13.5px">Herkansen betekent niet dat je het niet kunt. Stap voor stap kom je er. Jij kunt dit. 💙</p></div></div></div>':'')+
+      '<div class="card pad" style="margin-top:12px"><div class="row" style="justify-content:space-between;align-items:center;gap:14px"><div><b>Rustige modus</b><div class="muted" style="font-size:12.5px">Aanmoediging en kalme sfeer. Zet uit als je liever recht-voor-z’n-raap oefent.</div></div><button class="toggle'+(calm?" on":"")+'" id="calmToggle" role="switch" aria-checked="'+(calm?"true":"false")+'" aria-label="Rustige modus aan of uit"><span class="knob"></span></button></div></div>'+
+      '<div class="row" style="margin-top:16px"><button class="btn" id="beginBtn">Begin met oefenen '+ic("arrowR")+'</button></div>';
+    setHTML(html);
+    document.getElementById("backBtn").onclick=function(){ state.step="track"; renderHome(); window.scrollTo(0,0); };
+    document.getElementById("calmToggle").onclick=function(){ calm=!calm; lset("omt1_calm",calm); applyCalm(); renderHerkansing(); };
+    document.getElementById("beginBtn").onclick=function(){ state.step="practice"; renderHome(); window.scrollTo(0,0); };
+  }
+
+  function renderPractice(){
+    var herk=state.track==="herkansing";
+    var html=
+      '<button class="backlink" id="backBtn">'+ic("back")+'Terug</button>'+
+      '<div class="modebanner'+(herk?" v":"")+'">'+ic(herk?"heart":"book")+'<span>'+modeLabel()+'</span><button type="button" class="bnlink" id="changeMode">wijzig</button></div>'+
+      '<div class="seclabel">'+ic("rocket")+'Waarmee wil je oefenen?</div>'+
+      '<div class="grid g2">'+
+        '<button class="mode" data-mode="quiz"><span class="me">'+ic("target")+'</span><b>Oefenvragen</b><small>Meerkeuze met directe feedback en uitleg. Kies je onderwerpen.</small></button>'+
+        '<button class="mode" id="quickStart"><span class="me">'+ic("rocket")+'</span><b>Snelle ronde</b><small>15 willekeurige vragen uit alle onderwerpen.</small></button>'+
+      '</div>';
+    setHTML(html);
+    document.getElementById("backBtn").onclick=function(){ if(state.fromHub){ location.href="https://beriesexamspace.github.io/"; return; } state.step=(herk?"herkansing":"track"); renderHome(); window.scrollTo(0,0); };
+    document.getElementById("changeMode").onclick=function(){ if(state.fromHub){ location.href="https://beriesexamspace.github.io/"; return; } state.step="track"; renderHome(); window.scrollTo(0,0); };
+    document.querySelector('[data-mode="quiz"]').onclick=function(){ go("quiz"); };
+    document.getElementById("quickStart").onclick=function(){ state.view="quiz"; tabBtns.forEach(function(b){b.classList.toggle("on",b.dataset.view==="quiz");}); startQuiz(shuffle(D.questions.slice()).slice(0,15)); window.scrollTo(0,0); };
+  }
+
+  function renderQuizGate(){
+    if(state.quiz) return renderQuiz();
+    var s=state.sel;
+    function pool(){ return D.questions.filter(function(q){return s.topics[q.t];}); }
+    var html='<div class="card pad"><h2 style="margin-top:0">Oefenvragen</h2>'+
+      '<p class="muted">Kies onderwerpen en het aantal vragen. Na elk antwoord krijg je meteen feedback én de uitleg.</p>'+
+      '<label class="fld">Onderwerpen</label><div class="chips" id="tps">'+
+        Object.keys(TOPICS).map(function(k){return '<button class="chip'+(s.topics[k]?" on":"")+'" data-tp="'+k+'">'+esc(TOPICS[k])+'</button>';}).join("")+'</div>'+
+      '<label class="fld">Aantal vragen</label><div class="chips" id="cnt">'+
+        [10,15,20,999].map(function(n){return '<button class="chip'+(s.count===n?" on":"")+'" data-n="'+n+'">'+(n===999?"Alle":n)+'</button>';}).join("")+'</div>'+
+      '<label class="fld"><input type="checkbox" id="shuf" '+(s.shuffle?"checked":"")+'> Willekeurige volgorde</label>'+
+      '<div class="row" style="margin-top:18px"><button class="btn" id="startQ">Start '+ic("arrowR")+'</button><span class="muted" id="poolN"></span></div></div>';
+    setHTML(html);
+    function refresh(){ var n=pool().length; document.getElementById("poolN").textContent=n+" vragen beschikbaar"; document.getElementById("startQ").disabled=n===0; }
+    [].slice.call(document.querySelectorAll("#tps .chip")).forEach(function(b){ b.onclick=function(){ s.topics[b.dataset.tp]=!s.topics[b.dataset.tp]; b.classList.toggle("on"); refresh(); }; });
+    [].slice.call(document.querySelectorAll("#cnt .chip")).forEach(function(b){ b.onclick=function(){ s.count=+b.dataset.n; renderQuizGate(); }; });
+    document.getElementById("shuf").onchange=function(e){ s.shuffle=e.target.checked; };
+    document.getElementById("startQ").onclick=function(){ var p=pool(); if(s.shuffle)p=shuffle(p); if(s.count<p.length)p=p.slice(0,s.count); startQuiz(p); };
+    refresh();
+  }
+
+  function startQuiz(items){ bump("berat-omt1", state.track==="herkansing"?"herkansing":"training"); state.quiz={items:items.map(function(q){return {q:q,opts:shuffle(q.o.map(function(t,i){return {text:t,ok:i===q.a};}))};}), idx:0, answered:false, picked:-1, correct:0, wrong:[], done:false}; renderQuiz(); }
+
+  function renderQuiz(){
+    var Q=state.quiz; if(Q.done) return renderResult();
+    var cur=Q.items[Q.idx], q=cur.q;
+    var html='<button class="backlink" id="backBtn">'+ic("back")+'Terug</button>'+
+      '<div class="card pad">'+
+      '<div class="runtop"><span class="pill">'+esc(TOPICS[q.t])+'</span><div class="bar"><i data-w="'+pct(Q.idx,Q.items.length)+'"></i></div><span>'+(Q.idx+1)+'/'+Q.items.length+'</span></div>'+
+      '<div class="qtext">'+esc(q.q)+'</div>'+
+      '<div id="opts">'+cur.opts.map(function(o,i){return '<button class="opt" data-i="'+i+'" style="--oi:'+(i*55)+'ms"><span class="k">'+String.fromCharCode(65+i)+'</span><span>'+esc(o.text)+'</span></button>';}).join("")+'</div>'+
+      '<div id="fb"></div>'+
+      '<div class="row" style="justify-content:space-between;margin-top:6px"><span class="muted" style="font-size:12px">Toets <span class="kbd">A–D</span> · <span class="kbd">Enter</span> = volgende</span><button class="btn hide" id="nextBtn">Volgende '+ic("arrowR")+'</button></div></div>';
+    setHTML(html);
+    var i2=document.querySelector(".bar>i"); requestAnimationFrame(function(){ if(i2) i2.style.width=i2.getAttribute("data-w")+"%"; });
+    document.getElementById("backBtn").onclick=function(){ state.quiz=null; renderQuizGate(); };
+    var optBtns=[].slice.call(document.querySelectorAll("#opts .opt"));
+    var nb=document.getElementById("nextBtn"); nb.onclick=next;
+    function showAnswered(i){
+      optBtns.forEach(function(b){ var bi=+b.dataset.i; b.disabled=true; if(cur.opts[bi].ok)b.classList.add("correct"); else if(bi===i)b.classList.add("wrong"); });
+      var ok=cur.opts[i].ok, fb=document.getElementById("fb"); fb.className="feedback "+(ok?"ok":"no");
+      var juist=cur.opts.filter(function(o){return o.ok;})[0].text;
+      fb.innerHTML=ok?"<b>"+rnd(PRAISE)+" ✓</b>":"<b>"+wrongLead()+"</b><span class=\"sub\">Juiste antwoord: "+esc(juist)+"</span>";
+      var w=document.createElement("div"); w.innerHTML='<div class="whybox"><h4>'+ic("sparkles")+'Waarom?</h4>'+esc(q.u)+'</div>'; fb.appendChild(w);
+      nb.classList.remove("hide"); nb.innerHTML=(Q.idx+1>=Q.items.length)?"Bekijk resultaat "+ic("arrowR"):"Volgende "+ic("arrowR");
+    }
+    function pick(i){ if(Q.answered)return; Q.answered=true; Q.picked=i; var ok=cur.opts[i].ok; if(ok)Q.correct++; else Q.wrong.push(q); recordProg(q.id, ok); showAnswered(i); nb.focus(); }
+    optBtns.forEach(function(b){ b.onclick=function(){ pick(+b.dataset.i); }; });
+    function next(){ if(!Q.answered)return; Q.idx++; Q.answered=false; Q.picked=-1; if(Q.idx>=Q.items.length)Q.done=true; renderQuiz(); }
+    if(Q.answered) showAnswered(Q.picked);
+    state.key=function(e){ if(!Q.answered){ var k=e.key.toLowerCase(); var idx="abcde".indexOf(k); if(idx<0&&/[1-5]/.test(k))idx=+k-1; if(idx>=0&&idx<cur.opts.length){pick(idx);e.preventDefault();} } else if(e.key==="Enter"||e.key===" "){ next(); e.preventDefault(); } };
+  }
+
+  function renderResult(){
+    var Q=state.quiz, p=pct(Q.correct,Q.items.length);
+    var msg=p>=80?"Sterk werk! 🎉":p>=60?"Goed bezig 👍":"Blijf oefenen, je komt er 💪";
+    var html='<div class="card pad results center"><span class="pill">OMT I: Psychometrie</span><div class="big">'+p+'%</div>'+
+      '<p style="font-weight:600;margin:0 0 4px;font-size:17px">'+msg+'</p><p class="muted">'+Q.correct+' van '+Q.items.length+' juist</p>'+
+      '<div class="row" style="justify-content:center;margin-top:14px">'+
+        (Q.wrong.length?'<button class="btn" id="retry">Herhaal '+Q.wrong.length+' foute vragen</button>':'')+
+        '<button class="btn ghost" id="again">Nieuwe ronde</button><button class="btn ghost" id="home">Naar start</button></div></div>';
+    setHTML(html);
+    var rt=document.getElementById("retry"); if(rt) rt.onclick=function(){ startQuiz(shuffle(Q.wrong)); };
+    document.getElementById("again").onclick=function(){ state.quiz=null; renderQuizGate(); };
+    document.getElementById("home").onclick=function(){ state.quiz=null; go("home"); };
+    state.key=null;
+  }
+
+  function renderTheory(){
+    var q=state.sumq||"";
+    var html='<div class="card pad" style="margin-bottom:14px"><h2 style="margin:0 0 8px">Theorie en samenvatting</h2>'+
+      '<input type="search" id="sq" placeholder="Zoek een begrip… (bv. betrouwbaarheid, validiteit, Cronbach)" value="'+esc(q)+'"></div><div id="list">'+theoryList(q)+'</div>';
+    setHTML(html);
+    var si=document.getElementById("sq"); si.oninput=function(){ state.sumq=si.value; document.getElementById("list").innerHTML=theoryList(si.value); si.focus(); };
+  }
+  function theoryList(query){
+    var Q=query.trim().toLowerCase(), out="", n=0;
+    D.theory.forEach(function(sec){
+      var items=sec.items.filter(function(it){ return !Q || it.toLowerCase().indexOf(Q)>=0 || sec.h.toLowerCase().indexOf(Q)>=0; });
+      if(!items.length) return; n++;
+      out+='<details class="acc"'+(Q?" open":(n===1?" open":""))+'><summary><span class="n">'+ic("search")+'</span>'+esc(sec.h)+ic("chevR","caret")+'</summary><div class="body"><ul>'+items.map(function(it){return '<li>'+hl(esc(it),Q)+'</li>';}).join("")+'</ul></div></details>';
+    });
+    return out||'<p class="muted center">Geen resultaten voor "'+esc(query)+'".</p>';
+  }
+  function hl(t,q){ if(!q)return t; try{ return t.replace(new RegExp("("+q.replace(/[.*+?^${}()|[\]\\]/g,"\\$&")+")","ig"),"<mark>$1</mark>"); }catch(e){ return t; } }
+
+  function renderHacks(){
+    var html='<div class="card pad" style="margin-bottom:16px"><h2 style="margin:0 0 6px">Studie-hacks</h2><p class="muted" style="margin:0">Ezelsbruggetjes om de kernideeën van de psychometrie te onthouden.</p></div>'+
+      '<div class="tipgrid">'+D.hacks.map(function(t){return '<div class="tip"><h4>'+ic("bulb")+esc(t.h)+'</h4><p>'+esc(t.t)+'</p></div>';}).join("")+'</div>';
+    setHTML(html);
+  }
+
+  function renderFeedback(){
+    var html='<div class="card pad"><h2 style="margin-top:0">Feedback &amp; klachten</h2>'+
+      '<p class="muted">Fout in een vraag, een idee, of werkt iets niet? Laat het hier weten, het komt rechtstreeks bij de maker terecht. Een review of compliment mag ook: de mooiste tonen we op de hub. 💬</p>'+
+      '<label class="fld" for="fbMsg">Je bericht</label><textarea id="fbMsg" rows="5" placeholder="Beschrijf de fout of je idee…"></textarea>'+
+      '<label class="fld" for="fbWaar">Over welke vraag? <span class="muted">(optioneel)</span></label><input type="text" id="fbWaar" placeholder="bv. de vraag over de p-waarde">'+
+      '<label class="fld" for="fbNaam">Je naam <span class="muted">(optioneel)</span></label><input type="text" id="fbNaam" placeholder="zodat we je kunnen bedanken">'+
+      '<label class="fld" for="fbEmail">Je e-mail <span class="muted">(optioneel, als je een antwoord wilt)</span></label><input type="email" id="fbEmail" placeholder="naam@voorbeeld.be">'+
+      '<input type="text" id="fbBot" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;opacity:0">'+
+      '<div class="row" style="margin-top:16px;align-items:center"><button class="btn" id="fbSend">'+ic("send")+'Versturen</button><span id="fbStatus" style="font-size:13px"></span></div></div>';
+    setHTML(html);
+    document.getElementById("fbSend").onclick=function(){
+      var status=document.getElementById("fbStatus");
+      if(document.getElementById("fbBot").value) return;
+      var msg=document.getElementById("fbMsg").value.trim();
+      if(!msg){ status.style.color="var(--bad)"; status.textContent="Schrijf eerst een bericht."; return; }
+      var btn=document.getElementById("fbSend"); btn.disabled=true; status.style.color="var(--muted)"; status.textContent="Versturen…";
+      var em=document.getElementById("fbEmail").value.trim();
+      var nm=document.getElementById("fbNaam").value.trim();
+      var waar=document.getElementById("fbWaar").value.trim();
+      var payload={_subject:"OMT I: Psychometrie-tool: feedback", _template:"table", _captcha:"false",
+        Naam:nm||"-", Over_welke_vraag:waar||"-", email:em||"-", Bericht:msg};
+      if(em) payload._replyto=em;
+      // vangnet: als de verzenddienst blokkeert (bv. spamfilter) of er is geen verbinding,
+      // bieden we een directe mailto-knop aan zodat de melding NOOIT stilletjes verdwijnt.
+      function failFallback(reden){
+        var body="Feedback OMT I: Psychometrie-tool%0D%0A%0D%0ANaam: "+encodeURIComponent(nm||"-")+"%0D%0AOver welke vraag: "+encodeURIComponent(waar||"-")+"%0D%0AE-mail: "+encodeURIComponent(em||"-")+"%0D%0A%0D%0ABericht:%0D%0A"+encodeURIComponent(msg);
+        var mailto="mailto:berat007yildirim@gmail.com?subject="+encodeURIComponent("OMT I: Psychometrie-tool: feedback")+"&body="+body;
+        setHTML('<div class="card pad"><h2 style="margin-top:0">Automatisch versturen lukte niet</h2><p class="muted">'+reden+' Geen zorgen, klik hieronder en je melding wordt geopend in je e-mail, helemaal klaar om te versturen:</p><a class="btn" href="'+mailto+'">'+ic("send")+'Mail mijn melding direct</a><div style="margin-top:14px"><button class="btn ghost" id="bk">Terug naar start</button></div></div>');
+        document.getElementById("bk").onclick=function(){go("home");};
+      }
+      fetch("https://formsubmit.co/ajax/Berat007yildirim@gmail.com",{method:"POST",headers:{Accept:"application/json"},body:new URLSearchParams(payload)})
+        .then(function(r){return r.json();}).then(function(d){
+          if(d&&(d.success===true||d.success==="true")){ setHTML('<div class="card pad results center"><div style="font-size:42px">✅</div><h2 style="margin:6px 0">Bedankt!</h2><p class="muted">Je melding is verstuurd.</p><button class="btn" id="bk" style="margin-top:8px">Terug naar start</button></div>'); document.getElementById("bk").onclick=function(){go("home");}; }
+          else { failFallback("Het automatisch versturen lukte niet."); }
+        }).catch(function(){ failFallback("Er was even geen verbinding."); });
+    };
+  }
+
+  document.addEventListener("keydown",function(e){ if(state.key) state.key(e); });
+  // bezoeker tellen (1x per toestel)
+  try{ if(!localStorage.getItem("omt1_seen")){ localStorage.setItem("omt1_seen","1"); bump("berat-omt1","gebruikers"); } }catch(e){ bump("berat-omt1","gebruikers"); }
+  // traject vanuit de hub overnemen → direct naar de oefenpagina
+  try{ var _q=new URLSearchParams(location.search); var _m=_q.get("m");
+    if(_m==="training"||_m==="herkansing"){ state.track=_m; lset("omt1_track",_m);
+      var _c=_q.get("calm"); if(_c!=null){ calm=(_c!=="0"); lset("omt1_calm",calm); applyCalm(); }
+      state.step="practice"; state.fromHub=true; }
+  }catch(e){}
+  render();
+  // launch-splash netjes laten verdwijnen
+  (function(){ var _sp=document.getElementById("splash"); if(!_sp) return; var _red=false; try{_red=window.matchMedia("(prefers-reduced-motion: reduce)").matches;}catch(e){} setTimeout(function(){ _sp.classList.add("hide"); setTimeout(function(){ if(_sp&&_sp.parentNode) _sp.parentNode.removeChild(_sp); }, 700); }, _red?300:1850); })();
+})();
+</script>
+</body>
+</html>
