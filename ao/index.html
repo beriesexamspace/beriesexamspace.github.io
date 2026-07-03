@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+<meta name="theme-color" content="#0f6e6a" />
+<meta http-equiv="Cache-Control" content="no-cache, must-revalidate" />
+<meta http-equiv="Pragma" content="no-cache" />
+<title>Arbeids- & Organisatiepsychologie, Berie’s exam space</title>
+<meta name="author" content="Berat Yildirim - Berie's exam space" />
+<meta name="copyright" content="© 2026 Berat Yildirim. Alle rechten voorbehouden." />
+<!-- Berie's exam space © 2026 Berat Yildirim. Alle rechten voorbehouden. Originele bron: https://beriesexamspace.github.io  Kopieren of hergebruiken zonder schriftelijke toestemming is niet toegestaan. -->
+<style>
+  :root{
+    --bg:#f4f2ee; --bg2:#ebe8e2; --card:#ffffff; --ink:#1b232c; --muted:#5d6873;
+    --line:#e2ddd4; --accent:#0f6e6a; --accent-ink:#0b4f4c; --accent-soft:#dcefed;
+    --amber:#c9821f; --amber-soft:#f7ecd9; --violet:#6d5bd0; --violet-soft:#e9e6fa;
+    --good:#1f8a4c; --good-soft:#e2f3e8; --bad:#c23b54; --bad-soft:#fbe5ea;
+    --shadow:0 1px 2px rgba(20,30,40,.05),0 6px 18px rgba(20,30,40,.05);
+    --shadow-lg:0 2px 6px rgba(20,30,40,.06),0 18px 40px rgba(20,30,40,.10);
+    --r:14px; --r-lg:20px; --ease:cubic-bezier(.2,.8,.2,1);
+  }
+  html[data-theme="dark"]{
+    --bg:#11151a; --bg2:#161b22; --card:#1b222b; --ink:#e7ecf1; --muted:#9aa6b2;
+    --line:#2a323c; --accent:#3fb9b2; --accent-ink:#7fd6d0; --accent-soft:#163230;
+    --amber:#e0a64a; --amber-soft:#2e2515; --violet:#a99cf0; --violet-soft:#221d3a;
+    --good:#46c178; --good-soft:#16301f; --bad:#ef6b82; --bad-soft:#331620;
+    --shadow:0 1px 2px rgba(0,0,0,.3),0 8px 24px rgba(0,0,0,.35);
+    --shadow-lg:0 2px 8px rgba(0,0,0,.4),0 22px 48px rgba(0,0,0,.5);
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);font-size:16px;line-height:1.55;
+    font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;-webkit-font-smoothing:antialiased}
+  h1,h2,h3{font-family:Georgia,"Iowan Old Style","Times New Roman",serif;letter-spacing:-.01em}
+  button,a{font-family:inherit;cursor:pointer;color:inherit}
+  .wrap{max-width:880px;margin:0 auto;padding:0 18px 96px}
+  :focus-visible{outline:2.5px solid var(--accent);outline-offset:2px;border-radius:8px}
+  .ic{width:1.25em;height:1.25em;flex:none;vertical-align:-.18em;stroke:currentColor;stroke-width:1.75;
+    stroke-linecap:round;stroke-linejoin:round;fill:none}
+
+  header.top{position:sticky;top:0;z-index:30;border-bottom:1px solid var(--line);
+    background:color-mix(in srgb,var(--bg) 88%,transparent);backdrop-filter:saturate(160%) blur(16px);-webkit-backdrop-filter:saturate(160%) blur(16px);box-shadow:inset 0 -1px 0 0 rgba(0,0,0,.04)}
+  .topin{max-width:880px;margin:0 auto;padding:10px 18px;display:flex;align-items:center;gap:12px}
+  .brand{display:flex;align-items:center;gap:11px;font-weight:700}
+  .logo{width:32px;height:32px;border-radius:10px;background:linear-gradient(145deg,var(--accent),var(--accent-ink));
+    color:#fff;display:grid;place-items:center;font-family:Georgia,serif;font-weight:700;font-size:16px;flex:none;
+    box-shadow:0 2px 6px rgba(15,110,106,.35)}
+  .brand small{display:block;font-weight:500;color:var(--muted);font-size:11px}
+  .spacer{flex:1}
+  .iconbtn{border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:10px;min-height:38px;
+    padding:7px 11px;font-size:13.5px;display:inline-flex;gap:7px;align-items:center;text-decoration:none;
+    transition:border-color .2s var(--ease),transform .12s var(--ease)}
+  .iconbtn:hover{border-color:var(--accent)} .iconbtn:active{transform:scale(.96)}
+  nav.tabs{display:flex;gap:2px;overflow:auto;max-width:880px;margin:0 auto;padding:6px 12px 0;scrollbar-width:none}
+  nav.tabs::-webkit-scrollbar{display:none}
+  nav.tabs button{border:none;background:none;color:var(--muted);padding:10px 13px;border-radius:9px 9px 0 0;
+    font-size:14px;font-weight:600;white-space:nowrap;border-bottom:2px solid transparent;display:inline-flex;align-items:center;gap:6px;transition:color .2s var(--ease)}
+  nav.tabs button .ic{width:16px;height:16px}
+  nav.tabs button.on{color:var(--accent-ink);border-bottom-color:var(--accent)}
+  nav.tabs button:hover{color:var(--ink)}
+
+  .card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow)}
+  .pad{padding:20px}
+  .muted{color:var(--muted)}
+  .pill{display:inline-flex;align-items:center;gap:5px;font-size:12px;font-weight:600;padding:4px 10px;border-radius:999px;background:var(--accent-soft);color:var(--accent-ink)}
+  .pill.amber{background:var(--amber-soft);color:var(--amber)}
+  .row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+  .grid{display:grid;gap:14px}
+  @media(min-width:620px){.g2{grid-template-columns:1fr 1fr}}
+
+  .hero{display:flex;flex-wrap:wrap;align-items:center;gap:16px;margin:20px 0 8px}
+  .count{flex:none;background:linear-gradient(150deg,var(--accent),var(--accent-ink));color:#fff;border-radius:var(--r);padding:14px 20px;text-align:center;min-width:118px;box-shadow:0 8px 20px rgba(15,110,106,.28)}
+  .count b{font-family:Georgia,serif;font-size:32px;display:block;line-height:1}
+  .count span{font-size:12px;opacity:.92}
+  .herotext h1{margin:0 0 4px;font-size:25px}
+  .herotext p{margin:0;color:var(--muted)}
+
+  .brandstrip{display:flex;align-items:center;gap:13px;width:100%;text-decoration:none;color:inherit;border:1px solid var(--line);background:var(--card);border-radius:var(--r);padding:12px 16px;margin:14px 0 2px;box-shadow:var(--shadow);transition:border-color .2s var(--ease),transform .15s var(--ease)}
+  .brandstrip:hover{border-color:var(--accent);transform:translateY(-1px)}
+  .brandstrip .bs-logo{width:36px;height:36px;border-radius:10px;flex:none;display:grid;place-items:center;color:#fff;font-family:Georgia,serif;font-weight:700;font-size:17px;background:linear-gradient(145deg,var(--accent),var(--accent-ink))}
+  .brandstrip .bs-txt{flex:1;min-width:0} .brandstrip .bs-txt b{display:block;font-size:14.5px} .brandstrip .bs-txt small{color:var(--muted);font-size:12.5px}
+  .brandstrip .bs-go{color:var(--accent-ink);flex:none;display:inline-flex} .brandstrip .bs-go .ic{width:18px;height:18px}
+
+  .seclabel{display:flex;align-items:center;gap:8px;margin:24px 0 12px;font-weight:700;font-size:15px}
+  .seclabel .ic{width:18px;height:18px;color:var(--accent-ink)}
+  .backlink{display:inline-flex;align-items:center;gap:5px;border:none;background:none;color:var(--muted);font-size:13.5px;font-weight:600;padding:6px 0;margin-bottom:4px;transition:color .2s var(--ease)}
+  .backlink:hover{color:var(--accent-ink)} .backlink .ic{width:16px;height:16px}
+  .tracks{display:grid;gap:14px} @media(min-width:600px){.tracks{grid-template-columns:1fr 1fr}}
+  .track{display:flex;flex-direction:column;gap:8px;text-align:left;width:100%;border:1.5px solid var(--line);background:var(--card);border-radius:var(--r-lg);padding:20px;box-shadow:var(--shadow);transition:transform .22s var(--ease),border-color .22s var(--ease),box-shadow .22s var(--ease)}
+  .track:hover{transform:translateY(-3px);border-color:var(--accent);box-shadow:var(--shadow-lg)} .track:active{transform:translateY(-1px) scale(.995)}
+  .track .tile{width:46px;height:46px;border-radius:13px;display:grid;place-items:center;color:#fff;margin-bottom:4px;background:linear-gradient(150deg,var(--accent),var(--accent-ink))}
+  .track.alt .tile{background:linear-gradient(150deg,var(--violet),#4f40a8)} .track .tile .ic{width:24px;height:24px}
+  .track b{font-size:18px} .track small{color:var(--muted);font-size:13.5px;line-height:1.5}
+  .track .go{margin-top:6px;display:inline-flex;align-items:center;gap:6px;color:var(--accent-ink);font-weight:600;font-size:13.5px} .track.alt .go{color:var(--violet)} .track .go .ic{width:16px;height:16px}
+  .toggle{width:48px;height:28px;border-radius:999px;border:none;background:var(--line);position:relative;cursor:pointer;flex:none;transition:background .2s var(--ease)}
+  .toggle .knob{position:absolute;top:3px;left:3px;width:22px;height:22px;border-radius:50%;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.25);transition:left .2s var(--ease)}
+  .toggle.on{background:var(--violet)} .toggle.on .knob{left:23px}
+  .warmcard{border-color:var(--violet)!important;background:var(--violet-soft)} .warmcard .ic{width:22px;height:22px;color:var(--violet);flex:none}
+  .modebanner{display:flex;align-items:center;gap:10px;margin-bottom:14px;padding:11px 14px;border-radius:var(--r);background:var(--accent-soft);color:var(--accent-ink);font-size:13.5px;font-weight:600}
+  .modebanner.v{background:var(--violet-soft);color:var(--violet)} .modebanner .ic{width:18px;height:18px} .modebanner a,.modebanner .bnlink{margin-left:auto;font-size:13px;font-weight:600;cursor:pointer;text-decoration:underline;color:inherit;border:none;background:none;font-family:inherit;padding:0}
+  html.snappy .card,html.snappy .mode,html.snappy .tip,html.snappy .track{animation-duration:.12s!important}
+  .mode{display:flex;flex-direction:column;text-align:left;width:100%;border:1px solid var(--line);background:var(--card);border-radius:var(--r);padding:17px;gap:7px;box-shadow:var(--shadow);transition:transform .2s var(--ease),border-color .2s var(--ease),box-shadow .2s var(--ease)}
+  .mode:hover{border-color:var(--accent);transform:translateY(-3px);box-shadow:var(--shadow-lg)}
+  .mode .me{width:40px;height:40px;border-radius:11px;display:grid;place-items:center;background:var(--accent-soft);color:var(--accent-ink)} .mode .me .ic{width:22px;height:22px}
+  .mode b{font-size:16px} .mode small{color:var(--muted);font-size:13px}
+
+  label.fld{display:block;font-size:13px;font-weight:600;margin:16px 0 7px}
+  .chips{display:flex;flex-wrap:wrap;gap:8px}
+  .chip{border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:999px;min-height:38px;padding:7px 13px;font-size:13.5px;transition:all .18s var(--ease)}
+  .chip:hover{border-color:var(--accent)} .chip.on{background:var(--accent);color:#fff;border-color:var(--accent)}
+  .btn{background:var(--accent);color:#fff;border:none;border-radius:11px;min-height:46px;padding:12px 20px;font-size:15px;font-weight:600;display:inline-flex;align-items:center;gap:8px;justify-content:center;box-shadow:0 4px 12px rgba(15,110,106,.25);transition:background .2s var(--ease),transform .12s var(--ease)}
+  .btn:hover{background:var(--accent-ink)} .btn:active{transform:scale(.97) translateY(1px)} .btn .ic{width:18px;height:18px}
+  .btn.ghost{background:var(--card);color:var(--ink);border:1px solid var(--line);box-shadow:none} .btn.ghost:hover{border-color:var(--accent)}
+  .btn:disabled{opacity:.5;cursor:not-allowed;box-shadow:none}
+  input[type=search],input[type=text],input[type=email],textarea{font-family:inherit;font-size:15px;padding:9px 11px;border:1px solid var(--line);border-radius:10px;background:var(--card);color:var(--ink);width:100%}
+  input:focus,textarea:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-soft)}
+
+  .runtop{display:flex;align-items:center;gap:12px;margin:2px 0 14px;font-size:13px;color:var(--muted)}
+  .bar{height:8px;border-radius:6px;background:var(--bg2);overflow:hidden;flex:1}
+  .bar>i{display:block;height:100%;width:0;background:var(--accent);border-radius:6px;transition:width .7s var(--ease)}
+  .qtext{font-size:19px;font-weight:600;margin:8px 0 16px;font-family:Georgia,serif;line-height:1.45}
+  .opt{display:flex;gap:12px;align-items:flex-start;width:100%;text-align:left;border:1.5px solid var(--line);background:var(--card);color:var(--ink);border-radius:12px;padding:14px 15px;margin-bottom:10px;font-size:15px;transition:border-color .15s var(--ease),background .15s var(--ease),transform .12s var(--ease)}
+  .opt:hover:not(:disabled){border-color:var(--accent);background:var(--accent-soft)} .opt:active:not(:disabled){transform:scale(.99)}
+  .opt .k{flex:none;width:27px;height:27px;border-radius:8px;background:var(--bg2);color:var(--muted);display:grid;place-items:center;font-weight:700;font-size:13px}
+  .opt.correct{border-color:var(--good);background:var(--good-soft)} .opt.correct .k{background:var(--good);color:#fff}
+  .opt.wrong{border-color:var(--bad);background:var(--bad-soft)} .opt.wrong .k{background:var(--bad);color:#fff}
+  .opt:disabled{cursor:default}
+  .feedback{border-radius:12px;padding:13px 15px;margin:4px 0 12px;font-size:14.5px}
+  .feedback.ok{background:var(--good-soft);color:var(--good)} .feedback.no{background:var(--bad-soft);color:var(--bad)}
+  .feedback b{font-weight:700} .feedback .sub{display:block;margin-top:3px;color:var(--ink);font-weight:500;opacity:.92}
+  .whybtn{border:1px solid var(--line);background:var(--card);color:var(--accent-ink);border-radius:10px;min-height:40px;padding:9px 14px;font-size:13.5px;font-weight:600;display:inline-flex;align-items:center;gap:7px;transition:border-color .2s var(--ease),background .2s var(--ease)}
+  .whybtn:hover{border-color:var(--accent);background:var(--accent-soft)} .whybtn .ic{width:16px;height:16px}
+  .whybox{border:1px solid var(--accent);background:var(--accent-soft);border-radius:12px;padding:14px 16px;margin:12px 0 4px;font-size:14px;line-height:1.55}
+  .whybox h4{margin:0 0 6px;font-size:13px;text-transform:uppercase;letter-spacing:.5px;color:var(--accent-ink);font-family:system-ui;display:flex;align-items:center;gap:7px}
+  .whybox .ic{width:16px;height:16px}
+
+  .acc{border:1px solid var(--line);border-radius:var(--r);margin-bottom:10px;background:var(--card);overflow:hidden;box-shadow:var(--shadow)}
+  .acc>summary{padding:15px 16px;font-weight:700;cursor:pointer;list-style:none;display:flex;align-items:center;gap:11px}
+  .acc>summary::-webkit-details-marker{display:none}
+  .acc>summary .n{flex:none;width:28px;height:28px;border-radius:8px;background:var(--accent-soft);color:var(--accent-ink);display:grid;place-items:center;font-size:13px;font-weight:700}
+  .acc>summary .caret{margin-left:auto;color:var(--muted);transition:transform .25s var(--ease)} .acc[open]>summary .caret{transform:rotate(90deg)}
+  .acc[open]>summary{border-bottom:1px solid var(--line)} .acc .body{padding:6px 18px 16px}
+  .acc h4{margin:14px 0 6px;font-size:13px;color:var(--accent-ink);text-transform:uppercase;letter-spacing:.4px;font-family:system-ui}
+  .acc ul{margin:0;padding-left:20px} .acc li{margin:6px 0;font-size:14.5px;line-height:1.5}
+  .acc.hack li::marker{content:"💡  "} .acc.hack>summary .n{background:var(--violet-soft);color:var(--violet)}
+  mark{background:var(--amber-soft);color:inherit;padding:0 2px;border-radius:3px}
+
+  .tip{border:1px solid var(--line);background:var(--card);border-radius:var(--r);padding:15px;box-shadow:var(--shadow)}
+  .tip h4{margin:0 0 5px;font-size:14.5px;display:flex;align-items:center;gap:8px;font-family:system-ui} .tip h4 .ic{width:18px;height:18px;color:var(--violet)}
+  .tip p{margin:0;font-size:13.5px;color:var(--muted);line-height:1.55}
+  .tipgrid{display:grid;gap:12px} @media(min-width:620px){.tipgrid{grid-template-columns:1fr 1fr}}
+
+  .results .big{font-family:Georgia,serif;font-size:54px;text-align:center;margin:8px 0;line-height:1}
+  .center{text-align:center} .hide{display:none!important}
+  footer{margin-top:34px;text-align:center;color:var(--muted);font-size:13px}
+  .kbd{font-size:11px;border:1px solid var(--line);border-bottom-width:2px;border-radius:5px;padding:1px 6px;color:var(--muted)}
+  @keyframes fadeUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+  @keyframes slideIn{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:none}}
+  @keyframes pop{0%{transform:scale(1)}45%{transform:scale(1.03)}100%{transform:scale(1)}}
+  @keyframes optIn{from{opacity:0;transform:translateX(-9px)}to{opacity:1;transform:none}}
+  @media (prefers-reduced-motion: no-preference){
+    .card,.mode,.tip{animation:fadeUp .34s var(--ease) both}
+    .acc{animation:fadeUp .32s var(--ease) both}
+    .opt{animation:optIn .3s var(--ease) backwards;animation-delay:var(--oi,0s)}
+    .chip.on{animation:pop .22s var(--ease)}
+    .feedback{animation:slideIn .26s var(--ease) both} .whybox{animation:slideIn .28s var(--ease) .07s both} .opt.correct{animation:pop .34s var(--ease)}
+  }
+  @media (prefers-reduced-motion: reduce){*{animation-duration:.001ms!important;transition-duration:.001ms!important}}
+  /* ---- Premium launch (Gemini-stijl) + header-logo gloed ---- */
+  @property --bes-a{syntax:'<angle>';initial-value:0deg;inherits:false}
+  #splash{position:fixed;inset:0;z-index:200;display:grid;place-items:center;background:radial-gradient(125% 125% at 50% 38%,var(--bg2) 0%,var(--bg) 68%);transition:opacity .6s var(--ease),transform .7s var(--ease)}
+  #splash.hide{opacity:0;transform:scale(1.07);pointer-events:none}
+  .sp-inner{display:flex;flex-direction:column;align-items:center;gap:20px;text-align:center}
+  .sp-mark{position:relative;width:100px;height:100px;display:grid;place-items:center}
+  .sp-mark::before{content:"";position:absolute;inset:-16px;border-radius:34px;z-index:0;background:conic-gradient(from var(--bes-a),var(--accent),var(--violet),var(--amber),var(--accent));filter:blur(17px);opacity:.75}
+  .sp-mark::after{content:"";position:absolute;inset:-3px;border-radius:27px;z-index:1;background:conic-gradient(from var(--bes-a),var(--accent),var(--violet),var(--amber),var(--accent));padding:3px;-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude}
+  .sp-logo{position:relative;z-index:2;width:92px;height:92px;border-radius:24px;display:grid;place-items:center;color:#fff;font-family:Georgia,serif;font-weight:700;font-size:46px;background:linear-gradient(150deg,var(--accent),var(--accent-ink));box-shadow:0 14px 38px rgba(15,110,106,.4)}
+  .sp-spark{position:absolute;z-index:3;top:-7px;right:-7px;width:30px;height:30px;color:#fff;filter:drop-shadow(0 2px 7px rgba(0,0,0,.35))}
+  .sp-name{position:relative;font-family:Georgia,serif;font-size:26px;font-weight:700;letter-spacing:-.01em;color:var(--ink);overflow:hidden}
+  .sp-name::after{content:"";position:absolute;inset:0;background:linear-gradient(110deg,transparent 35%,rgba(255,255,255,.75) 50%,transparent 65%);transform:translateX(-130%)}
+  .sp-tag{font-size:13px;color:var(--muted);margin-top:-8px;letter-spacing:.03em}
+  @media (prefers-reduced-motion: no-preference){
+    .sp-mark::before{animation:bes-spin 3s linear infinite,bes-breathe 2.4s var(--ease) infinite}
+    .sp-mark::after{animation:bes-spin 3s linear infinite}
+    .sp-logo{animation:bes-pop .7s var(--ease) both}
+    .sp-spark{animation:bes-pop .6s var(--ease) .12s both,bes-twinkle 1.9s var(--ease) .9s infinite}
+    .sp-name{animation:bes-rise .6s var(--ease) .14s both}
+    .sp-name::after{animation:bes-shimmer 1.5s var(--ease) .5s 1}
+    .sp-tag{animation:bes-rise .6s var(--ease) .26s both}
+  }
+  @keyframes bes-spin{to{--bes-a:360deg}}
+  @keyframes bes-breathe{0%,100%{opacity:.55;filter:blur(16px)}50%{opacity:.95;filter:blur(22px)}}
+  @keyframes bes-shimmer{to{transform:translateX(130%)}}
+  @keyframes bes-twinkle{0%,100%{opacity:1;transform:scale(1) rotate(0deg)}50%{opacity:.65;transform:scale(.82) rotate(18deg)}}
+  @keyframes bes-rise{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+  /* mobiel: header-knoppen alleen iconen zodat niks zijwaarts overflowt */
+  @media(max-width:440px){ header.top .iconbtn span{display:none} header.top .iconbtn{padding:7px 9px;min-width:38px;justify-content:center} .topin{gap:8px} }
+</style>
+</head>
+<body>
+<div id="splash"><div class="sp-inner">
+  <div class="sp-mark">
+    <div class="sp-logo">A&O</div>
+    <svg class="sp-spark" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 1.5c.4 4.6 2.4 6.6 7 7-4.6.4-6.6 2.4-7 7-.4-4.6-2.4-6.6-7-7 4.6-.4 6.6-2.4 7-7Z"/></svg>
+  </div>
+  <div><div class="sp-name">Arbeids- & Organisatiepsychologie</div><div class="sp-tag">slim oefenen voor je examen</div></div>
+</div></div>
+<header class="top">
+  <div class="topin">
+    <div class="brand"><span class="logo">A&O</span><div>Arbeids- & Organisatiepsychologie<small>Berie’s exam space</small></div></div>
+    <span class="spacer"></span>
+    <a class="iconbtn" href="https://beriesexamspace.github.io/?jaar=1" title="Andere vakken"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true" style="width:16px;height:16px"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg><span>Vakken</span></a>
+    <button class="iconbtn" id="themeBtn" aria-label="Wissel tussen licht en donker thema"></button>
+  </div>
+  <nav class="tabs" id="tabs"></nav>
+</header>
+<div class="wrap" id="app"></div>
+<footer class="wrap" style="padding-top:0">Arbeids- & Organisatiepsychologie · Berie’s exam space, oefen slim voor je examen · veel succes!<br><span style="opacity:.7">© 2026 Berie’s exam space · Alle rechten voorbehouden</span></footer>
+
+<script>
+window.AO = {"questions":[{"t":"1","q":"In het taylorisme wordt de werknemer voorgesteld als een 'homo oeconomicus'. Waar draait die opvatting vooral om?","o":["De job moet afwisselend en boeiend zijn om iemand aan het werk te houden","De mens wordt in de eerste plaats aangedreven door externe beloningen zoals geld","Prestaties hangen vooral af van een ergonomisch ingerichte werkplek","Erkenning en sociale contacten zijn de belangrijkste drijfveer om te werken"],"a":1,"u":"Taylor ziet de mens als een rationeel-economisch wezen dat vooral door externe beloningen zoals geld gestuurd wordt."},{"t":"1","q":"Waarom wordt bij bandwerk in de tayloristische visie nauwelijks stilgestaan bij de verveling of het herhalende karakter van een taak?","o":["Omdat herhalend werk volgens Taylor net motiverend werkt","Omdat erkenning van de persoon zwaarder weegt dan wat de taak inhoudt","Omdat men aanneemt dat de mens enkel extern geprikkeld wordt en interne factoren dus niet meetellen","Omdat de werkplek eerst ergonomisch in orde moet zijn"],"a":2,"u":"Bij bandwerk gaat men ervan uit dat de mens uitsluitend extern gestimuleerd wordt, waardoor interne factoren zoals verveling of herhaling als onbelangrijk gelden."},{"t":"1","q":"Wat is de beste omschrijving van ergonomie?","o":["Het bestuderen van het werk en de werkomgeving om die beter af te stemmen op de mogelijkheden van de werknemer","Het bestuderen van externe beloningen zoals loon en vakantiedagen","Het bestuderen van sociale behoeften en erkenning op de werkvloer","Het bestuderen van hoe observatie het gedrag van werknemers wijzigt"],"a":0,"u":"Ergonomie richt zich op het werk en de werkomgeving met als doel die beter aan te passen aan wat de werknemer aankan."},{"t":"1","q":"Wat typeert de visie van de 'sociale mens' tegenover die van de rationele mens?","o":["Dat mensen alleen door geld en beloningen in beweging komen","Dat mensen enkel presteren wanneer hun taak volledig geautomatiseerd is","Dat mensen vooral reageren op de belichting in de werkplaats","Dat mensen niet alleen door externe, maar ook door interne factoren zoals erkenning gedreven worden"],"a":3,"u":"De sociale mens is het tegenovergestelde van de rationele mens: naast externe factoren spelen ook interne factoren mee, zoals erkenning van het individu en aandacht voor werktevredenheid."},{"t":"1","q":"Welke stroming is ontstaan uit de visie van de sociale mens?","o":["Het bandwerk","De Human Relations beweging","Het taylorisme","De ergonomie"],"a":1,"u":"Uit de visie van de sociale mens, waarin ook interne en sociale factoren meetellen, is de Human Relations beweging voortgekomen."},{"t":"1","q":"In een fabriek stijgt de productie nadat de verlichting wordt opgevoerd, maar dat effect ebt na verloop van tijd weer weg. Welk verschijnsel past hier het best bij?","o":["Job enrichment","De homo oeconomicus","Het Hawthorne-effect","Taakprestatie"],"a":2,"u":"Bij het Hawthorne-effect verandert gedrag doordat mensen merken dat ze geobserveerd worden of aandacht krijgen. Het lijkt op een placebo-effect en is meestal van korte duur."},{"t":"1","q":"Waarmee vergelijkt de tekst het Hawthorne-effect?","o":["Met een blijvende, permanente gedragsverandering","Met een ergonomische aanpassing van de werkplek","Met een externe beloning zoals loon","Met een placebo-effect, waarbij vooral een suggestie van gedragsverandering ontstaat"],"a":3,"u":"Het Hawthorne-effect lijkt op een placebo-effect: er ontstaat eerder een suggestie van gedragsverandering dan een echte, blijvende verandering, en het duurt doorgaans maar kort."},{"t":"1","q":"Binnen welke benadering horen time and motion studies thuis?","o":["Het taylorisme","De Human Relations beweging","De visie van de sociale mens","De ergonomie"],"a":0,"u":"Time and motion studies horen bij het taylorisme, dat de mens als rationeel-economisch wezen ziet en de nadruk legt op efficiëntie van taken."},{"t":"1","q":"Welke uitspraak past NIET bij de opvatting van de sociale mens?","o":["Er is aandacht voor de sociale behoeften van mensen","Erkenning van het individu speelt mee in de motivatie","Werktevredenheid krijgt aandacht","Werknemers worden uitsluitend door externe prikkels zoals geld gemotiveerd"],"a":3,"u":"De sociale mens legt juist de nadruk op interne en sociale factoren. De gedachte dat mensen enkel door externe prikkels gedreven worden, hoort bij de rationele mens uit het taylorisme."},{"t":"2","q":"Wat is het onderscheid tussen instrumentele en terminale waarden?","o":["Instrumentele waarden slaan op de manier waarop je doelen wilt bereiken, terminale waarden zijn de einddoelen zelf","Instrumentele waarden zijn de einddoelen, terminale waarden zijn de gedragsregels om ze te bereiken","Instrumentele waarden zijn aangeboren, terminale waarden worden op het werk aangeleerd","Instrumentele waarden gelden voor groepen, terminale waarden enkel voor individuen"],"a":0,"u":"Instrumentele waarden gaan over de manier waarop we doelen willen bereiken, zoals eerlijkheid of hard werk. Terminale waarden zijn de einddoelen waarnaar we streven, zoals geluk of comfort."},{"t":"2","q":"Hoe verhouden waarden zich volgens het waardeconcept van Schwartz tot elkaar?","o":["Alle waarden versterken elkaar en zijn dus onderling verwant","Waarden staan los van motivatie en zijn puur rationeel","Waarden die tegenover elkaar staan zijn tegengesteld, waarden die naast elkaar staan zijn verwant","Waarden staan volledig los van elkaar zonder onderlinge samenhang"],"a":2,"u":"Bij Schwartz zijn waarden overtuigingen over na te streven doelen, verbonden met motivatie. Waarden tegenover elkaar zijn tegengesteld, waarden naast elkaar zijn verwant."},{"t":"2","q":"Een team bestaat vooral uit mensen die rond dezelfde periode geboren zijn en zo gelijkaardige ervaringen delen. Welk begrip past hierbij?","o":["Cohorte-effect","Relationele demografie","Groepscohesie","Homogeniteitseffect"],"a":0,"u":"Het cohorte-effect verwijst naar een geheel van individuen dat in dezelfde periode geboren is en daardoor gelijkaardige kenmerken en sociale situaties deelt."},{"t":"2","q":"Uit welke drie componenten bestaan attituden?","o":["Instrumenteel, terminaal en normatief","Locus, stabiliteit en controle","Realistisch, sociaal en ondernemend","Cognitief, affectief en conatief"],"a":3,"u":"Attituden zijn specifieker dan waarden en bestaan uit een cognitieve, een affectieve en een conatieve component."},{"t":"2","q":"Wanneer treedt er volgens de tekst cognitieve dissonantie op?","o":["Wanneer je gedrag volledig overeenstemt met je attitude","Bij een gebrek aan overeenstemming tussen attitudecomponenten, tussen gedrag en attitude, of tussen attitude en de realiteit","Alleen wanneer twee mensen het oneens zijn met elkaar","Wanneer een groep unaniem een beslissing neemt"],"a":1,"u":"Cognitieve dissonantie is een gebrek aan overeenstemming tussen twee attitudecomponenten, tussen gedrag en attitude, of tussen attitude en de realiteit waarmee we geconfronteerd worden."},{"t":"2","q":"Welke factor uit de Theory of planned behaviour is sterk gerelateerd aan self-efficacy?","o":["De subjectieve norm","De attitude ten opzichte van het gedrag","De waargenomen gedragscontrole","De terminale waarde"],"a":2,"u":"In de Theory of planned behaviour is de mate van waargenomen gedragscontrole sterk gerelateerd aan self-efficacy."},{"t":"2","q":"Wat kenmerkt de ideografische benadering van persoonlijkheid tegenover de nomothetische?","o":["Ze vergelijkt de persoon net wel met anderen op één trek","Ze bekijkt de persoon in zijn geheel zonder vergelijking met anderen","Ze meet enkel emotionele intelligentie","Ze gaat ervan uit dat persoonlijkheid nooit stabiel is"],"a":1,"u":"De ideografische benadering bekijkt de persoon puur in zijn geheel, zonder vergelijking met anderen. De nomothetische of trekbenadering vergelijkt personen juist onderling."},{"t":"2","q":"Wat stelt de beroepspersoonlijkheid van Holland over jobtevredenheid?","o":["Tevredenheid hangt vooral af van het loon en de arbeidsvoorwaarden","Tevredenheid is evenredig aan de mate waarin jobinhoud en persoonlijkheid overeenstemmen","Tevredenheid stijgt naarmate de groep hechter wordt","Tevredenheid hangt af van de leeftijd van de werknemer"],"a":1,"u":"Volgens Holland is de jobtevredenheid evenredig aan de mate waarin jobinhoud en persoonlijkheid overeenstemmen. Hij onderscheidt zes persoonlijkheidseigenschappen."},{"t":"2","q":"Iemand vindt dat een sollicitant met een stevige handdruk meteen een sterke persoonlijkheid heeft. Welk fenomeen speelt hier?","o":["Social loafing","Groupshift","Attributietheorie","Halo-effect"],"a":3,"u":"Bij het halo-effect kleurt één globale indruk, op basis van één kenmerk, de beoordeling van andere persoonseigenschappen. First impression is last."},{"t":"2","q":"Uit welke drie dimensies bestaat de attributietheorie?","o":["Locus, stabiliteit en controle","Cognitief, affectief en conatief","Instrumenteel, terminaal en normatief","Zelfbewustzijn, zelfmanagement en relatiemanagement"],"a":0,"u":"De attributietheorie werkt met drie dimensies: locus (interne of externe oorzaak), stabiliteit (hoe vaak de gebeurtenis voorkomt) en controle (heeft de actor er controle over)."},{"t":"2","q":"Wat is de kern van social loafing of lijntrekken?","o":["Mensen nemen in groep extremere en risicovollere beslissingen","Mensen bevoordelen automatisch hun eigen groep","Mensen leveren minder maximale inspanning zodra ze in een groep zitten","Mensen streven naar unanieme beslissingen door blind vertrouwen in de groep"],"a":2,"u":"Social loafing is het fenomeen dat iemand die eenmaal in de groep zit, minder maximale inspanning gaat leveren dan wanneer die alleen werkt."},{"t":"2","q":"Waarom betekent sterke groepscohesie volgens de tekst niet automatisch hoge groepsproductiviteit?","o":["Omdat cohesie altijd tot social loafing leidt","Omdat productiviteit ook afhangt van de overeenkomst tussen groepsnormen en organisatienorm","Omdat een hechte groep altijd te veel risico's neemt","Omdat cohesie enkel de tevredenheid meet, niet de motivatie"],"a":1,"u":"Groepscohesie is de mate waarin men zich aangetrokken en gemotiveerd voelt om in de groep te blijven. Productiviteit hangt daarnaast af van hoe goed groepsnormen en organisatienorm op elkaar aansluiten."},{"t":"3","q":"Waardoor onderscheiden inhoudelijke motivatietheorieen zich van procestheorieen?","o":["Ze richten zich op wat in de persoon of de omgeving de aandacht trekt en gedrag oproept en gaande houdt, met de cognitieve component en concepten zoals verwachtingen en waarden centraal","Ze beschrijven vooral hoe gedrag geactiveerd en gericht wordt en hoe het na verloop van tijd verandert","Ze steunen volledig op operante conditionering zonder enige cognitieve component","Ze meten alleen hoe tevreden iemand is met de werksituatie"],"a":0,"u":"Inhoudelijke theorieen gaan over datgene wat gedrag oproept en gaande houdt, met de cognitieve component en concepten als verwachtingen en waarden centraal. Optie b beschrijft juist de procestheorieen."},{"t":"3","q":"OB-Mod (Organizational Behaviour Modification) steunt vooral op operante conditionering. Uit welke drie onderdelen bestaat dit model?","o":["Verwachting, instrumentaliteit en valentie","Existence, relatedness en growth","Stimulus, respons en beloning","Distributieve, procedurele en interactionele rechtvaardigheid"],"a":2,"u":"OB-Mod is een reinforcementmodel met een stimulus die gedrag uitlokt, een respons daarop en een beloning die als reinforcer werkt, bijvoorbeeld geld."},{"t":"3","q":"Uit onderzoek naar de behoeftehierarchie bleek iets anders dan oorspronkelijk werd aangenomen. Wat kwam daaruit naar voren?","o":["Zodra een behoefte bevredigd is, verdwijnt ze volledig en keert ze nooit meer terug","Hoe meer tijd en aandacht je aan een behoefte besteedt, hoe belangrijker die wordt, dus je stapt niet meteen door naar de volgende","Alle behoeften moeten in precies dezelfde vaste volgorde bevredigd worden","Basisbehoeften spelen geen enkele rol zolang de groeibehoeften niet vervuld zijn"],"a":1,"u":"Volgens het onderzoek stap je niet meteen door naar de volgende behoefte: hoe meer tijd en aandacht je eraan besteedt, hoe belangrijker die wordt. Dat wijkt af van de oorspronkelijke aanname."},{"t":"3","q":"Wat is een belangrijk verschil tussen de ERG-theorie van Alderfer en de klassieke behoeftehierarchie?","o":["ERG kent slechts een enkele universele behoefte","ERG stelt dat behoeften enkel via straf en beloning ontstaan","ERG voegt een vierde, financiele behoeftecategorie toe","ERG stelt dat de drie behoeften zich ook tegelijkertijd kunnen voordoen"],"a":3,"u":"Een groot verschil met de klassieke hierarchie is dat Alderfer stelt dat de drie behoeften (existence, relatedness, growth) zich ook gelijktijdig kunnen manifesteren."},{"t":"3","q":"McClelland stelde een alternatieve behoeftetheorie voor met drie basisbehoeften. Welke set klopt?","o":["Need for achievement, need for power en need for affiliation","Autonomie, competentie en verbondenheid","Existence, relatedness en growth","Valentie, instrumentaliteit en verwachting"],"a":0,"u":"McClelland onderscheidt need for achievement (nAch), need for power (nPow) en need for affiliation (nAff). Deze theorie gaf aanleiding tot de TAT."},{"t":"3","q":"Herzberg maakte in zijn tweefactorentheorie een onderscheid tussen twee soorten factoren. Welke tweedeling gebruikte hij?","o":["Autonome versus gecontroleerde motivatie","Satisfiers, die men moet nastreven, en dissatisfiers, die men best vermijdt","Inputs en outputs","Distributieve en procedurele factoren"],"a":1,"u":"Herzberg onderscheidde satisfiers, na te streven factoren, en dissatisfiers, te vermijden factoren."},{"t":"3","q":"Volgens de doelstellingtheorie van Locke en Latham is de motivatie voor een hoge prestatie het grootst bij een doel met bepaalde kenmerken. Welke situatie past daar het best bij?","o":["De baas zegt enkel dat je meer moet verkopen, zonder verdere invulling","Het doel is bewust zo makkelijk gemaakt dat verveling gegarandeerd is","Het doel is concreet, haalbaar maar niet te makkelijk, geaccepteerd, en er volgt feedback","Het doel wordt opgelegd zonder dat de betrokkene het aanvaardt"],"a":2,"u":"De motivatie is hoog wanneer het doel specifiek is, niet te makkelijk of te moeilijk, aanvaard wordt door de betrokkene en er feedback (en liefst een beloning) op volgt."},{"t":"3","q":"In de billijkheidstheorie van Adams vergelijkt iemand zijn eigen input-outputverhouding met die van een ander. Wanneer ontstaat er een gevoel van onbillijkheid?","o":["Wanneer de verhouding output op input bij beide personen precies gelijk is","Wanneer er geen enkele referentiepersoon beschikbaar is","Wanneer bij dezelfde input de output tussen beide personen verschilt","Wanneer de persoon zichzelf helemaal niet met anderen vergelijkt"],"a":2,"u":"Als de output verschilt ondanks dezelfde input, ervaart de persoon onbillijkheid, oftewel dissonantie, en gaat hij hierop actie ondernemen."},{"t":"3","q":"Organizational justice komt voort uit de billijkheidstheorie en onderscheidt drie vormen van eerlijkheid. Wat beschrijft procedurele rechtvaardigheid?","o":["De ervaren eerlijkheid bij het verdelen van de middelen en beloningen zelf","De ervaren eerlijkheid van het proces en de procedures om middelen en beloningen te verdelen","De ervaren eerlijkheid van het gedrag en de communicatie van de beslisser","De ervaren eerlijkheid over hoe conflicten tussen afdelingen worden opgelost"],"a":1,"u":"Procedurele rechtvaardigheid gaat over de ervaren eerlijkheid van het proces en de procedures die men hanteert om middelen en beloningen te verdelen. Optie a is distributieve en optie c interactionele rechtvaardigheid."},{"t":"3","q":"In de verwachtingstheorie van Vroom staat het begrip instrumentaliteit centraal. Wat houdt instrumentaliteit precies in?","o":["De waarde of aantrekkelijkheid die iemand aan de voorziene opbrengsten toekent","De verwachte relatie tussen geleverde inspanning en het prestatieresultaat","De ervaren druk of kracht in de persoon als maat voor motivatie","De verwachte relatie tussen het prestatieresultaat en het behalen van de opbrengsten"],"a":3,"u":"Instrumentaliteit is de verwachte relatie tussen prestatieresultaat en het verkrijgen van de opbrengsten: in hoeverre denkt de werknemer dat zijn prestatie echt tot de beoogde beloning leidt. Optie a is valentie, optie b is expectancy."},{"t":"3","q":"Wat wordt in de tekst verstaan onder self-efficacy?","o":["De verwachting die iemand van zichzelf en zijn capaciteiten heeft om een bepaald positief resultaat te bereiken","De mate waarin een beloning door de omgeving wordt gecontroleerd","Het waargenomen verschil tussen verwachte en feitelijke opbrengsten","De neiging om gedrag van anderen zuiver te imiteren zonder aanpassing"],"a":0,"u":"Self-efficacy is de verwachting die iemand van zichzelf en zijn capaciteiten heeft om een bepaald positief resultaat te bereiken. De mate ervan voorspelt de prestatie goed."},{"t":"3","q":"De self-determination theory (ZDT) stelt de additiviteitstheorie in vraag. Wat is daarvoor de reden?","o":["Omdat intrinsieke motivatie volgens de ZDT helemaal niet bestaat","Omdat intrinsieke en extrinsieke beloningen zowel positief als negatief op elkaar kunnen inspelen","Omdat enkel extrinsieke beloningen jobtevredenheid kunnen produceren","Omdat de sociale context geen enkele rol speelt in de motivatie"],"a":1,"u":"De ZDT betwist de additiviteitstheorie omdat intrinsieke en extrinsieke beloningen niet louter optellen: ze kunnen elkaar positief en negatief beinvloeden. Ook de sociale context speelt mee."},{"t":"3","q":"Binnen de extrinsieke motivatie van de ZDT bevindt zich identified regulation (identificatie). Welk voorbeeld past daar het best bij?","o":["Werken puur om ontslag te vermijden of een promotie te krijgen","Elke dag vroeg opstaan omdat het betekenisvol voor jezelf is, ook al is het niet aangenaam","Iets doen zuiver voor het interne gevoel van voldoening","Studeren gewoon omdat je het boeiend en plezierig vindt"],"a":1,"u":"Identified regulation is betekenisvol voor het zelf maar niet noodzakelijk aangenaam, zoals elke dag vroeg opstaan. Optie a is external regulation, optie c introjectie en optie d intrinsieke motivatie."},{"t":"3","q":"De ZDT noemt drie basisbehoeften die vervuld moeten zijn voor optimaal functioneren. Wat gebeurt er volgens de tekst als geen enkele van deze behoeften vervuld wordt?","o":["Er ontstaat volledig autonome motivatie","Er is sprake van een lage zelfdeterminatie","De competentiebehoefte wordt automatisch versterkt","Alle drie de behoeften worden dan alsnog tegelijk vervuld"],"a":1,"u":"Volgens de ZDT leidt het vervullen van geen van de drie behoeften (autonomie, competentie, verbondenheid) tot een lage zelfdeterminatie."},{"t":"3","q":"Volgens de discrepantietheorie wordt arbeidssatisfactie bepaald door een verschil. Wanneer is de satisfactie het sterkst?","o":["Bij een hoge discrepantie tussen verwachting en opbrengst","Wanneer men zich met de hele sociale omgeving vergelijkt in plaats van met een persoon","Bij een lage discrepantie tussen wat men verwacht en de feitelijke opbrengsten","Wanneer arbeidssatisfactie volledig genetisch bepaald is"],"a":2,"u":"Volgens de discrepantietheorie geeft een lage discrepantie tussen verwachte en feitelijke opbrengsten een sterke satisfactie, terwijl een hoge discrepantie leidt tot beperkte satisfactie of dissatisfactie."},{"t":"4","q":"Een leider besteedt vooral aandacht aan de gevoelens en het welzijn van de werknemers en gedraagt zich warm en sociaal. Welk begrip past hier het best bij?","o":["Consideration","Initiating structure","Concern for production","Directief leiderschap"],"a":0,"u":"Consideration staat voor sociaal of socio-emotioneel leiderschap: mensgericht gedrag van de leider tegenover de werknemers."},{"t":"4","q":"Wat typeert 'initiating structure' als leiderschapsgedrag?","o":["De leider richt zich op de persoonlijke band met elke medewerker","De leider definieert en structureert de taken en rollen van de werknemers","De leider past zijn stijl aan de rijpheid van de groep aan","De leider verwijdert obstakels en beloont het bereiken van doelen"],"a":1,"u":"Initiating structure is instrumenteel of taakgericht leiderschap: de leider definieert en structureert de taken en rollen van werknemers."},{"t":"4","q":"Uit welke twee dimensies is de managerial grid opgebouwd?","o":["Taakgerichtheid en mensgerichtheid","Ingroup exchange en outgroup exchange","Concern for production en concern for people","Directief en participatief gedrag"],"a":2,"u":"De managerial grid is een matrix gevormd door de twee dimensies concern for production en concern for people."},{"t":"4","q":"Volgens de contingentietheorie van Fiedler is leiderschap het meest effectief wanneer:","o":["de leider alle vier de leiderschapsstijlen even vaak toepast","de leider vooral inzet op de persoonlijke relatie met elke medewerker","de leider obstakels wegneemt en het pad voor de werknemers vrijmaakt","er een goede match is tussen de gehanteerde stijl en de mate van controle die de leider over de situatie heeft"],"a":3,"u":"Fiedler stelt dat de effectiviteit van leiderschap afhangt van de correcte match tussen de gehanteerde stijl en de mate van situationele controle van de leider."},{"t":"4","q":"Waarin verschilt de pad-doeltheorie duidelijk van de eerdere benaderingen?","o":["Ze stapt af van mens- en taakgericht als de dominante leiderschapsdimensies","Ze beschrijft geen aparte leiderschapsstijlen meer","Ze focust volledig op de mate van controle over de situatie","Ze legt de nadruk op de rijpheid van de groep"],"a":0,"u":"De pad-doeltheorie stapt af van mens- en taakgericht als hoofddimensies en werkt met vier stijlen die inspelen op de verwachtingen van medewerkers."},{"t":"4","q":"In de pad-doeltheorie stelt een leider hoge doelen en beloont hij goede prestaties om medewerkers tot het uiterste te motiveren. Welke stijl is dit?","o":["Participatief","Ondersteunend","Achievement (prestatiegericht)","Directief"],"a":2,"u":"De achievement- of prestatiegerichte stijl moedigt aan tot maximale prestatie: de leider stelt doelen en beloont aangepaste prestatie."},{"t":"4","q":"Wat is volgens de pad-doeltheorie de kerntaak van de leider?","o":["Zijn stijl laten afhangen van het individu waarmee hij te maken heeft","Obstakels wegnemen, het pad voor de werknemers vrijmaken en hen belonen","Voortdurend wisselen naargelang de groep klaar is voor de taak","Zorgen voor een optimale match tussen stijl en situationele controle"],"a":1,"u":"Centraal staat dat de leider obstakels verwijdert, een vrij pad maakt zodat werknemers hun doelen bereiken, en hen beloont. De focus ligt op de leider, niet op de situatie."},{"t":"4","q":"Een leidinggevende geeft een taak volledig uit handen en laat de medewerker zelf de beslissingen en uitvoering regelen. Welke stijl uit de situationele leiderschapstheorie is dit?","o":["Delegating (observing)","Telling (directing)","Selling (coaching)","Participating (supporting)"],"a":0,"u":"Delegating (observing) betekent het doorgeven van verantwoordelijkheden over beslissingen en implementatie aan de medewerker."},{"t":"4","q":"Wat is kenmerkend voor de leader-member exchange theorie (LMX)?","o":["Ze beschrijft vier vaste leiderschapsstijlen die je moet afwisselen","De leiderschapsstijl wordt bepaald door het individu waarmee de chef te maken heeft, zonder aparte stijlen","Effectiviteit hangt af van de match tussen stijl en situationele controle","De leider maakt het pad vrij en beloont het bereiken van doelen"],"a":1,"u":"De LMX- of role-making theorie beschrijft geen aparte stijlen; de leiderschapsstijl wordt bepaald door het individu waarmee de chef geconfronteerd wordt, met unieke relaties per medewerker."}],"theory":[{"h":"Inleiding & situering","items":["Taylorisme: benadering waarbij efficiëntie centraal staat en de mens als een rationeel-economisch wezen wordt gezien dat vooral door externe beloningen werkt.","Homo oeconomicus: het mensbeeld van Taylor, namelijk een rationeel-economische mens die vooral gedreven wordt door externe beloningen zoals geld.","Bandwerk: werkvorm uit het taylorisme die geen rekening houdt met interne factoren zoals verveling of repetitiviteit, omdat men ervan uitgaat dat de mens enkel extern gestimuleerd wordt.","Time and motion studies: onderzoek naar de tijd en bewegingen van taken, passend binnen de tayloristische focus op efficiëntie.","Ergonomie: de studie van het werk en de werkomgeving om die beter aan te passen aan de mogelijkheden van de werknemer.","Sociale mens: mensbeeld dat tegenover de rationele mens staat en waarbij mensen ook door interne factoren zoals erkenning en werktevredenheid gedreven worden.","Interne factoren: drijfveren vanuit de persoon zelf, zoals erkenning van het individu, sociale behoeften en werktevredenheid.","Externe factoren: prikkels van buitenaf, zoals geld, beloningen of de belichting in de werkplaats.","Human Relations beweging: stroming die is voortgekomen uit de visie van de sociale mens, met aandacht voor sociale en interne behoeften op het werk.","Hawthorne-effect: verschijnsel waarbij mensen hun gedrag veranderen omdat ze merken dat ze geobserveerd worden of aandacht krijgen, vergelijkbaar met een placebo-effect en meestal van korte duur.","Rationele mens: mensbeeld waarbij de mens enkel door externe factoren gestimuleerd wordt, tegengesteld aan de sociale mens."]},{"h":"Basisdeterminanten van gedrag","items":["Instrumentele waarden: de manier waarop we doelen willen bereiken, zoals via eerlijkheid of hard werk.","Terminale waarden: de einddoelen waar we naar streven, zoals geluk, comfort of luxe.","Waardeconcept (Schwartz): waarden zijn met motivatie verbonden overtuigingen; tegenover elkaar staande waarden zijn tegengesteld, naast elkaar staande zijn verwant.","Cohorte-effect: mensen uit dezelfde geboorteperiode delen gelijkaardige kenmerken en sociale ervaringen.","Attitude: een specifiekere houding dan een waarde, met een cognitieve, affectieve en conatieve component.","Cognitieve dissonantie: gebrek aan overeenstemming tussen attitudecomponenten, tussen gedrag en attitude, of tussen attitude en de realiteit.","Theory of planned behaviour: gedrag volgt uit de attitude tegenover het gedrag, de subjectieve norm en de waargenomen gedragscontrole (gelinkt aan self-efficacy).","Nomothetische versus ideografische benadering: personen vergelijken op trekken tegenover de persoon als geheel bekijken zonder vergelijking.","CAPS: cognitief-affectief persoonlijkheidssysteem dat individuele verschillen én stabiliteit over de tijd combineert.","Beroepspersoonlijkheid (Holland): jobtevredenheid is evenredig aan de match tussen jobinhoud en persoonlijkheid, met zes eigenschappen.","Emotionele intelligentie (Goleman): zelfbewustzijn, zelfmanagement, sociaal bewustzijn en relatiemanagement.","Attributietheorie: verklaringen voor waarnemingen langs locus, stabiliteit en controle.","Halo-effect: één globale indruk beïnvloedt sterk de beoordeling van andere persoonseigenschappen.","Groupthink en groupshift: streven naar unanimiteit door blind groepsvertrouwen versus het nemen van extremere, risicovollere beslissingen in groep."]},{"h":"Arbeidsmotivatie & -satisfactie","items":["Inhoudelijke theorieen: theorieen die ingaan op wat in persoon of omgeving gedrag oproept en gaande houdt, met verwachtingen en waarden centraal.","Procestheorieen: theorieen over hoe gedrag geactiveerd, gericht en na verloop van tijd voortgezet of veranderd wordt.","OB-Mod: reinforcement-model op basis van operante conditionering met stimulus, respons en beloning.","ERG-theorie (Alderfer): behoeftemodel met existence, relatedness en growth, waarbij de drie behoeften ook tegelijk kunnen spelen.","McClelland: behoeftetheorie met need for achievement, need for power en need for affiliation, gemeten via de TAT.","Tweefactorentheorie (Herzberg): onderscheid tussen satisfiers (na te streven) en dissatisfiers (te vermijden).","Doelstellingtheorie (Locke en Latham): doelen motiveren en richten gedrag als ze specifiek, haalbaar, aanvaard en van feedback voorzien zijn.","Billijkheidstheorie (Adams): men vergelijkt de eigen input-outputverhouding met die van een referentiepersoon; verschil geeft onbillijkheid.","Organizational justice: mate waarin werknemers zich eerlijk behandeld voelen via distributieve, procedurele en interactionele rechtvaardigheid.","Verwachtingstheorie (Vroom): motivatie uit valentie, instrumentaliteit en expectancy rond voorziene opbrengsten.","Self-efficacy: de verwachting over de eigen capaciteiten om een positief resultaat te bereiken, een goede voorspeller van prestatie.","Self-determination theory (ZDT): onderscheidt autonome en gecontroleerde motivatie op een continuum met autonomie, competentie en verbondenheid als basisbehoeften.","Discrepantietheorie: satisfactie hangt af van het verschil tussen verwachte en feitelijke opbrengsten; lage discrepantie geeft hoge satisfactie.","Individuele disposities: arbeidssatisfactie wordt mee bepaald door een genetische component en de persoonlijkheidsdimensie positief affect."]},{"h":"Leiderschap","items":["Consideration: sociaal, mensgericht leiderschap waarbij de leider socio-emotioneel gedrag toont tegenover de werknemers.","Initiating structure: taakgericht of instrumenteel leiderschap waarbij de leider de taken en rollen van werknemers definieert en structureert.","Managerial grid: matrix opgebouwd uit twee dimensies, namelijk concern for production (aandacht voor productie) en concern for people (aandacht voor mensen).","Contingentiebenadering: idee dat effectiviteit van gedrag afhangt van de situatie, dus 'het hangt ervan af'.","Contingentietheorie (Fiedler): leiderschap is effectief als de gehanteerde stijl goed matcht met de mate van controle die de leider over de situatie heeft.","Pad-doeltheorie: theorie die mens- en taakgericht loslaat als hoofddimensies en vier stijlen gebruikt om de verwachtingen van medewerkers te beinvloeden.","Directieve stijl (pad-doel): instructie gevend en planmatig leiden met strikte opvolging.","Ondersteunende stijl (pad-doel): mensgericht coachen en begeleiden met aandacht voor de behoeften en het welzijn van medewerkers.","Achievement-stijl (pad-doel): prestatiegericht aanmoedigen tot maximale prestatie, waarbij de leider doelen stelt en gepaste prestatie beloont.","Participatieve stijl: medewerkers consulteren en om advies vragen.","Situationele leiderschapstheorie: theorie waarbij de leider varieert tussen stijlen naargelang de groep klaar is om aan de taak te werken, gebaseerd op taak- en mensgerichtheid.","Telling, Selling, Participating, Delegating: de vier stijlen uit de situationele theorie, van bevelen geven tot verantwoordelijkheid doorgeven.","Leader-member exchange theorie (LMX): situationele theorie zonder aparte stijlen, waarbij de leiderschapsstijl bepaald wordt door het individu waarmee de chef te maken heeft; ook role-making theorie genoemd.","Ingroup versus outgroup exchange: onderscheid tussen medewerkers met wie een partnerschap van vertrouwen en respect ontstaat en medewerkers met wie geen partnerschap ontstaat."]}],"hacks":[{"h":"TESH: Taylor Extern, Sociale mens Human relations","t":"Onthoud de twee grote polen van hoofdstuk 1 met 'TE-SH': Taylor = Extern (homo oeconomicus, bandwerk, geld) tegenover de Sociale mens = Human relations (erkenning, werktevredenheid, interne factoren). Zo weet je meteen welk mensbeeld bij welke stroming hoort."},{"h":"Instrumenteel = Instrument, Terminaal = Terminus","t":"Een instrument is een middel of gereedschap, dus instrumentele waarden zijn de manier of het middel om je doel te bereiken (eerlijkheid, hard werk). Een terminus is een eindstation, dus terminale waarden zijn de einddoelen zelf (geluk, comfort). Onthoud: het instrument gebruik je onderweg, de terminus is waar je uitstapt."},{"h":"VIE: de drie schakels van Vroom","t":"Onthoud de kern van Vroom als V-I-E. Valentie is de waarde van de beloning, Instrumentaliteit is de link prestatie · beloning, en Expectancy is de link inspanning · prestatie. Zo hou je de drie verwachtingsschakels uit elkaar."},{"h":"TSPD: de 4 stijlen van situationeel leiderschap","t":"Onthoud de volgorde van Telling, Selling, Participating, Delegating met ' Te Snel Pak Door'. Zo weet je de reeks van sterk sturend (bevelen geven) naar volledig loslaten (verantwoordelijkheid doorgeven), afhankelijk van hoe klaar de groep is."}]};
+</script>
+<style>
+  .choverview .chlist{display:flex;flex-direction:column;gap:3px;margin-top:2px}
+  .chrow{display:flex;align-items:center;gap:12px;width:100%;text-align:left;background:transparent;border:none;border-radius:10px;padding:9px 8px;cursor:pointer;color:var(--ink);font-family:inherit;transition:background .15s var(--ease),transform .1s var(--ease)}
+  .chrow:hover{background:var(--accent-soft)}
+  .chrow:active{transform:scale(.995)}
+  .chrow .chname{flex:0 0 auto;width:170px;font-size:14px;font-weight:600}
+  .chrow .chbar{flex:1;height:8px;border-radius:999px;background:var(--line);overflow:hidden}
+  .chrow .chbar>i{display:block;height:100%;border-radius:999px;background:linear-gradient(90deg,var(--accent),var(--accent-ink));transition:width .5s var(--ease)}
+  .chrow .chval{flex:0 0 auto;font-size:12.5px;color:var(--muted);min-width:40px;text-align:right;font-variant-numeric:tabular-nums}
+  .chrow .ic.caret{width:16px;height:16px;color:var(--muted);flex:0 0 auto}
+  @media(max-width:560px){.chrow .chname{width:auto;flex:1 1 auto;min-width:0}.chrow .chbar{flex:0 0 64px}}
+</style>
+<script>
+(function(){
+  "use strict";
+  var D=window.AO, app=document.getElementById("app");
+  var P={
+    book:'<path d="M12 7v14"/><path d="M3 18a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h5a4 4 0 0 1 4 4 4 4 0 0 1 4-4h5a1 1 0 0 1 1 1v13a1 1 0 0 1-1 1h-6a3 3 0 0 0-3 3 3 3 0 0 0-3-3z"/>',
+    bulb:'<path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5"/><path d="M9 18h6"/><path d="M10 22h4"/>',
+    help:'<circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><path d="M12 17h.01"/>',
+    search:'<circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/>',
+    sun:'<circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/>',
+    moon:'<path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/>',
+    arrowR:'<path d="M5 12h14"/><path d="m12 5 7 7-7 7"/>',
+    back:'<path d="m15 18-6-6 6-6"/>',
+    heart:'<path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/>',
+    chevR:'<path d="m9 18 6-6-6-6"/>',
+    sparkles:'<path d="M9.94 15.5A2 2 0 0 0 8.5 14.06l-6.14-1.58a.5.5 0 0 1 0-.96L8.5 9.94A2 2 0 0 0 9.94 8.5l1.58-6.14a.5.5 0 0 1 .96 0L14.06 8.5A2 2 0 0 0 15.5 9.94l6.14 1.58a.5.5 0 0 1 0 .96L15.5 14.06a2 2 0 0 0-1.44 1.44l-1.58 6.14a.5.5 0 0 1-.96 0z"/>',
+    target:'<circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/>',
+    rocket:'<path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z"/><path d="m12 15-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z"/><path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 0 5 0"/><path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5"/>',
+    msg:'<path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"/>',
+    refresh:'<path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/>',
+    send:'<path d="M14.54 21.69a.5.5 0 0 0 .94-.02l6.5-19a.5.5 0 0 0-.64-.64l-19 6.5a.5.5 0 0 0-.02.94l7.93 3.18a2 2 0 0 1 1.11 1.11z"/><path d="m21.85 2.15-10.94 10.94"/>'
+  };
+  function ic(n,c){ return '<svg class="ic'+(c?" "+c:"")+'" viewBox="0 0 24 24" aria-hidden="true">'+(P[n]||"")+'</svg>'; }
+  function esc(s){ return String(s).replace(/[&<>"]/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;"}[c];}); }
+  function shuffle(a){ a=a.slice(); for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=a[i];a[i]=a[j];a[j]=t;} return a; }
+  function pct(n,d){ return d?Math.round(100*n/d):0; }
+  function rnd(a){ return a[Math.floor(Math.random()*a.length)]; }
+  function lget(k,d){ try{ var v=JSON.parse(localStorage.getItem(k)); return v==null?d:v; }catch(e){ return d; } }
+  function lset(k,v){ try{ localStorage.setItem(k,JSON.stringify(v)); }catch(e){} }
+  function rawGet(k){ try{ return localStorage.getItem(k); }catch(e){ return null; } }
+  function rawSet(k,v){ try{ localStorage.setItem(k,v); }catch(e){} }
+  function bump(ns,key){ try{ fetch("https://abacus.jasoncameron.dev/hit/"+ns+"/"+key).then(function(){},function(){}); }catch(e){} }
+
+  D.questions.forEach(function(q,i){ q.id="q"+i; });
+  var theme=rawGet("site_theme") || lget("aopsy_theme","light");
+  function applyTheme(){ document.documentElement.setAttribute("data-theme",theme);
+    document.getElementById("themeBtn").innerHTML=(theme==="dark"?ic("sun"):ic("moon"))+'<span>'+(theme==="dark"?"Licht":"Donker")+'</span>'; }
+  applyTheme();
+  document.getElementById("themeBtn").onclick=function(){ theme=theme==="dark"?"light":"dark"; lset("aopsy_theme",theme); rawSet("site_theme",theme); applyTheme(); };
+  var calm=lget("aopsy_calm",true);
+  function applyCalm(){ document.documentElement.classList.toggle("snappy", !calm); }
+  applyCalm();
+  function wrongLead(){ return calm ? rnd(WARM) : "Fout."; }
+
+  var WARM=["Geen zorgen, hier leer je nu net van.","Bijna! Dit type vraag krijg je zo onder de knie.","Foutje mag, nu weet je wat je nog moet herhalen.","Niet erg, dit onthoud je de volgende keer wél.","Rustig, één foutje zegt niets over je examen."];
+  var PRAISE=["Juist!","Goed zo!","Correct!","Sterk!","Knap!"];
+  var TOPICS={"1":"Inleiding & situering","2":"Basisdeterminanten van gedrag","3":"Arbeidsmotivatie & -satisfactie","4":"Leiderschap"};
+  function getProg(){ var p=lget("aopsy_prog",{ans:{}}); if(!p||typeof p!=="object"||!p.ans)p={ans:{}}; return p; }
+  function recordProg(qid,ok){ var p=getProg(); p.ans[qid]=ok?1:0; lset("aopsy_prog",p); }
+  function resetProg(){ lset("aopsy_prog",{ans:{}}); }
+  function chapterStats(){ var p=getProg(); var st={}; Object.keys(TOPICS).forEach(function(k){st[k]={total:0,done:0,correct:0};}); D.questions.forEach(function(q){ var s=st[q.t]; if(!s)return; s.total++; if(Object.prototype.hasOwnProperty.call(p.ans,q.id)){ s.done++; if(p.ans[q.id])s.correct++; } }); return st; }
+  function startChapter(k){ var items=shuffle(D.questions.filter(function(q){return q.t===k;})); state.view="quiz"; tabBtns.forEach(function(b){b.classList.toggle("on",b.dataset.view==="quiz");}); startQuiz(items); window.scrollTo(0,0); }
+
+  var TABS=[{v:"home",l:"Start",i:"book"},{v:"quiz",l:"Oefenvragen",i:"target"},{v:"theory",l:"Theorie",i:"search"},{v:"hacks",l:"Studie-hacks",i:"bulb"},{v:"feedback",l:"Feedback",i:"msg"}];
+  var tabsEl=document.getElementById("tabs");
+  tabsEl.innerHTML=TABS.map(function(t){return '<button data-view="'+t.v+'"'+(t.v==="home"?' class="on"':'')+'>'+ic(t.i)+'<span>'+t.l+'</span></button>';}).join("");
+  var tabBtns=[].slice.call(tabsEl.querySelectorAll("button"));
+  tabBtns.forEach(function(b){ b.onclick=function(){ state.fromHub=false; if(b.dataset.view==="home") state.step="track"; go(b.dataset.view); }; });
+  function go(v){ state.view=v; tabBtns.forEach(function(b){b.classList.toggle("on",b.dataset.view===v);}); render(); window.scrollTo(0,0); }
+
+  var state={view:"home", step:"track", track:lget("aopsy_track","training"), quiz:null, sel:{topics:{"1":true,"2":true,"3":true,"4":true}, count:15, shuffle:true}, sumq:""};
+  function setHTML(h){ app.innerHTML=h; }
+
+  function render(){
+    if(state.view==="home") return renderHome();
+    if(state.view==="quiz") return renderQuizGate();
+    if(state.view==="theory") return renderTheory();
+    if(state.view==="hacks") return renderHacks();
+    if(state.view==="feedback") return renderFeedback();
+  }
+
+  function renderHome(){
+    if(state.step==="herkansing") return renderHerkansing();
+    if(state.step==="practice") return renderPractice();
+    return renderTrack();
+  }
+  function modeLabel(){ return state.track==="herkansing"?"Herkansing":"Examen Training"; }
+
+  function renderTrack(){
+    var byT={}; D.questions.forEach(function(q){byT[q.t]=(byT[q.t]||0)+1;});
+    var st=chapterStats(); var tD=0,tQ=0,tC=0; Object.keys(st).forEach(function(k){tD+=st[k].done;tQ+=st[k].total;tC+=st[k].correct;});
+    var html=
+      '<div class="hero">'+
+        '<div class="count"><b>'+D.questions.length+'</b><span>oefenvragen</span></div>'+
+        '<div class="herotext"><h1>Arbeids- & Organisatiepsychologie oefenen</h1>'+
+        '<p>Oefenvragen per hoofdstuk, met uitleg</p></div>'+
+      '</div>'+
+      '<a class="brandstrip" href="https://beriesexamspace.github.io/" title="Naar Berie’s exam space"><span class="bs-logo">B</span><span class="bs-txt"><b>Berie’s exam space</b><small>Een ander vak leren? Bekijk alle vakken</small></span><span class="bs-go">'+ic("arrowR")+'</span></a>'+
+      '<a class="brandstrip" href="https://beriesexamspace.github.io/?deel=1" title="Deel je samenvattingen"><span class="bs-logo">📚</span><span class="bs-txt"><b>Help mee, deel je vak</b><small>Heb jij samenvattingen of oude examenvragen? Stuur ze in (élk jaar).</small></span><span class="bs-go">'+ic("arrowR")+'</span></a>'+
+      '<div class="seclabel">'+ic("rocket")+'Hoe wil je oefenen?</div>'+
+      '<div class="tracks">'+
+        '<button class="track" data-track="training"><span class="tile">'+ic("book")+'</span><b>Examen Training</b><small>Oefen op examenniveau. Vragen met directe feedback en uitleg.</small><span class="go">Normaal niveau '+ic("arrowR")+'</span></button>'+
+        '<button class="track alt" data-track="herkansing"><span class="tile">'+ic("heart")+'</span><b>Herkansing</b><small>Rustig opbouwen, met aanmoediging. Jij bepaalt het tempo.</small><span class="go">Met begeleiding '+ic("arrowR")+'</span></button>'+
+      '</div>'+
+      '<div class="card pad choverview" style="margin-top:18px">'+
+        '<div class="row" style="justify-content:space-between;align-items:center"><b>Kies een hoofdstuk</b>'+(tD>0?'<button type="button" class="bnlink" id="resetProg">'+ic("refresh")+'Reset</button>':'')+'</div>'+
+        '<p class="muted" style="font-size:12.5px;margin:6px 0 12px">Klik een hoofdstuk om alleen dat te oefenen.'+(tD>0?' &middot; '+tD+'/'+tQ+' geoefend &middot; '+pct(tC,tD)+'% juist':'')+'</p>'+
+        '<div class="chlist">'+Object.keys(TOPICS).map(function(k){var s=st[k];var w=pct(s.done,s.total);return '<button type="button" class="chrow" data-ch="'+k+'"><span class="chname">'+esc(TOPICS[k])+'</span><span class="chbar"><i style="width:'+w+'%"></i></span><span class="chval">'+s.done+'/'+s.total+'</span>'+ic("chevR","caret")+'</button>';}).join("")+'</div></div>';
+    setHTML(html);
+    [].slice.call(document.querySelectorAll(".chrow")).forEach(function(el){ el.onclick=function(){ startChapter(el.dataset.ch); }; });
+    var _rp=document.getElementById("resetProg"); if(_rp) _rp.onclick=function(){ resetProg(); renderHome(); };
+    [].slice.call(document.querySelectorAll(".track")).forEach(function(el){ el.onclick=function(){ var t=el.dataset.track; state.track=t; lset("aopsy_track",t); state.step=(t==="herkansing"?"herkansing":"practice"); renderHome(); window.scrollTo(0,0); }; });
+  }
+
+  function renderHerkansing(){
+    var html=
+      '<button class="backlink" id="backBtn">'+ic("back")+'Terug</button>'+
+      '<div class="seclabel" style="margin-top:2px">'+ic("heart")+'Herkansing</div>'+
+      (calm?'<div class="card pad warmcard"><div class="row" style="gap:11px;flex-wrap:nowrap;align-items:flex-start">'+ic("heart")+'<div><b>Een nieuwe kans, rustig aan.</b><p class="muted" style="margin:5px 0 0;font-size:13.5px">Herkansen betekent niet dat je het niet kunt. Stap voor stap kom je er. Jij kunt dit. 💙</p></div></div></div>':'')+
+      '<div class="card pad" style="margin-top:12px"><div class="row" style="justify-content:space-between;align-items:center;gap:14px"><div><b>Rustige modus</b><div class="muted" style="font-size:12.5px">Aanmoediging en kalme sfeer. Zet uit als je liever recht-voor-z’n-raap oefent.</div></div><button class="toggle'+(calm?" on":"")+'" id="calmToggle" role="switch" aria-checked="'+(calm?"true":"false")+'" aria-label="Rustige modus aan of uit"><span class="knob"></span></button></div></div>'+
+      '<div class="row" style="margin-top:16px"><button class="btn" id="beginBtn">Begin met oefenen '+ic("arrowR")+'</button></div>';
+    setHTML(html);
+    document.getElementById("backBtn").onclick=function(){ state.step="track"; renderHome(); window.scrollTo(0,0); };
+    document.getElementById("calmToggle").onclick=function(){ calm=!calm; lset("aopsy_calm",calm); applyCalm(); renderHerkansing(); };
+    document.getElementById("beginBtn").onclick=function(){ state.step="practice"; renderHome(); window.scrollTo(0,0); };
+  }
+
+  function renderPractice(){
+    var herk=state.track==="herkansing";
+    var html=
+      '<button class="backlink" id="backBtn">'+ic("back")+'Terug</button>'+
+      '<div class="modebanner'+(herk?" v":"")+'">'+ic(herk?"heart":"book")+'<span>'+modeLabel()+'</span><button type="button" class="bnlink" id="changeMode">wijzig</button></div>'+
+      '<div class="seclabel">'+ic("rocket")+'Waarmee wil je oefenen?</div>'+
+      '<div class="grid g2">'+
+        '<button class="mode" data-mode="quiz"><span class="me">'+ic("target")+'</span><b>Oefenvragen</b><small>Meerkeuze met directe feedback en uitleg. Kies je onderwerpen.</small></button>'+
+        '<button class="mode" id="quickStart"><span class="me">'+ic("rocket")+'</span><b>Snelle ronde</b><small>15 willekeurige vragen uit alle onderwerpen.</small></button>'+
+      '</div>';
+    setHTML(html);
+    document.getElementById("backBtn").onclick=function(){ if(state.fromHub){ location.href="https://beriesexamspace.github.io/"; return; } state.step=(herk?"herkansing":"track"); renderHome(); window.scrollTo(0,0); };
+    document.getElementById("changeMode").onclick=function(){ if(state.fromHub){ location.href="https://beriesexamspace.github.io/"; return; } state.step="track"; renderHome(); window.scrollTo(0,0); };
+    document.querySelector('[data-mode="quiz"]').onclick=function(){ go("quiz"); };
+    document.getElementById("quickStart").onclick=function(){ state.view="quiz"; tabBtns.forEach(function(b){b.classList.toggle("on",b.dataset.view==="quiz");}); startQuiz(shuffle(D.questions.slice()).slice(0,15)); window.scrollTo(0,0); };
+  }
+
+  function renderQuizGate(){
+    if(state.quiz) return renderQuiz();
+    var s=state.sel;
+    function pool(){ return D.questions.filter(function(q){return s.topics[q.t];}); }
+    var html='<div class="card pad"><h2 style="margin-top:0">Oefenvragen</h2>'+
+      '<p class="muted">Kies onderwerpen en het aantal vragen. Na elk antwoord krijg je meteen feedback én de uitleg.</p>'+
+      '<label class="fld">Onderwerpen</label><div class="chips" id="tps">'+
+        Object.keys(TOPICS).map(function(k){return '<button class="chip'+(s.topics[k]?" on":"")+'" data-tp="'+k+'">'+esc(TOPICS[k])+'</button>';}).join("")+'</div>'+
+      '<label class="fld">Aantal vragen</label><div class="chips" id="cnt">'+
+        [10,15,20,999].map(function(n){return '<button class="chip'+(s.count===n?" on":"")+'" data-n="'+n+'">'+(n===999?"Alle":n)+'</button>';}).join("")+'</div>'+
+      '<label class="fld"><input type="checkbox" id="shuf" '+(s.shuffle?"checked":"")+'> Willekeurige volgorde</label>'+
+      '<div class="row" style="margin-top:18px"><button class="btn" id="startQ">Start '+ic("arrowR")+'</button><span class="muted" id="poolN"></span></div></div>';
+    setHTML(html);
+    function refresh(){ var n=pool().length; document.getElementById("poolN").textContent=n+" vragen beschikbaar"; document.getElementById("startQ").disabled=n===0; }
+    [].slice.call(document.querySelectorAll("#tps .chip")).forEach(function(b){ b.onclick=function(){ s.topics[b.dataset.tp]=!s.topics[b.dataset.tp]; b.classList.toggle("on"); refresh(); }; });
+    [].slice.call(document.querySelectorAll("#cnt .chip")).forEach(function(b){ b.onclick=function(){ s.count=+b.dataset.n; renderQuizGate(); }; });
+    document.getElementById("shuf").onchange=function(e){ s.shuffle=e.target.checked; };
+    document.getElementById("startQ").onclick=function(){ var p=pool(); if(s.shuffle)p=shuffle(p); if(s.count<p.length)p=p.slice(0,s.count); startQuiz(p); };
+    refresh();
+  }
+
+  function startQuiz(items){ bump("berat-aopsy", state.track==="herkansing"?"herkansing":"training"); state.quiz={items:items.map(function(q){return {q:q,opts:shuffle(q.o.map(function(t,i){return {text:t,ok:i===q.a};}))};}), idx:0, answered:false, picked:-1, correct:0, wrong:[], done:false}; renderQuiz(); }
+
+  function renderQuiz(){
+    var Q=state.quiz; if(Q.done) return renderResult();
+    var cur=Q.items[Q.idx], q=cur.q;
+    var html='<button class="backlink" id="backBtn">'+ic("back")+'Terug</button>'+
+      '<div class="card pad">'+
+      '<div class="runtop"><span class="pill">'+esc(TOPICS[q.t])+'</span><div class="bar"><i data-w="'+pct(Q.idx,Q.items.length)+'"></i></div><span>'+(Q.idx+1)+'/'+Q.items.length+'</span></div>'+
+      '<div class="qtext">'+esc(q.q)+'</div>'+
+      '<div id="opts">'+cur.opts.map(function(o,i){return '<button class="opt" data-i="'+i+'" style="--oi:'+(i*55)+'ms"><span class="k">'+String.fromCharCode(65+i)+'</span><span>'+esc(o.text)+'</span></button>';}).join("")+'</div>'+
+      '<div id="fb"></div>'+
+      '<div class="row" style="justify-content:space-between;margin-top:6px"><span class="muted" style="font-size:12px">Toets <span class="kbd">A–D</span> · <span class="kbd">Enter</span> = volgende</span><button class="btn hide" id="nextBtn">Volgende '+ic("arrowR")+'</button></div></div>';
+    setHTML(html);
+    var i2=document.querySelector(".bar>i"); requestAnimationFrame(function(){ if(i2) i2.style.width=i2.getAttribute("data-w")+"%"; });
+    document.getElementById("backBtn").onclick=function(){ state.quiz=null; renderQuizGate(); };
+    var optBtns=[].slice.call(document.querySelectorAll("#opts .opt"));
+    var nb=document.getElementById("nextBtn"); nb.onclick=next;
+    function showAnswered(i){
+      optBtns.forEach(function(b){ var bi=+b.dataset.i; b.disabled=true; if(cur.opts[bi].ok)b.classList.add("correct"); else if(bi===i)b.classList.add("wrong"); });
+      var ok=cur.opts[i].ok, fb=document.getElementById("fb"); fb.className="feedback "+(ok?"ok":"no");
+      var juist=cur.opts.filter(function(o){return o.ok;})[0].text;
+      fb.innerHTML=ok?"<b>"+rnd(PRAISE)+" ✓</b>":"<b>"+wrongLead()+"</b><span class=\"sub\">Juiste antwoord: "+esc(juist)+"</span>";
+      var w=document.createElement("div"); w.innerHTML='<div class="whybox"><h4>'+ic("sparkles")+'Waarom?</h4>'+esc(q.u)+'</div>'; fb.appendChild(w);
+      nb.classList.remove("hide"); nb.innerHTML=(Q.idx+1>=Q.items.length)?"Bekijk resultaat "+ic("arrowR"):"Volgende "+ic("arrowR");
+    }
+    function pick(i){ if(Q.answered)return; Q.answered=true; Q.picked=i; var ok=cur.opts[i].ok; if(ok)Q.correct++; else Q.wrong.push(q); recordProg(q.id, ok); showAnswered(i); nb.focus(); }
+    optBtns.forEach(function(b){ b.onclick=function(){ pick(+b.dataset.i); }; });
+    function next(){ if(!Q.answered)return; Q.idx++; Q.answered=false; Q.picked=-1; if(Q.idx>=Q.items.length)Q.done=true; renderQuiz(); }
+    if(Q.answered) showAnswered(Q.picked);
+    state.key=function(e){ if(!Q.answered){ var k=e.key.toLowerCase(); var idx="abcde".indexOf(k); if(idx<0&&/[1-5]/.test(k))idx=+k-1; if(idx>=0&&idx<cur.opts.length){pick(idx);e.preventDefault();} } else if(e.key==="Enter"||e.key===" "){ next(); e.preventDefault(); } };
+  }
+
+  function renderResult(){
+    var Q=state.quiz, p=pct(Q.correct,Q.items.length);
+    var msg=p>=80?"Sterk werk! 🎉":p>=60?"Goed bezig 👍":"Blijf oefenen, je komt er 💪";
+    var html='<div class="card pad results center"><span class="pill">Arbeids- & Organisatiepsychologie</span><div class="big">'+p+'%</div>'+
+      '<p style="font-weight:600;margin:0 0 4px;font-size:17px">'+msg+'</p><p class="muted">'+Q.correct+' van '+Q.items.length+' juist</p>'+
+      '<div class="row" style="justify-content:center;margin-top:14px">'+
+        (Q.wrong.length?'<button class="btn" id="retry">Herhaal '+Q.wrong.length+' foute vragen</button>':'')+
+        '<button class="btn ghost" id="again">Nieuwe ronde</button><button class="btn ghost" id="home">Naar start</button></div></div>';
+    setHTML(html);
+    var rt=document.getElementById("retry"); if(rt) rt.onclick=function(){ startQuiz(shuffle(Q.wrong)); };
+    document.getElementById("again").onclick=function(){ state.quiz=null; renderQuizGate(); };
+    document.getElementById("home").onclick=function(){ state.quiz=null; go("home"); };
+    state.key=null;
+  }
+
+  function renderTheory(){
+    var q=state.sumq||"";
+    var html='<div class="card pad" style="margin-bottom:14px"><h2 style="margin:0 0 8px">Theorie en samenvatting</h2>'+
+      '<input type="search" id="sq" placeholder="Zoek een begrip… (bv. taylorisme, motivatie, leiderschap)" value="'+esc(q)+'"></div><div id="list">'+theoryList(q)+'</div>';
+    setHTML(html);
+    var si=document.getElementById("sq"); si.oninput=function(){ state.sumq=si.value; document.getElementById("list").innerHTML=theoryList(si.value); si.focus(); };
+  }
+  function theoryList(query){
+    var Q=query.trim().toLowerCase(), out="", n=0;
+    D.theory.forEach(function(sec){
+      var items=sec.items.filter(function(it){ return !Q || it.toLowerCase().indexOf(Q)>=0 || sec.h.toLowerCase().indexOf(Q)>=0; });
+      if(!items.length) return; n++;
+      out+='<details class="acc"'+(Q?" open":(n===1?" open":""))+'><summary><span class="n">'+ic("search")+'</span>'+esc(sec.h)+ic("chevR","caret")+'</summary><div class="body"><ul>'+items.map(function(it){return '<li>'+hl(esc(it),Q)+'</li>';}).join("")+'</ul></div></details>';
+    });
+    return out||'<p class="muted center">Geen resultaten voor "'+esc(query)+'".</p>';
+  }
+  function hl(t,q){ if(!q)return t; try{ return t.replace(new RegExp("("+q.replace(/[.*+?^${}()|[\]\\]/g,"\\$&")+")","ig"),"<mark>$1</mark>"); }catch(e){ return t; } }
+
+  function renderHacks(){
+    var html='<div class="card pad" style="margin-bottom:16px"><h2 style="margin:0 0 6px">Studie-hacks</h2><p class="muted" style="margin:0">Ezelsbruggetjes om de kernideeën van de arbeids- en organisatiepsychologie te onthouden.</p></div>'+
+      '<div class="tipgrid">'+D.hacks.map(function(t){return '<div class="tip"><h4>'+ic("bulb")+esc(t.h)+'</h4><p>'+esc(t.t)+'</p></div>';}).join("")+'</div>';
+    setHTML(html);
+  }
+
+  function renderFeedback(){
+    var html='<div class="card pad"><h2 style="margin-top:0">Feedback &amp; klachten</h2>'+
+      '<p class="muted">Fout in een vraag, een idee, of werkt iets niet? Laat het hier weten, het komt rechtstreeks bij de maker terecht. Een review of compliment mag ook: de mooiste tonen we op de hub. 💬</p>'+
+      '<label class="fld" for="fbMsg">Je bericht</label><textarea id="fbMsg" rows="5" placeholder="Beschrijf de fout of je idee…"></textarea>'+
+      '<label class="fld" for="fbWaar">Over welke vraag? <span class="muted">(optioneel)</span></label><input type="text" id="fbWaar" placeholder="bv. de vraag over de p-waarde">'+
+      '<label class="fld" for="fbNaam">Je naam <span class="muted">(optioneel)</span></label><input type="text" id="fbNaam" placeholder="zodat we je kunnen bedanken">'+
+      '<label class="fld" for="fbEmail">Je e-mail <span class="muted">(optioneel, als je een antwoord wilt)</span></label><input type="email" id="fbEmail" placeholder="naam@voorbeeld.be">'+
+      '<input type="text" id="fbBot" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;opacity:0">'+
+      '<div class="row" style="margin-top:16px;align-items:center"><button class="btn" id="fbSend">'+ic("send")+'Versturen</button><span id="fbStatus" style="font-size:13px"></span></div></div>';
+    setHTML(html);
+    document.getElementById("fbSend").onclick=function(){
+      var status=document.getElementById("fbStatus");
+      if(document.getElementById("fbBot").value) return;
+      var msg=document.getElementById("fbMsg").value.trim();
+      if(!msg){ status.style.color="var(--bad)"; status.textContent="Schrijf eerst een bericht."; return; }
+      var btn=document.getElementById("fbSend"); btn.disabled=true; status.style.color="var(--muted)"; status.textContent="Versturen…";
+      var em=document.getElementById("fbEmail").value.trim();
+      var nm=document.getElementById("fbNaam").value.trim();
+      var waar=document.getElementById("fbWaar").value.trim();
+      var payload={_subject:"Arbeids- & Organisatiepsychologie-tool: feedback", _template:"table", _captcha:"false",
+        Naam:nm||"-", Over_welke_vraag:waar||"-", email:em||"-", Bericht:msg};
+      if(em) payload._replyto=em;
+      // vangnet: als de verzenddienst blokkeert (bv. spamfilter) of er is geen verbinding,
+      // bieden we een directe mailto-knop aan zodat de melding NOOIT stilletjes verdwijnt.
+      function failFallback(reden){
+        var body="Feedback Arbeids- & Organisatiepsychologie-tool%0D%0A%0D%0ANaam: "+encodeURIComponent(nm||"-")+"%0D%0AOver welke vraag: "+encodeURIComponent(waar||"-")+"%0D%0AE-mail: "+encodeURIComponent(em||"-")+"%0D%0A%0D%0ABericht:%0D%0A"+encodeURIComponent(msg);
+        var mailto="mailto:berat007yildirim@gmail.com?subject="+encodeURIComponent("Arbeids- & Organisatiepsychologie-tool: feedback")+"&body="+body;
+        setHTML('<div class="card pad"><h2 style="margin-top:0">Automatisch versturen lukte niet</h2><p class="muted">'+reden+' Geen zorgen, klik hieronder en je melding wordt geopend in je e-mail, helemaal klaar om te versturen:</p><a class="btn" href="'+mailto+'">'+ic("send")+'Mail mijn melding direct</a><div style="margin-top:14px"><button class="btn ghost" id="bk">Terug naar start</button></div></div>');
+        document.getElementById("bk").onclick=function(){go("home");};
+      }
+      fetch("https://formsubmit.co/ajax/Berat007yildirim@gmail.com",{method:"POST",headers:{Accept:"application/json"},body:new URLSearchParams(payload)})
+        .then(function(r){return r.json();}).then(function(d){
+          if(d&&(d.success===true||d.success==="true")){ setHTML('<div class="card pad results center"><div style="font-size:42px">✅</div><h2 style="margin:6px 0">Bedankt!</h2><p class="muted">Je melding is verstuurd.</p><button class="btn" id="bk" style="margin-top:8px">Terug naar start</button></div>'); document.getElementById("bk").onclick=function(){go("home");}; }
+          else { failFallback("Het automatisch versturen lukte niet."); }
+        }).catch(function(){ failFallback("Er was even geen verbinding."); });
+    };
+  }
+
+  document.addEventListener("keydown",function(e){ if(state.key) state.key(e); });
+  // bezoeker tellen (1x per toestel)
+  try{ if(!localStorage.getItem("aopsy_seen")){ localStorage.setItem("aopsy_seen","1"); bump("berat-aopsy","gebruikers"); } }catch(e){ bump("berat-aopsy","gebruikers"); }
+  // traject vanuit de hub overnemen → direct naar de oefenpagina
+  try{ var _q=new URLSearchParams(location.search); var _m=_q.get("m");
+    if(_m==="training"||_m==="herkansing"){ state.track=_m; lset("aopsy_track",_m);
+      var _c=_q.get("calm"); if(_c!=null){ calm=(_c!=="0"); lset("aopsy_calm",calm); applyCalm(); }
+      state.step="practice"; state.fromHub=true; }
+  }catch(e){}
+  render();
+  // launch-splash netjes laten verdwijnen
+  (function(){ var _sp=document.getElementById("splash"); if(!_sp) return; var _red=false; try{_red=window.matchMedia("(prefers-reduced-motion: reduce)").matches;}catch(e){} setTimeout(function(){ _sp.classList.add("hide"); setTimeout(function(){ if(_sp&&_sp.parentNode) _sp.parentNode.removeChild(_sp); }, 700); }, _red?300:1850); })();
+})();
+</script>
+</body>
+</html>
