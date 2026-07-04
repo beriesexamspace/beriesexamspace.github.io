@@ -56,7 +56,6 @@
     padding:7px 11px;font-size:13.5px;display:inline-flex;gap:7px;align-items:center;text-decoration:none;
     transition:border-color .2s var(--ease),transform .12s var(--ease)}
   .iconbtn:hover{border-color:var(--accent)} .iconbtn:active{transform:scale(.96)}
-  .iconbtn:focus{outline:none} .iconbtn:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
 
   /* hero */
   .hero{text-align:center;margin:34px 0 6px}
@@ -144,28 +143,12 @@
 
   /* nav-links in de balk */
   html{scroll-behavior:smooth}
-  /* duidelijk zichtbare scroll-lijn aan de zijkant, zodat je ziet dat er meer onder staat */
-  html{scrollbar-width:thin;scrollbar-color:var(--accent-ink) var(--line)}
-  ::-webkit-scrollbar{width:11px}
-  ::-webkit-scrollbar-track{background:var(--line)}
-  ::-webkit-scrollbar-thumb{background:var(--accent-ink);border-radius:11px;border:2px solid var(--bg)}
-  ::-webkit-scrollbar-thumb:hover{background:var(--accent)}
-  /* thema-wissel: nieuw thema golft als een cirkel vanuit de knop ("water") */
-  ::view-transition-old(root),::view-transition-new(root){animation:none;mix-blend-mode:normal}
-  ::view-transition-old(root){z-index:0}
-  ::view-transition-new(root){z-index:1}
   @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
   section[id]{scroll-margin-top:78px}
   .topnav{display:flex;gap:2px}
-  .navlink{position:relative;color:var(--muted);font-weight:600;font-size:14px;text-decoration:none;padding:7px 11px;border-radius:9px;white-space:nowrap;
-    transition:color .2s var(--ease),transform .12s var(--ease)}
-  .navlink::after{content:"";position:absolute;left:11px;right:11px;bottom:3px;height:2px;border-radius:2px;background:var(--accent-ink);
-    transform:scaleX(0);transform-origin:center;transition:transform .26s var(--ease);pointer-events:none}
-  .navlink:hover{color:var(--ink)}
-  .navlink:hover::after{transform:scaleX(1)}
-  .navlink:active{transform:scale(.95)}
-  .navlink:focus{outline:none}
-  .navlink:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+  .navlink{color:var(--muted);font-weight:600;font-size:14px;text-decoration:none;padding:7px 11px;border-radius:9px;white-space:nowrap;
+    transition:color .2s var(--ease),background .2s var(--ease)}
+  .navlink:hover{color:var(--ink);background:var(--accent-soft)}
   @media(max-width:560px){.brand>div{display:none}.navlink{padding:6px 9px;font-size:13px}}
 
   /* trust-strip onder de hero (council-advies) */
@@ -302,9 +285,8 @@
     <div class="brand"><span class="logo">B</span><div>Berie’s exam space<small>oefen slim voor je examen</small></div></div>
     <span class="spacer"></span>
     <nav class="topnav">
-      <a class="navlink" href="#nieuw">Wat is nieuw</a>
       <a class="navlink" href="#over">Over mij</a>
-      <a class="navlink" href="#reken">Reken je punten</a>
+      <a class="navlink" href="#reviews">Reviews</a>
     </nav>
     <button class="iconbtn" id="themeBtn" aria-label="Wissel licht/donker"></button>
   </div>
@@ -333,481 +315,13 @@
 
   <div id="main"></div>
 
-  <div class="seclabel" id="nieuw" style="margin-top:34px;scroll-margin-top:78px"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9.94 15.5A2 2 0 0 0 8.5 14.06l-6.14-1.58a.5.5 0 0 1 0-.96L8.5 9.94A2 2 0 0 0 9.94 8.5l1.58-6.14a.5.5 0 0 1 .96 0L14.06 8.5A2 2 0 0 0 15.5 9.94l6.14 1.58a.5.5 0 0 1 0 .96L15.5 14.06a2 2 0 0 0-1.44 1.44l-1.58 6.14a.5.5 0 0 1-.96 0z"/></svg>Wat is nieuw</div>
+  <div class="seclabel" style="margin-top:34px"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9.94 15.5A2 2 0 0 0 8.5 14.06l-6.14-1.58a.5.5 0 0 1 0-.96L8.5 9.94A2 2 0 0 0 9.94 8.5l1.58-6.14a.5.5 0 0 1 .96 0L14.06 8.5A2 2 0 0 0 15.5 9.94l6.14 1.58a.5.5 0 0 1 0 .96L15.5 14.06a2 2 0 0 0-1.44 1.44l-1.58 6.14a.5.5 0 0 1-.96 0z"/></svg>Wat is nieuw</div>
   <div class="news">
     <!-- Nieuwe update? Kopieer een blok en zet 'm bovenaan. Haal de "Nieuw"-badge weg als het niet meer nieuw is. -->
     <div class="newsitem"><span class="nd"></span><span class="ntxt"><b>Orthopedagogiek staat online</b><small>122 examenvragen mét antwoorden · 2de bachelor. Het eerste vak voor het 2de jaar!</small></span><span class="nbadge">Nieuw</span></div>
     <div class="newsitem"><span class="nd"></span><span class="ntxt"><b>Ontwikkelingspsychologie toegevoegd</b><small>84 oefenvragen over de hele levensloop · 1ste bachelor.</small></span><span class="nbadge">Nieuw</span></div>
     <div class="newsitem"><span class="nd"></span><span class="ntxt"><b>Sociale Psychologie &amp; Sociologie</b><small>Eerder toegevoegd voor 1ste bachelor, met directe feedback en uitleg.</small></span></div>
   </div>
-
-  <!-- ===== EXAMEN-INFO (staat nu onder Wat is nieuw) ===== -->
-  <style>
-  #exinfo .seclabel{margin-top:38px}
-  #exinfo .exlead{text-align:center;color:var(--muted);font-size:14px;line-height:1.6;max-width:540px;margin:0 auto 4px}
-  #exinfo .exverif{display:flex;justify-content:center;margin:14px 0 22px}
-  #exinfo .exfaq{display:grid;gap:16px;grid-template-columns:1fr}
-  @media(min-width:600px){#exinfo .exfaq{grid-template-columns:1fr 1fr}}
-  #exinfo .qcard{position:relative;display:flex;flex-direction:column;gap:6px;border:1px solid var(--line);background:var(--card);border-radius:var(--r-lg);padding:20px;box-shadow:var(--shadow);min-height:150px;transition:transform .2s var(--ease),border-color .2s var(--ease),box-shadow .2s var(--ease)}
-  #exinfo .qcard:hover{transform:translateY(-3px);border-color:var(--accent);box-shadow:var(--shadow-lg)}
-  #exinfo .qcard b{font-size:16px;line-height:1.35}
-  #exinfo .qcard .desc{color:var(--muted);font-size:13.5px;line-height:1.55}
-  #exinfo .srcrow{margin-top:auto;padding-top:12px;display:flex;gap:8px;align-items:center;flex-wrap:wrap}
-  #exinfo .okpill{display:inline-flex;align-items:center;gap:5px;font-size:11px;font-weight:700;color:var(--good);background:var(--good-soft);padding:4px 10px;border-radius:999px}
-  #exinfo .okpill::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--good)}
-  #exinfo .srclink{font-size:11.5px;color:var(--accent-ink);text-decoration:none;border:1px solid var(--line);padding:4px 10px;border-radius:999px;transition:border-color .2s}
-  #exinfo .srclink:hover{border-color:var(--accent)}
-  #exinfo .excats{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin:0 auto 20px;max-width:680px}
-  #exinfo .excat{border:1px solid var(--line);background:var(--card);color:var(--muted);border-radius:999px;padding:7px 14px;font-size:13px;font-weight:600;cursor:pointer;transition:background .18s var(--ease),color .18s var(--ease),border-color .18s var(--ease),transform .12s var(--ease)}
-  #exinfo .excat:hover{border-color:var(--accent);color:var(--ink)}
-  #exinfo .excat:active{transform:scale(.96)}
-  #exinfo .excat.on{background:var(--accent);color:#fff;border-color:var(--accent)}
-  #exinfo .qcard.exhide{display:none}
-  #exinfo .exempty{grid-column:1/-1;text-align:center;color:var(--muted);font-size:13.5px;padding:10px 0}
-  #exinfo .calc{border:1px solid var(--line);background:var(--card);border-radius:var(--r-lg);padding:22px;box-shadow:var(--shadow);margin-bottom:16px}
-  #exinfo .calctitle{display:flex;align-items:center;gap:8px;justify-content:center;font-weight:700;font-size:15.5px;margin-bottom:4px}
-  #exinfo .calctitle svg{width:19px;height:19px;color:var(--accent-ink);fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
-  #exinfo .calcsub{text-align:center;color:var(--muted);font-size:13px;line-height:1.55;margin:0 auto 16px;max-width:460px}
-  #exinfo .chead{display:grid;gap:9px;padding:0 2px 9px;font-size:11px;color:var(--muted)}
-  #exinfo .crow{display:grid;gap:9px;align-items:center}
-  #exinfo .c1 .chead,#exinfo .c1 .crow{grid-template-columns:1fr 92px 92px 34px}
-  #exinfo .c2 .chead,#exinfo .c2 .crow{grid-template-columns:1fr 92px 92px 34px}
-  #exinfo .rows{display:flex;flex-direction:column;gap:9px}
-  #exinfo .uwrap{position:relative;display:block}
-  #exinfo .uwrap span{position:absolute;right:10px;top:50%;transform:translateY(-50%);font-size:11px;color:var(--muted);pointer-events:none}
-  #exinfo input{width:100%;box-sizing:border-box;background:var(--bg2);border:1px solid var(--line);color:var(--ink);border-radius:10px;padding:8px 10px;font-family:inherit;font-size:13.5px}
-  #exinfo input:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-soft)}
-  #exinfo input.num{padding-right:34px}
-  #exinfo input[type=number]{-moz-appearance:textfield;appearance:textfield}
-  #exinfo input[type=number]::-webkit-outer-spin-button,#exinfo input[type=number]::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
-  #exinfo .delbtn{background:transparent;border:1px solid var(--line);color:var(--muted);border-radius:8px;height:34px;cursor:pointer;font-size:16px;line-height:1;transition:border-color .2s,color .2s}
-  #exinfo .delbtn:hover{border-color:var(--accent);color:var(--ink)}
-  #exinfo .addbtn{margin-top:14px}
-  #exinfo .metrics{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin:16px 0}
-  #exinfo .c2 .metrics{grid-template-columns:1fr 1fr}
-  #exinfo .metric{background:var(--bg2);border:1px solid var(--line);border-radius:var(--r);padding:14px}
-  #exinfo .metric .ml{font-size:11.5px;color:var(--muted);margin-bottom:6px}
-  #exinfo .metric .mv{font-family:Georgia,serif;font-size:25px}
-  #exinfo .metric .mv small{font-size:13px;color:var(--muted)}
-  #exinfo .metric .mh{font-size:10.5px;color:var(--muted);margin-top:3px}
-  #exinfo .wsum{font-size:12px;color:var(--muted);margin-top:13px;display:flex;align-items:center;gap:7px}
-  #exinfo .wwarn{color:var(--amber)}
-  #exinfo .verdict{display:flex;align-items:center;gap:14px;border:1.5px solid var(--good);background:var(--good-soft);border-radius:var(--r);padding:15px 18px;margin:14px 0;box-shadow:var(--shadow)}
-  #exinfo .vbox{width:44px;height:44px;border-radius:12px;flex:none;display:grid;place-items:center;color:#fff;background:linear-gradient(145deg,var(--good),#2f8a52)}
-  #exinfo .vbox svg{width:24px;height:24px;fill:none;stroke:currentColor;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
-  #exinfo .vt{font-size:14.5px;font-weight:700;color:var(--good)}
-  #exinfo .vs{font-size:12.5px;color:var(--muted);margin-top:2px}
-  #exinfo .rules{border:1px solid var(--line);background:var(--bg2);border-radius:var(--r);padding:6px 16px}
-  #exinfo .rule{display:flex;align-items:center;gap:11px;padding:12px 0;border-bottom:1px solid var(--line)}
-  #exinfo .rule:last-child{border-bottom:none}
-  #exinfo .ric{width:24px;height:24px;border-radius:50%;flex:none;display:grid;place-items:center}
-  #exinfo .ric svg{width:15px;height:15px;fill:none;stroke:currentColor;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round}
-  #exinfo .rlbl{font-size:13.5px;flex:1}
-  #exinfo .rdet{font-size:11.5px;font-weight:700;padding:3px 10px;border-radius:999px}
-  #exinfo .exnote{display:flex;align-items:flex-start;gap:14px;border:1.5px solid var(--accent);background:var(--accent-soft);border-radius:var(--r);padding:15px 18px;margin:6px 0 4px;box-shadow:var(--shadow)}
-  #exinfo .exnote .nb{width:42px;height:42px;border-radius:12px;flex:none;display:grid;place-items:center;color:#fff;background:linear-gradient(145deg,var(--accent),var(--accent-ink))}
-  #exinfo .exnote .nb svg{width:21px;height:21px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
-  #exinfo .exnote div{font-size:12.5px;line-height:1.6;color:var(--accent-ink)}
-  </style>
-  <div id="exinfo">
-    <div class="seclabel"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 10v6"/><path d="M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>Examen-info</div>
-    <p class="exlead">De vragen die elk jaar terugkomen, rustig op een rij. Bij elk antwoord staat de officiele VUB-bron, zodat je het zelf kan nalezen.</p>
-    <div class="exverif">
-      <span class="statpill"><span class="dot"></span><span>Geverifieerd op het <b>VUB-reglement 2025-2026</b></span></span>
-    </div>
-
-    <div class="excats" id="excats">
-      <button class="excat on" data-cat="all" type="button">Alles</button>
-      <button class="excat" data-cat="delib" type="button">Deliberatie</button>
-      <button class="excat" data-cat="tweede" type="button">Tweede zit</button>
-      <button class="excat" data-cat="taken" type="button">Taken &amp; deelcijfers</button>
-      <button class="excat" data-cat="punten" type="button">Je puntenblad</button>
-      <button class="excat" data-cat="cijfer" type="button">Eindcijfer &amp; graad</button>
-      <button class="excat" data-cat="inzage" type="button">Inzage &amp; beroep</button>
-    </div>
-
-    <div class="exfaq" id="exfaq">
-      <!-- ===== Deliberatie en tolerantie ===== -->
-      <div class="qcard" data-cat="delib">
-        <b>Vanaf welk punt kan je gedelibereerd worden?</b>
-        <div class="desc">8/20 is de absolute ondergrens. Een resultaat lager dan 8 op 20 kan nooit getolereerd worden, niet na het eerste jaar en niet voor de hele bachelor.</div>
-        <div class="srcrow"><span class="okpill">Bevestigd</span><a class="srclink" href="https://www.vub.be/sites/default/files/2025-07/2025_Reglementen_OER_2025-2026_NL.pdf" target="_blank" rel="noopener">OER Art. 139 ↗</a></div>
-      </div>
-      <div class="qcard" data-cat="delib">
-        <b>Word je automatisch gedelibereerd?</b>
-        <div class="desc">Ja, als je aan alle voorwaarden voldoet: gewogen gemiddelde minstens 55%, hoogstens drie punten tekort over maximaal twee vakken, en geen punt onder 8. De examencommissie kan daarnaast extra delibereren bij bijzondere omstandigheden.</div>
-        <div class="srcrow"><span class="okpill">Bevestigd</span><a class="srclink" href="https://www.vub.be/sites/default/files/2025-07/2025_Reglementen_OER_2025-2026_NL.pdf" target="_blank" rel="noopener">OER Art. 139 ↗</a></div>
-      </div>
-      <div class="qcard" data-cat="delib">
-        <b>Wat is een getolereerde onvoldoende (tolerated fail)?</b>
-        <div class="desc">Een vak waar je onder de 10/20 staat, maar dat toch meetelt als geslaagd omdat je aan alle deliberatievoorwaarden voldoet. Je krijgt er geen creditbewijs voor en je hoeft het niet te hernemen, het wordt gewoon meegesleept.</div>
-        <div class="srcrow"><span class="okpill">Bevestigd</span><a class="srclink" href="https://www.vub.be/sites/default/files/2025-07/2025_Reglementen_OER_2025-2026_NL.pdf" target="_blank" rel="noopener">OER Art. 139 en 143 ↗</a></div>
-      </div>
-      <div class="qcard" data-cat="delib">
-        <b>Wat is het gewogen-punten-tekort (GPT)?</b>
-        <div class="desc">Per vak: (10 min je punt) maal het aantal studiepunten. Voorbeeld: 8/20 op een vak van 6 studiepunten is (10 min 8) maal 6, dus 12. Je telt alle tekorten op. Over de hele bachelor mag dat samen maximaal 18 zijn.</div>
-        <div class="srcrow"><span class="okpill">Bevestigd</span><a class="srclink" href="https://www.vub.be/sites/default/files/2025-07/2025_Reglementen_OER_2025-2026_NL.pdf" target="_blank" rel="noopener">OER Art. 139 ↗</a></div>
-      </div>
-      <div class="qcard" data-cat="delib">
-        <b>Kunnen tweedejaarsvakken niet gedelibereerd worden?</b>
-        <div class="desc">Misverstand. Ze kunnen wel getolereerd worden, maar pas in de eindeliberatie van de hele bachelor, niet als losse stap op het einde van het tweede jaar.</div>
-        <div class="srcrow"><span class="okpill">Bevestigd</span><a class="srclink" href="https://www.vub.be/sites/default/files/2025-07/2025_Reglementen_OER_2025-2026_NL.pdf" target="_blank" rel="noopener">OER Art. 143 ↗</a></div>
-      </div>
-      <div class="qcard" data-cat="delib">
-        <b>Welke vakken kunnen nooit getolereerd worden?</b>
-        <div class="desc">Je bachelorproef, masterproef en verplichte stage. Daarvoor moet je echt slagen (minstens 10/20), die kunnen nooit weggedelibereerd worden.</div>
-        <div class="srcrow"><span class="okpill">Bevestigd</span><a class="srclink" href="https://www.vub.be/sites/default/files/2025-07/2025_Reglementen_OER_2025-2026_NL.pdf" target="_blank" rel="noopener">OER Art. 143 ↗</a></div>
-      </div>
-      <div class="qcard" data-cat="delib">
-        <b>Kan ik een getolereerde onvoldoende toch hernemen?</b>
-        <div class="desc">Ja. Je mag hem in de tweede zit toch opnieuw afleggen. Vraag dat schriftelijk aan bij het faculteitssecretariaat binnen 7 kalenderdagen na de bekendmaking. Let op: je oorspronkelijke punt vervalt dan onherroepelijk, ook als je nieuwe punt lager is.</div>
-        <div class="srcrow"><span class="okpill">Bevestigd</span><a class="srclink" href="https://www.vub.be/sites/default/files/2025-07/2025_Reglementen_OER_2025-2026_NL.pdf" target="_blank" rel="noopener">OER Art. 139 en 143 ↗</a></div>
-      </div>
-
-      <!-- ===== Tweede zittijd ===== -->
-      <div class="qcard" data-cat="tweede">
-        <b>Moet ik mij inschrijven voor de herexamens?</b>
-        <div class="desc">Nee. Je wordt automatisch ingeschreven voor elk vak waarvoor je nog geen credit haalde. Een getolereerd vak wordt niet automatisch heringeschreven, dat mag je zelf kiezen.</div>
-        <div class="srcrow"><span class="okpill">Bevestigd</span><a class="srclink" href="https://www.vub.be/sites/default/files/2025-07/2025_Reglementen_OER_2025-2026_NL.pdf" target="_blank" rel="noopener">OER Art. 110 ↗</a></div>
-      </div>
-      <div class="qcard" data-cat="tweede">
-        <b>Blijft mijn punt van de eerste zit staan?</b>
-        <div class="desc">Nee. Zodra je een vak herneemt, vervalt je eerste punt automatisch en komt het nieuwe resultaat in de plaats, ook als dat lager is.</div>
-        <div class="srcrow"><span class="okpill">Bevestigd</span><a class="srclink" href="https://www.vub.be/sites/default/files/2025-07/2025_Reglementen_OER_2025-2026_NL.pdf" target="_blank" rel="noopener">OER Art. 110 ↗</a></div>
-      </div>
-      <div class="qcard" data-cat="tweede">
-        <b>Wanneer ken ik mijn rooster voor de tweede zit?</b>
-        <div class="desc">Het voorlopige rooster krijg je minstens 4 weken op voorhand, het definitieve rooster 2 weken voor de start van de examenperiode. Voor de tweede zit is die termijn dus korter dan in juni.</div>
-        <div class="srcrow"><span class="okpill">Bevestigd</span><a class="srclink" href="https://www.vub.be/sites/default/files/2025-07/2025_Reglementen_OER_2025-2026_NL.pdf" target="_blank" rel="noopener">OER Art. 106 ↗</a></div>
-      </div>
-      <div class="qcard" data-cat="tweede">
-        <b>Wanneer valt de tweede zit dit jaar?</b>
-        <div class="desc">Voor Psychologie en Educatiewetenschappen 2025-2026: van maandag 17 augustus tot zaterdag 5 september 2026, met de resultaten online op vrijdag 11 september 2026. Deze data kunnen per jaar wijzigen, check de facultaire kalender.</div>
-        <div class="srcrow"><span class="okpill">Bevestigd</span><a class="srclink" href="https://www.vub.be/sites/default/files/2025-10/2025_Examenregeling_Kalender_PE_2526_NL.pdf" target="_blank" rel="noopener">Examenkalender PE ↗</a></div>
-      </div>
-      <div class="qcard" data-cat="tweede">
-        <b>Kan ik een januari-vak al in juni herkansen?</b>
-        <div class="desc">Nee. Een vak uit het eerste semester dat je niet haalde, herneem je ten vroegste in de tweede zit (augustus of september), niet al in de juni-periode.</div>
-        <div class="srcrow"><span class="okpill">Bevestigd</span><a class="srclink" href="https://www.vub.be/sites/default/files/2025-07/2025_Reglementen_OER_2025-2026_NL.pdf" target="_blank" rel="noopener">OER Art. 104 ↗</a></div>
-      </div>
-      <div class="qcard" data-cat="tweede">
-        <b>Ik ben ziek op mijn examen, wat nu?</b>
-        <div class="desc">Bij overmacht meld je dat ten laatste op de dag zelf via het online overmachtsformulier van de faculteit, en je bezorgt je originele attest binnen 3 kalenderdagen aan het faculteitssecretariaat. Regel het dus meteen, niet later.</div>
-        <div class="srcrow"><span class="okpill">Bevestigd</span><a class="srclink" href="https://www.vub.be/sites/default/files/2025-09/2025_Reglementen_Facultaire_aanvullingen_OER_PE_2526_NL.pdf" target="_blank" rel="noopener">OER Art. 111 + PE ↗</a></div>
-      </div>
-
-      <!-- ===== Taken en deelcijfers ===== -->
-      <div class="qcard" data-cat="taken">
-        <b>Blijft een geslaagde taak staan voor de tweede zit?</b>
-        <div class="desc">Dat hangt van de vakfiche af. Een taak die je in de tweede zit niet meer kan overdoen (zoals een groepsopdracht tijdens het semester) blijft staan. Een taak die je wel opnieuw kan doen, telt standaard niet mee, tenzij de vakfiche uitdrukkelijk zegt dat je resultaat blijft.</div>
-        <div class="srcrow"><span class="okpill">Bevestigd</span><a class="srclink" href="https://www.vub.be/sites/default/files/2025-07/2025_Reglementen_OER_2025-2026_NL.pdf" target="_blank" rel="noopener">OER Art. 141 ↗</a></div>
-      </div>
-      <div class="qcard" data-cat="taken">
-        <b>Wat gebeurt met mijn deelcijfers in de tweede zit?</b>
-        <div class="desc">Deelresultaten die je niet kan hernemen, blijven behouden. Deelresultaten die je wel opnieuw aflegt, worden niet overgedragen tenzij de vakfiche anders bepaalt. Deelcijfers gaan sowieso niet mee naar een volgend academiejaar, tenzij de fiche dat toelaat.</div>
-        <div class="srcrow"><span class="okpill">Bevestigd</span><a class="srclink" href="https://www.vub.be/sites/default/files/2025-07/2025_Reglementen_OER_2025-2026_NL.pdf" target="_blank" rel="noopener">OER Art. 141 ↗</a></div>
-      </div>
-
-      <!-- ===== Je puntenblad ===== -->
-      <div class="qcard" data-cat="punten">
-        <b>Waar staan mijn officiele punten?</b>
-        <div class="desc">Alleen op cali.vub.be (SelfService), in je puntenblad. Canvas is enkel het leerplatform, daar staat je officiele resultaat niet. Wat je tijdens de examenperiode ziet is voorlopig tot de proclamatie.</div>
-        <div class="srcrow"><span class="okpill">Bevestigd</span><a class="srclink" href="https://www.vub.be/nl/studeren-aan-de-vub/praktische-info-voor-studenten/examens-en-deliberatie/mijn-examenresultaten" target="_blank" rel="noopener">VUB examenresultaten ↗</a></div>
-      </div>
-      <div class="qcard" data-cat="punten">
-        <b>Study Overview of Transcript of records?</b>
-        <div class="desc">In SelfService toont Study Overview snel je cijfers per academiejaar. Het Transcript of records is je officiele puntenblad: daar staat je proclamatiecode op. Voor de officiele beslissing kijk je dus in je transcript, niet enkel in het overzicht.</div>
-        <div class="srcrow"><span class="okpill">Bevestigd</span><a class="srclink" href="https://www.vub.be/nl/studeren-aan-de-vub/praktische-info-voor-studenten/examens-en-deliberatie/mijn-examenresultaten" target="_blank" rel="noopener">VUB examenresultaten ↗</a></div>
-      </div>
-      <div class="qcard" data-cat="punten">
-        <b>Wat betekent 'tolerated fail' op mijn puntenblad?</b>
-        <div class="desc">Dat is een getolereerd vak: je onderliggende cijfer staat onder 10/20 en je krijgt er geen creditbewijs voor, maar het telt wel mee in je geslaagd-beslissing. Twijfel je over een code of label? Vraag het na bij het faculteitssecretariaat.</div>
-        <div class="srcrow"><span class="okpill">Bevestigd</span><a class="srclink" href="https://www.vub.be/sites/default/files/2025-07/2025_Reglementen_OER_2025-2026_NL.pdf" target="_blank" rel="noopener">OER Art. 138 en 139 ↗</a></div>
-      </div>
-      <div class="qcard" data-cat="punten">
-        <b>Wat is de proclamatiecode?</b>
-        <div class="desc">Dat is de enige officiele uitslag over of je slaagt en of je je opleiding mag verderzetten. De examencommissie legt die vast na de deliberatie en je vindt hem op je Transcript of records, niet in het snelle cijferoverzicht.</div>
-        <div class="srcrow"><span class="okpill">Bevestigd</span><a class="srclink" href="https://www.vub.be/nl/studeren-aan-de-vub/praktische-info-voor-studenten/examens-en-deliberatie/mijn-examenresultaten" target="_blank" rel="noopener">VUB examenresultaten ↗</a></div>
-      </div>
-
-      <!-- ===== Eindcijfer en graad ===== -->
-      <div class="qcard" data-cat="cijfer">
-        <b>Hoe wordt mijn eindcijfer per vak opgebouwd?</b>
-        <div class="desc">Volgens de vakfiche: elk deel (examen, taak, werkcollege) heeft daar zijn eigen gewicht. Alleen het eindcijfer wordt afgerond, de deelcijfers zelf worden nooit afgerond.</div>
-        <div class="srcrow"><span class="okpill">Bevestigd</span><a class="srclink" href="https://www.vub.be/sites/default/files/2025-07/2025_Reglementen_OER_2025-2026_NL.pdf" target="_blank" rel="noopener">OER Art. 137 ↗</a></div>
-      </div>
-      <div class="qcard" data-cat="cijfer">
-        <b>Moet ik op elk deel apart slagen?</b>
-        <div class="desc">Er is geen algemene VUB-regel die dat oplegt. Zo'n eis (bijvoorbeeld minstens 8/20 op je examen) bestaat enkel als ze in de vakfiche van dat specifieke vak staat. Check dus altijd de fiche op Canvas.</div>
-        <div class="srcrow"><span class="okpill">Bevestigd</span><a class="srclink" href="https://www.vub.be/sites/default/files/2025-07/2025_Reglementen_OER_2025-2026_NL.pdf" target="_blank" rel="noopener">OER Art. 137 en 103 ↗</a></div>
-      </div>
-      <div class="qcard" data-cat="cijfer">
-        <b>Hoe wordt mijn eindpercentage berekend?</b>
-        <div class="desc">Als een gewogen gemiddelde: elk vak telt mee volgens zijn aantal studiepunten, dus een vak van 6 studiepunten weegt dubbel zo zwaar als een van 3. Dit is wat studenten soms hun grade point noemen. 55% is de deliberatiedrempel.</div>
-        <div class="srcrow"><span class="okpill">Bevestigd</span><a class="srclink" href="https://www.vub.be/sites/default/files/2025-07/2025_Reglementen_OER_2025-2026_NL.pdf" target="_blank" rel="noopener">OER Art. 140 ↗</a></div>
-      </div>
-      <div class="qcard" data-cat="cijfer">
-        <b>Welke graden van verdienste bestaan er?</b>
-        <div class="desc">Op basis van je gemiddeld eindresultaat: voldoening onder 68%, onderscheiding vanaf 68%, grote onderscheiding vanaf 77% en grootste onderscheiding vanaf 85%. Het percentage wordt afgerond, dus 67,5% wordt al 68%.</div>
-        <div class="srcrow"><span class="okpill">Bevestigd</span><a class="srclink" href="https://www.vub.be/sites/default/files/2025-07/2025_Reglementen_OER_2025-2026_NL.pdf" target="_blank" rel="noopener">OER Art. 144 ↗</a></div>
-      </div>
-
-      <!-- ===== Inzage en beroep ===== -->
-      <div class="qcard" data-cat="inzage">
-        <b>Mag ik mijn examen inkijken en feedback vragen?</b>
-        <div class="desc">Ja. Voor schriftelijke examens heb je recht op inzage in je kopij binnen 5 kalenderdagen na de bekendmaking. De afspraak vraag je aan binnen 3 kalenderdagen. Je kan in diezelfde periode ook feedback vragen.</div>
-        <div class="srcrow"><span class="okpill">Bevestigd</span><a class="srclink" href="https://www.vub.be/sites/default/files/2025-07/2025_Reglementen_OER_2025-2026_NL.pdf" target="_blank" rel="noopener">OER Art. 114 ↗</a></div>
-      </div>
-      <div class="qcard" data-cat="inzage">
-        <b>Kan ik beroep aantekenen tegen een resultaat?</b>
-        <div class="desc">Ja, binnen een vervaltermijn van 7 kalenderdagen na de bekendmaking van de resultaten. Valt je inzage later, vermeld dat dan in je verzoekschrift en onderbouw het binnen 7 kalenderdagen daarna.</div>
-        <div class="srcrow"><span class="okpill">Bevestigd</span><a class="srclink" href="https://www.vub.be/sites/default/files/2025-07/2025_Reglementen_OER_2025-2026_NL.pdf" target="_blank" rel="noopener">OER Art. 153 ↗</a></div>
-      </div>
-      <div class="qcard" data-cat="inzage">
-        <b>Hoe vind ik het mailadres van de prof of assistent?</b>
-        <div class="desc">De titularis organiseert vaak zelf een inzagemoment en kondigt dat aan via Canvas. Is er geen moment? Dan vraag je per e-mail een afspraak. Het adres vind je in de vakfiche of studiegids en op de faculteitspagina van Psychologie en Educatiewetenschappen.</div>
-        <div class="srcrow"><span class="okpill">Bevestigd</span><a class="srclink" href="https://www.vub.be/sites/default/files/2025-07/2025_Reglementen_OER_2025-2026_NL.pdf" target="_blank" rel="noopener">OER Art. 114 + PE ↗</a></div>
-      </div>
-    </div>
-    <script>
-    (function(){
-      var cats=document.getElementById('excats'); if(!cats) return;
-      var faq=document.getElementById('exfaq');
-      var cards=[].slice.call(faq.querySelectorAll('.qcard'));
-      var btns=[].slice.call(cats.querySelectorAll('.excat'));
-      cats.addEventListener('click',function(e){
-        var b=e.target.closest('.excat'); if(!b) return;
-        var cat=b.getAttribute('data-cat');
-        btns.forEach(function(x){x.classList.toggle('on',x===b);});
-        cards.forEach(function(c){
-          var show=(cat==='all'||c.getAttribute('data-cat')===cat);
-          c.classList.toggle('exhide',!show);
-        });
-      });
-    })();
-    </script>
-
-    <style>
-    #exinfo .qask{border:1.5px solid var(--accent);background:var(--accent-soft);border-radius:var(--r-lg);padding:20px 22px;box-shadow:var(--shadow);margin-top:6px}
-    #exinfo .qask-head{display:flex;align-items:flex-start;gap:13px;margin-bottom:14px}
-    #exinfo .qask-ic{width:44px;height:44px;border-radius:12px;flex:none;display:grid;place-items:center;color:#fff;background:linear-gradient(145deg,var(--accent),var(--accent-ink))}
-    #exinfo .qask-ic svg{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
-    #exinfo .qask-head b{display:block;font-size:15.5px}
-    #exinfo .qask-head small{color:var(--muted);font-size:13px;line-height:1.5}
-    #exinfo .qask textarea{width:100%;box-sizing:border-box;min-height:82px;resize:vertical;background:var(--bg2);border:1px solid var(--line);color:var(--ink);border-radius:11px;padding:11px 13px;font-family:inherit;font-size:14px;margin-bottom:10px}
-    #exinfo .qask input{width:100%;box-sizing:border-box;background:var(--bg2);border:1px solid var(--line);color:var(--ink);border-radius:11px;padding:10px 13px;font-family:inherit;font-size:14px;margin-bottom:12px}
-    #exinfo .qask textarea:focus,#exinfo .qask input:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-soft)}
-    #exinfo .qask-row{display:flex;align-items:center;gap:14px;flex-wrap:wrap}
-    #exinfo #qaStatus{font-size:12.5px;color:var(--muted)}
-    #exinfo .qask-done{text-align:center;padding:12px 0}
-    #exinfo .qask-done b{display:block;font-size:16px;margin-top:6px}
-    #exinfo .qask-done small{color:var(--muted);font-size:13px}
-    </style>
-    <div class="qask" id="qask">
-      <div class="qask-head">
-        <span class="qask-ic"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M9.1 9a3 3 0 0 1 5.8 1c0 2-3 3-3 3"/><path d="M12 17h.01"/></svg></span>
-        <div><b>Zit je met een andere vraag?</b><small>Stel ze hier. Berie leest elke vraag, beantwoordt ze en de meest gestelde komen erbij.</small></div>
-      </div>
-      <textarea id="qaMsg" placeholder="Typ je vraag, bijvoorbeeld: hoe werkt de tweede zit voor een vak met een groepstaak?"></textarea>
-      <input id="qaEmail" type="email" placeholder="Je e-mail (optioneel, als je een antwoord wil)">
-      <div class="qask-row">
-        <button class="btn" id="qaSend" type="button">Verstuur vraag</button>
-        <span id="qaStatus"></span>
-      </div>
-    </div>
-
-    <div class="seclabel" id="reken" style="margin-top:30px;scroll-margin-top:78px"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="2" width="16" height="20" rx="2"/><path d="M8 6h8M8 10h8M8 14h2M8 18h2"/></svg>Reken je punten uit</div>
-
-    <div class="calc c1">
-      <div class="calctitle"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="2" width="16" height="20" rx="2"/><path d="M8 6h8M16 14v4M12 14v4M8 14v4"/></svg>Cijfer voor een vak</div>
-      <p class="calcsub">Vul je deelcijfers en hun gewicht in. Het gewicht per deel staat in de vakfiche op Canvas.</p>
-      <div class="chead"><span>Onderdeel</span><span style="text-align:center">Cijfer</span><span style="text-align:center">Gewicht</span><span></span></div>
-      <div class="rows" id="ex1Rows"></div>
-      <button class="iconbtn addbtn" id="ex1Add" type="button"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>Onderdeel toevoegen</button>
-      <div class="metrics">
-        <div class="metric"><div class="ml">Gewogen eindcijfer</div><div class="mv"><span id="ex1Mark">--</span><small> /20</small></div><div class="mh">afgerond: <span id="ex1Round">--</span>/20</div></div>
-        <div class="metric"><div class="ml">Percentage</div><div class="mv"><span id="ex1Pct">--</span><small> %</small></div><div class="mh">van de 20 punten</div></div>
-        <div class="metric" style="display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center"><div class="vt" id="ex1Status" style="font-size:13.5px">--</div><div class="mh" style="margin-top:5px">vanaf 10/20</div></div>
-      </div>
-      <div class="wsum"><span>Som van de gewichten: <b id="ex1Wsum" style="color:var(--ink)">--</b>%</span><span class="wwarn" id="ex1Warn" style="display:none">telt niet op tot 100%</span></div>
-    </div>
-
-    <div class="calc c2">
-      <div class="calctitle"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v18M5 21h14M7 7l-3 6a3 3 0 0 0 6 0z M17 7l-3 6a3 3 0 0 0 6 0z M7 7h10"/></svg>Mijn gemiddelde en deliberatie</div>
-      <p class="calcsub">Vul per vak je cijfer en studiepunten in. Dit is wat studenten soms GPA of GAP noemen.</p>
-      <div class="chead"><span>Vak</span><span style="text-align:center">Cijfer</span><span style="text-align:center">Studiepunten</span><span></span></div>
-      <div class="rows" id="ex2Rows"></div>
-      <button class="iconbtn addbtn" id="ex2Add" type="button"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>Vak toevoegen</button>
-      <div class="metrics">
-        <div class="metric"><div class="ml">Gewogen gemiddelde</div><div class="mv"><span id="ex2Avg">--</span><small> /20</small></div></div>
-        <div class="metric"><div class="ml">In percentage</div><div class="mv"><span id="ex2Pct">--</span><small> %</small></div><div class="mh">drempel deliberatie: 55%</div></div>
-      </div>
-      <div class="verdict" id="ex2Verdict" style="border-color:var(--line);background:var(--bg2)">
-        <span class="vbox" id="ex2VIc" style="background:var(--line)"></span>
-        <div><div class="vt" id="ex2VTitle" style="color:var(--muted)">Vul je vakken in om te beginnen</div><div class="vs" id="ex2VSub">Je ziet hier meteen of je aan de deliberatievoorwaarden voldoet.</div></div>
-      </div>
-      <div class="rules">
-        <div class="rule" id="ex2r1"></div>
-        <div class="rule" id="ex2r2"></div>
-        <div class="rule" id="ex2r3"></div>
-        <div class="rule" id="ex2r4"></div>
-        <div class="rule" id="ex2r5"></div>
-      </div>
-    </div>
-
-    <div class="exnote">
-      <span class="nb"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></svg></span>
-      <div>De regels zijn geverifieerd op het VUB OER 2025-2026 (Art. 139 en 143). Dit is een hulpmiddel en een indicatie voor een gewoon jaar zonder vrijstellingen of stagevakken. De examencommissie beslist. Check bij twijfel het OER of je studietrajectbegeleider.</div>
-    </div>
-  </div>
-
-  <script>
-  (function(){
-    var I_CHK='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>';
-    var I_X='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"/></svg>';
-    var I_WARN='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><path d="M12 9v4M12 17h.01"/></svg>';
-    function fmt(n,d){ return n.toFixed(d).replace('.',','); }
-    function el(id){ return document.getElementById(id); }
-
-    /* ---- Calculator 1: cijfer voor een vak ---- */
-    (function(){
-      var box=el('ex1Rows');
-      var start=[['','',''],['','',''],['','','']];
-      function row(naam,punt,weeg){
-        var r=document.createElement('div'); r.className='crow';
-        r.innerHTML='<input class="c-naam" type="text" value="'+naam+'" placeholder="Onderdeel" aria-label="onderdeel">'+
-          '<span class="uwrap"><input class="c-punt num" type="number" min="0" max="20" step="0.1" value="'+punt+'" placeholder="0" aria-label="cijfer op 20"><span>/20</span></span>'+
-          '<span class="uwrap"><input class="c-weeg num" type="number" min="0" max="100" step="1" value="'+weeg+'" placeholder="0" aria-label="gewicht procent"><span>%</span></span>'+
-          '<button class="delbtn" aria-label="verwijder">&times;</button>';
-        return r;
-      }
-      function calc(){
-        var rows=box.querySelectorAll('.crow'), sw=0, spw=0;
-        rows.forEach(function(x){ var p=parseFloat(x.querySelector('.c-punt').value); var w=parseFloat(x.querySelector('.c-weeg').value); if(!isNaN(w)){ sw+=w; if(!isNaN(p)) spw+=p*w; } });
-        el('ex1Wsum').textContent=Math.round(sw);
-        el('ex1Warn').style.display=(sw>0&&Math.round(sw)!==100)?'inline':'none';
-        var mk=el('ex1Mark'),rd=el('ex1Round'),pc=el('ex1Pct'),st=el('ex1Status');
-        if(sw>0){ var w8=spw/sw, off=Math.round(w8), p=w8/20*100; mk.textContent=fmt(w8,1); rd.textContent=off; pc.textContent=Math.round(p);
-          if(off>=10){ st.style.color='var(--good)'; st.textContent='Geslaagd'; } else { st.style.color='#e0654a'; st.textContent='Niet geslaagd'; }
-        } else { mk.textContent='--'; rd.textContent='--'; pc.textContent='--'; st.style.color='var(--muted)'; st.textContent='Vul gewichten in'; }
-      }
-      start.forEach(function(d){ box.appendChild(row(d[0],d[1],d[2])); });
-      box.addEventListener('input',calc);
-      box.addEventListener('click',function(e){ var d=e.target.closest('.delbtn'); if(d && box.querySelectorAll('.crow').length>1){ d.closest('.crow').remove(); calc(); } });
-      el('ex1Add').addEventListener('click',function(){ box.appendChild(row('','','')); calc(); });
-      calc();
-    })();
-
-    /* ---- Calculator 2: gemiddelde en deliberatie ---- */
-    (function(){
-      var box=el('ex2Rows');
-      var start=[['','',''],['','',''],['','','']];
-      function row(naam,cij,sp){
-        var r=document.createElement('div'); r.className='crow';
-        r.innerHTML='<input class="v-naam" type="text" value="'+naam+'" placeholder="Vak" aria-label="vak">'+
-          '<span class="uwrap"><input class="v-cij num" type="number" min="0" max="20" step="1" value="'+cij+'" placeholder="0" aria-label="cijfer op 20"><span>/20</span></span>'+
-          '<span class="uwrap"><input class="v-sp num" type="number" min="0" max="30" step="1" value="'+sp+'" placeholder="0" aria-label="studiepunten"><span>stp</span></span>'+
-          '<button class="delbtn" aria-label="verwijder">&times;</button>';
-        return r;
-      }
-      function setRule(id,ok,label,detail){
-        var e=el(id); var col=ok?'var(--good)':'#e0654a'; var bg=ok?'var(--good-soft)':'rgba(224,101,74,.16)';
-        e.innerHTML='<span class="ric" style="background:'+bg+';color:'+col+'">'+(ok?I_CHK:I_X)+'</span>'+
-          '<span class="rlbl">'+label+'</span>'+
-          '<span class="rdet" style="color:'+col+';background:'+bg+'">'+detail+'</span>';
-      }
-      function calc(){
-        var rows=box.querySelectorAll('.crow'), ssp=0, scs=0, items=[];
-        rows.forEach(function(x){ var c=parseFloat(x.querySelector('.v-cij').value); var s=parseFloat(x.querySelector('.v-sp').value); if(!isNaN(c)&&!isNaN(s)&&s>0){ ssp+=s; scs+=c*s; items.push({c:c,s:s}); } });
-        var av=el('ex2Avg'), pc=el('ex2Pct');
-        if(ssp<=0){ av.textContent='--'; pc.textContent='--';
-          var nb=el('ex2Verdict'),ni=el('ex2VIc'),nt=el('ex2VTitle'),ns=el('ex2VSub');
-          nb.style.borderColor='var(--line)'; nb.style.background='var(--bg2)'; ni.style.background='var(--line)'; ni.innerHTML='';
-          nt.style.color='var(--muted)'; nt.textContent='Vul je vakken in om te beginnen'; ns.textContent='Je ziet hier meteen of je aan de deliberatievoorwaarden voldoet.';
-          var L={ex2r1:'Gewogen gemiddelde minstens 55%',ex2r2:'Geen vak onder 8/20',ex2r3:'Hoogstens 2 vakken onder 10',ex2r4:'Hoogstens 3 punten tekort',ex2r5:'Gewogen-punten-tekort hoogstens 18'};
-          Object.keys(L).forEach(function(id){ el(id).innerHTML='<span class="ric" style="background:var(--line)"></span><span class="rlbl" style="color:var(--muted)">'+L[id]+'</span>'; });
-          return;
-        }
-        var avg=scs/ssp, pct=avg/20*100; av.textContent=fmt(avg,1); pc.textContent=Math.round(pct);
-        var tek=items.filter(function(i){return i.c<10;});
-        var on8=items.filter(function(i){return i.c<8;});
-        var pt=tek.reduce(function(a,i){return a+(10-i.c);},0);
-        var gpt=tek.reduce(function(a,i){return a+(10-i.c)*i.s;},0);
-        var r1=pct>=55, r2=on8.length===0, r3=tek.length<=2, r4=pt<=3, r5=gpt<=18;
-        setRule('ex2r1',r1,'Gewogen gemiddelde minstens 55%',Math.round(pct)+'%');
-        setRule('ex2r2',r2,'Geen vak onder 8/20',on8.length?on8.length+' onder 8':'in orde');
-        setRule('ex2r3',r3,'Hoogstens 2 vakken onder 10',tek.length+' onder 10');
-        setRule('ex2r4',r4,'Hoogstens 3 punten tekort',Math.round(pt)+' tekort');
-        setRule('ex2r5',r5,'Gewogen-punten-tekort hoogstens 18','GPT '+Math.round(gpt));
-        var allc=tek.length===0, pass=r1&&r2&&r3&&r4&&r5;
-        var vb=el('ex2Verdict'), vi=el('ex2VIc'), vt=el('ex2VTitle'), vs=el('ex2VSub');
-        function green(){ vb.style.borderColor='var(--good)'; vb.style.background='var(--good-soft)'; vi.style.background='linear-gradient(145deg,var(--good),#2f8a52)'; vi.innerHTML=I_CHK; vt.style.color='var(--good)'; }
-        function amber(){ vb.style.borderColor='var(--amber)'; vb.style.background='var(--amber-soft)'; vi.style.background='linear-gradient(145deg,var(--amber),#9a6212)'; vi.innerHTML=I_WARN; vt.style.color='var(--amber)'; }
-        if(allc){ green(); vt.textContent='Geslaagd voor al je vakken'; vs.textContent='Deliberatie is niet nodig, alles staat op 10 of meer.'; }
-        else if(pass){ green(); vt.textContent='Je voldoet aan de automatische voorwaarden'; vs.textContent='Op basis van de regels hieronder. De examencommissie bevestigt.'; }
-        else { amber(); vt.textContent='Je voldoet niet automatisch'; vs.textContent='Bekijk welke regel rood staat. De commissie kan in bijzondere gevallen alsnog delibereren.'; }
-      }
-      start.forEach(function(d){ box.appendChild(row(d[0],d[1],d[2])); });
-      box.addEventListener('input',calc);
-      box.addEventListener('click',function(e){ var d=e.target.closest('.delbtn'); if(d && box.querySelectorAll('.crow').length>1){ d.closest('.crow').remove(); calc(); } });
-      el('ex2Add').addEventListener('click',function(){ box.appendChild(row('','','')); calc(); });
-      calc();
-    })();
-
-    /* ---- Stel je vraag (naar Gmail via formsubmit, mailto-fallback) ---- */
-    (function(){
-      var send=el('qaSend'); if(!send) return;
-      function status(html,bad){ el('qaStatus').innerHTML=bad?('<span style="color:#e0654a">'+html+'</span>'):html; }
-      send.addEventListener('click',function(){
-        var msg=(el('qaMsg').value||'').trim(), email=(el('qaEmail').value||'').trim();
-        if(msg.length<5){ status('Schrijf eerst even je vraag.',true); return; }
-        if(email && !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)){ status('Vul een geldig e-mailadres in, of laat het leeg.',true); return; }
-        el('qaStatus').innerHTML=''; send.disabled=true; var old=send.innerHTML; send.innerHTML='Versturen...';
-        var done=false;
-        var ifr=document.createElement('iframe'); ifr.name='qaT'; ifr.style.display='none'; document.body.appendChild(ifr);
-        var form=document.createElement('form'); form.action='https://formsubmit.co/Berat007yildirim@gmail.com'; form.method='POST'; form.target='qaT'; form.style.display='none';
-        function hid(n,v){ var i=document.createElement('input'); i.type='hidden'; i.name=n; i.value=v; form.appendChild(i); }
-        hid('_subject',"Berie's exam space - Examen-info vraag"); hid('_captcha','false'); hid('_template','table');
-        hid('Vraag',msg); hid('email',email||'(geen e-mail opgegeven)');
-        document.body.appendChild(form);
-        function cleanup(){ try{ form.parentNode.removeChild(form); ifr.parentNode.removeChild(ifr); }catch(e){} }
-        function thanks(){ if(done)return; done=true; cleanup();
-          el('qask').innerHTML='<div class="qask-done"><div style="font-size:34px">🙌</div><b>Bedankt voor je vraag!</b><small>Berie leest ze en beantwoordt of voegt ze toe aan de info.</small></div>';
-        }
-        function fail(){ if(done)return; done=true; cleanup();
-          var body=encodeURIComponent('Vraag:\n'+msg+'\n\nE-mail: '+(email||'-'));
-          var mailto='mailto:berat007yildirim@gmail.com?subject='+encodeURIComponent("Berie's exam space - Examen-info vraag")+'&body='+body;
-          send.disabled=false; send.innerHTML=old;
-          status('Kreeg geen bevestiging. <a href="'+mailto+'" style="color:var(--accent-ink);font-weight:700;text-decoration:underline">Mail je vraag direct</a>.',false);
-        }
-        var submitted=false;
-        ifr.onload=function(){ if(submitted) thanks(); };
-        try{ submitted=true; form.submit(); }catch(e){ fail(); return; }
-        setTimeout(fail,20000);
-      });
-    })();
-
-    /* ---- Nav-links: vloeiend naar hun sectie scrollen (eigen animatie, werkt ondanks de 'altijd bovenaan'-logica) ---- */
-    (function(){
-      function ease(p){ return 1-Math.pow(1-p,3); }
-      document.addEventListener('click', function(e){
-        var a=e.target.closest('.topnav a[href^="#"]'); if(!a) return;
-        var t=document.getElementById(a.getAttribute('href').slice(1)); if(!t) return;
-        e.preventDefault();
-        var de=document.documentElement, prev=de.style.scrollBehavior; de.style.scrollBehavior='auto';
-        var start=window.pageYOffset||0;
-        var end=t.getBoundingClientRect().top+start-78; if(end<0)end=0;
-        var rm=window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-        var dist=end-start;
-        if(rm || Math.abs(dist)<4){ window.scrollTo(0,end); de.style.scrollBehavior=prev; return; }
-        var dur=Math.min(950,Math.max(420,Math.abs(dist)*0.6)), t0=null;
-        function step(ts){ if(t0===null)t0=ts; var p=Math.min(1,(ts-t0)/dur); window.scrollTo(0,start+dist*ease(p)); if(p<1){ requestAnimationFrame(step); } else { de.style.scrollBehavior=prev; } }
-        requestAnimationFrame(step);
-      });
-    })();
-  })();
-  </script>
-  <!-- ===== EINDE EXAMEN-INFO ===== -->
 </div>
 
 <section id="over" class="wrap" style="padding-top:8px">
@@ -886,33 +400,31 @@
       {n:"Menselijke Biologie & Genetica", desc:"De biologische basis van gedrag.", url:BASE+"mbg/"},
       {n:"Statistiek II", desc:"SPSS & statistiek.", url:BASE+"stat/"},
       {n:"Sociologie", desc:"112 examenvragen, H1–H16, met directe feedback.", url:BASE+"sociologie/"},
-      {n:"Algemene Psychologie", desc:"82 oefenvragen per hoofdstuk, met uitleg.", url:BASE+"algpsy/"},
+      {n:"Inleiding tot de Psychologie", desc:"Algemene psychologie.", soon:true},
       {n:"Ontwikkelingspsychologie", desc:"84 oefenvragen over de levensloop, met uitleg.", url:BASE+"ontwikkeling/"},
       {n:"Sociale Psychologie", desc:"70 oefenvragen, H1–H7, met uitleg.", url:BASE+"socpsy/"},
-      {n:"Biologische Psychologie I", desc:"72 oefenvragen per hoofdstuk, met uitleg.", url:BASE+"biopsy1/"},
-      {n:"Inleiding Educatiewetenschappen", desc:"77 oefenvragen per hoofdstuk, met uitleg.", url:BASE+"inlped/"},
-      {n:"OMT I: Psychometrie", desc:"42 oefenvragen per hoofdstuk, met uitleg.", url:BASE+"omt1/"},
+      {n:"Biologische Psychologie", desc:"Brein, zenuwstelsel & gedrag.", soon:true},
       {n:"Communicatie", desc:"Gespreks- en communicatievaardigheden.", soon:true},
-      {n:"Logica & Wetenschapsfilosofie", desc:"50 oefenvragen per hoofdstuk, met uitleg.", url:BASE+"logica/"}
+      {n:"Filosofie & Wetenschapsleer", desc:"Denkkaders & wetenschapsleer.", soon:true}
     ]},
     {y:"2de bachelor", tag:"2", cls:"v", subjects:[
-      {n:"Arbeids- & Organisatiepsychologie", desc:"45 oefenvragen per hoofdstuk, met uitleg.", url:BASE+"ao/"},
-      {n:"Biologische Psychologie 2", desc:"80 oefenvragen met uitleg, per hoofdstuk.", url:BASE+"biologische2/"},
-      {n:"Persoonlijkheidspsychologie", desc:"73 oefenvragen per hoofdstuk, met uitleg.", url:BASE+"pers/"},
-      {n:"Klinische Psychiatrie", desc:"92 oefenvragen per hoofdstuk, met uitleg.", url:BASE+"kpsy/"},
+      {n:"Arbeids- & Organisatiepsychologie", desc:"6 SP", soon:true},
+      {n:"Biologische Psychologie 2", desc:"6 SP", soon:true},
+      {n:"Persoonlijkheidspsychologie", desc:"3 SP", soon:true},
+      {n:"Klinische Psychologie", desc:"6 SP", soon:true},
       {n:"Statistiek III", desc:"6 SP", soon:true},
       {n:"Projectweek 1", desc:"3 SP", soon:true},
-      {n:"Sociale Psychologie 2", desc:"73 oefenvragen per hoofdstuk, met uitleg.", url:BASE+"socpsy2/"},
-      {n:"Theoretische en Historische Grondslagen in de Psychologie", desc:"37 oefenvragen per hoofdstuk, met uitleg.", url:BASE+"thg/"},
-      {n:"Cognitieve Psychologie", desc:"86 oefenvragen per hoofdstuk, met uitleg.", url:BASE+"cogpsy/"},
-      {n:"Cross-culturele Psychologie", desc:"35 oefenvragen per hoofdstuk, met uitleg.", url:BASE+"cross/"},
-      {n:"Onderzoeksmethoden & -technieken 2", desc:"71 oefenvragen per hoofdstuk, met uitleg.", url:BASE+"rmt2/"},
+      {n:"Sociale Psychologie 2", desc:"6 SP", soon:true},
+      {n:"Theoretische en Historische Grondslagen in de Psychologie", desc:"3 SP", soon:true},
+      {n:"Cognitieve Psychologie", desc:"6 SP", soon:true},
+      {n:"Cross-culturele Psychologie", desc:"3 SP", soon:true},
+      {n:"Onderzoeksmethoden & -technieken 2", desc:"6 SP", soon:true},
       {n:"Inleiding tot de Orthopedagogiek", desc:"122 examenvragen, met antwoorden.", url:BASE+"ortho/"}
     ]},
     {y:"3de bachelor", tag:"3", cls:"a", subjects:[
       {n:"Evidence based kritisch handelen", desc:"6 SP", soon:true},
       {n:"Psychologische gespreksvoering", desc:"6 SP", soon:true},
-      {n:"Differentiële Psychologie", desc:"98 oefenvragen per hoofdstuk, met uitleg.", url:BASE+"diffpsy/"},
+      {n:"Differentiële Psychologie", desc:"6 SP", soon:true},
       {n:"Gezondheidspsychologie", desc:"6 SP", soon:true},
       {n:"Organisatie van de hulpverlening", desc:"6 SP", soon:true},
       {n:"Observatiestage", desc:"3 SP", soon:true},
@@ -1113,22 +625,7 @@
   function applyTheme(){ document.documentElement.setAttribute("data-theme",theme);
     tb.innerHTML=(theme==="dark"?ic("sun"):ic("moon"))+'<span>'+(theme==="dark"?"Licht":"Donker")+'</span>'; }
   applyTheme();
-  tb.onclick=function(){
-    var next=theme==="dark"?"light":"dark";
-    var rm=window.matchMedia&&window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    function commit(){ theme=next; rawSet("site_theme",theme); applyTheme(); }
-    if(rm || !document.startViewTransition){ commit(); return; }
-    var r=tb.getBoundingClientRect();
-    var x=r.left+r.width/2, y=r.top+r.height/2;
-    var end=Math.hypot(Math.max(x,window.innerWidth-x), Math.max(y,window.innerHeight-y));
-    var vt=document.startViewTransition(commit);
-    vt.ready.then(function(){
-      document.documentElement.animate(
-        { clipPath:["circle(0px at "+x+"px "+y+"px)","circle("+end+"px at "+x+"px "+y+"px)"] },
-        { duration:1100, easing:"cubic-bezier(.22,1,.36,1)", pseudoElement:"::view-transition-new(root)" }
-      );
-    });
-  };
+  tb.onclick=function(){ theme=theme==="dark"?"light":"dark"; rawSet("site_theme",theme); applyTheme(); };
 
   document.getElementById("upIc").innerHTML=ic("upload");
   document.getElementById("upGo").innerHTML=ic("arrowR");
@@ -1182,7 +679,7 @@
   })();
 </script>
 <script>
-(function(){ var s=document.getElementById("splash"); if(!s) return; var red=false; try{red=window.matchMedia("(prefers-reduced-motion: reduce)").matches;}catch(e){} setTimeout(function(){ s.classList.add("hide"); setTimeout(function(){ if(s&&s.parentNode) s.parentNode.removeChild(s); },450); }, red?300:700); })();
+(function(){ var s=document.getElementById("splash"); if(!s) return; var red=false; try{red=window.matchMedia("(prefers-reduced-motion: reduce)").matches;}catch(e){} setTimeout(function(){ s.classList.add("hide"); setTimeout(function(){ if(s&&s.parentNode) s.parentNode.removeChild(s); },700); }, red?300:2400); })();
 </script>
 </body>
 </html>
