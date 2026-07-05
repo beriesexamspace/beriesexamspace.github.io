@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+<meta name="theme-color" content="#0f6e6a" />
+<meta http-equiv="Cache-Control" content="no-cache, must-revalidate" />
+<meta http-equiv="Pragma" content="no-cache" />
+<title>Organisatie van de Hulpverlening, Berie’s exam space</title>
+<meta name="author" content="Berat Yildirim - Berie's exam space" />
+<meta name="copyright" content="© 2026 Berat Yildirim. Alle rechten voorbehouden." />
+<!-- Berie's exam space © 2026 Berat Yildirim. Alle rechten voorbehouden. Originele bron: https://beriesexamspace.github.io  Kopieren of hergebruiken zonder schriftelijke toestemming is niet toegestaan. -->
+<style>
+  :root{
+    --bg:#f4f2ee; --bg2:#ebe8e2; --card:#ffffff; --ink:#1b232c; --muted:#5d6873;
+    --line:#e2ddd4; --accent:#0f6e6a; --accent-ink:#0b4f4c; --accent-soft:#dcefed;
+    --amber:#c9821f; --amber-soft:#f7ecd9; --violet:#6d5bd0; --violet-soft:#e9e6fa;
+    --good:#1f8a4c; --good-soft:#e2f3e8; --bad:#c23b54; --bad-soft:#fbe5ea;
+    --shadow:0 1px 2px rgba(20,30,40,.05),0 6px 18px rgba(20,30,40,.05);
+    --shadow-lg:0 2px 6px rgba(20,30,40,.06),0 18px 40px rgba(20,30,40,.10);
+    --r:14px; --r-lg:20px; --ease:cubic-bezier(.2,.8,.2,1);
+  }
+  html[data-theme="dark"]{
+    --bg:#11151a; --bg2:#161b22; --card:#1b222b; --ink:#e7ecf1; --muted:#9aa6b2;
+    --line:#2a323c; --accent:#3fb9b2; --accent-ink:#7fd6d0; --accent-soft:#163230;
+    --amber:#e0a64a; --amber-soft:#2e2515; --violet:#a99cf0; --violet-soft:#221d3a;
+    --good:#46c178; --good-soft:#16301f; --bad:#ef6b82; --bad-soft:#331620;
+    --shadow:0 1px 2px rgba(0,0,0,.3),0 8px 24px rgba(0,0,0,.35);
+    --shadow-lg:0 2px 8px rgba(0,0,0,.4),0 22px 48px rgba(0,0,0,.5);
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);font-size:16px;line-height:1.55;
+    font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;-webkit-font-smoothing:antialiased}
+  h1,h2,h3{font-family:Georgia,"Iowan Old Style","Times New Roman",serif;letter-spacing:-.01em}
+  button,a{font-family:inherit;cursor:pointer;color:inherit}
+  .wrap{max-width:880px;margin:0 auto;padding:0 18px 96px}
+  :focus-visible{outline:2.5px solid var(--accent);outline-offset:2px;border-radius:8px}
+  .ic{width:1.25em;height:1.25em;flex:none;vertical-align:-.18em;stroke:currentColor;stroke-width:1.75;
+    stroke-linecap:round;stroke-linejoin:round;fill:none}
+
+  header.top{position:sticky;top:0;z-index:30;border-bottom:1px solid var(--line);
+    background:color-mix(in srgb,var(--bg) 88%,transparent);backdrop-filter:saturate(160%) blur(16px);-webkit-backdrop-filter:saturate(160%) blur(16px);box-shadow:inset 0 -1px 0 0 rgba(0,0,0,.04)}
+  .topin{max-width:880px;margin:0 auto;padding:10px 18px;display:flex;align-items:center;gap:12px}
+  .brand{display:flex;align-items:center;gap:11px;font-weight:700}
+  .logo{width:32px;height:32px;border-radius:10px;background:linear-gradient(145deg,var(--accent),var(--accent-ink));
+    color:#fff;display:grid;place-items:center;font-family:Georgia,serif;font-weight:700;font-size:16px;flex:none;
+    box-shadow:0 2px 6px rgba(15,110,106,.35)}
+  .brand small{display:block;font-weight:500;color:var(--muted);font-size:11px}
+  .spacer{flex:1}
+  .iconbtn{border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:10px;min-height:38px;
+    padding:7px 11px;font-size:13.5px;display:inline-flex;gap:7px;align-items:center;text-decoration:none;
+    transition:border-color .2s var(--ease),transform .12s var(--ease)}
+  .iconbtn:hover{border-color:var(--accent)} .iconbtn:active{transform:scale(.96)}
+  nav.tabs{display:flex;gap:2px;overflow:auto;max-width:880px;margin:0 auto;padding:6px 12px 0;scrollbar-width:none}
+  nav.tabs::-webkit-scrollbar{display:none}
+  nav.tabs button{border:none;background:none;color:var(--muted);padding:10px 13px;border-radius:9px 9px 0 0;
+    font-size:14px;font-weight:600;white-space:nowrap;border-bottom:2px solid transparent;display:inline-flex;align-items:center;gap:6px;transition:color .2s var(--ease)}
+  nav.tabs button .ic{width:16px;height:16px}
+  nav.tabs button.on{color:var(--accent-ink);border-bottom-color:var(--accent)}
+  nav.tabs button:hover{color:var(--ink)}
+
+  .card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow)}
+  .pad{padding:20px}
+  .muted{color:var(--muted)}
+  .pill{display:inline-flex;align-items:center;gap:5px;font-size:12px;font-weight:600;padding:4px 10px;border-radius:999px;background:var(--accent-soft);color:var(--accent-ink)}
+  .pill.amber{background:var(--amber-soft);color:var(--amber)}
+  .row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+  .grid{display:grid;gap:14px}
+  @media(min-width:620px){.g2{grid-template-columns:1fr 1fr}}
+
+  .hero{display:flex;flex-wrap:wrap;align-items:center;gap:16px;margin:20px 0 8px}
+  .count{flex:none;background:linear-gradient(150deg,var(--accent),var(--accent-ink));color:#fff;border-radius:var(--r);padding:14px 20px;text-align:center;min-width:118px;box-shadow:0 8px 20px rgba(15,110,106,.28)}
+  .count b{font-family:Georgia,serif;font-size:32px;display:block;line-height:1}
+  .count span{font-size:12px;opacity:.92}
+  .herotext h1{margin:0 0 4px;font-size:25px}
+  .herotext p{margin:0;color:var(--muted)}
+
+  .brandstrip{display:flex;align-items:center;gap:13px;width:100%;text-decoration:none;color:inherit;border:1px solid var(--line);background:var(--card);border-radius:var(--r);padding:12px 16px;margin:14px 0 2px;box-shadow:var(--shadow);transition:border-color .2s var(--ease),transform .15s var(--ease)}
+  .brandstrip:hover{border-color:var(--accent);transform:translateY(-1px)}
+  .brandstrip .bs-logo{width:36px;height:36px;border-radius:10px;flex:none;display:grid;place-items:center;color:#fff;font-family:Georgia,serif;font-weight:700;font-size:17px;background:linear-gradient(145deg,var(--accent),var(--accent-ink))}
+  .brandstrip .bs-txt{flex:1;min-width:0} .brandstrip .bs-txt b{display:block;font-size:14.5px} .brandstrip .bs-txt small{color:var(--muted);font-size:12.5px}
+  .brandstrip .bs-go{color:var(--accent-ink);flex:none;display:inline-flex} .brandstrip .bs-go .ic{width:18px;height:18px}
+
+  .seclabel{display:flex;align-items:center;gap:8px;margin:24px 0 12px;font-weight:700;font-size:15px}
+  .seclabel .ic{width:18px;height:18px;color:var(--accent-ink)}
+  .backlink{display:inline-flex;align-items:center;gap:5px;border:none;background:none;color:var(--muted);font-size:13.5px;font-weight:600;padding:6px 0;margin-bottom:4px;transition:color .2s var(--ease)}
+  .backlink:hover{color:var(--accent-ink)} .backlink .ic{width:16px;height:16px}
+  .tracks{display:grid;gap:14px} @media(min-width:600px){.tracks{grid-template-columns:1fr 1fr}}
+  .track{display:flex;flex-direction:column;gap:8px;text-align:left;width:100%;border:1.5px solid var(--line);background:var(--card);border-radius:var(--r-lg);padding:20px;box-shadow:var(--shadow);transition:transform .22s var(--ease),border-color .22s var(--ease),box-shadow .22s var(--ease)}
+  .track:hover{transform:translateY(-3px);border-color:var(--accent);box-shadow:var(--shadow-lg)} .track:active{transform:translateY(-1px) scale(.995)}
+  .track .tile{width:46px;height:46px;border-radius:13px;display:grid;place-items:center;color:#fff;margin-bottom:4px;background:linear-gradient(150deg,var(--accent),var(--accent-ink))}
+  .track.alt .tile{background:linear-gradient(150deg,var(--violet),#4f40a8)} .track .tile .ic{width:24px;height:24px}
+  .track b{font-size:18px} .track small{color:var(--muted);font-size:13.5px;line-height:1.5}
+  .track .go{margin-top:6px;display:inline-flex;align-items:center;gap:6px;color:var(--accent-ink);font-weight:600;font-size:13.5px} .track.alt .go{color:var(--violet)} .track .go .ic{width:16px;height:16px}
+  .toggle{width:48px;height:28px;border-radius:999px;border:none;background:var(--line);position:relative;cursor:pointer;flex:none;transition:background .2s var(--ease)}
+  .toggle .knob{position:absolute;top:3px;left:3px;width:22px;height:22px;border-radius:50%;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.25);transition:left .2s var(--ease)}
+  .toggle.on{background:var(--violet)} .toggle.on .knob{left:23px}
+  .warmcard{border-color:var(--violet)!important;background:var(--violet-soft)} .warmcard .ic{width:22px;height:22px;color:var(--violet);flex:none}
+  .modebanner{display:flex;align-items:center;gap:10px;margin-bottom:14px;padding:11px 14px;border-radius:var(--r);background:var(--accent-soft);color:var(--accent-ink);font-size:13.5px;font-weight:600}
+  .modebanner.v{background:var(--violet-soft);color:var(--violet)} .modebanner .ic{width:18px;height:18px} .modebanner a,.modebanner .bnlink{margin-left:auto;font-size:13px;font-weight:600;cursor:pointer;text-decoration:underline;color:inherit;border:none;background:none;font-family:inherit;padding:0}
+  html.snappy .card,html.snappy .mode,html.snappy .tip,html.snappy .track{animation-duration:.12s!important}
+  .mode{display:flex;flex-direction:column;text-align:left;width:100%;border:1px solid var(--line);background:var(--card);border-radius:var(--r);padding:17px;gap:7px;box-shadow:var(--shadow);transition:transform .2s var(--ease),border-color .2s var(--ease),box-shadow .2s var(--ease)}
+  .mode:hover{border-color:var(--accent);transform:translateY(-3px);box-shadow:var(--shadow-lg)}
+  .mode .me{width:40px;height:40px;border-radius:11px;display:grid;place-items:center;background:var(--accent-soft);color:var(--accent-ink)} .mode .me .ic{width:22px;height:22px}
+  .mode b{font-size:16px} .mode small{color:var(--muted);font-size:13px}
+
+  label.fld{display:block;font-size:13px;font-weight:600;margin:16px 0 7px}
+  .chips{display:flex;flex-wrap:wrap;gap:8px}
+  .chip{border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:999px;min-height:38px;padding:7px 13px;font-size:13.5px;transition:all .18s var(--ease)}
+  .chip:hover{border-color:var(--accent)} .chip.on{background:var(--accent);color:#fff;border-color:var(--accent)}
+  .btn{background:var(--accent);color:#fff;border:none;border-radius:11px;min-height:46px;padding:12px 20px;font-size:15px;font-weight:600;display:inline-flex;align-items:center;gap:8px;justify-content:center;box-shadow:0 4px 12px rgba(15,110,106,.25);transition:background .2s var(--ease),transform .12s var(--ease)}
+  .btn:hover{background:var(--accent-ink)} .btn:active{transform:scale(.97) translateY(1px)} .btn .ic{width:18px;height:18px}
+  .btn.ghost{background:var(--card);color:var(--ink);border:1px solid var(--line);box-shadow:none} .btn.ghost:hover{border-color:var(--accent)}
+  .btn:disabled{opacity:.5;cursor:not-allowed;box-shadow:none}
+  input[type=search],input[type=text],input[type=email],textarea{font-family:inherit;font-size:15px;padding:9px 11px;border:1px solid var(--line);border-radius:10px;background:var(--card);color:var(--ink);width:100%}
+  input:focus,textarea:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-soft)}
+
+  .runtop{display:flex;align-items:center;gap:12px;margin:2px 0 14px;font-size:13px;color:var(--muted)}
+  .bar{height:8px;border-radius:6px;background:var(--bg2);overflow:hidden;flex:1}
+  .bar>i{display:block;height:100%;width:0;background:var(--accent);border-radius:6px;transition:width .7s var(--ease)}
+  .qtext{font-size:19px;font-weight:600;margin:8px 0 16px;font-family:Georgia,serif;line-height:1.45}
+  .opt{display:flex;gap:12px;align-items:flex-start;width:100%;text-align:left;border:1.5px solid var(--line);background:var(--card);color:var(--ink);border-radius:12px;padding:14px 15px;margin-bottom:10px;font-size:15px;transition:border-color .15s var(--ease),background .15s var(--ease),transform .12s var(--ease)}
+  .opt:hover:not(:disabled){border-color:var(--accent);background:var(--accent-soft)} .opt:active:not(:disabled){transform:scale(.99)}
+  .opt .k{flex:none;width:27px;height:27px;border-radius:8px;background:var(--bg2);color:var(--muted);display:grid;place-items:center;font-weight:700;font-size:13px}
+  .opt.correct{border-color:var(--good);background:var(--good-soft)} .opt.correct .k{background:var(--good);color:#fff}
+  .opt.wrong{border-color:var(--bad);background:var(--bad-soft)} .opt.wrong .k{background:var(--bad);color:#fff}
+  .opt:disabled{cursor:default}
+  .feedback{border-radius:12px;padding:13px 15px;margin:4px 0 12px;font-size:14.5px}
+  .feedback.ok{background:var(--good-soft);color:var(--good)} .feedback.no{background:var(--bad-soft);color:var(--bad)}
+  .feedback b{font-weight:700} .feedback .sub{display:block;margin-top:3px;color:var(--ink);font-weight:500;opacity:.92}
+  .whybtn{border:1px solid var(--line);background:var(--card);color:var(--accent-ink);border-radius:10px;min-height:40px;padding:9px 14px;font-size:13.5px;font-weight:600;display:inline-flex;align-items:center;gap:7px;transition:border-color .2s var(--ease),background .2s var(--ease)}
+  .whybtn:hover{border-color:var(--accent);background:var(--accent-soft)} .whybtn .ic{width:16px;height:16px}
+  .whybox{border:1px solid var(--accent);background:var(--accent-soft);border-radius:12px;padding:14px 16px;margin:12px 0 4px;font-size:14px;line-height:1.55}
+  .whybox h4{margin:0 0 6px;font-size:13px;text-transform:uppercase;letter-spacing:.5px;color:var(--accent-ink);font-family:system-ui;display:flex;align-items:center;gap:7px}
+  .whybox .ic{width:16px;height:16px}
+
+  .acc{border:1px solid var(--line);border-radius:var(--r);margin-bottom:10px;background:var(--card);overflow:hidden;box-shadow:var(--shadow)}
+  .acc>summary{padding:15px 16px;font-weight:700;cursor:pointer;list-style:none;display:flex;align-items:center;gap:11px}
+  .acc>summary::-webkit-details-marker{display:none}
+  .acc>summary .n{flex:none;width:28px;height:28px;border-radius:8px;background:var(--accent-soft);color:var(--accent-ink);display:grid;place-items:center;font-size:13px;font-weight:700}
+  .acc>summary .caret{margin-left:auto;color:var(--muted);transition:transform .25s var(--ease)} .acc[open]>summary .caret{transform:rotate(90deg)}
+  .acc[open]>summary{border-bottom:1px solid var(--line)} .acc .body{padding:6px 18px 16px}
+  .acc h4{margin:14px 0 6px;font-size:13px;color:var(--accent-ink);text-transform:uppercase;letter-spacing:.4px;font-family:system-ui}
+  .acc ul{margin:0;padding-left:20px} .acc li{margin:6px 0;font-size:14.5px;line-height:1.5}
+  .acc.hack li::marker{content:"💡  "} .acc.hack>summary .n{background:var(--violet-soft);color:var(--violet)}
+  mark{background:var(--amber-soft);color:inherit;padding:0 2px;border-radius:3px}
+
+  .tip{border:1px solid var(--line);background:var(--card);border-radius:var(--r);padding:15px;box-shadow:var(--shadow)}
+  .tip h4{margin:0 0 5px;font-size:14.5px;display:flex;align-items:center;gap:8px;font-family:system-ui} .tip h4 .ic{width:18px;height:18px;color:var(--violet)}
+  .tip p{margin:0;font-size:13.5px;color:var(--muted);line-height:1.55}
+  .tipgrid{display:grid;gap:12px} @media(min-width:620px){.tipgrid{grid-template-columns:1fr 1fr}}
+
+  .results .big{font-family:Georgia,serif;font-size:54px;text-align:center;margin:8px 0;line-height:1}
+  .center{text-align:center} .hide{display:none!important}
+  footer{margin-top:34px;text-align:center;color:var(--muted);font-size:13px}
+  .kbd{font-size:11px;border:1px solid var(--line);border-bottom-width:2px;border-radius:5px;padding:1px 6px;color:var(--muted)}
+  @keyframes fadeUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+  @keyframes slideIn{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:none}}
+  @keyframes pop{0%{transform:scale(1)}45%{transform:scale(1.03)}100%{transform:scale(1)}}
+  @keyframes optIn{from{opacity:0;transform:translateX(-9px)}to{opacity:1;transform:none}}
+  @media (prefers-reduced-motion: no-preference){
+    .card,.mode,.tip{animation:fadeUp .34s var(--ease) both}
+    .acc{animation:fadeUp .32s var(--ease) both}
+    .opt{animation:optIn .3s var(--ease) backwards;animation-delay:var(--oi,0s)}
+    .chip.on{animation:pop .22s var(--ease)}
+    .feedback{animation:slideIn .26s var(--ease) both} .whybox{animation:slideIn .28s var(--ease) .07s both} .opt.correct{animation:pop .34s var(--ease)}
+  }
+  @media (prefers-reduced-motion: reduce){*{animation-duration:.001ms!important;transition-duration:.001ms!important}}
+  /* ---- Premium launch (Gemini-stijl) + header-logo gloed ---- */
+  @property --bes-a{syntax:'<angle>';initial-value:0deg;inherits:false}
+  #splash{position:fixed;inset:0;z-index:200;display:grid;place-items:center;background:radial-gradient(125% 125% at 50% 38%,var(--bg2) 0%,var(--bg) 68%);transition:opacity .6s var(--ease),transform .7s var(--ease)}
+  #splash.hide{opacity:0;transform:scale(1.07);pointer-events:none}
+  .sp-inner{display:flex;flex-direction:column;align-items:center;gap:20px;text-align:center}
+  .sp-mark{position:relative;width:100px;height:100px;display:grid;place-items:center}
+  .sp-mark::before{content:"";position:absolute;inset:-16px;border-radius:34px;z-index:0;background:conic-gradient(from var(--bes-a),var(--accent),var(--violet),var(--amber),var(--accent));filter:blur(17px);opacity:.75}
+  .sp-mark::after{content:"";position:absolute;inset:-3px;border-radius:27px;z-index:1;background:conic-gradient(from var(--bes-a),var(--accent),var(--violet),var(--amber),var(--accent));padding:3px;-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude}
+  .sp-logo{position:relative;z-index:2;width:92px;height:92px;border-radius:24px;display:grid;place-items:center;color:#fff;font-family:Georgia,serif;font-weight:700;font-size:46px;background:linear-gradient(150deg,var(--accent),var(--accent-ink));box-shadow:0 14px 38px rgba(15,110,106,.4)}
+  .sp-spark{position:absolute;z-index:3;top:-7px;right:-7px;width:30px;height:30px;color:#fff;filter:drop-shadow(0 2px 7px rgba(0,0,0,.35))}
+  .sp-name{position:relative;font-family:Georgia,serif;font-size:26px;font-weight:700;letter-spacing:-.01em;color:var(--ink);overflow:hidden}
+  .sp-name::after{content:"";position:absolute;inset:0;background:linear-gradient(110deg,transparent 35%,rgba(255,255,255,.75) 50%,transparent 65%);transform:translateX(-130%)}
+  .sp-tag{font-size:13px;color:var(--muted);margin-top:-8px;letter-spacing:.03em}
+  @media (prefers-reduced-motion: no-preference){
+    .sp-mark::before{animation:bes-spin 3s linear infinite,bes-breathe 2.4s var(--ease) infinite}
+    .sp-mark::after{animation:bes-spin 3s linear infinite}
+    .sp-logo{animation:bes-pop .7s var(--ease) both}
+    .sp-spark{animation:bes-pop .6s var(--ease) .12s both,bes-twinkle 1.9s var(--ease) .9s infinite}
+    .sp-name{animation:bes-rise .6s var(--ease) .14s both}
+    .sp-name::after{animation:bes-shimmer 1.5s var(--ease) .5s 1}
+    .sp-tag{animation:bes-rise .6s var(--ease) .26s both}
+  }
+  @keyframes bes-spin{to{--bes-a:360deg}}
+  @keyframes bes-breathe{0%,100%{opacity:.55;filter:blur(16px)}50%{opacity:.95;filter:blur(22px)}}
+  @keyframes bes-shimmer{to{transform:translateX(130%)}}
+  @keyframes bes-twinkle{0%,100%{opacity:1;transform:scale(1) rotate(0deg)}50%{opacity:.65;transform:scale(.82) rotate(18deg)}}
+  @keyframes bes-rise{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+  /* mobiel: header-knoppen alleen iconen zodat niks zijwaarts overflowt */
+  @media(max-width:440px){ header.top .iconbtn span{display:none} header.top .iconbtn{padding:7px 9px;min-width:38px;justify-content:center} .topin{gap:8px} }
+</style>
+</head>
+<body>
+<div id="splash"><div class="sp-inner">
+  <div class="sp-mark">
+    <div class="sp-logo">OH</div>
+    <svg class="sp-spark" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 1.5c.4 4.6 2.4 6.6 7 7-4.6.4-6.6 2.4-7 7-.4-4.6-2.4-6.6-7-7 4.6-.4 6.6-2.4 7-7Z"/></svg>
+  </div>
+  <div><div class="sp-name">Organisatie van de Hulpverlening</div><div class="sp-tag">slim oefenen voor je examen</div></div>
+</div></div>
+<header class="top">
+  <div class="topin">
+    <div class="brand"><span class="logo">OH</span><div>Organisatie van de Hulpverlening<small>Berie’s exam space</small></div></div>
+    <span class="spacer"></span>
+    <a class="iconbtn" href="https://beriesexamspace.github.io/?jaar=1" title="Andere vakken"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true" style="width:16px;height:16px"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg><span>Vakken</span></a>
+    <button class="iconbtn" id="themeBtn" aria-label="Wissel tussen licht en donker thema"></button>
+  </div>
+  <nav class="tabs" id="tabs"></nav>
+</header>
+<div class="wrap" id="app"></div>
+<footer class="wrap" style="padding-top:0">Organisatie van de Hulpverlening · Berie’s exam space, oefen slim voor je examen · veel succes!<br><span style="opacity:.7">© 2026 Berie’s exam space · Alle rechten voorbehouden</span></footer>
+
+<script>
+window.OH = {"questions":[{"t":"1","q":"Wat wordt in de brontekst verstaan onder 'hulpverlening'?","o":["Enkel de financiele steun die de overheid uitkeert aan wie onder de armoedegrens leeft","Het geheel van maatschappelijke inspanningen, al dan niet georganiseerd, privaat of publiek, die de gezondheid of het welzijn van burgers tracht te bevorderen of te garanderen","Uitsluitend de curatieve zorg die binnen ziekenhuizen wordt aangeboden aan zieke burgers","De wettelijke verplichting van elke burger om solidair bij te dragen aan het sociale zekerheidssysteem"],"a":1,"u":"Hulpverlening is het geheel van maatschappelijke inspanningen, privaat of publiek, dat de gezondheid of het welzijn tracht te bevorderen (preventie) of te garanderen (curatie en rehabilitatie) via diensten en financiering."},{"t":"1","q":"Welk begrip past bij deze omschrijving: een maatschappijvorm met een democratisch systeem van overheidszorg die zich, met behoud van het kapitalistisch productiesysteem, garant stelt voor het collectieve sociale welzijn?","o":["Intramurale zorg","Citizenship","Nationaal Hulp en Voedingscomite (NHV)","Verzorgingsstaat"],"a":3,"u":"De verzorgingsstaat is een samenlevingsconcept met een democratisch geschoeid systeem van overheidszorg dat, bij handhaving van het kapitalistisch productiesysteem, instaat voor het collectieve sociale welzijn van de burgers."},{"t":"1","q":"Welk type verzorgingsstaat wordt gekenmerkt door universele, wettelijk verankerde voorzieningen die individuele burgers beschermen en gebaseerd zijn op de menselijke waardigheid?","o":["Residuele verzorgingsstaat","Sociaal democratische verzorgingsstaat","Rudimentaire verzorgingsstaat","Institutionele verzorgingsstaat"],"a":1,"u":"De sociaal democratische verzorgingsstaat kent een scala van universele, wettelijk verankerde voorzieningen die individuele burgers beschermen en steunen op de aanname van de menselijke waardigheid."},{"t":"1","q":"In welk type verzorgingsstaat staat individuele verantwoordelijkheid centraal en blijft sociale solidariteit beperkt tot bepaalde situaties en selectief ten aanzien van bepaalde bevolkingscategorieen?","o":["Sociaal democratische verzorgingsstaat","Residuele verzorgingsstaat","Rudimentaire verzorgingsstaat","Institutionele verzorgingsstaat"],"a":1,"u":"In de residuele verzorgingsstaat staat individuele verantwoordelijkheid centraal en is de sociale solidariteit beperkt tot bepaalde situaties en selectief voor bepaalde bevolkingscategorieen, waarbij de visie op burgerschap een rol speelt."},{"t":"1","q":"Welk type verzorgingsstaat wordt gekenmerkt doordat familiale solidariteit centraal staat en sociale rechten slechts zeer beperkt aanwezig zijn?","o":["Residuele verzorgingsstaat","Rudimentaire verzorgingsstaat","Institutionele verzorgingsstaat","Sociaal democratische verzorgingsstaat"],"a":1,"u":"In de rudimentaire verzorgingsstaat staat de familiale solidariteit centraal en zijn de sociale rechten slechts zeer beperkt aanwezig."},{"t":"1","q":"Wat kenmerkt volgens de brontekst de institutionele verzorgingsstaat?","o":["Voorzieningen zijn universeel en gebaseerd op de menselijke waardigheid","Individuele verantwoordelijkheid staat centraal en solidariteit is selectief","Sociale rechten zijn aanwezig, maar laten de sociale stratificatie ongemoeid","Familiale solidariteit staat centraal en sociale rechten zijn amper aanwezig"],"a":2,"u":"In de institutionele verzorgingsstaat zijn de sociale rechten wel aanwezig, maar laten ze de sociale stratificatie ongemoeid."},{"t":"1","q":"Wat is het verschil tussen intramurale en extramurale zorg zoals de brontekst het omschrijft?","o":["Intramurale zorg richt zich op kinderen, extramurale zorg op volwassenen","Intramurale zorg wordt verleend binnen de muren van een ziekenhuisinstelling, extramurale zorg wordt buiten de muren en eerder ambulant verleend","Intramurale zorg is privaat georganiseerd, extramurale zorg is altijd publiek georganiseerd","Intramurale zorg is preventief, terwijl extramurale zorg zich uitsluitend op curatie richt"],"a":1,"u":"Intramurale zorg wordt geleverd binnen de muren van een ziekenhuisinstelling, terwijl extramurale zorg buiten die muren en eerder ambulant plaatsvindt."},{"t":"1","q":"De Commissie van de Openbare Onderstand (COO) ontstond volgens de brontekst uit een fusie. Van welke twee instanties?","o":["Het Centrum Geestelijke Gezondheidszorg en het Openbaar Centrum voor Maatschappelijk Welzijn","Het Nationaal Werk van Kinderwelzijn en het Nationaal Hulp en Voedingscomite","Het Bureel van Weldadigheid en de Commissie van Burgerlijke Godshuizen","Het Centrum Algemeen Welzijnswerk en de Jongeren Advies Centra"],"a":2,"u":"De Commissie van de Openbare Onderstand (COO) kwam tot stand door de fusie van het Bureel van Weldadigheid en de Commissie van Burgerlijke Godshuizen."},{"t":"1","q":"Welke organisatie werd volgens de brontekst gekoppeld aan de versterking van de preventieve gezondheidszorg?","o":["Nationaal Hulp en Voedingscomite (NHV)","Centrum Geestelijke Gezondheidszorg (CGG)","Nationaal Werk van Kinderwelzijn (NWK)","Commissie van de Openbare Onderstand (COO)"],"a":2,"u":"Het Nationaal Werk van Kinderwelzijn (NWK) wordt in de brontekst gekoppeld aan de versterking van de preventieve gezondheidszorg."},{"t":"1","q":"Waarop moest volgens de brontekst het Nationaal Hulp en Voedingscomite (NHV) vooral inzetten?","o":["Op de fusie van het Bureel van Weldadigheid en de Commissie van Burgerlijke Godshuizen","Op de versterking van de preventieve gezondheidszorg","Op ambulante geestelijke gezondheidszorg buiten de ziekenhuismuren","Op hulpverlening en voedselvoorziening"],"a":3,"u":"Het Nationaal Hulp en Voedingscomite (NHV) moest volgens de brontekst vooral meer inzetten op hulpverlening en voedselvoorziening."},{"t":"1","q":"Naar welk begrip verwijst de omschrijving 'een status toegekend aan wie volwaardig lid is van een gemeenschap, waarbij allen die de status bezitten gelijk zijn wat betreft de bijhorende rechten en plichten'?","o":["Practicing citizenship","Citizenship","Institutionele verzorgingsstaat","Sociale stratificatie"],"a":1,"u":"Citizenship wordt omschreven als een status die wordt toegekend aan volwaardige leden van een gemeenschap, waarbij iedereen met die status gelijk is inzake de bijbehorende rechten en plichten."},{"t":"2","q":"Wat wordt bedoeld met sociale bijstand?","o":["Het beleidsdomein dat akkoorden sluit en advies geeft binnen de adviesraad","Een openbaar systeem dat inkomen en verzorging garandeert voor iedereen die tijdelijk of blijvend niet in staat is dit zelf te voorzien","De instelling die de sociale bijdragen int bij de werkgevers en beheert","Een residueel vangnet voor diegenen die door de mazen van het sociale-zekerheidssysteem vallen"],"a":3,"u":"Sociale bijstand is het residuele vangnet voor mensen die door de mazen van het sociale-zekerheidssysteem vallen. Het onderscheidt zich zo van de bredere sociale zekerheid."},{"t":"2","q":"Welke instelling int de sociale bijdragen bij de werkgevers en beheert deze?","o":["Vlaams Agentschap voor Personen met een Handicap (VAPH)","Rijksdienst voor Ziekte- en Invaliditeitsverzekering (RIZIV)","Vlaams Infrastructuurfonds voor Persoonsgebonden Aangelegenheden (VIPA)","Rijksdienst voor Sociale Zekerheid (RSZ)"],"a":3,"u":"De RSZ is de Belgische federale openbare instelling die de sociale bijdragen int bij de werkgevers en deze beheert."},{"t":"2","q":"Waar streeft het Vlaams Agentschap voor Personen met een Handicap (VAPH) naar?","o":["Een zo groot mogelijke autonomie en levenskwaliteit van personen met een handicap, als klantgerichte en efficiente partner","De afstemming van het hulpverleningsaanbod op het niveau van de lokale overheid","Het subsidieren van infrastructuurwerken die het beleidsdomein WVG verbeteren","Het innen en beheren van de sociale bijdragen van werkgevers"],"a":0,"u":"Het VAPH streeft naar een zo groot mogelijke autonomie en levenskwaliteit van personen met een handicap en treedt op als klantgerichte en efficiente partner van deze personen en de ondersteunende organisaties."},{"t":"2","q":"Welke omschrijving hoort bij het Lokaal Overleg Platform (LOP)?","o":["Een openbaar systeem om inkomen en verzorging te garanderen","Het subsidieren van infrastructuurwerken binnen WVG","Afstemming van het hulpverleningsaanbod vanuit de verschillende beleidsvelden op het niveau van de lokale overheid","Ondersteuning van de werking van zorgverleners, voorzieningen en ziektefondsen"],"a":2,"u":"Het LOP zorgt voor de afstemming van het hulpverleningsaanbod vanuit de verschillende beleidsvelden op het niveau van de lokale overheid."},{"t":"2","q":"Welke taak vervult het Vlaams Infrastructuurfonds voor Persoonsgebonden Aangelegenheden (VIPA)?","o":["Het geven van advies en het laten horen van de stem van de clienten in de adviesraad","Het innen van de sociale bijdragen bij de werkgevers","Het subsidieren van infrastructuurwerken die het beleidsdomein WVG verbeteren","Het ondersteunen van de werking van zorgverleners, voorzieningen en ziektefondsen"],"a":2,"u":"Het VIPA subsidieert infrastructuurwerken die het beleidsdomein Welzijn, Volksgezondheid en Gezin (WVG) verbeteren."},{"t":"2","q":"Welk beleidsdomein sluit akkoorden, geeft advies en laat de stem van de clienten horen in de adviesraad?","o":["Vereniging voor Geneeskunde, Verzorging en Uitkering (VGVU)","Welzijn, Volksgezondheid en Gezin (WVG)","Rijksdienst voor Sociale Zekerheid (RSZ)","Rijksdienst voor Ziekte- en Invaliditeitsverzekering (RIZIV)"],"a":1,"u":"Welzijn, Volksgezondheid en Gezin (WVG) is het beleidsdomein dat akkoorden sluit, advies geeft en de stem van de clienten laat horen in de adviesraad."},{"t":"2","q":"Welke omschrijving past bij de Vereniging voor Geneeskunde, Verzorging en Uitkering (VGVU)?","o":["De afstemming van het hulpverleningsaanbod op het niveau van de lokale overheid","Het innen van de sociale bijdragen bij de werkgevers","De ondersteuning van de werking van zorgverleners, voorzieningen en ziektefondsen","Het subsidieren van infrastructuurwerken die WVG verbeteren"],"a":2,"u":"De VGVU staat in voor de ondersteuning van de werking van zorgverleners, voorzieningen en ziektefondsen."},{"t":"3","q":"Wat houdt het subsidiariteitsbeginsel binnen de integrale jeugdhulp in?","o":["De monitoring van het jeugdhulplandschap in de eigen regio","De kwalificatie die de noodzaak vastlegt om jeugdhulpverlening in te schakelen","De keuze voor de minst ingrijpende vorm van hulpverlening","De samenwerking tussen sectoren om veranderingen door te voeren"],"a":2,"u":"Subsidiariteit staat voor het kiezen van de minst ingrijpende vorm van hulpverlening. Zwaardere hulp wordt pas ingezet als lichtere hulp niet volstaat."},{"t":"3","q":"Welk begrip beschrijft een situatie waarin de ontwikkeling van een minderjarige bedreigd is doordat zijn fysieke, psychische of seksuele integriteit is aangetast of zijn ontplooiingskansen in het gedrang komen?","o":["Maatschappelijke Noodzaak (MaNo)","Rechtstreeks Toegankelijke Jeugdhulp (RTJ)","Verontrustende situatie (VOS)","Verdeelde intersectorale ondeelbaarheid"],"a":2,"u":"Een verontrustende situatie (VOS) is een samensmelting van een misdrijf omschreven feit (MOF) en een problematische opvoedingssituatie (POS). De ontwikkeling van de minderjarige is er bedreigd."},{"t":"3","q":"Waarvoor staat de afkorting MaNo en wat betekent dit begrip?","o":["Maatschappelijke Nood, de buffer die andere wetten vrijwaart","Maatschappelijke Noodzaak, de kwalificatie die de noodzaak vastlegt om jeugdhulpverlening in te schakelen","Maatschappelijk Onderzoek, dat een consulent uitvoert bij de jeugdrechtbank","Maatschappelijk Netwerk, de samenwerking tussen sectoren in de jeugdhulp"],"a":1,"u":"MaNo staat voor Maatschappelijke Noodzaak. Het is de kwalificatie die na onderzoek door een gemandateerde voorziening aan een verontrustende situatie wordt gegeven en die de noodzaak vastlegt om jeugdhulpverlening in te schakelen."},{"t":"3","q":"Welke instanties worden aangeduid als gemandateerde voorzieningen (GV)?","o":["De Multidisciplinaire teams en het Centraal Aanmeldpunt","De Sociale Dienst Jeugdrechtbank en de Intersectorale Toegangspoort","De Centra voor Geestelijke Gezondheidszorg en de Centra Kindzorg en Gezinsondersteuning","De Ondersteuningscentra voor de Jeugdzorg (OCJ) en de Vertrouwenscentra Kindermishandeling (VK)"],"a":3,"u":"De gemandateerde voorzieningen (GV) zijn de Ondersteuningscentra voor de Jeugdzorg (OCJ) en de Vertrouwenscentra Kindermishandeling (VK). Zij onderzoeken verontrustende situaties en kunnen een maatschappelijke noodzaak vaststellen."},{"t":"3","q":"Welke taak heeft het Intersectoraal Regionaal Overleg Jeugdhulp (IROJ)?","o":["De monitoring van het jeugdhulplandschap in de eigen regio","Het maken van een elektronische aanmelding voor een gemeenschapsinstelling","Het uitvoeren van een maatschappelijk onderzoek door een consulent","Het opvangen van pleegkinderen tegen een kostenvergoeding"],"a":0,"u":"Het Intersectoraal Regionaal Overleg Jeugdhulp (IROJ) staat in voor de monitoring van het jeugdhulplandschap in de eigen regio."},{"t":"3","q":"Wat is pleegzorg volgens de brontekst?","o":["Zorg die uitsluitend ambulant wordt aangeboden zonder begeleiding","Zorg die door de jeugdrechtbank verplicht wordt opgelegd zonder kostenvergoeding","Zorg waarbij een pleegzorger vrijwillig, onder begeleiding van een dienst en tegen een kostenvergoeding, pleegkinderen of pleeggasten opvangt","Zorg in een residentiële voorziening voor jongeren met gedrags- en emotionele stoornissen"],"a":2,"u":"Pleegzorg is zorg waarbij een pleegzorger vrijwillig, onder begeleiding van een dienst voor pleegzorg en tegen een kostenvergoeding, een of meerdere pleegkinderen of pleeggasten opvangt. Die kunnen zowel minderjarig als meerderjarig zijn."},{"t":"3","q":"Welk onderscheid maakt de brontekst voor het Centrum Kindzorg en Gezinsondersteuning (CKG)?","o":["RT staat voor verplichte hulp, NRT voor vrijwillige hulp","RT staat voor residentieel, NRT voor ambulant","RT staat voor minderjarigen, NRT voor meerderjarigen","RT staat voor ambulant, NRT voor residentieel"],"a":3,"u":"Bij het Centrum Kindzorg en Gezinsondersteuning (CKG) staat RT (rechtstreeks toegankelijk) voor ambulant, en NRT (niet-rechtstreeks toegankelijk) voor residentieel."},{"t":"3","q":"Welke functie vervult het Decreet Rechtspositie Minderjarige in de Jeugdhulp (DRMJH)?","o":["Het dient als verdedigingsdocument van de rechter voor minderjarigen en meerderjarigen die in jeugdhulpinstellingen dienstdoen","Het regelt de kostenvergoeding voor pleegzorgers","Het legt de monitoring van het jeugdhulplandschap in de regio vast","Het bepaalt de prioriteiten voor de toewijzing van niet-rechtstreeks toegankelijke jeugdhulp"],"a":0,"u":"Het Decreet Rechtspositie Minderjarige in de Jeugdhulp (DRMJH) dient als verdedigingsdocument van de rechter voor minderjarigen en meerderjarigen die in jeugdhulpinstellingen dienstdoen."},{"t":"3","q":"Welke taak voert de consulent bij de Sociale Dienst Jeugdrechtbank (SDJ) uit?","o":["De begeleiding van pleegzorgers en pleeggasten","De monitoring van het jeugdhulplandschap in de regio","Een elektronische aanmelding voor een detentiecentrum","Een maatschappelijk onderzoek"],"a":3,"u":"Bij de Sociale Dienst Jeugdrechtbank (SDJ) voert de consulent een maatschappelijk onderzoek uit."},{"t":"3","q":"Welke voorziening staat in de brontekst omschreven als een organisatie voor onthaal, oriëntatie en observatie?","o":["Onthaal-, Oriëntatie- en Observatiecentra (OOOC)","Centrum Ontwikkelingsstoornissen (COS)","Centrum Integrale Gezinszorg (CIG)","Organisatie voor Bijzondere Jeugdzorg (OVBJ)"],"a":0,"u":"De Onthaal-, Oriëntatie- en Observatiecentra (OOOC) staan in voor het onthalen, oriënteren en observeren van jongeren binnen de jeugdhulp."},{"t":"4","q":"Welk paradigma stelt dat mensen met een handicap een 'defect' hebben dat gecorrigeerd moet worden of onzichtbaar gemaakt moet worden door hen weg te stoppen in instituten?","o":["Burgerschapsparadigma","Disabilities Studies Paradigma","Defectparadigma","Normalisatieparadigma"],"a":2,"u":"Het defectparadigma ziet de handicap als een defect dat moet worden gecorrigeerd of dat men wil wegstoppen in instituten."},{"t":"4","q":"Welk paradigma streeft ernaar dat mensen met een handicap als volwaardige burgers in de samenleving leven en elk als een unieke persoon bekeken worden?","o":["Burgerschapsparadigma","Disabilities Studies Paradigma","Normalisatieparadigma","Defectparadigma"],"a":0,"u":"Het burgerschapsparadigma streeft naar volwaardig burgerschap, waarbij mensen met een handicap als volwaardige en unieke burgers in de samenleving leven."},{"t":"4","q":"Wat houdt het normalisatieparadigma in?","o":["Mensen met een handicap definiëren zelf hun positie en participeren in diverse rollen","Mensen met een handicap krijgen een vast zorgbudget van 300 euro per maand","Mensen met een handicap moeten worden gecorrigeerd of weggestopt in instituten","Mensen met een handicap hebben dezelfde rechten als iedereen en moeten een bestaan kunnen leiden dat zo dicht mogelijk bij het normale ligt"],"a":3,"u":"Het normalisatieparadigma stelt dat mensen met een handicap dezelfde rechten hebben als iedereen en een bestaan moeten kunnen leiden dat zo dicht mogelijk bij het normale ligt."},{"t":"4","q":"Wat doet het Disabilities Studies Paradigma volgens de leerstof?","o":["Het beoordeelt de erkenning als persoon met een handicap","Het kent een vast zorgbudget van 300 euro per maand toe","Het wil mensen met een handicap corrigeren of wegstoppen in instituten","Het doet recht aan hoe mensen met beperkingen hun positie zelf definiëren en zoveel mogelijk participeren in diverse rollen"],"a":3,"u":"Het Disabilities Studies Paradigma doet recht aan hoe mensen met beperkingen hun eigen positie definiëren en over hun leven nadenken, waarbij zij zoveel mogelijk participeren in diverse rollen."},{"t":"4","q":"Waarvoor staat de afkorting PVF en wat kenmerkt deze financieringsvorm?","o":["Persoonlijk Volwaardig Fonds, waarbij middelen aan de instelling worden toegekend","Prioritaire Vlaamse Financiering, enkel voor minderjarigen","Publiek Vergoedingsfonds, beheerd door de zorgkassen","Persoonsvolgende financiering, waarbij de middelen direct aan de persoon met een handicap gekoppeld worden in plaats van aan de zorgaanbieder"],"a":3,"u":"Bij de persoonsvolgende financiering (PVF) wordt zorg meer vraaggestuurd en op maat gemaakt. De middelen worden direct gekoppeld aan de persoon met een handicap en niet meer aan de zorgaanbieder."},{"t":"4","q":"Wat is het basisondersteuningsbudget (BOB)?","o":["Een budget waarmee iemand professionele assistenten aanwerft","Een budget op maat om zorg te kopen bij vergunde zorgaanbieders","Een vast zorgbudget van 300 euro per maand voor personen met een erkende handicap en een beperkte ondersteuningsnood, uitbetaald door de zorgkassen","Een tegemoetkoming voor hulpmiddelen en aanpassingen"],"a":2,"u":"Het basisondersteuningsbudget (BOB) is bedoeld voor personen met een erkende handicap en een beperkte ondersteuningsnood. Het is een vast bedrag van 300 euro per maand, uitbetaald door de zorgkassen."},{"t":"4","q":"Wat is de opdracht van de Vlaamse Toewijzingscommissie (VTC)?","o":["Ze brengt de ondersteuningsnood in kaart en zoekt de meest geschikte ondersteuning","Ze beoordeelt of iemand erkend kan worden als persoon met een handicap en kent de prioriteitengroep toe bij de aanvraag van een persoonsvolgend budget","Ze werft assistenten aan voor een kind thuis of op school","Ze betaalt het zorgbudget van 300 euro per maand uit"],"a":1,"u":"De Vlaamse Toewijzingscommissie (VTC) beoordeelt of iemand erkend kan worden als persoon met een handicap en kent de prioriteitengroep toe bij de aanvraag van een persoonsvolgend budget."},{"t":"4","q":"Wat is een persoonsvolgend budget (PVB)?","o":["Een dienst die de ondersteuningsnood in kaart brengt","Een budget op maat waarmee een meerderjarige persoon met een handicap zorg en ondersteuning kan kopen, onder meer bij door het VAPH vergunde zorgaanbieders","Een vast bedrag van 300 euro per maand voor een beperkte ondersteuningsnood","Een verslag dat door het multidisciplinair team wordt ingediend"],"a":1,"u":"Een persoonsvolgend budget (PVB) is een budget op maat waarmee een meerderjarige persoon met een handicap (vanaf 17 jaar) zorg en ondersteuning kan kopen, onder meer bij door het VAPH vergunde zorgaanbieders. Het moet aangevraagd worden."},{"t":"4","q":"Welke ondersteuning wordt bedoeld met individuele materiële bijstand (IMB)?","o":["Tegemoetkomingen van het VAPH voor hulpmiddelen en aanpassingen om activiteiten uit te voeren","Een maandelijks zorgbudget uitbetaald door de zorgkassen","Een budget om assistenten voor een kind aan te werven","De erkenning als persoon met een handicap door de toewijzingscommissie"],"a":0,"u":"Individuele materiële bijstand (IMB) betreft tegemoetkomingen van het VAPH voor hulpmiddelen en aanpassingen die helpen om activiteiten uit te voeren waarbij iemand moeilijkheden ondervindt."},{"t":"4","q":"Wat is het persoonlijke-assistentiebudget (PAB)?","o":["Een verslag ingediend door een multidisciplinair team","Een tegemoetkoming voor hulpmiddelen en woningaanpassingen","Een budget om de assistentie voor een kind thuis of op school te organiseren en te financieren, waarmee iemand assistenten aanwerft","Een vast zorgbudget van 300 euro per maand"],"a":2,"u":"Met het persoonlijke-assistentiebudget (PAB) organiseert en financiert men de assistentie voor een kind thuis of op school. Met dit budget werft iemand assistenten aan."},{"t":"4","q":"Wat is de functie van een dienst ondersteuningsplan (DOP)?","o":["Het in kaart brengen van de ondersteuningsnood en het zoeken naar de meest geschikte ondersteuning, met een dienstverlening van maximaal 12 maanden","Het uitbetalen van het basisondersteuningsbudget aan de persoon","Het toekennen van de prioriteitengroep bij een budgetaanvraag","Het aanwerven van individuele begeleiders en professionele zorgverleners"],"a":0,"u":"Een dienst ondersteuningsplan (DOP) helpt de ondersteuningsnood in kaart te brengen en zoekt naar de meest geschikte ondersteuning. De persoon krijgt een ondersteuningsplan; de dienstverlening duurt maximaal 12 maanden."},{"t":"4","q":"Wat betekent 'residuaire bevoegdheid' in de context van de financiering?","o":["De bevoegdheid om de prioriteitengroep toe te kennen","Het vaste bedrag van 300 euro per maand","Alle kosten die door de zorgkassen worden betaald","Enkel de kosten die niet door andere instanties worden gedragen"],"a":3,"u":"Residuaire bevoegdheid betekent dat enkel de kosten worden gedragen die niet door andere instanties worden gedragen."},{"t":"4","q":"Hoe wordt een handicap volgens de WHO omschreven?","o":["Een nadelige sociale positie die voortvloeit uit beperkingen en stoornissen, die op hun beurt het gevolg zijn van ziekten en aandoeningen","Een budget op maat voor zorg en ondersteuning","Een defect dat moet worden gecorrigeerd of weggestopt","Een tijdelijke ondersteuningsnood van maximaal 12 maanden"],"a":0,"u":"Volgens de WHO is een handicap een nadelige sociale positie die voortvloeit uit beperkingen en stoornissen, die op hun beurt het gevolg zijn van ziekten en aandoeningen."},{"t":"5","q":"Op welke doelgroep richt een Multifunctioneel Centrum (MFC) zich?","o":["Personen met een handicap tot en met 21 jaar (uitzonderlijk verlengbaar tot en met 25 jaar) die specifieke ondersteuning nodig hebben","Werkgevers die iemand met een arbeidshandicap tewerkstellen","Ouderen die nood hebben aan residentiele zorg","Meerderjarige personen met een handicap die zelfstandig wonen"],"a":0,"u":"Een MFC richt zich tot personen met een handicap tot en met 21 jaar, uitzonderlijk verlengbaar tot en met 25 jaar, en biedt begeleiding, dagopvang en verblijf."},{"t":"5","q":"Wat is een Vergunde Zorgaanbieder (VZA)?","o":["Een zorgaanbieder bij wie een meerderjarige persoon met een handicap terecht kan voor zorg of ondersteuning","Een centrum dat kennis geeft over het ondersteuningsaanbod voor PmH","Een dienst die geschikt werk zoekt voor mensen met een beperking","Een tegemoetkoming voor wie niet kan werken omwille van zijn handicap"],"a":0,"u":"Een Vergunde Zorgaanbieder (VZA) is een zorgaanbieder bij wie een meerderjarige persoon met een handicap terecht kan voor zorg of ondersteuning."},{"t":"5","q":"Welk begrip past bij deze omschrijving: een-op-een ondersteuning voor minderjarigen die ruim is en meerdere levensdomeinen kan omvatten, zoals stimulatie, coaching, training en assistentie?","o":["Vlaamse Ondersteuningspremie (VOP)","Integratietegemoetkoming","Vrijetijdszorg (VTZ)","Globale Individuele Ondersteuning (GIO)"],"a":3,"u":"Globale Individuele Ondersteuning (GIO) is een-op-een ondersteuning voor minderjarigen die eerder ruim is en meerdere levensdomeinen kan omvatten, waarbij de vormen door elkaar kunnen lopen."},{"t":"5","q":"Wat is het doel van Vrijetijdszorg (VTZ)?","o":["Compenseren van werkgevers die een werknemer met arbeidshandicap aanwerven","Ontwikkelen, begeleiden en bevorderen van vrijetijdsbesteding voor personen met een handicap","Geschikt werk vinden en behouden voor mensen met een gezondheidsprobleem","Observatie, diagnose en behandeling van personen met een handicap"],"a":1,"u":"Vrijetijdszorg (VTZ) staat voor het ontwikkelen, begeleiden en bevorderen van vrijetijdsbesteding voor personen met een handicap."},{"t":"5","q":"Welke organisatie wordt omschreven als een centrum dat kennis geeft over het ondersteuningsaanbod voor personen met een handicap?","o":["Gespecialiseerd Team Bemiddeling (GTB)","Observatie, Diagnose en Behandelunits (ODB-units)","Multifunctioneel Centrum (MFC)","Kennis en Ondersteuningscentrum (KOC)"],"a":3,"u":"Het Kennis en Ondersteuningscentrum (KOC) is het centrum dat kennis geeft over het ondersteuningsaanbod voor PmH."},{"t":"5","q":"Wat houdt de Vlaamse Ondersteuningspremie (VOP) in?","o":["Een compensatie voor werkgevers of zelfstandigen die een werknemer met een erkende arbeidshandicap tewerkstellen","Een premie die PmH helpt om extra kosten te dragen","Een tegemoetkoming voor personen die niet kunnen werken omwille van hun handicap","Een een-op-een ondersteuning op meerdere levensdomeinen"],"a":0,"u":"De Vlaamse Ondersteuningspremie (VOP) is een compensatie voor werkgevers of zelfstandigen wanneer ze een werknemer met een erkende arbeidshandicap tewerkstellen."},{"t":"5","q":"Welke dienst helpt mensen met een beperking of gezondheidsprobleem om geschikt werk te vinden en te houden?","o":["Kennis en Ondersteuningscentrum (KOC)","Gespecialiseerd Team Bemiddeling (GTB)","Observatie, Diagnose en Behandelunits (ODB-units)","Gespecialiseerde Opleidings-, Begeleidings- en Bemiddelingsdienst (GOB)"],"a":1,"u":"Het Gespecialiseerd Team Bemiddeling (GTB) helpt mensen met een beperking of gezondheidsprobleem om geschikt werk te vinden en te houden."},{"t":"5","q":"Voor wie is de inkomensvervangende tegemoetkoming bedoeld?","o":["Voor personen die niet kunnen werken omwille van hun handicap","Voor werkgevers die een werknemer met een arbeidshandicap in dienst nemen","Voor minderjarigen die een-op-een ondersteuning nodig hebben","Voor PmH die extra kosten door hun handicap willen dragen"],"a":0,"u":"De inkomensvervangende tegemoetkoming is bedoeld voor personen die niet kunnen werken omwille van hun handicap."},{"t":"5","q":"Wat is het doel van de integratietegemoetkoming?","o":["Vrijetijdsbesteding voor personen met een handicap bevorderen","Werkgevers compenseren voor het tewerkstellen van iemand met een arbeidshandicap","PmH helpen om extra kosten te dragen","Kennis geven over het ondersteuningsaanbod voor PmH"],"a":2,"u":"De integratietegemoetkoming helpt personen met een handicap om extra kosten te dragen."},{"t":"5","q":"Welke dienst heeft jarenlange expertise op het vlak van opleiding en werk voor personen met een handicap?","o":["Gespecialiseerd Team Bemiddeling (GTB)","Gespecialiseerde Opleidings-, Begeleidings- en Bemiddelingsdienst (GOB)","Vergunde Zorgaanbieder (VZA)","Multifunctioneel Centrum (MFC)"],"a":1,"u":"De Gespecialiseerde Opleidings-, Begeleidings- en Bemiddelingsdienst (GOB) heeft jarenlange expertise op het vlak van opleiding en werk voor personen met een handicap."},{"t":"6","q":"Waarvoor staat de afkorting CGG in de geestelijke gezondheidszorg?","o":["Centrum voor Gerontologie en Geriatrie","Centrum voor Geestelijke Gezondheidszorg","Centrum voor Gedwongen Geestelijke opname","Coordinatiecel Gezinszorg en Gemeenschap"],"a":1,"u":"Een Centrum voor Geestelijke Gezondheidszorg (CGG) biedt hulpverlening aan mensen met psychische problemen, met aparte teams voor volwassenen, ouderen en kinderen en jongeren."},{"t":"6","q":"Welke voorziening biedt een woonvorm met begeleiding aan mensen met psychische problemen die geen permanent verblijf in een psychiatrisch ziekenhuis nodig hebben?","o":["Psychiatrische Afdeling Algemeen Ziekenhuis (PAAZ)","Initiatief voor Beschut Wonen (IBW)","Centrum voor Ambulante Revalidatie (CAR)","Psychiatrisch Verzorgingstehuis (PVT)"],"a":1,"u":"Een Initiatief voor Beschut Wonen (IBW) begeleidt mensen met psychische problemen die geen permanent verblijf in een psychiatrisch ziekenhuis nodig hebben, maar nog hulp kunnen gebruiken om te wonen en sociaal vaardig te worden."},{"t":"6","q":"Wat kenmerkt een Psychiatrisch Verzorgingstehuis (PVT)?","o":["Het biedt een vervangende woonvorm aan personen van wie de psychische toestand gestabiliseerd is maar die niet zelfstandig kunnen leven","Het geeft kortdurende interventie bij acute problemen via de spoed","Het begeleidt clienten met een acute zorgnood aan huis","Het vangt uithandengegeven jongeren op die een delict pleegden"],"a":0,"u":"Een PVT biedt begeleiding en verzorging aan personen met psychische problemen van wie de toestand gestabiliseerd is; zij hebben geen opname meer nodig maar kunnen niet zelfstandig leven, en het PVT biedt een vervangende woonvorm."},{"t":"6","q":"Bij welke voorziening komen mensen met acute problemen meestal via de spoed terecht voor een kortdurende interventie met mogelijke doorverwijzing?","o":["Psychiatrisch Verzorgingstehuis (PVT)","Initiatief voor Beschut Wonen (IBW)","Centrum voor Ambulante Revalidatie (CAR)","Psychiatrische Afdeling Algemeen Ziekenhuis (PAAZ)"],"a":3,"u":"Bij een Psychiatrische Afdeling Algemeen Ziekenhuis (PAAZ) kunnen mensen met acute problemen terecht; zij komen meestal via de spoed toe, het gaat om een kortdurende interventie met mogelijkheid tot doorverwijzing."},{"t":"6","q":"Welk mobiel team richt zich op clienten met een acute zorgnood?","o":["Mobiel Behandelteam (MBT)","Psychiatrisch Expertise Team (PET)","Mobiel Crisisteam (MCT)","Psychiatrisch Zorgteam in Thuissituatie (PZT)"],"a":2,"u":"Het Mobiel Crisisteam (MCT) pakt clienten met een acute zorgnood aan; het Mobiel Behandelteam (MBT) richt zich daarentegen op clienten met een chronische zorgnood."},{"t":"6","q":"Welk mobiel team pakt clienten met een chronische zorgnood aan?","o":["Mobiel Crisisteam (MCT)","Psychiatrisch Zorgteam in Thuissituatie (PZT)","Psychiatrisch Expertise Team (PET)","Mobiel Behandelteam (MBT)"],"a":3,"u":"Het Mobiel Behandelteam (MBT) pakt clienten met een chronische zorgnood aan; het Mobiel Crisisteam (MCT) richt zich op clienten met een acute zorgnood."},{"t":"6","q":"Welk team pakt clienten aan bij wie er een vermoeden van een GGZ-problematiek is?","o":["Psychiatrisch Expertise Team (PET)","Mobiel Behandelteam (MBT)","Centrum voor Ambulante Revalidatie (CAR)","Mobiel Crisisteam (MCT)"],"a":0,"u":"Psychiatrische Expertise Teams (PET) pakken clienten aan bij wie er een vermoeden van een GGZ-problematiek is."},{"t":"6","q":"Wat houdt het begrip 'ageism' in de ouderenzorg in?","o":["Zelf een burgerinitiatief opzetten om een gat in de markt te vullen","Uitgesloten worden in de maatschappij louter op basis van ouderdom","Zorg die door meerdere hulpverleners samen wordt aangeboden","Het label 'ziek' krijgen waar je moeilijk van afgeraakt"],"a":1,"u":"Ageism betekent uitgesloten worden in de maatschappij louter op basis van ouderdom."},{"t":"6","q":"Wat is het verschil tussen een rustoord voor bejaarden (ROB) en een Rust en Verzorgingstehuis (RVT)?","o":["Een ROB is voor ouderen met permanente en zware zorgbehoefte, een RVT voor ouderen met minder zorgbehoefte","Een ROB is voor ouderen met minder zorgbehoefte die zelf kiezen te verblijven, een RVT voor ouderen met permanente en zware zorgbehoefte","Een ROB richt zich op jongeren, een RVT op ouderen","Een ROB is een semi-residentiele voorziening, een RVT een volledig ambulante dienst"],"a":1,"u":"Een rustoord voor bejaarden (ROB) is voor ouderen met minder zorgbehoefte die zelf kiezen om er te verblijven; een Rust en Verzorgingstehuis (RVT) is voor ouderen met permanente en zware zorgbehoefte of langdurige aandoeningen."},{"t":"6","q":"Welke drie organisaties werken samen in het Geintegreerd Breed Onthaal (GBO)?","o":["CAW, OCMW en de diensten maatschappelijk werk van de ziekenfondsen","CGG, PVT en IBW","VAPH, RTJ en PVB","MCT, MBT en PET"],"a":0,"u":"Het Geintegreerd Breed Onthaal (GBO) is een samenwerking van drie organisaties, namelijk het CAW, het OCMW en de diensten maatschappelijk werk van de ziekenfondsen, die openstaan voor elke vraag van burgers."},{"t":"6","q":"In welke voorziening worden mensen opgevangen die een link met justitie hebben en psychiatrische begeleiding nodig hebben?","o":["Detentiecentrum in Beveren","Gemeenschapsinstelling (GI)","Straf Uitvoeringsrechtbank (SURB)","Forensisch Psychiatrisch Centrum (FPC)"],"a":3,"u":"In een Forensisch Psychiatrisch Centrum (FPC) worden mensen opgevangen die een link met justitie hebben en psychiatrische begeleiding nodig hebben."},{"t":"6","q":"Wat is het verschil tussen 'drop outs' en 'push outs' bij transities in de jeugdhulp?","o":["Drop outs zijn ouderen, push outs zijn jongeren","Drop outs verlaten de hulp gedwongen, push outs verlaten ze vrijwillig","Drop outs verlaten de hulp tegen advies in, push outs verlaten ze gedwongen op initiatief van de hulpverleners","Drop outs blijven te lang in de hulp, push outs verlaten ze te vroeg"],"a":2,"u":"Drop outs zijn personen die de ondersteuning of jeugdhulp tegen advies verlaten; push outs zijn personen die de jeugdhulp gedwongen verlaten, op initiatief van de hulpverleners."},{"t":"6","q":"Wat wordt bedoeld met 'cherry picking' als trend in de hulpverlening?","o":["De hulpverlening richt zich enkel op de rendabele zorgvragen, waardoor de prijs stijgt en zware gevallen minder behandeld worden","Iemand tijdelijk opnemen als vangnet, waarna hij er blijvend gebruik van maakt","Wachtlijsten die niet echt bestaan omdat mensen al elders bediend worden","De overheid laat private initiatieven concurreren via openbare aanbestedingen"],"a":0,"u":"Bij cherry picking richt de hulpverlening zich enkel op de rendabele zorgvragen, waardoor de prijs van hulpverlening stijgt en de moeilijke en ernstige gevallen minder behandeld worden."},{"t":"6","q":"Wat betekent 'tendering' als trend in de hulpverlening?","o":["Wachtlijsten die eigenlijk niet bestaan omdat mensen al elders bediend worden","Iemand tijdelijk opnemen in een sociaal vangnet waar hij blijvend gebruik van maakt","De overheid laat via openbare aanbestedingen private initiatieven concurreren om het beste aanbod","De hulpverlening richt zich enkel op de rendabele zorgvragen"],"a":2,"u":"Bij tendering werkt de overheid met openbare aanbestedingen: ze kondigt aan dat ze iets gaat invoeren en laat private initiatieven concurreren om het beste aanbod uit te werken."},{"t":"6","q":"Welk begrip past bij deze omschrijving: een dynamische vorm van zorg waarbij zorg wordt aangeboden door meerdere hulpverleners?","o":["Transmurale zorg","Herstelbenadering","Ambulante revalidatie","Mantelzorg"],"a":0,"u":"Transmurale zorg is een dynamische vorm van zorg waarbij zorg wordt aangeboden door meerdere hulpverleners."}],"theory":[{"h":"Contextualisering & geschiedenis","items":["Hulpverlening: geheel van maatschappelijke inspanningen, privaat of publiek, dat gezondheid of welzijn tracht te bevorderen (preventie) of te garanderen (curatie en herstel) via diensten en financiering.","Verzorgingsstaat: maatschappijvorm met een democratisch systeem van overheidszorg dat, met behoud van het kapitalisme, instaat voor het collectieve sociale welzijn.","Sociaal democratische verzorgingsstaat: universele, wettelijk verankerde voorzieningen die burgers beschermen, gebaseerd op menselijke waardigheid.","Institutionele verzorgingsstaat: sociale rechten zijn aanwezig maar laten de sociale stratificatie ongemoeid.","Residuele verzorgingsstaat: individuele verantwoordelijkheid staat centraal, solidariteit is beperkt en selectief voor bepaalde bevolkingsgroepen.","Rudimentaire verzorgingsstaat: familiale solidariteit staat centraal en sociale rechten zijn slechts zeer beperkt aanwezig.","Citizenship: status van een volwaardig lid van een gemeenschap, waarbij allen gelijk zijn in rechten en plichten.","Practicing citizenship: de veranderende processen van toegang tot rechten en plichten en van in- en uitsluiting waardoor mensen ingebed raken in gemeenschappen en instellingen.","Nationaal Hulp en Voedingscomite (NHV): meer inzetten op hulpverlening en voedselvoorziening.","Commissie van de Openbare Onderstand (COO): fusie van het Bureel van Weldadigheid en de Commissie van Burgerlijke Godshuizen.","Nationaal Werk van Kinderwelzijn (NWK): versterking van de preventieve gezondheidszorg.","OCMW en CAW: het Openbaar Centrum voor Maatschappelijk Welzijn en het Centrum Algemeen Welzijnswerk, met de Jongeren Advies Centra (JAC) als onderdeel.","Intramurale zorg: zorg verleend binnen de muren van een ziekenhuisinstelling.","Extramurale zorg: zorg verleend buiten de muren van een ziekenhuisinstelling, eerder ambulant."]},{"h":"Bestuurlijke organisatie","items":["Sociale zekerheid: openbaar systeem om inkomen en/of verzorging te garanderen voor individuen of gezinnen die tijdelijk of blijvend niet zelf voldoende inkomen of verzorging kunnen voorzien.","Sociale bijstand: residueel vangnet voor diegenen die door de mazen van het sociale-zekerheidssysteem vallen.","Rijksdienst voor Sociale Zekerheid (RSZ): Belgische federale openbare instelling die de sociale bijdragen int bij de werkgevers en deze beheert.","Welzijn, Volksgezondheid en Gezin (WVG): beleidsdomein dat akkoorden sluit, advies geeft en de stem van de clienten laat horen in de adviesraad.","Vlaams Agentschap voor Personen met een Handicap (VAPH): streeft naar maximale autonomie en levenskwaliteit van personen met een handicap en is hun klantgerichte, efficiente partner.","Vereniging voor Geneeskunde, Verzorging en Uitkering (VGVU): ondersteunt de werking van zorgverleners, voorzieningen en ziektefondsen.","Lokaal Overleg Platform (LOP): zorgt voor afstemming van het hulpverleningsaanbod vanuit de verschillende beleidsvelden op het niveau van de lokale overheid.","Vlaams Infrastructuurfonds voor Persoonsgebonden Aangelegenheden (VIPA): subsidieert infrastructuurwerken die het beleidsdomein WVG verbeteren."]},{"h":"Integrale jeugdhulp (IJH)","items":["Subsidiariteit: de keuze voor de minst ingrijpende vorm van hulpverlening.","Verontrustende situatie (VOS): een samensmelting van misdrijf omschreven feit (MOF) en problematische opvoedingssituatie (POS), waarbij de ontwikkeling of integriteit van de minderjarige bedreigd is.","Maatschappelijke Noodzaak (MaNo): de kwalificatie die een gemandateerde voorziening na onderzoek aan een VOS geeft en die de noodzaak vastlegt om jeugdhulpverlening in te schakelen.","Gemandateerde voorzieningen (GV): de Ondersteuningscentra voor de Jeugdzorg (OCJ) en de Vertrouwenscentra Kindermishandeling (VK).","Intersectoraal Regionaal Overleg Jeugdhulp (IROJ): staat in voor de monitoring van het jeugdhulplandschap in de eigen regio.","Pleegzorg: zorg waarbij een pleegzorger vrijwillig, onder begeleiding en tegen een kostenvergoeding, pleegkinderen of pleeggasten opvangt.","Rechtstreeks Toegankelijke Jeugdhulp (RTJ): jeugdhulp die zonder tussenkomst van de toegangspoort toegankelijk is.","Centrum Kindzorg en Gezinsondersteuning (CKG): RT staat er voor ambulant, NRT voor residentieel.","Decreet Rechtspositie Minderjarige in de Jeugdhulp (DRMJH): dient als verdedigingsdocument van de rechter voor minderjarigen en meerderjarigen in jeugdhulpinstellingen.","Sociale Dienst Jeugdrechtbank (SDJ): de consulent voert er een maatschappelijk onderzoek uit.","Intersectorale Toegangspoort (ITP): de instantie die de toegang tot niet-rechtstreeks toegankelijke jeugdhulp regelt.","Onthaal-, Oriëntatie- en Observatiecentra (OOOC): voorzieningen die jongeren onthalen, oriënteren en observeren.","Centraal Aanmeldpunt (CAP): de jeugdrechter maakt hier een elektronische aanmelding voor een gemeenschapsinstelling of detentiecentrum."]},{"h":"Personen met een handicap: paradigmas & budgetten","items":["Defectparadigma: mensen met een handicap hebben een 'defect' dat gecorrigeerd of onzichtbaar gemaakt moet worden door hen weg te stoppen in instituten.","Normalisatieparadigma: mensen met een handicap hebben dezelfde rechten als iedereen en moeten een bestaan kunnen leiden dat zo dicht mogelijk bij het normale ligt.","Burgerschapsparadigma: streven naar volwaardig burgerschap, waarbij mensen met een handicap als volwaardige en unieke burgers in de samenleving leven.","Disabilities Studies Paradigma: doet recht aan hoe mensen met beperkingen hun positie definiëren en zoveel mogelijk participeren in diverse rollen.","Kwaliteit van bestaan: mensen kunnen zelf vorm en inhoud geven aan hun bestaan onder gewone leefomstandigheden, zodat ze tevreden kunnen zijn met dat bestaan.","Handicap volgens WHO: een nadelige sociale positie die voortvloeit uit beperkingen en stoornissen, die op hun beurt het gevolg zijn van ziekten en aandoeningen.","Residuaire bevoegdheid: enkel de kosten die niet door andere instanties worden gedragen.","Basisondersteuningsbudget (BOB): een vast zorgbudget van 300 euro per maand, uitbetaald door de zorgkassen, voor personen met een erkende handicap en beperkte ondersteuningsnood.","Persoonsvolgende financiering (PVF): zorg wordt vraaggestuurd en op maat gemaakt, waarbij de middelen direct aan de persoon gekoppeld worden en niet meer aan de zorgaanbieder.","Dienst ondersteuningsplan (DOP): brengt de ondersteuningsnood in kaart en zoekt de meest geschikte ondersteuning, met een dienstverlening van maximaal 12 maanden.","Multidisciplinair verslag (MDV): verslag dat door het multidisciplinair team (MDT) uiterlijk 5 maanden na indiening van het ondersteuningsplan wordt ingediend.","Vlaamse Toewijzingscommissie (VTC): beoordeelt de erkenning als persoon met een handicap en kent de prioriteitengroep toe bij de aanvraag van een persoonsvolgend budget.","Persoonsvolgend budget (PVB): een budget op maat waarmee een meerderjarige (vanaf 17 jaar) zorg en ondersteuning kan kopen, onder meer bij door het VAPH vergunde zorgaanbieders.","Individuele materiële bijstand (IMB): tegemoetkomingen van het VAPH voor hulpmiddelen en aanpassingen die helpen bij het uitvoeren van moeilijke activiteiten.","Persoonlijke-assistentiebudget (PAB): een budget om de assistentie voor een kind thuis of op school te organiseren en te financieren, waarmee iemand assistenten aanwerft."]},{"h":"Zorg, werk & financiering voor PmH","items":["Multifunctioneel Centrum (MFC): richt zich tot PmH tot en met 21 jaar (uitzonderlijk tot en met 25 jaar) en biedt begeleiding, dagopvang en verblijf.","Vergunde Zorgaanbieder (VZA): zorgaanbieder bij wie een meerderjarige persoon met een handicap terecht kan voor zorg of ondersteuning.","Globale Individuele Ondersteuning (GIO): een-op-een ondersteuning voor minderjarigen die ruim is en meerdere levensdomeinen omvat, zoals stimulatie, coaching, training en assistentie.","Vrijetijdszorg (VTZ): het ontwikkelen, begeleiden en bevorderen van vrijetijdsbesteding voor personen met een handicap.","Observatie, Diagnose en Behandelunits (ODB-units): units voor observatie, diagnose en behandeling binnen het (N)RTH-aanbod van andere aanbieders.","Kennis en Ondersteuningscentrum (KOC): centrum dat kennis geeft over het ondersteuningsaanbod voor PmH.","Inkomensvervangende tegemoetkoming: financiele steun voor personen die niet kunnen werken omwille van hun handicap.","Vlaamse Ondersteuningspremie (VOP): compensatie voor werkgevers of zelfstandigen die een werknemer met een erkende arbeidshandicap tewerkstellen.","Gespecialiseerd Team Bemiddeling (GTB): helpt mensen met een beperking of gezondheidsprobleem om geschikt werk te vinden en te houden.","Gespecialiseerde Opleidings-, Begeleidings- en Bemiddelingsdienst (GOB): heeft jarenlange expertise op het vlak van opleiding en werk voor personen met een handicap.","Integratietegemoetkoming: financiele steun die PmH helpt om extra kosten door hun handicap te dragen.","RTH en (N)RTH: rechtstreeks (en niet-rechtstreeks) toegankelijke hulp, aanbod dat onder meer GIO en VTZ omvat en ook door andere aanbieders wordt aangeboden."]},{"h":"Geestelijke gezondheidszorg (GGZ)","items":["CGG (Centrum voor Geestelijke Gezondheidszorg): biedt hulpverlening aan mensen met psychische problemen, met aparte teams voor volwassenen, ouderen en kinderen en jongeren.","IBW (Initiatief voor Beschut Wonen): begeleidt mensen met psychische problemen zonder nood aan permanent verblijf in een psychiatrisch ziekenhuis en biedt hen een begeleide woonvorm.","PVT (Psychiatrisch Verzorgingstehuis): biedt een vervangende woonvorm voor personen van wie de psychische toestand gestabiliseerd is maar die niet zelfstandig kunnen leven.","PAAZ (Psychiatrische Afdeling Algemeen Ziekenhuis): kortdurende interventie voor mensen met acute problemen, die meestal via de spoed toekomen en erna kunnen worden doorverwezen.","MCT (Mobiel Crisisteam): pakt clienten met een acute zorgnood aan, terwijl het MBT (Mobiel Behandelteam) clienten met chronische zorgnood aanpakt.","PET (Psychiatrisch Expertise Team): pakt clienten aan bij wie er een vermoeden van een GGZ-problematiek is.","Ageism: uitgesloten worden in de maatschappij louter op basis van ouderdom.","ROB (rustoord voor bejaarden): voor ouderen met minder zorgbehoefte die zelf kiezen om er te verblijven; RVT (Rust en Verzorgingstehuis) voor ouderen met permanente en zware zorgbehoefte.","GBO (Geintegreerd Breed Onthaal): samenwerking van CAW, OCMW en de diensten maatschappelijk werk van de ziekenfondsen die openstaan voor elke vraag van burgers.","FPC (Forensisch Psychiatrisch Centrum): vangt mensen op die een link met justitie hebben en psychiatrische begeleiding nodig hebben.","Drop outs versus push outs: drop outs verlaten de jeugdhulp tegen advies in, push outs verlaten ze gedwongen op initiatief van de hulpverleners.","Cherry picking: de hulpverlening richt zich enkel op rendabele zorgvragen, waardoor de prijs stijgt en zware gevallen minder behandeld worden.","Tendering: de overheid laat via openbare aanbestedingen private initiatieven concurreren om het beste aanbod.","Transmurale zorg: een dynamische vorm van zorg waarbij zorg wordt aangeboden door meerdere hulpverleners.","Herstelbenadering: gericht op mensen weer tot de norm laten behoren en niet blijvend als ex-patient bekijken."]}],"hacks":[{"h":"Intra blijft binnen, extra gaat eruit","t":"Denk aan 'intra' als 'binnenin de muren' (intramuraal = in het ziekenhuis) en 'extra' als 'erbuiten, extern' (extramuraal = ambulant, buiten de muren). Zo verwar je de twee zorgvormen nooit meer."},{"h":"RSZ int, VIPA bouwt","t":"Onthoud de rolverdeling met twee ankers: de RSZ int het geld bij de werkgevers, terwijl het VIPA het geld uitgeeft aan infrastructuurwerken die WVG verbeteren. Zo verwar je de innende met de subsidierende instelling niet meer."},{"h":"GV = OCJ + VK","t":"Onthoud dat er precies twee gemandateerde voorzieningen (GV) zijn: het OCJ en het VK. Denk aan Onderzoeken (OCJ) en Vertrouwen (VK), de twee poorten die een verontrustende situatie beoordelen en een maatschappelijke noodzaak kunnen vaststellen."},{"h":"Vier paradigmas op een rij","t":"Onthoud de vier paradigmas van meest stigmatiserend naar meest emanciperend: Defect (wegstoppen), Normalisatie (zo normaal mogelijk), Burgerschap (volwaardige burger), Disabilities studies (eigen positie definiëren)."},{"h":"Werk-drieluik: GTB, GOB, VOP","t":"Bij het werkdomein onthoud je 'zoeken, opleiden, betalen': GTB helpt werk vinden en houden, GOB verzorgt opleiding en begeleiding, en de VOP is de premie die de werkgever compenseert. Zo koppel je elke afkorting aan haar taak."},{"h":"Mobiele teams: MCT, MBT en PET","t":"Onthoud de C, B en E: Crisis (MCT) is acuut, Behandel (MBT) is chronisch, en Expertise (PET) is een vermoeden. Zo koppel je elk mobiel team meteen aan de juiste zorgnood."}]};
+</script>
+<style>
+  .choverview .chlist{display:flex;flex-direction:column;gap:3px;margin-top:2px}
+  .chrow{display:flex;align-items:center;gap:12px;width:100%;text-align:left;background:transparent;border:none;border-radius:10px;padding:9px 8px;cursor:pointer;color:var(--ink);font-family:inherit;transition:background .15s var(--ease),transform .1s var(--ease)}
+  .chrow:hover{background:var(--accent-soft)}
+  .chrow:active{transform:scale(.995)}
+  .chrow .chname{flex:0 0 auto;width:170px;font-size:14px;font-weight:600}
+  .chrow .chbar{flex:1;height:8px;border-radius:999px;background:var(--line);overflow:hidden}
+  .chrow .chbar>i{display:block;height:100%;border-radius:999px;background:linear-gradient(90deg,var(--accent),var(--accent-ink));transition:width .5s var(--ease)}
+  .chrow .chval{flex:0 0 auto;font-size:12.5px;color:var(--muted);min-width:40px;text-align:right;font-variant-numeric:tabular-nums}
+  .chrow .ic.caret{width:16px;height:16px;color:var(--muted);flex:0 0 auto}
+  @media(max-width:560px){.chrow .chname{width:auto;flex:1 1 auto;min-width:0}.chrow .chbar{flex:0 0 64px}}
+</style>
+<script>
+(function(){
+  "use strict";
+  var D=window.OH, app=document.getElementById("app");
+  var P={
+    book:'<path d="M12 7v14"/><path d="M3 18a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h5a4 4 0 0 1 4 4 4 4 0 0 1 4-4h5a1 1 0 0 1 1 1v13a1 1 0 0 1-1 1h-6a3 3 0 0 0-3 3 3 3 0 0 0-3-3z"/>',
+    bulb:'<path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5"/><path d="M9 18h6"/><path d="M10 22h4"/>',
+    help:'<circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><path d="M12 17h.01"/>',
+    search:'<circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/>',
+    sun:'<circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/>',
+    moon:'<path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/>',
+    arrowR:'<path d="M5 12h14"/><path d="m12 5 7 7-7 7"/>',
+    back:'<path d="m15 18-6-6 6-6"/>',
+    heart:'<path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/>',
+    chevR:'<path d="m9 18 6-6-6-6"/>',
+    sparkles:'<path d="M9.94 15.5A2 2 0 0 0 8.5 14.06l-6.14-1.58a.5.5 0 0 1 0-.96L8.5 9.94A2 2 0 0 0 9.94 8.5l1.58-6.14a.5.5 0 0 1 .96 0L14.06 8.5A2 2 0 0 0 15.5 9.94l6.14 1.58a.5.5 0 0 1 0 .96L15.5 14.06a2 2 0 0 0-1.44 1.44l-1.58 6.14a.5.5 0 0 1-.96 0z"/>',
+    target:'<circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/>',
+    rocket:'<path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z"/><path d="m12 15-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z"/><path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 0 5 0"/><path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5"/>',
+    msg:'<path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"/>',
+    refresh:'<path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/>',
+    send:'<path d="M14.54 21.69a.5.5 0 0 0 .94-.02l6.5-19a.5.5 0 0 0-.64-.64l-19 6.5a.5.5 0 0 0-.02.94l7.93 3.18a2 2 0 0 1 1.11 1.11z"/><path d="m21.85 2.15-10.94 10.94"/>'
+  };
+  function ic(n,c){ return '<svg class="ic'+(c?" "+c:"")+'" viewBox="0 0 24 24" aria-hidden="true">'+(P[n]||"")+'</svg>'; }
+  function esc(s){ return String(s).replace(/[&<>"]/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;"}[c];}); }
+  function shuffle(a){ a=a.slice(); for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=a[i];a[i]=a[j];a[j]=t;} return a; }
+  function pct(n,d){ return d?Math.round(100*n/d):0; }
+  function rnd(a){ return a[Math.floor(Math.random()*a.length)]; }
+  function lget(k,d){ try{ var v=JSON.parse(localStorage.getItem(k)); return v==null?d:v; }catch(e){ return d; } }
+  function lset(k,v){ try{ localStorage.setItem(k,JSON.stringify(v)); }catch(e){} }
+  function rawGet(k){ try{ return localStorage.getItem(k); }catch(e){ return null; } }
+  function rawSet(k,v){ try{ localStorage.setItem(k,v); }catch(e){} }
+  function bump(ns,key){ try{ fetch("https://abacus.jasoncameron.dev/hit/"+ns+"/"+key).then(function(){},function(){}); }catch(e){} }
+
+  D.questions.forEach(function(q,i){ q.id="q"+i; });
+  var theme=rawGet("site_theme") || lget("ohv_theme","light");
+  function applyTheme(){ document.documentElement.setAttribute("data-theme",theme);
+    document.getElementById("themeBtn").innerHTML=(theme==="dark"?ic("sun"):ic("moon"))+'<span>'+(theme==="dark"?"Licht":"Donker")+'</span>'; }
+  applyTheme();
+  document.getElementById("themeBtn").onclick=function(){ theme=theme==="dark"?"light":"dark"; lset("ohv_theme",theme); rawSet("site_theme",theme); applyTheme(); };
+  var calm=lget("ohv_calm",true);
+  function applyCalm(){ document.documentElement.classList.toggle("snappy", !calm); }
+  applyCalm();
+  function wrongLead(){ return calm ? rnd(WARM) : "Fout."; }
+
+  var WARM=["Geen zorgen, hier leer je nu net van.","Bijna! Dit type vraag krijg je zo onder de knie.","Foutje mag, nu weet je wat je nog moet herhalen.","Niet erg, dit onthoud je de volgende keer wél.","Rustig, één foutje zegt niets over je examen."];
+  var PRAISE=["Juist!","Goed zo!","Correct!","Sterk!","Knap!"];
+  var TOPICS={"1":"Contextualisering & geschiedenis","2":"Bestuurlijke organisatie","3":"Integrale jeugdhulp (IJH)","4":"Personen met een handicap: paradigmas & budgetten","5":"Zorg, werk & financiering voor PmH","6":"Geestelijke gezondheidszorg (GGZ)"};
+  function getProg(){ var p=lget("ohv_prog",{ans:{}}); if(!p||typeof p!=="object"||!p.ans)p={ans:{}}; return p; }
+  function recordProg(qid,ok){ var p=getProg(); p.ans[qid]=ok?1:0; lset("ohv_prog",p); }
+  function resetProg(){ lset("ohv_prog",{ans:{}}); }
+  function chapterStats(){ var p=getProg(); var st={}; Object.keys(TOPICS).forEach(function(k){st[k]={total:0,done:0,correct:0};}); D.questions.forEach(function(q){ var s=st[q.t]; if(!s)return; s.total++; if(Object.prototype.hasOwnProperty.call(p.ans,q.id)){ s.done++; if(p.ans[q.id])s.correct++; } }); return st; }
+  function startChapter(k){ var items=shuffle(D.questions.filter(function(q){return q.t===k;})); state.view="quiz"; tabBtns.forEach(function(b){b.classList.toggle("on",b.dataset.view==="quiz");}); startQuiz(items); window.scrollTo(0,0); }
+
+  var TABS=[{v:"home",l:"Start",i:"book"},{v:"quiz",l:"Oefenvragen",i:"target"},{v:"theory",l:"Theorie",i:"search"},{v:"hacks",l:"Studie-hacks",i:"bulb"},{v:"feedback",l:"Feedback",i:"msg"}];
+  var tabsEl=document.getElementById("tabs");
+  tabsEl.innerHTML=TABS.map(function(t){return '<button data-view="'+t.v+'"'+(t.v==="home"?' class="on"':'')+'>'+ic(t.i)+'<span>'+t.l+'</span></button>';}).join("");
+  var tabBtns=[].slice.call(tabsEl.querySelectorAll("button"));
+  tabBtns.forEach(function(b){ b.onclick=function(){ state.fromHub=false; if(b.dataset.view==="home") state.step="track"; go(b.dataset.view); }; });
+  function go(v){ state.view=v; tabBtns.forEach(function(b){b.classList.toggle("on",b.dataset.view===v);}); render(); window.scrollTo(0,0); }
+
+  var state={view:"home", step:"track", track:lget("ohv_track","training"), quiz:null, sel:{topics:{"1":true,"2":true,"3":true,"4":true,"5":true,"6":true}, count:15, shuffle:true}, sumq:""};
+  function setHTML(h){ app.innerHTML=h; }
+
+  function render(){
+    if(state.view==="home") return renderHome();
+    if(state.view==="quiz") return renderQuizGate();
+    if(state.view==="theory") return renderTheory();
+    if(state.view==="hacks") return renderHacks();
+    if(state.view==="feedback") return renderFeedback();
+  }
+
+  function renderHome(){
+    if(state.step==="herkansing") return renderHerkansing();
+    if(state.step==="practice") return renderPractice();
+    return renderTrack();
+  }
+  function modeLabel(){ return state.track==="herkansing"?"Herkansing":"Examen Training"; }
+
+  function renderTrack(){
+    var byT={}; D.questions.forEach(function(q){byT[q.t]=(byT[q.t]||0)+1;});
+    var st=chapterStats(); var tD=0,tQ=0,tC=0; Object.keys(st).forEach(function(k){tD+=st[k].done;tQ+=st[k].total;tC+=st[k].correct;});
+    var html=
+      '<div class="hero">'+
+        '<div class="count"><b>'+D.questions.length+'</b><span>oefenvragen</span></div>'+
+        '<div class="herotext"><h1>Organisatie van de Hulpverlening oefenen</h1>'+
+        '<p>Oefenvragen per hoofdstuk, met uitleg</p></div>'+
+      '</div>'+
+      '<a class="brandstrip" href="https://beriesexamspace.github.io/" title="Naar Berie’s exam space"><span class="bs-logo">B</span><span class="bs-txt"><b>Berie’s exam space</b><small>Een ander vak leren? Bekijk alle vakken</small></span><span class="bs-go">'+ic("arrowR")+'</span></a>'+
+      '<a class="brandstrip" href="https://beriesexamspace.github.io/?deel=1" title="Deel je samenvattingen"><span class="bs-logo">📚</span><span class="bs-txt"><b>Help mee, deel je vak</b><small>Heb jij samenvattingen of oude examenvragen? Stuur ze in (élk jaar).</small></span><span class="bs-go">'+ic("arrowR")+'</span></a>'+
+      '<div class="seclabel">'+ic("rocket")+'Hoe wil je oefenen?</div>'+
+      '<div class="tracks">'+
+        '<button class="track" data-track="training"><span class="tile">'+ic("book")+'</span><b>Examen Training</b><small>Oefen op examenniveau. Vragen met directe feedback en uitleg.</small><span class="go">Normaal niveau '+ic("arrowR")+'</span></button>'+
+        '<button class="track alt" data-track="herkansing"><span class="tile">'+ic("heart")+'</span><b>Herkansing</b><small>Rustig opbouwen, met aanmoediging. Jij bepaalt het tempo.</small><span class="go">Met begeleiding '+ic("arrowR")+'</span></button>'+
+      '</div>'+
+      '<div class="card pad choverview" style="margin-top:18px">'+
+        '<div class="row" style="justify-content:space-between;align-items:center"><b>Kies een hoofdstuk</b>'+(tD>0?'<button type="button" class="bnlink" id="resetProg">'+ic("refresh")+'Reset</button>':'')+'</div>'+
+        '<p class="muted" style="font-size:12.5px;margin:6px 0 12px">Klik een hoofdstuk om alleen dat te oefenen.'+(tD>0?' &middot; '+tD+'/'+tQ+' geoefend &middot; '+pct(tC,tD)+'% juist':'')+'</p>'+
+        '<div class="chlist">'+Object.keys(TOPICS).map(function(k){var s=st[k];var w=pct(s.done,s.total);return '<button type="button" class="chrow" data-ch="'+k+'"><span class="chname">'+esc(TOPICS[k])+'</span><span class="chbar"><i style="width:'+w+'%"></i></span><span class="chval">'+s.done+'/'+s.total+'</span>'+ic("chevR","caret")+'</button>';}).join("")+'</div></div>';
+    setHTML(html);
+    [].slice.call(document.querySelectorAll(".chrow")).forEach(function(el){ el.onclick=function(){ startChapter(el.dataset.ch); }; });
+    var _rp=document.getElementById("resetProg"); if(_rp) _rp.onclick=function(){ resetProg(); renderHome(); };
+    [].slice.call(document.querySelectorAll(".track")).forEach(function(el){ el.onclick=function(){ var t=el.dataset.track; state.track=t; lset("ohv_track",t); state.step=(t==="herkansing"?"herkansing":"practice"); renderHome(); window.scrollTo(0,0); }; });
+  }
+
+  function renderHerkansing(){
+    var html=
+      '<button class="backlink" id="backBtn">'+ic("back")+'Terug</button>'+
+      '<div class="seclabel" style="margin-top:2px">'+ic("heart")+'Herkansing</div>'+
+      (calm?'<div class="card pad warmcard"><div class="row" style="gap:11px;flex-wrap:nowrap;align-items:flex-start">'+ic("heart")+'<div><b>Een nieuwe kans, rustig aan.</b><p class="muted" style="margin:5px 0 0;font-size:13.5px">Herkansen betekent niet dat je het niet kunt. Stap voor stap kom je er. Jij kunt dit. 💙</p></div></div></div>':'')+
+      '<div class="card pad" style="margin-top:12px"><div class="row" style="justify-content:space-between;align-items:center;gap:14px"><div><b>Rustige modus</b><div class="muted" style="font-size:12.5px">Aanmoediging en kalme sfeer. Zet uit als je liever recht-voor-z’n-raap oefent.</div></div><button class="toggle'+(calm?" on":"")+'" id="calmToggle" role="switch" aria-checked="'+(calm?"true":"false")+'" aria-label="Rustige modus aan of uit"><span class="knob"></span></button></div></div>'+
+      '<div class="row" style="margin-top:16px"><button class="btn" id="beginBtn">Begin met oefenen '+ic("arrowR")+'</button></div>';
+    setHTML(html);
+    document.getElementById("backBtn").onclick=function(){ state.step="track"; renderHome(); window.scrollTo(0,0); };
+    document.getElementById("calmToggle").onclick=function(){ calm=!calm; lset("ohv_calm",calm); applyCalm(); renderHerkansing(); };
+    document.getElementById("beginBtn").onclick=function(){ state.step="practice"; renderHome(); window.scrollTo(0,0); };
+  }
+
+  function renderPractice(){
+    var herk=state.track==="herkansing";
+    var html=
+      '<button class="backlink" id="backBtn">'+ic("back")+'Terug</button>'+
+      '<div class="modebanner'+(herk?" v":"")+'">'+ic(herk?"heart":"book")+'<span>'+modeLabel()+'</span><button type="button" class="bnlink" id="changeMode">wijzig</button></div>'+
+      '<div class="seclabel">'+ic("rocket")+'Waarmee wil je oefenen?</div>'+
+      '<div class="grid g2">'+
+        '<button class="mode" data-mode="quiz"><span class="me">'+ic("target")+'</span><b>Oefenvragen</b><small>Meerkeuze met directe feedback en uitleg. Kies je onderwerpen.</small></button>'+
+        '<button class="mode" id="quickStart"><span class="me">'+ic("rocket")+'</span><b>Snelle ronde</b><small>15 willekeurige vragen uit alle onderwerpen.</small></button>'+
+      '</div>';
+    setHTML(html);
+    document.getElementById("backBtn").onclick=function(){ if(state.fromHub){ location.href="https://beriesexamspace.github.io/"; return; } state.step=(herk?"herkansing":"track"); renderHome(); window.scrollTo(0,0); };
+    document.getElementById("changeMode").onclick=function(){ if(state.fromHub){ location.href="https://beriesexamspace.github.io/"; return; } state.step="track"; renderHome(); window.scrollTo(0,0); };
+    document.querySelector('[data-mode="quiz"]').onclick=function(){ go("quiz"); };
+    document.getElementById("quickStart").onclick=function(){ state.view="quiz"; tabBtns.forEach(function(b){b.classList.toggle("on",b.dataset.view==="quiz");}); startQuiz(shuffle(D.questions.slice()).slice(0,15)); window.scrollTo(0,0); };
+  }
+
+  function renderQuizGate(){
+    if(state.quiz) return renderQuiz();
+    var s=state.sel;
+    function pool(){ return D.questions.filter(function(q){return s.topics[q.t];}); }
+    var html='<div class="card pad"><h2 style="margin-top:0">Oefenvragen</h2>'+
+      '<p class="muted">Kies onderwerpen en het aantal vragen. Na elk antwoord krijg je meteen feedback én de uitleg.</p>'+
+      '<label class="fld">Onderwerpen</label><div class="chips" id="tps">'+
+        Object.keys(TOPICS).map(function(k){return '<button class="chip'+(s.topics[k]?" on":"")+'" data-tp="'+k+'">'+esc(TOPICS[k])+'</button>';}).join("")+'</div>'+
+      '<label class="fld">Aantal vragen</label><div class="chips" id="cnt">'+
+        [10,15,20,999].map(function(n){return '<button class="chip'+(s.count===n?" on":"")+'" data-n="'+n+'">'+(n===999?"Alle":n)+'</button>';}).join("")+'</div>'+
+      '<label class="fld"><input type="checkbox" id="shuf" '+(s.shuffle?"checked":"")+'> Willekeurige volgorde</label>'+
+      '<div class="row" style="margin-top:18px"><button class="btn" id="startQ">Start '+ic("arrowR")+'</button><span class="muted" id="poolN"></span></div></div>';
+    setHTML(html);
+    function refresh(){ var n=pool().length; document.getElementById("poolN").textContent=n+" vragen beschikbaar"; document.getElementById("startQ").disabled=n===0; }
+    [].slice.call(document.querySelectorAll("#tps .chip")).forEach(function(b){ b.onclick=function(){ s.topics[b.dataset.tp]=!s.topics[b.dataset.tp]; b.classList.toggle("on"); refresh(); }; });
+    [].slice.call(document.querySelectorAll("#cnt .chip")).forEach(function(b){ b.onclick=function(){ s.count=+b.dataset.n; renderQuizGate(); }; });
+    document.getElementById("shuf").onchange=function(e){ s.shuffle=e.target.checked; };
+    document.getElementById("startQ").onclick=function(){ var p=pool(); if(s.shuffle)p=shuffle(p); if(s.count<p.length)p=p.slice(0,s.count); startQuiz(p); };
+    refresh();
+  }
+
+  function startQuiz(items){ bump("berat-ohv", state.track==="herkansing"?"herkansing":"training"); state.quiz={items:items.map(function(q){return {q:q,opts:shuffle(q.o.map(function(t,i){return {text:t,ok:i===q.a};}))};}), idx:0, answered:false, picked:-1, correct:0, wrong:[], done:false}; renderQuiz(); }
+
+  function renderQuiz(){
+    var Q=state.quiz; if(Q.done) return renderResult();
+    var cur=Q.items[Q.idx], q=cur.q;
+    var html='<button class="backlink" id="backBtn">'+ic("back")+'Terug</button>'+
+      '<div class="card pad">'+
+      '<div class="runtop"><span class="pill">'+esc(TOPICS[q.t])+'</span><div class="bar"><i data-w="'+pct(Q.idx,Q.items.length)+'"></i></div><span>'+(Q.idx+1)+'/'+Q.items.length+'</span></div>'+
+      '<div class="qtext">'+esc(q.q)+'</div>'+
+      '<div id="opts">'+cur.opts.map(function(o,i){return '<button class="opt" data-i="'+i+'" style="--oi:'+(i*55)+'ms"><span class="k">'+String.fromCharCode(65+i)+'</span><span>'+esc(o.text)+'</span></button>';}).join("")+'</div>'+
+      '<div id="fb"></div>'+
+      '<div class="row" style="justify-content:space-between;margin-top:6px"><span class="muted" style="font-size:12px">Toets <span class="kbd">A–D</span> · <span class="kbd">Enter</span> = volgende</span><button class="btn hide" id="nextBtn">Volgende '+ic("arrowR")+'</button></div></div>';
+    setHTML(html);
+    var i2=document.querySelector(".bar>i"); requestAnimationFrame(function(){ if(i2) i2.style.width=i2.getAttribute("data-w")+"%"; });
+    document.getElementById("backBtn").onclick=function(){ state.quiz=null; renderQuizGate(); };
+    var optBtns=[].slice.call(document.querySelectorAll("#opts .opt"));
+    var nb=document.getElementById("nextBtn"); nb.onclick=next;
+    function showAnswered(i){
+      optBtns.forEach(function(b){ var bi=+b.dataset.i; b.disabled=true; if(cur.opts[bi].ok)b.classList.add("correct"); else if(bi===i)b.classList.add("wrong"); });
+      var ok=cur.opts[i].ok, fb=document.getElementById("fb"); fb.className="feedback "+(ok?"ok":"no");
+      var juist=cur.opts.filter(function(o){return o.ok;})[0].text;
+      fb.innerHTML=ok?"<b>"+rnd(PRAISE)+" ✓</b>":"<b>"+wrongLead()+"</b><span class=\"sub\">Juiste antwoord: "+esc(juist)+"</span>";
+      var w=document.createElement("div"); w.innerHTML='<div class="whybox"><h4>'+ic("sparkles")+'Waarom?</h4>'+esc(q.u)+'</div>'; fb.appendChild(w);
+      nb.classList.remove("hide"); nb.innerHTML=(Q.idx+1>=Q.items.length)?"Bekijk resultaat "+ic("arrowR"):"Volgende "+ic("arrowR");
+    }
+    function pick(i){ if(Q.answered)return; Q.answered=true; Q.picked=i; var ok=cur.opts[i].ok; if(ok)Q.correct++; else Q.wrong.push(q); recordProg(q.id, ok); showAnswered(i); nb.focus(); }
+    optBtns.forEach(function(b){ b.onclick=function(){ pick(+b.dataset.i); }; });
+    function next(){ if(!Q.answered)return; Q.idx++; Q.answered=false; Q.picked=-1; if(Q.idx>=Q.items.length)Q.done=true; renderQuiz(); }
+    if(Q.answered) showAnswered(Q.picked);
+    state.key=function(e){ if(!Q.answered){ var k=e.key.toLowerCase(); var idx="abcde".indexOf(k); if(idx<0&&/[1-5]/.test(k))idx=+k-1; if(idx>=0&&idx<cur.opts.length){pick(idx);e.preventDefault();} } else if(e.key==="Enter"||e.key===" "){ next(); e.preventDefault(); } };
+  }
+
+  function renderResult(){
+    var Q=state.quiz, p=pct(Q.correct,Q.items.length);
+    var msg=p>=80?"Sterk werk! 🎉":p>=60?"Goed bezig 👍":"Blijf oefenen, je komt er 💪";
+    var html='<div class="card pad results center"><span class="pill">Organisatie van de Hulpverlening</span><div class="big">'+p+'%</div>'+
+      '<p style="font-weight:600;margin:0 0 4px;font-size:17px">'+msg+'</p><p class="muted">'+Q.correct+' van '+Q.items.length+' juist</p>'+
+      '<div class="row" style="justify-content:center;margin-top:14px">'+
+        (Q.wrong.length?'<button class="btn" id="retry">Herhaal '+Q.wrong.length+' foute vragen</button>':'')+
+        '<button class="btn ghost" id="again">Nieuwe ronde</button><button class="btn ghost" id="home">Naar start</button></div></div>';
+    setHTML(html);
+    var rt=document.getElementById("retry"); if(rt) rt.onclick=function(){ startQuiz(shuffle(Q.wrong)); };
+    document.getElementById("again").onclick=function(){ state.quiz=null; renderQuizGate(); };
+    document.getElementById("home").onclick=function(){ state.quiz=null; go("home"); };
+    state.key=null;
+  }
+
+  function renderTheory(){
+    var q=state.sumq||"";
+    var html='<div class="card pad" style="margin-bottom:14px"><h2 style="margin:0 0 8px">Theorie en samenvatting</h2>'+
+      '<input type="search" id="sq" placeholder="Zoek een begrip… (bv. VAPH, jeugdhulp, PVB)" value="'+esc(q)+'"></div><div id="list">'+theoryList(q)+'</div>';
+    setHTML(html);
+    var si=document.getElementById("sq"); si.oninput=function(){ state.sumq=si.value; document.getElementById("list").innerHTML=theoryList(si.value); si.focus(); };
+  }
+  function theoryList(query){
+    var Q=query.trim().toLowerCase(), out="", n=0;
+    D.theory.forEach(function(sec){
+      var items=sec.items.filter(function(it){ return !Q || it.toLowerCase().indexOf(Q)>=0 || sec.h.toLowerCase().indexOf(Q)>=0; });
+      if(!items.length) return; n++;
+      out+='<details class="acc"'+(Q?" open":(n===1?" open":""))+'><summary><span class="n">'+ic("search")+'</span>'+esc(sec.h)+ic("chevR","caret")+'</summary><div class="body"><ul>'+items.map(function(it){return '<li>'+hl(esc(it),Q)+'</li>';}).join("")+'</ul></div></details>';
+    });
+    return out||'<p class="muted center">Geen resultaten voor "'+esc(query)+'".</p>';
+  }
+  function hl(t,q){ if(!q)return t; try{ return t.replace(new RegExp("("+q.replace(/[.*+?^${}()|[\]\\]/g,"\\$&")+")","ig"),"<mark>$1</mark>"); }catch(e){ return t; } }
+
+  function renderHacks(){
+    var html='<div class="card pad" style="margin-bottom:16px"><h2 style="margin:0 0 6px">Studie-hacks</h2><p class="muted" style="margin:0">Ezelsbruggetjes om de kernideeën van de organisatie van de hulpverlening te onthouden.</p></div>'+
+      '<div class="tipgrid">'+D.hacks.map(function(t){return '<div class="tip"><h4>'+ic("bulb")+esc(t.h)+'</h4><p>'+esc(t.t)+'</p></div>';}).join("")+'</div>';
+    setHTML(html);
+  }
+
+  function renderFeedback(){
+    var html='<div class="card pad"><h2 style="margin-top:0">Feedback &amp; klachten</h2>'+
+      '<p class="muted">Fout in een vraag, een idee, of werkt iets niet? Laat het hier weten, het komt rechtstreeks bij de maker terecht. Een review of compliment mag ook: de mooiste tonen we op de hub. 💬</p>'+
+      '<label class="fld" for="fbMsg">Je bericht</label><textarea id="fbMsg" rows="5" placeholder="Beschrijf de fout of je idee…"></textarea>'+
+      '<label class="fld" for="fbWaar">Over welke vraag? <span class="muted">(optioneel)</span></label><input type="text" id="fbWaar" placeholder="bv. de vraag over de p-waarde">'+
+      '<label class="fld" for="fbNaam">Je naam <span class="muted">(optioneel)</span></label><input type="text" id="fbNaam" placeholder="zodat we je kunnen bedanken">'+
+      '<label class="fld" for="fbEmail">Je e-mail <span class="muted">(optioneel, als je een antwoord wilt)</span></label><input type="email" id="fbEmail" placeholder="naam@voorbeeld.be">'+
+      '<input type="text" id="fbBot" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;opacity:0">'+
+      '<div class="row" style="margin-top:16px;align-items:center"><button class="btn" id="fbSend">'+ic("send")+'Versturen</button><span id="fbStatus" style="font-size:13px"></span></div></div>';
+    setHTML(html);
+    document.getElementById("fbSend").onclick=function(){
+      var status=document.getElementById("fbStatus");
+      if(document.getElementById("fbBot").value) return;
+      var msg=document.getElementById("fbMsg").value.trim();
+      if(!msg){ status.style.color="var(--bad)"; status.textContent="Schrijf eerst een bericht."; return; }
+      var btn=document.getElementById("fbSend"); btn.disabled=true; status.style.color="var(--muted)"; status.textContent="Versturen…";
+      var em=document.getElementById("fbEmail").value.trim();
+      var nm=document.getElementById("fbNaam").value.trim();
+      var waar=document.getElementById("fbWaar").value.trim();
+      var payload={_subject:"Organisatie van de Hulpverlening-tool: feedback", _template:"table", _captcha:"false",
+        Naam:nm||"-", Over_welke_vraag:waar||"-", email:em||"-", Bericht:msg};
+      if(em) payload._replyto=em;
+      // vangnet: als de verzenddienst blokkeert (bv. spamfilter) of er is geen verbinding,
+      // bieden we een directe mailto-knop aan zodat de melding NOOIT stilletjes verdwijnt.
+      function failFallback(reden){
+        var body="Feedback Organisatie van de Hulpverlening-tool%0D%0A%0D%0ANaam: "+encodeURIComponent(nm||"-")+"%0D%0AOver welke vraag: "+encodeURIComponent(waar||"-")+"%0D%0AE-mail: "+encodeURIComponent(em||"-")+"%0D%0A%0D%0ABericht:%0D%0A"+encodeURIComponent(msg);
+        var mailto="mailto:berat007yildirim@gmail.com?subject="+encodeURIComponent("Organisatie van de Hulpverlening-tool: feedback")+"&body="+body;
+        setHTML('<div class="card pad"><h2 style="margin-top:0">Automatisch versturen lukte niet</h2><p class="muted">'+reden+' Geen zorgen, klik hieronder en je melding wordt geopend in je e-mail, helemaal klaar om te versturen:</p><a class="btn" href="'+mailto+'">'+ic("send")+'Mail mijn melding direct</a><div style="margin-top:14px"><button class="btn ghost" id="bk">Terug naar start</button></div></div>');
+        document.getElementById("bk").onclick=function(){go("home");};
+      }
+      fetch("https://formsubmit.co/ajax/Berat007yildirim@gmail.com",{method:"POST",headers:{Accept:"application/json"},body:new URLSearchParams(payload)})
+        .then(function(r){return r.json();}).then(function(d){
+          if(d&&(d.success===true||d.success==="true")){ setHTML('<div class="card pad results center"><div style="font-size:42px">✅</div><h2 style="margin:6px 0">Bedankt!</h2><p class="muted">Je melding is verstuurd.</p><button class="btn" id="bk" style="margin-top:8px">Terug naar start</button></div>'); document.getElementById("bk").onclick=function(){go("home");}; }
+          else { failFallback("Het automatisch versturen lukte niet."); }
+        }).catch(function(){ failFallback("Er was even geen verbinding."); });
+    };
+  }
+
+  document.addEventListener("keydown",function(e){ if(state.key) state.key(e); });
+  // bezoeker tellen (1x per toestel)
+  try{ if(!localStorage.getItem("ohv_seen")){ localStorage.setItem("ohv_seen","1"); bump("berat-ohv","gebruikers"); } }catch(e){ bump("berat-ohv","gebruikers"); }
+  // traject vanuit de hub overnemen → direct naar de oefenpagina
+  try{ var _q=new URLSearchParams(location.search); var _m=_q.get("m");
+    if(_m==="training"||_m==="herkansing"){ state.track=_m; lset("ohv_track",_m);
+      var _c=_q.get("calm"); if(_c!=null){ calm=(_c!=="0"); lset("ohv_calm",calm); applyCalm(); }
+      state.step="practice"; state.fromHub=true; }
+  }catch(e){}
+  render();
+  // launch-splash netjes laten verdwijnen
+  (function(){ var _sp=document.getElementById("splash"); if(!_sp) return; var _red=false; try{_red=window.matchMedia("(prefers-reduced-motion: reduce)").matches;}catch(e){} setTimeout(function(){ _sp.classList.add("hide"); setTimeout(function(){ if(_sp&&_sp.parentNode) _sp.parentNode.removeChild(_sp); }, 700); }, _red?300:1850); })();
+})();
+</script>
+</body>
+</html>
