@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+<meta name="theme-color" content="#0f6e6a" />
+<meta http-equiv="Cache-Control" content="no-cache, must-revalidate" />
+<meta http-equiv="Pragma" content="no-cache" />
+<title>Statistiek III, Berie’s exam space</title>
+<meta name="author" content="Berat Yildirim - Berie's exam space" />
+<meta name="copyright" content="© 2026 Berat Yildirim. Alle rechten voorbehouden." />
+<!-- Berie's exam space © 2026 Berat Yildirim. Alle rechten voorbehouden. Originele bron: https://beriesexamspace.github.io  Kopieren of hergebruiken zonder schriftelijke toestemming is niet toegestaan. -->
+<style>
+  :root{
+    --bg:#f4f2ee; --bg2:#ebe8e2; --card:#ffffff; --ink:#1b232c; --muted:#5d6873;
+    --line:#e2ddd4; --accent:#0f6e6a; --accent-ink:#0b4f4c; --accent-soft:#dcefed;
+    --amber:#c9821f; --amber-soft:#f7ecd9; --violet:#6d5bd0; --violet-soft:#e9e6fa;
+    --good:#1f8a4c; --good-soft:#e2f3e8; --bad:#c23b54; --bad-soft:#fbe5ea;
+    --shadow:0 1px 2px rgba(20,30,40,.05),0 6px 18px rgba(20,30,40,.05);
+    --shadow-lg:0 2px 6px rgba(20,30,40,.06),0 18px 40px rgba(20,30,40,.10);
+    --r:14px; --r-lg:20px; --ease:cubic-bezier(.2,.8,.2,1);
+  }
+  html[data-theme="dark"]{
+    --bg:#11151a; --bg2:#161b22; --card:#1b222b; --ink:#e7ecf1; --muted:#9aa6b2;
+    --line:#2a323c; --accent:#3fb9b2; --accent-ink:#7fd6d0; --accent-soft:#163230;
+    --amber:#e0a64a; --amber-soft:#2e2515; --violet:#a99cf0; --violet-soft:#221d3a;
+    --good:#46c178; --good-soft:#16301f; --bad:#ef6b82; --bad-soft:#331620;
+    --shadow:0 1px 2px rgba(0,0,0,.3),0 8px 24px rgba(0,0,0,.35);
+    --shadow-lg:0 2px 8px rgba(0,0,0,.4),0 22px 48px rgba(0,0,0,.5);
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);font-size:16px;line-height:1.55;
+    font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;-webkit-font-smoothing:antialiased}
+  h1,h2,h3{font-family:Georgia,"Iowan Old Style","Times New Roman",serif;letter-spacing:-.01em}
+  button,a{font-family:inherit;cursor:pointer;color:inherit}
+  .wrap{max-width:880px;margin:0 auto;padding:0 18px 96px}
+  :focus-visible{outline:2.5px solid var(--accent);outline-offset:2px;border-radius:8px}
+  .ic{width:1.25em;height:1.25em;flex:none;vertical-align:-.18em;stroke:currentColor;stroke-width:1.75;
+    stroke-linecap:round;stroke-linejoin:round;fill:none}
+
+  header.top{position:sticky;top:0;z-index:30;border-bottom:1px solid var(--line);
+    background:color-mix(in srgb,var(--bg) 88%,transparent);backdrop-filter:saturate(160%) blur(16px);-webkit-backdrop-filter:saturate(160%) blur(16px);box-shadow:inset 0 -1px 0 0 rgba(0,0,0,.04)}
+  .topin{max-width:880px;margin:0 auto;padding:10px 18px;display:flex;align-items:center;gap:12px}
+  .brand{display:flex;align-items:center;gap:11px;font-weight:700}
+  .logo{width:32px;height:32px;border-radius:10px;background:linear-gradient(145deg,var(--accent),var(--accent-ink));
+    color:#fff;display:grid;place-items:center;font-family:Georgia,serif;font-weight:700;font-size:16px;flex:none;
+    box-shadow:0 2px 6px rgba(15,110,106,.35)}
+  .brand small{display:block;font-weight:500;color:var(--muted);font-size:11px}
+  .spacer{flex:1}
+  .iconbtn{border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:10px;min-height:38px;
+    padding:7px 11px;font-size:13.5px;display:inline-flex;gap:7px;align-items:center;text-decoration:none;
+    transition:border-color .2s var(--ease),transform .12s var(--ease)}
+  .iconbtn:hover{border-color:var(--accent)} .iconbtn:active{transform:scale(.96)}
+  nav.tabs{display:flex;gap:2px;overflow:auto;max-width:880px;margin:0 auto;padding:6px 12px 0;scrollbar-width:none}
+  nav.tabs::-webkit-scrollbar{display:none}
+  nav.tabs button{border:none;background:none;color:var(--muted);padding:10px 13px;border-radius:9px 9px 0 0;
+    font-size:14px;font-weight:600;white-space:nowrap;border-bottom:2px solid transparent;display:inline-flex;align-items:center;gap:6px;transition:color .2s var(--ease)}
+  nav.tabs button .ic{width:16px;height:16px}
+  nav.tabs button.on{color:var(--accent-ink);border-bottom-color:var(--accent)}
+  nav.tabs button:hover{color:var(--ink)}
+
+  .card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow)}
+  .pad{padding:20px}
+  .muted{color:var(--muted)}
+  .pill{display:inline-flex;align-items:center;gap:5px;font-size:12px;font-weight:600;padding:4px 10px;border-radius:999px;background:var(--accent-soft);color:var(--accent-ink)}
+  .pill.amber{background:var(--amber-soft);color:var(--amber)}
+  .row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+  .grid{display:grid;gap:14px}
+  @media(min-width:620px){.g2{grid-template-columns:1fr 1fr}}
+
+  .hero{display:flex;flex-wrap:wrap;align-items:center;gap:16px;margin:20px 0 8px}
+  .count{flex:none;background:linear-gradient(150deg,var(--accent),var(--accent-ink));color:#fff;border-radius:var(--r);padding:14px 20px;text-align:center;min-width:118px;box-shadow:0 8px 20px rgba(15,110,106,.28)}
+  .count b{font-family:Georgia,serif;font-size:32px;display:block;line-height:1}
+  .count span{font-size:12px;opacity:.92}
+  .herotext h1{margin:0 0 4px;font-size:25px}
+  .herotext p{margin:0;color:var(--muted)}
+
+  .brandstrip{display:flex;align-items:center;gap:13px;width:100%;text-decoration:none;color:inherit;border:1px solid var(--line);background:var(--card);border-radius:var(--r);padding:12px 16px;margin:14px 0 2px;box-shadow:var(--shadow);transition:border-color .2s var(--ease),transform .15s var(--ease)}
+  .brandstrip:hover{border-color:var(--accent);transform:translateY(-1px)}
+  .brandstrip .bs-logo{width:36px;height:36px;border-radius:10px;flex:none;display:grid;place-items:center;color:#fff;font-family:Georgia,serif;font-weight:700;font-size:17px;background:linear-gradient(145deg,var(--accent),var(--accent-ink))}
+  .brandstrip .bs-txt{flex:1;min-width:0} .brandstrip .bs-txt b{display:block;font-size:14.5px} .brandstrip .bs-txt small{color:var(--muted);font-size:12.5px}
+  .brandstrip .bs-go{color:var(--accent-ink);flex:none;display:inline-flex} .brandstrip .bs-go .ic{width:18px;height:18px}
+
+  .seclabel{display:flex;align-items:center;gap:8px;margin:24px 0 12px;font-weight:700;font-size:15px}
+  .seclabel .ic{width:18px;height:18px;color:var(--accent-ink)}
+  .backlink{display:inline-flex;align-items:center;gap:5px;border:none;background:none;color:var(--muted);font-size:13.5px;font-weight:600;padding:6px 0;margin-bottom:4px;transition:color .2s var(--ease)}
+  .backlink:hover{color:var(--accent-ink)} .backlink .ic{width:16px;height:16px}
+  .tracks{display:grid;gap:14px} @media(min-width:600px){.tracks{grid-template-columns:1fr 1fr}}
+  .track{display:flex;flex-direction:column;gap:8px;text-align:left;width:100%;border:1.5px solid var(--line);background:var(--card);border-radius:var(--r-lg);padding:20px;box-shadow:var(--shadow);transition:transform .22s var(--ease),border-color .22s var(--ease),box-shadow .22s var(--ease)}
+  .track:hover{transform:translateY(-3px);border-color:var(--accent);box-shadow:var(--shadow-lg)} .track:active{transform:translateY(-1px) scale(.995)}
+  .track .tile{width:46px;height:46px;border-radius:13px;display:grid;place-items:center;color:#fff;margin-bottom:4px;background:linear-gradient(150deg,var(--accent),var(--accent-ink))}
+  .track.alt .tile{background:linear-gradient(150deg,var(--violet),#4f40a8)} .track .tile .ic{width:24px;height:24px}
+  .track b{font-size:18px} .track small{color:var(--muted);font-size:13.5px;line-height:1.5}
+  .track .go{margin-top:6px;display:inline-flex;align-items:center;gap:6px;color:var(--accent-ink);font-weight:600;font-size:13.5px} .track.alt .go{color:var(--violet)} .track .go .ic{width:16px;height:16px}
+  .toggle{width:48px;height:28px;border-radius:999px;border:none;background:var(--line);position:relative;cursor:pointer;flex:none;transition:background .2s var(--ease)}
+  .toggle .knob{position:absolute;top:3px;left:3px;width:22px;height:22px;border-radius:50%;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.25);transition:left .2s var(--ease)}
+  .toggle.on{background:var(--violet)} .toggle.on .knob{left:23px}
+  .warmcard{border-color:var(--violet)!important;background:var(--violet-soft)} .warmcard .ic{width:22px;height:22px;color:var(--violet);flex:none}
+  .modebanner{display:flex;align-items:center;gap:10px;margin-bottom:14px;padding:11px 14px;border-radius:var(--r);background:var(--accent-soft);color:var(--accent-ink);font-size:13.5px;font-weight:600}
+  .modebanner.v{background:var(--violet-soft);color:var(--violet)} .modebanner .ic{width:18px;height:18px} .modebanner a,.modebanner .bnlink{margin-left:auto;font-size:13px;font-weight:600;cursor:pointer;text-decoration:underline;color:inherit;border:none;background:none;font-family:inherit;padding:0}
+  html.snappy .card,html.snappy .mode,html.snappy .tip,html.snappy .track{animation-duration:.12s!important}
+  .mode{display:flex;flex-direction:column;text-align:left;width:100%;border:1px solid var(--line);background:var(--card);border-radius:var(--r);padding:17px;gap:7px;box-shadow:var(--shadow);transition:transform .2s var(--ease),border-color .2s var(--ease),box-shadow .2s var(--ease)}
+  .mode:hover{border-color:var(--accent);transform:translateY(-3px);box-shadow:var(--shadow-lg)}
+  .mode .me{width:40px;height:40px;border-radius:11px;display:grid;place-items:center;background:var(--accent-soft);color:var(--accent-ink)} .mode .me .ic{width:22px;height:22px}
+  .mode b{font-size:16px} .mode small{color:var(--muted);font-size:13px}
+
+  label.fld{display:block;font-size:13px;font-weight:600;margin:16px 0 7px}
+  .chips{display:flex;flex-wrap:wrap;gap:8px}
+  .chip{border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:999px;min-height:38px;padding:7px 13px;font-size:13.5px;transition:all .18s var(--ease)}
+  .chip:hover{border-color:var(--accent)} .chip.on{background:var(--accent);color:#fff;border-color:var(--accent)}
+  .btn{background:var(--accent);color:#fff;border:none;border-radius:11px;min-height:46px;padding:12px 20px;font-size:15px;font-weight:600;display:inline-flex;align-items:center;gap:8px;justify-content:center;box-shadow:0 4px 12px rgba(15,110,106,.25);transition:background .2s var(--ease),transform .12s var(--ease)}
+  .btn:hover{background:var(--accent-ink)} .btn:active{transform:scale(.97) translateY(1px)} .btn .ic{width:18px;height:18px}
+  .btn.ghost{background:var(--card);color:var(--ink);border:1px solid var(--line);box-shadow:none} .btn.ghost:hover{border-color:var(--accent)}
+  .btn:disabled{opacity:.5;cursor:not-allowed;box-shadow:none}
+  input[type=search],input[type=text],input[type=email],textarea{font-family:inherit;font-size:15px;padding:9px 11px;border:1px solid var(--line);border-radius:10px;background:var(--card);color:var(--ink);width:100%}
+  input:focus,textarea:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-soft)}
+
+  .runtop{display:flex;align-items:center;gap:12px;margin:2px 0 14px;font-size:13px;color:var(--muted)}
+  .bar{height:8px;border-radius:6px;background:var(--bg2);overflow:hidden;flex:1}
+  .bar>i{display:block;height:100%;width:0;background:var(--accent);border-radius:6px;transition:width .7s var(--ease)}
+  .qtext{font-size:19px;font-weight:600;margin:8px 0 16px;font-family:Georgia,serif;line-height:1.45}
+  .opt{display:flex;gap:12px;align-items:flex-start;width:100%;text-align:left;border:1.5px solid var(--line);background:var(--card);color:var(--ink);border-radius:12px;padding:14px 15px;margin-bottom:10px;font-size:15px;transition:border-color .15s var(--ease),background .15s var(--ease),transform .12s var(--ease)}
+  .opt:hover:not(:disabled){border-color:var(--accent);background:var(--accent-soft)} .opt:active:not(:disabled){transform:scale(.99)}
+  .opt .k{flex:none;width:27px;height:27px;border-radius:8px;background:var(--bg2);color:var(--muted);display:grid;place-items:center;font-weight:700;font-size:13px}
+  .opt.correct{border-color:var(--good);background:var(--good-soft)} .opt.correct .k{background:var(--good);color:#fff}
+  .opt.wrong{border-color:var(--bad);background:var(--bad-soft)} .opt.wrong .k{background:var(--bad);color:#fff}
+  .opt:disabled{cursor:default}
+  .feedback{border-radius:12px;padding:13px 15px;margin:4px 0 12px;font-size:14.5px}
+  .feedback.ok{background:var(--good-soft);color:var(--good)} .feedback.no{background:var(--bad-soft);color:var(--bad)}
+  .feedback b{font-weight:700} .feedback .sub{display:block;margin-top:3px;color:var(--ink);font-weight:500;opacity:.92}
+  .whybtn{border:1px solid var(--line);background:var(--card);color:var(--accent-ink);border-radius:10px;min-height:40px;padding:9px 14px;font-size:13.5px;font-weight:600;display:inline-flex;align-items:center;gap:7px;transition:border-color .2s var(--ease),background .2s var(--ease)}
+  .whybtn:hover{border-color:var(--accent);background:var(--accent-soft)} .whybtn .ic{width:16px;height:16px}
+  .whybox{border:1px solid var(--accent);background:var(--accent-soft);border-radius:12px;padding:14px 16px;margin:12px 0 4px;font-size:14px;line-height:1.55}
+  .whybox h4{margin:0 0 6px;font-size:13px;text-transform:uppercase;letter-spacing:.5px;color:var(--accent-ink);font-family:system-ui;display:flex;align-items:center;gap:7px}
+  .whybox .ic{width:16px;height:16px}
+
+  .acc{border:1px solid var(--line);border-radius:var(--r);margin-bottom:10px;background:var(--card);overflow:hidden;box-shadow:var(--shadow)}
+  .acc>summary{padding:15px 16px;font-weight:700;cursor:pointer;list-style:none;display:flex;align-items:center;gap:11px}
+  .acc>summary::-webkit-details-marker{display:none}
+  .acc>summary .n{flex:none;width:28px;height:28px;border-radius:8px;background:var(--accent-soft);color:var(--accent-ink);display:grid;place-items:center;font-size:13px;font-weight:700}
+  .acc>summary .caret{margin-left:auto;color:var(--muted);transition:transform .25s var(--ease)} .acc[open]>summary .caret{transform:rotate(90deg)}
+  .acc[open]>summary{border-bottom:1px solid var(--line)} .acc .body{padding:6px 18px 16px}
+  .acc h4{margin:14px 0 6px;font-size:13px;color:var(--accent-ink);text-transform:uppercase;letter-spacing:.4px;font-family:system-ui}
+  .acc ul{margin:0;padding-left:20px} .acc li{margin:6px 0;font-size:14.5px;line-height:1.5}
+  .acc.hack li::marker{content:"💡  "} .acc.hack>summary .n{background:var(--violet-soft);color:var(--violet)}
+  mark{background:var(--amber-soft);color:inherit;padding:0 2px;border-radius:3px}
+
+  .tip{border:1px solid var(--line);background:var(--card);border-radius:var(--r);padding:15px;box-shadow:var(--shadow)}
+  .tip h4{margin:0 0 5px;font-size:14.5px;display:flex;align-items:center;gap:8px;font-family:system-ui} .tip h4 .ic{width:18px;height:18px;color:var(--violet)}
+  .tip p{margin:0;font-size:13.5px;color:var(--muted);line-height:1.55}
+  .tipgrid{display:grid;gap:12px} @media(min-width:620px){.tipgrid{grid-template-columns:1fr 1fr}}
+
+  .results .big{font-family:Georgia,serif;font-size:54px;text-align:center;margin:8px 0;line-height:1}
+  .center{text-align:center} .hide{display:none!important}
+  footer{margin-top:34px;text-align:center;color:var(--muted);font-size:13px}
+  .kbd{font-size:11px;border:1px solid var(--line);border-bottom-width:2px;border-radius:5px;padding:1px 6px;color:var(--muted)}
+  @keyframes fadeUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+  @keyframes slideIn{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:none}}
+  @keyframes pop{0%{transform:scale(1)}45%{transform:scale(1.03)}100%{transform:scale(1)}}
+  @keyframes optIn{from{opacity:0;transform:translateX(-9px)}to{opacity:1;transform:none}}
+  @media (prefers-reduced-motion: no-preference){
+    .card,.mode,.tip{animation:fadeUp .34s var(--ease) both}
+    .acc{animation:fadeUp .32s var(--ease) both}
+    .opt{animation:optIn .3s var(--ease) backwards;animation-delay:var(--oi,0s)}
+    .chip.on{animation:pop .22s var(--ease)}
+    .feedback{animation:slideIn .26s var(--ease) both} .whybox{animation:slideIn .28s var(--ease) .07s both} .opt.correct{animation:pop .34s var(--ease)}
+  }
+  @media (prefers-reduced-motion: reduce){*{animation-duration:.001ms!important;transition-duration:.001ms!important}}
+  /* ---- Premium launch (Gemini-stijl) + header-logo gloed ---- */
+  @property --bes-a{syntax:'<angle>';initial-value:0deg;inherits:false}
+  #splash{position:fixed;inset:0;z-index:200;display:grid;place-items:center;background:radial-gradient(125% 125% at 50% 38%,var(--bg2) 0%,var(--bg) 68%);transition:opacity .6s var(--ease),transform .7s var(--ease)}
+  #splash.hide{opacity:0;transform:scale(1.07);pointer-events:none}
+  .sp-inner{display:flex;flex-direction:column;align-items:center;gap:20px;text-align:center}
+  .sp-mark{position:relative;width:100px;height:100px;display:grid;place-items:center}
+  .sp-mark::before{content:"";position:absolute;inset:-16px;border-radius:34px;z-index:0;background:conic-gradient(from var(--bes-a),var(--accent),var(--violet),var(--amber),var(--accent));filter:blur(17px);opacity:.75}
+  .sp-mark::after{content:"";position:absolute;inset:-3px;border-radius:27px;z-index:1;background:conic-gradient(from var(--bes-a),var(--accent),var(--violet),var(--amber),var(--accent));padding:3px;-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude}
+  .sp-logo{position:relative;z-index:2;width:92px;height:92px;border-radius:24px;display:grid;place-items:center;color:#fff;font-family:Georgia,serif;font-weight:700;font-size:46px;background:linear-gradient(150deg,var(--accent),var(--accent-ink));box-shadow:0 14px 38px rgba(15,110,106,.4)}
+  .sp-spark{position:absolute;z-index:3;top:-7px;right:-7px;width:30px;height:30px;color:#fff;filter:drop-shadow(0 2px 7px rgba(0,0,0,.35))}
+  .sp-name{position:relative;font-family:Georgia,serif;font-size:26px;font-weight:700;letter-spacing:-.01em;color:var(--ink);overflow:hidden}
+  .sp-name::after{content:"";position:absolute;inset:0;background:linear-gradient(110deg,transparent 35%,rgba(255,255,255,.75) 50%,transparent 65%);transform:translateX(-130%)}
+  .sp-tag{font-size:13px;color:var(--muted);margin-top:-8px;letter-spacing:.03em}
+  @media (prefers-reduced-motion: no-preference){
+    .sp-mark::before{animation:bes-spin 3s linear infinite,bes-breathe 2.4s var(--ease) infinite}
+    .sp-mark::after{animation:bes-spin 3s linear infinite}
+    .sp-logo{animation:bes-pop .7s var(--ease) both}
+    .sp-spark{animation:bes-pop .6s var(--ease) .12s both,bes-twinkle 1.9s var(--ease) .9s infinite}
+    .sp-name{animation:bes-rise .6s var(--ease) .14s both}
+    .sp-name::after{animation:bes-shimmer 1.5s var(--ease) .5s 1}
+    .sp-tag{animation:bes-rise .6s var(--ease) .26s both}
+  }
+  @keyframes bes-spin{to{--bes-a:360deg}}
+  @keyframes bes-breathe{0%,100%{opacity:.55;filter:blur(16px)}50%{opacity:.95;filter:blur(22px)}}
+  @keyframes bes-shimmer{to{transform:translateX(130%)}}
+  @keyframes bes-twinkle{0%,100%{opacity:1;transform:scale(1) rotate(0deg)}50%{opacity:.65;transform:scale(.82) rotate(18deg)}}
+  @keyframes bes-rise{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+  /* mobiel: header-knoppen alleen iconen zodat niks zijwaarts overflowt */
+  @media(max-width:440px){ header.top .iconbtn span{display:none} header.top .iconbtn{padding:7px 9px;min-width:38px;justify-content:center} .topin{gap:8px} }
+</style>
+</head>
+<body>
+<div id="splash"><div class="sp-inner">
+  <div class="sp-mark">
+    <div class="sp-logo">S3</div>
+    <svg class="sp-spark" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 1.5c.4 4.6 2.4 6.6 7 7-4.6.4-6.6 2.4-7 7-.4-4.6-2.4-6.6-7-7 4.6-.4 6.6-2.4 7-7Z"/></svg>
+  </div>
+  <div><div class="sp-name">Statistiek III</div><div class="sp-tag">slim oefenen voor je examen</div></div>
+</div></div>
+<header class="top">
+  <div class="topin">
+    <div class="brand"><span class="logo">S3</span><div>Statistiek III<small>Berie’s exam space</small></div></div>
+    <span class="spacer"></span>
+    <a class="iconbtn" href="https://beriesexamspace.github.io/?jaar=1" title="Andere vakken"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true" style="width:16px;height:16px"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg><span>Vakken</span></a>
+    <button class="iconbtn" id="themeBtn" aria-label="Wissel tussen licht en donker thema"></button>
+  </div>
+  <nav class="tabs" id="tabs"></nav>
+</header>
+<div class="wrap" id="app"></div>
+<footer class="wrap" style="padding-top:0">Statistiek III · Berie’s exam space, oefen slim voor je examen · veel succes!<br><span style="opacity:.7">© 2026 Berie’s exam space · Alle rechten voorbehouden</span></footer>
+
+<script>
+window.S3 = {"questions":[{"t":"1","q":"Een significantietoets volgens de vier stappen begint met een eerste stap. Wat gebeurt er in die eerste stap?","o":["Het formuleren van de conclusie in APA-stijl","Het berekenen van de toetsingsgrootheid","Het bepalen van de overschrijdingskans p voor de data","Het formuleren van de nulhypothese H0 en de alternatieve hypothese Ha"],"a":3,"u":"De vier stappen zijn: 1) formuleer H0 en Ha, 2) bereken de toetsingsgrootheid, 3) bereken p, 4) formuleer de conclusie. De hypothesen opstellen komt eerst."},{"t":"1","q":"Bij een z-toets luidt de nulhypothese H0: µ = µ0. Wat is de correcte betekenis hiervan?","o":["Het steekproefgemiddelde is precies gelijk aan µ0","Het populatiegemiddelde is gelijk aan de veronderstelde waarde µ0","De standaardafwijking van de populatie is onbekend","Het populatiegemiddelde wijkt significant af van de veronderstelde waarde"],"a":1,"u":"Bij de z-toets stelt H0 dat het populatiegemiddelde gelijk is aan de veronderstelde waarde µ0. De alternatieve hypothese Ha kan µ kleiner, groter of ongelijk aan µ0 stellen."},{"t":"1","q":"In een studie worden dezelfde proefpersonen twee keer gemeten, bijvoorbeeld voor en na een interventie. Om welk type steekproeven gaat het dan?","o":["Gepaarde steekproeven (paired samples)","Ongepaarde steekproeven (unpaired samples)","Onafhankelijke steekproeven","Aselecte steekproeven"],"a":0,"u":"Twee herhaalde metingen bij dezelfde eenheden leveren gepaarde steekproeven (paired samples) op. Ongepaarde steekproeven bestaan uit verschillende, losstaande groepen."},{"t":"1","q":"Na het berekenen van de overschrijdingskans p volgt de beslissing. Wanneer wordt de nulhypothese verworpen?","o":["Wanneer het steekproefgemiddelde gelijk is aan µ0","Wanneer p kleiner is dan of gelijk aan het significantieniveau alfa","Wanneer de toetsingsgrootheid z gelijk is aan nul","Wanneer p groter is dan het significantieniveau alfa"],"a":1,"u":"Als p kleiner dan of gelijk aan alfa is, verwerpen we H0 omdat er voldoende bewijs tegen H0 is. Is p groter dan alfa, dan aanvaarden we H0."},{"t":"1","q":"Bij het onderscheidingsvermogen van een toets houdt men rekening met twee soorten fouten. Wat is de fout van de eerste soort (alfa)?","o":["De kans dat H0 aanvaard wordt terwijl Ha eigenlijk correct is","De kans dat H0 verworpen wordt terwijl Ha ook echt correct is","De kans dat de steekproef niet normaal verdeeld is","De kans dat H0 verworpen wordt terwijl H0 eigenlijk correct is"],"a":3,"u":"De fout van de eerste soort (alfa) is de kans dat de nulhypothese verworpen wordt terwijl ze eigenlijk correct is, genoteerd als P[H0 verwerpen / H0 correct]."},{"t":"1","q":"Het onderscheidingsvermogen (power) van een toets wordt gedefinieerd als 1 min bèta. Wat drukt de power precies uit?","o":["De kans dat H0 aanvaard wordt terwijl de alternatieve hypothese correct is","De kans dat H0 verworpen wordt terwijl de nulhypothese eigenlijk correct is","De kans dat H0 verworpen wordt terwijl de alternatieve hypothese ook echt correct is","De kans op een fout van de tweede soort"],"a":2,"u":"Power (1 min bèta) is de kans dat H0 verworpen wordt wanneer de alternatieve hypothese ook echt correct is, dus P[H0 verwerpen / Ha correct]. Het meet hoe gevoelig de toets is om een verschil te detecteren."},{"t":"1","q":"Een z-toets levert een significant resultaat op waarbij H0 verworpen wordt. Wat mag men op basis daarvan concluderen?","o":["De nulhypothese is definitief onmogelijk gemaakt door de data","Het is zeker bewezen dat de alternatieve hypothese waar is, zonder enig risico","Het steekproefgemiddelde is zonder twijfel gelijk aan het populatiegemiddelde","Er is voldoende bewijs voor Ha, maar er blijft een risico dat toevallig een uitzonderlijke steekproef werd getrokken"],"a":3,"u":"Een significant resultaat geeft voldoende bewijs voor Ha, maar het blijft mogelijk dat toevallig een uitzonderlijke steekproef getrokken werd. Bij het verwerpen neemt men een risico gelijk aan alfa om een verkeerde beslissing te nemen."},{"t":"2","q":"Een onderzoeker heeft 1 steekproef en wil het gemiddelde vergelijken met een bekende referentiewaarde. De populatiestandaardafwijking sigma is onbekend. Welke toets is aangewezen?","o":["gepaarde t-test","z-test","one sample t-test","ongepaarde t-test"],"a":2,"u":"Bij 1 steekproef waarvan het gemiddelde met een vaste waarde vergeleken wordt en sigma onbekend is, gebruik je de one sample t-test met s als schatter voor sigma."},{"t":"2","q":"Wat is het cruciale verschil tussen de z-test en de t-test wat betreft de veronderstelde kennis over de populatie?","o":["De z-test werkt enkel met ratiodata en de t-test met ordinale data","De z-test heeft vrijheidsgraden en de t-test niet","Bij de z-test is mu bekend en bij de t-test niet","Bij de z-test is sigma bekend en bij de t-test onbekend"],"a":3,"u":"Bij de z-test is sigma bekend, bij de t-test is sigma onbekend en wordt geschat met s. In beide gevallen is mu onbekend en wordt geschat met het steekproefgemiddelde."},{"t":"2","q":"Bij de one sample t-test hoort een specifieke t-verdeling. Waarvan hangt het aantal vrijheidsgraden af?","o":["Van het gekozen significantieniveau alfa","Van de steekproefgrootte, namelijk n minus 1","Van het aantal behandelingen in het design","Van de bekende waarde van sigma"],"a":1,"u":"De t-toetsingsgrootheid heeft n minus 1 vrijheidsgraden, dus voor elke n bestaat er een andere t-verdeling."},{"t":"2","q":"In een design met gepaarde data wil je het verschil in responsen op twee behandelingen nagaan. Hoe pakt de gepaarde t-test dit conceptueel aan?","o":["Ze gebruikt de grootste van de twee steekproeven als referentie","Ze telt de scores van beide metingen op tot een som","Ze berekent per paar het verschil en past daarop een 1-steekproef t-procedure toe","Ze vergelijkt de twee groepsgemiddelden rechtstreeks met elkaar"],"a":2,"u":"Bij gepaarde data wordt per paar i het verschil x_i1 min x_i2 berekend, en op die verschilscores wordt een 1-steekproef t-procedure toegepast."},{"t":"2","q":"Een klas van 30 kinderen legt eerst een toets af en na een extra les nogmaals dezelfde toets. Je wil weten of de score verbeterde. Welke toets is aangewezen?","o":["Gepaarde t-test","one sample t-test","z-test","Ongepaarde t-test"],"a":0,"u":"Dezelfde steekproef wordt twee keer gemeten (voor en na), dus de metingen zijn gepaard. Daarom is de gepaarde t-test de aangewezen toets."},{"t":"2","q":"Twee assistenten begeleiden elk hun eigen, onafhankelijke groep studenten. Je wil nagaan of de ene assistent gemiddeld meer studenten begeleidt. Welke toets past hier?","o":["z-test","one sample t-test","Gepaarde t-test","Ongepaarde t-test"],"a":3,"u":"Het gaat om twee onafhankelijke (ongepaarde) steekproeven waarvan de gemiddelden vergeleken worden, dus de ongepaarde t-test is aangewezen."},{"t":"2","q":"Wat is de nulhypothese bij een one sample t-test?","o":["sigma is gelijk aan s","mu is groter dan mu0","mu is gelijk aan mu0","mu is verschillend van mu0"],"a":2,"u":"De nulhypothese stelt dat het populatiegemiddelde gelijk is aan de referentiewaarde: H0: mu = mu0. De alternatieve hypothese kan dan groter dan, kleiner dan of verschillend van zijn."},{"t":"2","q":"Welke voorwaarde moet vervuld zijn opdat een one sample t-test toepasbaar is?","o":["Er moeten precies twee onafhankelijke steekproeven zijn","n moet minstens 30 zijn of de data moet normaal verdeeld zijn","De data moet minstens ordinaal zijn en de groepen gepaard","Sigma moet bekend zijn"],"a":1,"u":"De t-test vereist dat n groter of gelijk aan 30 is, of dat de data normaal verdeeld is, zodat de toetsingsgrootheid een t-verdeling volgt."},{"t":"2","q":"Aan welke voorwaarde over normaliteit moet voldaan zijn bij een gepaarde t-test wanneer n kleiner is dan 30?","o":["De verschilscores moeten normaal verdeeld zijn","Enkel de eerste meting moet normaal verdeeld zijn","Beide oorspronkelijke metingen moeten apart normaal verdeeld zijn","Er is geen enkele normaliteitsvoorwaarde nodig"],"a":0,"u":"Bij de gepaarde t-test geldt dat n groter of gelijk aan 30 moet zijn of dat de verschilscores normaal verdeeld zijn, want de toets werkt op die verschilscores."},{"t":"2","q":"Waarin verschilt de normaliteitsvoorwaarde van de ongepaarde t-test van die van de gepaarde t-test wanneer de steekproeven klein zijn?","o":["Bij de ongepaarde t-test moeten enkel de verschilscores normaal zijn","Bij de ongepaarde t-test moeten beide steekproeven elk uit een normaal verdeelde populatie komen","Bij de ongepaarde t-test volstaat het dat een van beide steekproeven normaal is","Bij de ongepaarde t-test is geen normaliteit vereist"],"a":1,"u":"De ongepaarde t-test vereist dat n1 en n2 elk minstens 30 zijn, of dat zowel steekproef 1 als steekproef 2 uit een normaal verdeelde populatie komt."},{"t":"2","q":"Je vergelijkt de geobserveerde overschrijdingskans p met het significantieniveau alfa. Wanneer verwerp je de nulhypothese?","o":["Wanneer p kleiner is dan alfa","Wanneer p groter is dan 0.25","Wanneer p groter is dan alfa","Wanneer p gelijk is aan alfa"],"a":0,"u":"Als p kleiner is dan alfa, is er voldoende bewijs tegen H0 en wordt H0 verworpen. Is p groter dan alfa, dan wordt H0 aanvaard."},{"t":"3","q":"Een onderzoeker heeft 1 steekproef van 500 aardappelen en registreert per aardappel of die gekneusd is of niet. De vraag is of de proportie gekneusde aardappelen groter is dan 8%. Welke toets is hier het meest aangewezen?","o":["One sample t-test","One sample proportietest","Wilcoxon rangsomtest","Two samples proportietest"],"a":1,"u":"Er is 1 steekproef en de variabele is nominaal (gekneusd of niet). Dat wijst op de one sample proportietest."},{"t":"3","q":"Wat is de voorwaarde die vervuld moet zijn om een one sample proportietest te mogen gebruiken?","o":["Het aantal successen #p is minstens 10 en het aantal mislukkingen #q is minstens 10","De data moeten op ordinaal niveau gemeten zijn","De steekproef moet minstens 30 observaties bevatten","De verschilscores moeten normaal verdeeld zijn"],"a":0,"u":"De one sample proportietest vereist dat #p groter of gelijk is aan 10 en #q groter of gelijk is aan 10, zodat de normale benadering geldig is."},{"t":"3","q":"Onderzoekers vergelijken twee lagere scholen op het aantal kinderen dat zonder ontbijt naar school komt. Het gaat om 2 ongepaarde steekproeven en de variabele is nominaal (ontbeten of niet). Welke toets past hierbij?","o":["Wilcoxon rangtekentest","Two samples proportietest","One sample proportietest","Gepaarde t-test"],"a":1,"u":"Twee ongepaarde steekproeven met een nominale variabele leiden tot de two samples proportietest."},{"t":"3","q":"Bij een significantietoets over een proportie geldt: de p-waarde is 0.1251 en het significantieniveau is alfa = 0.02. Wat is de correcte beslissing?","o":["De nulhypothese verwerpen omdat p groter is dan alfa","Geen beslissing mogelijk zonder de z-waarde","De nulhypothese aanvaarden omdat p groter is dan alfa","De nulhypothese verwerpen omdat p kleiner is dan alfa"],"a":2,"u":"Wanneer de p-waarde groter is dan alfa, is er onvoldoende bewijs tegen H0 en wordt de nulhypothese aanvaard."},{"t":"3","q":"In welke situatie is de Wilcoxon rangsomtest de aangewezen toets?","o":["Bij 2 gepaarde steekproeven op ordinaal niveau","Bij 1 steekproef met een nominale variabele","Bij 2 gepaarde steekproeven op interval niveau die aan de t-test voorwaarden voldoen","Bij 2 ongepaarde steekproeven op ordinaal niveau"],"a":3,"u":"De Wilcoxon rangsomtest wordt gebruikt bij 2 ongepaarde steekproeven op ordinaal niveau, of bij interval- of ratiodata die niet aan de voorwaarden van de ongepaarde t-test voldoen."},{"t":"3","q":"Een onderzoeker heeft 2 gepaarde steekproeven op ratio niveau (hartslag voor en na een filmpje), maar de verschilscores zijn niet normaal verdeeld en n is kleiner dan 30. Welke toets is dan het meest aangewezen?","o":["Wilcoxon rangtekentest","Two samples proportietest","Wilcoxon rangsomtest","Gepaarde t-test"],"a":0,"u":"Bij 2 gepaarde steekproeven waarvan de verschilscores niet normaal verdeeld zijn en n klein is, wijkt men van de gepaarde t-test af naar de Wilcoxon rangtekentest."},{"t":"3","q":"Hoe verschillen de Wilcoxon rangsomtest en de Wilcoxon rangtekentest van elkaar qua onderzoeksdesign?","o":["De rangsomtest is voor nominale data, de rangtekentest voor ordinale data","De rangsomtest is voor gepaarde steekproeven, de rangtekentest voor ongepaarde steekproeven","De rangsomtest is voor ongepaarde steekproeven, de rangtekentest voor gepaarde steekproeven","De rangsomtest gebruikt 1 steekproef, de rangtekentest 2 steekproeven"],"a":2,"u":"De Wilcoxon rangsomtest hoort bij 2 ongepaarde steekproeven, terwijl de Wilcoxon rangtekentest bij 2 gepaarde steekproeven (tweemaal gemeten) hoort."},{"t":"3","q":"Bij de Wilcoxon rangtekentest wordt de toetsingsgrootheid V bepaald als het minimum van de som van de positieve en de som van de negatieve rangen. Hoe worden paren met een verschilscore D = 0 behandeld?","o":["Ze worden niet gebruikt, waardoor n daalt","Ze krijgen automatisch de laagste rang","Ze bepalen de mediaan van de verschilscores","Ze worden dubbel geteld"],"a":0,"u":"Paren met D = 0 worden niet meegenomen in de toets, zodat de effectieve steekproefgrootte n daalt (bijvoorbeeld van 16 naar 15)."},{"t":"3","q":"Bij een tweezijdige proportietoets met een betrouwbaarheidsinterval van 95% controleert men of de hypothesewaarde p0 = 0 binnen het interval ligt. Wat betekent het als p0 binnen het BI valt?","o":["De steekproef is te klein","De nulhypothese wordt verworpen","De nulhypothese wordt aanvaard","De toets is niet significant op het 90% niveau"],"a":2,"u":"Als de veronderstelde waarde p0 binnen het betrouwbaarheidsinterval ligt, is er onvoldoende bewijs tegen H0 en wordt de nulhypothese aanvaard."},{"t":"3","q":"Waarmee komt een tweezijdig betrouwbaarheidsinterval van 95% overeen wat betreft het significantieniveau?","o":["Met een tweezijdige alfa van 2.5%","Met een tweezijdige alfa van 10%","Met een eenzijdige alfa van 5%","Met een tweezijdige alfa van 5% of een eenzijdige alfa van 2.5%"],"a":3,"u":"Een tweezijdig BI van 95% komt overeen met een tweezijdige alfa van 5% of, equivalent, met een eenzijdige alfa van 2.5%."},{"t":"4","q":"Een onderzoeker wil nagaan of er een significant verband bestaat tussen twee variabelen, waarvan er minstens een op nominaal niveau gemeten wordt. Welke toets is hiervoor het meest aangewezen?","o":["Chi-kwadraat afhankelijkheidstoets","Chi-kwadraat toets voor een normale verdeling","Chi-kwadraat verdelingstoets","Kolmogorov-Smirnov test"],"a":0,"u":"De chi-kwadraat afhankelijkheidstoets gaat na of er een significant verband bestaat tussen twee variabelen waarbij minstens een variabele op nominaal niveau gemeten wordt."},{"t":"4","q":"Men wil nagaan of de waargenomen kleurverdeling van rozen, gemeten op nominaal niveau, significant afwijkt van een op voorhand vooropgestelde verdeling van 60% rood, 25% wit en 15% roze. Welke toets past hier?","o":["Chi-kwadraat afhankelijkheidstoets met continuiteitscorrectie","Kolmogorov-Smirnov test","Chi-kwadraat verdelingstoets","Chi-kwadraat afhankelijkheidstoets"],"a":2,"u":"De chi-kwadraat verdelingstoets gaat na of de verdeling van een op nominaal niveau gemeten variabele significant afwijkt van een theoretische verdeling, zoals hier de opgegeven percentages."},{"t":"4","q":"Bij een chi-kwadraat afhankelijkheidstoets luidt de nulhypothese dat de twee variabelen stochastisch onafhankelijk zijn. Wat stelt de alternatieve hypothese dan?","o":["De twee variabelen zijn normaal verdeeld","De twee variabelen zijn stochastisch afhankelijk","De verwachte frequenties zijn allemaal groter dan 5","De verdeling wijkt niet af van de referentieverdeling"],"a":1,"u":"Bij de chi-kwadraat afhankelijkheidstoets stelt H0 dat de variabelen stochastisch onafhankelijk zijn en HA dat ze stochastisch afhankelijk zijn."},{"t":"4","q":"Welke voorwaarde geldt voor de verwachte frequenties bij een chi-kwadraat toets met meer dan 1 vrijheidsgraad?","o":["Niet meer dan 20% van de verwachte frequenties mag kleiner zijn dan 5","Alle waargenomen frequenties moeten normaal verdeeld zijn","De steekproefomvang moet minstens 35 bedragen","Elke verwachte frequentie moet groter of gelijk zijn aan 5"],"a":0,"u":"Bij df groter dan 1 mag niet meer dan 20% van de verwachte frequenties kleiner zijn dan 5. Enkel wanneer df gelijk is aan 1 moet elke verwachte celfrequentie groter of gelijk aan 5 zijn."},{"t":"4","q":"Bij een chi-kwadraat toets met df gelijk aan 1 geldt een strengere eis dan bij meer vrijheidsgraden. Welke?","o":["Er mogen geen waargenomen frequenties gelijk zijn aan nul","Elke verwachte celfrequentie moet groter of gelijk zijn aan 5","De steekproef moet minstens 35 waarnemingen bevatten","Niet meer dan 20% van de verwachte frequenties mag kleiner zijn dan 5"],"a":1,"u":"Wanneer df gelijk is aan 1 volstaat de 20%-regel niet: dan moet elke verwachte celfrequentie groter of gelijk aan 5 zijn."},{"t":"4","q":"Naast de eis over frequenties kleiner dan 5, geldt er bij zowel de chi-kwadraat afhankelijkheidstoets als de verdelingstoets nog een tweede voorwaarde over de verwachte frequenties. Welke?","o":["Elke verwachte frequentie moet gelijk zijn aan de waargenomen frequentie","De verwachte frequenties moeten uniform verdeeld zijn","De som van de verwachte frequenties moet kleiner zijn dan N","Geen enkele verwachte frequentie mag gelijk zijn aan nul"],"a":3,"u":"Een tweede voorwaarde bij beide chi-kwadraat toetsen is dat geen enkele verwachte frequentie gelijk mag zijn aan nul."},{"t":"4","q":"Men wil nagaan of de verdeling van een variabele die minstens op ordinaal niveau gemeten wordt significant afwijkt van een theoretische verdeling, bijvoorbeeld of dobbelsteenworpen uit een uniforme verdeling komen. Welke toets is hier aangewezen?","o":["Chi-kwadraat verdelingstoets","Chi-kwadraat toets zonder continuiteitscorrectie","Chi-kwadraat afhankelijkheidstoets","Kolmogorov-Smirnov test"],"a":3,"u":"De Kolmogorov-Smirnov test gaat na of de verdeling van een minstens ordinaal gemeten variabele significant afwijkt van een theoretische verdeling, zoals een uniforme of normale verdeling."},{"t":"4","q":"Bij de Kolmogorov-Smirnov test besluit men op basis van het maximale absolute verschil tussen de cumulatieve verdelingen. In een analyse van dobbelsteenworpen blijkt de kritieke waarde groter dan dit maximale verschil, zodat H0 aanvaard wordt. Hoe interpreteer je dit resultaat?","o":["De voorwaarde n groter of gelijk aan 35 is niet voldaan","Er is onvoldoende bewijs om te stellen dat de dobbelsteen niet zuiver is","De waarnemingen wijken significant af van de uniforme verdeling","Er is voldoende bewijs dat de dobbelsteen niet zuiver is"],"a":1,"u":"Wanneer H0 aanvaard wordt, is er onvoldoende bewijs om te stellen dat de dobbelsteen niet zuiver is; de waargenomen verdeling wijkt niet meer af dan verwacht bij random steekproeven uit de referentieverdeling."},{"t":"4","q":"Welke voorwaarde qua steekproefomvang wordt in de bron vermeld bij het toepassen van de Kolmogorov-Smirnov test?","o":["De steekproef moet minstens 35 waarnemingen bevatten","Elke verwachte celfrequentie moet groter of gelijk aan 5 zijn","Er zijn minstens twee variabelen op nominaal niveau nodig","Niet meer dan 20% van de verwachte frequenties mag kleiner zijn dan 5"],"a":0,"u":"Bij de Kolmogorov-Smirnov test geldt als voorwaarde dat de steekproefomvang minstens 35 bedraagt (n groter of gelijk aan 35)."},{"t":"4","q":"Op welk meetniveau moet de variabele minstens gemeten zijn om een chi-kwadraat verdelingstoets zinvol toe te passen?","o":["Normaal verdeeld op continue schaal","Nominaal niveau","Ordinaal niveau","Interval- of rationiveau"],"a":1,"u":"De chi-kwadraat verdelingstoets gaat na of de verdeling van een op nominaal niveau gemeten variabele significant afwijkt van een theoretische verdeling."},{"t":"5","q":"In de context van regressie-analyse (inferentie) wordt de regressielijn die je uit een steekproef berekent gebruikt als:","o":["een louter beschrijvende samenvatting van precies die steekproefpunten, zonder betekenis daarbuiten","een schatter van de 'werkelijke' regressielijn voor de populatie","een exacte weergave die identiek is aan de populatieregressielijn","een toets die enkel het meetniveau van de variabelen controleert"],"a":1,"u":"Bij regressie-analyse (inferentie) gebruik je een steekproef om populatiewaarden te schatten. De berekende regressielijn dient als schatter van de werkelijke regressielijn voor de populatie."},{"t":"5","q":"Wat is het onderscheid tussen 'regressie als beschrijving' en 'regressie-analyse'?","o":["Regressie als beschrijving is inferentieel, regressie-analyse is louter beschrijvend","Regressie-analyse vereist geen steekproef, beschrijvende regressie wel","Beide zijn identiek en verschillen enkel in notatie","Bij regressie als beschrijving geldt steekproef gelijk aan populatie, terwijl regressie-analyse via inferentie populatiewaarden schat"],"a":3,"u":"De regressierechte als beschrijving vat een waargenomen lineair verband samen waarbij steekproef gelijk is aan populatie. Regressie-analyse is inferentieel: een steekproef wordt gebruikt om populatiewaarden te schatten."},{"t":"5","q":"Bij de toets over de helling in enkelvoudige lineaire regressie luidt de nulhypothese doorgaans:","o":["de helling β1 is verschillend van 0","de determinatiecoëfficiënt r² is gelijk aan 1","de helling β1 is gelijk aan 0","het intercept β0 is gelijk aan 0"],"a":2,"u":"In de brontekst wordt de toets gesteld als H0: β1 = 0 tegenover HA: β1 ≠ 0. De nulhypothese stelt dus dat er geen lineair verband (helling nul) is in de populatie."},{"t":"5","q":"Wat drukt de determinatiecoëfficiënt (r²) uit in een regressiemodel?","o":["het aantal uitschieters in de steekproef","de steilheid van de regressielijn in oorspronkelijke eenheden","de kans dat de nulhypothese over de helling waar is","de proportie waarmee de voorspellingsfouten van y verminderen wanneer x gekend is"],"a":3,"u":"Volgens de brontekst is r² de proportie minder fouten bij de voorspelling van y indien x gekend is. Het geeft dus aan hoeveel de voorspelling verbetert door x mee te nemen."},{"t":"5","q":"Wat is volgens de brontekst een reden waarom een regressie-analyse ongeldig kan worden?","o":["een determinatiecoëfficiënt hoger dan 0","uitschieters en invloedrijke waarnemingen","een te groot aantal waarnemingen in de steekproef","het gebruik van een steekproef in plaats van de volledige populatie"],"a":1,"u":"De opmerking in de brontekst stelt uitdrukkelijk dat uitschieters en invloedrijke waarnemingen de regressie ongeldig kunnen maken."},{"t":"5","q":"Welk verband bestaat er tussen de F-toets en de t-toets bij enkelvoudige lineaire regressie?","o":["F is gelijk aan t², zodat beide tot dezelfde conclusie leiden","de t-waarde is gelijk aan het kwadraat van de F-waarde","F en t toetsen volledig verschillende hypothesen die niets met elkaar te maken hebben","de F-toets kan enkel gebruikt worden als r² gelijk is aan 0"],"a":0,"u":"De brontekst vermeldt bij de F-toets het weetje F = t². Bij enkelvoudige lineaire regressie leiden de F-toets en de t-toets over de helling daardoor tot dezelfde conclusie."},{"t":"6","q":"Je onderzoekt het verband tussen twee variabelen die beide op ratio-niveau gemeten zijn en waarvan de voorwaarden voldaan zijn. Welke toets is het meest aangewezen?","o":["Pearson's correlatietest","Spearman's rangcorrelatietest","ANOVA","Kendall's tau"],"a":0,"u":"Bij een verband tussen twee variabelen op ratio-niveau (of interval) is Pearson's correlatiecoefficient de aangewezen toets. In het voorbeeld waren zowel het aantal GSM-masten als het aantal kankerpatienten op ratio-niveau gemeten."},{"t":"6","q":"Onder welke voorwaarde mag je Pearson's correlatietest toepassen?","o":["De data zijn bivariaat normaal verdeeld of n is groter dan 25","Beide variabelen moeten ordinaal gemeten zijn","De groepen moeten gepaard zijn","De steekproefomvang moet minstens 10 bedragen"],"a":0,"u":"De voorwaarde voor Pearson is dat de variabelen bivariaat normaal verdeeld zijn, of dat n groter is dan 25. De voorwaarde n groter of gelijk aan 10 hoort daarentegen bij de rangcorrelatietesten."},{"t":"6","q":"Twee variabelen zijn beide op ordinale schaal gemeten en je wil hun samenhang toetsen. Welke toets past hierbij?","o":["ANOVA","Pearson's correlatietest","Een rangcorrelatietest zoals Spearman of Kendall","Een gepaarde t-toets"],"a":2,"u":"Bij ordinaal gemeten variabelen gebruik je een rangcorrelatiecoefficient, namelijk Spearman of Kendall. Pearson vereist minstens interval- of ratio-niveau."},{"t":"6","q":"Wat is de nulhypothese bij Pearson's correlatietest?","o":["tau is gelijk aan 0","alle groepsgemiddelden zijn gelijk","r is verschillend van 0","r is gelijk aan 0"],"a":3,"u":"Bij Pearson luidt de nulhypothese H0: r = 0, wat betekent dat er geen lineair verband is. De alternatieve hypothese is HA: r is verschillend van 0."},{"t":"6","q":"Welke voorwaarde geldt voor de rangcorrelatietesten Spearman en Kendall?","o":["De data zijn bivariaat normaal verdeeld","n is groter dan 25","De variabelen moeten op ratio-niveau gemeten zijn","n is groter of gelijk aan 10"],"a":3,"u":"Zowel Spearman als Kendall vereisen een steekproefomvang van minstens 10 (n groter of gelijk aan 10). In de voorbeeldoefeningen was n gelijk aan 10, dus de voorwaarde was voldaan."},{"t":"6","q":"Bij welk onderzoeksdesign is ANOVA de aangewezen toets?","o":["Bij het toetsen van een lineair verband tussen twee ratio-variabelen","Bij het vergelijken van twee gepaarde metingen","Bij het vergelijken van drie of meer ongepaarde steekproeven op een ratio-variabele","Bij een verband tussen twee ordinale variabelen"],"a":2,"u":"ANOVA gebruik je bij drie of meer ongepaarde steekproeven, oftewel een categorische variabele met meerdere groepen, terwijl de uitkomstvariabele op ratio-niveau gemeten is. In het voorbeeld waren er 3 ongepaarde groepen (onderwijsvormen)."},{"t":"6","q":"Hoe luidt de nulhypothese bij een ANOVA?","o":["Er is geen verschil tussen de gemiddelden van de groepen","Er is minstens 1 gemiddelde dat verschilt van de andere gemiddelden","tau is gelijk aan 0","De correlatie tussen de groepen is 0"],"a":0,"u":"Bij ANOVA stelt H0 dat er geen verschil is tussen de groepsgemiddelden. De alternatieve hypothese HA stelt dat er minstens 1 gemiddelde is dat verschilt van de andere."},{"t":"6","q":"Een Spearman-toets levert een significante, hoge positieve rangcorrelatie op (p kleiner dan alfa). Hoe interpreteer je dit resultaat?","o":["Er is geen verband tussen de twee variabelen","De groepsgemiddelden verschillen significant","Er is een significant sterk positief verband tussen de twee variabelen","De data zijn niet normaal verdeeld"],"a":2,"u":"Een significante, hoge positieve rs betekent dat er voldoende bewijs is voor een sterk positief verband tussen de twee ordinale variabelen. In de bron werd dit in APA-stijl zo geformuleerd."},{"t":"6","q":"Bij de ANOVA-conclusie blijkt de kritieke F-waarde groter dan de geobserveerde F-waarde. Wat is de gepaste beslissing?","o":["De toets is ongeldig omdat de vrijheidsgraden niet kloppen","H0 aanvaarden: onvoldoende bewijs voor een verschil tussen de gemiddelden","H0 verwerpen: er is een significant verschil tussen de gemiddelden","Er is een sterk positief verband tussen de variabelen"],"a":1,"u":"Wanneer de kritieke waarde groter is dan de geobserveerde F-waarde, wordt H0 aanvaard. Er is dan onvoldoende bewijs voor een significant verschil tussen de groepsgemiddelden."},{"t":"6","q":"Volgens de beslissingsregel: wanneer verwerp je de nulhypothese op basis van de p-waarde bij een significantieniveau alfa van 5 procent?","o":["Wanneer de correlatie precies 0 is","Wanneer de toetsingsgrootheid gelijk is aan 0","Wanneer de p-waarde kleiner is dan 0.05","Wanneer de p-waarde groter is dan 0.05"],"a":2,"u":"Je verwerpt H0 wanneer de p-waarde kleiner is dan alfa (0.05). In de voorbeelden leidde bijvoorbeeld p kleiner dan 0.04 en p kleiner dan 0.001 telkens tot het verwerpen van H0."}],"theory":[{"h":"z-toets & onderscheidingsvermogen","items":["Significantietoets in 4 stappen: formuleer H0 en Ha, bereken de toetsingsgrootheid, bereken p, formuleer de conclusie in APA-stijl.","z-toets: toets voor het populatiegemiddelde wanneer de populatiestandaardafwijking gekend is.","Nulhypothese H0: stelt dat het populatiegemiddelde gelijk is aan de veronderstelde waarde µ0.","Alternatieve hypothese Ha: kan µ kleiner dan, groter dan of ongelijk aan µ0 stellen (eenzijdig of tweezijdig).","Overschrijdingskans p: de kans op de gevonden data of extremer, verondersteld dat H0 waar is.","Beslissingsregel: is p kleiner dan of gelijk aan alfa dan H0 verwerpen, is p groter dan alfa dan H0 aanvaarden.","Gepaarde steekproeven (paired samples): twee herhaalde metingen bij dezelfde eenheden, bijvoorbeeld voor en na.","Ongepaarde steekproeven (unpaired samples): metingen bij verschillende, losstaande groepen.","Fout van de eerste soort (alfa): de kans dat H0 verworpen wordt terwijl H0 eigenlijk correct is.","Fout van de tweede soort (bèta): de kans dat H0 aanvaard wordt terwijl Ha eigenlijk correct is.","Power of onderscheidingsvermogen (1 min bèta): de kans dat H0 verworpen wordt terwijl Ha ook echt correct is.","Onderscheidingsvermogen meet hoe gevoelig de toets is om een verschil, daling of stijging te detecteren.","Betrouwbaarheidsinterval: kan gebruikt worden om H0 te aanvaarden of te verwerpen op basis van de gevonden marge.","Conclusie in APA-stijl: rapporteer de beslissing samen met de toetsingsgrootheid z en de overschrijdingskans p."]},{"h":"t-toetsen (one sample, paired, ongepaard)","items":["z-test: toets voor 1 steekproefgemiddelde wanneer sigma bekend is.","t-test: toets voor 1 steekproefgemiddelde wanneer sigma onbekend is en geschat wordt met s.","one sample t-test: vergelijkt het gemiddelde van 1 steekproef met een vaste referentiewaarde mu0.","Gepaarde t-test: past een 1-steekproef t-procedure toe op de verschilscores van twee metingen bij dezelfde eenheden.","Ongepaarde t-test: vergelijkt de gemiddelden van twee onafhankelijke steekproeven.","Vrijheidsgraden: bij de t-test gelijk aan n min 1, waardoor er voor elke n een andere t-verdeling is.","Nulhypothese H0: stelt dat het gemiddelde gelijk is aan mu0 (of dat het verschil nul is).","Alternatieve hypothese HA: kan eenzijdig (groter dan of kleiner dan) of tweezijdig (verschillend van) zijn.","Overschrijdingskans p: de kans op de geobserveerde of extremere data onder H0, vergeleken met alfa.","Beslisregel: p kleiner dan alfa betekent H0 verwerpen, p groter dan alfa betekent H0 aanvaarden.","Voorwaarde t-test: n groter of gelijk aan 30 of de (verschil)data is normaal verdeeld.","Voorwaarde ongepaarde t-test: n1 en n2 elk minstens 30, of beide steekproeven komen uit een normaal verdeelde populatie.","Betrouwbaarheidsinterval: als de getoetste waarde niet in het BI ligt, wordt H0 verworpen.","Onderscheidingsvermogen (power): de kans om een reeel effect als significant te detecteren."]},{"h":"Proportie- & niet-parametrische toetsen","items":["One sample proportietest: toets voor 1 steekproef met een nominale variabele om een proportie te vergelijken met een verwachte waarde p0.","Two samples proportietest: toets voor 2 ongepaarde steekproeven met een nominale variabele om twee proporties met elkaar te vergelijken.","Voorwaarde proportietest: het aantal successen #p en het aantal mislukkingen #q moeten elk minstens 10 zijn.","Nulhypothese proportietest: bij een steekproef stelt H0 dat p gelijk is aan p0, bij twee steekproeven dat p1 min p2 gelijk is aan 0.","Wilcoxon rangsomtest: niet-parametrische toets voor 2 ongepaarde steekproeven op ordinaal niveau, of interval/ratio data die niet aan de ongepaarde t-test voorwaarden voldoen.","Wilcoxon rangtekentest: niet-parametrische toets voor 2 gepaarde steekproeven op ordinaal niveau, of interval/ratio data die niet aan de gepaarde t-test voorwaarden voldoen.","Voorwaarde Wilcoxon rangsomtest: beide steekproeven moeten minstens 10 observaties bevatten.","Voorwaarde Wilcoxon rangtekentest: de steekproef moet minstens 10 observaties bevatten en paren met verschilscore 0 tellen niet mee.","Ongepaarde steekproeven: twee losse groepen die onafhankelijk van elkaar gemeten zijn, zoals kinderen uit twee verschillende scholen.","Gepaarde steekproeven: dezelfde eenheden die tweemaal gemeten worden, zoals hartslag voor en na een filmpje.","Beslisregel: als de p-waarde groter is dan het significantieniveau alfa wordt H0 aanvaard, is de p-waarde kleiner dan alfa dan wordt H0 verworpen.","Betrouwbaarheidsinterval en beslissing: ligt de hypothesewaarde binnen het BI dan wordt H0 aanvaard, ligt ze erbuiten dan wordt H0 verworpen.","Verband BI en alfa: een tweezijdig BI van bijvoorbeeld 95% komt overeen met een tweezijdige alfa van 5% of een eenzijdige alfa van 2.5%."]},{"h":"Chi-kwadraat & verdelingstoetsen","items":["Chi-kwadraat afhankelijkheidstoets: gaat na of er een significant verband bestaat tussen twee variabelen waarbij minstens een variabele op nominaal niveau gemeten wordt.","Chi-kwadraat verdelingstoets: gaat na of de verdeling van een op nominaal niveau gemeten variabele significant afwijkt van een theoretische verdeling.","Nulhypothese afhankelijkheidstoets: de twee variabelen zijn stochastisch onafhankelijk; de alternatieve hypothese stelt dat ze stochastisch afhankelijk zijn.","Nulhypothese verdelingstoets: de waargenomen verdeling komt overeen met de opgegeven theoretische verdeling of percentages.","Verwachte frequentie: de frequentie die je onder de nulhypothese verwacht, bij de verdelingstoets berekend als proportie maal steekproefomvang n.","Voorwaarde 20%-regel: bij df groter dan 1 mag niet meer dan 20% van de verwachte frequenties kleiner zijn dan 5.","Strenge eis bij df gelijk aan 1: dan moet elke verwachte celfrequentie groter of gelijk aan 5 zijn.","Tweede voorwaarde chi-kwadraat: geen enkele verwachte frequentie mag gelijk zijn aan nul.","Vrijheidsgraden afhankelijkheidstoets: df is (r min 1) maal (k min 1), met r rijen en k kolommen.","Vrijheidsgraden verdelingstoets: df is (k min 1), met k het aantal klassen of categorieen.","Kolmogorov-Smirnov test: gaat na of de verdeling van een minstens ordinaal gemeten variabele significant afwijkt van een theoretische verdeling.","KS-nulhypothese: de waargenomen verdeling wijkt niet meer af van de referentieverdeling dan men kan verwachten bij random steekproeven uit die verdeling.","KS-werkwijze: een twee-aan-twee vergelijking tussen waargenomen en verwachte cumulatieve frequenties, waarbij het maximale absolute verschil beslissend is.","Voorwaarde Kolmogorov-Smirnov: de steekproefomvang moet minstens 35 bedragen (n groter of gelijk aan 35)."]},{"h":"Enkelvoudige lineaire regressie","items":["Regressierechte (beschrijvend): beschrijving van een waargenomen lineair verband waarbij steekproef gelijk is aan populatie.","Regressie-analyse (inferentie): een steekproef gebruiken om populatiewaarden te schatten.","Populatieregressielijn: het werkelijke verband μy = β0 + β1x dat je met de steekproef wil schatten.","Regressielijn als schatter: de berekende lijn schat de werkelijke regressielijn voor de populatie.","β0 (intercept): het snijpunt van de populatieregressielijn met de y-as, geschat door b0.","β1 (helling): de richtingscoëfficiënt van de populatieregressielijn, geschat door b1.","b0 en b1: de schatters die op basis van de steekproef de populatieparameters β0 en β1 benaderen.","Nulhypothese (H0: β1 = 0): stelt dat er geen lineair verband is tussen x en y in de populatie.","Alternatieve hypothese (HA: β1 ≠ 0): stelt dat er wel een lineair verband bestaat.","Determinatiecoëfficiënt (r²): de proportie minder voorspellingsfouten van y wanneer x gekend is.","Uitschieters en invloedrijke waarnemingen: waarnemingen die de regressie ongeldig kunnen maken.","F-toets bij regressie: toetst het model, met de relatie F = t² ten opzichte van de t-toets over de helling."]},{"h":"Correlatie & ANOVA","items":["Pearson's correlatietest: toets voor een lineair verband tussen twee variabelen op interval- of ratio-niveau.","Voorwaarde Pearson: de data zijn bivariaat normaal verdeeld of de steekproefomvang n is groter dan 25.","Rangcorrelatietesten: Spearman en Kendall, gebruikt wanneer beide variabelen op ordinale schaal gemeten zijn.","Voorwaarde rangcorrelatie: de steekproefomvang n is minstens 10.","Spearman (rs): rangcorrelatiecoefficient met nulhypothese rs gelijk aan 0.","Kendall (tau): rangcorrelatiecoefficient gebaseerd op concordante en discordante paren, met nulhypothese tau gelijk aan 0.","Nulhypothese correlatie: er is geen verband (r, rs of tau gelijk aan 0); de alternatieve hypothese stelt een verband.","ANOVA: toets om drie of meer ongepaarde groepsgemiddelden te vergelijken op een ratio-variabele.","Design ANOVA: een categorische variabele met meerdere groepen (ongepaarde steekproeven) en een uitkomst op ratio-niveau.","Nulhypothese ANOVA: er is geen verschil tussen de groepsgemiddelden; HA stelt dat minstens 1 gemiddelde verschilt.","F-toets: de toetsingsgrootheid van ANOVA, met vrijheidsgraden (aantal groepen min 1) en (totale n min aantal groepen).","Beslissingsregel p-waarde: verwerp H0 wanneer de p-waarde kleiner is dan alfa (bijvoorbeeld 0.05).","Beslissingsregel kritieke waarde: verwerp H0 wanneer de absolute geobserveerde toetsingsgrootheid groter is dan de kritieke waarde."]}],"hacks":[{"h":"Alfa, bèta, power onthouden","t":"Alfa is de fout bij een correcte H0 (je verwerpt ten onrechte), bèta is de fout bij een correcte Ha (je aanvaardt ten onrechte). Power is wat overblijft van bèta: 1 min bèta, dus de kans dat je terecht H0 verwerpt wanneer Ha waar is."},{"h":"Zelfde of anders? Kies je toets","t":"Vraag je eerst af: is er 1 groep vergeleken met een vaste waarde (one sample), dezelfde groep twee keer gemeten (gepaard) of twee losse groepen (ongepaard)? Zo weet je meteen welke t-toets past."},{"h":"Gepaard of niet, dat kies je eerst","t":"Kies eerst het meetniveau: nominaal (categorie ja of nee) wijst op een proportietest, ordinaal wijst op een Wilcoxontoets. Kijk daarna of de steekproeven gepaard (tweemaal dezelfde eenheden, dus rangtekentest) of ongepaard (twee losse groepen, dus rangsomtest) zijn."},{"h":"Afhankelijk versus verdeling","t":"Twee variabelen samen die je vergelijkt, dat is de Afhankelijkheidstoets (hangen ze samen?). Een variabele die je vergelijkt met vaste percentages, dat is de Verdelingstoets. Meet je minstens ordinaal en toets je tegen een hele theoretische verdeling zoals normaal of uniform, denk dan aan Kolmogorov-Smirnov."},{"h":"Nul betekent geen verband","t":"Onthoud dat H0: β1 = 0 altijd 'geen helling, dus geen lineair verband' betekent. Verwerp je H0, dan besluit je dat x en y wel lineair samenhangen in de populatie."},{"h":"Meetniveau kiest je toets","t":"Laat het meetniveau je toets bepalen: ratio of interval met een verband geeft Pearson, ordinaal met een verband geeft Spearman of Kendall, en drie of meer ongepaarde groepen op een ratio-uitkomst geeft ANOVA. Onthoud ook: p kleiner dan alfa betekent H0 verwerpen."}]};
+</script>
+<style>
+  .choverview .chlist{display:flex;flex-direction:column;gap:3px;margin-top:2px}
+  .chrow{display:flex;align-items:center;gap:12px;width:100%;text-align:left;background:transparent;border:none;border-radius:10px;padding:9px 8px;cursor:pointer;color:var(--ink);font-family:inherit;transition:background .15s var(--ease),transform .1s var(--ease)}
+  .chrow:hover{background:var(--accent-soft)}
+  .chrow:active{transform:scale(.995)}
+  .chrow .chname{flex:0 0 auto;width:170px;font-size:14px;font-weight:600}
+  .chrow .chbar{flex:1;height:8px;border-radius:999px;background:var(--line);overflow:hidden}
+  .chrow .chbar>i{display:block;height:100%;border-radius:999px;background:linear-gradient(90deg,var(--accent),var(--accent-ink));transition:width .5s var(--ease)}
+  .chrow .chval{flex:0 0 auto;font-size:12.5px;color:var(--muted);min-width:40px;text-align:right;font-variant-numeric:tabular-nums}
+  .chrow .ic.caret{width:16px;height:16px;color:var(--muted);flex:0 0 auto}
+  @media(max-width:560px){.chrow .chname{width:auto;flex:1 1 auto;min-width:0}.chrow .chbar{flex:0 0 64px}}
+</style>
+<script>
+(function(){
+  "use strict";
+  var D=window.S3, app=document.getElementById("app");
+  var P={
+    book:'<path d="M12 7v14"/><path d="M3 18a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h5a4 4 0 0 1 4 4 4 4 0 0 1 4-4h5a1 1 0 0 1 1 1v13a1 1 0 0 1-1 1h-6a3 3 0 0 0-3 3 3 3 0 0 0-3-3z"/>',
+    bulb:'<path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5"/><path d="M9 18h6"/><path d="M10 22h4"/>',
+    help:'<circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><path d="M12 17h.01"/>',
+    search:'<circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/>',
+    sun:'<circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/>',
+    moon:'<path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/>',
+    arrowR:'<path d="M5 12h14"/><path d="m12 5 7 7-7 7"/>',
+    back:'<path d="m15 18-6-6 6-6"/>',
+    heart:'<path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/>',
+    chevR:'<path d="m9 18 6-6-6-6"/>',
+    sparkles:'<path d="M9.94 15.5A2 2 0 0 0 8.5 14.06l-6.14-1.58a.5.5 0 0 1 0-.96L8.5 9.94A2 2 0 0 0 9.94 8.5l1.58-6.14a.5.5 0 0 1 .96 0L14.06 8.5A2 2 0 0 0 15.5 9.94l6.14 1.58a.5.5 0 0 1 0 .96L15.5 14.06a2 2 0 0 0-1.44 1.44l-1.58 6.14a.5.5 0 0 1-.96 0z"/>',
+    target:'<circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/>',
+    rocket:'<path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z"/><path d="m12 15-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z"/><path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 0 5 0"/><path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5"/>',
+    msg:'<path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"/>',
+    refresh:'<path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/>',
+    send:'<path d="M14.54 21.69a.5.5 0 0 0 .94-.02l6.5-19a.5.5 0 0 0-.64-.64l-19 6.5a.5.5 0 0 0-.02.94l7.93 3.18a2 2 0 0 1 1.11 1.11z"/><path d="m21.85 2.15-10.94 10.94"/>'
+  };
+  function ic(n,c){ return '<svg class="ic'+(c?" "+c:"")+'" viewBox="0 0 24 24" aria-hidden="true">'+(P[n]||"")+'</svg>'; }
+  function esc(s){ return String(s).replace(/[&<>"]/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;"}[c];}); }
+  function shuffle(a){ a=a.slice(); for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=a[i];a[i]=a[j];a[j]=t;} return a; }
+  function pct(n,d){ return d?Math.round(100*n/d):0; }
+  function rnd(a){ return a[Math.floor(Math.random()*a.length)]; }
+  function lget(k,d){ try{ var v=JSON.parse(localStorage.getItem(k)); return v==null?d:v; }catch(e){ return d; } }
+  function lset(k,v){ try{ localStorage.setItem(k,JSON.stringify(v)); }catch(e){} }
+  function rawGet(k){ try{ return localStorage.getItem(k); }catch(e){ return null; } }
+  function rawSet(k,v){ try{ localStorage.setItem(k,v); }catch(e){} }
+  function bump(ns,key){ try{ fetch("https://abacus.jasoncameron.dev/hit/"+ns+"/"+key).then(function(){},function(){}); }catch(e){} }
+
+  D.questions.forEach(function(q,i){ q.id="q"+i; });
+  var theme=rawGet("site_theme") || lget("stat3_theme","light");
+  function applyTheme(){ document.documentElement.setAttribute("data-theme",theme);
+    document.getElementById("themeBtn").innerHTML=(theme==="dark"?ic("sun"):ic("moon"))+'<span>'+(theme==="dark"?"Licht":"Donker")+'</span>'; }
+  applyTheme();
+  document.getElementById("themeBtn").onclick=function(){ theme=theme==="dark"?"light":"dark"; lset("stat3_theme",theme); rawSet("site_theme",theme); applyTheme(); };
+  var calm=lget("stat3_calm",true);
+  function applyCalm(){ document.documentElement.classList.toggle("snappy", !calm); }
+  applyCalm();
+  function wrongLead(){ return calm ? rnd(WARM) : "Fout."; }
+
+  var WARM=["Geen zorgen, hier leer je nu net van.","Bijna! Dit type vraag krijg je zo onder de knie.","Foutje mag, nu weet je wat je nog moet herhalen.","Niet erg, dit onthoud je de volgende keer wél.","Rustig, één foutje zegt niets over je examen."];
+  var PRAISE=["Juist!","Goed zo!","Correct!","Sterk!","Knap!"];
+  var TOPICS={"1":"z-toets & onderscheidingsvermogen","2":"t-toetsen (one sample, paired, ongepaard)","3":"Proportie- & niet-parametrische toetsen","4":"Chi-kwadraat & verdelingstoetsen","5":"Enkelvoudige lineaire regressie","6":"Correlatie & ANOVA"};
+  function getProg(){ var p=lget("stat3_prog",{ans:{}}); if(!p||typeof p!=="object"||!p.ans)p={ans:{}}; return p; }
+  function recordProg(qid,ok){ var p=getProg(); p.ans[qid]=ok?1:0; lset("stat3_prog",p); }
+  function resetProg(){ lset("stat3_prog",{ans:{}}); }
+  function chapterStats(){ var p=getProg(); var st={}; Object.keys(TOPICS).forEach(function(k){st[k]={total:0,done:0,correct:0};}); D.questions.forEach(function(q){ var s=st[q.t]; if(!s)return; s.total++; if(Object.prototype.hasOwnProperty.call(p.ans,q.id)){ s.done++; if(p.ans[q.id])s.correct++; } }); return st; }
+  function startChapter(k){ var items=shuffle(D.questions.filter(function(q){return q.t===k;})); state.view="quiz"; tabBtns.forEach(function(b){b.classList.toggle("on",b.dataset.view==="quiz");}); startQuiz(items); window.scrollTo(0,0); }
+
+  var TABS=[{v:"home",l:"Start",i:"book"},{v:"quiz",l:"Oefenvragen",i:"target"},{v:"theory",l:"Theorie",i:"search"},{v:"hacks",l:"Studie-hacks",i:"bulb"},{v:"feedback",l:"Feedback",i:"msg"}];
+  var tabsEl=document.getElementById("tabs");
+  tabsEl.innerHTML=TABS.map(function(t){return '<button data-view="'+t.v+'"'+(t.v==="home"?' class="on"':'')+'>'+ic(t.i)+'<span>'+t.l+'</span></button>';}).join("");
+  var tabBtns=[].slice.call(tabsEl.querySelectorAll("button"));
+  tabBtns.forEach(function(b){ b.onclick=function(){ state.fromHub=false; if(b.dataset.view==="home") state.step="track"; go(b.dataset.view); }; });
+  function go(v){ state.view=v; tabBtns.forEach(function(b){b.classList.toggle("on",b.dataset.view===v);}); render(); window.scrollTo(0,0); }
+
+  var state={view:"home", step:"track", track:lget("stat3_track","training"), quiz:null, sel:{topics:{"1":true,"2":true,"3":true,"4":true,"5":true,"6":true}, count:15, shuffle:true}, sumq:""};
+  function setHTML(h){ app.innerHTML=h; }
+
+  function render(){
+    if(state.view==="home") return renderHome();
+    if(state.view==="quiz") return renderQuizGate();
+    if(state.view==="theory") return renderTheory();
+    if(state.view==="hacks") return renderHacks();
+    if(state.view==="feedback") return renderFeedback();
+  }
+
+  function renderHome(){
+    if(state.step==="herkansing") return renderHerkansing();
+    if(state.step==="practice") return renderPractice();
+    return renderTrack();
+  }
+  function modeLabel(){ return state.track==="herkansing"?"Herkansing":"Examen Training"; }
+
+  function renderTrack(){
+    var byT={}; D.questions.forEach(function(q){byT[q.t]=(byT[q.t]||0)+1;});
+    var st=chapterStats(); var tD=0,tQ=0,tC=0; Object.keys(st).forEach(function(k){tD+=st[k].done;tQ+=st[k].total;tC+=st[k].correct;});
+    var html=
+      '<div class="hero">'+
+        '<div class="count"><b>'+D.questions.length+'</b><span>oefenvragen</span></div>'+
+        '<div class="herotext"><h1>Statistiek III oefenen</h1>'+
+        '<p>Oefenvragen per hoofdstuk, met uitleg</p></div>'+
+      '</div>'+
+      '<a class="brandstrip" href="https://beriesexamspace.github.io/" title="Naar Berie’s exam space"><span class="bs-logo">B</span><span class="bs-txt"><b>Berie’s exam space</b><small>Een ander vak leren? Bekijk alle vakken</small></span><span class="bs-go">'+ic("arrowR")+'</span></a>'+
+      '<a class="brandstrip" href="https://beriesexamspace.github.io/?deel=1" title="Deel je samenvattingen"><span class="bs-logo">📚</span><span class="bs-txt"><b>Help mee, deel je vak</b><small>Heb jij samenvattingen of oude examenvragen? Stuur ze in (élk jaar).</small></span><span class="bs-go">'+ic("arrowR")+'</span></a>'+
+      '<div class="seclabel">'+ic("rocket")+'Hoe wil je oefenen?</div>'+
+      '<div class="tracks">'+
+        '<button class="track" data-track="training"><span class="tile">'+ic("book")+'</span><b>Examen Training</b><small>Oefen op examenniveau. Vragen met directe feedback en uitleg.</small><span class="go">Normaal niveau '+ic("arrowR")+'</span></button>'+
+        '<button class="track alt" data-track="herkansing"><span class="tile">'+ic("heart")+'</span><b>Herkansing</b><small>Rustig opbouwen, met aanmoediging. Jij bepaalt het tempo.</small><span class="go">Met begeleiding '+ic("arrowR")+'</span></button>'+
+      '</div>'+
+      '<div class="card pad choverview" style="margin-top:18px">'+
+        '<div class="row" style="justify-content:space-between;align-items:center"><b>Kies een hoofdstuk</b>'+(tD>0?'<button type="button" class="bnlink" id="resetProg">'+ic("refresh")+'Reset</button>':'')+'</div>'+
+        '<p class="muted" style="font-size:12.5px;margin:6px 0 12px">Klik een hoofdstuk om alleen dat te oefenen.'+(tD>0?' &middot; '+tD+'/'+tQ+' geoefend &middot; '+pct(tC,tD)+'% juist':'')+'</p>'+
+        '<div class="chlist">'+Object.keys(TOPICS).map(function(k){var s=st[k];var w=pct(s.done,s.total);return '<button type="button" class="chrow" data-ch="'+k+'"><span class="chname">'+esc(TOPICS[k])+'</span><span class="chbar"><i style="width:'+w+'%"></i></span><span class="chval">'+s.done+'/'+s.total+'</span>'+ic("chevR","caret")+'</button>';}).join("")+'</div></div>';
+    setHTML(html);
+    [].slice.call(document.querySelectorAll(".chrow")).forEach(function(el){ el.onclick=function(){ startChapter(el.dataset.ch); }; });
+    var _rp=document.getElementById("resetProg"); if(_rp) _rp.onclick=function(){ resetProg(); renderHome(); };
+    [].slice.call(document.querySelectorAll(".track")).forEach(function(el){ el.onclick=function(){ var t=el.dataset.track; state.track=t; lset("stat3_track",t); state.step=(t==="herkansing"?"herkansing":"practice"); renderHome(); window.scrollTo(0,0); }; });
+  }
+
+  function renderHerkansing(){
+    var html=
+      '<button class="backlink" id="backBtn">'+ic("back")+'Terug</button>'+
+      '<div class="seclabel" style="margin-top:2px">'+ic("heart")+'Herkansing</div>'+
+      (calm?'<div class="card pad warmcard"><div class="row" style="gap:11px;flex-wrap:nowrap;align-items:flex-start">'+ic("heart")+'<div><b>Een nieuwe kans, rustig aan.</b><p class="muted" style="margin:5px 0 0;font-size:13.5px">Herkansen betekent niet dat je het niet kunt. Stap voor stap kom je er. Jij kunt dit. 💙</p></div></div></div>':'')+
+      '<div class="card pad" style="margin-top:12px"><div class="row" style="justify-content:space-between;align-items:center;gap:14px"><div><b>Rustige modus</b><div class="muted" style="font-size:12.5px">Aanmoediging en kalme sfeer. Zet uit als je liever recht-voor-z’n-raap oefent.</div></div><button class="toggle'+(calm?" on":"")+'" id="calmToggle" role="switch" aria-checked="'+(calm?"true":"false")+'" aria-label="Rustige modus aan of uit"><span class="knob"></span></button></div></div>'+
+      '<div class="row" style="margin-top:16px"><button class="btn" id="beginBtn">Begin met oefenen '+ic("arrowR")+'</button></div>';
+    setHTML(html);
+    document.getElementById("backBtn").onclick=function(){ state.step="track"; renderHome(); window.scrollTo(0,0); };
+    document.getElementById("calmToggle").onclick=function(){ calm=!calm; lset("stat3_calm",calm); applyCalm(); renderHerkansing(); };
+    document.getElementById("beginBtn").onclick=function(){ state.step="practice"; renderHome(); window.scrollTo(0,0); };
+  }
+
+  function renderPractice(){
+    var herk=state.track==="herkansing";
+    var html=
+      '<button class="backlink" id="backBtn">'+ic("back")+'Terug</button>'+
+      '<div class="modebanner'+(herk?" v":"")+'">'+ic(herk?"heart":"book")+'<span>'+modeLabel()+'</span><button type="button" class="bnlink" id="changeMode">wijzig</button></div>'+
+      '<div class="seclabel">'+ic("rocket")+'Waarmee wil je oefenen?</div>'+
+      '<div class="grid g2">'+
+        '<button class="mode" data-mode="quiz"><span class="me">'+ic("target")+'</span><b>Oefenvragen</b><small>Meerkeuze met directe feedback en uitleg. Kies je onderwerpen.</small></button>'+
+        '<button class="mode" id="quickStart"><span class="me">'+ic("rocket")+'</span><b>Snelle ronde</b><small>15 willekeurige vragen uit alle onderwerpen.</small></button>'+
+      '</div>';
+    setHTML(html);
+    document.getElementById("backBtn").onclick=function(){ if(state.fromHub){ location.href="https://beriesexamspace.github.io/"; return; } state.step=(herk?"herkansing":"track"); renderHome(); window.scrollTo(0,0); };
+    document.getElementById("changeMode").onclick=function(){ if(state.fromHub){ location.href="https://beriesexamspace.github.io/"; return; } state.step="track"; renderHome(); window.scrollTo(0,0); };
+    document.querySelector('[data-mode="quiz"]').onclick=function(){ go("quiz"); };
+    document.getElementById("quickStart").onclick=function(){ state.view="quiz"; tabBtns.forEach(function(b){b.classList.toggle("on",b.dataset.view==="quiz");}); startQuiz(shuffle(D.questions.slice()).slice(0,15)); window.scrollTo(0,0); };
+  }
+
+  function renderQuizGate(){
+    if(state.quiz) return renderQuiz();
+    var s=state.sel;
+    function pool(){ return D.questions.filter(function(q){return s.topics[q.t];}); }
+    var html='<div class="card pad"><h2 style="margin-top:0">Oefenvragen</h2>'+
+      '<p class="muted">Kies onderwerpen en het aantal vragen. Na elk antwoord krijg je meteen feedback én de uitleg.</p>'+
+      '<label class="fld">Onderwerpen</label><div class="chips" id="tps">'+
+        Object.keys(TOPICS).map(function(k){return '<button class="chip'+(s.topics[k]?" on":"")+'" data-tp="'+k+'">'+esc(TOPICS[k])+'</button>';}).join("")+'</div>'+
+      '<label class="fld">Aantal vragen</label><div class="chips" id="cnt">'+
+        [10,15,20,999].map(function(n){return '<button class="chip'+(s.count===n?" on":"")+'" data-n="'+n+'">'+(n===999?"Alle":n)+'</button>';}).join("")+'</div>'+
+      '<label class="fld"><input type="checkbox" id="shuf" '+(s.shuffle?"checked":"")+'> Willekeurige volgorde</label>'+
+      '<div class="row" style="margin-top:18px"><button class="btn" id="startQ">Start '+ic("arrowR")+'</button><span class="muted" id="poolN"></span></div></div>';
+    setHTML(html);
+    function refresh(){ var n=pool().length; document.getElementById("poolN").textContent=n+" vragen beschikbaar"; document.getElementById("startQ").disabled=n===0; }
+    [].slice.call(document.querySelectorAll("#tps .chip")).forEach(function(b){ b.onclick=function(){ s.topics[b.dataset.tp]=!s.topics[b.dataset.tp]; b.classList.toggle("on"); refresh(); }; });
+    [].slice.call(document.querySelectorAll("#cnt .chip")).forEach(function(b){ b.onclick=function(){ s.count=+b.dataset.n; renderQuizGate(); }; });
+    document.getElementById("shuf").onchange=function(e){ s.shuffle=e.target.checked; };
+    document.getElementById("startQ").onclick=function(){ var p=pool(); if(s.shuffle)p=shuffle(p); if(s.count<p.length)p=p.slice(0,s.count); startQuiz(p); };
+    refresh();
+  }
+
+  function startQuiz(items){ bump("berat-stat3", state.track==="herkansing"?"herkansing":"training"); state.quiz={items:items.map(function(q){return {q:q,opts:shuffle(q.o.map(function(t,i){return {text:t,ok:i===q.a};}))};}), idx:0, answered:false, picked:-1, correct:0, wrong:[], done:false}; renderQuiz(); }
+
+  function renderQuiz(){
+    var Q=state.quiz; if(Q.done) return renderResult();
+    var cur=Q.items[Q.idx], q=cur.q;
+    var html='<button class="backlink" id="backBtn">'+ic("back")+'Terug</button>'+
+      '<div class="card pad">'+
+      '<div class="runtop"><span class="pill">'+esc(TOPICS[q.t])+'</span><div class="bar"><i data-w="'+pct(Q.idx,Q.items.length)+'"></i></div><span>'+(Q.idx+1)+'/'+Q.items.length+'</span></div>'+
+      '<div class="qtext">'+esc(q.q)+'</div>'+
+      '<div id="opts">'+cur.opts.map(function(o,i){return '<button class="opt" data-i="'+i+'" style="--oi:'+(i*55)+'ms"><span class="k">'+String.fromCharCode(65+i)+'</span><span>'+esc(o.text)+'</span></button>';}).join("")+'</div>'+
+      '<div id="fb"></div>'+
+      '<div class="row" style="justify-content:space-between;margin-top:6px"><span class="muted" style="font-size:12px">Toets <span class="kbd">A–D</span> · <span class="kbd">Enter</span> = volgende</span><button class="btn hide" id="nextBtn">Volgende '+ic("arrowR")+'</button></div></div>';
+    setHTML(html);
+    var i2=document.querySelector(".bar>i"); requestAnimationFrame(function(){ if(i2) i2.style.width=i2.getAttribute("data-w")+"%"; });
+    document.getElementById("backBtn").onclick=function(){ state.quiz=null; renderQuizGate(); };
+    var optBtns=[].slice.call(document.querySelectorAll("#opts .opt"));
+    var nb=document.getElementById("nextBtn"); nb.onclick=next;
+    function showAnswered(i){
+      optBtns.forEach(function(b){ var bi=+b.dataset.i; b.disabled=true; if(cur.opts[bi].ok)b.classList.add("correct"); else if(bi===i)b.classList.add("wrong"); });
+      var ok=cur.opts[i].ok, fb=document.getElementById("fb"); fb.className="feedback "+(ok?"ok":"no");
+      var juist=cur.opts.filter(function(o){return o.ok;})[0].text;
+      fb.innerHTML=ok?"<b>"+rnd(PRAISE)+" ✓</b>":"<b>"+wrongLead()+"</b><span class=\"sub\">Juiste antwoord: "+esc(juist)+"</span>";
+      var w=document.createElement("div"); w.innerHTML='<div class="whybox"><h4>'+ic("sparkles")+'Waarom?</h4>'+esc(q.u)+'</div>'; fb.appendChild(w);
+      nb.classList.remove("hide"); nb.innerHTML=(Q.idx+1>=Q.items.length)?"Bekijk resultaat "+ic("arrowR"):"Volgende "+ic("arrowR");
+    }
+    function pick(i){ if(Q.answered)return; Q.answered=true; Q.picked=i; var ok=cur.opts[i].ok; if(ok)Q.correct++; else Q.wrong.push(q); recordProg(q.id, ok); showAnswered(i); nb.focus(); }
+    optBtns.forEach(function(b){ b.onclick=function(){ pick(+b.dataset.i); }; });
+    function next(){ if(!Q.answered)return; Q.idx++; Q.answered=false; Q.picked=-1; if(Q.idx>=Q.items.length)Q.done=true; renderQuiz(); }
+    if(Q.answered) showAnswered(Q.picked);
+    state.key=function(e){ if(!Q.answered){ var k=e.key.toLowerCase(); var idx="abcde".indexOf(k); if(idx<0&&/[1-5]/.test(k))idx=+k-1; if(idx>=0&&idx<cur.opts.length){pick(idx);e.preventDefault();} } else if(e.key==="Enter"||e.key===" "){ next(); e.preventDefault(); } };
+  }
+
+  function renderResult(){
+    var Q=state.quiz, p=pct(Q.correct,Q.items.length);
+    var msg=p>=80?"Sterk werk! 🎉":p>=60?"Goed bezig 👍":"Blijf oefenen, je komt er 💪";
+    var html='<div class="card pad results center"><span class="pill">Statistiek III</span><div class="big">'+p+'%</div>'+
+      '<p style="font-weight:600;margin:0 0 4px;font-size:17px">'+msg+'</p><p class="muted">'+Q.correct+' van '+Q.items.length+' juist</p>'+
+      '<div class="row" style="justify-content:center;margin-top:14px">'+
+        (Q.wrong.length?'<button class="btn" id="retry">Herhaal '+Q.wrong.length+' foute vragen</button>':'')+
+        '<button class="btn ghost" id="again">Nieuwe ronde</button><button class="btn ghost" id="home">Naar start</button></div></div>';
+    setHTML(html);
+    var rt=document.getElementById("retry"); if(rt) rt.onclick=function(){ startQuiz(shuffle(Q.wrong)); };
+    document.getElementById("again").onclick=function(){ state.quiz=null; renderQuizGate(); };
+    document.getElementById("home").onclick=function(){ state.quiz=null; go("home"); };
+    state.key=null;
+  }
+
+  function renderTheory(){
+    var q=state.sumq||"";
+    var html='<div class="card pad" style="margin-bottom:14px"><h2 style="margin:0 0 8px">Theorie en samenvatting</h2>'+
+      '<input type="search" id="sq" placeholder="Zoek een begrip… (bv. t-toets, assumpties, ANOVA)" value="'+esc(q)+'"></div><div id="list">'+theoryList(q)+'</div>';
+    setHTML(html);
+    var si=document.getElementById("sq"); si.oninput=function(){ state.sumq=si.value; document.getElementById("list").innerHTML=theoryList(si.value); si.focus(); };
+  }
+  function theoryList(query){
+    var Q=query.trim().toLowerCase(), out="", n=0;
+    D.theory.forEach(function(sec){
+      var items=sec.items.filter(function(it){ return !Q || it.toLowerCase().indexOf(Q)>=0 || sec.h.toLowerCase().indexOf(Q)>=0; });
+      if(!items.length) return; n++;
+      out+='<details class="acc"'+(Q?" open":(n===1?" open":""))+'><summary><span class="n">'+ic("search")+'</span>'+esc(sec.h)+ic("chevR","caret")+'</summary><div class="body"><ul>'+items.map(function(it){return '<li>'+hl(esc(it),Q)+'</li>';}).join("")+'</ul></div></details>';
+    });
+    return out||'<p class="muted center">Geen resultaten voor "'+esc(query)+'".</p>';
+  }
+  function hl(t,q){ if(!q)return t; try{ return t.replace(new RegExp("("+q.replace(/[.*+?^${}()|[\]\\]/g,"\\$&")+")","ig"),"<mark>$1</mark>"); }catch(e){ return t; } }
+
+  function renderHacks(){
+    var html='<div class="card pad" style="margin-bottom:16px"><h2 style="margin:0 0 6px">Studie-hacks</h2><p class="muted" style="margin:0">Ezelsbruggetjes om de kernideeën van Statistiek III te onthouden.</p></div>'+
+      '<div class="tipgrid">'+D.hacks.map(function(t){return '<div class="tip"><h4>'+ic("bulb")+esc(t.h)+'</h4><p>'+esc(t.t)+'</p></div>';}).join("")+'</div>';
+    setHTML(html);
+  }
+
+  function renderFeedback(){
+    var html='<div class="card pad"><h2 style="margin-top:0">Feedback &amp; klachten</h2>'+
+      '<p class="muted">Fout in een vraag, een idee, of werkt iets niet? Laat het hier weten, het komt rechtstreeks bij de maker terecht. Een review of compliment mag ook: de mooiste tonen we op de hub. 💬</p>'+
+      '<label class="fld" for="fbMsg">Je bericht</label><textarea id="fbMsg" rows="5" placeholder="Beschrijf de fout of je idee…"></textarea>'+
+      '<label class="fld" for="fbWaar">Over welke vraag? <span class="muted">(optioneel)</span></label><input type="text" id="fbWaar" placeholder="bv. de vraag over de p-waarde">'+
+      '<label class="fld" for="fbNaam">Je naam <span class="muted">(optioneel)</span></label><input type="text" id="fbNaam" placeholder="zodat we je kunnen bedanken">'+
+      '<label class="fld" for="fbEmail">Je e-mail <span class="muted">(optioneel, als je een antwoord wilt)</span></label><input type="email" id="fbEmail" placeholder="naam@voorbeeld.be">'+
+      '<input type="text" id="fbBot" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;opacity:0">'+
+      '<div class="row" style="margin-top:16px;align-items:center"><button class="btn" id="fbSend">'+ic("send")+'Versturen</button><span id="fbStatus" style="font-size:13px"></span></div></div>';
+    setHTML(html);
+    document.getElementById("fbSend").onclick=function(){
+      var status=document.getElementById("fbStatus");
+      if(document.getElementById("fbBot").value) return;
+      var msg=document.getElementById("fbMsg").value.trim();
+      if(!msg){ status.style.color="var(--bad)"; status.textContent="Schrijf eerst een bericht."; return; }
+      var btn=document.getElementById("fbSend"); btn.disabled=true; status.style.color="var(--muted)"; status.textContent="Versturen…";
+      var em=document.getElementById("fbEmail").value.trim();
+      var nm=document.getElementById("fbNaam").value.trim();
+      var waar=document.getElementById("fbWaar").value.trim();
+      var payload={_subject:"Statistiek III-tool: feedback", _template:"table", _captcha:"false",
+        Naam:nm||"-", Over_welke_vraag:waar||"-", email:em||"-", Bericht:msg};
+      if(em) payload._replyto=em;
+      // vangnet: als de verzenddienst blokkeert (bv. spamfilter) of er is geen verbinding,
+      // bieden we een directe mailto-knop aan zodat de melding NOOIT stilletjes verdwijnt.
+      function failFallback(reden){
+        var body="Feedback Statistiek III-tool%0D%0A%0D%0ANaam: "+encodeURIComponent(nm||"-")+"%0D%0AOver welke vraag: "+encodeURIComponent(waar||"-")+"%0D%0AE-mail: "+encodeURIComponent(em||"-")+"%0D%0A%0D%0ABericht:%0D%0A"+encodeURIComponent(msg);
+        var mailto="mailto:berat007yildirim@gmail.com?subject="+encodeURIComponent("Statistiek III-tool: feedback")+"&body="+body;
+        setHTML('<div class="card pad"><h2 style="margin-top:0">Automatisch versturen lukte niet</h2><p class="muted">'+reden+' Geen zorgen, klik hieronder en je melding wordt geopend in je e-mail, helemaal klaar om te versturen:</p><a class="btn" href="'+mailto+'">'+ic("send")+'Mail mijn melding direct</a><div style="margin-top:14px"><button class="btn ghost" id="bk">Terug naar start</button></div></div>');
+        document.getElementById("bk").onclick=function(){go("home");};
+      }
+      fetch("https://formsubmit.co/ajax/Berat007yildirim@gmail.com",{method:"POST",headers:{Accept:"application/json"},body:new URLSearchParams(payload)})
+        .then(function(r){return r.json();}).then(function(d){
+          if(d&&(d.success===true||d.success==="true")){ setHTML('<div class="card pad results center"><div style="font-size:42px">✅</div><h2 style="margin:6px 0">Bedankt!</h2><p class="muted">Je melding is verstuurd.</p><button class="btn" id="bk" style="margin-top:8px">Terug naar start</button></div>'); document.getElementById("bk").onclick=function(){go("home");}; }
+          else { failFallback("Het automatisch versturen lukte niet."); }
+        }).catch(function(){ failFallback("Er was even geen verbinding."); });
+    };
+  }
+
+  document.addEventListener("keydown",function(e){ if(state.key) state.key(e); });
+  // bezoeker tellen (1x per toestel)
+  try{ if(!localStorage.getItem("stat3_seen")){ localStorage.setItem("stat3_seen","1"); bump("berat-stat3","gebruikers"); } }catch(e){ bump("berat-stat3","gebruikers"); }
+  // traject vanuit de hub overnemen → direct naar de oefenpagina
+  try{ var _q=new URLSearchParams(location.search); var _m=_q.get("m");
+    if(_m==="training"||_m==="herkansing"){ state.track=_m; lset("stat3_track",_m);
+      var _c=_q.get("calm"); if(_c!=null){ calm=(_c!=="0"); lset("stat3_calm",calm); applyCalm(); }
+      state.step="practice"; state.fromHub=true; }
+  }catch(e){}
+  render();
+  // launch-splash netjes laten verdwijnen
+  (function(){ var _sp=document.getElementById("splash"); if(!_sp) return; var _red=false; try{_red=window.matchMedia("(prefers-reduced-motion: reduce)").matches;}catch(e){} setTimeout(function(){ _sp.classList.add("hide"); setTimeout(function(){ if(_sp&&_sp.parentNode) _sp.parentNode.removeChild(_sp); }, 700); }, _red?300:1850); })();
+})();
+</script>
+</body>
+</html>
