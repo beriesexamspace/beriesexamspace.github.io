@@ -383,6 +383,7 @@
   #exinfo .exclear{position:absolute;right:6px;top:50%;transform:translateY(-50%);border:0;background:transparent;color:var(--muted);cursor:pointer;font-size:18px;line-height:1;padding:6px 10px;border-radius:999px;display:none}
   #exinfo .exsearch.has .exclear{display:block}
   #exinfo .exclear:hover{color:var(--ink)}
+  #exinfo .extel{display:none;text-align:center;color:var(--muted);font-size:12.5px;margin:-8px 0 14px}
   #exinfo mark{background:var(--accent-soft);color:var(--accent-ink);border-radius:3px;padding:0 2px}
   #exinfo .exempty{grid-column:1/-1;text-align:center;color:var(--muted);font-size:13.5px;padding:10px 0}
   #exinfo .calc{border:1px solid var(--line);background:var(--card);border-radius:var(--r-lg);padding:22px;box-shadow:var(--shadow);margin-bottom:16px}
@@ -450,6 +451,7 @@
     </div>
 
     <div class="exsearch" id="exsearch"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg><input type="search" id="exq" placeholder="Zoek een vraag, bv. herexamen of deliberatie" autocomplete="off" aria-label="Zoek in de vragen"><button class="exclear" id="exqclear" type="button" aria-label="Zoekopdracht wissen">&times;</button></div>
+    <div class="extel" id="extel" aria-live="polite"></div>
     <div class="exfaq" id="exfaq">
       <!-- ===== Deliberatie en tolerantie ===== -->
       <div class="qcard" data-cat="delib">
@@ -605,30 +607,52 @@
       var clr=document.getElementById('exqclear');
       var cat='all';
 
-      // zoektekst per kaart klaarzetten (antwoord blijft gewoon zichtbaar)
-      cards.forEach(function(c){
-        c.dataset.tekst=(c.textContent||'').toLowerCase();
-      });
+      // zoektekst per kaart klaarzetten, zonder accenten zodat "chi" ook "chi-kwadraat" vindt
+      function norm(s){
+        return (s||'').toLowerCase()
+          .normalize('NFD').replace(/[̀-ͯ]/g,'')
+          .replace(/[^a-z0-9 ]+/g,' ')
+          .replace(/s+/g,' ').trim();
+      }
+      cards.forEach(function(c){ c.dataset.tekst=norm(c.textContent); });
 
       function pas(){
-        var term=(q&&q.value||'').trim().toLowerCase();
-        if(wrap) wrap.classList.toggle('has',!!term);
+        var ruw=(q&&q.value||'');
+        var term=norm(ruw);
+        if(wrap) wrap.classList.toggle('has',!!ruw.trim());
+        // elk woord apart: een kaart telt mee als hij MINSTENS EEN woord bevat
+        var woorden=term?term.split(' ').filter(function(w){return w.length>=2;}):[];
         var zichtbaar=0;
         cards.forEach(function(c){
           var okCat=(cat==='all'||c.getAttribute('data-cat')===cat);
-          var okTerm=(!term||c.dataset.tekst.indexOf(term)>-1);
-          var toon=okCat&&okTerm;
+          var tekst=c.dataset.tekst||'';
+          var raak=0;
+          woorden.forEach(function(w){
+            if(tekst.indexOf(w)>-1){ raak+=2; return; }
+            // korter maken vangt buigingen: tolerantie vindt getolereerd
+            if(w.length>=5 && tekst.indexOf(w.slice(0,5))>-1) raak+=1;
+          });
+          var toon=okCat&&(!woorden.length||raak>0);
           c.classList.toggle('exhide',!toon);
+          // beste treffers bovenaan
+          c.style.order=woorden.length?String(20-Math.min(raak,19)):'';
           if(toon)zichtbaar++;
-          // bij zoeken meteen openklappen, anders weer dicht
         });
         var leeg=document.getElementById('exleeg');
         if(!leeg){
           leeg=document.createElement('div'); leeg.id='exleeg'; leeg.className='exempty';
           faq.appendChild(leeg);
         }
-        leeg.textContent=zichtbaar?'':'Geen vraag gevonden. Probeer een ander woord, of stel je vraag hieronder.';
-        leeg.style.display=zichtbaar?'none':'block';
+        leeg.style.order='99';
+        if(!zichtbaar){
+          leeg.textContent='Geen vraag gevonden voor "'+ruw.trim()+'". Probeer een ander woord, of stel je vraag onderaan.';
+          leeg.style.display='block';
+        } else { leeg.style.display='none'; }
+        var tel=document.getElementById('extel');
+        if(tel){
+          tel.textContent=woorden.length?(zichtbaar+' van '+cards.length+' vragen'):'';
+          tel.style.display=woorden.length?'block':'none';
+        }
       }
 
       if(cats) cats.addEventListener('click',function(e){
