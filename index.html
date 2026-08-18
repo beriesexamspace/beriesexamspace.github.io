@@ -422,6 +422,65 @@
   #exinfo .exnote div{font-size:12.5px;line-height:1.6;color:var(--accent-ink)}
   </style>
   <div id="exinfo" style="scroll-margin-top:78px">
+    <div class="seclabel" id="reken" style="margin-top:30px;scroll-margin-top:78px"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="2" width="16" height="20" rx="2"/><path d="M8 6h8M8 10h8M8 14h2M8 18h2"/></svg>Reken je punten uit</div>
+
+    <div class="calcgrid">
+    <div class="calc c1">
+      <div class="calctitle"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="2" width="16" height="20" rx="2"/><path d="M8 6h8M16 14v4M12 14v4M8 14v4"/></svg>Cijfer voor een vak</div>
+      <p class="calcsub">Vul je deelcijfers en hun gewicht in. Het gewicht per deel staat in de vakfiche op Canvas.</p>
+      <div class="chead"><span>Onderdeel</span><span style="text-align:center">Cijfer</span><span style="text-align:center">Gewicht</span><span></span></div>
+      <div class="rows" id="ex1Rows"></div>
+      <button class="iconbtn addbtn" id="ex1Add" type="button"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>Onderdeel toevoegen</button>
+      <div class="metrics">
+        <div class="metric"><div class="ml">Gewogen eindcijfer</div><div class="mv"><span id="ex1Mark">--</span><small> /20</small></div><div class="mh">afgerond: <span id="ex1Round">--</span>/20</div></div>
+        <div class="metric"><div class="ml">Percentage</div><div class="mv"><span id="ex1Pct">--</span><small> %</small></div><div class="mh">van de 20 punten</div></div>
+        <div class="metric" style="display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center"><div class="vt" id="ex1Status" style="font-size:13.5px">--</div><div class="mh" style="margin-top:5px">vanaf 10/20</div></div>
+      </div>
+      <div class="wsum"><span>Som van de gewichten: <b id="ex1Wsum" style="color:var(--ink)">--</b>%</span><span class="wwarn" id="ex1Warn" style="display:none">telt niet op tot 100%</span></div>
+    </div>
+
+    <div class="calc c2">
+      <div class="calctitle"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v18M5 21h14M7 7l-3 6a3 3 0 0 0 6 0z M17 7l-3 6a3 3 0 0 0 6 0z M7 7h10"/></svg>Mijn gemiddelde en deliberatie</div>
+      <p class="calcsub">Vul per vak je cijfer en studiepunten in. Dit is wat studenten soms GPA of GAP noemen.</p>
+      <div class="chead"><span>Vak</span><span style="text-align:center">Cijfer</span><span style="text-align:center">Studiepunten</span><span></span></div>
+      <div class="rows" id="ex2Rows"></div>
+      <button class="iconbtn addbtn" id="ex2Add" type="button"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>Vak toevoegen</button>
+      <div class="metrics">
+        <div class="metric"><div class="ml">Gewogen gemiddelde</div><div class="mv"><span id="ex2Avg">--</span><small> /20</small></div></div>
+        <div class="metric"><div class="ml">In percentage</div><div class="mv"><span id="ex2Pct">--</span><small> %</small></div><div class="mh">drempel deliberatie: 55%</div></div>
+      </div>
+      <div class="verdict" id="ex2Verdict" style="border-color:var(--line);background:var(--bg2)">
+        <span class="vbox" id="ex2VIc" style="background:var(--line)"></span>
+        <div><div class="vt" id="ex2VTitle" style="color:var(--muted)">Vul je vakken in om te beginnen</div><div class="vs" id="ex2VSub">Je ziet hier meteen of je aan de deliberatievoorwaarden voldoet.</div></div>
+      </div>
+      <div class="rules">
+        <div class="rule" id="ex2r1"></div>
+        <div class="rule" id="ex2r2"></div>
+        <div class="rule" id="ex2r3"></div>
+        <div class="rule" id="ex2r4"></div>
+        <div class="rule" id="ex2r5"></div>
+      </div>
+    </div>
+    </div>
+
+    <div class="exnote">
+      <span class="nb"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></svg></span>
+      <div>De regels zijn geverifieerd op het VUB OER 2025-2026 (Art. 139 en 143). Dit is een hulpmiddel en een indicatie voor een gewoon jaar zonder vrijstellingen of stagevakken. De examencommissie beslist. Check bij twijfel het OER of je studietrajectbegeleider.</div>
+    </div>
+
+    <div class="qask" id="qask">
+      <div class="qask-head">
+        <span class="qask-ic"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M9.1 9a3 3 0 0 1 5.8 1c0 2-3 3-3 3"/><path d="M12 17h.01"/></svg></span>
+        <div><b>Zit je met een andere vraag?</b><small>Stel ze hier. Berie leest elke vraag, beantwoordt ze en de meest gestelde komen erbij.</small></div>
+      </div>
+      <textarea id="qaMsg" placeholder="Typ je vraag, bijvoorbeeld: hoe werkt de tweede zit voor een vak met een groepstaak?"></textarea>
+      <input id="qaEmail" type="email" placeholder="Je e-mail (optioneel, als je een antwoord wil)">
+      <div class="qask-row">
+        <button class="btn" id="qaSend" type="button">Verstuur vraag</button>
+        <span id="qaStatus"></span>
+      </div>
+    </div>
+
     <div class="seclabel"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 10v6"/><path d="M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>Examen-info</div>
     <p class="exlead">De vragen die elk jaar terugkomen, rustig op een rij. Bij elk antwoord staat de officiele VUB-bron, zodat je het zelf kan nalezen.</p>
     <div class="exverif">
@@ -672,64 +731,7 @@
     #exinfo .qask-done small{color:var(--muted);font-size:13px}
     </style>
 
-    <div class="seclabel" id="reken" style="margin-top:30px;scroll-margin-top:78px"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="2" width="16" height="20" rx="2"/><path d="M8 6h8M8 10h8M8 14h2M8 18h2"/></svg>Reken je punten uit</div>
 
-    <div class="calcgrid">
-    <div class="calc c1">
-      <div class="calctitle"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="2" width="16" height="20" rx="2"/><path d="M8 6h8M16 14v4M12 14v4M8 14v4"/></svg>Cijfer voor een vak</div>
-      <p class="calcsub">Vul je deelcijfers en hun gewicht in. Het gewicht per deel staat in de vakfiche op Canvas.</p>
-      <div class="chead"><span>Onderdeel</span><span style="text-align:center">Cijfer</span><span style="text-align:center">Gewicht</span><span></span></div>
-      <div class="rows" id="ex1Rows"></div>
-      <button class="iconbtn addbtn" id="ex1Add" type="button"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>Onderdeel toevoegen</button>
-      <div class="metrics">
-        <div class="metric"><div class="ml">Gewogen eindcijfer</div><div class="mv"><span id="ex1Mark">--</span><small> /20</small></div><div class="mh">afgerond: <span id="ex1Round">--</span>/20</div></div>
-        <div class="metric"><div class="ml">Percentage</div><div class="mv"><span id="ex1Pct">--</span><small> %</small></div><div class="mh">van de 20 punten</div></div>
-        <div class="metric" style="display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center"><div class="vt" id="ex1Status" style="font-size:13.5px">--</div><div class="mh" style="margin-top:5px">vanaf 10/20</div></div>
-      </div>
-      <div class="wsum"><span>Som van de gewichten: <b id="ex1Wsum" style="color:var(--ink)">--</b>%</span><span class="wwarn" id="ex1Warn" style="display:none">telt niet op tot 100%</span></div>
-    </div>
-
-    <div class="calc c2">
-      <div class="calctitle"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v18M5 21h14M7 7l-3 6a3 3 0 0 0 6 0z M17 7l-3 6a3 3 0 0 0 6 0z M7 7h10"/></svg>Mijn gemiddelde en deliberatie</div>
-      <p class="calcsub">Vul per vak je cijfer en studiepunten in. Dit is wat studenten soms GPA of GAP noemen.</p>
-      <div class="chead"><span>Vak</span><span style="text-align:center">Cijfer</span><span style="text-align:center">Studiepunten</span><span></span></div>
-      <div class="rows" id="ex2Rows"></div>
-      <button class="iconbtn addbtn" id="ex2Add" type="button"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>Vak toevoegen</button>
-      <div class="metrics">
-        <div class="metric"><div class="ml">Gewogen gemiddelde</div><div class="mv"><span id="ex2Avg">--</span><small> /20</small></div></div>
-        <div class="metric"><div class="ml">In percentage</div><div class="mv"><span id="ex2Pct">--</span><small> %</small></div><div class="mh">drempel deliberatie: 55%</div></div>
-      </div>
-      <div class="verdict" id="ex2Verdict" style="border-color:var(--line);background:var(--bg2)">
-        <span class="vbox" id="ex2VIc" style="background:var(--line)"></span>
-        <div><div class="vt" id="ex2VTitle" style="color:var(--muted)">Vul je vakken in om te beginnen</div><div class="vs" id="ex2VSub">Je ziet hier meteen of je aan de deliberatievoorwaarden voldoet.</div></div>
-      </div>
-      <div class="rules">
-        <div class="rule" id="ex2r1"></div>
-        <div class="rule" id="ex2r2"></div>
-        <div class="rule" id="ex2r3"></div>
-        <div class="rule" id="ex2r4"></div>
-        <div class="rule" id="ex2r5"></div>
-      </div>
-    </div>
-    </div>
-
-    <div class="exnote">
-      <span class="nb"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></svg></span>
-      <div>De regels zijn geverifieerd op het VUB OER 2025-2026 (Art. 139 en 143). Dit is een hulpmiddel en een indicatie voor een gewoon jaar zonder vrijstellingen of stagevakken. De examencommissie beslist. Check bij twijfel het OER of je studietrajectbegeleider.</div>
-    </div>
-
-    <div class="qask" id="qask">
-      <div class="qask-head">
-        <span class="qask-ic"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M9.1 9a3 3 0 0 1 5.8 1c0 2-3 3-3 3"/><path d="M12 17h.01"/></svg></span>
-        <div><b>Zit je met een andere vraag?</b><small>Stel ze hier. Berie leest elke vraag, beantwoordt ze en de meest gestelde komen erbij.</small></div>
-      </div>
-      <textarea id="qaMsg" placeholder="Typ je vraag, bijvoorbeeld: hoe werkt de tweede zit voor een vak met een groepstaak?"></textarea>
-      <input id="qaEmail" type="email" placeholder="Je e-mail (optioneel, als je een antwoord wil)">
-      <div class="qask-row">
-        <button class="btn" id="qaSend" type="button">Verstuur vraag</button>
-        <span id="qaStatus"></span>
-      </div>
-    </div>
   </div>
 
   <script>
