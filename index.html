@@ -308,9 +308,11 @@
     <div class="brand"><span class="logo">B</span><div>Berie’s exam space<small>oefen slim voor je examen</small></div></div>
     <span class="spacer"></span>
     <nav class="topnav">
+      <a class="navlink" href="#vakken">Vakken</a>
       <a class="navlink" href="#nieuw">Wat is nieuw</a>
-      <a class="navlink" href="#over">Over mij</a>
+      <a class="navlink" href="#exinfo">Examen-info</a>
       <a class="navlink" href="#reken">Reken je punten</a>
+      <a class="navlink" href="#over">Over mij</a>
     </nav>
     <button class="iconbtn" id="themeBtn" aria-label="Wissel licht/donker"></button>
   </div>
@@ -370,8 +372,28 @@
   #exinfo .excat:active{transform:scale(.96)}
   #exinfo .excat.on{background:var(--accent);color:#fff;border-color:var(--accent)}
   #exinfo .qcard.exhide{display:none}
+  /* accordeon: antwoord staat dicht tot je op de vraag klikt */
+  #exinfo .qcard{cursor:pointer}
+  #exinfo .qcard>b{display:flex;align-items:flex-start;gap:9px;justify-content:space-between}
+  #exinfo .qchev{flex:none;width:16px;height:16px;margin-top:2px;color:var(--muted);transition:transform .22s var(--ease)}
+  #exinfo .qcard.open .qchev{transform:rotate(180deg);color:var(--accent-ink)}
+  #exinfo .qbody{max-height:0;overflow:hidden;opacity:0;transition:max-height .28s var(--ease),opacity .2s var(--ease)}
+  #exinfo .qcard.open .qbody{opacity:1}
+  #exinfo .qbody>div{display:flex;flex-direction:column;gap:6px;padding-top:8px}
+  #exinfo .qcard.open{border-color:var(--accent)}
+  /* zoekbalk */
+  #exinfo .exsearch{position:relative;max-width:420px;margin:0 auto 16px}
+  #exinfo .exsearch svg{position:absolute;left:13px;top:50%;transform:translateY(-50%);width:16px;height:16px;color:var(--muted);fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;pointer-events:none}
+  #exinfo .exsearch input{width:100%;border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:999px;padding:11px 40px 11px 38px;font-size:14px;font-family:inherit;box-shadow:var(--shadow);transition:border-color .2s var(--ease)}
+  #exinfo .exsearch input:focus{outline:none;border-color:var(--accent)}
+  #exinfo .exclear{position:absolute;right:6px;top:50%;transform:translateY(-50%);border:0;background:transparent;color:var(--muted);cursor:pointer;font-size:18px;line-height:1;padding:6px 10px;border-radius:999px;display:none}
+  #exinfo .exsearch.has .exclear{display:block}
+  #exinfo .exclear:hover{color:var(--ink)}
+  #exinfo mark{background:var(--accent-soft);color:var(--accent-ink);border-radius:3px;padding:0 2px}
   #exinfo .exempty{grid-column:1/-1;text-align:center;color:var(--muted);font-size:13.5px;padding:10px 0}
   #exinfo .calc{border:1px solid var(--line);background:var(--card);border-radius:var(--r-lg);padding:22px;box-shadow:var(--shadow);margin-bottom:16px}
+  #exinfo .calcgrid{display:grid;gap:16px;grid-template-columns:1fr}
+  @media(min-width:1200px){#exinfo .calcgrid{grid-template-columns:1fr 1fr;width:1120px;margin-left:-138px;align-items:start}#exinfo .calcgrid .calc{margin-bottom:0}}
   #exinfo .calctitle{display:flex;align-items:center;gap:8px;justify-content:center;font-weight:700;font-size:15.5px;margin-bottom:4px}
   #exinfo .calctitle svg{width:19px;height:19px;color:var(--accent-ink);fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
   #exinfo .calcsub{text-align:center;color:var(--muted);font-size:13px;line-height:1.55;margin:0 auto 16px;max-width:460px}
@@ -416,7 +438,7 @@
   #exinfo .exnote .nb svg{width:21px;height:21px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
   #exinfo .exnote div{font-size:12.5px;line-height:1.6;color:var(--accent-ink)}
   </style>
-  <div id="exinfo">
+  <div id="exinfo" style="scroll-margin-top:78px">
     <div class="seclabel"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 10v6"/><path d="M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>Examen-info</div>
     <p class="exlead">De vragen die elk jaar terugkomen, rustig op een rij. Bij elk antwoord staat de officiele VUB-bron, zodat je het zelf kan nalezen.</p>
     <div class="exverif">
@@ -433,6 +455,7 @@
       <button class="excat" data-cat="inzage" type="button">Inzage &amp; beroep</button>
     </div>
 
+    <div class="exsearch" id="exsearch"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg><input type="search" id="exq" placeholder="Zoek een vraag, bv. herexamen of deliberatie" autocomplete="off" aria-label="Zoek in de vragen"><button class="exclear" id="exqclear" type="button" aria-label="Zoekopdracht wissen">&times;</button></div>
     <div class="exfaq" id="exfaq">
       <!-- ===== Deliberatie en tolerantie ===== -->
       <div class="qcard" data-cat="delib">
@@ -578,19 +601,76 @@
     </div>
     <script>
     (function(){
-      var cats=document.getElementById('excats'); if(!cats) return;
+      var cats=document.getElementById('excats');
       var faq=document.getElementById('exfaq');
+      if(!faq) return;
       var cards=[].slice.call(faq.querySelectorAll('.qcard'));
-      var btns=[].slice.call(cats.querySelectorAll('.excat'));
-      cats.addEventListener('click',function(e){
-        var b=e.target.closest('.excat'); if(!b) return;
-        var cat=b.getAttribute('data-cat');
-        btns.forEach(function(x){x.classList.toggle('on',x===b);});
-        cards.forEach(function(c){
-          var show=(cat==='all'||c.getAttribute('data-cat')===cat);
-          c.classList.toggle('exhide',!show);
+      var btns=cats?[].slice.call(cats.querySelectorAll('.excat')):[];
+      var q=document.getElementById('exq');
+      var wrap=document.getElementById('exsearch');
+      var clr=document.getElementById('exqclear');
+      var cat='all';
+
+      // elke kaart omvormen tot uitklapbare vraag
+      var CHEV='<svg class="qchev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>';
+      cards.forEach(function(c,i){
+        var b=c.querySelector('b'); if(!b) return;
+        var rest=[].slice.call(c.children).filter(function(el){return el!==b;});
+        var body=document.createElement('div'); body.className='qbody';
+        var inner=document.createElement('div');
+        rest.forEach(function(el){inner.appendChild(el);});
+        body.appendChild(inner); c.appendChild(body);
+        b.innerHTML='<span class="qt">'+b.innerHTML+'</span>'+CHEV;
+        c.setAttribute('role','button'); c.setAttribute('tabindex','0');
+        c.setAttribute('aria-expanded','false');
+        c.dataset.tekst=(c.textContent||'').toLowerCase();
+        function toggle(force){
+          var open=(typeof force==='boolean')?force:!c.classList.contains('open');
+          c.classList.toggle('open',open);
+          c.setAttribute('aria-expanded',open?'true':'false');
+          body.style.maxHeight=open?(body.scrollHeight+40)+'px':'0px';
+        }
+        c.zetOpen=toggle;
+        c.addEventListener('click',function(e){
+          if(e.target.closest('a')) return;
+          toggle();
+        });
+        c.addEventListener('keydown',function(e){
+          if(e.key==='Enter'||e.key===' '){e.preventDefault();toggle();}
         });
       });
+
+      function pas(){
+        var term=(q&&q.value||'').trim().toLowerCase();
+        if(wrap) wrap.classList.toggle('has',!!term);
+        var zichtbaar=0;
+        cards.forEach(function(c){
+          var okCat=(cat==='all'||c.getAttribute('data-cat')===cat);
+          var okTerm=(!term||c.dataset.tekst.indexOf(term)>-1);
+          var toon=okCat&&okTerm;
+          c.classList.toggle('exhide',!toon);
+          if(toon)zichtbaar++;
+          // bij zoeken meteen openklappen, anders weer dicht
+          if(c.zetOpen){ if(term&&toon) c.zetOpen(true); else if(!term) c.zetOpen(false); }
+        });
+        var leeg=document.getElementById('exleeg');
+        if(!leeg){
+          leeg=document.createElement('div'); leeg.id='exleeg'; leeg.className='exempty';
+          faq.appendChild(leeg);
+        }
+        leeg.textContent=zichtbaar?'':'Geen vraag gevonden. Probeer een ander woord, of stel je vraag hieronder.';
+        leeg.style.display=zichtbaar?'none':'block';
+      }
+
+      if(cats) cats.addEventListener('click',function(e){
+        var b=e.target.closest('.excat'); if(!b) return;
+        cat=b.getAttribute('data-cat');
+        btns.forEach(function(x){x.classList.toggle('on',x===b);});
+        pas();
+      });
+      if(q) q.addEventListener('input',pas);
+      if(clr) clr.addEventListener('click',function(){ if(q){q.value='';q.focus();} pas(); });
+      pas();
     })();
     </script>
 
@@ -625,6 +705,7 @@
 
     <div class="seclabel" id="reken" style="margin-top:30px;scroll-margin-top:78px"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="2" width="16" height="20" rx="2"/><path d="M8 6h8M8 10h8M8 14h2M8 18h2"/></svg>Reken je punten uit</div>
 
+    <div class="calcgrid">
     <div class="calc c1">
       <div class="calctitle"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="2" width="16" height="20" rx="2"/><path d="M8 6h8M16 14v4M12 14v4M8 14v4"/></svg>Cijfer voor een vak</div>
       <p class="calcsub">Vul je deelcijfers en hun gewicht in. Het gewicht per deel staat in de vakfiche op Canvas.</p>
@@ -660,6 +741,7 @@
         <div class="rule" id="ex2r4"></div>
         <div class="rule" id="ex2r5"></div>
       </div>
+    </div>
     </div>
 
     <div class="exnote">
@@ -934,7 +1016,7 @@
 
   function renderYears(){
     onYears=true;
-    var html='<div class="seclabel">'+ic("sparkles")+'In welk jaar zit je?</div><div class="years">';
+    var html='<div class="seclabel" id="vakken" style="scroll-margin-top:78px">'+ic("sparkles")+'In welk jaar zit je?</div><div class="years">';
     DATA.forEach(function(yr,i){
       var ready=count(yr.subjects), total=yr.subjects.length;
       var sub = total===0 ? 'Binnenkort, in de maak'
