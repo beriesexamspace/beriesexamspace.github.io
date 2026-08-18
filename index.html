@@ -203,18 +203,6 @@
   .aboutcontact a{color:var(--accent-ink);font-weight:600}
   @media(max-width:560px){.aboutcard{flex-direction:column;gap:16px;padding:20px}.aboutpfp{width:64px;height:64px;font-size:30px;border-radius:18px}}
 
-  /* reviews */
-  .reviews{display:grid;gap:14px;grid-template-columns:1fr}
-  @media(min-width:600px){.reviews{grid-template-columns:1fr 1fr}}
-  .rcard{border:1px solid var(--line);background:var(--card);border-radius:var(--r-lg);padding:18px 20px;box-shadow:var(--shadow)}
-  .rcard .stars{color:var(--amber);font-size:14px;letter-spacing:2px;margin-bottom:8px}
-  .rcard p{margin:0 0 10px;line-height:1.55;color:var(--ink);font-size:14.5px}
-  .rcard .who{color:var(--muted);font-size:13px;font-weight:600}
-  .revempty{grid-column:1/-1;text-align:center;color:var(--muted);font-size:14px;line-height:1.6;
-    border:2px dashed var(--line);border-radius:var(--r-lg);padding:26px 20px}
-  .reviewcta{text-align:center;color:var(--muted);font-size:14px;margin-top:16px}
-  .reviewcta b{color:var(--accent-ink)}
-
   /* Wat is nieuw */
   .news{display:flex;flex-direction:column;gap:10px}
   .newsitem{display:flex;align-items:flex-start;gap:12px;border:1px solid var(--line);background:var(--card);
@@ -683,18 +671,6 @@
     #exinfo .qask-done b{display:block;font-size:16px;margin-top:6px}
     #exinfo .qask-done small{color:var(--muted);font-size:13px}
     </style>
-    <div class="qask" id="qask">
-      <div class="qask-head">
-        <span class="qask-ic"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M9.1 9a3 3 0 0 1 5.8 1c0 2-3 3-3 3"/><path d="M12 17h.01"/></svg></span>
-        <div><b>Zit je met een andere vraag?</b><small>Stel ze hier. Berie leest elke vraag, beantwoordt ze en de meest gestelde komen erbij.</small></div>
-      </div>
-      <textarea id="qaMsg" placeholder="Typ je vraag, bijvoorbeeld: hoe werkt de tweede zit voor een vak met een groepstaak?"></textarea>
-      <input id="qaEmail" type="email" placeholder="Je e-mail (optioneel, als je een antwoord wil)">
-      <div class="qask-row">
-        <button class="btn" id="qaSend" type="button">Verstuur vraag</button>
-        <span id="qaStatus"></span>
-      </div>
-    </div>
 
     <div class="seclabel" id="reken" style="margin-top:30px;scroll-margin-top:78px"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="2" width="16" height="20" rx="2"/><path d="M8 6h8M8 10h8M8 14h2M8 18h2"/></svg>Reken je punten uit</div>
 
@@ -740,6 +716,19 @@
     <div class="exnote">
       <span class="nb"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></svg></span>
       <div>De regels zijn geverifieerd op het VUB OER 2025-2026 (Art. 139 en 143). Dit is een hulpmiddel en een indicatie voor een gewoon jaar zonder vrijstellingen of stagevakken. De examencommissie beslist. Check bij twijfel het OER of je studietrajectbegeleider.</div>
+    </div>
+
+    <div class="qask" id="qask">
+      <div class="qask-head">
+        <span class="qask-ic"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M9.1 9a3 3 0 0 1 5.8 1c0 2-3 3-3 3"/><path d="M12 17h.01"/></svg></span>
+        <div><b>Zit je met een andere vraag?</b><small>Stel ze hier. Berie leest elke vraag, beantwoordt ze en de meest gestelde komen erbij.</small></div>
+      </div>
+      <textarea id="qaMsg" placeholder="Typ je vraag, bijvoorbeeld: hoe werkt de tweede zit voor een vak met een groepstaak?"></textarea>
+      <input id="qaEmail" type="email" placeholder="Je e-mail (optioneel, als je een antwoord wil)">
+      <div class="qask-row">
+        <button class="btn" id="qaSend" type="button">Verstuur vraag</button>
+        <span id="qaStatus"></span>
+      </div>
     </div>
   </div>
 
@@ -903,16 +892,6 @@
       <p class="aboutcontact">Je kan me ook altijd bereiken via <a href="mailto:berat007yildirim@gmail.com">berat007yildirim@gmail.com</a> of Instagram <a href="https://instagram.com/berie.yldrm" target="_blank" rel="noopener">@berie.yldrm</a>. Staat jouw vak er nog niet op? Stuur je samenvattingen, dan maak ik er oefenstof van.</p>
     </div>
   </div>
-</section>
-
-<section id="reviews" class="wrap" style="padding-top:8px">
-  <div class="seclabel"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>Wat studenten zeggen</div>
-  <div class="reviews">
-    <div class="rcard"><div class="stars">★★★★★</div><p>"Ik vind het heel goed! Net te laat ontdekt voor mijn MBG-examen, maar het had me echt geholpen. En ook mooi gemaakt!"</p><div class="who">· student 1ste bach psychologie</div></div>
-    <div class="rcard"><div class="stars">★★★★★</div><p>"Het is echt een heel fijn initiatief. Heel erg bedankt voor de tijd en inzet!"</p><div class="who">· student psychologie</div></div>
-    <div class="rcard"><div class="stars">★★★★★</div><p>"Bedankt voor het initiatief van deze website, het helpt echt enorm veel!"</p><div class="who">· student 1ste bach</div></div>
-  </div>
-  <p class="reviewcta">Zelf iets kwijt? Laat een review achter via de <b>Feedback</b>-knop in een oefentool. De mooiste zet ik hier.</p>
 </section>
 
 <footer class="wrap" style="padding-top:0">Gemaakt om mee te oefenen, veel succes!<br><span style="opacity:.7">© 2026 Berie’s exam space · Alle rechten voorbehouden</span></footer>
