@@ -372,14 +372,8 @@
   #exinfo .excat:active{transform:scale(.96)}
   #exinfo .excat.on{background:var(--accent);color:#fff;border-color:var(--accent)}
   #exinfo .qcard.exhide{display:none}
-  /* accordeon: antwoord staat dicht tot je op de vraag klikt */
-  #exinfo .qcard{cursor:pointer}
-  #exinfo .qcard>b{display:flex;align-items:flex-start;gap:9px;justify-content:space-between}
-  #exinfo .qchev{flex:none;width:16px;height:16px;margin-top:2px;color:var(--muted);transition:transform .22s var(--ease)}
-  #exinfo .qcard.open .qchev{transform:rotate(180deg);color:var(--accent-ink)}
-  #exinfo .qbody{max-height:0;overflow:hidden;opacity:0;transition:max-height .28s var(--ease),opacity .2s var(--ease)}
-  #exinfo .qcard.open .qbody{opacity:1}
-  #exinfo .qbody>div{display:flex;flex-direction:column;gap:6px;padding-top:8px}
+  /* antwoord staat altijd zichtbaar onder de vraag */
+  #exinfo .qbody>div{display:flex;flex-direction:column;gap:6px;padding-top:6px}
   #exinfo .qcard.open{border-color:var(--accent)}
   /* zoekbalk */
   #exinfo .exsearch{position:relative;max-width:420px;margin:0 auto 16px}
@@ -611,33 +605,9 @@
       var clr=document.getElementById('exqclear');
       var cat='all';
 
-      // elke kaart omvormen tot uitklapbare vraag
-      var CHEV='<svg class="qchev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>';
-      cards.forEach(function(c,i){
-        var b=c.querySelector('b'); if(!b) return;
-        var rest=[].slice.call(c.children).filter(function(el){return el!==b;});
-        var body=document.createElement('div'); body.className='qbody';
-        var inner=document.createElement('div');
-        rest.forEach(function(el){inner.appendChild(el);});
-        body.appendChild(inner); c.appendChild(body);
-        b.innerHTML='<span class="qt">'+b.innerHTML+'</span>'+CHEV;
-        c.setAttribute('role','button'); c.setAttribute('tabindex','0');
-        c.setAttribute('aria-expanded','false');
+      // zoektekst per kaart klaarzetten (antwoord blijft gewoon zichtbaar)
+      cards.forEach(function(c){
         c.dataset.tekst=(c.textContent||'').toLowerCase();
-        function toggle(force){
-          var open=(typeof force==='boolean')?force:!c.classList.contains('open');
-          c.classList.toggle('open',open);
-          c.setAttribute('aria-expanded',open?'true':'false');
-          body.style.maxHeight=open?(body.scrollHeight+40)+'px':'0px';
-        }
-        c.zetOpen=toggle;
-        c.addEventListener('click',function(e){
-          if(e.target.closest('a')) return;
-          toggle();
-        });
-        c.addEventListener('keydown',function(e){
-          if(e.key==='Enter'||e.key===' '){e.preventDefault();toggle();}
-        });
       });
 
       function pas(){
@@ -651,7 +621,6 @@
           c.classList.toggle('exhide',!toon);
           if(toon)zichtbaar++;
           // bij zoeken meteen openklappen, anders weer dicht
-          if(c.zetOpen){ if(term&&toon) c.zetOpen(true); else if(!term) c.zetOpen(false); }
         });
         var leeg=document.getElementById('exleeg');
         if(!leeg){
