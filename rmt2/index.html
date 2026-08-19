@@ -376,13 +376,13 @@ window.RMT2 = {"questions":[{"t":"1","q":"Wat vat de theorie-data cyclus het bes
         Object.keys(TOPICS).map(function(k){return '<button class="chip'+(s.topics[k]?" on":"")+'" data-tp="'+k+'">'+esc(TOPICS[k])+'</button>';}).join("")+'</div>'+
       '<label class="fld">Aantal vragen</label><div class="chips" id="cnt">'+
         [10,15,20,999].map(function(n){return '<button class="chip'+(s.count===n?" on":"")+'" data-n="'+n+'">'+(n===999?"Alle":n)+'</button>';}).join("")+'</div>'+
-      '<label class="fld"><input type="checkbox" id="shuf" '+(s.shuffle?"checked":"")+'> Willekeurige volgorde</label>'+
+      '<label class="fld">Volgorde van de vragen</label><div class="chips" id="ord">'+'<button class="chip'+(s.shuffle?" on":"")+'" data-sh="1">Door elkaar</button>'+'<button class="chip'+(s.shuffle?"":" on")+'" data-sh="0">Op volgorde</button>'+'</div>'+
       '<div class="row" style="margin-top:18px"><button class="btn" id="startQ">Start '+ic("arrowR")+'</button><span class="muted" id="poolN"></span></div></div>';
     setHTML(html);
     function refresh(){ var n=pool().length; document.getElementById("poolN").textContent=n+" vragen beschikbaar"; document.getElementById("startQ").disabled=n===0; }
     [].slice.call(document.querySelectorAll("#tps .chip")).forEach(function(b){ b.onclick=function(){ s.topics[b.dataset.tp]=!s.topics[b.dataset.tp]; b.classList.toggle("on"); refresh(); }; });
     [].slice.call(document.querySelectorAll("#cnt .chip")).forEach(function(b){ b.onclick=function(){ s.count=+b.dataset.n; renderQuizGate(); }; });
-    document.getElementById("shuf").onchange=function(e){ s.shuffle=e.target.checked; };
+    [].slice.call(document.querySelectorAll("#ord .chip")).forEach(function(b){ b.onclick=function(){ s.shuffle=b.dataset.sh==="1"; [].slice.call(document.querySelectorAll("#ord .chip")).forEach(function(x){x.classList.toggle("on",x===b);}); }; });
     document.getElementById("startQ").onclick=function(){ var p=pool(); if(s.shuffle)p=shuffle(p); if(s.count<p.length)p=p.slice(0,s.count); startQuiz(p); };
     refresh();
   }
