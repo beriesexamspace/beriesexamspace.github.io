@@ -387,23 +387,23 @@ window.SP2 = {"questions":[{"t":"1","q":"Wat bedoelt Darwin met de 'fitness' van
     refresh();
   }
 
-  function startQuiz(items){ bump("berat-socpsy2", state.track==="herkansing"?"herkansing":"training"); state.quiz={items:items.map(function(q){return {q:q,opts:shuffle(q.o.map(function(t,i){return {text:t,ok:i===q.a};}))};}), idx:0, answered:false, picked:-1, correct:0, wrong:[], done:false}; renderQuiz(); }
+  function startQuiz(items){ bump("berat-socpsy2", state.track==="herkansing"?"herkansing":"training"); state.quiz={items:items.map(function(q){return {q:q,opts:shuffle(q.o.map(function(t,i){return {text:t,ok:i===q.a};}))};}), picks:[], idx:0, answered:false, picked:-1, correct:0, wrong:[], done:false}; renderQuiz(); }
 
   function renderQuiz(){
     var Q=state.quiz; if(Q.done) return renderResult();
-    var cur=Q.items[Q.idx], q=cur.q;
+    var cur=Q.items[Q.idx], q=cur.q; if(!Q.picks)Q.picks=[]; if(Q.picks[Q.idx]!=null){Q.answered=true;Q.picked=Q.picks[Q.idx];}else{Q.answered=false;Q.picked=-1;}
     var html='<button class="backlink" id="backBtn">'+ic("back")+'Terug</button>'+
       '<div class="card pad">'+
       '<div class="runtop"><span class="pill">'+esc(TOPICS[q.t])+'</span><div class="bar"><i data-w="'+pct(Q.idx,Q.items.length)+'"></i></div><span>'+(Q.idx+1)+'/'+Q.items.length+'</span></div>'+
       '<div class="qtext">'+esc(q.q)+'</div>'+
       '<div id="opts">'+cur.opts.map(function(o,i){return '<button class="opt" data-i="'+i+'" style="--oi:'+(i*55)+'ms"><span class="k">'+String.fromCharCode(65+i)+'</span><span>'+esc(o.text)+'</span></button>';}).join("")+'</div>'+
       '<div id="fb"></div>'+
-      '<div class="row" style="justify-content:space-between;margin-top:6px"><span class="muted" style="font-size:12px">Toets <span class="kbd">A–D</span> · <span class="kbd">Enter</span> = volgende</span><button class="btn hide" id="nextBtn">Volgende '+ic("arrowR")+'</button></div></div>';
+      '<div class="row" style="justify-content:space-between;margin-top:6px"><div class="row" style="gap:10px;align-items:center">'+(Q.idx>0?'<button class="btn ghost" id="prevBtn">'+ic("back")+'Vorige</button>':'')+'<span class="muted" style="font-size:12px">Toets <span class="kbd">A–D</span> · <span class="kbd">Enter</span> = volgende</span></div><button class="btn hide" id="nextBtn">Volgende '+ic("arrowR")+'</button></div></div>';
     setHTML(html);
     var i2=document.querySelector(".bar>i"); requestAnimationFrame(function(){ if(i2) i2.style.width=i2.getAttribute("data-w")+"%"; });
     document.getElementById("backBtn").onclick=function(){ state.quiz=null; renderQuizGate(); };
     var optBtns=[].slice.call(document.querySelectorAll("#opts .opt"));
-    var nb=document.getElementById("nextBtn"); nb.onclick=next;
+    var nb=document.getElementById("nextBtn"); nb.onclick=next; var pb=document.getElementById("prevBtn"); if(pb)pb.onclick=function(){ if(Q.idx>0){ Q.idx--; renderQuiz(); } };
     function showAnswered(i){
       optBtns.forEach(function(b){ var bi=+b.dataset.i; b.disabled=true; if(cur.opts[bi].ok)b.classList.add("correct"); else if(bi===i)b.classList.add("wrong"); });
       var ok=cur.opts[i].ok, fb=document.getElementById("fb"); fb.className="feedback "+(ok?"ok":"no");
@@ -412,7 +412,7 @@ window.SP2 = {"questions":[{"t":"1","q":"Wat bedoelt Darwin met de 'fitness' van
       var w=document.createElement("div"); w.innerHTML='<div class="whybox"><h4>'+ic("sparkles")+'Waarom?</h4>'+esc(q.u)+'</div>'; fb.appendChild(w);
       nb.classList.remove("hide"); nb.innerHTML=(Q.idx+1>=Q.items.length)?"Bekijk resultaat "+ic("arrowR"):"Volgende "+ic("arrowR");
     }
-    function pick(i){ if(Q.answered)return; Q.answered=true; Q.picked=i; var ok=cur.opts[i].ok; if(ok)Q.correct++; else Q.wrong.push(q); recordProg(q.id, ok); showAnswered(i); nb.focus(); }
+    function pick(i){ if(Q.answered)return; Q.answered=true; Q.picked=i; Q.picks[Q.idx]=i; var ok=cur.opts[i].ok; if(ok)Q.correct++; else Q.wrong.push(q); recordProg(q.id, ok); showAnswered(i); nb.focus(); }
     optBtns.forEach(function(b){ b.onclick=function(){ pick(+b.dataset.i); }; });
     function next(){ if(!Q.answered)return; Q.idx++; Q.answered=false; Q.picked=-1; if(Q.idx>=Q.items.length)Q.done=true; renderQuiz(); }
     if(Q.answered) showAnswered(Q.picked);
