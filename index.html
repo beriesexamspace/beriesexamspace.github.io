@@ -447,7 +447,7 @@
       <button class="iconbtn addbtn" id="ex2Add" type="button"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>Vak toevoegen</button>
       <div class="metrics">
         <div class="metric"><div class="ml">Gewogen gemiddelde</div><div class="mv"><span id="ex2Avg">--</span><small> /20</small></div></div>
-        <div class="metric"><div class="ml">In percentage</div><div class="mv"><span id="ex2Pct">--</span><small> %</small></div><div class="mh">drempel deliberatie: 55%</div></div>
+        <div class="metric"><div class="ml">In percentage</div><div class="mv"><span id="ex2Pct">--</span><small> %</small></div><div class="mh">drempel deliberatie: 55%</div></div><div class="metric"><div class="ml">Graad van verdienste</div><div class="mv" style="font-size:19px"><span id="ex2Graad">--</span></div><div class="mh" id="ex2GraadH">vanaf 68% onderscheiding</div></div>
       </div>
       <div class="verdict" id="ex2Verdict" style="border-color:var(--line);background:var(--bg2)">
         <span class="vbox" id="ex2VIc" style="background:var(--line)"></span>
@@ -789,11 +789,19 @@
           '<span class="rlbl">'+label+'</span>'+
           '<span class="rdet" style="color:'+col+';background:'+bg+'">'+detail+'</span>';
       }
+      function graadVan(p){
+        var r=Math.round(p);
+        if(r>=85) return {n:'grootste onderscheiding', h:'85% of meer', kleur:'var(--good)'};
+        if(r>=77) return {n:'grote onderscheiding', h:'vanaf 77%', kleur:'var(--good)'};
+        if(r>=68) return {n:'onderscheiding', h:'vanaf 68%', kleur:'var(--good)'};
+        if(r>=50) return {n:'voldoening', h:'onder 68%', kleur:'var(--ink)'};
+        return {n:'nog niet geslaagd', h:'je hebt minstens 50% nodig', kleur:'var(--muted)'};
+      }
       function calc(){
         var rows=box.querySelectorAll('.crow'), ssp=0, scs=0, items=[];
         rows.forEach(function(x){ var c=parseFloat(x.querySelector('.v-cij').value); var s=parseFloat(x.querySelector('.v-sp').value); if(!isNaN(c)&&!isNaN(s)&&s>0){ ssp+=s; scs+=c*s; items.push({c:c,s:s}); } });
         var av=el('ex2Avg'), pc=el('ex2Pct');
-        if(ssp<=0){ av.textContent='--'; pc.textContent='--';
+        if(ssp<=0){ av.textContent='--'; pc.textContent='--'; var g0=el('ex2Graad'); if(g0){ g0.textContent='--'; g0.style.color='var(--muted)'; el('ex2GraadH').textContent='vanaf 68% onderscheiding'; }
           var nb=el('ex2Verdict'),ni=el('ex2VIc'),nt=el('ex2VTitle'),ns=el('ex2VSub');
           nb.style.borderColor='var(--line)'; nb.style.background='var(--bg2)'; ni.style.background='var(--line)'; ni.innerHTML='';
           nt.style.color='var(--muted)'; nt.textContent='Vul je vakken in om te beginnen'; ns.textContent='Je ziet hier meteen of je aan de deliberatievoorwaarden voldoet.';
@@ -802,6 +810,7 @@
           return;
         }
         var avg=scs/ssp, pct=avg/20*100; av.textContent=fmt(avg,1); pc.textContent=Math.round(pct);
+        var gd=graadVan(pct), ge=el('ex2Graad'); if(ge){ ge.textContent=gd.n; ge.style.color=gd.kleur; el('ex2GraadH').textContent=gd.h; }
         var tek=items.filter(function(i){return i.c<10;});
         var on8=items.filter(function(i){return i.c<8;});
         var pt=tek.reduce(function(a,i){return a+(10-i.c);},0);
