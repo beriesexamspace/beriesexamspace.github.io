@@ -75,6 +75,7 @@
     box-shadow:0 14px 38px rgba(15,110,106,.42)}
   .hero h1{font-size:46px;margin:0 0 10px;line-height:1.05}
   .hero p.sub{max-width:560px;margin:0 auto;color:var(--muted);font-size:17px}
+  .hero p.motto{margin:11px auto 0;font-family:Georgia,serif;font-style:italic;font-size:15px;letter-spacing:.07em;color:var(--accent-ink);opacity:.8}
   .statpill{display:inline-flex;align-items:center;gap:9px;margin-top:20px;padding:9px 18px;border-radius:999px;
     border:1px solid var(--line);background:var(--card);font-size:14px;color:var(--muted);box-shadow:var(--shadow)}
   .statpill .dot{width:9px;height:9px;border-radius:50%;background:var(--good);box-shadow:0 0 0 3px var(--good-soft)}
@@ -310,7 +311,8 @@
   <div class="hero">
     <div class="heromark"><div class="hl">B</div></div>
     <h1>Berie’s exam space</h1>
-    <p class="sub">Oefen slim voor je examen. Kies je jaar, daarna je vak, met directe feedback en uitleg bij elke vraag.</p>
+    <p class="sub">Leer goed voor je examen.</p>
+    <p class="motto">Sic Parvis Magna</p>
     <div class="statpill"><span class="dot"></span><span>Wordt al gebruikt door <b id="statN">489</b> studenten</span></div>
   </div>
 
@@ -332,6 +334,10 @@
   <div class="seclabel" id="nieuw" style="margin-top:34px;scroll-margin-top:78px"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9.94 15.5A2 2 0 0 0 8.5 14.06l-6.14-1.58a.5.5 0 0 1 0-.96L8.5 9.94A2 2 0 0 0 9.94 8.5l1.58-6.14a.5.5 0 0 1 .96 0L14.06 8.5A2 2 0 0 0 15.5 9.94l6.14 1.58a.5.5 0 0 1 0 .96L15.5 14.06a2 2 0 0 0-1.44 1.44l-1.58 6.14a.5.5 0 0 1-.96 0z"/></svg>Wat is nieuw</div>
   <div class="news">
     <!-- Nieuwe update? Kopieer een blok en zet 'm bovenaan. Haal de "Nieuw"-badge weg als het niet meer nieuw is. -->
+    <div class="newsitem"><span class="nd"></span><span class="ntxt"><b>Sociologie: examenreconstructies toegevoegd</b><small>51 vragen uit vier echte examens, opgeschreven door studenten. Sociologie gaat van 112 naar 163 vragen.</small></span><span class="nbadge">Nieuw</span></div>
+    <div class="newsitem"><span class="nd"></span><span class="ntxt"><b>Statistiek I staat online</b><small>90 oefenvragen over 9 hoofdstukken. Daarmee is het 1ste bachelorjaar compleet: 11 van 11 vakken.</small></span><span class="nbadge">Nieuw</span></div>
+    <div class="newsitem"><span class="nd"></span><span class="ntxt"><b>Pedagogische wetenschappen uitgebreid</b><small>Van 77 naar 127 vragen, waarvan 50 uit een echte examenreconstructie.</small></span><span class="nbadge">Nieuw</span></div>
+    <div class="newsitem"><span class="nd"></span><span class="ntxt"><b>Terug naar de vorige vraag</b><small>In elk vak kan je nu terugbladeren om de uitleg te herlezen. En bij Reken je punten zie je meteen je graad van verdienste.</small></span></div>
     <div class="newsitem"><span class="nd"></span><span class="ntxt"><b>Orthopedagogiek staat online</b><small>122 examenvragen mét antwoorden · 2de bachelor. Het eerste vak voor het 2de jaar!</small></span><span class="nbadge">Nieuw</span></div>
     <div class="newsitem"><span class="nd"></span><span class="ntxt"><b>Ontwikkelingspsychologie toegevoegd</b><small>84 oefenvragen over de hele levensloop · 1ste bachelor.</small></span><span class="nbadge">Nieuw</span></div>
     <div class="newsitem"><span class="nd"></span><span class="ntxt"><b>Sociale Psychologie &amp; Sociologie</b><small>Eerder toegevoegd voor 1ste bachelor, met directe feedback en uitleg.</small></span></div>
@@ -959,7 +965,7 @@
       {n:"Ontwikkelingspsychologie", desc:"84 oefenvragen over de levensloop, met uitleg.", url:BASE+"ontwikkeling/"},
       {n:"Philosophy of Science", desc:"50 oefenvragen per hoofdstuk, met uitleg.", url:BASE+"logica/"},
       {n:"Menselijke biologie en genetica", desc:"De biologische basis van gedrag.", url:BASE+"mbg/"},
-      {n:"Sociologie I", desc:"112 examenvragen, H1–H16, met directe feedback.", url:BASE+"sociologie/"},
+      {n:"Sociologie I", desc:"163 vragen, waarvan 51 uit examenreconstructies.", url:BASE+"sociologie/"},
       {n:"Onderzoeksmethoden en -technieken I: psychometrie", desc:"42 oefenvragen per hoofdstuk, met uitleg.", url:BASE+"omt1/"},
       {n:"Sociale psychologie I: sociale cognitie", desc:"70 oefenvragen, H1–H7, met uitleg.", url:BASE+"socpsy/"},
       {n:"Algemene psychologie", desc:"82 oefenvragen per hoofdstuk, met uitleg.", url:BASE+"algpsy/"},
