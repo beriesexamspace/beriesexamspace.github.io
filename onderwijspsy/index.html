@@ -231,6 +231,21 @@ window.OW = {"questions":[{"t":"1","q":"Wat is het onderscheid tussen algemene l
   .chrow .chval{flex:0 0 auto;font-size:12.5px;color:var(--muted);min-width:40px;text-align:right;font-variant-numeric:tabular-nums}
   .chrow .ic.caret{width:16px;height:16px;color:var(--muted);flex:0 0 auto}
   @media(max-width:560px){.chrow .chname{width:auto;flex:1 1 auto;min-width:0}.chrow .chbar{flex:0 0 64px}}
+/* ===== gedeelde interactie-verbeteringen (fixronde augustus 2026) ===== */
+@media (prefers-reduced-motion: no-preference){
+  @keyframes bes-klik{0%{transform:scale(1)}38%{transform:scale(.955)}100%{transform:scale(1)}}
+  .bes-klik{animation:bes-klik .2s cubic-bezier(.22,.61,.36,1)}
+  @keyframes bes-in{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+  .bes-in{animation:bes-in .22s cubic-bezier(.22,.61,.36,1) both}
+}
+.acc>.body{display:grid;grid-template-rows:1fr;opacity:1;overflow:hidden;transition:grid-template-rows .25s cubic-bezier(.22,.61,.36,1),opacity .2s cubic-bezier(.22,.61,.36,1),padding .25s cubic-bezier(.22,.61,.36,1)}
+.acc>.body>*{min-height:0}
+.bes-wrap{min-height:0}
+.acc:not([open])>.body,.acc.bes-dicht>.body,.acc.bes-open>.body{grid-template-rows:0fr;opacity:0;padding-top:0;padding-bottom:0}
+.fbextra{display:grid;gap:0 14px}
+.fbextra .fld{margin-top:10px}
+@media(min-width:620px){.fbextra{grid-template-columns:1fr 1fr}.fbextra .fbwaar{grid-column:1 / -1}}
+
 </style>
 <script>
 (function(){
@@ -293,7 +308,7 @@ window.OW = {"questions":[{"t":"1","q":"Wat is het onderscheid tussen algemene l
   function go(v){ state.view=v; tabBtns.forEach(function(b){b.classList.toggle("on",b.dataset.view===v);}); render(); window.scrollTo(0,0); }
 
   var state={view:"home", step:"track", track:lget("onderwijs_track","training"), quiz:null, sel:{topics:{"1":true,"2":true,"3":true,"4":true,"5":true,"6":true,"7":true,"8":true,"9":true,"10":true,"11":true}, count:15, shuffle:true}, sumq:""};
-  function setHTML(h){ app.innerHTML=h; }
+  function setHTML(h){ app.innerHTML=h; try{ app.classList.remove("bes-in"); void app.offsetWidth; app.classList.add("bes-in"); }catch(e){} }
 
   function render(){
     if(state.view==="home") return renderHome();
@@ -370,8 +385,8 @@ window.OW = {"questions":[{"t":"1","q":"Wat is het onderscheid tussen algemene l
     if(state.quiz) return renderQuiz();
     var s=state.sel;
     function pool(){ return D.questions.filter(function(q){return s.topics[q.t];}); }
-    var html='<div class="card pad"><h2 style="margin-top:0">Oefenvragen</h2>'+
-      '<p class="muted">Kies onderwerpen en het aantal vragen. Na elk antwoord krijg je meteen feedback én de uitleg.</p>'+
+    var html='<div class="card pad"><h2 style="text-align:center;margin-top:0">Oefenvragen</h2>'+
+      '<p class="muted" style="text-align:center">Kies onderwerpen en het aantal vragen. Na elk antwoord krijg je meteen feedback én de uitleg.</p>'+
       '<label class="fld">Onderwerpen</label><div class="chips" id="tps">'+
         Object.keys(TOPICS).map(function(k){return '<button class="chip'+(s.topics[k]?" on":"")+'" data-tp="'+k+'">'+esc(TOPICS[k])+'</button>';}).join("")+'</div>'+
       '<label class="fld">Aantal vragen</label><div class="chips" id="cnt">'+
@@ -445,7 +460,7 @@ window.OW = {"questions":[{"t":"1","q":"Wat is het onderscheid tussen algemene l
 
   function renderTheory(){
     var q=state.sumq||"";
-    var html='<div class="card pad" style="margin-bottom:14px"><h2 style="margin:0 0 8px">Theorie en samenvatting</h2>'+
+    var html='<div class="card pad" style="margin-bottom:14px"><h2 style="text-align:center;margin:0 0 8px">Theorie en samenvatting</h2>'+
       '<input type="search" id="sq" placeholder="Zoek een begrip… (bv. dyslexie, dyscalculie, metacognitie)" value="'+esc(q)+'"></div><div id="list">'+theoryList(q)+'</div>';
     setHTML(html);
     var si=document.getElementById("sq"); si.oninput=function(){ state.sumq=si.value; document.getElementById("list").innerHTML=theoryList(si.value); si.focus(); };
@@ -462,18 +477,18 @@ window.OW = {"questions":[{"t":"1","q":"Wat is het onderscheid tussen algemene l
   function hl(t,q){ if(!q)return t; try{ return t.replace(new RegExp("("+q.replace(/[.*+?^${}()|[\]\\]/g,"\\$&")+")","ig"),"<mark>$1</mark>"); }catch(e){ return t; } }
 
   function renderHacks(){
-    var html='<div class="card pad" style="margin-bottom:16px"><h2 style="margin:0 0 6px">Studie-hacks</h2><p class="muted" style="margin:0">Ezelsbruggetjes om de kernideeën van onderwijspsychologie en leerstoornissen te onthouden.</p></div>'+
+    var html='<div class="card pad" style="margin-bottom:16px"><h2 style="text-align:center;margin:0 0 6px">Studie-hacks</h2><p class="muted" style="text-align:center;margin:0">Ezelsbruggetjes om de kernideeën van onderwijspsychologie en leerstoornissen te onthouden.</p></div>'+
       '<div class="tipgrid">'+D.hacks.map(function(t){return '<div class="tip"><h4>'+ic("bulb")+esc(t.h)+'</h4><p>'+esc(t.t)+'</p></div>';}).join("")+'</div>';
     setHTML(html);
   }
 
   function renderFeedback(){
-    var html='<div class="card pad"><h2 style="margin-top:0">Feedback &amp; klachten</h2>'+
-      '<p class="muted">Fout in een vraag, een idee, of werkt iets niet? Laat het hier weten, het komt rechtstreeks bij de maker terecht. Een review of compliment mag ook: de mooiste tonen we op de hub. 💬</p>'+
-      '<label class="fld" for="fbMsg">Je bericht</label><textarea id="fbMsg" rows="5" placeholder="Beschrijf de fout of je idee…"></textarea>'+
-      '<label class="fld" for="fbWaar">Over welke vraag? <span class="muted">(optioneel)</span></label><input type="text" id="fbWaar" placeholder="bv. de vraag over de p-waarde">'+
-      '<label class="fld" for="fbNaam">Je naam <span class="muted">(optioneel)</span></label><input type="text" id="fbNaam" placeholder="zodat we je kunnen bedanken">'+
-      '<label class="fld" for="fbEmail">Je e-mail <span class="muted">(optioneel, als je een antwoord wilt)</span></label><input type="email" id="fbEmail" placeholder="naam@voorbeeld.be">'+
+    var html='<div class="card pad"><h2 style="text-align:center;margin-top:0">Feedback &amp; klachten</h2>'+
+      '<p class="muted" style="text-align:center">Fout in een vraag, een idee, of werkt iets niet? Laat het hier weten, het komt rechtstreeks bij de maker terecht. Een review of compliment mag ook: de mooiste tonen we op de hub. 💬</p>'+
+      '<label class="fld" for="fbMsg">Je bericht</label><textarea id="fbMsg" rows="3" placeholder="Beschrijf de fout of je idee…"></textarea>'+
+      '<div class="fbextra"><div class="fbveld fbwaar"><label class="fld" for="fbWaar">Over welke vraag? <span class="muted">(optioneel)</span></label><input type="text" id="fbWaar" placeholder="bv. de vraag over de p-waarde"></div>'+
+      '<div class="fbveld"><label class="fld" for="fbNaam">Je naam <span class="muted">(optioneel)</span></label><input type="text" id="fbNaam" placeholder="zodat we je kunnen bedanken"></div>'+
+      '<div class="fbveld"><label class="fld" for="fbEmail">Je e-mail <span class="muted">(optioneel, als je een antwoord wilt)</span></label><input type="email" id="fbEmail" placeholder="naam@voorbeeld.be"></div></div>'+
       '<input type="text" id="fbBot" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;opacity:0">'+
       '<div class="row" style="margin-top:16px;align-items:center"><button class="btn" id="fbSend">'+ic("send")+'Versturen</button><span id="fbStatus" style="font-size:13px"></span></div></div>';
     setHTML(html);
@@ -517,6 +532,47 @@ window.OW = {"questions":[{"t":"1","q":"Wat is het onderscheid tussen algemene l
   render();
   // launch-splash netjes laten verdwijnen
   (function(){ var _sp=document.getElementById("splash"); if(!_sp) return; var _red=false; try{_red=window.matchMedia("(prefers-reduced-motion: reduce)").matches;}catch(e){} setTimeout(function(){ _sp.classList.add("hide"); setTimeout(function(){ if(_sp&&_sp.parentNode) _sp.parentNode.removeChild(_sp); }, 700); }, _red?300:1850); })();
+})();
+</script>
+<script>
+/* gedeelde interactie: klik-animatie en zacht openschuivende theorieblokken */
+(function(){
+  // Elk theorieblok krijgt precies een wikkel-element, anders klapt een blok met
+  // meerdere kinderen niet volledig dicht (MBG had er tien).
+  function wikkel(){
+    var lijst=document.querySelectorAll(".acc>.body");
+    for(var i=0;i<lijst.length;i++){
+      var b=lijst[i];
+      if(b.children.length===1 && b.firstElementChild && b.firstElementChild.className==="bes-wrap") continue;
+      var w=document.createElement("div"); w.className="bes-wrap";
+      while(b.firstChild) w.appendChild(b.firstChild);
+      b.appendChild(w);
+    }
+  }
+  var gepland=false;
+  function planWikkel(){ if(gepland)return; gepland=true; setTimeout(function(){ gepland=false; wikkel(); },0); }
+  if(document.readyState==="loading") document.addEventListener("DOMContentLoaded",wikkel); else wikkel();
+  try{ new MutationObserver(planWikkel).observe(document.documentElement,{childList:true,subtree:true}); }catch(e){}
+  var KLIK="button,.btn,.iconbtn,.opt,.track,.chrow,.backlink,.chip,.mode,.toggle,.scard,.ccard,.qcard,.srclink,.bnlink,.navlink,.ycard,.excat,.brandstrip,summary";
+  document.addEventListener("pointerdown",function(e){
+    var el=(e.target&&e.target.closest)?e.target.closest(KLIK):null; if(!el)return;
+    el.classList.remove("bes-klik"); void el.offsetWidth; el.classList.add("bes-klik");
+    setTimeout(function(){ el.classList.remove("bes-klik"); },260);
+  },true);
+  document.addEventListener("click",function(e){
+    var s=(e.target&&e.target.closest)?e.target.closest("details.acc>summary"):null; if(!s)return;
+    var d=s.parentNode; if(!d) return;
+    e.preventDefault();
+    if(d.open){
+      d.classList.add("bes-dicht");
+      setTimeout(function(){ d.open=false; d.classList.remove("bes-dicht"); },250);
+    } else {
+      d.open=true; d.classList.add("bes-open");
+      var los=function(){ d.classList.remove("bes-open"); };
+      requestAnimationFrame(function(){ requestAnimationFrame(los); });
+      setTimeout(los,400);
+    }
+  },false);
 })();
 </script>
 </body>

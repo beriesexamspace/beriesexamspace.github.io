@@ -99,7 +99,7 @@
   .backlink{display:inline-flex;align-items:center;gap:7px;border:1px solid var(--line);background:var(--card);color:var(--accent-ink);font-size:14px;font-weight:700;padding:9px 16px;border-radius:999px;margin:24px 0 18px;box-shadow:var(--shadow);transition:border-color .2s var(--ease),transform .14s var(--ease),box-shadow .2s var(--ease)}
   .backlink:hover{border-color:var(--accent);transform:translateX(-3px);box-shadow:var(--shadow-lg)} .backlink .ic{width:16px;height:16px}
 
-  /* jaarkaarten — netjes 3 gelijke kolommen */
+  /* jaarkaarten: netjes 3 gelijke kolommen */
   .years{display:grid;gap:16px;grid-template-columns:1fr}
   @media(min-width:720px){.years{grid-template-columns:repeat(3,1fr)}}
   .ycard{display:flex;flex-direction:column;gap:9px;text-align:left;width:100%;border:1.5px solid var(--line);
@@ -115,7 +115,7 @@
   .ycard .go{margin-top:auto;padding-top:8px;display:inline-flex;align-items:center;gap:6px;color:var(--accent-ink);font-weight:600;font-size:13.5px}
   .ycard.v .go{color:var(--violet)} .ycard.a .go{color:var(--amber)} .ycard .go .ic{width:16px;height:16px}
 
-  /* vakkaarten — stijl van foto 1 */
+  /* vakkaarten: stijl van foto 1 */
   .subjects{display:grid;gap:16px;grid-template-columns:1fr}
   @media(min-width:600px){.subjects{grid-template-columns:1fr 1fr}}
   .scard{position:relative;display:flex;flex-direction:column;gap:6px;text-align:left;width:100%;text-decoration:none;color:inherit;
@@ -184,7 +184,7 @@
   .ts-go{flex:none;margin-left:22px;color:var(--accent-ink);font-weight:600;font-size:13px;white-space:nowrap}
   @media(max-width:520px){.ts-go{display:none}}
 
-  /* Over mij — wie zit hier achter */
+  /* Over mij: wie zit hier achter */
   .aboutcard{display:flex;gap:20px;align-items:flex-start;border:1px solid var(--line);background:var(--card);
     border-radius:var(--r-lg);padding:24px;box-shadow:var(--shadow)}
   .aboutpfp{flex:none;width:84px;height:84px;border-radius:22px;display:grid;place-items:center;color:#fff;overflow:hidden;
@@ -334,12 +334,15 @@
   <div class="seclabel" id="nieuw" style="margin-top:34px;scroll-margin-top:78px"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9.94 15.5A2 2 0 0 0 8.5 14.06l-6.14-1.58a.5.5 0 0 1 0-.96L8.5 9.94A2 2 0 0 0 9.94 8.5l1.58-6.14a.5.5 0 0 1 .96 0L14.06 8.5A2 2 0 0 0 15.5 9.94l6.14 1.58a.5.5 0 0 1 0 .96L15.5 14.06a2 2 0 0 0-1.44 1.44l-1.58 6.14a.5.5 0 0 1-.96 0z"/></svg>Wat is nieuw</div>
   <div class="news">
     <!-- Nieuwe update? Kopieer een blok en zet 'm bovenaan. Haal de "Nieuw"-badge weg als het niet meer nieuw is. -->
+    <div class="newsitem"><span class="nd"></span><span class="ntxt"><b>Eerlijkere oefenvragen</b><small>Bij veel vragen was het juiste antwoord het langste van de vier, waardoor je kon gokken zonder de leerstof te kennen. In de meeste vakken zijn de antwoorden nu even lang gemaakt, zodat de lengte niets meer verraadt.</small></span><span class="nbadge">Nieuw</span></div>
+    <div class="newsitem"><span class="nd"></span><span class="ntxt"><b>De site voelt rustiger aan</b><small>Elke knop reageert nu op je klik, de theorieblokken schuiven open in plaats van te springen, en het feedbackformulier past weer op je scherm.</small></span><span class="nbadge">Nieuw</span></div>
+    <div class="newsitem"><span class="nd"></span><span class="ntxt"><b>Biologische psychologie I uitgebreid</b><small>Van 72 naar 91 vragen, met een reeks nieuwe vragen over de macrostructuur van het zenuwstelsel. Materiaal ingestuurd door een student.</small></span><span class="nbadge">Nieuw</span></div>
     <div class="newsitem"><span class="nd"></span><span class="ntxt"><b>Statistiek II flink uitgebreid</b><small>Van 35 naar 155 oefenvragen over 9 hoofdstukken, met hoofdstukoverzicht en een theorieluik. Opgebouwd uit hoorcollegemateriaal dat een student instuurde.</small></span><span class="nbadge">Nieuw</span></div>
     <div class="newsitem"><span class="nd"></span><span class="ntxt"><b>Sociologie: examenreconstructies toegevoegd</b><small>51 vragen uit vier echte examens, opgeschreven door studenten. Sociologie gaat van 112 naar 163 vragen.</small></span><span class="nbadge">Nieuw</span></div>
     <div class="newsitem"><span class="nd"></span><span class="ntxt"><b>Statistiek I staat online</b><small>90 oefenvragen over 9 hoofdstukken. Daarmee is het 1ste bachelorjaar compleet: 11 van 11 vakken.</small></span><span class="nbadge">Nieuw</span></div>
     <div class="newsitem"><span class="nd"></span><span class="ntxt"><b>Pedagogische wetenschappen uitgebreid</b><small>Van 77 naar 127 vragen, waarvan 50 uit een echte examenreconstructie.</small></span><span class="nbadge">Nieuw</span></div>
     <div class="newsitem"><span class="nd"></span><span class="ntxt"><b>Terug naar de vorige vraag</b><small>In elk vak kan je nu terugbladeren om de uitleg te herlezen. En bij Reken je punten zie je meteen je graad van verdienste.</small></span></div>
-    <div class="newsitem"><span class="nd"></span><span class="ntxt"><b>Orthopedagogiek staat online</b><small>122 examenvragen mét antwoorden · 2de bachelor. Het eerste vak voor het 2de jaar!</small></span><span class="nbadge">Nieuw</span></div>
+    <div class="newsitem"><span class="nd"></span><span class="ntxt"><b>Orthopedagogiek staat online</b><small>122 examenvragen mét antwoorden · 2de bachelor. Het eerste vak voor het 2de jaar!</small></span></div>
     <div class="newsitem"><span class="nd"></span><span class="ntxt"><b>Ontwikkelingspsychologie toegevoegd</b><small>84 oefenvragen over de hele levensloop · 1ste bachelor.</small></span><span class="nbadge">Nieuw</span></div>
     <div class="newsitem"><span class="nd"></span><span class="ntxt"><b>Sociale Psychologie &amp; Sociologie</b><small>Eerder toegevoegd voor 1ste bachelor, met directe feedback en uitleg.</small></span></div>
   </div>
@@ -474,19 +477,6 @@
     <div class="exnote">
       <span class="nb"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></svg></span>
       <div>De regels zijn geverifieerd op het VUB OER 2025-2026 (Art. 139 en 143). Dit is een hulpmiddel en een indicatie voor een gewoon jaar zonder vrijstellingen of stagevakken. De examencommissie beslist. Check bij twijfel het OER of je studietrajectbegeleider.</div>
-    </div>
-
-    <div class="qask" id="qask">
-      <div class="qask-head">
-        <span class="qask-ic"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M9.1 9a3 3 0 0 1 5.8 1c0 2-3 3-3 3"/><path d="M12 17h.01"/></svg></span>
-        <div><b>Zit je met een andere vraag?</b><small>Stel ze hier. Berie leest elke vraag, beantwoordt ze en de meest gestelde komen erbij.</small></div>
-      </div>
-      <textarea id="qaMsg" placeholder="Typ je vraag, bijvoorbeeld: hoe werkt de tweede zit voor een vak met een groepstaak?"></textarea>
-      <input id="qaEmail" type="email" placeholder="Je e-mail (optioneel, als je een antwoord wil)">
-      <div class="qask-row">
-        <button class="btn" id="qaSend" type="button">Verstuur vraag</button>
-        <span id="qaStatus"></span>
-      </div>
     </div>
 
     <div class="seclabel" id="vragen" style="scroll-margin-top:78px"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 10v6"/><path d="M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>Examen-info</div>
@@ -650,6 +640,19 @@
         <div class="srcrow"><span class="okpill">Bevestigd</span><a class="srclink" href="https://www.vub.be/sites/default/files/2025-07/2025_Reglementen_OER_2025-2026_NL.pdf" target="_blank" rel="noopener">OER Art. 114 + PE ↗</a></div>
       </div>
     </div>
+
+    <div class="qask" id="qask">
+      <div class="qask-head">
+        <span class="qask-ic"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M9.1 9a3 3 0 0 1 5.8 1c0 2-3 3-3 3"/><path d="M12 17h.01"/></svg></span>
+        <div><b>Zit je met een andere vraag?</b><small>Stel ze hier. Berie leest elke vraag, beantwoordt ze en de meest gestelde komen erbij.</small></div>
+      </div>
+      <textarea id="qaMsg" placeholder="Typ je vraag, bijvoorbeeld: hoe werkt de tweede zit voor een vak met een groepstaak?"></textarea>
+      <input id="qaEmail" type="email" placeholder="Je e-mail (optioneel, als je een antwoord wil)">
+      <div class="qask-row">
+        <button class="btn" id="qaSend" type="button">Verstuur vraag</button>
+        <span id="qaStatus"></span>
+      </div>
+    </div>
     <script>
     (function(){
       var cats=document.getElementById('excats');
@@ -737,7 +740,22 @@
     #exinfo .qask-done{text-align:center;padding:12px 0}
     #exinfo .qask-done b{display:block;font-size:16px;margin-top:6px}
     #exinfo .qask-done small{color:var(--muted);font-size:13px}
-    </style>
+    /* ===== gedeelde interactie-verbeteringen (fixronde augustus 2026) ===== */
+@media (prefers-reduced-motion: no-preference){
+  @keyframes bes-klik{0%{transform:scale(1)}38%{transform:scale(.955)}100%{transform:scale(1)}}
+  .bes-klik{animation:bes-klik .2s cubic-bezier(.22,.61,.36,1)}
+  @keyframes bes-in{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+  .bes-in{animation:bes-in .22s cubic-bezier(.22,.61,.36,1) both}
+}
+.acc>.body{display:grid;grid-template-rows:1fr;opacity:1;overflow:hidden;transition:grid-template-rows .25s cubic-bezier(.22,.61,.36,1),opacity .2s cubic-bezier(.22,.61,.36,1),padding .25s cubic-bezier(.22,.61,.36,1)}
+.acc>.body>*{min-height:0}
+.bes-wrap{min-height:0}
+.acc:not([open])>.body,.acc.bes-dicht>.body,.acc.bes-open>.body{grid-template-rows:0fr;opacity:0;padding-top:0;padding-bottom:0}
+.fbextra{display:grid;gap:0 14px}
+.fbextra .fld{margin-top:10px}
+@media(min-width:620px){.fbextra{grid-template-columns:1fr 1fr}.fbextra .fbwaar{grid-column:1 / -1}}
+
+</style>
 
 
   </div>
@@ -886,7 +904,12 @@
         var dist=end-start;
         if(rm || Math.abs(dist)<4){ window.scrollTo(0,end); de.style.scrollBehavior=prev; return; }
         var dur=Math.min(950,Math.max(420,Math.abs(dist)*0.6)), t0=null;
-        function step(ts){ if(t0===null)t0=ts; var p=Math.min(1,(ts-t0)/dur); window.scrollTo(0,start+dist*ease(p)); if(p<1){ requestAnimationFrame(step); } else { de.style.scrollBehavior=prev; } }
+        function doel(){ var y=t.getBoundingClientRect().top+(window.pageYOffset||0)-78; return y<0?0:y; }
+        function step(ts){ if(t0===null)t0=ts; var p=Math.min(1,(ts-t0)/dur);
+          end=doel(); dist=end-start;
+          window.scrollTo(0,start+dist*ease(p));
+          if(p<1){ requestAnimationFrame(step); }
+          else { requestAnimationFrame(function(){ window.scrollTo(0,doel()); de.style.scrollBehavior=prev; }); } }
         requestAnimationFrame(step);
       });
     })();
@@ -954,7 +977,7 @@
     return "book";
   }
 
-  // ===== VAKKEN per jaar — pas dit later makkelijk aan =====
+  // ===== VAKKEN per jaar, pas dit later makkelijk aan =====
   // klaar vak:  {n, desc, url}
   // in de maak: {n, desc, sp, soon:true}
   var BASE="https://beriesexamspace.github.io/";
@@ -970,7 +993,7 @@
       {n:"Onderzoeksmethoden en -technieken I: psychometrie", desc:"42 oefenvragen per hoofdstuk, met uitleg.", url:BASE+"omt1/"},
       {n:"Sociale psychologie I: sociale cognitie", desc:"70 oefenvragen, H1–H7, met uitleg.", url:BASE+"socpsy/"},
       {n:"Algemene psychologie", desc:"82 oefenvragen per hoofdstuk, met uitleg.", url:BASE+"algpsy/"},
-      {n:"Biologische psychologie I: inleiding", desc:"72 oefenvragen per hoofdstuk, met uitleg.", url:BASE+"biopsy1/"}
+      {n:"Biologische psychologie I: inleiding", desc:"91 oefenvragen per hoofdstuk, met uitleg.", url:BASE+"biopsy1/"}
     ]},
     {y:"2de bachelor", tag:"2", cls:"v", subjects:[
       {n:"Persoonlijkheidspsychologie", desc:"73 oefenvragen per hoofdstuk, met uitleg.", url:BASE+"pers/"},
@@ -1011,7 +1034,7 @@
       var sub = total===0 ? 'Binnenkort, in de maak'
               : ready>0 ? (ready+' van '+total+' klaar om te oefenen')
               : (total+' vakken · in de maak');
-      var useHtml=""; // per-jaar cijfers TIJDELIJK verborgen — Berat: "we doen dat later" (logica staat klaar om terug te zetten)
+      var useHtml=""; // per-jaar cijfers TIJDELIJK verborgen, Berat: "we doen dat later" (logica staat klaar om terug te zetten)
       html+='<button class="ycard '+yr.cls+'" data-y="'+i+'" style="animation-delay:'+(i*75)+'ms">'+
         '<span class="tile">'+yr.tag+'</span>'+
         '<b>'+esc(yr.y)+'</b>'+
@@ -1020,15 +1043,24 @@
         '<span class="go">Bekijk vakken '+ic("arrowR")+'</span></button>';
     });
     html+='</div>';
-    main.innerHTML=html;
-    [].slice.call(main.querySelectorAll(".ycard")).forEach(function(b){ b.onclick=function(){ renderSubjects(+b.dataset.y); window.scrollTo({top:0,behavior:"smooth"}); }; });
+    main.innerHTML=html; try{ main.classList.remove("bes-in"); void main.offsetWidth; main.classList.add("bes-in"); }catch(e){}
+    [].slice.call(main.querySelectorAll(".ycard")).forEach(function(b){ b.onclick=function(){ renderSubjects(+b.dataset.y); naarVakken(); }; });
   }
 
+  // Na het kiezen van een jaar landen op de vakkenlijst zelf, niet bovenaan de pagina.
+  function naarVakken(){
+    try{
+      var k=document.getElementById("vakkop"); if(!k){ window.scrollTo({top:0,behavior:"smooth"}); return; }
+      var rm=window.matchMedia&&window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      var y=k.getBoundingClientRect().top+(window.pageYOffset||0)-78; if(y<0)y=0;
+      window.scrollTo({top:y,behavior:rm?"auto":"smooth"});
+    }catch(e){ window.scrollTo(0,0); }
+  }
   function renderSubjects(yi){
     onYears=false;
     var yr=DATA[yi];
     var html='<button class="backlink" id="bk">'+ic("back")+'Terug naar jaren</button>'+
-      '<div class="seclabel">'+ic("sparkles")+'Welk vak wil je oefenen? · '+esc(yr.y)+'</div>'+
+      '<div class="seclabel" id="vakkop" style="scroll-margin-top:78px">'+ic("sparkles")+'Welk vak wil je oefenen? · '+esc(yr.y)+'</div>'+
       '<div class="subjects">';
     var subs=yr.subjects.slice().sort(function(a,b){ return (a.soon?1:0)-(b.soon?1:0); });
     subs.forEach(function(s,idx){
@@ -1051,7 +1083,7 @@
       }
     });
     html+='</div>';
-    main.innerHTML=html;
+    main.innerHTML=html; try{ main.classList.remove("bes-in"); void main.offsetWidth; main.classList.add("bes-in"); }catch(e){}
     document.getElementById("bk").onclick=function(){ renderYears(); window.scrollTo({top:0,behavior:"smooth"}); };
     [].slice.call(main.querySelectorAll("[data-vak]")).forEach(function(el){ el.onclick=function(e){ e.preventDefault(); renderContribute(el.dataset.vak||"", true); }; });
   }
@@ -1240,19 +1272,25 @@
   function applyTheme(){ document.documentElement.setAttribute("data-theme",theme);
     tb.innerHTML=(theme==="dark"?ic("sun"):ic("moon"))+'<span>'+(theme==="dark"?"Licht":"Donker")+'</span>'; }
   applyTheme();
+  var themaBezig=false;
   tb.onclick=function(){
+    if(themaBezig) return;            // een tweede klik tijdens de overgang liet een hoek achter
     var next=theme==="dark"?"light":"dark";
     var rm=window.matchMedia&&window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     function commit(){ theme=next; rawSet("site_theme",theme); applyTheme(); }
     if(rm || !document.startViewTransition){ commit(); return; }
+    themaBezig=true;
     var r=tb.getBoundingClientRect();
     var x=r.left+r.width/2, y=r.top+r.height/2;
-    var end=Math.hypot(Math.max(x,window.innerWidth-x), Math.max(y,window.innerHeight-y));
+    var end=Math.hypot(Math.max(x,window.innerWidth-x), Math.max(y,window.innerHeight-y))+24;  // marge, anders blijft de verste hoek staan
     var vt=document.startViewTransition(commit);
+    var klaar=function(){ themaBezig=false; };
+    vt.finished.then(klaar,klaar);
+    setTimeout(klaar,1200);
     vt.ready.then(function(){
       document.documentElement.animate(
         { clipPath:["circle(0px at "+x+"px "+y+"px)","circle("+end+"px at "+x+"px "+y+"px)"] },
-        { duration:1100, easing:"cubic-bezier(.22,1,.36,1)", pseudoElement:"::view-transition-new(root)" }
+        { duration:520, easing:"cubic-bezier(.22,1,.36,1)", pseudoElement:"::view-transition-new(root)" }
       );
     });
   };
@@ -1275,7 +1313,7 @@
     else { renderYears(); }
   })();
 
-  // live teller — telt automatisch mee, gaat ALLEEN omhoog (nooit omlaag, vloer 489)
+  // live teller: telt automatisch mee, gaat ALLEEN omhoog (nooit omlaag, vloer 489)
   function countUp(node, from, to){
     var reduce=false; try{reduce=window.matchMedia("(prefers-reduced-motion: reduce)").matches;}catch(e){}
     if(reduce||to<=from){ node.textContent=to.toLocaleString("nl-NL"); return; }
@@ -1310,6 +1348,47 @@
 </script>
 <script>
 (function(){ var s=document.getElementById("splash"); if(!s) return; var red=false; try{red=window.matchMedia("(prefers-reduced-motion: reduce)").matches;}catch(e){} setTimeout(function(){ s.classList.add("hide"); setTimeout(function(){ if(s&&s.parentNode) s.parentNode.removeChild(s); },450); }, red?300:700); })();
+</script>
+<script>
+/* gedeelde interactie: klik-animatie en zacht openschuivende theorieblokken */
+(function(){
+  // Elk theorieblok krijgt precies een wikkel-element, anders klapt een blok met
+  // meerdere kinderen niet volledig dicht (MBG had er tien).
+  function wikkel(){
+    var lijst=document.querySelectorAll(".acc>.body");
+    for(var i=0;i<lijst.length;i++){
+      var b=lijst[i];
+      if(b.children.length===1 && b.firstElementChild && b.firstElementChild.className==="bes-wrap") continue;
+      var w=document.createElement("div"); w.className="bes-wrap";
+      while(b.firstChild) w.appendChild(b.firstChild);
+      b.appendChild(w);
+    }
+  }
+  var gepland=false;
+  function planWikkel(){ if(gepland)return; gepland=true; setTimeout(function(){ gepland=false; wikkel(); },0); }
+  if(document.readyState==="loading") document.addEventListener("DOMContentLoaded",wikkel); else wikkel();
+  try{ new MutationObserver(planWikkel).observe(document.documentElement,{childList:true,subtree:true}); }catch(e){}
+  var KLIK="button,.btn,.iconbtn,.opt,.track,.chrow,.backlink,.chip,.mode,.toggle,.scard,.ccard,.qcard,.srclink,.bnlink,.navlink,.ycard,.excat,.brandstrip,summary";
+  document.addEventListener("pointerdown",function(e){
+    var el=(e.target&&e.target.closest)?e.target.closest(KLIK):null; if(!el)return;
+    el.classList.remove("bes-klik"); void el.offsetWidth; el.classList.add("bes-klik");
+    setTimeout(function(){ el.classList.remove("bes-klik"); },260);
+  },true);
+  document.addEventListener("click",function(e){
+    var s=(e.target&&e.target.closest)?e.target.closest("details.acc>summary"):null; if(!s)return;
+    var d=s.parentNode; if(!d) return;
+    e.preventDefault();
+    if(d.open){
+      d.classList.add("bes-dicht");
+      setTimeout(function(){ d.open=false; d.classList.remove("bes-dicht"); },250);
+    } else {
+      d.open=true; d.classList.add("bes-open");
+      var los=function(){ d.classList.remove("bes-open"); };
+      requestAnimationFrame(function(){ requestAnimationFrame(los); });
+      setTimeout(los,400);
+    }
+  },false);
+})();
 </script>
 </body>
 </html>
