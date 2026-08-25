@@ -298,7 +298,7 @@
     <span class="spacer"></span>
     <nav class="topnav">
       <a class="navlink" href="#vakken">Vakken</a>
-      <a class="navlink" href="#nieuw">Wat is nieuw</a>
+      <a class="navlink" href="#groep">WhatsApp-groep</a>
       <a class="navlink" href="#reken">Reken je punten</a>
       <a class="navlink" href="#vragen">Examen-info</a>
       <a class="navlink" href="#over">Over mij</a>
@@ -331,24 +331,27 @@
 
   <div id="main"></div>
 
-  <div class="seclabel" id="nieuw" style="margin-top:34px;scroll-margin-top:78px"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9.94 15.5A2 2 0 0 0 8.5 14.06l-6.14-1.58a.5.5 0 0 1 0-.96L8.5 9.94A2 2 0 0 0 9.94 8.5l1.58-6.14a.5.5 0 0 1 .96 0L14.06 8.5A2 2 0 0 0 15.5 9.94l6.14 1.58a.5.5 0 0 1 0 .96L15.5 14.06a2 2 0 0 0-1.44 1.44l-1.58 6.14a.5.5 0 0 1-.96 0z"/></svg>Wat is nieuw</div>
-  <div class="news">
-    <!-- Nieuwe update? Kopieer een blok en zet 'm bovenaan. Haal de "Nieuw"-badge weg als het niet meer nieuw is. -->
-    <div class="newsitem"><span class="nd"></span><span class="ntxt"><b>Sociologie: oude examenvragen erbij</b><small>Een nieuw hoofdstuk met 24 vragen uit oude examens, elk met uitleg waarom het antwoord juist is. Sociologie staat nu op 182 vragen, waarvan 70 uit echte examens.</small></span><span class="nbadge">Nieuw</span></div>
-    <div class="newsitem"><span class="nd"></span><span class="ntxt"><b>Eerlijkere oefenvragen</b><small>Bij veel vragen was het juiste antwoord het langste van de vier, waardoor je kon gokken zonder de leerstof te kennen. In alle vakken zijn de antwoorden nu even lang gemaakt, zodat de lengte niets meer verraadt.</small></span><span class="nbadge">Nieuw</span></div>
-    <div class="newsitem"><span class="nd"></span><span class="ntxt"><b>De site voelt rustiger aan</b><small>Elke knop reageert nu op je klik, de theorieblokken schuiven open in plaats van te springen, en het feedbackformulier past weer op je scherm.</small></span><span class="nbadge">Nieuw</span></div>
-    <div class="newsitem"><span class="nd"></span><span class="ntxt"><b>Biologische psychologie I uitgebreid</b><small>Van 72 naar 91 vragen, met een reeks nieuwe vragen over de macrostructuur van het zenuwstelsel. Materiaal ingestuurd door een student.</small></span><span class="nbadge">Nieuw</span></div>
-    <div class="newsitem"><span class="nd"></span><span class="ntxt"><b>Statistiek II flink uitgebreid</b><small>Van 35 naar 155 oefenvragen over 9 hoofdstukken, met hoofdstukoverzicht en een theorieluik. Opgebouwd uit hoorcollegemateriaal dat een student instuurde.</small></span><span class="nbadge">Nieuw</span></div>
-    <div class="newsitem"><span class="nd"></span><span class="ntxt"><b>Sociologie: examenreconstructies toegevoegd</b><small>51 vragen uit vier echte examens, opgeschreven door studenten. Sociologie gaat van 112 naar 163 vragen.</small></span><span class="nbadge">Nieuw</span></div>
-    <div class="newsitem"><span class="nd"></span><span class="ntxt"><b>Statistiek I staat online</b><small>90 oefenvragen over 9 hoofdstukken. Daarmee is het 1ste bachelorjaar compleet: 11 van 11 vakken.</small></span><span class="nbadge">Nieuw</span></div>
-    <div class="newsitem"><span class="nd"></span><span class="ntxt"><b>Pedagogische wetenschappen uitgebreid</b><small>Van 77 naar 127 vragen, waarvan 50 uit een echte examenreconstructie.</small></span><span class="nbadge">Nieuw</span></div>
-    <div class="newsitem"><span class="nd"></span><span class="ntxt"><b>Terug naar de vorige vraag</b><small>In elk vak kan je nu terugbladeren om de uitleg te herlezen. En bij Reken je punten zie je meteen je graad van verdienste.</small></span></div>
-    <div class="newsitem"><span class="nd"></span><span class="ntxt"><b>Orthopedagogiek staat online</b><small>122 examenvragen mét antwoorden · 2de bachelor. Het eerste vak voor het 2de jaar!</small></span></div>
-    <div class="newsitem"><span class="nd"></span><span class="ntxt"><b>Ontwikkelingspsychologie toegevoegd</b><small>84 oefenvragen over de hele levensloop · 1ste bachelor.</small></span><span class="nbadge">Nieuw</span></div>
-    <div class="newsitem"><span class="nd"></span><span class="ntxt"><b>Sociale Psychologie &amp; Sociologie</b><small>Eerder toegevoegd voor 1ste bachelor, met directe feedback en uitleg.</small></span></div>
+  <style>
+  .wagroep{display:flex;align-items:center;gap:18px;flex-wrap:wrap;background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:20px 22px;box-shadow:var(--shadow);position:relative;overflow:hidden}
+  .wagroep::before{content:"";position:absolute;top:0;bottom:0;left:0;width:4px;background:#25D366}
+  .wa-logo{flex:none;width:48px;height:48px;border-radius:50%;display:grid;place-items:center;background:rgba(37,211,102,.14);color:#25D366}
+  .wa-logo svg{width:27px;height:27px}
+  .wa-txt{flex:1 1 260px;display:flex;flex-direction:column;gap:4px;min-width:0}
+  .wa-txt b{font-size:16.5px}
+  .wa-txt small{color:var(--muted);font-size:13.5px;line-height:1.55}
+  .wa-knop{flex:none;text-decoration:none;background:#25D366;box-shadow:0 4px 14px rgba(37,211,102,.3)}
+  .wa-knop:hover{background:#1eb757}
+  .wa-knop svg{width:19px;height:19px}
+  @media (max-width:560px){.wagroep{padding:18px;align-items:flex-start;gap:14px}.wa-logo{width:40px;height:40px}.wa-logo svg{width:23px;height:23px}.wa-txt{flex:1 1 100%;order:2}.wa-knop{width:100%;order:3}}
+  </style>
+  <div class="seclabel" id="groep" style="margin-top:34px;scroll-margin-top:78px"><span class="ic" style="color:#25D366"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.25-1.38a9.9 9.9 0 0 0 4.79 1.22h.01c5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.82 9.82 0 0 0 12.04 2m0 1.67c2.2 0 4.27.86 5.83 2.42a8.2 8.2 0 0 1 2.41 5.82c0 4.54-3.7 8.24-8.25 8.24a8.2 8.2 0 0 1-4.2-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.19 8.19 0 0 1-1.26-4.38c0-4.54 3.7-8.24 8.26-8.24M8.53 7.33c-.16 0-.43.06-.66.31-.22.25-.87.85-.87 2.07 0 1.22.89 2.4 1.01 2.56.12.17 1.72 2.63 4.18 3.69.58.25 1.04.4 1.4.51.59.19 1.12.16 1.55.1.47-.07 1.45-.59 1.66-1.17.2-.57.2-1.06.14-1.16-.06-.11-.22-.17-.46-.29-.25-.12-1.45-.72-1.68-.8-.22-.08-.38-.12-.55.12-.16.25-.62.79-.76.95-.14.17-.28.19-.52.07-.25-.13-1.04-.39-1.99-1.23-.73-.65-1.23-1.46-1.37-1.71-.14-.24-.02-.37.11-.5.11-.11.24-.29.37-.43.12-.14.16-.25.24-.41.08-.17.04-.31-.02-.43-.06-.12-.55-1.34-.76-1.83-.2-.48-.4-.42-.55-.43-.14 0-.3-.01-.47-.01"/></svg></span>Blijf op de hoogte</div>
+  <div class="wagroep">
+    <span class="wa-logo"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.25-1.38a9.9 9.9 0 0 0 4.79 1.22h.01c5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.82 9.82 0 0 0 12.04 2m0 1.67c2.2 0 4.27.86 5.83 2.42a8.2 8.2 0 0 1 2.41 5.82c0 4.54-3.7 8.24-8.25 8.24a8.2 8.2 0 0 1-4.2-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.19 8.19 0 0 1-1.26-4.38c0-4.54 3.7-8.24 8.26-8.24M8.53 7.33c-.16 0-.43.06-.66.31-.22.25-.87.85-.87 2.07 0 1.22.89 2.4 1.01 2.56.12.17 1.72 2.63 4.18 3.69.58.25 1.04.4 1.4.51.59.19 1.12.16 1.55.1.47-.07 1.45-.59 1.66-1.17.2-.57.2-1.06.14-1.16-.06-.11-.22-.17-.46-.29-.25-.12-1.45-.72-1.68-.8-.22-.08-.38-.12-.55.12-.16.25-.62.79-.76.95-.14.17-.28.19-.52.07-.25-.13-1.04-.39-1.99-1.23-.73-.65-1.23-1.46-1.37-1.71-.14-.24-.02-.37.11-.5.11-.11.24-.29.37-.43.12-.14.16-.25.24-.41.08-.17.04-.31-.02-.43-.06-.12-.55-1.34-.76-1.83-.2-.48-.4-.42-.55-.43-.14 0-.3-.01-.47-.01"/></svg></span>
+    <span class="wa-txt"><b>De WhatsApp-groep van Berie's exam space</b><small>Daar komt alles binnen: nieuwe vakken, extra examenvragen en verbeteringen aan de tools. Zo hoef je zelf niet te kijken of er iets veranderd is. Heb je samenvattingen of oude examenvragen, dan kan je ze daar ook meteen doorsturen.</small></span>
+    <a class="btn wa-knop" href="https://chat.whatsapp.com/Ci1d1PQzvWr6VPcq10l7bK" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.25-1.38a9.9 9.9 0 0 0 4.79 1.22h.01c5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.82 9.82 0 0 0 12.04 2m0 1.67c2.2 0 4.27.86 5.83 2.42a8.2 8.2 0 0 1 2.41 5.82c0 4.54-3.7 8.24-8.25 8.24a8.2 8.2 0 0 1-4.2-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.19 8.19 0 0 1-1.26-4.38c0-4.54 3.7-8.24 8.26-8.24M8.53 7.33c-.16 0-.43.06-.66.31-.22.25-.87.85-.87 2.07 0 1.22.89 2.4 1.01 2.56.12.17 1.72 2.63 4.18 3.69.58.25 1.04.4 1.4.51.59.19 1.12.16 1.55.1.47-.07 1.45-.59 1.66-1.17.2-.57.2-1.06.14-1.16-.06-.11-.22-.17-.46-.29-.25-.12-1.45-.72-1.68-.8-.22-.08-.38-.12-.55.12-.16.25-.62.79-.76.95-.14.17-.28.19-.52.07-.25-.13-1.04-.39-1.99-1.23-.73-.65-1.23-1.46-1.37-1.71-.14-.24-.02-.37.11-.5.11-.11.24-.29.37-.43.12-.14.16-.25.24-.41.08-.17.04-.31-.02-.43-.06-.12-.55-1.34-.76-1.83-.2-.48-.4-.42-.55-.43-.14 0-.3-.01-.47-.01"/></svg>Word lid van de groep</a>
   </div>
 
-  <!-- ===== EXAMEN-INFO (staat nu onder Wat is nieuw) ===== -->
+  <!-- ===== EXAMEN-INFO (staat onder de WhatsApp-sectie) ===== -->
   <style>
   #exinfo .seclabel{margin-top:38px}
   #exinfo .exlead{text-align:center;color:var(--muted);font-size:14px;line-height:1.6;max-width:540px;margin:0 auto 4px}
