@@ -829,7 +829,7 @@
       }
       function calc(){
         var rows=box.querySelectorAll('.crow'), ssp=0, scs=0, items=[];
-        rows.forEach(function(x){ var c=parseFloat(x.querySelector('.v-cij').value); var s=parseFloat(x.querySelector('.v-sp').value); if(!isNaN(c)&&!isNaN(s)&&s>0){ ssp+=s; scs+=c*s; items.push({c:c,s:s}); } });
+        rows.forEach(function(x){ var c=parseFloat(x.querySelector('.v-cij').value); var s=parseFloat(x.querySelector('.v-sp').value); if(!isNaN(c)&&!isNaN(s)&&s>0){ ssp+=s; scs+=c*s; items.push({c:c,s:s,n:(x.querySelector(".v-naam")&&x.querySelector(".v-naam").value||"").trim()}); } });
         var av=el('ex2Avg'), pc=el('ex2Pct');
         if(ssp<=0){ av.textContent='--'; pc.textContent='--'; var g0=el('ex2Graad'); if(g0){ g0.textContent='--'; g0.style.color='var(--muted)'; el('ex2GraadH').textContent='vanaf 68% onderscheiding'; }
           var nb=el('ex2Verdict'),ni=el('ex2VIc'),nt=el('ex2VTitle'),ns=el('ex2VSub');
@@ -841,16 +841,17 @@
         }
         var avg=scs/ssp, pct=avg/20*100; av.textContent=fmt(avg,1); pc.textContent=Math.round(pct);
         var gd=graadVan(pct), ge=el('ex2Graad'); if(ge){ ge.textContent=gd.n; ge.style.color=gd.kleur; el('ex2GraadH').textContent=gd.h; }
-        var tek=items.filter(function(i){return i.c<10;});
+        function namen(lijst){ var n=lijst.map(function(i){return i.n;}).filter(Boolean); return n.length?n.join(", "):""; }
+         var tek=items.filter(function(i){return i.c<10;});
         var on8=items.filter(function(i){return i.c<8;});
         var pt=tek.reduce(function(a,i){return a+(10-i.c);},0);
         var gpt=tek.reduce(function(a,i){return a+(10-i.c)*i.s;},0);
         var r1=pct>=55, r2=on8.length===0, r3=tek.length<=2, r4=pt<=3, r5=gpt<=18;
         setRule('ex2r1',r1,'Gewogen gemiddelde minstens 55%',Math.round(pct)+'%');
         setRule('ex2r2',r2,'Geen vak onder 8/20',on8.length?on8.length+' onder 8':'in orde');
-        setRule('ex2r3',r3,'Hoogstens 2 vakken onder 10',tek.length+' onder 10');
-        setRule('ex2r4',r4,'Hoogstens 3 punten tekort',Math.round(pt)+' tekort');
-        setRule('ex2r5',r5,'Gewogen-punten-tekort hoogstens 18','GPT '+Math.round(gpt));
+        setRule('ex2r3',r3,'Hoogstens 2 vakken onder 10',tek.length+' onder 10'+(tek.length?': '+namen(tek):''));
+        setRule('ex2r4',r4,'Hoogstens 3 punten tekort',Math.round(pt)+' punten tekort'+(tek.length>1?' samen':'')+(tek.length?' ('+tek.map(function(i){return (10-i.c)+' bij '+(i.n||'een vak');}).join(', ')+')':''));
+        setRule('ex2r5',r5,'Gewogen-punten-tekort hoogstens 18','GPT '+Math.round(gpt)+(tek.length?' = '+tek.map(function(i){return (10-i.c)+' x '+i.s;}).join(' + '):''));
         var allc=tek.length===0, pass=r1&&r2&&r3&&r4&&r5;
         var vb=el('ex2Verdict'), vi=el('ex2VIc'), vt=el('ex2VTitle'), vs=el('ex2VSub');
         function green(){ vb.style.borderColor='var(--good)'; vb.style.background='var(--good-soft)'; vi.style.background='linear-gradient(145deg,var(--good),#2f8a52)'; vi.innerHTML=I_CHK; vt.style.color='var(--good)'; }
