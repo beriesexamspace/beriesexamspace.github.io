@@ -989,7 +989,7 @@
       {n:"Statistiek I: meetschalen en beschrijvende statistiek", desc:"90 oefenvragen per hoofdstuk, met uitleg.", url:BASE+"stat1/"},
       {n:"Ontwikkelingspsychologie", desc:"84 oefenvragen over de levensloop, met uitleg.", url:BASE+"ontwikkeling/"},
       {n:"Philosophy of Science", desc:"50 oefenvragen per hoofdstuk, met uitleg.", url:BASE+"logica/"},
-      {n:"Menselijke biologie en genetica", desc:"De biologische basis van gedrag.", url:BASE+"mbg/"},
+      {n:"Menselijke biologie en genetica", desc:"1.296 meerkeuzevragen en 251 oude examenvragen met antwoord, plus een samenvatting per hoofdstuk.", url:BASE+"mbg/"},
       {n:"Sociologie I", desc:"187 vragen, waarvan 75 uit echte examens.", url:BASE+"sociologie/"},
       {n:"Onderzoeksmethoden en -technieken I: psychometrie", desc:"42 oefenvragen per hoofdstuk, met uitleg.", url:BASE+"omt1/"},
       {n:"Sociale psychologie I: sociale cognitie", desc:"70 oefenvragen, H1–H7, met uitleg.", url:BASE+"socpsy/"},
@@ -1062,6 +1062,7 @@
     var yr=DATA[yi];
     var html='<button class="backlink" id="bk">'+ic("back")+'Terug naar jaren</button>'+
       '<div class="seclabel" id="vakkop" style="scroll-margin-top:78px">'+ic("sparkles")+'Welk vak wil je oefenen? · '+esc(yr.y)+'</div>'+
+      '<p class="muted" style="margin:-4px 0 14px;font-size:13.5px">Staat er <b>examenvragen</b>? Dan komen ze uit echte examens of uit reconstructies van studenten. Staat er <b>oefenvragen</b>? Dan zijn ze gemaakt op basis van de cursus en samenvattingen.</p>'+
       '<div class="subjects">';
     var subs=yr.subjects.slice().sort(function(a,b){ return (a.soon?1:0)-(b.soon?1:0); });
     subs.forEach(function(s,idx){
