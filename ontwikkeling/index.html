@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+<meta name="theme-color" content="#0f6e6a" />
+<meta http-equiv="Cache-Control" content="no-cache, must-revalidate" />
+<meta http-equiv="Pragma" content="no-cache" />
+<title>Ontwikkelingspsychologie, Berie’s exam space</title>
+<meta name="author" content="Berat Yildirim - Berie's exam space" />
+<meta name="copyright" content="© 2026 Berat Yildirim. Alle rechten voorbehouden." />
+<!-- Berie's exam space © 2026 Berat Yildirim. Alle rechten voorbehouden. Originele bron: https://beriesexamspace.github.io  Kopieren of hergebruiken zonder schriftelijke toestemming is niet toegestaan. -->
+<style>
+  :root{
+    --bg:#f4f2ee; --bg2:#ebe8e2; --card:#ffffff; --ink:#1b232c; --muted:#5d6873;
+    --line:#e2ddd4; --accent:#0f6e6a; --accent-ink:#0b4f4c; --accent-soft:#dcefed;
+    --amber:#c9821f; --amber-soft:#f7ecd9; --violet:#6d5bd0; --violet-soft:#e9e6fa;
+    --good:#1f8a4c; --good-soft:#e2f3e8; --bad:#c23b54; --bad-soft:#fbe5ea;
+    --shadow:0 1px 2px rgba(20,30,40,.05),0 6px 18px rgba(20,30,40,.05);
+    --shadow-lg:0 2px 6px rgba(20,30,40,.06),0 18px 40px rgba(20,30,40,.10);
+    --r:14px; --r-lg:20px; --ease:cubic-bezier(.2,.8,.2,1);
+  }
+  html[data-theme="dark"]{
+    --bg:#11151a; --bg2:#161b22; --card:#1b222b; --ink:#e7ecf1; --muted:#9aa6b2;
+    --line:#2a323c; --accent:#3fb9b2; --accent-ink:#7fd6d0; --accent-soft:#163230;
+    --amber:#e0a64a; --amber-soft:#2e2515; --violet:#a99cf0; --violet-soft:#221d3a;
+    --good:#46c178; --good-soft:#16301f; --bad:#ef6b82; --bad-soft:#331620;
+    --shadow:0 1px 2px rgba(0,0,0,.3),0 8px 24px rgba(0,0,0,.35);
+    --shadow-lg:0 2px 8px rgba(0,0,0,.4),0 22px 48px rgba(0,0,0,.5);
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);font-size:16px;line-height:1.55;
+    font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;-webkit-font-smoothing:antialiased}
+  h1,h2,h3{font-family:Georgia,"Iowan Old Style","Times New Roman",serif;letter-spacing:-.01em}
+  button,a{font-family:inherit;cursor:pointer;color:inherit}
+  .wrap{max-width:880px;margin:0 auto;padding:0 18px 96px}
+  :focus-visible{outline:2.5px solid var(--accent);outline-offset:2px;border-radius:8px}
+  .ic{width:1.25em;height:1.25em;flex:none;vertical-align:-.18em;stroke:currentColor;stroke-width:1.75;
+    stroke-linecap:round;stroke-linejoin:round;fill:none}
+
+  header.top{position:sticky;top:0;z-index:30;border-bottom:1px solid var(--line);
+    background:color-mix(in srgb,var(--bg) 88%,transparent);backdrop-filter:saturate(160%) blur(16px);-webkit-backdrop-filter:saturate(160%) blur(16px);box-shadow:inset 0 -1px 0 0 rgba(0,0,0,.04)}
+  .topin{max-width:880px;margin:0 auto;padding:10px 18px;display:flex;align-items:center;gap:12px}
+  .brand{display:flex;align-items:center;gap:11px;font-weight:700}
+  .logo{width:32px;height:32px;border-radius:10px;background:linear-gradient(145deg,var(--accent),var(--accent-ink));
+    color:#fff;display:grid;place-items:center;font-family:Georgia,serif;font-weight:700;font-size:16px;flex:none;
+    box-shadow:0 2px 6px rgba(15,110,106,.35)}
+  .brand small{display:block;font-weight:500;color:var(--muted);font-size:11px}
+  .spacer{flex:1}
+  .iconbtn{border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:10px;min-height:38px;
+    padding:7px 11px;font-size:13.5px;display:inline-flex;gap:7px;align-items:center;text-decoration:none;
+    transition:border-color .2s var(--ease),transform .12s var(--ease)}
+  .iconbtn:hover{border-color:var(--accent)} .iconbtn:active{transform:scale(.96)}
+  nav.tabs{display:flex;gap:2px;overflow:auto;max-width:880px;margin:0 auto;padding:6px 12px 0;scrollbar-width:none}
+  nav.tabs::-webkit-scrollbar{display:none}
+  nav.tabs button{border:none;background:none;color:var(--muted);padding:10px 13px;border-radius:9px 9px 0 0;
+    font-size:14px;font-weight:600;white-space:nowrap;border-bottom:2px solid transparent;display:inline-flex;align-items:center;gap:6px;transition:color .2s var(--ease)}
+  nav.tabs button .ic{width:16px;height:16px}
+  nav.tabs button.on{color:var(--accent-ink);border-bottom-color:var(--accent)}
+  nav.tabs button:hover{color:var(--ink)}
+
+  .card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow)}
+  .pad{padding:20px}
+  .muted{color:var(--muted)}
+  .pill{display:inline-flex;align-items:center;gap:5px;font-size:12px;font-weight:600;padding:4px 10px;border-radius:999px;background:var(--accent-soft);color:var(--accent-ink)}
+  .pill.amber{background:var(--amber-soft);color:var(--amber)}
+  .row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+  .grid{display:grid;gap:14px}
+  @media(min-width:620px){.g2{grid-template-columns:1fr 1fr}}
+
+  .hero{display:flex;flex-wrap:wrap;align-items:center;gap:16px;margin:20px 0 8px}
+  .count{flex:none;background:linear-gradient(150deg,var(--accent),var(--accent-ink));color:#fff;border-radius:var(--r);padding:14px 20px;text-align:center;min-width:118px;box-shadow:0 8px 20px rgba(15,110,106,.28)}
+  .count b{font-family:Georgia,serif;font-size:32px;display:block;line-height:1}
+  .count span{font-size:12px;opacity:.92}
+  .herotext h1{margin:0 0 4px;font-size:25px}
+  .herotext p{margin:0;color:var(--muted)}
+
+  .brandstrip{display:flex;align-items:center;gap:13px;width:100%;text-decoration:none;color:inherit;border:1px solid var(--line);background:var(--card);border-radius:var(--r);padding:12px 16px;margin:14px 0 2px;box-shadow:var(--shadow);transition:border-color .2s var(--ease),transform .15s var(--ease)}
+  .brandstrip:hover{border-color:var(--accent);transform:translateY(-1px)}
+  .brandstrip .bs-logo{width:36px;height:36px;border-radius:10px;flex:none;display:grid;place-items:center;color:#fff;font-family:Georgia,serif;font-weight:700;font-size:17px;background:linear-gradient(145deg,var(--accent),var(--accent-ink))}
+  .brandstrip .bs-txt{flex:1;min-width:0} .brandstrip .bs-txt b{display:block;font-size:14.5px} .brandstrip .bs-txt small{color:var(--muted);font-size:12.5px}
+  .brandstrip .bs-go{color:var(--accent-ink);flex:none;display:inline-flex} .brandstrip .bs-go .ic{width:18px;height:18px}
+
+  .seclabel{display:flex;align-items:center;gap:8px;margin:24px 0 12px;font-weight:700;font-size:15px}
+  .seclabel .ic{width:18px;height:18px;color:var(--accent-ink)}
+  .backlink{display:inline-flex;align-items:center;gap:5px;border:none;background:none;color:var(--muted);font-size:13.5px;font-weight:600;padding:6px 0;margin-bottom:4px;transition:color .2s var(--ease)}
+  .backlink:hover{color:var(--accent-ink)} .backlink .ic{width:16px;height:16px}
+  .tracks{display:grid;gap:14px} @media(min-width:600px){.tracks{grid-template-columns:1fr 1fr}}
+  .track{display:flex;flex-direction:column;gap:8px;text-align:left;width:100%;border:1.5px solid var(--line);background:var(--card);border-radius:var(--r-lg);padding:20px;box-shadow:var(--shadow);transition:transform .22s var(--ease),border-color .22s var(--ease),box-shadow .22s var(--ease)}
+  .track:hover{transform:translateY(-3px);border-color:var(--accent);box-shadow:var(--shadow-lg)} .track:active{transform:translateY(-1px) scale(.995)}
+  .track .tile{width:46px;height:46px;border-radius:13px;display:grid;place-items:center;color:#fff;margin-bottom:4px;background:linear-gradient(150deg,var(--accent),var(--accent-ink))}
+  .track.alt .tile{background:linear-gradient(150deg,var(--violet),#4f40a8)} .track .tile .ic{width:24px;height:24px}
+  .track b{font-size:18px} .track small{color:var(--muted);font-size:13.5px;line-height:1.5}
+  .track .go{margin-top:6px;display:inline-flex;align-items:center;gap:6px;color:var(--accent-ink);font-weight:600;font-size:13.5px} .track.alt .go{color:var(--violet)} .track .go .ic{width:16px;height:16px}
+  .toggle{width:48px;height:28px;border-radius:999px;border:none;background:var(--line);position:relative;cursor:pointer;flex:none;transition:background .2s var(--ease)}
+  .toggle .knob{position:absolute;top:3px;left:3px;width:22px;height:22px;border-radius:50%;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.25);transition:left .2s var(--ease)}
+  .toggle.on{background:var(--violet)} .toggle.on .knob{left:23px}
+  .warmcard{border-color:var(--violet)!important;background:var(--violet-soft)} .warmcard .ic{width:22px;height:22px;color:var(--violet);flex:none}
+  .modebanner{display:flex;align-items:center;gap:10px;margin-bottom:14px;padding:11px 14px;border-radius:var(--r);background:var(--accent-soft);color:var(--accent-ink);font-size:13.5px;font-weight:600}
+  .modebanner.v{background:var(--violet-soft);color:var(--violet)} .modebanner .ic{width:18px;height:18px} .modebanner a,.modebanner .bnlink{margin-left:auto;font-size:13px;font-weight:600;cursor:pointer;text-decoration:underline;color:inherit;border:none;background:none;font-family:inherit;padding:0}
+  html.snappy .card,html.snappy .mode,html.snappy .tip,html.snappy .track{animation-duration:.12s!important}
+  .mode{display:flex;flex-direction:column;text-align:left;width:100%;border:1px solid var(--line);background:var(--card);border-radius:var(--r);padding:17px;gap:7px;box-shadow:var(--shadow);transition:transform .2s var(--ease),border-color .2s var(--ease),box-shadow .2s var(--ease)}
+  .mode:hover{border-color:var(--accent);transform:translateY(-3px);box-shadow:var(--shadow-lg)}
+  .mode .me{width:40px;height:40px;border-radius:11px;display:grid;place-items:center;background:var(--accent-soft);color:var(--accent-ink)} .mode .me .ic{width:22px;height:22px}
+  .mode b{font-size:16px} .mode small{color:var(--muted);font-size:13px}
+
+  label.fld{display:block;font-size:13px;font-weight:600;margin:16px 0 7px}
+  .chips{display:flex;flex-wrap:wrap;gap:8px}
+  .chip{border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:999px;min-height:38px;padding:7px 13px;font-size:13.5px;transition:all .18s var(--ease)}
+  .chip:hover{border-color:var(--accent)} .chip.on{background:var(--accent);color:#fff;border-color:var(--accent)}
+  .btn{background:var(--accent);color:#fff;border:none;border-radius:11px;min-height:46px;padding:12px 20px;font-size:15px;font-weight:600;display:inline-flex;align-items:center;gap:8px;justify-content:center;box-shadow:0 4px 12px rgba(15,110,106,.25);transition:background .2s var(--ease),transform .12s var(--ease)}
+  .btn:hover{background:var(--accent-ink)} .btn:active{transform:scale(.97) translateY(1px)} .btn .ic{width:18px;height:18px}
+  .btn.ghost{background:var(--card);color:var(--ink);border:1px solid var(--line);box-shadow:none} .btn.ghost:hover{border-color:var(--accent)}
+  .btn:disabled{opacity:.5;cursor:not-allowed;box-shadow:none}
+  input[type=search],input[type=text],input[type=email],textarea{font-family:inherit;font-size:15px;padding:9px 11px;border:1px solid var(--line);border-radius:10px;background:var(--card);color:var(--ink);width:100%}
+  input:focus,textarea:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-soft)}
+
+  .runtop{display:flex;align-items:center;gap:12px;margin:2px 0 14px;font-size:13px;color:var(--muted)}
+  .bar{height:8px;border-radius:6px;background:var(--bg2);overflow:hidden;flex:1}
+  .bar>i{display:block;height:100%;width:0;background:var(--accent);border-radius:6px;transition:width .7s var(--ease)}
+  .qtext{font-size:19px;font-weight:600;margin:8px 0 16px;font-family:Georgia,serif;line-height:1.45}
+  .opt{display:flex;gap:12px;align-items:flex-start;width:100%;text-align:left;border:1.5px solid var(--line);background:var(--card);color:var(--ink);border-radius:12px;padding:14px 15px;margin-bottom:10px;font-size:15px;transition:border-color .15s var(--ease),background .15s var(--ease),transform .12s var(--ease)}
+  .opt:hover:not(:disabled){border-color:var(--accent);background:var(--accent-soft)} .opt:active:not(:disabled){transform:scale(.99)}
+  .opt .k{flex:none;width:27px;height:27px;border-radius:8px;background:var(--bg2);color:var(--muted);display:grid;place-items:center;font-weight:700;font-size:13px}
+  .opt.correct{border-color:var(--good);background:var(--good-soft)} .opt.correct .k{background:var(--good);color:#fff}
+  .opt.wrong{border-color:var(--bad);background:var(--bad-soft)} .opt.wrong .k{background:var(--bad);color:#fff}
+  .opt:disabled{cursor:default}
+  .feedback{border-radius:12px;padding:13px 15px;margin:4px 0 12px;font-size:14.5px}
+  .feedback.ok{background:var(--good-soft);color:var(--good)} .feedback.no{background:var(--bad-soft);color:var(--bad)}
+  .feedback b{font-weight:700} .feedback .sub{display:block;margin-top:3px;color:var(--ink);font-weight:500;opacity:.92}
+  .whybtn{border:1px solid var(--line);background:var(--card);color:var(--accent-ink);border-radius:10px;min-height:40px;padding:9px 14px;font-size:13.5px;font-weight:600;display:inline-flex;align-items:center;gap:7px;transition:border-color .2s var(--ease),background .2s var(--ease)}
+  .whybtn:hover{border-color:var(--accent);background:var(--accent-soft)} .whybtn .ic{width:16px;height:16px}
+  .whybox{border:1px solid var(--accent);background:var(--accent-soft);border-radius:12px;padding:14px 16px;margin:12px 0 4px;font-size:14px;line-height:1.55}
+  .whybox h4{margin:0 0 6px;font-size:13px;text-transform:uppercase;letter-spacing:.5px;color:var(--accent-ink);font-family:system-ui;display:flex;align-items:center;gap:7px}
+  .whybox .ic{width:16px;height:16px}
+
+  .acc{border:1px solid var(--line);border-radius:var(--r);margin-bottom:10px;background:var(--card);overflow:hidden;box-shadow:var(--shadow)}
+  .acc>summary{padding:15px 16px;font-weight:700;cursor:pointer;list-style:none;display:flex;align-items:center;gap:11px}
+  .acc>summary::-webkit-details-marker{display:none}
+  .acc>summary .n{flex:none;width:28px;height:28px;border-radius:8px;background:var(--accent-soft);color:var(--accent-ink);display:grid;place-items:center;font-size:13px;font-weight:700}
+  .acc>summary .caret{margin-left:auto;color:var(--muted);transition:transform .25s var(--ease)} .acc[open]>summary .caret{transform:rotate(90deg)}
+  .acc[open]>summary{border-bottom:1px solid var(--line)} .acc .body{padding:6px 18px 16px}
+  .acc h4{margin:14px 0 6px;font-size:13px;color:var(--accent-ink);text-transform:uppercase;letter-spacing:.4px;font-family:system-ui}
+  .acc ul{margin:0;padding-left:20px} .acc li{margin:6px 0;font-size:14.5px;line-height:1.5}
+  .acc.hack li::marker{content:"💡  "} .acc.hack>summary .n{background:var(--violet-soft);color:var(--violet)}
+  mark{background:var(--amber-soft);color:inherit;padding:0 2px;border-radius:3px}
+
+  .tip{border:1px solid var(--line);background:var(--card);border-radius:var(--r);padding:15px;box-shadow:var(--shadow)}
+  .tip h4{margin:0 0 5px;font-size:14.5px;display:flex;align-items:center;gap:8px;font-family:system-ui} .tip h4 .ic{width:18px;height:18px;color:var(--violet)}
+  .tip p{margin:0;font-size:13.5px;color:var(--muted);line-height:1.55}
+  .tipgrid{display:grid;gap:12px} @media(min-width:620px){.tipgrid{grid-template-columns:1fr 1fr}}
+
+  .results .big{font-family:Georgia,serif;font-size:54px;text-align:center;margin:8px 0;line-height:1}
+  .center{text-align:center} .hide{display:none!important}
+  footer{margin-top:34px;text-align:center;color:var(--muted);font-size:13px}
+  .kbd{font-size:11px;border:1px solid var(--line);border-bottom-width:2px;border-radius:5px;padding:1px 6px;color:var(--muted)}
+  @keyframes fadeUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+  @keyframes slideIn{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:none}}
+  @keyframes pop{0%{transform:scale(1)}45%{transform:scale(1.03)}100%{transform:scale(1)}}
+  @keyframes optIn{from{opacity:0;transform:translateX(-9px)}to{opacity:1;transform:none}}
+  @media (prefers-reduced-motion: no-preference){
+    .card,.mode,.tip{animation:fadeUp .34s var(--ease) both}
+    .acc{animation:fadeUp .32s var(--ease) both}
+    .opt{animation:optIn .3s var(--ease) backwards;animation-delay:var(--oi,0s)}
+    .chip.on{animation:pop .22s var(--ease)}
+    .feedback{animation:slideIn .26s var(--ease) both} .whybox{animation:slideIn .28s var(--ease) .07s both} .opt.correct{animation:pop .34s var(--ease)}
+  }
+  @media (prefers-reduced-motion: reduce){*{animation-duration:.001ms!important;transition-duration:.001ms!important}}
+  /* ---- Premium launch (Gemini-stijl) + header-logo gloed ---- */
+  @property --bes-a{syntax:'<angle>';initial-value:0deg;inherits:false}
+  #splash{position:fixed;inset:0;z-index:200;display:grid;place-items:center;background:radial-gradient(125% 125% at 50% 38%,var(--bg2) 0%,var(--bg) 68%);transition:opacity .6s var(--ease),transform .7s var(--ease)}
+  #splash.hide{opacity:0;transform:scale(1.07);pointer-events:none}
+  .sp-inner{display:flex;flex-direction:column;align-items:center;gap:20px;text-align:center}
+  .sp-mark{position:relative;width:100px;height:100px;display:grid;place-items:center}
+  .sp-mark::before{content:"";position:absolute;inset:-16px;border-radius:34px;z-index:0;background:conic-gradient(from var(--bes-a),var(--accent),var(--violet),var(--amber),var(--accent));filter:blur(17px);opacity:.75}
+  .sp-mark::after{content:"";position:absolute;inset:-3px;border-radius:27px;z-index:1;background:conic-gradient(from var(--bes-a),var(--accent),var(--violet),var(--amber),var(--accent));padding:3px;-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude}
+  .sp-logo{position:relative;z-index:2;width:92px;height:92px;border-radius:24px;display:grid;place-items:center;color:#fff;font-family:Georgia,serif;font-weight:700;font-size:46px;background:linear-gradient(150deg,var(--accent),var(--accent-ink));box-shadow:0 14px 38px rgba(15,110,106,.4)}
+  .sp-spark{position:absolute;z-index:3;top:-7px;right:-7px;width:30px;height:30px;color:#fff;filter:drop-shadow(0 2px 7px rgba(0,0,0,.35))}
+  .sp-name{position:relative;font-family:Georgia,serif;font-size:26px;font-weight:700;letter-spacing:-.01em;color:var(--ink);overflow:hidden}
+  .sp-name::after{content:"";position:absolute;inset:0;background:linear-gradient(110deg,transparent 35%,rgba(255,255,255,.75) 50%,transparent 65%);transform:translateX(-130%)}
+  .sp-tag{font-size:13px;color:var(--muted);margin-top:-8px;letter-spacing:.03em}
+  @media (prefers-reduced-motion: no-preference){
+    .sp-mark::before{animation:bes-spin 3s linear infinite,bes-breathe 2.4s var(--ease) infinite}
+    .sp-mark::after{animation:bes-spin 3s linear infinite}
+    .sp-logo{animation:bes-pop .7s var(--ease) both}
+    .sp-spark{animation:bes-pop .6s var(--ease) .12s both,bes-twinkle 1.9s var(--ease) .9s infinite}
+    .sp-name{animation:bes-rise .6s var(--ease) .14s both}
+    .sp-name::after{animation:bes-shimmer 1.5s var(--ease) .5s 1}
+    .sp-tag{animation:bes-rise .6s var(--ease) .26s both}
+  }
+  @keyframes bes-spin{to{--bes-a:360deg}}
+  @keyframes bes-breathe{0%,100%{opacity:.55;filter:blur(16px)}50%{opacity:.95;filter:blur(22px)}}
+  @keyframes bes-shimmer{to{transform:translateX(130%)}}
+  @keyframes bes-twinkle{0%,100%{opacity:1;transform:scale(1) rotate(0deg)}50%{opacity:.65;transform:scale(.82) rotate(18deg)}}
+  @keyframes bes-rise{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+  /* mobiel: header-knoppen alleen iconen zodat niks zijwaarts overflowt */
+  @media(max-width:440px){ header.top .iconbtn span{display:none} header.top .iconbtn{padding:7px 9px;min-width:38px;justify-content:center} .topin{gap:8px} }
+/* ===== gedeelde interactie-verbeteringen (fixronde augustus 2026) ===== */
+@media (prefers-reduced-motion: no-preference){
+  @keyframes bes-klik{0%{transform:scale(1)}38%{transform:scale(.955)}100%{transform:scale(1)}}
+  .bes-klik{animation:bes-klik .2s cubic-bezier(.22,.61,.36,1)}
+  @keyframes bes-in{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+  .bes-in{animation:bes-in .22s cubic-bezier(.22,.61,.36,1) both}
+}
+.acc>.body{display:grid;grid-template-rows:1fr;opacity:1;overflow:hidden;transition:grid-template-rows .25s cubic-bezier(.22,.61,.36,1),opacity .2s cubic-bezier(.22,.61,.36,1),padding .25s cubic-bezier(.22,.61,.36,1)}
+.acc>.body>*{min-height:0}
+.bes-wrap{min-height:0}
+.acc:not([open])>.body,.acc.bes-dicht>.body,.acc.bes-open>.body{grid-template-rows:0fr;opacity:0;padding-top:0;padding-bottom:0}
+.fbextra{display:grid;gap:0 14px}
+.fbextra .fld{margin-top:10px}
+@media(min-width:620px){.fbextra{grid-template-columns:1fr 1fr}.fbextra .fbwaar{grid-column:1 / -1}}
+
+</style>
+</head>
+<body>
+<div id="splash"><div class="sp-inner">
+  <div class="sp-mark">
+    <div class="sp-logo">OP</div>
+    <svg class="sp-spark" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 1.5c.4 4.6 2.4 6.6 7 7-4.6.4-6.6 2.4-7 7-.4-4.6-2.4-6.6-7-7 4.6-.4 6.6-2.4 7-7Z"/></svg>
+  </div>
+  <div><div class="sp-name">Ontwikkelingspsychologie</div><div class="sp-tag">slim oefenen voor je examen</div></div>
+</div></div>
+<header class="top">
+  <div class="topin">
+    <div class="brand"><span class="logo">OP</span><div>Ontwikkelingspsychologie<small>Berie’s exam space</small></div></div>
+    <span class="spacer"></span>
+    <a class="iconbtn" href="https://beriesexamspace.github.io/?jaar=1" title="Andere vakken"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true" style="width:16px;height:16px"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg><span>Vakken</span></a>
+    <button class="iconbtn" id="themeBtn" aria-label="Wissel tussen licht en donker thema"></button>
+  </div>
+  <nav class="tabs" id="tabs"></nav>
+</header>
+<div class="wrap" id="app"></div>
+<footer class="wrap" style="padding-top:0">Ontwikkelingspsychologie · Berie’s exam space, oefen slim voor je examen · veel succes!<br><span style="opacity:.7">© 2026 Berie’s exam space · Alle rechten voorbehouden</span></footer>
+
+<script>
+window.ONTWIKKEL = {"questions":[{"t":"1","q":"Wat is de meest correcte definitie van ontwikkelingspsychologie volgens de samenvatting?","o":["De wetenschappelijke studie van enkel kinderlijke groei tot aan de adolescentie","De wetenschappelijke studie van veranderingsprocessen en stabiliteit bij individuen, van conceptie tot dood, in wisselwerking met de omgeving","De wetenschappelijke studie van afwijkend gedrag en psychische stoornissen bij volwassenen, met de nadruk op diagnose en behandeling in de klinische praktijk","De studie van uitsluitend genetisch bepaalde eigenschappen vanaf de geboorte"],"a":1,"u":"Volgens de inleiding is ontwikkelingspsychologie de wetenschappelijke studie van veranderingsprocessen EN stabiliteit bij individu(en), van conceptie tot dood, op verschillende domeinen, in wisselwerking met de omgeving."},{"t":"1","q":"Een onderzoeker stelt vast dat er een samenhang is tussen het kijken naar geweld op tv en agressief gedrag, zonder zelf in te grijpen. Wat voor type onderzoek is dit, en wat mag je NIET besluiten?","o":["Experimenteel onderzoek; je mag een oorzaak-gevolgrelatie besluiten","Correlationeel onderzoek; je mag GEEN oorzaak-gevolgrelatie besluiten","Experimenteel onderzoek; je mag geen samenhang besluiten","Correlationeel onderzoek; je mag een duidelijke oorzaak-gevolgrelatie besluiten"],"a":1,"u":"Correlationeel onderzoek bekijkt de samenhang tussen 2 variabelen zonder ingrijpen en laat GEEN oorzaak-gevolg toe, want een derde variabele is mogelijk (vb geweld op tv vs agressie)."},{"t":"1","q":"Wat is een essentieel kenmerk van experimenteel onderzoek dat het onderscheidt van correlationeel onderzoek?","o":["De onderzoeker grijpt in en gebruikt een controlegroep versus een experimentele groep om een causaal verband te testen","De onderzoeker observeert het gedrag in de natuurlijke omgeving en leidt daaruit rechtstreeks de oorzaak van het gevonden verband af","De onderzoeker meet uitsluitend de samenhang tussen variabelen","De onderzoeker kan nooit een oorzaak-gevolgrelatie aantonen"],"a":0,"u":"Bij experimenteel onderzoek grijpt de onderzoeker in om een causaal verband te testen, met een controlegroep versus een experimentele groep, idealiter met slechts 1 verschillende factor."},{"t":"1","q":"Een kind van 4 jaar bevindt zich volgens de levensfases uit de samenvatting in welke fase?","o":["Babytijd","Peutertijd","Kleutertijd","Kindertijd"],"a":2,"u":"Volgens de levensfases loopt de kleutertijd van 3 tot 6 jaar, dus een kind van 4 jaar zit in de kleutertijd."},{"t":"1","q":"Welke leeftijdsgrens hoort bij de fase 'emerging adulthood' zoals beschreven in de samenvatting?","o":["12-18 jaar","18-25 jaar","30-60 jaar","60+ jaar"],"a":1,"u":"In de levensfases wordt emerging adulthood aangeduid als 18-25 jaar."},{"t":"1","q":"Wat wordt bedoeld met DISCONTINUE ontwikkeling binnen de basisthema's?","o":["Een graduele, kwantitatieve toename zonder duidelijke sprongen","Ontwikkeling in stadia met kwalitatieve sprongen","Ontwikkeling die voor iedereen volledig hetzelfde verloopt","Ontwikkeling die uitsluitend door genen wordt bepaald"],"a":1,"u":"Discontinue ontwikkeling verloopt volgens stadia met kwalitatieve sprongen, terwijl continue ontwikkeling staat voor een graduele, kwantitatieve toename."},{"t":"1","q":"Het basisthema 'universeel versus individueel' verwijst naar welk onderscheid?","o":["Het onderscheid tussen aangeboren en aangeleerd gedrag","Of iedereen dezelfde stappen doorloopt versus of mensen eigen ontwikkelingspaden hebben","Of ontwikkeling gradueel of in sprongen verloopt","Of een onderzoeker ingrijpt met een controlegroep dan wel enkel de samenhang meet"],"a":1,"u":"Universeel betekent dat iedereen dezelfde stappen doorloopt (met gevoelige/kritieke periode), terwijl individueel betekent dat mensen hun eigen paden volgen."},{"t":"1","q":"Iemand stelt dat een kind een blanco blad is en dat de omgeving alles bepaalt. Bij welke pool van het basisthema sluit deze stelling aan?","o":["Nature","Nurture","Universeel","Continu"],"a":1,"u":"Nurture verwijst naar de invloed van de omgeving; het idee van de mens als blanco blad waarbij de omgeving bepalend is, hoort bij de nurture-pool (in tegenstelling tot nature: aangeboren, genetisch). In de samenvatting wordt dit gekoppeld aan het behaviorisme."},{"t":"1","q":"Wat is volgens de samenvatting de juiste conclusie over de rol van nature en nurture in de ontwikkeling?","o":["Enkel nature (genetica) bepaalt de levensloop","Enkel nurture (omgeving) bepaalt de levensloop","Nature en nurture bepalen samen de levensloop","Nature en nurture sluiten elkaar volledig uit"],"a":2,"u":"De samenvatting stelt expliciet dat nature (aangeboren, genetisch) en nurture (omgeving) beide samen de levensloop bepalen."},{"t":"2","q":"Welke theoreticus vergeleek het menselijk bewustzijn met een ijsberg en stelde dat het onderbewustzijn ons gedrag stuurt?","o":["Erikson","Freud","Skinner","Piaget"],"a":1,"u":"Volgens de samenvatting hoort de psychoanalyse bij Freud: het onderbewustzijn stuurt gedrag (ijsberg), met Es/Ich/Über-ich en de psychoseksuele fases."},{"t":"2","q":"Wat is de juiste volgorde van Freuds psychoseksuele fases?","o":["Oraal - anaal - fallisch - latentie - genitaal","Anaal - oraal - fallisch - genitaal - latentie","Oraal - fallisch - anaal - latentie - genitaal","Fallisch - oraal - anaal - genitaal - latentie"],"a":0,"u":"De samenvatting geeft de psychoseksuele fases van Freud expliciet in de volgorde oraal -> anaal -> fallisch -> latentie -> genitaal."},{"t":"2","q":"Erikson beschreef de menselijke ontwikkeling als een reeks van hoeveel ontwikkelingsconflicten verspreid over het hele leven?","o":["4 fases","5 fases","8 fases","6 fases"],"a":2,"u":"Volgens de samenvatting beschrijft Erikson (psychosociaal) 8 ontwikkelingsconflicten over heel het leven."},{"t":"2","q":"Een 14-jarige jongere worstelt met de vraag 'wie ben ik?'. Welk psychosociaal conflict van Erikson hoort bij deze leeftijd (12-18 jaar)?","o":["Intimiteit vs isolement","Vlijt vs minderwaardigheid","Identiteit vs identiteitsverwarring","Autonomie vs schaamte en zelftwijfel"],"a":2,"u":"In Eriksons fasen valt 12-18 jaar onder fase 5: identiteit vs identiteitsverwarring. Intimiteit vs isolement is de daaropvolgende fase (18-30)."},{"t":"2","q":"Welke onderzoeker wordt in de samenvatting verbonden met de klassieke conditionering?","o":["Pavlov","Skinner","Bandura","Watson"],"a":0,"u":"De samenvatting koppelt klassieke conditionering aan Pavlov, terwijl operante conditionering (straf/beloning) aan Skinner wordt toegeschreven."},{"t":"2","q":"Volgens het behaviorisme (Watson, Skinner) wordt de mens beschouwd als een blanco blad. Welke stelling sluit hier het beste bij aan?","o":["Gedrag wordt vooral bepaald door aangeboren, genetische factoren","Enkel observeerbaar gedrag en externe stimuli tellen; de omgeving (nurture) vormt de mens","Ontwikkeling verloopt via vier universele cognitieve fases","Gedrag wordt gestuurd door onbewuste driften en verdrongen conflicten uit de vroege kindertijd"],"a":1,"u":"Volgens de samenvatting kijkt het behaviorisme enkel naar observeerbaar gedrag en externe stimuli, en ziet het de mens als een blanco blad (nurture)."},{"t":"2","q":"Een kind leert een nieuwe vaardigheid door zijn oudere broer te observeren, zonder zelf te moeten experimenteren met trial-and-error. Welke theoreticus en begrip horen hierbij?","o":["Skinner - operante conditionering","Piaget - accommodatie","Bandura - modelling","Freud - fixatie"],"a":2,"u":"Volgens de samenvatting staat Bandura (sociaal-cognitief) voor modelling: leren door observatie in plaats van trial-and-error."},{"t":"2","q":"Een kind ziet voor het eerst een paard en noemt het 'hond', omdat het dit nieuwe dier inpast in zijn bestaande schema voor viervoeters. Welk Piaget-begrip illustreert dit?","o":["Assimilatie","Accommodatie","Conservatie","Objectpermanentie"],"a":0,"u":"Volgens de samenvatting is assimilatie het inpassen van iets nieuws in een bestaand schema; accommodatie is het aanpassen van het schema zelf."},{"t":"2","q":"Welke Piaget-fase wordt gekenmerkt door objectpermanentie en loopt van 0 tot 2 jaar?","o":["Pre-operationeel","Sensori-motorisch","Concreet-operationeel","Formeel-operationeel"],"a":1,"u":"Volgens de samenvatting is de sensori-motorische fase (0-2 jaar) gekenmerkt door objectpermanentie; conservatie en abstract redeneren horen bij latere fases."},{"t":"2","q":"De humanistische stroming (Rogers, Maslow) benadrukt vrije wil en stelt welk concept centraal als levensdoel?","o":["Fixatie","Inprenting","Zelfactualisatie","Genderconstantie"],"a":2,"u":"Volgens de samenvatting benadrukt de humanistische benadering (Rogers, Maslow) vrije wil en zelfactualisatie als levensdoel (piramide van Maslow)."},{"t":"2","q":"Welke theoreticus ontwikkelde het bio-ecologische model met de niveaus micro-, meso-, exo-, macro- en chronosysteem?","o":["Vygotsky","Bronfenbrenner","Lorenz","Albert Bandura"],"a":1,"u":"Volgens de samenvatting hoort het contextuele, bio-ecologische model (micro -> meso -> exo -> macro -> chronosysteem) bij Bronfenbrenner."},{"t":"2","q":"Vygotsky (sociocultureel) en Lorenz (evolutionair) leggen elk een andere klemtoon. Welke combinatie is correct volgens de samenvatting?","o":["Vygotsky: inprenting en sensitieve periodes; Lorenz: zone van naaste ontwikkeling","Vygotsky: ontwikkeling via interactie met meer kundige leden; Lorenz: gedrag als genetische erfenis met inprenting","Vygotsky: leren via operante conditionering en bekrachtiging; Lorenz: zelfactualisatie als hoogste menselijke behoefte","Vygotsky: psychoseksuele fases; Lorenz: assimilatie en accommodatie"],"a":1,"u":"Volgens de samenvatting staat Vygotsky voor ontwikkeling via interactie met meer kundige leden (cultuuroverdracht) en Lorenz voor gedrag als genetische erfenis met inprenting/sensitieve periodes."},{"t":"3","q":"Wat houdt epigenetica volgens de samenvatting precies in?","o":["De omgeving verandert de genetische code zelf permanent","De omgeving beïnvloedt de genexpressie zonder de code zelf te veranderen","Genen bepalen volledig deterministisch het gedrag vanaf de conceptie","Aanleg komt enkel tot uiting in een specifieke stresscontext"],"a":1,"u":"Volgens de samenvatting betekent epigenetica dat de omgeving de genexpressie beïnvloedt (niet de code zelf), met als voorbeeld de hongerwinter."},{"t":"3","q":"Een kind kiest zelf actief omgevingen die bij zijn genetische aanleg passen (bv. een muzikaal kind zoekt muziek op). Welk type gen-omgeving correlatie is dit?","o":["Passieve correlatie (gedeeld gezinsmilieu)","Evocatieve correlatie","Actieve correlatie (niche-picking)","Diathese-stress interactie"],"a":2,"u":"De samenvatting omschrijft actieve gen-omgeving correlatie als niche-picking: het individu kiest zelf omgevingen die bij zijn aanleg passen."},{"t":"3","q":"Een baby krijgt 1, 5 en 10 minuten na de geboorte een score om de vitale toestand te beoordelen. Welke score is dit?","o":["De Guthrie-test","De APGAR-score","De hielprik","De Big Five-score"],"a":1,"u":"De APGAR-score wordt afgenomen op 1, 5 en 10 minuten na de geboorte om de toestand van de pasgeborene te beoordelen."},{"t":"3","q":"Een pasgeborene krijgt een APGAR-score van 3. Wat is volgens de samenvatting de aangewezen reactie?","o":["Reanimatie","Normale verzorging, geen ingreep nodig","Afwachten en pas op 10 minuten opnieuw meten","Onmiddellijk de hielprik afnemen"],"a":0,"u":"De samenvatting stelt: APGAR <4 = reanimatie, 4-7 = mogelijk ingrijpen, >7 = normaal. Een score van 3 valt onder de drempel voor reanimatie."},{"t":"3","q":"Wat is het doel van de hielprik (Guthrie-test) die 3 tot 5 dagen na de geboorte wordt afgenomen?","o":["Het meten van het geboortegewicht","Het bevorderen van de hechting via huidcontact","Genetische screening op aandoeningen","Het beoordelen van de ademhaling en hartslag"],"a":2,"u":"De hielprik of Guthrie-test (3-5 dagen) dient volgens de samenvatting voor genetische screening."},{"t":"3","q":"Welke onderzoeksmethode wordt in de samenvatting NIET genoemd als methode binnen de gedragsgenetica?","o":["Familieonderzoek bij naaste bloedverwanten","Tweelingenonderzoek","Adoptieonderzoek","Experimenteel onderzoek met controlegroep"],"a":3,"u":"De samenvatting noemt familie-, tweelingen- en adoptieonderzoek als methodes van gedragsgenetica; experimenteel onderzoek met controlegroep hoort daar niet bij."},{"t":"3","q":"Waarom benadrukt de samenvatting dat de timing belangrijk is bij teratogenen?","o":["Omdat teratogenen pas na de geboorte schade aanrichten","Omdat het moment van blootstelling tijdens de zwangerschap de schade beïnvloedt","Omdat teratogenen enkel schadelijk zijn wanneer ze de genetische code van het embryo veranderen","Omdat teratogenen enkel via de hielprik opgespoord kunnen worden"],"a":1,"u":"De samenvatting vermeldt teratogenen zoals roken, alcohol, drugs en ziektes met expliciete nadruk op 'timing!', wat verwijst naar het moment van blootstelling tijdens de zwangerschap."},{"t":"3","q":"Een baby weegt bij de geboorte 2200 gram. Hoe wordt dit volgens de samenvatting geclassificeerd?","o":["Extreem prematuur","Postmatuur","Laag geboortegewicht","Normaal geboortegewicht"],"a":2,"u":"De samenvatting definieert laag geboortegewicht als <2500 g; 2200 g valt hieronder maar niet onder extreem prematuur (<1250 g)."},{"t":"3","q":"Wat geeft de samenvatting aan over postpartum depressie?","o":["Ze komt bij ongeveer 10% voor en heeft een hormonale component","Ze treft uitsluitend moeders met een laag geboortegewicht-baby","Ze ontstaat door een te lage APGAR-score","Ze wordt veroorzaakt door epigenetische veranderingen bij de baby"],"a":0,"u":"De samenvatting beschrijft postpartum depressie als voorkomend bij ongeveer 10% en als hormonaal van aard."},{"t":"4","q":"Welk fysiek ontwikkelingsprincipe beschrijft dat de ontwikkeling van het lichaam verloopt van het hoofd naar de tenen?","o":["Proximodistaal principe","Cefalocaudaal principe","Hiërarchische integratie","Onafhankelijke systemen"],"a":1,"u":"Volgens de samenvatting betekent cefalocaudaal 'kop -> teen': de ontwikkeling verloopt van het hoofd naar beneden. Proximodistaal gaat juist van het midden naar buiten."},{"t":"4","q":"Een baby leert eerst de armen en romp besturen voordat hij de vingers fijn kan bewegen. Welk principe illustreert dit?","o":["Cefalocaudaal principe","Synaptic pruning","Proximodistaal principe","Myelinisatie"],"a":2,"u":"Het proximodistale principe gaat van 'midden -> buiten': eerst de centrale delen (romp, armen), daarna de buitenste delen (handen, vingers)."},{"t":"4","q":"Wat houdt 'synaptic pruning' in de hersenontwikkeling van de peuter in?","o":["Het verkrijgen van een isolerende laag rond de zenuwbanen","Het wegsnoeien van overtollige, ongebruikte synapsen","Het herstellen van schade door shaken baby syndroom","Het ontstaan van objectpermanentie"],"a":1,"u":"De samenvatting noemt synaptic pruning bij de hersenontwikkeling; dit is het wegsnoeien van overtollige synapsen. Het verkrijgen van een isolerende laag is myelinisatie."},{"t":"4","q":"Welke reflex hoort bij de aangeboren reflexen die bij de peuter verdwijnen naarmate de controle toeneemt?","o":["Conservatiereflex","Moro-reflex","Decentratiereflex","Accommodatiereflex"],"a":1,"u":"De samenvatting noemt rooting, grasping, Moro en Babinski als reflexen die verdwijnen met toenemende controle. Conservatie en decentratie zijn cognitieve begrippen, accommodatie is een Piaget-mechanisme."},{"t":"4","q":"Met welk experiment wordt het dieptezicht van baby's onderzocht?","o":["De vreemde situatie","Het Bobo-experiment","De visual cliff","De Sally-Anne taak"],"a":2,"u":"Volgens de samenvatting is de 'visual cliff' het experiment dat dieptezicht test. De vreemde situatie meet hechting, Bobo agressie, en Sally-Anne false belief."},{"t":"4","q":"Welk zintuig is bij de geboorte het best ontwikkeld volgens de samenvatting?","o":["Het zicht","De tast","De reuk","Het gehoor"],"a":1,"u":"De samenvatting stelt dat de tast het best ontwikkeld is, terwijl het zicht beperkt is (best op 20 cm)."},{"t":"4","q":"In welke fase van Piaget bevindt de peuter zich, en waarmee eindigt deze fase?","o":["Pre-operationeel; eindigt met conservatie","Sensori-motorisch; eindigt met objectpermanentie","Concreet-operationeel; eindigt met omkeerbaarheid","Formeel-operationeel; eindigt met abstract redeneren"],"a":1,"u":"De samenvatting plaatst de peuter in de sensori-motorische fase (0-2), die eindigt met objectpermanentie en mentale representatie."},{"t":"4","q":"Onderzoek (Baillargeon, violation-of-expectation) toont kritiek op Piaget. Wat is volgens de samenvatting de kern van die kritiek?","o":["Objectpermanentie ontstaat pas in de kleutertijd","Vaardigheden worden eerder verworven dan Piaget dacht","Baby's hebben geen aangeboren reflexen","Brabbelen komt enkel voor bij horende kinderen"],"a":1,"u":"De samenvatting noemt als kritiek (violation-of-expectation, Baillargeon) dat vaardigheden eerder verworven worden dan Piaget aannam."},{"t":"4","q":"Wat is volgens de samenvatting opvallend aan het brabbelen in de taalontwikkeling?","o":["Het komt pas op gang na de eerste woorden van een kind","Het is universeel en komt ook voor bij dove kinderen","Het bestaat uit zinnen in telegramstijl","Het wordt aangeleerd via modelling"],"a":1,"u":"De samenvatting beschrijft brabbelen als universeel, dat ook bij dove kinderen voorkomt. Telegramstijl hoort bij de eerste zinnen, niet bij brabbelen."},{"t":"4","q":"Wat toonde Harlow met zijn experimenten met aapjes aan over hechting?","o":["Voeding is belangrijker dan geborgenheid","Geborgenheid is belangrijker dan voeding","Hechting verloopt enkel via klassieke conditionering","Dieptezicht ontstaat door tastcontact"],"a":1,"u":"Volgens de samenvatting toonde Harlow's apenonderzoek aan dat geborgenheid belangrijker is dan voeding ('geborgenheid > voeding')."},{"t":"4","q":"Welke hechtingsstijlen onderscheidden Bowlby en Ainsworth?","o":["Authoritatief, autoritair, permissief, verwaarlozend","Veilig, vermijdend, angstig-ambivalent, gedesorganiseerd","Oraal, anaal, fallisch, genitaal","Integratie, assimilatie, separatie, marginalisatie"],"a":1,"u":"De samenvatting noemt bij hechting (Bowlby/Ainsworth) de stijlen veilig, vermijdend, angstig-ambivalent en gedesorganiseerd. De andere reeksen horen bij opvoedingsstijlen, Freud en acculturatie."},{"t":"5","q":"Een kleuter ziet dat water uit een breed, laag glas in een smal, hoog glas wordt gegoten en zegt dat er nu méér water is. Welk kenmerk van het pre-operationele denken toont dit?","o":["Conservatie","Geen conservatie","Decentratie","Omkeerbaarheid"],"a":1,"u":"Volgens Piaget heeft de pre-operationele kleuter (3-6 j) GEEN conservatie: hij begrijpt niet dat de hoeveelheid gelijk blijft ondanks een verandering van vorm."},{"t":"5","q":"Een kleuter denkt dat iedereen precies hetzelfde ziet en denkt als hijzelf. Hoe noemt Piaget dit denkkenmerk?","o":["Egoïsme","Egocentrisme","Centratie","Decentratie"],"a":1,"u":"In de pre-operationele fase is het denken egocentrisch: het kind kan zich niet in het perspectief van een ander verplaatsen. De samenvatting benadrukt dat dit NIET hetzelfde is als egoïsme."},{"t":"5","q":"Het zich richten op slechts één opvallend kenmerk van een situatie en de rest negeren, heet bij Piaget:","o":["Centratie","Conservatie","Assimilatie","Scaffolding"],"a":0,"u":"Centratie is een kenmerk van het pre-operationele denken: de kleuter concentreert zich op één dimensie (bv. de hoogte van het glas) en kan niet meerdere aspecten tegelijk in rekening brengen."},{"t":"5","q":"Welke theoreticus introduceerde de zone van naaste ontwikkeling en het begrip scaffolding?","o":["Piaget","Vygotsky","Bandura","Erikson"],"a":1,"u":"De zone van naaste ontwikkeling (ZNO) en scaffolding (ondersteuning door een meer kundige ander) komen uit het sociocultureel kader van Vygotsky."},{"t":"5","q":"Een kleuter praat hardop tegen zichzelf terwijl hij een puzzel maakt ('eerst de hoekjes...'). Hoe wordt dit volgens de samenvatting genoemd, en waartoe ontwikkelt het zich?","o":["Innerlijke spraak, ontwikkelt naar hardop denken bij moeilijke taken","Privé-spraak (self-scaffolding), ontwikkelt naar interne dialoog","Brabbelen, ontwikkelt naar eerste woorden","Overextensie, ontwikkelt naar onderextensie"],"a":1,"u":"Bij Vygotsky is privé-spraak een vorm van self-scaffolding die zich geleidelijk omvormt tot interne dialoog (denken in stilte)."},{"t":"5","q":"Hoe wordt het cognitief-sociale aspect van man/vrouw-zijn, gevat in een genderschema, in de samenvatting genoemd (in tegenstelling tot het louter biologische)?","o":["Geslacht","Gender","Genderconstantie","Genderschema-fixatie"],"a":1,"u":"De samenvatting benadrukt 'Gender (NIET geslacht)': gender is het cognitief-sociale aspect, gekoppeld aan het genderschema en de ontwikkeling van geslacht-veranderlijk naar genderconstantie, en is niet hetzelfde als het biologische geslacht."},{"t":"5","q":"Twee kleuters spelen naast elkaar met blokken, elk met eigen blokken, zonder echt samen te spelen of te overleggen. Welk speltype volgens Parten is dit?","o":["Coöperatief spel","Parallel spel","Associatief spel","Solitair spel"],"a":1,"u":"In Partens reeks is parallel spel: kinderen spelen naast elkaar met gelijkaardig materiaal maar zonder echte interactie of samenwerking."},{"t":"5","q":"Welke volgorde van spelvormen geeft Parten correct weer?","o":["solitary → unoccupied → parallel → onlooker → cooperative → associative","unoccupied → solitary → onlooker → parallel → associative → cooperative","parallel → solitary → cooperative → onlooker → unoccupied → associative","onlooker → parallel → solitary → unoccupied → cooperative → associative"],"a":1,"u":"Volgens de samenvatting verloopt Partens speltypering van unoccupied → solitary → onlooker → parallel → associative → cooperative."},{"t":"5","q":"Welke opvoedingsstijl wordt in de samenvatting als de beste aangeduid, gekenmerkt door een combinatie van veel warmte én controle?","o":["Autoritair","Permissief","Authoritatief","Uninvolved/verwaarlozend"],"a":2,"u":"Opvoedingsstijlen worden bepaald door de dimensies warmte x controle; de authoritatieve stijl (hoge warmte én hoge controle) wordt expliciet als de beste beschreven."},{"t":"5","q":"Volgens Piaget verloopt de morele ontwikkeling bij het jonge kind in welke richting?","o":["Heteronoom → samenwerking → autonoom","Preconventioneel → conventioneel → postconventioneel","Autonoom → heteronoom → samenwerking","Intern → extern → stabiel"],"a":0,"u":"Piagets moraliteit gaat van heteronoom (regels als onveranderlijk, opgelegd) over samenwerking naar autonoom. De preconventioneel→conventioneel→postconventioneel-reeks is van Kohlberg."},{"t":"5","q":"Het Bobo-doll-experiment, waarbij kinderen agressie nabootsen na het zien van een model, wordt toegeschreven aan:","o":["Skinner","Bandura","Pavlov","Vygotsky"],"a":1,"u":"Het Bobo-experiment hoort bij Bandura's sociaal-cognitieve theorie (modelling: leren door observatie); het illustreert agressie als aangeleerd gedrag."},{"t":"6","q":"Een kind van 9 jaar begrijpt nu dat wanneer water uit een breed glas in een smal hoog glas wordt gegoten, de hoeveelheid water gelijk blijft. Bij welke fase van Piaget hoort dit inzicht?","o":["Pre-operationeel","Concreet-operationeel","Sensori-motorisch","Formeel-operationeel"],"a":1,"u":"In de concreet-operationele fase (7-11 j) verwerft het kind conservatie, decentratie en omkeerbaarheid, waardoor het begrijpt dat hoeveelheid behouden blijft bij vormverandering."},{"t":"6","q":"Wat houdt het Flynn-effect in volgens de samenvatting?","o":["De daling van intelligentie bij veroudering","De toename van de gemiddelde IQ-scores over de generaties heen","Het verschil in IQ tussen eeneiige en twee-eiige tweelingen","De erfelijkheid van intelligentie binnen families"],"a":1,"u":"Het Flynn-effect wordt bij intelligentie genoemd naast het IQ (gem. 100, SD 15) en verwijst naar de stijging van gemiddelde IQ-scores doorheen de generaties."},{"t":"6","q":"Welke theoreticus stelde dat intelligentie te verdelen is in fluïde en gekristalliseerde intelligentie?","o":["Spearman","Gardner","Cattell","Kohlberg"],"a":2,"u":"Volgens de samenvatting onderscheidt Cattell fluïde en gekristalliseerde intelligentie; Spearman staat voor de g-factor en Gardner voor 8 types."},{"t":"6","q":"Een onderzoeker beschrijft intelligentie als één algemene factor die aan alle cognitieve prestaties ten grondslag ligt. Welk model/welke theoreticus past hierbij?","o":["Gardner met 8 types intelligentie","Spearman met de g-factor","CHC-model als basis van de WISC-V","Cattell met fluïde intelligentie"],"a":1,"u":"Spearman staat in de samenvatting voor de g-factor, één algemene intelligentiefactor; Gardner verdeelt in 8 types en CHC is de basis van de WISC-V."},{"t":"6","q":"Welk model vormt volgens de samenvatting de basis van de WISC-V intelligentietest?","o":["Het CHC-model","Het model van Gardner","De g-factor van Spearman","De diathese-stresstheorie"],"a":0,"u":"De samenvatting vermeldt expliciet het CHC-model als de basis van de WISC-V."},{"t":"6","q":"Vanaf welke IQ-score spreekt men volgens de samenvatting van hoogbegaafdheid?","o":["IQ > 100","IQ > 115","IQ > 130","IQ > 145"],"a":2,"u":"De samenvatting stelt dat hoogbegaafdheid overeenkomt met een IQ boven 130."},{"t":"6","q":"Welke van de volgende stoornissen wordt in de samenvatting genoemd als een leerstoornis?","o":["ASS (autismespectrumstoornis)","ADHD","Dyscalculie","Postpartum depressie"],"a":2,"u":"Bij ontwikkelingsstoornissen worden de leerstoornissen dyslexie, dyscalculie en dyspraxie genoemd; ASS en ADHD staan apart en zijn geen leerstoornissen."},{"t":"6","q":"Het Heinz-dilemma wordt gebruikt om welke theorie te onderzoeken?","o":["De morele ontwikkeling volgens Kohlberg","De attributietheorie","De intelligentietheorie van Gardner","De hechtingstheorie van Bowlby"],"a":0,"u":"Het Heinz-dilemma hoort bij Kohlbergs moraliteit, met de niveaus preconventioneel, conventioneel en postconventioneel."},{"t":"6","q":"Wat is de juiste volgorde van Kohlbergs niveaus van morele ontwikkeling?","o":["Conventioneel → preconventioneel → postconventioneel","Preconventioneel → conventioneel → postconventioneel","Heteronoom → samenwerking → autonoom","Postconventioneel → conventioneel → preconventioneel"],"a":1,"u":"Volgens de samenvatting verloopt Kohlbergs moraliteit van preconventioneel naar conventioneel naar postconventioneel (met 6 subfases). De reeks heteronoom→samenwerking→autonoom hoort bij Piagets moraliteit, niet bij Kohlberg."},{"t":"6","q":"Volgens de samenvatting evolueert vriendschap in de kindertijd via welke ontwikkeling?","o":["Gedrag → vertrouwen → psychologische nabijheid","Vertrouwen → gedrag → afstand","Psychologische nabijheid → gedrag → vertrouwen","Gedrag → conflict → isolement"],"a":0,"u":"De samenvatting beschrijft vriendschap als een ontwikkeling van gedrag, naar vertrouwen, naar psychologische nabijheid."},{"t":"6","q":"Volgens de attributietheorie worden oorzaken van gebeurtenissen ingedeeld op twee dimensies. Welke zijn dat?","o":["Warmte/afstand en controle/vrijheid","Intern/extern en stabiel/variabel","Continu en discontinu","Nature en nurture"],"a":1,"u":"De attributietheorie in de samenvatting verdeelt oorzaken op de dimensies intern/extern en stabiel/variabel; warmte x controle hoort bij opvoedingsstijlen."},{"t":"7","q":"Wat houdt de 'persoonlijke fabel' bij adolescent egocentrisme in?","o":["De overtuiging dat anderen constant naar je kijken en je beoordelen","Het gevoel dat je uniek en onkwetsbaar bent, alsof 'mij dat niet overkomt'","Het vermogen om abstract en hypothetisch te redeneren","De neiging om je identiteit van anderen over te nemen"],"a":1,"u":"Volgens de samenvatting is de persoonlijke fabel het gevoel uniek/onkwetsbaar te zijn ('mij overkomt dat niet'), wat tot risicogedrag leidt. Optie A beschrijft het imaginaire publiek."},{"t":"7","q":"Welke cognitieve fase van Piaget kenmerkt de adolescentie en wordt volgens de samenvatting maar door 40-60% volledig bereikt?","o":["Concreet-operationeel denken","Pre-operationeel denken","Formeel-operationeel denken","Sensori-motorisch denken"],"a":2,"u":"De samenvatting koppelt aan adolescentie het formeel-operationeel denken (abstract, propositioneel en hypothetisch), dat slechts door 40-60% volledig wordt bereikt."},{"t":"7","q":"Een tiener is ervan overtuigd dat iedereen op een feestje het kleine vlekje op zijn shirt opmerkt. Welk begrip illustreert dit?","o":["Persoonlijke fabel","Imaginair publiek","Genderconstantie","Psychologisch moratorium"],"a":1,"u":"Het imaginaire publiek is het idee dat anderen constant naar je kijken en je beoordelen; het vlekje-voorbeeld past hierbij, niet bij de persoonlijke fabel (uniek/onkwetsbaar voelen)."},{"t":"7","q":"Volgens Marcia ontstaan de identiteitsstatussen door de combinatie van twee dimensies. Welke twee zijn dat?","o":["Exploratie in breedte en exploratie in diepte","Warmte en controle","Crisis (exploratie) en commitment","Integratie en assimilatie"],"a":2,"u":"Marcia combineert crisis (exploratie) x commitment tot vier statussen: achievement, moratorium, foreclosure en diffusion. Breedte/diepte hoort bij Luyckx; warmte/controle bij opvoedingsstijlen."},{"t":"7","q":"Een adolescent heeft zonder eigen exploratie de waarden en doelen van zijn ouders overgenomen en daar een vaste keuze in gemaakt. Welke identiteitsstatus van Marcia is dit?","o":["Foreclosure","Achievement","Moratorium","Diffusion"],"a":0,"u":"Foreclosure betekent commitment zonder voorafgaande crisis/exploratie: men neemt waarden klakkeloos over. Achievement vereist juist exploratie vooraf."},{"t":"7","q":"Welke theoreticus voegde aan het identiteitsonderzoek de begrippen exploratie in breedte, exploratie in diepte en ruminatie toe?","o":["Erikson","Marcia","Luyckx","Berry"],"a":2,"u":"De samenvatting schrijft exploratie in breedte/diepte en ruminatie toe aan Luyckx. Erikson introduceerde de identiteitscrisis, Marcia de vier statussen en Berry de acculturatiestrategieën."},{"t":"7","q":"Volgens het acculturatiemodel van Berry: welke strategie wordt als de beste beschouwd?","o":["Assimilatie","Separatie","Marginalisatie","Integratie"],"a":3,"u":"In Berry's model is integratie (zowel de eigen cultuur behouden als de nieuwe overnemen, biculturele identiteit) de beste strategie. Assimilatie, separatie en marginalisatie zijn de andere drie."},{"t":"7","q":"Een migrantenjongere geeft de eigen herkomstcultuur volledig op en neemt enkel de nieuwe cultuur over. Welke acculturatiestrategie van Berry is dit?","o":["Integratie","Assimilatie","Separatie","Marginalisatie"],"a":1,"u":"Assimilatie betekent de nieuwe cultuur overnemen en de eigen herkomstcultuur loslaten. Separatie is het omgekeerde, marginalisatie is beide opgeven, integratie is beide behouden."},{"t":"7","q":"Welke vijf kenmerken horen volgens Arnett bij emerging adulthood?","o":["Identiteitsexploratie, instabiliteit, zelf-focus, 'tussenin' voelen en mogelijkheden","Generativiteit, stagnatie, ego-integriteit, wanhoop en routine","Autonomie, financiële zelfstandigheid, engagement, verantwoordelijkheid en levenslang leren","Intimiteit, passie, commitment, instabiliteit en autonomie"],"a":0,"u":"Arnett noemt vijf kenmerken van emerging adulthood: identiteitsexploratie, instabiliteit, zelf-focus, het gevoel 'tussenin' te zitten en mogelijkheden. De andere reeksen horen bij Erikson, Marcia/Luyckx en Steinberg."},{"t":"7","q":"Hoe vat de samenvatting de kern van emerging adulthood (18-25 j) volgens Arnett samen?","o":["'Volwassen volgens wet, nog niet volgens gevoel'","Een wijdverspreide midlife crisis","De fase waarin job volledig deel van de identiteit wordt","Het stadium van ego-integriteit vs wanhoop"],"a":0,"u":"De samenvatting omschrijft emerging adulthood als 'volwassen volgens wet, nog niet volgens gevoel', met een 'rolloze rol' en quarterlife crisis. Midlife crisis en ego-integriteit horen bij latere fases."},{"t":"7","q":"Welke twee biologische rijpingsverschijnselen markeren volgens de samenvatting het begin van de puberteit, en bij wie verloopt vroeg rijpen vooral negatief?","o":["Menarche (~11 j) en spermarche (~12 j); vooral vroeg rijpe meisjes negatief","Menopauze en spermarche; vooral vroeg rijpe jongens negatief","Menarche (~11 j) en de groeispurt (~14 j); vooral laat rijpe meisjes negatief","Spermarche en menopauze; vooral laat rijpe jongens negatief"],"a":0,"u":"De samenvatting noemt menarche (~11 j) en spermarche (~12 j) als puberteitsmarkers en stelt dat vroeg rijpen vooral bij meisjes negatief uitpakt. Menopauze en presbyopie horen bij de midden volwassenheid."},{"t":"8","q":"Volgens Steinberg bestaat liefde uit drie componenten. Welke component PIEKT vroeg in een relatie?","o":["Intimiteit","Passie","Commitment","Generativiteit"],"a":1,"u":"In de samenvatting staat bij Steinberg's liefde: intimiteit stijgt, passie piekt vroeg, en commitment stijgt traag. Passie is dus de component die vroeg piekt."},{"t":"8","q":"Een 45-jarige werknemer kan dankzij jarenlange ervaring complexe problemen op haar werk vlot oplossen, terwijl ze nieuwe, abstracte taken trager onder de knie krijgt dan vroeger. Welk verloop van intelligentie illustreert dit volgens de samenvatting?","o":["Gekristalliseerde intelligentie daalt, fluïde intelligentie stijgt","Gekristalliseerde intelligentie stijgt, fluïde intelligentie daalt","Beide vormen van intelligentie dalen even snel","Beide vormen van intelligentie blijven volledig stabiel"],"a":1,"u":"Bij midden volwassenheid staat: gekristalliseerde intelligentie stijgt, fluïde daalt, wat leidt tot expertise. Haar ervaring (gekristalliseerd) groeit, terwijl nieuwe abstracte taken (fluïde) moeilijker worden."},{"t":"8","q":"Welk psychosociaal conflict van Erikson hoort bij de midden volwassenheid (30-60 jaar)?","o":["Intimiteit vs isolement","Generativiteit vs stagnatie","Ego-integriteit vs wanhoop","Identiteit vs identiteitsverwarring"],"a":1,"u":"Volgens Erikson is fase 7 (30-60 jaar) generativiteit vs stagnatie. Intimiteit vs isolement is fase 6 (18-30) en ego-integriteit vs wanhoop is fase 8 (60+)."},{"t":"8","q":"Wat is de juiste volgorde van de 5 fases van Kübler-Ross bij het omgaan met de dood?","o":["Boosheid → ontkenning → depressie → onderhandeling → aanvaarding","Ontkenning → boosheid → onderhandeling → depressie → aanvaarding","Ontkenning → onderhandeling → boosheid → aanvaarding → depressie","Onderhandeling → ontkenning → boosheid → depressie → aanvaarding"],"a":1,"u":"De samenvatting geeft de 5 fases van Kübler-Ross in deze volgorde: ontkenning → boosheid → onderhandeling → depressie → aanvaarding."},{"t":"8","q":"In welk jaar werd euthanasie in België legaal volgens de samenvatting?","o":["1992","2002","2012","1985"],"a":1,"u":"De samenvatting vermeldt: euthanasie legaal sinds 2002, voor zowel fysiek als psychisch lijden."},{"t":"8","q":"Een verouderingstheorie stelt dat het lichaam in de loop van het leven letterlijk verslijt, mede door schade van vrije radicalen. Hoe heet deze theorie?","o":["Genetic programming theorie","Wear-and-tear theorie","Disengagement theorie","Continuïteit theorie"],"a":1,"u":"Bij verouderingstheorieën staat: genetic programming vs wear-and-tear (free radicals). De beschrijving van slijtage en vrije radicalen hoort bij de wear-and-tear theorie."},{"t":"8","q":"Volgens de samenvatting is euthanasie in België niet alleen mogelijk bij fysiek lijden, maar ook bij:","o":["Psychisch lijden","Financieel lijden","Sociaal lijden","Tijdelijk lijden"],"a":0,"u":"De samenvatting stelt expliciet dat euthanasie (legaal sinds 2002) geldt bij fysiek én psychisch lijden."},{"t":"8","q":"Welke benadering van succesvol ouder worden legt de nadruk op het selectief blijven optimaliseren van activiteiten?","o":["Disengagement theorie (geleidelijke terugtrekking)","Activity theorie (selectieve optimalisatie)","Genetic programming theorie","Wear-and-tear theorie"],"a":1,"u":"Bij succesvol ouder worden noemt de samenvatting de activity theorie en koppelt daar selectieve optimalisatie aan. Disengagement gaat juist over terugtrekken."},{"t":"8","q":"Een lichamelijke verandering die typisch tijdens de midden volwassenheid optreedt en in de samenvatting genoemd wordt, is:","o":["Menarche","Menopauze","Spermarche","Puberteit"],"a":1,"u":"Bij midden volwassenheid (30-60 j) wordt de menopauze genoemd. Menarche en spermarche horen bij de adolescentie/puberteit."},{"t":"8","q":"Welke benadering van succesvol ouder worden houdt in dat ouderen zich geleidelijk terugtrekken uit sociale rollen en activiteiten?","o":["Activity theorie","Continuiteit theorie","Disengagement theorie","Wear-and-tear theorie"],"a":2,"u":"De samenvatting noemt bij succesvol ouder worden drie benaderingen: disengagement (terugtrekken), activity (selectieve optimalisatie) en continuiteit. Disengagement = zich geleidelijk terugtrekken uit sociale rollen en activiteiten."}],"theory":[{"h":"1 · Inleiding & basisthema's","items":["Ontwikkelingspsychologie = de wetenschappelijke studie van veranderingsprocessen én stabiliteit bij individuen, van conceptie tot dood, op verschillende domeinen, in wisselwerking met de omgeving.","Correlationeel onderzoek: samenhang tussen 2 variabelen, geen ingrijpen → GEEN oorzaak-gevolg (een derde variabele kan meespelen).","Experimenteel onderzoek: de onderzoeker grijpt in (controlegroep vs experimentele groep, idealiter 1 verschillende factor) → kan wél causaliteit aantonen.","Levensfases: prenataal · babytijd (0–18 mnd) · peutertijd (18 mnd–3 j) · kleutertijd (3–6 j) · kindertijd (6–12 j) · adolescentie (12–18 j) · emerging adulthood (18–25 j) · vroege (18–30) · midden (30–60) · late volwassenheid (60+).","Basisthema's: continu (gradueel) vs discontinu (stadia/sprongen) · universeel vs individueel · nature (aangeboren) vs nurture (omgeving). Nature én nurture bepalen samen de levensloop."]},{"h":"2 · Theoretische kaders & grondleggers","items":["Psychoanalyse, Freud: onderbewustzijn stuurt gedrag (ijsberg), Es/Ich/Über-ich, psychoseksuele fases (oraal → anaal → fallisch → latentie → genitaal); fixatie bij te veel/weinig bevrediging.","Psychosociaal, Erikson: 8 conflicten over het hele leven (basisvertrouwen↔wantrouwen, autonomie↔schaamte, initiatief↔schuld, vlijt↔minderwaardigheid, identiteit↔verwarring, intimiteit↔isolement, generativiteit↔stagnatie, ego-integriteit↔wanhoop).","Behaviorisme, Watson & Skinner: enkel observeerbaar gedrag + externe stimuli; mens = blanco blad. Klassieke conditionering (Pavlov) vs operante conditionering (Skinner: straf/beloning).","Sociaal-cognitief, Bandura: modelling = leren door observatie i.p.v. trial-and-error.","Cognitief, Piaget: 4 fases (sensori-motorisch → pre-operationeel → concreet-operationeel → formeel-operationeel); schema's, assimilatie (nieuw in bestaand schema) & accommodatie (schema aanpassen).","Humanistisch (Maslow/Rogers: zelfactualisatie) · Contextueel (Bronfenbrenner: micro→meso→exo→macro→chronosysteem) · Sociocultureel (Vygotsky) · Evolutionair (Lorenz: inprenting)."]},{"h":"3 · Prenatale periode & geboorte","items":["Genetica bepaalt vanaf conceptie, maar niet deterministisch (nurture altijd aanwezig). Gedragsgenetica: familie-, tweelingen- en adoptieonderzoek.","Gen-omgeving: interactie (aanleg komt enkel tot uiting in bepaalde context, diathese-stress) vs correlatie (passief/evocatief/actief = niche-picking).","Epigenetica: de omgeving beïnvloedt de genexpressie, niet de code zelf (vb. hongerwinter).","Teratogenen / risicofactoren: roken, alcohol, drugs, ziektes (timing!), voeding/leeftijd/gezondheid van de moeder.","Geboorte: APGAR-score (1/5/10 min; <4 reanimatie, 4–7 mogelijk, >7 normaal) · hielprik/Guthrie-test (genetische screening) · geboortegewicht = sterke voorspeller (verbonden met SES) · postpartum depressie (~10%, hormonaal)."]},{"h":"4 · Peutertijd","items":["Fysieke principes: cefalocaudaal (kop → teen) en proximodistaal (midden → buiten); hiërarchische integratie.","Hersenen: myelinisatie, synaptic pruning, grote plasticiteit (maar kwetsbaar: shaken baby). Reflexen (rooting, grasping, Moro, Babinski) verdwijnen.","Zintuigen: zicht beperkt (best ~20 cm; visual cliff = dieptezicht); gehoor al prenataal; voorkeur voor zoet; tast best ontwikkeld.","Piaget sensomotorisch (6 subfases) → eindigt met objectpermanentie. Kritiek: vaardigheden eerder aanwezig (Baillargeon, violation-of-expectation).","Taal: brabbelen (universeel, ook bij dove kinderen) → eerste woorden (9–14 mnd, holofrase) → telegramstijl. Theorieën: leertheorie, nativisme, interactionisme.","Hechting (Bowlby/Ainsworth): veilig / vermijdend / angstig-ambivalent / gedesorganiseerd. Harlow's apen: geborgenheid > voeding. Ainsworth: vreemde situatie."]},{"h":"5 · Kleutertijd (3–6 j)","items":["Piaget pre-operationeel: centratie, geen conservatie, egocentrisme (≠ egoïsme), intuïtief denken.","Vygotsky: zone van naaste ontwikkeling (ZNO) + scaffolding. Privé-spraak → interne dialoog.","Gender (≠ geslacht): genderschema; eerst lijkt geslacht veranderlijk → later genderconstantie.","Spel (Parten): unoccupied → solitary → onlooker → parallel → associative → cooperative.","Opvoedingsstijlen (warmte × controle): authoritatief (beste) · autoritair · permissief · verwaarlozend/uninvolved.","Agressie: relationeel vs instrumenteel; Bobo-doll-experiment (Bandura). Moraliteit (Piaget): heteronoom → autonoom."]},{"h":"6 · Kindertijd (6–12 j)","items":["Piaget concreet-operationeel: conservatie, decentratie, omkeerbaarheid. Vygotsky: coöperatief leren met peers.","Intelligentie: IQ (gem. 100, SD 15), Flynn-effect; Spearman (g-factor), Cattell (fluïde/gekristalliseerd), Gardner (8 types), CHC-model (basis WISC-V). Hoogbegaafd: IQ > 130.","Ontwikkelingsstoornissen: ASS, ADHD, leerstoornissen (dyslexie/dyscalculie/dyspraxie); DSM-5 / ICD-11; inclusief onderwijs.","Zelfbeeld (psychologisch i.p.v. fysiek), sociale vergelijking, self-fulfilling prophecy.","Moraliteit, Kohlberg (Heinz-dilemma): preconventioneel → conventioneel → postconventioneel.","Vriendschap, pesten (verbaal/fysiek/relationeel/cyber), attributietheorie (intern/extern × stabiel/variabel)."]},{"h":"7 · Adolescentie & emerging adulthood","items":["Puberteit (storm and stress): menarche (~11 j) & spermarche (~12 j); vroeg rijpen vooral negatief voor meisjes.","Piaget formeel-operationeel: abstract, propositioneel & hypothetisch denken (40–60% bereikt het volledig).","Adolescent egocentrisme: imaginair publiek + persoonlijke fabel (\"mij overkomt dat niet\" → risicogedrag).","Identiteit, Erikson (crisis + moratorium); Marcia: crisis × commitment → achievement / moratorium / foreclosure / diffusion; Luyckx (exploratie in breedte/diepte).","Acculturatie (Berry): integratie (beste) / assimilatie / separatie / marginalisatie.","Emerging adulthood (Arnett, 18–25 j): identiteitsexploratie, instabiliteit, zelf-focus, 'tussenin' voelen, mogelijkheden. Sterk sociologisch bepaald, niet universeel."]},{"h":"8 · Volwassenheid & ouder worden","items":["Vroege volwassenheid: fysieke piek voorbij (senescence); postformeel/dialectisch denken (Labouvie-Vief). Steinberg's liefde: intimiteit (stijgt), passie (piekt vroeg), commitment (stijgt traag).","Midden volwassenheid: menopauze; gekristalliseerde intelligentie stijgt, fluïde daalt → expertise. Erikson: generativiteit↔stagnatie. Lege nest / sandwich-generatie. Midlife crisis = geen wijdverspreid fenomeen.","Late volwassenheid: verouderingstheorieën (genetic programming vs wear-and-tear/free radicals); cognitieve reserve (nooit te laat om te leren); Polyanna-principe.","Erikson: ego-integriteit↔wanhoop. Succesvol ouder worden: disengagement / activity (selectieve optimalisatie) / continuïteit.","De dood, 5 fases (Kübler-Ross): ontkenning → boosheid → onderhandeling → depressie → aanvaarding. Euthanasie legaal sinds 2002 (fysiek én psychisch lijden)."]}],"hacks":[{"h":"Erikson in 8: van vertrouwen tot wijsheid","t":"(1) basisvertrouwen↔wantrouwen · (2) autonomie↔schaamte · (3) initiatief↔schuld · (4) vlijt↔minderwaardigheid · (5) identiteit↔verwarring · (6) intimiteit↔isolement · (7) generativiteit↔stagnatie · (8) ego-integriteit↔wanhoop. Tip: koppel elke fase aan een leeftijd."},{"h":"Piaget in 4 fases","t":"Sensori-motorisch (0-2, objectpermanentie) → pre-operationeel (2-7, egocentrisme, GÉÉN conservatie) → concreet-operationeel (7-11, conservatie) → formeel-operationeel (11+, abstract). De grote sprong: conservatie komt pas in de concrete fase."},{"h":"Assimilatie vs accommodatie","t":"Assimilatie = iets nieuws IN een bestaand schema duwen. Accommodatie = het schema zélf aanpassen. Ezelsbrug: Accommoderen = Aanpassen."},{"h":"Kohlberg in 3 niveaus","t":"Preconventioneel (straf/beloning) → conventioneel (regels/goedkeuring) → postconventioneel (eigen principes). Het gaat om het REDENEREN, niet om de keuze zelf."},{"h":"Correlatie ≠ causaliteit","t":"Correlationeel = samenhang, geen oorzaak (let op de 'derde variabele'). Alleen een EXPERIMENT (ingrijpen + controlegroep) toont oorzaak-gevolg. Dé klassieker."},{"h":"Kübler-Ross: 5 fases van rouw","t":"Ontkenning → boosheid → onderhandeling → depressie → aanvaarding."}]};
+</script>
+<script>
+(function(){
+  "use strict";
+  var D=window.ONTWIKKEL, app=document.getElementById("app");
+  var P={
+    book:'<path d="M12 7v14"/><path d="M3 18a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h5a4 4 0 0 1 4 4 4 4 0 0 1 4-4h5a1 1 0 0 1 1 1v13a1 1 0 0 1-1 1h-6a3 3 0 0 0-3 3 3 3 0 0 0-3-3z"/>',
+    bulb:'<path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5"/><path d="M9 18h6"/><path d="M10 22h4"/>',
+    help:'<circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><path d="M12 17h.01"/>',
+    search:'<circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/>',
+    sun:'<circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/>',
+    moon:'<path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/>',
+    arrowR:'<path d="M5 12h14"/><path d="m12 5 7 7-7 7"/>',
+    back:'<path d="m15 18-6-6 6-6"/>',
+    heart:'<path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/>',
+    chevR:'<path d="m9 18 6-6-6-6"/>',
+    sparkles:'<path d="M9.94 15.5A2 2 0 0 0 8.5 14.06l-6.14-1.58a.5.5 0 0 1 0-.96L8.5 9.94A2 2 0 0 0 9.94 8.5l1.58-6.14a.5.5 0 0 1 .96 0L14.06 8.5A2 2 0 0 0 15.5 9.94l6.14 1.58a.5.5 0 0 1 0 .96L15.5 14.06a2 2 0 0 0-1.44 1.44l-1.58 6.14a.5.5 0 0 1-.96 0z"/>',
+    target:'<circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/>',
+    rocket:'<path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z"/><path d="m12 15-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z"/><path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 0 5 0"/><path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5"/>',
+    msg:'<path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"/>',
+    refresh:'<path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/>',
+    send:'<path d="M14.54 21.69a.5.5 0 0 0 .94-.02l6.5-19a.5.5 0 0 0-.64-.64l-19 6.5a.5.5 0 0 0-.02.94l7.93 3.18a2 2 0 0 1 1.11 1.11z"/><path d="m21.85 2.15-10.94 10.94"/>'
+  };
+  function ic(n,c){ return '<svg class="ic'+(c?" "+c:"")+'" viewBox="0 0 24 24" aria-hidden="true">'+(P[n]||"")+'</svg>'; }
+  function esc(s){ return String(s).replace(/[&<>"]/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;"}[c];}); }
+  function shuffle(a){ a=a.slice(); for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=a[i];a[i]=a[j];a[j]=t;} return a; }
+  function pct(n,d){ return d?Math.round(100*n/d):0; }
+  function rnd(a){ return a[Math.floor(Math.random()*a.length)]; }
+  function lget(k,d){ try{ var v=JSON.parse(localStorage.getItem(k)); return v==null?d:v; }catch(e){ return d; } }
+  function lset(k,v){ try{ localStorage.setItem(k,JSON.stringify(v)); }catch(e){} }
+  function rawGet(k){ try{ return localStorage.getItem(k); }catch(e){ return null; } }
+  function rawSet(k,v){ try{ localStorage.setItem(k,v); }catch(e){} }
+  function bump(ns,key){ try{ fetch("https://abacus.jasoncameron.dev/hit/"+ns+"/"+key).then(function(){},function(){}); }catch(e){} }
+
+  D.questions.forEach(function(q,i){ q.id="q"+i; });
+  var theme=rawGet("site_theme") || lget("ontwikkel_theme","light");
+  function applyTheme(){ document.documentElement.setAttribute("data-theme",theme);
+    document.getElementById("themeBtn").innerHTML=(theme==="dark"?ic("sun"):ic("moon"))+'<span>'+(theme==="dark"?"Licht":"Donker")+'</span>'; }
+  applyTheme();
+  document.getElementById("themeBtn").onclick=function(){ theme=theme==="dark"?"light":"dark"; lset("ontwikkel_theme",theme); rawSet("site_theme",theme); applyTheme(); };
+  var calm=lget("ontwikkel_calm",true);
+  function applyCalm(){ document.documentElement.classList.toggle("snappy", !calm); }
+  applyCalm();
+  function wrongLead(){ return calm ? rnd(WARM) : "Fout."; }
+
+  var WARM=["Geen zorgen, hier leer je nu net van.","Bijna! Dit type vraag krijg je zo onder de knie.","Foutje mag, nu weet je wat je nog moet herhalen.","Niet erg, dit onthoud je de volgende keer wél.","Rustig, één foutje zegt niets over je examen."];
+  var PRAISE=["Juist!","Goed zo!","Correct!","Sterk!","Knap!"];
+  var TOPICS={"1":"Inleiding & thema's","2":"Theorieën & grondleggers","3":"Prenataal & geboorte","4":"Peutertijd","5":"Kleutertijd","6":"Kindertijd","7":"Adolescentie","8":"Volwassenheid & ouder worden"};
+
+  var TABS=[{v:"home",l:"Start",i:"book"},{v:"quiz",l:"Oefenvragen",i:"target"},{v:"theory",l:"Theorie",i:"search"},{v:"hacks",l:"Studie-hacks",i:"bulb"},{v:"feedback",l:"Feedback",i:"msg"}];
+  var tabsEl=document.getElementById("tabs");
+  tabsEl.innerHTML=TABS.map(function(t){return '<button data-view="'+t.v+'"'+(t.v==="home"?' class="on"':'')+'>'+ic(t.i)+'<span>'+t.l+'</span></button>';}).join("");
+  var tabBtns=[].slice.call(tabsEl.querySelectorAll("button"));
+  tabBtns.forEach(function(b){ b.onclick=function(){ state.fromHub=false; if(b.dataset.view==="home") state.step="track"; go(b.dataset.view); }; });
+  function go(v){ state.view=v; tabBtns.forEach(function(b){b.classList.toggle("on",b.dataset.view===v);}); render(); window.scrollTo(0,0); }
+
+  var state={view:"home", step:"track", track:lget("ontwikkel_track","training"), quiz:null, sel:{topics:{"1":true,"2":true,"3":true,"4":true,"5":true,"6":true,"7":true,"8":true}, count:15, shuffle:true}, sumq:""};
+  function setHTML(h){ app.innerHTML=h; try{ app.classList.remove("bes-in"); void app.offsetWidth; app.classList.add("bes-in"); }catch(e){} }
+
+  function render(){
+    if(state.view==="home") return renderHome();
+    if(state.view==="quiz") return renderQuizGate();
+    if(state.view==="theory") return renderTheory();
+    if(state.view==="hacks") return renderHacks();
+    if(state.view==="feedback") return renderFeedback();
+  }
+
+  function renderHome(){
+    if(state.step==="herkansing") return renderHerkansing();
+    if(state.step==="practice") return renderPractice();
+    return renderTrack();
+  }
+  function modeLabel(){ return state.track==="herkansing"?"Herkansing":"Examen Training"; }
+
+  function renderTrack(){
+    var byT={}; D.questions.forEach(function(q){byT[q.t]=(byT[q.t]||0)+1;});
+    var html=
+      '<div class="hero">'+
+        '<div class="count"><b data-telop="'+D.questions.length+'">'+D.questions.length+'</b><span>oefenvragen</span></div>'+
+        '<div class="herotext"><h1>Ontwikkelingspsychologie oefenen</h1>'+
+        '<p>Oefenvragen per thema, met uitleg bij elk antwoord</p></div>'+
+      '</div>'+
+      '<a class="brandstrip" href="https://beriesexamspace.github.io/" title="Naar Berie’s exam space"><span class="bs-logo">B</span><span class="bs-txt"><b>Berie’s exam space</b><small>Een ander vak leren? Bekijk alle vakken</small></span><span class="bs-go">'+ic("arrowR")+'</span></a>'+
+      '<a class="brandstrip" href="https://beriesexamspace.github.io/?deel=1" title="Deel je samenvattingen"><span class="bs-logo">📚</span><span class="bs-txt"><b>Help mee, deel je vak</b><small>Heb jij samenvattingen of oude examenvragen? Stuur ze in (élk jaar).</small></span><span class="bs-go">'+ic("arrowR")+'</span></a>'+
+      '<div class="seclabel">'+ic("rocket")+'Hoe wil je oefenen?</div>'+
+      '<div class="tracks">'+
+        '<button class="track" data-track="training"><span class="tile">'+ic("book")+'</span><b>Examen Training</b><small>Oefen op examenniveau. Vragen met directe feedback en uitleg.</small><span class="go">Normaal niveau '+ic("arrowR")+'</span></button>'+
+        '<button class="track alt" data-track="herkansing"><span class="tile">'+ic("heart")+'</span><b>Herkansing</b><small>Rustig opbouwen, met aanmoediging. Jij bepaalt het tempo.</small><span class="go">Met begeleiding '+ic("arrowR")+'</span></button>'+
+      '</div>'+
+      '<div class="card pad" style="margin-top:18px"><b>Onderwerpen</b>'+
+        '<p class="muted" style="font-size:13.5px;margin:8px 0 0">'+Object.keys(TOPICS).map(function(k){return esc(TOPICS[k])+' ('+(byT[k]||0)+')';}).join(' · ')+'</p>'+
+        '<p class="muted" style="font-size:12.5px;margin:8px 0 0">Tip: bovenaan vind je ook Theorie en Studie-hacks.</p></div>';
+    setHTML(html);
+    [].slice.call(document.querySelectorAll(".track")).forEach(function(el){ el.onclick=function(){ var t=el.dataset.track; state.track=t; lset("ontwikkel_track",t); state.step=(t==="herkansing"?"herkansing":"practice"); renderHome(); window.scrollTo(0,0); }; });
+  }
+
+  function renderHerkansing(){
+    var html=
+      '<button class="backlink" id="backBtn">'+ic("back")+'Terug</button>'+
+      '<div class="seclabel" style="margin-top:2px">'+ic("heart")+'Herkansing</div>'+
+      (calm?'<div class="card pad warmcard"><div class="row" style="gap:11px;flex-wrap:nowrap;align-items:flex-start">'+ic("heart")+'<div><b>Een nieuwe kans, rustig aan.</b><p class="muted" style="margin:5px 0 0;font-size:13.5px">Herkansen betekent niet dat je het niet kunt. Stap voor stap kom je er. Jij kunt dit. 💙</p></div></div></div>':'')+
+      '<div class="card pad" style="margin-top:12px"><div class="row" style="justify-content:space-between;align-items:center;gap:14px"><div><b>Rustige modus</b><div class="muted" style="font-size:12.5px">Aanmoediging en kalme sfeer. Zet uit als je liever recht-voor-z’n-raap oefent.</div></div><button class="toggle'+(calm?" on":"")+'" id="calmToggle" role="switch" aria-checked="'+(calm?"true":"false")+'" aria-label="Rustige modus aan of uit"><span class="knob"></span></button></div></div>'+
+      '<div class="row" style="margin-top:16px"><button class="btn" id="beginBtn">Begin met oefenen '+ic("arrowR")+'</button></div>';
+    setHTML(html);
+    document.getElementById("backBtn").onclick=function(){ state.step="track"; renderHome(); window.scrollTo(0,0); };
+    document.getElementById("calmToggle").onclick=function(){ calm=!calm; lset("ontwikkel_calm",calm); applyCalm(); renderHerkansing(); };
+    document.getElementById("beginBtn").onclick=function(){ state.step="practice"; renderHome(); window.scrollTo(0,0); };
+  }
+
+  function renderPractice(){
+    var herk=state.track==="herkansing";
+    var html=
+      '<button class="backlink" id="backBtn">'+ic("back")+'Terug</button>'+
+      '<div class="modebanner'+(herk?" v":"")+'">'+ic(herk?"heart":"book")+'<span>'+modeLabel()+'</span><button type="button" class="bnlink" id="changeMode">wijzig</button></div>'+
+      '<div class="seclabel">'+ic("rocket")+'Waarmee wil je oefenen?</div>'+
+      '<div class="grid g2">'+
+        '<button class="mode" data-mode="quiz"><span class="me">'+ic("target")+'</span><b>Oefenvragen</b><small>Meerkeuze met directe feedback en uitleg. Kies je onderwerpen.</small></button>'+
+        '<button class="mode" id="quickStart"><span class="me">'+ic("rocket")+'</span><b>Snelle ronde</b><small>15 willekeurige vragen uit alle onderwerpen.</small></button>'+
+      '</div>';
+    setHTML(html);
+    document.getElementById("backBtn").onclick=function(){ if(state.fromHub){ location.href="https://beriesexamspace.github.io/"; return; } state.step=(herk?"herkansing":"track"); renderHome(); window.scrollTo(0,0); };
+    document.getElementById("changeMode").onclick=function(){ if(state.fromHub){ location.href="https://beriesexamspace.github.io/"; return; } state.step="track"; renderHome(); window.scrollTo(0,0); };
+    document.querySelector('[data-mode="quiz"]').onclick=function(){ go("quiz"); };
+    document.getElementById("quickStart").onclick=function(){ state.view="quiz"; tabBtns.forEach(function(b){b.classList.toggle("on",b.dataset.view==="quiz");}); startQuiz(shuffle(D.questions.slice()).slice(0,15)); window.scrollTo(0,0); };
+  }
+
+  function renderQuizGate(){
+    if(state.quiz) return renderQuiz();
+    var s=state.sel;
+    function pool(){ return D.questions.filter(function(q){return s.topics[q.t];}); }
+    var html='<div class="card pad"><h2 style="text-align:center;margin-top:0">Oefenvragen</h2>'+
+      '<p class="muted" style="text-align:center">Kies onderwerpen en het aantal vragen. Na elk antwoord krijg je meteen feedback én de uitleg.</p>'+
+      '<label class="fld">Onderwerpen</label><div class="chips" id="tps">'+
+        Object.keys(TOPICS).map(function(k){return '<button class="chip'+(s.topics[k]?" on":"")+'" data-tp="'+k+'">'+esc(TOPICS[k])+'</button>';}).join("")+'</div>'+
+      '<label class="fld">Aantal vragen</label><div class="chips" id="cnt">'+
+        [10,15,20,999].map(function(n){return '<button class="chip'+(s.count===n?" on":"")+'" data-n="'+n+'">'+(n===999?"Alle":n)+'</button>';}).join("")+'</div>'+
+      '<label class="fld">Volgorde van de vragen</label><div class="chips" id="ord">'+'<button class="chip'+(s.shuffle?" on":"")+'" data-sh="1">Door elkaar</button>'+'<button class="chip'+(s.shuffle?"":" on")+'" data-sh="0">Op volgorde</button>'+'</div>'+
+      '<div class="row" style="margin-top:18px"><button class="btn" id="startQ">Start '+ic("arrowR")+'</button><span class="muted" id="poolN"></span></div></div>';
+    setHTML(html);
+    function refresh(){ var n=pool().length; document.getElementById("poolN").textContent=n+" vragen beschikbaar"; document.getElementById("startQ").disabled=n===0; }
+    [].slice.call(document.querySelectorAll("#tps .chip")).forEach(function(b){ b.onclick=function(){ s.topics[b.dataset.tp]=!s.topics[b.dataset.tp]; b.classList.toggle("on"); refresh(); }; });
+    [].slice.call(document.querySelectorAll("#cnt .chip")).forEach(function(b){ b.onclick=function(){ s.count=+b.dataset.n; renderQuizGate(); }; });
+    [].slice.call(document.querySelectorAll("#ord .chip")).forEach(function(b){ b.onclick=function(){ s.shuffle=b.dataset.sh==="1"; [].slice.call(document.querySelectorAll("#ord .chip")).forEach(function(x){x.classList.toggle("on",x===b);}); }; });
+    document.getElementById("startQ").onclick=function(){ var p=pool(); if(s.shuffle)p=shuffle(p); if(s.count<p.length)p=p.slice(0,s.count); startQuiz(p); };
+    refresh();
+  }
+
+  function startQuiz(items){ bump("berat-ontwikkel", state.track==="herkansing"?"herkansing":"training"); state.quiz={items:items.map(function(q){return {q:q,opts:shuffle(q.o.map(function(t,i){return {text:t,ok:i===q.a};}))};}), picks:[], idx:0, answered:false, picked:-1, correct:0, wrong:[], done:false}; renderQuiz(); }
+
+  function renderQuiz(){
+    var Q=state.quiz; if(Q.done) return renderResult();
+    var cur=Q.items[Q.idx], q=cur.q; if(!Q.picks)Q.picks=[]; if(Q.picks[Q.idx]!=null){Q.answered=true;Q.picked=Q.picks[Q.idx];}else{Q.answered=false;Q.picked=-1;}
+    var html='<button class="backlink" id="backBtn">'+ic("back")+'Terug</button>'+
+      '<div class="card pad">'+
+      '<div class="runtop"><span class="pill">'+esc(TOPICS[q.t])+'</span><div class="bar"><i data-w="'+pct(Q.idx,Q.items.length)+'"></i></div><span>'+(Q.idx+1)+'/'+Q.items.length+'</span></div>'+
+      '<div class="qtext">'+esc(q.q)+'</div>'+
+      '<div id="opts">'+cur.opts.map(function(o,i){return '<button class="opt" data-i="'+i+'" style="--oi:'+(i*55)+'ms"><span class="k">'+String.fromCharCode(65+i)+'</span><span>'+esc(o.text)+'</span></button>';}).join("")+'</div>'+
+      '<div id="fb"></div>'+
+      '<div class="row" style="justify-content:space-between;margin-top:6px"><div class="row" style="gap:10px;align-items:center">'+(Q.idx>0?'<button class="btn ghost" id="prevBtn">'+ic("back")+'Vorige</button>':'')+'<span class="muted" style="font-size:12px">Toets <span class="kbd">A–D</span> · <span class="kbd">Enter</span> = volgende</span></div><button class="btn hide" id="nextBtn">Volgende '+ic("arrowR")+'</button></div></div>';
+    setHTML(html);
+    var tl=document.querySelector("b[data-telop]");
+    if(tl){ var doel=+tl.getAttribute("data-telop")||0;
+      var stil=window.matchMedia&&window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      if(stil||doel<=0){ tl.textContent=doel; }
+      else { tl.textContent=0; var t0=null, duur=900;
+        requestAnimationFrame(function stap(ts){ if(t0===null)t0=ts;
+          var p=Math.min(1,(ts-t0)/duur), e=1-Math.pow(1-p,3);
+          tl.textContent=Math.round(doel*e);
+          if(p<1) requestAnimationFrame(stap); else tl.textContent=doel; }); } }
+    var i2=document.querySelector(".bar>i"); requestAnimationFrame(function(){ if(i2) i2.style.width=i2.getAttribute("data-w")+"%"; });
+    document.getElementById("backBtn").onclick=function(){ state.quiz=null; renderQuizGate(); };
+    var optBtns=[].slice.call(document.querySelectorAll("#opts .opt"));
+    var nb=document.getElementById("nextBtn"); nb.onclick=next; var pb=document.getElementById("prevBtn"); if(pb)pb.onclick=function(){ if(Q.idx>0){ Q.idx--; renderQuiz(); } };
+    function showAnswered(i){
+      optBtns.forEach(function(b){ var bi=+b.dataset.i; b.disabled=true; if(cur.opts[bi].ok)b.classList.add("correct"); else if(bi===i)b.classList.add("wrong"); });
+      var ok=cur.opts[i].ok, fb=document.getElementById("fb"); fb.className="feedback "+(ok?"ok":"no");
+      var juist=cur.opts.filter(function(o){return o.ok;})[0].text;
+      fb.innerHTML=ok?"<b>"+rnd(PRAISE)+" ✓</b>":"<b>"+wrongLead()+"</b><span class=\"sub\">Juiste antwoord: "+esc(juist)+"</span>";
+      var w=document.createElement("div"); w.innerHTML='<div class="whybox"><h4>'+ic("sparkles")+'Waarom?</h4>'+esc(q.u)+'</div>'; fb.appendChild(w);
+      nb.classList.remove("hide"); nb.innerHTML=(Q.idx+1>=Q.items.length)?"Bekijk resultaat "+ic("arrowR"):"Volgende "+ic("arrowR");
+    }
+    function pick(i){ if(Q.answered)return; Q.answered=true; Q.picked=i; Q.picks[Q.idx]=i; if(cur.opts[i].ok)Q.correct++; else Q.wrong.push(q); showAnswered(i); nb.focus(); }
+    optBtns.forEach(function(b){ b.onclick=function(){ pick(+b.dataset.i); }; });
+    function next(){ if(!Q.answered)return; Q.idx++; Q.answered=false; Q.picked=-1; if(Q.idx>=Q.items.length)Q.done=true; renderQuiz(); }
+    if(Q.answered) showAnswered(Q.picked);
+    state.key=function(e){ if(!Q.answered){ var k=e.key.toLowerCase(); var idx="abcde".indexOf(k); if(idx<0&&/[1-5]/.test(k))idx=+k-1; if(idx>=0&&idx<cur.opts.length){pick(idx);e.preventDefault();} } else if(e.key==="Enter"||e.key===" "){ next(); e.preventDefault(); } };
+  }
+
+  function renderResult(){
+    var Q=state.quiz, p=pct(Q.correct,Q.items.length);
+    var msg=p>=80?"Sterk werk! 🎉":p>=60?"Goed bezig 👍":"Blijf oefenen, je komt er 💪";
+    var html='<div class="card pad results center"><span class="pill">Ontwikkelingspsychologie</span><div class="big">'+p+'%</div>'+
+      '<p style="font-weight:600;margin:0 0 4px;font-size:17px">'+msg+'</p><p class="muted">'+Q.correct+' van '+Q.items.length+' juist</p>'+
+      '<div class="row" style="justify-content:center;margin-top:14px">'+
+        (Q.wrong.length?'<button class="btn" id="retry">Herhaal '+Q.wrong.length+' foute vragen</button>':'')+
+        '<button class="btn ghost" id="again">Nieuwe ronde</button><button class="btn ghost" id="home">Naar start</button></div></div>';
+    setHTML(html);
+    var rt=document.getElementById("retry"); if(rt) rt.onclick=function(){ startQuiz(shuffle(Q.wrong)); };
+    document.getElementById("again").onclick=function(){ state.quiz=null; renderQuizGate(); };
+    document.getElementById("home").onclick=function(){ state.quiz=null; go("home"); };
+    state.key=null;
+  }
+
+  function renderTheory(){
+    var q=state.sumq||"";
+    var html='<div class="card pad" style="margin-bottom:14px"><h2 style="text-align:center;margin:0 0 8px">Theorie en samenvatting</h2>'+
+      '<input type="search" id="sq" placeholder="Zoek een begrip… (bv. p-waarde, regressie, binomiaal)" value="'+esc(q)+'"></div><div id="list">'+theoryList(q)+'</div>';
+    setHTML(html);
+    var si=document.getElementById("sq"); si.oninput=function(){ state.sumq=si.value; document.getElementById("list").innerHTML=theoryList(si.value); si.focus(); };
+  }
+  function theoryList(query){
+    var Q=query.trim().toLowerCase(), out="", n=0;
+    D.theory.forEach(function(sec){
+      var items=sec.items.filter(function(it){ return !Q || it.toLowerCase().indexOf(Q)>=0 || sec.h.toLowerCase().indexOf(Q)>=0; });
+      if(!items.length) return; n++;
+      out+='<details class="acc"'+(Q?" open":(n===1?" open":""))+'><summary><span class="n">'+ic("search")+'</span>'+esc(sec.h)+ic("chevR","caret")+'</summary><div class="body"><ul>'+items.map(function(it){return '<li>'+hl(esc(it),Q)+'</li>';}).join("")+'</ul></div></details>';
+    });
+    return out||'<p class="muted center">Geen resultaten voor "'+esc(query)+'".</p>';
+  }
+  function hl(t,q){ if(!q)return t; try{ return t.replace(new RegExp("("+q.replace(/[.*+?^${}()|[\]\\]/g,"\\$&")+")","ig"),"<mark>$1</mark>"); }catch(e){ return t; } }
+
+  function renderHacks(){
+    var html='<div class="card pad" style="margin-bottom:16px"><h2 style="text-align:center;margin:0 0 6px">Studie-hacks</h2><p class="muted" style="text-align:center;margin:0">Ezelsbruggetjes om de kernideeën van statistiek te onthouden.</p></div>'+
+      '<div class="tipgrid">'+D.hacks.map(function(t){return '<div class="tip"><h4>'+ic("bulb")+esc(t.h)+'</h4><p>'+esc(t.t)+'</p></div>';}).join("")+'</div>';
+    setHTML(html);
+  }
+
+  function renderFeedback(){
+    var html='<div class="card pad"><h2 style="text-align:center;margin-top:0">Feedback &amp; klachten</h2>'+
+      '<p class="muted" style="text-align:center">Fout in een vraag, een idee, of werkt iets niet? Laat het hier weten, het komt rechtstreeks bij de maker terecht. Een review of compliment mag ook: de mooiste tonen we op de hub. 💬</p>'+
+      '<label class="fld" for="fbMsg">Je bericht</label><textarea id="fbMsg" rows="3" placeholder="Beschrijf de fout of je idee…"></textarea>'+
+      '<div class="fbextra"><div class="fbveld fbwaar"><label class="fld" for="fbWaar">Over welke vraag? <span class="muted">(optioneel)</span></label><input type="text" id="fbWaar" placeholder="bv. de vraag over de p-waarde"></div>'+
+      '<div class="fbveld"><label class="fld" for="fbNaam">Je naam <span class="muted">(optioneel)</span></label><input type="text" id="fbNaam" placeholder="zodat we je kunnen bedanken"></div>'+
+      '<div class="fbveld"><label class="fld" for="fbEmail">Je e-mail <span class="muted">(optioneel, als je een antwoord wilt)</span></label><input type="email" id="fbEmail" placeholder="naam@voorbeeld.be"></div></div>'+
+      '<input type="text" id="fbBot" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;opacity:0">'+
+      '<div class="row" style="margin-top:16px;align-items:center"><button class="btn" id="fbSend">'+ic("send")+'Versturen</button><span id="fbStatus" style="font-size:13px"></span></div></div>';
+    setHTML(html);
+    document.getElementById("fbSend").onclick=function(){
+      var status=document.getElementById("fbStatus");
+      if(document.getElementById("fbBot").value) return;
+      var msg=document.getElementById("fbMsg").value.trim();
+      if(!msg){ status.style.color="var(--bad)"; status.textContent="Schrijf eerst een bericht."; return; }
+      var btn=document.getElementById("fbSend"); btn.disabled=true; status.style.color="var(--muted)"; status.textContent="Versturen…";
+      var em=document.getElementById("fbEmail").value.trim();
+      var nm=document.getElementById("fbNaam").value.trim();
+      var waar=document.getElementById("fbWaar").value.trim();
+      var payload={_subject:"Ontwikkelingspsychologie-tool: feedback", _template:"table", _captcha:"false",
+        Naam:nm||"-", Over_welke_vraag:waar||"-", email:em||"-", Bericht:msg};
+      if(em) payload._replyto=em;
+      // vangnet: als de verzenddienst blokkeert (bv. spamfilter) of er is geen verbinding,
+      // bieden we een directe mailto-knop aan zodat de melding NOOIT stilletjes verdwijnt.
+      function failFallback(reden){
+        var body="Feedback Ontwikkelingspsychologie-tool%0D%0A%0D%0ANaam: "+encodeURIComponent(nm||"-")+"%0D%0AOver welke vraag: "+encodeURIComponent(waar||"-")+"%0D%0AE-mail: "+encodeURIComponent(em||"-")+"%0D%0A%0D%0ABericht:%0D%0A"+encodeURIComponent(msg);
+        var mailto="mailto:berat007yildirim@gmail.com?subject="+encodeURIComponent("Ontwikkelingspsychologie-tool: feedback")+"&body="+body;
+        setHTML('<div class="card pad"><h2 style="margin-top:0">Automatisch versturen lukte niet</h2><p class="muted">'+reden+' Geen zorgen, klik hieronder en je melding wordt geopend in je e-mail, helemaal klaar om te versturen:</p><a class="btn" href="'+mailto+'">'+ic("send")+'Mail mijn melding direct</a><div style="margin-top:14px"><button class="btn ghost" id="bk">Terug naar start</button></div></div>');
+        document.getElementById("bk").onclick=function(){go("home");};
+      }
+      fetch("https://formsubmit.co/ajax/Berat007yildirim@gmail.com",{method:"POST",headers:{Accept:"application/json"},body:new URLSearchParams(payload)})
+        .then(function(r){return r.json();}).then(function(d){
+          if(d&&(d.success===true||d.success==="true")){ setHTML('<div class="card pad results center"><div style="font-size:42px">✅</div><h2 style="margin:6px 0">Bedankt!</h2><p class="muted">Je melding is verstuurd.</p><button class="btn" id="bk" style="margin-top:8px">Terug naar start</button></div>'); document.getElementById("bk").onclick=function(){go("home");}; }
+          else { failFallback("Het automatisch versturen lukte niet."); }
+        }).catch(function(){ failFallback("Er was even geen verbinding."); });
+    };
+  }
+
+  document.addEventListener("keydown",function(e){ if(state.key) state.key(e); });
+  // bezoeker tellen (1x per toestel)
+  try{ if(!localStorage.getItem("ontwikkel_seen")){ localStorage.setItem("ontwikkel_seen","1"); bump("berat-ontwikkel","gebruikers"); } }catch(e){ bump("berat-ontwikkel","gebruikers"); }
+  // traject vanuit de hub overnemen → direct naar de oefenpagina
+  try{ var _q=new URLSearchParams(location.search); var _m=_q.get("m");
+    if(_m==="training"||_m==="herkansing"){ state.track=_m; lset("ontwikkel_track",_m);
+      var _c=_q.get("calm"); if(_c!=null){ calm=(_c!=="0"); lset("ontwikkel_calm",calm); applyCalm(); }
+      state.step="practice"; state.fromHub=true; }
+  }catch(e){}
+  render();
+  // launch-splash netjes laten verdwijnen
+  (function(){ var _sp=document.getElementById("splash"); if(!_sp) return; var _red=false; try{_red=window.matchMedia("(prefers-reduced-motion: reduce)").matches;}catch(e){} setTimeout(function(){ _sp.classList.add("hide"); setTimeout(function(){ if(_sp&&_sp.parentNode) _sp.parentNode.removeChild(_sp); }, 700); }, _red?300:1850); })();
+})();
+</script>
+<script>
+/* gedeelde interactie: klik-animatie en zacht openschuivende theorieblokken */
+(function(){
+  // Elk theorieblok krijgt precies een wikkel-element, anders klapt een blok met
+  // meerdere kinderen niet volledig dicht (MBG had er tien).
+  function wikkel(){
+    var lijst=document.querySelectorAll(".acc>.body");
+    for(var i=0;i<lijst.length;i++){
+      var b=lijst[i];
+      if(b.children.length===1 && b.firstElementChild && b.firstElementChild.className==="bes-wrap") continue;
+      var w=document.createElement("div"); w.className="bes-wrap";
+      while(b.firstChild) w.appendChild(b.firstChild);
+      b.appendChild(w);
+    }
+  }
+  var gepland=false;
+  function planWikkel(){ if(gepland)return; gepland=true; setTimeout(function(){ gepland=false; wikkel(); },0); }
+  if(document.readyState==="loading") document.addEventListener("DOMContentLoaded",wikkel); else wikkel();
+  try{ new MutationObserver(planWikkel).observe(document.documentElement,{childList:true,subtree:true}); }catch(e){}
+  var KLIK="button,.btn,.iconbtn,.opt,.track,.chrow,.backlink,.chip,.mode,.toggle,.scard,.ccard,.qcard,.srclink,.bnlink,.navlink,.ycard,.excat,.brandstrip,summary";
+  document.addEventListener("pointerdown",function(e){
+    var el=(e.target&&e.target.closest)?e.target.closest(KLIK):null; if(!el)return;
+    el.classList.remove("bes-klik"); void el.offsetWidth; el.classList.add("bes-klik");
+    setTimeout(function(){ el.classList.remove("bes-klik"); },260);
+  },true);
+  document.addEventListener("click",function(e){
+    var s=(e.target&&e.target.closest)?e.target.closest("details.acc>summary"):null; if(!s)return;
+    var d=s.parentNode; if(!d) return;
+    e.preventDefault();
+    if(d.open){
+      d.classList.add("bes-dicht");
+      setTimeout(function(){ d.open=false; d.classList.remove("bes-dicht"); },250);
+    } else {
+      d.open=true; d.classList.add("bes-open");
+      var los=function(){ d.classList.remove("bes-open"); };
+      requestAnimationFrame(function(){ requestAnimationFrame(los); });
+      setTimeout(los,400);
+    }
+  },false);
+})();
+</script>
+</body>
+</html>

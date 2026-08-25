@@ -988,7 +988,7 @@
   var DATA=[
     {y:"1ste bachelor", tag:"1", cls:"", subjects:[
       {n:"Inleiding tot de pedagogische wetenschappen", desc:"127 vragen, waarvan 50 uit echte examens en reconstructies.", url:BASE+"inlped/"},
-      {n:"Statistiek II: kansrekening en inductieve statistiek", desc:"155 oefenvragen over 9 hoofdstukken, met uitleg.", url:BASE+"stat/"},
+      {n:"Statistiek II: kansrekening en inductieve statistiek", desc:"155 oefenvragen over 9 hoofdstukken, met uitleg.", url:BASE+"stat2/"},
       {n:"Statistiek I: meetschalen en beschrijvende statistiek", desc:"90 oefenvragen per hoofdstuk, met uitleg.", url:BASE+"stat1/"},
       {n:"Ontwikkelingspsychologie", desc:"84 oefenvragen over de levensloop, met uitleg.", url:BASE+"ontwikkeling/"},
       {n:"Philosophy of Science", desc:"50 oefenvragen per hoofdstuk, met uitleg.", url:BASE+"logica/"},
@@ -1306,7 +1306,7 @@
 
 
   var USE=null, onYears=false;
-  function nsForUrl(u){ if(/mbg\//.test(u))return "berat-mbg"; if(/stat\//.test(u))return "berat-stat"; if(/sociologie\//.test(u))return "berat-socio"; return null; }
+  function nsForUrl(u){ if(/mbg\//.test(u))return "berat-mbg"; if(/stat2\//.test(u))return "berat-stat"; if(/sociologie\//.test(u))return "berat-socio"; return null; }
   function yearUse(yr){ if(!USE)return null; var t=0,has=false; yr.subjects.forEach(function(s){ if(!s.soon&&s.url){ var ns=nsForUrl(s.url); if(ns&&USE[ns]!=null){ t+=USE[ns]; has=true; } } }); return has?t:null; }
   function fmtN(n){ return Number(n).toLocaleString("nl-NL"); }
 

@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+<meta name="theme-color" content="#0f6e6a" />
+<meta http-equiv="Cache-Control" content="no-cache, must-revalidate" />
+<meta http-equiv="Pragma" content="no-cache" />
+<title>Sociale psychologie, Berie’s exam space</title>
+<meta name="author" content="Berat Yildirim - Berie's exam space" />
+<meta name="copyright" content="© 2026 Berat Yildirim. Alle rechten voorbehouden." />
+<!-- Berie's exam space © 2026 Berat Yildirim. Alle rechten voorbehouden. Originele bron: https://beriesexamspace.github.io  Kopieren of hergebruiken zonder schriftelijke toestemming is niet toegestaan. -->
+<style>
+  :root{
+    --bg:#f4f2ee; --bg2:#ebe8e2; --card:#ffffff; --ink:#1b232c; --muted:#5d6873;
+    --line:#e2ddd4; --accent:#0f6e6a; --accent-ink:#0b4f4c; --accent-soft:#dcefed;
+    --amber:#c9821f; --amber-soft:#f7ecd9; --violet:#6d5bd0; --violet-soft:#e9e6fa;
+    --good:#1f8a4c; --good-soft:#e2f3e8; --bad:#c23b54; --bad-soft:#fbe5ea;
+    --shadow:0 1px 2px rgba(20,30,40,.05),0 6px 18px rgba(20,30,40,.05);
+    --shadow-lg:0 2px 6px rgba(20,30,40,.06),0 18px 40px rgba(20,30,40,.10);
+    --r:14px; --r-lg:20px; --ease:cubic-bezier(.2,.8,.2,1);
+  }
+  html[data-theme="dark"]{
+    --bg:#11151a; --bg2:#161b22; --card:#1b222b; --ink:#e7ecf1; --muted:#9aa6b2;
+    --line:#2a323c; --accent:#3fb9b2; --accent-ink:#7fd6d0; --accent-soft:#163230;
+    --amber:#e0a64a; --amber-soft:#2e2515; --violet:#a99cf0; --violet-soft:#221d3a;
+    --good:#46c178; --good-soft:#16301f; --bad:#ef6b82; --bad-soft:#331620;
+    --shadow:0 1px 2px rgba(0,0,0,.3),0 8px 24px rgba(0,0,0,.35);
+    --shadow-lg:0 2px 8px rgba(0,0,0,.4),0 22px 48px rgba(0,0,0,.5);
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);font-size:16px;line-height:1.55;
+    font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;-webkit-font-smoothing:antialiased}
+  h1,h2,h3{font-family:Georgia,"Iowan Old Style","Times New Roman",serif;letter-spacing:-.01em}
+  button,a{font-family:inherit;cursor:pointer;color:inherit}
+  .wrap{max-width:880px;margin:0 auto;padding:0 18px 96px}
+  :focus-visible{outline:2.5px solid var(--accent);outline-offset:2px;border-radius:8px}
+  .ic{width:1.25em;height:1.25em;flex:none;vertical-align:-.18em;stroke:currentColor;stroke-width:1.75;
+    stroke-linecap:round;stroke-linejoin:round;fill:none}
+
+  header.top{position:sticky;top:0;z-index:30;border-bottom:1px solid var(--line);
+    background:color-mix(in srgb,var(--bg) 88%,transparent);backdrop-filter:saturate(160%) blur(16px);-webkit-backdrop-filter:saturate(160%) blur(16px);box-shadow:inset 0 -1px 0 0 rgba(0,0,0,.04)}
+  .topin{max-width:880px;margin:0 auto;padding:10px 18px;display:flex;align-items:center;gap:12px}
+  .brand{display:flex;align-items:center;gap:11px;font-weight:700}
+  .logo{width:32px;height:32px;border-radius:10px;background:linear-gradient(145deg,var(--accent),var(--accent-ink));
+    color:#fff;display:grid;place-items:center;font-family:Georgia,serif;font-weight:700;font-size:16px;flex:none;
+    box-shadow:0 2px 6px rgba(15,110,106,.35)}
+  .brand small{display:block;font-weight:500;color:var(--muted);font-size:11px}
+  .spacer{flex:1}
+  .iconbtn{border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:10px;min-height:38px;
+    padding:7px 11px;font-size:13.5px;display:inline-flex;gap:7px;align-items:center;text-decoration:none;
+    transition:border-color .2s var(--ease),transform .12s var(--ease)}
+  .iconbtn:hover{border-color:var(--accent)} .iconbtn:active{transform:scale(.96)}
+  nav.tabs{display:flex;gap:2px;overflow:auto;max-width:880px;margin:0 auto;padding:6px 12px 0;scrollbar-width:none}
+  nav.tabs::-webkit-scrollbar{display:none}
+  nav.tabs button{border:none;background:none;color:var(--muted);padding:10px 13px;border-radius:9px 9px 0 0;
+    font-size:14px;font-weight:600;white-space:nowrap;border-bottom:2px solid transparent;display:inline-flex;align-items:center;gap:6px;transition:color .2s var(--ease)}
+  nav.tabs button .ic{width:16px;height:16px}
+  nav.tabs button.on{color:var(--accent-ink);border-bottom-color:var(--accent)}
+  nav.tabs button:hover{color:var(--ink)}
+
+  .card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow)}
+  .pad{padding:20px}
+  .muted{color:var(--muted)}
+  .pill{display:inline-flex;align-items:center;gap:5px;font-size:12px;font-weight:600;padding:4px 10px;border-radius:999px;background:var(--accent-soft);color:var(--accent-ink)}
+  .pill.amber{background:var(--amber-soft);color:var(--amber)}
+  .row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+  .grid{display:grid;gap:14px}
+  @media(min-width:620px){.g2{grid-template-columns:1fr 1fr}}
+
+  .hero{display:flex;flex-wrap:wrap;align-items:center;gap:16px;margin:20px 0 8px}
+  .count{flex:none;background:linear-gradient(150deg,var(--accent),var(--accent-ink));color:#fff;border-radius:var(--r);padding:14px 20px;text-align:center;min-width:118px;box-shadow:0 8px 20px rgba(15,110,106,.28)}
+  .count b{font-family:Georgia,serif;font-size:32px;display:block;line-height:1}
+  .count span{font-size:12px;opacity:.92}
+  .herotext h1{margin:0 0 4px;font-size:25px}
+  .herotext p{margin:0;color:var(--muted)}
+
+  .brandstrip{display:flex;align-items:center;gap:13px;width:100%;text-decoration:none;color:inherit;border:1px solid var(--line);background:var(--card);border-radius:var(--r);padding:12px 16px;margin:14px 0 2px;box-shadow:var(--shadow);transition:border-color .2s var(--ease),transform .15s var(--ease)}
+  .brandstrip:hover{border-color:var(--accent);transform:translateY(-1px)}
+  .brandstrip .bs-logo{width:36px;height:36px;border-radius:10px;flex:none;display:grid;place-items:center;color:#fff;font-family:Georgia,serif;font-weight:700;font-size:17px;background:linear-gradient(145deg,var(--accent),var(--accent-ink))}
+  .brandstrip .bs-txt{flex:1;min-width:0} .brandstrip .bs-txt b{display:block;font-size:14.5px} .brandstrip .bs-txt small{color:var(--muted);font-size:12.5px}
+  .brandstrip .bs-go{color:var(--accent-ink);flex:none;display:inline-flex} .brandstrip .bs-go .ic{width:18px;height:18px}
+
+  .seclabel{display:flex;align-items:center;gap:8px;margin:24px 0 12px;font-weight:700;font-size:15px}
+  .seclabel .ic{width:18px;height:18px;color:var(--accent-ink)}
+  .backlink{display:inline-flex;align-items:center;gap:5px;border:none;background:none;color:var(--muted);font-size:13.5px;font-weight:600;padding:6px 0;margin-bottom:4px;transition:color .2s var(--ease)}
+  .backlink:hover{color:var(--accent-ink)} .backlink .ic{width:16px;height:16px}
+  .tracks{display:grid;gap:14px} @media(min-width:600px){.tracks{grid-template-columns:1fr 1fr}}
+  .track{display:flex;flex-direction:column;gap:8px;text-align:left;width:100%;border:1.5px solid var(--line);background:var(--card);border-radius:var(--r-lg);padding:20px;box-shadow:var(--shadow);transition:transform .22s var(--ease),border-color .22s var(--ease),box-shadow .22s var(--ease)}
+  .track:hover{transform:translateY(-3px);border-color:var(--accent);box-shadow:var(--shadow-lg)} .track:active{transform:translateY(-1px) scale(.995)}
+  .track .tile{width:46px;height:46px;border-radius:13px;display:grid;place-items:center;color:#fff;margin-bottom:4px;background:linear-gradient(150deg,var(--accent),var(--accent-ink))}
+  .track.alt .tile{background:linear-gradient(150deg,var(--violet),#4f40a8)} .track .tile .ic{width:24px;height:24px}
+  .track b{font-size:18px} .track small{color:var(--muted);font-size:13.5px;line-height:1.5}
+  .track .go{margin-top:6px;display:inline-flex;align-items:center;gap:6px;color:var(--accent-ink);font-weight:600;font-size:13.5px} .track.alt .go{color:var(--violet)} .track .go .ic{width:16px;height:16px}
+  .toggle{width:48px;height:28px;border-radius:999px;border:none;background:var(--line);position:relative;cursor:pointer;flex:none;transition:background .2s var(--ease)}
+  .toggle .knob{position:absolute;top:3px;left:3px;width:22px;height:22px;border-radius:50%;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.25);transition:left .2s var(--ease)}
+  .toggle.on{background:var(--violet)} .toggle.on .knob{left:23px}
+  .warmcard{border-color:var(--violet)!important;background:var(--violet-soft)} .warmcard .ic{width:22px;height:22px;color:var(--violet);flex:none}
+  .modebanner{display:flex;align-items:center;gap:10px;margin-bottom:14px;padding:11px 14px;border-radius:var(--r);background:var(--accent-soft);color:var(--accent-ink);font-size:13.5px;font-weight:600}
+  .modebanner.v{background:var(--violet-soft);color:var(--violet)} .modebanner .ic{width:18px;height:18px} .modebanner a,.modebanner .bnlink{margin-left:auto;font-size:13px;font-weight:600;cursor:pointer;text-decoration:underline;color:inherit;border:none;background:none;font-family:inherit;padding:0}
+  html.snappy .card,html.snappy .mode,html.snappy .tip,html.snappy .track{animation-duration:.12s!important}
+  .mode{display:flex;flex-direction:column;text-align:left;width:100%;border:1px solid var(--line);background:var(--card);border-radius:var(--r);padding:17px;gap:7px;box-shadow:var(--shadow);transition:transform .2s var(--ease),border-color .2s var(--ease),box-shadow .2s var(--ease)}
+  .mode:hover{border-color:var(--accent);transform:translateY(-3px);box-shadow:var(--shadow-lg)}
+  .mode .me{width:40px;height:40px;border-radius:11px;display:grid;place-items:center;background:var(--accent-soft);color:var(--accent-ink)} .mode .me .ic{width:22px;height:22px}
+  .mode b{font-size:16px} .mode small{color:var(--muted);font-size:13px}
+
+  label.fld{display:block;font-size:13px;font-weight:600;margin:16px 0 7px}
+  .chips{display:flex;flex-wrap:wrap;gap:8px}
+  .chip{border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:999px;min-height:38px;padding:7px 13px;font-size:13.5px;transition:all .18s var(--ease)}
+  .chip:hover{border-color:var(--accent)} .chip.on{background:var(--accent);color:#fff;border-color:var(--accent)}
+  .btn{background:var(--accent);color:#fff;border:none;border-radius:11px;min-height:46px;padding:12px 20px;font-size:15px;font-weight:600;display:inline-flex;align-items:center;gap:8px;justify-content:center;box-shadow:0 4px 12px rgba(15,110,106,.25);transition:background .2s var(--ease),transform .12s var(--ease)}
+  .btn:hover{background:var(--accent-ink)} .btn:active{transform:scale(.97) translateY(1px)} .btn .ic{width:18px;height:18px}
+  .btn.ghost{background:var(--card);color:var(--ink);border:1px solid var(--line);box-shadow:none} .btn.ghost:hover{border-color:var(--accent)}
+  .btn:disabled{opacity:.5;cursor:not-allowed;box-shadow:none}
+  input[type=search],input[type=text],input[type=email],textarea{font-family:inherit;font-size:15px;padding:9px 11px;border:1px solid var(--line);border-radius:10px;background:var(--card);color:var(--ink);width:100%}
+  input:focus,textarea:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-soft)}
+
+  .runtop{display:flex;align-items:center;gap:12px;margin:2px 0 14px;font-size:13px;color:var(--muted)}
+  .bar{height:8px;border-radius:6px;background:var(--bg2);overflow:hidden;flex:1}
+  .bar>i{display:block;height:100%;width:0;background:var(--accent);border-radius:6px;transition:width .7s var(--ease)}
+  .qtext{font-size:19px;font-weight:600;margin:8px 0 16px;font-family:Georgia,serif;line-height:1.45}
+  .opt{display:flex;gap:12px;align-items:flex-start;width:100%;text-align:left;border:1.5px solid var(--line);background:var(--card);color:var(--ink);border-radius:12px;padding:14px 15px;margin-bottom:10px;font-size:15px;transition:border-color .15s var(--ease),background .15s var(--ease),transform .12s var(--ease)}
+  .opt:hover:not(:disabled){border-color:var(--accent);background:var(--accent-soft)} .opt:active:not(:disabled){transform:scale(.99)}
+  .opt .k{flex:none;width:27px;height:27px;border-radius:8px;background:var(--bg2);color:var(--muted);display:grid;place-items:center;font-weight:700;font-size:13px}
+  .opt.correct{border-color:var(--good);background:var(--good-soft)} .opt.correct .k{background:var(--good);color:#fff}
+  .opt.wrong{border-color:var(--bad);background:var(--bad-soft)} .opt.wrong .k{background:var(--bad);color:#fff}
+  .opt:disabled{cursor:default}
+  .feedback{border-radius:12px;padding:13px 15px;margin:4px 0 12px;font-size:14.5px}
+  .feedback.ok{background:var(--good-soft);color:var(--good)} .feedback.no{background:var(--bad-soft);color:var(--bad)}
+  .feedback b{font-weight:700} .feedback .sub{display:block;margin-top:3px;color:var(--ink);font-weight:500;opacity:.92}
+  .whybtn{border:1px solid var(--line);background:var(--card);color:var(--accent-ink);border-radius:10px;min-height:40px;padding:9px 14px;font-size:13.5px;font-weight:600;display:inline-flex;align-items:center;gap:7px;transition:border-color .2s var(--ease),background .2s var(--ease)}
+  .whybtn:hover{border-color:var(--accent);background:var(--accent-soft)} .whybtn .ic{width:16px;height:16px}
+  .whybox{border:1px solid var(--accent);background:var(--accent-soft);border-radius:12px;padding:14px 16px;margin:12px 0 4px;font-size:14px;line-height:1.55}
+  .whybox h4{margin:0 0 6px;font-size:13px;text-transform:uppercase;letter-spacing:.5px;color:var(--accent-ink);font-family:system-ui;display:flex;align-items:center;gap:7px}
+  .whybox .ic{width:16px;height:16px}
+
+  .acc{border:1px solid var(--line);border-radius:var(--r);margin-bottom:10px;background:var(--card);overflow:hidden;box-shadow:var(--shadow)}
+  .acc>summary{padding:15px 16px;font-weight:700;cursor:pointer;list-style:none;display:flex;align-items:center;gap:11px}
+  .acc>summary::-webkit-details-marker{display:none}
+  .acc>summary .n{flex:none;width:28px;height:28px;border-radius:8px;background:var(--accent-soft);color:var(--accent-ink);display:grid;place-items:center;font-size:13px;font-weight:700}
+  .acc>summary .caret{margin-left:auto;color:var(--muted);transition:transform .25s var(--ease)} .acc[open]>summary .caret{transform:rotate(90deg)}
+  .acc[open]>summary{border-bottom:1px solid var(--line)} .acc .body{padding:6px 18px 16px}
+  .acc h4{margin:14px 0 6px;font-size:13px;color:var(--accent-ink);text-transform:uppercase;letter-spacing:.4px;font-family:system-ui}
+  .acc ul{margin:0;padding-left:20px} .acc li{margin:6px 0;font-size:14.5px;line-height:1.5}
+  .acc.hack li::marker{content:"💡  "} .acc.hack>summary .n{background:var(--violet-soft);color:var(--violet)}
+  mark{background:var(--amber-soft);color:inherit;padding:0 2px;border-radius:3px}
+
+  .tip{border:1px solid var(--line);background:var(--card);border-radius:var(--r);padding:15px;box-shadow:var(--shadow)}
+  .tip h4{margin:0 0 5px;font-size:14.5px;display:flex;align-items:center;gap:8px;font-family:system-ui} .tip h4 .ic{width:18px;height:18px;color:var(--violet)}
+  .tip p{margin:0;font-size:13.5px;color:var(--muted);line-height:1.55}
+  .tipgrid{display:grid;gap:12px} @media(min-width:620px){.tipgrid{grid-template-columns:1fr 1fr}}
+
+  .results .big{font-family:Georgia,serif;font-size:54px;text-align:center;margin:8px 0;line-height:1}
+  .center{text-align:center} .hide{display:none!important}
+  footer{margin-top:34px;text-align:center;color:var(--muted);font-size:13px}
+  .kbd{font-size:11px;border:1px solid var(--line);border-bottom-width:2px;border-radius:5px;padding:1px 6px;color:var(--muted)}
+  @keyframes fadeUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+  @keyframes slideIn{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:none}}
+  @keyframes pop{0%{transform:scale(1)}45%{transform:scale(1.03)}100%{transform:scale(1)}}
+  @keyframes optIn{from{opacity:0;transform:translateX(-9px)}to{opacity:1;transform:none}}
+  @media (prefers-reduced-motion: no-preference){
+    .card,.mode,.tip{animation:fadeUp .34s var(--ease) both}
+    .acc{animation:fadeUp .32s var(--ease) both}
+    .opt{animation:optIn .3s var(--ease) backwards;animation-delay:var(--oi,0s)}
+    .chip.on{animation:pop .22s var(--ease)}
+    .feedback{animation:slideIn .26s var(--ease) both} .whybox{animation:slideIn .28s var(--ease) .07s both} .opt.correct{animation:pop .34s var(--ease)}
+  }
+  @media (prefers-reduced-motion: reduce){*{animation-duration:.001ms!important;transition-duration:.001ms!important}}
+  /* ---- Premium launch (Gemini-stijl) + header-logo gloed ---- */
+  @property --bes-a{syntax:'<angle>';initial-value:0deg;inherits:false}
+  #splash{position:fixed;inset:0;z-index:200;display:grid;place-items:center;background:radial-gradient(125% 125% at 50% 38%,var(--bg2) 0%,var(--bg) 68%);transition:opacity .6s var(--ease),transform .7s var(--ease)}
+  #splash.hide{opacity:0;transform:scale(1.07);pointer-events:none}
+  .sp-inner{display:flex;flex-direction:column;align-items:center;gap:20px;text-align:center}
+  .sp-mark{position:relative;width:100px;height:100px;display:grid;place-items:center}
+  .sp-mark::before{content:"";position:absolute;inset:-16px;border-radius:34px;z-index:0;background:conic-gradient(from var(--bes-a),var(--accent),var(--violet),var(--amber),var(--accent));filter:blur(17px);opacity:.75}
+  .sp-mark::after{content:"";position:absolute;inset:-3px;border-radius:27px;z-index:1;background:conic-gradient(from var(--bes-a),var(--accent),var(--violet),var(--amber),var(--accent));padding:3px;-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude}
+  .sp-logo{position:relative;z-index:2;width:92px;height:92px;border-radius:24px;display:grid;place-items:center;color:#fff;font-family:Georgia,serif;font-weight:700;font-size:46px;background:linear-gradient(150deg,var(--accent),var(--accent-ink));box-shadow:0 14px 38px rgba(15,110,106,.4)}
+  .sp-spark{position:absolute;z-index:3;top:-7px;right:-7px;width:30px;height:30px;color:#fff;filter:drop-shadow(0 2px 7px rgba(0,0,0,.35))}
+  .sp-name{position:relative;font-family:Georgia,serif;font-size:26px;font-weight:700;letter-spacing:-.01em;color:var(--ink);overflow:hidden}
+  .sp-name::after{content:"";position:absolute;inset:0;background:linear-gradient(110deg,transparent 35%,rgba(255,255,255,.75) 50%,transparent 65%);transform:translateX(-130%)}
+  .sp-tag{font-size:13px;color:var(--muted);margin-top:-8px;letter-spacing:.03em}
+  @media (prefers-reduced-motion: no-preference){
+    .sp-mark::before{animation:bes-spin 3s linear infinite,bes-breathe 2.4s var(--ease) infinite}
+    .sp-mark::after{animation:bes-spin 3s linear infinite}
+    .sp-logo{animation:bes-pop .7s var(--ease) both}
+    .sp-spark{animation:bes-pop .6s var(--ease) .12s both,bes-twinkle 1.9s var(--ease) .9s infinite}
+    .sp-name{animation:bes-rise .6s var(--ease) .14s both}
+    .sp-name::after{animation:bes-shimmer 1.5s var(--ease) .5s 1}
+    .sp-tag{animation:bes-rise .6s var(--ease) .26s both}
+  }
+  @keyframes bes-spin{to{--bes-a:360deg}}
+  @keyframes bes-breathe{0%,100%{opacity:.55;filter:blur(16px)}50%{opacity:.95;filter:blur(22px)}}
+  @keyframes bes-shimmer{to{transform:translateX(130%)}}
+  @keyframes bes-twinkle{0%,100%{opacity:1;transform:scale(1) rotate(0deg)}50%{opacity:.65;transform:scale(.82) rotate(18deg)}}
+  @keyframes bes-rise{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+  @media(max-width:440px){ header.top .iconbtn span{display:none} header.top .iconbtn{padding:7px 9px;min-width:38px;justify-content:center} .topin{gap:8px} }
+/* ===== gedeelde interactie-verbeteringen (fixronde augustus 2026) ===== */
+@media (prefers-reduced-motion: no-preference){
+  @keyframes bes-klik{0%{transform:scale(1)}38%{transform:scale(.955)}100%{transform:scale(1)}}
+  .bes-klik{animation:bes-klik .2s cubic-bezier(.22,.61,.36,1)}
+  @keyframes bes-in{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+  .bes-in{animation:bes-in .22s cubic-bezier(.22,.61,.36,1) both}
+}
+.acc>.body{display:grid;grid-template-rows:1fr;opacity:1;overflow:hidden;transition:grid-template-rows .25s cubic-bezier(.22,.61,.36,1),opacity .2s cubic-bezier(.22,.61,.36,1),padding .25s cubic-bezier(.22,.61,.36,1)}
+.acc>.body>*{min-height:0}
+.bes-wrap{min-height:0}
+.acc:not([open])>.body,.acc.bes-dicht>.body,.acc.bes-open>.body{grid-template-rows:0fr;opacity:0;padding-top:0;padding-bottom:0}
+.fbextra{display:grid;gap:0 14px}
+.fbextra .fld{margin-top:10px}
+@media(min-width:620px){.fbextra{grid-template-columns:1fr 1fr}.fbextra .fbwaar{grid-column:1 / -1}}
+
+</style>
+</head>
+<body>
+<div id="splash"><div class="sp-inner">
+  <div class="sp-mark">
+    <div class="sp-logo">SP</div>
+    <svg class="sp-spark" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 1.5c.4 4.6 2.4 6.6 7 7-4.6.4-6.6 2.4-7 7-.4-4.6-2.4-6.6-7-7 4.6-.4 6.6-2.4 7-7Z"/></svg>
+  </div>
+  <div><div class="sp-name">Sociale psychologie</div><div class="sp-tag">slim oefenen voor je examen</div></div>
+</div></div>
+<header class="top">
+  <div class="topin">
+    <div class="brand"><span class="logo">SP</span><div>Sociale psychologie<small>Berie’s exam space</small></div></div>
+    <span class="spacer"></span>
+    <a class="iconbtn" href="https://beriesexamspace.github.io/?jaar=1" title="Andere vakken"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true" style="width:16px;height:16px"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg><span>Vakken</span></a>
+    <button class="iconbtn" id="themeBtn" aria-label="Wissel tussen licht en donker thema"></button>
+  </div>
+  <nav class="tabs" id="tabs"></nav>
+</header>
+<div class="wrap" id="app"></div>
+<footer class="wrap" style="padding-top:0">Sociale psychologie · Berie’s exam space, oefen slim voor je examen · veel succes!<br><span style="opacity:.7">© 2026 Berie’s exam space · Alle rechten voorbehouden</span></footer>
+
+<script>
+window.SOCPSY = {"questions":[{"t":"1","q":"Wat onderzoekt de sociale psychologie volgens de definitie in dit hoofdstuk?","o":["Hoe de aanwezigheid, acties, houdingen en veronderstelde aanwezigheid van anderen onze gedachten, gevoelens, houdingen en gedragingen beïnvloedt","Hoe hersengebieden zich bij elke taak op identieke wijze gedragen","Hoe individuele persoonlijkheidstrekken volledig losstaan van de sociale omgeving","Hoe erfelijke aanleg en aangeboren temperament het gedrag volledig vastleggen, waardoor de sociale omgeving alleen nog bepaalt wanneer dat gedrag zichtbaar wordt"],"a":0,"u":"Sociale psychologie is de wetenschappelijke discipline die onderzoekt hoe (veronderstelde) aanwezigheid en acties van anderen onze gedachten, gevoelens, houdingen en gedrag beïnvloeden."},{"t":"1","q":"Wat is het verschil tussen directe en indirecte sociale invloed?","o":["Directe invloed werkt enkel via wetten, indirecte invloed via reclame","Directe invloed is een actieve poging om gedrag/attitudes te veranderen, indirecte invloed werkt subtieler, vaak onbewust","Directe invloed is altijd onbewust, indirecte invloed altijd bewust","Directe invloed verandert enkel het zichtbare gedrag, terwijl indirecte invloed uitsluitend de innerlijke attitudes wijzigt zonder het gedrag te raken"],"a":1,"u":"Directe sociale invloed (bv. reclame, propaganda, overreding) probeert actief te veranderen; indirecte invloed (bv. aanwezigheid van anderen, culturele normen, wetten) werkt subtiel en vaak zonder dat we het merken."},{"t":"1","q":"Wat wordt in dit hoofdstuk bedoeld met 'constructen'?","o":["Objectieve, fysieke eigenschappen van een situatie","Meetinstrumenten waarmee onderzoekers een abstract begrip in meetbare cijfers omzetten voor analyse","De subjectieve manier waarop wij de sociale wereld waarnemen, begrijpen en interpreteren","Vaste biologische reflexen die niet beïnvloed worden door cultuur"],"a":2,"u":"Constructen zijn mentale representaties: de subjectieve manier waarop mensen de sociale wereld waarnemen en interpreteren, gevormd door ervaringen, cultuur en cognitieve processen."},{"t":"1","q":"Wat is volgens het hoofdstuk de empirische methode?","o":["Kennis verkrijgen door louter logisch redeneren zonder observatie","Kennis verkrijgen door systematische observatie, ervaring en meting van de werkelijkheid","Kennis verkrijgen door meningen van erkende deskundigen te verzamelen tot er consensus ontstaat","Kennis afleiden uit oude filosofische teksten"],"a":1,"u":"De empirische methode verkrijgt kennis via systematische observatie, ervaring en meting van de echte wereld, in plaats van louter te redeneren of speculeren."},{"t":"1","q":"Wat is het verschil tussen de visies van Descartes en Spinoza op waarneming, en wie kreeg volgens modern onderzoek gelijk?","o":["Descartes: we geloven automatisch wat we waarnemen; modern onderzoek bevestigt hem","Spinoza: we schorten ons oordeel op tot het bewijs gewogen is; Descartes: geloven gebeurt vanzelf - modern onderzoek geeft Spinoza gelijk","Descartes: eerst observeren, dan oordelen; Spinoza: we geloven automatisch en corrigeren pas daarna - modern onderzoek geeft Spinoza gelijk","Beiden meenden dat geloven en waarnemen één en hetzelfde proces zijn, wat modern is weerlegd"],"a":2,"u":"Descartes zag een aparte oordeelstap na het waarnemen; Spinoza stelde dat we eerst automatisch geloven en pas daarna bewust corrigeren. Modern onderzoek geeft Spinoza gelijk."},{"t":"1","q":"Wat houdt de fundamentele attributiefout in?","o":["De neiging om de rol van interne factoren te overschatten en externe, situationele factoren te onderschatten bij het verklaren van gedrag","De neiging om alle gedrag uitsluitend aan de situatie toe te schrijven","De neiging om te overschatten hoeveel andere mensen onze eigen opvattingen en gedragskeuzes delen, waardoor hun gedrag vanzelfsprekend lijkt","De fout om persoonlijkheidstrekken volledig te negeren"],"a":0,"u":"De fundamentele attributiefout is de neiging om iemands gedrag te veel toe te schrijven aan persoonlijkheid/interne factoren en de situationele (externe) factoren te onderschatten."},{"t":"1","q":"Waarin verschilt de gestaltpsychologie van het behaviorisme volgens dit hoofdstuk?","o":["Gestalt richt zich enkel op beloningen en straffen; behaviorisme op interpretatie","Behaviorisme verklaart gedrag via externe bekrachtiging zonder subjectieve processen; gestalt benadrukt juist de subjectieve interpretatie van het geheel","Gestalt splitst de waarneming op in losse elementaire prikkels, terwijl het behaviorisme stelt dat mensen een situatie altijd als betekenisvol geheel beleven","Gestalt ontkent dat de geest actief meedoet bij waarneming"],"a":1,"u":"Het behaviorisme (Skinner) verklaart gedrag via externe beloningen/straffen (S-R) zonder subjectieve processen; de gestaltpsychologie benadrukt de actieve, subjectieve interpretatie en dat het geheel anders is dan de som der delen."},{"t":"1","q":"Welk begrip introduceerde Lee Ross, en wat houdt het in?","o":["Naïef realisme: de neiging te geloven dat ons eigen perspectief de waarheid is","Fenomenologie: hoe de wereld in de geest verschijnt","Self-fulfilling prophecy: verwachtingen die de uitkomst beïnvloeden","Sociale vergelijking: onszelf beoordelen door ons voortdurend met anderen te meten"],"a":0,"u":"Lee Ross introduceerde naïef realisme, de neiging te geloven dat ons eigen perspectief de waarheid weergeeft."},{"t":"1","q":"Wat zijn volgens het hoofdstuk de twee fundamentele menselijke motieven die ten grondslag liggen aan constructies?","o":["Het vermijden van cognitieve inspanning (cognitive miser) en het volgen van de meerderheid binnen de eigen groep","Het behouden van een positief zelfbeeld (self-enhancement) en het streven naar nauwkeurigheid (accuracy motive)","Het onderdrukken van emoties en het versterken van logica","Het imiteren van autoriteit en het volgen van wetten"],"a":1,"u":"Mensen hebben de behoefte om een positief zelfbeeld te behouden (self-enhancement) én om accuraat/nauwkeurig te zijn (accuracy motive); de spanning hiertussen verklaart rationalisatie en selectieve informatieverwerking."},{"t":"1","q":"Wat illustreert de 'self-fulfilling prophecy' aan de hand van het klassieke onderwijsvoorbeeld?","o":["Dat leerlingen genetisch bepaald zijn om te slagen of falen","Dat verwachtingen van de leerkracht het gedrag en de resultaten sturen, waardoor leerlingen daadwerkelijk beter scoren","Dat leerkrachten hun oordeel achteraf bijstellen zodra de resultaten binnen zijn, waardoor hun eerste verwachting alsnog lijkt te kloppen","Dat enkel objectieve toetsen de prestaties bepalen"],"a":1,"u":"Bij de self-fulfilling prophecy beïnvloeden verwachtingen de uitkomst: gelooft een leerkracht in het potentieel van leerlingen, dan scoren die vaak daadwerkelijk hoger omdat de verwachtingen het gedrag en de resultaten sturen."},{"t":"2","q":"Wat is 'hindsight bias' en waarom is dit volgens het hoofdstuk relevant voor de sociale psychologie?","o":["De neiging om achteraf te denken dat een uitkomst voorspelbaar was, wat aantoont waarom empirisch onderzoek nodig is","De neiging van onderzoekers om hun hypothese te bevestigen tijdens een experiment","De fout waarbij deelnemers sociaal wenselijke antwoorden geven op enquêtes","De vertekening die ontstaat doordat deelnemers zich anders gedragen zodra ze weten dat ze geobserveerd worden"],"a":0,"u":"Hindsight bias is de cognitieve vertekening waarbij men achteraf denkt dat een uitkomst voorspelbaar was; het illustreert waarom intuïties getoetst moeten worden via empirisch onderzoek."},{"t":"2","q":"Welke onderzoeksmethode is volgens het hoofdstuk de enige die een oorzaak-gevolgrelatie kan vaststellen?","o":["De observatiemethode","De correlationele methode","De experimentele methode","Archiefanalyse"],"a":2,"u":"Alleen de experimentele methode kan causale relaties vaststellen, doordat de onderzoeker een onafhankelijke variabele systematisch manipuleert en controleert."},{"t":"2","q":"Wat houdt 'interbeoordelaarsbetrouwbaarheid' (interjudge reliability) in?","o":["De mate waarin een onderzoek dezelfde resultaten geeft bij herhaling","De mate van overeenstemming tussen twee of meer onafhankelijke observatoren","De kans dat de resultaten op toeval berusten","De mate waarin resultaten generaliseerbaar zijn naar andere mensen"],"a":1,"u":"Interbeoordelaarsbetrouwbaarheid verwijst naar de mate van overeenstemming tussen onafhankelijke observatoren die hetzelfde gedrag beoordelen, wat de objectiviteit van observaties waarborgt."},{"t":"2","q":"Een correlatiecoëfficiënt van -1 wijst op welk soort verband tussen twee variabelen?","o":["Geen lineair verband","Een perfecte positieve relatie","Een perfecte negatieve relatie","Een causale relatie"],"a":2,"u":"Een waarde van -1 betekent een perfecte negatieve relatie: als de ene variabele stijgt, daalt de andere."},{"t":"2","q":"Wat illustreert het voorbeeld van Rosenberg, waarbij vrouwen die afhankelijk waren van condooms vaker soa's hadden?","o":["Dat condoomgebruik de kans op een soa verhoogt, omdat een correlatie op oorzaak en gevolg wijst","Dat een correlatie misleidend kan zijn omdat een derde factor het verband verklaart","Dat de experimentele methode noodzakelijk is voor surveys","Dat een hoge interne validiteit was bereikt"],"a":1,"u":"Het voorbeeld toont dat correlatie geen causaliteit is: een derde factor (vrouwen met andere anticonceptie hebben vaak minder wisselende partners) verklaart het misleidende verband."},{"t":"2","q":"Wat is het verschil tussen de onafhankelijke en de afhankelijke variabele in een experiment?","o":["De onafhankelijke variabele wordt gemeten, de afhankelijke variabele wordt gemanipuleerd","De onafhankelijke variabele wordt gemanipuleerd, de afhankelijke variabele wordt gemeten","Beide worden door de onderzoeker gemanipuleerd","Beide worden enkel gemeten zonder manipulatie"],"a":1,"u":"De onderzoeker manipuleert de onafhankelijke variabele en meet vervolgens het effect op de afhankelijke variabele."},{"t":"2","q":"Wat betekent het wanneer een resultaat een p-waarde kleiner dan 0,05 heeft?","o":["De kans dat de nulhypothese waar is bedraagt minder dan vijf procent, dus het effect is bewezen","De kans dat het resultaat op toeval berust is erg klein, dus het is statistisch significant","Het experiment heeft een hoge externe validiteit","Er is sprake van een storende variabele"],"a":1,"u":"Een p-waarde kleiner dan 0,05 betekent dat de kans op toeval erg klein is, waardoor het resultaat als statistisch significant wordt beschouwd."},{"t":"2","q":"Wat houdt het 'basisdilemma van de sociale psycholoog' in?","o":["De spanning tussen aselecte toewijzing en een representatieve steekproef","De spanning tussen geïnformeerde toestemming en misleiding","De spanning tussen hoge interne validiteit en hoge externe validiteit","De spanning tussen kwalitatief en kwantitatief onderzoek"],"a":2,"u":"Hoge interne validiteit vereist een sterk gecontroleerde omgeving, terwijl hoge externe validiteit een natuurlijke context vraagt; een perfect evenwicht is zelden haalbaar."},{"t":"2","q":"Waarom wordt na een experiment met misleiding een debriefing verplicht gesteld?","o":["Om deelnemers willekeurig aan condities toe te wijzen","Om uit te leggen wat het echte doel was, waarom misleiding nodig was en wat er gebeurd is","Om de deelnemers vooraf toestemming te laten geven, zodat het onderzoek ethisch verantwoord kan starten","Om de steekproef representatief te maken"],"a":1,"u":"De debriefing verantwoordt de misleiding: de onderzoeker legt achteraf uit wat het werkelijke doel van het experiment was en waarom misleiding nodig was."},{"t":"2","q":"Wat is het verschil tussen replicatie en een meta-analyse?","o":["Replicatie combineert resultaten van vele studies; een meta-analyse herhaalt één studie","Replicatie herhaalt één studie om consistentie te toetsen; een meta-analyse combineert statistisch de resultaten van meerdere studies","Beide herhalen exact hetzelfde experiment met dezelfde steekproef","Replicatie toetst of een effect ook in een andere cultuur opgaat; een meta-analyse berekent hoe groot een steekproef moet zijn"],"a":1,"u":"Replicatie test of één specifieke studie bij herhaling dezelfde resultaten oplevert, terwijl een meta-analyse de bevindingen van meerdere studies statistisch samenbrengt voor bredere conclusies."},{"t":"3","q":"Wat is het belangrijkste kenmerk van automatische sociale cognitie?","o":["Ze verloopt bewust, doelgericht en kost veel cognitieve energie","Ze verloopt snel, intuïtief en moeiteloos, zonder dat we er bewust bij stilstaan","Ze wordt alleen gebruikt bij complexe conflicten op het werk","Ze werkt enkel bij mensen die al veel ervaring hebben met de situatie in kwestie"],"a":1,"u":"Automatische sociale cognitie is een snelle, intuïtieve en moeiteloze manier van denken die onbewust verloopt; bewust en inspannend denken hoort bij gecontroleerde cognitie."},{"t":"3","q":"Een script is volgens het hoofdstuk een specifiek type schema. Wat kenmerkt een script?","o":["Het is een mentale representatie van één bepaalde persoon","Het beschrijft de typische volgorde van gebeurtenissen in een bepaalde context","Het bevat de vaste eigenschappen die we aan een hele sociale groep toeschrijven","Het verwijst naar het behoud van overtuigingen na weerlegging"],"a":1,"u":"Een script is een schema dat de typische volgorde van gebeurtenissen in een context beschrijft, zoals het restaurant-script (binnenkomen, bestellen, eten, betalen, vertrekken)."},{"t":"3","q":"Iemand die net woorden over agressie heeft gelezen, interpreteert een neutrale situatie sneller als vijandig. Welk proces illustreert dit?","o":["Het perseveratie-effect","De ankerheuristiek","Priming","Tegenfeitelijk redeneren"],"a":2,"u":"Priming is het tijdelijk activeren van een schema door een prikkel (zoals een woord), waardoor verwante gedachten en interpretaties toegankelijker worden."},{"t":"3","q":"Wat houdt het perseveratie-effect in?","o":["De neiging om overtuigingen te behouden, zelfs nadat het onderliggende bewijs is ontkracht","Het overdreven negatief worden nadat een positieve overtuiging onjuist bleek","Het geleidelijk vervagen van een overtuiging zodra iemand verneemt dat het bewijs onjuist was","Het aanvullen van ontbrekende informatie met valse herinneringen"],"a":0,"u":"Het perseveratie-effect is de neiging om overtuigingen vast te houden ook nadat het bewijs ervoor is weerlegd, omdat overtuigingen ook op emoties en zelfbeeld berusten."},{"t":"3","q":"Een leerkracht denkt dat een leerling intelligent is, geeft hem meer aandacht en vertrouwen, waardoor de leerling beter gaat presteren. Hoe heet dit fenomeen?","o":["De fundamentele attributiefout van de leerkracht","De self-fulfilling prophecy (Pygmalion-effect)","Het bestraffingseffect","De beschikbaarheidsheuristiek"],"a":1,"u":"Een self-fulfilling prophecy (ook Pygmalion-effect) ontstaat wanneer verwachtingen het gedrag zo beïnvloeden dat de persoon zich gedraagt zoals verwacht, waardoor de verwachting werkelijkheid wordt."},{"t":"3","q":"Wat is het verschil tussen chronisch en tijdelijk toegankelijke schema's?","o":["Chronisch toegankelijke schema's zijn bijna altijd actief, tijdelijk toegankelijke komen op de voorgrond door recente ervaringen of doelen","Chronische schema's worden enkel door geuren geactiveerd, tijdelijke door woorden","Chronische schema's leiden tot valse herinneringen, tijdelijke niet","Chronisch toegankelijke schema's zijn aangeboren en onveranderlijk, terwijl tijdelijk toegankelijke schema's alleen door bewuste keuze ontstaan"],"a":0,"u":"Chronisch toegankelijke schema's zijn bijna altijd actief door voortdurende ervaringen, terwijl tijdelijk toegankelijke schema's via doelen, recente ervaringen of priming op de voorgrond komen."},{"t":"3","q":"De beschikbaarheidsheuristiek houdt in dat mensen een oordeel vormen op basis van...","o":["Hoe sterk iets lijkt op een typisch voorbeeld van een categorie","Hoe gemakkelijk ze zich iets kunnen herinneren","Een willekeurig beginpunt waarop ze onvoldoende corrigeren","De onderlinge relaties tussen objecten in een scène"],"a":1,"u":"Bij de beschikbaarheidsheuristiek baseert men het oordeel op hoe makkelijk iets uit het geheugen op te roepen is, wat niet altijd representatief is voor de werkelijkheid."},{"t":"3","q":"Bij de representativiteitsheuristiek negeren mensen vaak welke informatie?","o":["De emotionele waarde van de situatie","Basisfrequentie-informatie (hoe vaak iets werkelijk voorkomt)","De toegankelijkheid van het schema","Hoe gemakkelijk een passend voorbeeld hen voor de geest komt"],"a":1,"u":"De representativiteitsheuristiek beoordeelt op gelijkenis met een typisch voorbeeld, waarbij basisfrequentie-informatie (hoe vaak iets echt voorkomt) vaak wordt genegeerd."},{"t":"3","q":"Volgens Wegner berust gedachteonderdrukking op twee processen. Wat gebeurt er bij het 'ironisch effect'?","o":["Het bewuste operatingsproces gaat onder tijdsdruk zelf naar de verboden gedachte zoeken om te controleren of ze verdwenen is, waardoor ze versterkt wordt","Het monitoringsproces faalt waardoor men de gedachte vergeet","Bij vermoeidheid of stress faalt het operatingsproces, terwijl het monitoringsproces actief blijft, zodat de ongewenste gedachte juist vaker opduikt","Beide processen stoppen, waardoor de gedachte definitief verdwijnt"],"a":2,"u":"Het ironisch effect treedt op wanneer het bewuste operatingsproces faalt (door stress/vermoeidheid) maar het automatische monitoringsproces blijft zoeken, waardoor de onderdrukte gedachte juist hypertoegankelijk wordt."},{"t":"3","q":"Hoe verklaart het hoofdstuk het verschil tussen analytisch (Westers) en holistisch (Oosters) denken?","o":["Door aangeboren biologische verschillen tussen bevolkingen","Door levenslange culturele ervaringen en de typische visuele/sociale omgevingen waarin men opgroeit","Door verschillen in intelligentie tussen culturen","Door verschillen in taalstructuur, die het denken van elke spreker rechtstreeks en blijvend vastleggen"],"a":1,"u":"Het verschil wordt verklaard door levenslange culturele ervaringen en omgevingen: open Westerse scènes stimuleren analytisch denken, gesloten Oosterse scènes bevorderen holistisch denken."},{"t":"4","q":"Wat is volgens het hoofdstuk de kern van wat sociale perceptie inhoudt?","o":["Het proces waarbij we informatie over anderen waarnemen, interpreteren en gebruiken om hun gedrag, emoties en intenties te begrijpen","Het proces waarbij we onze eigen emoties leren reguleren via lichaamstaal","Het aangeboren vermogen om de zes basisemoties op een gezicht te herkennen, los van elke informatie over de situatie of de persoon","Het bewust onderdrukken van vooroordelen tijdens een eerste ontmoeting"],"a":0,"u":"Sociale perceptie wordt gedefinieerd als het waarnemen, interpreteren en gebruiken van informatie over anderen om hun gedrag, emoties en intenties te begrijpen."},{"t":"4","q":"Welke rol spelen spiegelneuronen volgens onderzoek van Wicker e.a.?","o":["Ze vormen de biologische basis van empathie door andermans gedrag intern te spiegelen","Ze zorgen ervoor dat we manifestatieregels van onze cultuur leren","Ze slaan gezichtsuitdrukkingen op als vaste sjablonen waarmee we nieuwe gezichten later vergelijken","Ze bepalen welke gebaren als emblemen worden herkend"],"a":0,"u":"Spiegelneuronen worden actief zowel bij eigen handelen als bij het zien van datzelfde gedrag, en vormen zo de biologische basis van empathie en emotieherkenning."},{"t":"4","q":"Wat toonde het onderzoek van Ekman en Friesen aan over de zes basisemoties?","o":["Ze worden universeel geuit en herkend, ook bij analfabetische stammen en blinde kinderen","Ze worden enkel correct herkend binnen de westerse cultuur","Ze worden in elke cultuur even sterk getoond, omdat manifestatieregels overal identiek zijn","Ze kunnen wel gecodeerd maar niet gedecodeerd worden"],"a":0,"u":"Ekman en Friesen toonden dat blijheid, woede, verdriet, angst, verbazing en walging universeel zijn, ook bij geisoleerde stammen en blinde kinderen; het vermogen is dus aangeboren."},{"t":"4","q":"Iemand verbergt soms een grote glimlach om sociale harmonie te bewaren. Welk begrip uit het hoofdstuk past hier het best bij?","o":["Manifestatieregels","Emblemen","Thin slicing","Perceptuele saillantie"],"a":0,"u":"Manifestatieregels zijn culturele regels die bepalen welk non-verbaal gedrag gepast is in bepaalde situaties, zoals het voorbeeld van Japanse vrouwen die een glimlach verbergen."},{"t":"4","q":"Wat houdt 'thin slicing' (Ambady e.a.) in?","o":["Het vermogen om op basis van minimale informatie snel en accuraat sociale oordelen te vormen","De neiging om succes intern en falen extern toe te schrijven","Het corrigeren van een eerste indruk na meer informatie","Het onbewust overnemen van de houding en gebaren van de persoon tegenover ons tijdens een gesprek"],"a":0,"u":"Thin slicing verwijst naar het trekken van betrouwbare conclusies over persoonlijkheid of competentie op basis van 'dunne sneetjes' gedrag in korte tijd."},{"t":"4","q":"Volgens Heider gedragen mensen zich bij het verklaren van gedrag als...","o":["amateurwetenschappers die informatie verzamelen tot ze een redelijke oorzaak vinden","toeschouwers die het gedrag van anderen pas verklaren wanneer iemand hen dat uitdrukkelijk vraagt","persoonlijkheidspsychologen die enkel externe oorzaken zoeken","rechters die altijd de situatie de schuld geven"],"a":0,"u":"Heider, de vader van de attributietheorie, stelde dat mensen als amateurwetenschappers gedrag proberen te verklaren door informatie te verzamelen tot een redelijke oorzaak."},{"t":"4","q":"Een werknemer komt te laat. In het covariatiemodel van Kelley wijst hoge consensus erop dat...","o":["het gedrag waarschijnlijk aan de situatie ligt, omdat anderen zich net zo gedragen","het gedrag aan de persoon ligt, omdat enkel hij zo reageert","het gedrag stabiel bij de persoon ligt over de tijd","het gedrag enkel in deze ene situatie voorkomt en dus door de kenmerken van die taak wordt veroorzaakt"],"a":0,"u":"Hoge consensus betekent dat iedereen zich in die situatie zo gedraagt, wat wijst op een situationele (externe) oorzaak."},{"t":"4","q":"Wat houdt de fundamentele attributiefout (Ross) precies in?","o":["De neiging om bij anderen interne oorzaken te overschatten en situationele factoren te onderschatten","De neiging om eigen succes intern en eigen falen extern toe te schrijven","De neiging te denken dat anderen vatbaarder zijn voor denkfouten dan wijzelf","De neiging aan te nemen dat de meeste anderen in dezelfde situatie precies dezelfde keuze zouden maken"],"a":0,"u":"De fundamentele attributiefout is het overschatten van dispositionele (interne) factoren en het onderschatten van situationele (externe) factoren bij het verklaren van andermans gedrag."},{"t":"4","q":"Hoe verloopt het tweeledige proces van attributies maken volgens het hoofdstuk?","o":["Eerst een automatische interne attributie, daarna een bewuste correctie voor de situatie","Eerst een externe attributie, daarna een automatische interne aanvulling","Eerst consensus en distinctiviteit afwegen, daarna pas de consistentie van het gedrag beoordelen","Eerst decoderen, daarna coderen van de emotie"],"a":0,"u":"Men schrijft gedrag eerst spontaan toe aan de persoon (automatische interne attributie) en houdt pas in een tweede, bewuste fase rekening met situationele factoren."},{"t":"4","q":"Wat is het verschil tussen zelfdienende attributie en defensieve attributie?","o":["Zelfdienende attributie beschermt zelfbeeld en eigenwaarde; defensieve attributie is een ruimer mechanisme dat gevoelens van kwetsbaarheid en sterfelijkheid vermindert","Zelfdienende attributie schrijft succes extern toe; defensieve attributie schrijft falen intern toe","Zelfdienende attributie komt enkel in collectivistische culturen voor; defensieve enkel in westerse","Zelfdienende attributie is een bewuste indrukstrategie tegenover anderen; defensieve attributie is een onbewust proces dat enkel optreedt bij mensen die zelf al slachtoffer werden"],"a":0,"u":"Zelfdienende attributie beschermt het zelfbeeld door succes intern en falen extern toe te schrijven; defensieve attributie is een ruimer mechanisme dat angst en gevoelens van kwetsbaarheid/sterfelijkheid helpt vermijden (Walster)."},{"t":"5","q":"William James maakte een fundamentele tweedeling in het zelf. Waarnaar verwijst het 'I'?","o":["Het objectieve, gereflecteerde zelf met kennis en evaluaties over zichzelf","Het subjectieve, reflecterende aspect: het proces waarbij men de aandacht op het zelf richt","Het geheel van sociale rollen dat men in het dagelijks leven tegenover anderen speelt","Het normatieve zelf: wie men denkt te moeten zijn"],"a":1,"u":"Volgens James verwijst het 'I' naar het subjectieve, ervarende/reflecterende zelf (zelfbewustzijn), terwijl het 'Me' het objectieve, gereflecteerde zelf (zelfconcept) is."},{"t":"5","q":"In het spiegeltest-onderzoek van Gallup wijst het systematisch aanraken van de gemarkeerde plek op:","o":["Een volledig ontwikkeld ideaal zelf","De aanwezigheid van een rudimentair zelfconcept","Een vorm van impressiemanagement","Een louter fysiologische arousalreactie op de spiegel"],"a":1,"u":"Het aanraken van de vlek bij het zien van het spiegelbeeld duidt op zelfherkenning, oftewel een rudimentair zelfconcept: het besef dat het spiegelbeeld naar het eigen lichaam verwijst."},{"t":"5","q":"Volgens de zelfbewustzijnstheorie van Duval & Wicklund gebeurt er iets wanneer mensen hun aandacht op zichzelf richten. Wat?","o":["Ze vergelijken hun gedrag met hun innerlijke normen en waarden","Ze leiden hun emoties af uit hun fysiologische opwinding","Ze vergelijken zichzelf automatisch met betere anderen","Ze verhogen hun intrinsieke motivatie"],"a":0,"u":"Bij zelfgerichte aandacht evalueren mensen hun gedrag en vergelijken dit met hun interne normen en waarden; bij een discrepantie passen ze hun gedrag aan of ontsnappen ze aan het zelfbewustzijn."},{"t":"5","q":"Wat toonden Nisbett & Wilson aan over introspectie?","o":["Mensen kunnen via zorgvuldige introspectie het volledige denkproces achter hun oordeel reconstrueren","Mensen hebben alleen toegang tot het eindresultaat, niet tot het cognitieve proces erachter","Introspectie is de meest betrouwbare bron van stabiele attitudes","Introspectie leidt altijd tot blijvende attitudeverandering"],"a":1,"u":"Volgens Nisbett & Wilson hebben mensen alleen toegang tot hoe ze zich voelen (het eindresultaat), niet tot het onderliggende cognitieve proces; ze verzinnen daardoor vaak onjuiste causale redenen."},{"t":"5","q":"De zelfperceptietheorie van Bem stelt dat mensen vooral hun attitudes en emoties uit hun gedrag afleiden wanneer:","o":["Hun interne signalen sterk en duidelijk zijn","Hun oorspronkelijke gevoelens zwak of onduidelijk zijn","Ze worden vergeleken met betere anderen","Ze hun gedrag zien als duidelijk afgedwongen door de situatie"],"a":1,"u":"Volgens Bem kijken mensen naar hun eigen gedrag en de context om hun gevoelens af te leiden, vooral wanneer interne signalen vaag of zwak zijn."},{"t":"5","q":"Wat houdt het overrechtvaardigingseffect (overjustification effect) in?","o":["Een extern beloonde, van nature leuke activiteit wordt toegeschreven aan de beloning, waardoor intrinsieke motivatie afneemt","Beloning verhoogt altijd de intrinsieke motivatie voor een taak","Mensen onderschatten de invloed van externe beloningen op hun gedrag","Mensen bedenken achteraf zoveel mogelijke redenen voor hun gedrag dat ze de werkelijke oorzaak ervan niet meer kunnen aanwijzen"],"a":0,"u":"Wanneer een intrinsiek leuke activiteit plotseling extern beloond wordt, schrijft men het gedrag toe aan de beloning (extrinsiek) in plaats van plezier (intrinsiek), waardoor de intrinsieke motivatie kan afnemen."},{"t":"5","q":"Iemand met een growth mindset (variabele kijk op zichzelf) zal bij een moeilijke taak of tegenslag waarschijnlijk:","o":["Sneller opgeven omdat falen bewijst dat capaciteiten beperkt zijn","Gemotiveerd blijven en harder proberen, omdat falen een leerkans is","Zijn capaciteiten als vaststaand en onveranderlijk beschouwen","De taak vermijden om zijn aangeboren talent niet te bedreigen"],"a":1,"u":"Bij een growth mindset worden capaciteiten gezien als kneedbaar; tegenslag is een kans om te leren, dus blijft men gemotiveerd en zet harder door."},{"t":"5","q":"Volgens de tweefactorentheorie van Schachter ontstaat een emotie door:","o":["Fysiologische opwinding die zonder tussenkomst van gedachten rechtstreeks tot een specifieke emotie leidt","Uitsluitend een cognitief oordeel zonder enige opwinding","Fysiologische arousal gecombineerd met cognitieve interpretatie (labeling) van die opwinding","Sociale vergelijking met vergelijkbare anderen"],"a":2,"u":"De tweefactorentheorie stelt dat een emotie bestaat uit fysiologische arousal plus een cognitieve labeling: de context bepaalt welke emotie aan de opwinding wordt toegeschreven."},{"t":"5","q":"In het klassieke brug-experiment belden mannen op de wiebelige brug vaker de aantrekkelijke onderzoekster. Dit illustreert:","o":["Het overrechtvaardigingseffect","Misattributie van arousal","Neerwaartse sociale vergelijking","Gedragsmatige zelfsabotage"],"a":1,"u":"De mannen schreven hun door de spannende brug veroorzaakte opwinding ten onrechte toe aan aantrekkingskracht: een misattributie van arousal."},{"t":"5","q":"Wat is volgens de tekst het verschil tussen gedragsmatige en gerapporteerde zelfsabotage?","o":["Gedragsmatige zelfsabotage zijn alleen excuses; gerapporteerde is echt belemmerend gedrag","Gedragsmatige zelfsabotage is echt belemmerend gedrag; gerapporteerde zijn enkel excuses of verklaringen","Beide verwijzen naar het geven van complimenten aan anderen","Gedragsmatige zelfsabotage gebeurt onbewust en gerapporteerde bewust, maar beide leiden tot dezelfde prestatiedaling"],"a":1,"u":"Bij gedragsmatige zelfsabotage onderneemt men daadwerkelijk acties die succes belemmeren (bv. te weinig studeren), terwijl gerapporteerde zelfsabotage enkel excuses of verklaringen omvat zonder echt belemmerend gedrag."},{"t":"6","q":"Wat is volgens Festinger cognitieve dissonantie?","o":["Het onaangename gevoel van spanning veroorzaakt door twee of meer onverenigbare cognities","De neiging om informatie te zoeken die je zelfbeeld bevestigt","Het overschatten van hoe slecht je je in de toekomst zult voelen","De spanning die ontstaat wanneer iemand anders een mening verkondigt die botst met jouw eigen overtuiging"],"a":0,"u":"Cognitieve dissonantie is het onaangename spanningsgevoel dat ontstaat door onverenigbare cognities, vaak doordat gedrag botst met het positieve zelfbeeld."},{"t":"6","q":"Wanneer treedt cognitieve dissonantie volgens het hoofdstuk het sterkst op?","o":["Wanneer mensen een beloning krijgen voor hun gedrag","Wanneer mensen zich gedragen op een manier die hun zelfbeeld bedreigt","Wanneer mensen een omkeerbare beslissing nemen","Wanneer mensen worden gedwongen tot gedrag dat ingaat tegen hun overtuiging"],"a":1,"u":"Dissonantie is het sterkst wanneer gedrag het zelfbeeld bedreigt, omdat het mensen dwingt het verschil tussen wie ze denken te zijn en hun werkelijke gedrag onder ogen te zien."},{"t":"6","q":"Welke van de volgende is GEEN van de drie fundamentele manieren om cognitieve dissonantie te reduceren?","o":["Het gedrag aanpassen zodat het weer overeenstemt met de overtuigingen","Overtuigingen veranderen om het gedrag te rechtvaardigen","Nieuwe overtuigingen ontwikkelen die het gedrag legitimeren","Het slachtoffer aardiger gaan vinden na het schaden ervan"],"a":3,"u":"De drie manieren zijn gedrag aanpassen, overtuigingen veranderen en nieuwe legitimerende overtuigingen ontwikkelen; slachtoffers worden juist gedenigreerd, niet aardiger gevonden."},{"t":"6","q":"Wat houdt de impact bias in?","o":["Mensen onderschatten hoe sterk een gebeurtenis hun humeur zal raken en bereiden zich er te weinig op voor","Mensen overschatten hoe slecht en hoe lang ze zich zullen voelen bij negatieve gebeurtenissen","Mensen overschatten de aantrekkelijkheid van een afgewezen alternatief","Mensen schatten de winstkans lager in nadat ze hebben ingezet"],"a":1,"u":"Door de impact bias overschatten mensen hoe slecht en hoe lang ze zich zullen voelen, omdat ze niet beseffen dat ze dissonantie kunnen reduceren."},{"t":"6","q":"Wat is postdecision dissonance?","o":["De spanning die ontstaat voordat men een beslissing neemt en informatie verzamelt","De spanning na een belangrijke keuze, waardoor men de gekozen optie opwaardeert en de afgewezen optie afwaardeert","De spanning die ontstaat door een standpunt te verdedigen dat ingaat tegen je overtuiging","De spanning die blijft bestaan zolang een keuze nog kan worden herroepen, waardoor men beide opties even aantrekkelijk blijft vinden"],"a":1,"u":"Postdecision dissonance is de spanning na een belangrijke keuze; men vergroot de positieve kanten van het gekozen alternatief en verkleint die van het niet-gekozen alternatief."},{"t":"6","q":"Wat toonde de paardenrennen-studie van Knox & Inkster aan?","o":["Mensen die net hadden ingezet schatten hun winstkans hoger in dan mensen die nog moesten inzetten","Mensen die nog moesten inzetten waren zekerder van winst","Beide groepen schatten hun winstkans even hoog in, omdat het inzetten zelf geen invloed had op hun oordeel","De hoogte van de inzet bepaalde de attitudeverandering"],"a":0,"u":"Zodra de inzet (een onomkeerbare beslissing) gedaan was, verhoogden mensen automatisch hun ingeschatte winstkans om dissonantie te reduceren."},{"t":"6","q":"Op welke illusie steunt de verkooptechniek lowballing?","o":["De illusie van een betere kwaliteit","De illusie van onherroepelijkheid van de beslissing","De illusie van schaarste van het aangeboden product","De illusie van externe rechtvaardiging"],"a":1,"u":"Lowballing gebruikt de illusie van onherroepelijkheid: mensen voelen zich al psychologisch verbonden en gaan akkoord met de verhoogde prijs om dissonantie te vermijden."},{"t":"6","q":"Wat is rechtvaardiging van inspanning (effort justification)?","o":["Men past het zelfbeeld aan en ziet zichzelf als dwaas na veel inspanning","Men waardeert een doel achteraf positiever wanneer men er vrijwillig veel inspanning voor leverde","Men verwijst naar een externe beloning om gedrag te verklaren","Men verliest de interesse in een doel zodra duidelijk wordt hoeveel moeite het heeft gekost om het te bereiken"],"a":1,"u":"Bij effort justification waardeert men een doel positiever na vrijwillige inspanning, om niet als onkundig over te komen en zo een consistent positief zelfbeeld te behouden."},{"t":"6","q":"In het experiment van Festinger & Carlsmith (1959) vond welke groep het saaie experiment achteraf leuker, en waarom?","o":["De groep met $20, omdat zij een sterke externe rechtvaardiging had","De groep met $1, omdat zij weinig externe rechtvaardiging had en intern haar houding aanpaste","Geen van beide groepen, omdat wie liegt voor geld de taak achteraf juist saaier gaat vinden","De groep met $20, omdat het geld hun zelfbeeld verhoogde"],"a":1,"u":"De $1-groep had geen sterke externe reden om te liegen, ervoer dissonantie en paste haar houding intern aan; de $20-groep had een duidelijke externe rechtvaardiging."},{"t":"6","q":"Waarom ervaren mensen met een negatief zelfbeeld vaak weinig dissonantie na immoreel gedrag (zoals in het onderzoek van Glas, 1964)?","o":["Omdat hun lage zelfwaardering de fysiologische opwinding dempt, zodat zij de spanning na afloop nauwelijks bewust waarnemen","Omdat het immorele gedrag consistent is met hun negatieve zelfbeeld, waardoor er geen behoefte is aan denigratie","Omdat zij hun slachtoffer altijd denigreren om de spanning weg te nemen","Omdat zij steevast gebruikmaken van externe rechtvaardiging"],"a":1,"u":"Bij een negatief zelfbeeld komt immoreel gedrag overeen met hoe men zichzelf ziet, dus is er weinig spanning en geen behoefte om het slachtoffer te denigreren."},{"t":"7","q":"Wat wordt in dit hoofdstuk verstaan onder een attitude?","o":["Een onbewuste reactie die enkel via de IAT gemeten kan worden","Een evaluatie van een attitudeobject, zoals een persoon, voorwerp of idee","Een aangeboren persoonlijkheidstrek die het gedrag in elke situatie volledig bepaalt","Een neutrale waarneming zonder positief of negatief oordeel"],"a":1,"u":"Een attitude wordt gedefinieerd als een evaluatie van een attitudeobject (persoon, voorwerp of idee); mensen zijn zelden neutrale waarnemers."},{"t":"7","q":"Iemand beslist of hij een nieuwe smartphone koopt of bij zijn huidige blijft. Bij welke component van een attitude hoort dit?","o":["De affectieve component","De cognitieve component","De gedragsmatige component","De normatieve component"],"a":2,"u":"De gedragsmatige component betreft de neiging tot of het daadwerkelijke gedrag tegenover het attitudeobject, zoals beslissen om te kopen."},{"t":"7","q":"Welke uitspraak past het best bij een affectief gebaseerde attitude?","o":["Ze is rationeel en ontstaat door objectieve evaluatie van feiten","Ze heeft een waarde-expressieve functie en toont wie we zijn","Ze ontstaat altijd door het observeren van het eigen gedrag","Ze dient vooral om voor- en nadelen praktisch af te wegen"],"a":1,"u":"Affectief gebaseerde attitudes zijn gebaseerd op emoties en waarden en hebben een waarde-expressieve functie: ze laten zien wie we zijn."},{"t":"7","q":"De Zelfperceptietheorie van Daryl Bem hoort bij welk soort attitude?","o":["Cognitief gebaseerde attitudes","Affectief gebaseerde attitudes","Gedragsmatig gebaseerde attitudes","Impliciete attitudes"],"a":2,"u":"Volgens Bems zelfperceptietheorie leiden mensen hun houding af uit hun eigen gedrag; dit kenmerkt gedragsmatig gebaseerde attitudes."},{"t":"7","q":"Wat is een kenmerk van impliciete attitudes vergeleken met expliciete attitudes?","o":["Ze worden bewust geformuleerd en gemakkelijk gerapporteerd","Ze zijn vooral beïnvloed door recente ervaringen","Ze zijn onwillekeurig, vaak onbewust en moeilijk te controleren","Ze worden gemeten door directe vragen te stellen"],"a":2,"u":"Impliciete attitudes zijn onwillekeurig, vaak onbewust en moeilijk te controleren, en zijn vaak geworteld in jeugdervaringen; ze worden gemeten via de IAT."},{"t":"7","q":"Wat toonde het onderzoek van LaPiere over de relatie tussen attitude en gedrag aan?","o":["Attitudes voorspellen gedrag altijd nauwkeurig","Attitudes hebben geen enkele invloed op gedrag","Mensen bedienden Chinezen in de praktijk hoewel ze er negatief tegenover stonden","Mensen weigerden Chinezen te bedienen terwijl ze er positief tegenover stonden"],"a":2,"u":"LaPiere toonde dat mensen Chinezen in de praktijk wel bedienden hoewel ze er negatief tegenover stonden; attitudes voorspellen dus niet altijd gedrag."},{"t":"7","q":"Volgens de theorie van gepland gedrag wordt de intentie tot gedrag NIET bepaald door:","o":["Attitudes ten opzichte van het specifieke gedrag","Subjectieve normen over hoe anderen het gedrag zien","De inschatting van controle over het gedrag","De toegankelijkheid van de attitude door directe ervaring"],"a":3,"u":"Gepland gedrag wordt bepaald door attitudes ten opzichte van het gedrag, subjectieve normen en waargenomen controle; attitudetoegankelijkheid hoort bij het voorspellen van spontaan gedrag."},{"t":"7","q":"Wanneer kan volgens de cognitieve dissonantietheorie een attitude veranderen?","o":["Wanneer mensen hun bestaande attitude luidop herhalen voor een publiek dat het al eens is","Wanneer gedrag afwijkt van de attitude en er geen externe rechtvaardiging is","Wanneer er een sterke externe beloning voor het gedrag bestaat","Wanneer de boodschap via de perifere route wordt verwerkt"],"a":1,"u":"Dissonantie ontstaat als gedrag niet overeenkomt met de attitude en externe rechtvaardiging ontbreekt; mensen passen dan hun attitude aan om interne rechtvaardiging te creëren en dissonantie te verminderen."},{"t":"7","q":"Wat leidt volgens het Elaboration Likelihood Model tot duurzame attitudeverandering?","o":["De centrale route, met grondige verwerking van de argumenten","De perifere route, via aantrekkelijkheid van de spreker","Het gebruik van heuristieken zoals 'experten hebben altijd gelijk'","Een positief humeur dat aandacht voor de boodschap vermindert"],"a":0,"u":"De centrale route, waarbij mensen de inhoudelijke kwaliteit en logica grondig verwerken, leidt tot duurzame attitudeverandering; de perifere route slechts tot kortdurende of oppervlakkige verandering."},{"t":"7","q":"Onder welke voorwaarde is angstopwekkende communicatie het meest effectief?","o":["Wanneer de angst zo hoog mogelijk wordt opgewekt, want hoe sterker de dreiging, hoe groter de gedragsverandering","Wanneer de angst matig is en mensen geloven dat de boodschap hen kan helpen de angst te reduceren","Wanneer geen concrete instructies worden gegeven, zodat mensen zelf nadenken","Wanneer de boodschap zich richt op mensen met een positief humeur"],"a":1,"u":"Angstopwekkende communicatie werkt het best bij matige angst, geloof dat de boodschap helpt de angst te reduceren, en duidelijke coping-instructies; te hoge angst leidt tot verdediging en ontkenning."}],"theory":[{"h":"H1: Introductie sociale psychologie","items":["Sociale psychologie: wetenschappelijke studie van hoe de (veronderstelde) aanwezigheid, acties en houdingen van anderen ons denken, voelen en gedrag beïnvloeden.","Sociale invloed (direct vs. indirect) en constructen = subjectieve mentale representaties waarmee we de sociale wereld interpreteren.","Empirische methode: kennis via systematische observatie en meting; Spinoza vs. Descartes (we geloven eerst automatisch, corrigeren pas daarna).","Fundamentele attributiefout: overschatten van interne/persoonlijke oorzaken, onderschatten van situationele factoren (kracht van de situatie).","Twee kernmotieven: positief zelfbeeld (self-enhancement / eigenwaarde) en behoefte aan nauwkeurigheid (sociale cognitie); self-fulfilling prophecy.","Klassieke studies: bystander-effect (Genovese, Latané & Darley), gehoorzaamheid (Milgram), Stanford prison experiment (Zimbardo)."]},{"h":"H2: Methodologie","items":["Empirisch onderzoek toetst intuïties/volkswijsheden; hindsight bias toont waarom dit nodig is.","Observatiemethode (beschrijven): etnografie, participerende observatie, archiefanalyse, interbeoordelaarsbetrouwbaarheid.","Correlationele methode (voorspellen): correlatiecoëfficiënt (-1 tot +1), surveys/random steekproef; correlatie ≠ causaliteit (derde variabele).","Experimentele methode (oorzaak-gevolg): onafhankelijke vs. afhankelijke variabele, randomisatie, p-waarde < 0,05 = significant.","Interne validiteit (controle, geen confounders) vs. externe validiteit (generaliseerbaarheid); psychologisch realisme, veldexperiment, replicatie & meta-analyse.","Ethiek: informed consent, misleiding + debriefing, fraude (Stapel); cultuur, evolutie en sociale neurowetenschap (EEG, fMRI) als nieuwe richtingen."]},{"h":"H3: Sociale cognitie","items":["Automatisch denken (snel, onbewust) vs. gecontroleerd denken (bewust, inspannend, doelgericht).","Schema's = mentale structuren die waarneming/herinnering sturen; scripts, priming, toegankelijkheid (chronisch vs. tijdelijk).","Perseveratie-effect, self-fulfilling prophecy (Pygmalion-effect), embodied brain (lichaam beïnvloedt sociale oordelen).","Beoordelingsheuristieken: beschikbaarheid, representativiteit (negeert basisfrequentie), anker-en-correctie.","Cultuur: analytisch (Westers) vs. holistisch (Oosters) denken.","Gecontroleerd denken: tegenfeitelijk redeneren (counterfactual), gedachteonderdrukking (ironisch effect, Wegner), Zeigarnik-effect."]},{"h":"H4: Sociale perceptie","items":["Sociale perceptie: waarnemen en interpreteren van gedrag, emoties en intenties van anderen.","Non-verbale communicatie; spiegelneuronen als biologische basis van empathie; zes universele basisemoties (Ekman): coderen/decoderen.","Manifestatieregels, emblemen en culturele verschillen in non-verbaal gedrag.","Eerste indrukken (binnen 100 ms), impliciete persoonlijkheidstheorieën, thin slicing.","Causale attributie: intern vs. extern; covariatiemodel van Kelley (consensus, distinctiviteit, consistentie).","Attributiefouten: fundamentele attributiefout (perceptuele saillantie), zelfdienende attributie, defensieve attributie, bias blind spot."]},{"h":"H5: Zelfinzicht","items":["Zelfconcept (Me) vs. zelfbewustzijn (I, James); spiegeltest (Gallup); vier componenten: zelfkennis, zelfcontrole, impressiemanagement, zelfvertrouwen.","Zelfkennis via introspectie (zelfbewustzijnstheorie, Duval & Wicklund; beperkte toegang, Nisbett & Wilson).","Zelfperceptietheorie (Bem): we leiden attitudes af uit gedrag; intrinsieke vs. extrinsieke motivatie en het overrechtvaardigingseffect.","Fixed vs. growth mindset; emoties: tweefactorentheorie (Schachter), misattributie van arousal (brug-experiment).","Sociale vergelijkingstheorie (Festinger): opwaartse vs. neerwaartse vergelijking; zelfcontrole en ego-depletie (energiemodel).","Impressiemanagement (zelfpresentatie, vleien, zelfsabotage); zelfvertrouwen, self-efficacy, angstmanagementtheorie, narcisme."]},{"h":"H6: Behoefte om ons handelen te rechtvaardigen","items":["Cognitieve dissonantie (Festinger): onaangename spanning bij onverenigbare cognities; reductie via gedrag/overtuiging veranderen of zelfbevestiging.","Beslissingen: postdecision dissonance, onomkeerbaarheid verhoogt waardering (Knox & Inkster), lowballing, impact bias.","Rechtvaardiging van inspanning (effort justification) en counter-attitudinal advocacy.","Externe vs. interne rechtvaardiging: Festinger & Carlsmith ($1 vs. $20), minder externe reden = sterkere attitudeverandering.","Onvoldoende straf → zelfoverreding (duurzame attitudeverandering); hypocrisieparadigma; slachtoffers denigreren/ontmenselijken.","Negatief zelfbeeld geeft minder dissonantie bij immoreel gedrag; zelfverificatietheorie (stabiel zelfbeeld weegt zwaarder dan zelfverheffing)."]},{"h":"H7: Attitudes en attitudeverandering","items":["Attitude = evaluatie van een attitudeobject; componenten: affectief, cognitief, gedragsmatig; cognitief/affectief/gedragsmatig gebaseerde attitudes.","Expliciete vs. impliciete attitudes (IAT); attitudes voorspellen gedrag bij hoge toegankelijkheid; theorie van gepland gedrag (attitude, subjectieve norm, gedragscontrole).","Persuasieve communicatie: Yale-aanpak (wie zegt wat tegen wie); primacy- vs. recentheidseffect.","Centrale route (sterke argumenten, duurzaam) vs. perifere route (heuristieken/oppervlakkig, kortdurend); ELM, behoefte aan cognitie.","Emotie: angstopwekkende communicatie (matige angst + coping-instructies), emotie als heuristiek; rationele argumenten voor cognitieve, emotionele voor affectieve attitudes.","Reclame en subliminale boodschappen (Vicary-mythe), genderstereotypen; weerstand: attitude-inenting, reactantietheorie, boemerangeffect."]}],"hacks":[{"h":"Situatie verslaat persoon","t":"Onthoud de fundamentele attributiefout: we verklaren gedrag te veel vanuit persoonlijkheid en onderschatten de macht van de situatie. Bij twijfel: kijk naar de situatie."},{"h":"Twee motieven verklaren bijna alles","t":"Veel fenomenen draaien om 2 behoeften: je goed voelen (zelfwaardering) én accuraat zijn (sociale cognitie). Koppel elk verschijnsel aan één van die twee."},{"h":"Ken de klassieke experimenten","t":"Milgram = gehoorzaamheid aan autoriteit · Kitty Genovese/bystander = diffusie van verantwoordelijkheid · Festinger = cognitieve dissonantie. Ken telkens de LES, niet enkel het verhaal."},{"h":"Centrale vs perifere route","t":"Overtuiging: centrale route = inhoud & argumenten (duurzaam, bij motivatie+vermogen) · perifere route = oppervlakkige kenmerken/heuristieken (kort). 'Hoe afgeleider, hoe perifeerer'."},{"h":"Correlatie ≠ causaliteit","t":"Observatie = beschrijven · correlatie = voorspellen (geen oorzaak!) · experiment = oorzaak-gevolg aantonen. Alleen het experiment toont oorzakelijkheid."},{"h":"Mensen reageren op hun constructie","t":"Niet de situatie zelf, maar de INTERPRETATIE ervan stuurt gedrag. 'Telling more than we can know': we kennen onze eigen processen niet altijd."}]};
+</script>
+<script>
+(function(){
+  "use strict";
+  var D=window.SOCPSY, app=document.getElementById("app");
+  var P={
+    book:'<path d="M12 7v14"/><path d="M3 18a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h5a4 4 0 0 1 4 4 4 4 0 0 1 4-4h5a1 1 0 0 1 1 1v13a1 1 0 0 1-1 1h-6a3 3 0 0 0-3 3 3 3 0 0 0-3-3z"/>',
+    bulb:'<path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5"/><path d="M9 18h6"/><path d="M10 22h4"/>',
+    help:'<circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><path d="M12 17h.01"/>',
+    search:'<circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/>',
+    sun:'<circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/>',
+    moon:'<path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/>',
+    arrowR:'<path d="M5 12h14"/><path d="m12 5 7 7-7 7"/>',
+    back:'<path d="m15 18-6-6 6-6"/>',
+    heart:'<path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/>',
+    chevR:'<path d="m9 18 6-6-6-6"/>',
+    sparkles:'<path d="M9.94 15.5A2 2 0 0 0 8.5 14.06l-6.14-1.58a.5.5 0 0 1 0-.96L8.5 9.94A2 2 0 0 0 9.94 8.5l1.58-6.14a.5.5 0 0 1 .96 0L14.06 8.5A2 2 0 0 0 15.5 9.94l6.14 1.58a.5.5 0 0 1 0 .96L15.5 14.06a2 2 0 0 0-1.44 1.44l-1.58 6.14a.5.5 0 0 1-.96 0z"/>',
+    target:'<circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/>',
+    rocket:'<path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z"/><path d="m12 15-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z"/><path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 0 5 0"/><path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5"/>',
+    msg:'<path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"/>',
+    refresh:'<path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/>',
+    send:'<path d="M14.54 21.69a.5.5 0 0 0 .94-.02l6.5-19a.5.5 0 0 0-.64-.64l-19 6.5a.5.5 0 0 0-.02.94l7.93 3.18a2 2 0 0 1 1.11 1.11z"/><path d="m21.85 2.15-10.94 10.94"/>'
+  };
+  function ic(n,c){ return '<svg class="ic'+(c?" "+c:"")+'" viewBox="0 0 24 24" aria-hidden="true">'+(P[n]||"")+'</svg>'; }
+  function esc(s){ return String(s).replace(/[&<>"]/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;"}[c];}); }
+  function shuffle(a){ a=a.slice(); for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=a[i];a[i]=a[j];a[j]=t;} return a; }
+  function pct(n,d){ return d?Math.round(100*n/d):0; }
+  function rnd(a){ return a[Math.floor(Math.random()*a.length)]; }
+  function lget(k,d){ try{ var v=JSON.parse(localStorage.getItem(k)); return v==null?d:v; }catch(e){ return d; } }
+  function lset(k,v){ try{ localStorage.setItem(k,JSON.stringify(v)); }catch(e){} }
+  function rawGet(k){ try{ return localStorage.getItem(k); }catch(e){ return null; } }
+  function rawSet(k,v){ try{ localStorage.setItem(k,v); }catch(e){} }
+  function bump(ns,key){ try{ fetch("https://abacus.jasoncameron.dev/hit/"+ns+"/"+key).then(function(){},function(){}); }catch(e){} }
+
+  D.questions.forEach(function(q,i){ q.id="q"+i; });
+  var theme=rawGet("site_theme") || lget("socpsy_theme","light");
+  function applyTheme(){ document.documentElement.setAttribute("data-theme",theme);
+    document.getElementById("themeBtn").innerHTML=(theme==="dark"?ic("sun"):ic("moon"))+'<span>'+(theme==="dark"?"Licht":"Donker")+'</span>'; }
+  applyTheme();
+  document.getElementById("themeBtn").onclick=function(){ theme=theme==="dark"?"light":"dark"; lset("socpsy_theme",theme); rawSet("site_theme",theme); applyTheme(); };
+  var calm=lget("socpsy_calm",true);
+  function applyCalm(){ document.documentElement.classList.toggle("snappy", !calm); }
+  applyCalm();
+  function wrongLead(){ return calm ? rnd(WARM) : "Fout."; }
+
+  var WARM=["Geen zorgen, hier leer je nu net van.","Bijna! Dit type vraag krijg je zo onder de knie.","Foutje mag, nu weet je wat je nog moet herhalen.","Niet erg, dit onthoud je de volgende keer wél.","Rustig, één foutje zegt niets over je examen."];
+  var PRAISE=["Juist!","Goed zo!","Correct!","Sterk!","Knap!"];
+  var TOPICS={"1":"H1 · Introductie","2":"H2 · Methodologie","3":"H3 · Sociale cognitie","4":"H4 · Sociale perceptie","5":"H5 · Zelfinzicht","6":"H6 · Rechtvaardigen","7":"H7 · Attitudes"};
+
+  var TABS=[{v:"home",l:"Start",i:"book"},{v:"quiz",l:"Oefenvragen",i:"target"},{v:"theory",l:"Theorie",i:"search"},{v:"hacks",l:"Studie-hacks",i:"bulb"},{v:"feedback",l:"Feedback",i:"msg"}];
+  var tabsEl=document.getElementById("tabs");
+  tabsEl.innerHTML=TABS.map(function(t){return '<button data-view="'+t.v+'"'+(t.v==="home"?' class="on"':'')+'>'+ic(t.i)+'<span>'+t.l+'</span></button>';}).join("");
+  var tabBtns=[].slice.call(tabsEl.querySelectorAll("button"));
+  tabBtns.forEach(function(b){ b.onclick=function(){ state.fromHub=false; if(b.dataset.view==="home") state.step="track"; go(b.dataset.view); }; });
+  function go(v){ state.view=v; tabBtns.forEach(function(b){b.classList.toggle("on",b.dataset.view===v);}); render(); window.scrollTo(0,0); }
+
+  var state={view:"home", step:"track", track:lget("socpsy_track","training"), quiz:null, sel:{topics:{"1":true,"2":true,"3":true,"4":true,"5":true,"6":true,"7":true}, count:15, shuffle:true}, sumq:""};
+  function setHTML(h){ app.innerHTML=h; try{ app.classList.remove("bes-in"); void app.offsetWidth; app.classList.add("bes-in"); }catch(e){} }
+
+  function render(){
+    if(state.view==="home") return renderHome();
+    if(state.view==="quiz") return renderQuizGate();
+    if(state.view==="theory") return renderTheory();
+    if(state.view==="hacks") return renderHacks();
+    if(state.view==="feedback") return renderFeedback();
+  }
+
+  function renderHome(){
+    if(state.step==="herkansing") return renderHerkansing();
+    if(state.step==="practice") return renderPractice();
+    return renderTrack();
+  }
+  function modeLabel(){ return state.track==="herkansing"?"Herkansing":"Examen Training"; }
+
+  function renderTrack(){
+    var byT={}; D.questions.forEach(function(q){byT[q.t]=(byT[q.t]||0)+1;});
+    var html=
+      '<div class="hero">'+
+        '<div class="count"><b data-telop="'+D.questions.length+'">'+D.questions.length+'</b><span>oefenvragen</span></div>'+
+        '<div class="herotext"><h1>Sociale psychologie oefenen</h1>'+
+        '<p>Oefenvragen per hoofdstuk, met uitleg bij elk antwoord</p></div>'+
+      '</div>'+
+      '<a class="brandstrip" href="https://beriesexamspace.github.io/" title="Naar Berie’s exam space"><span class="bs-logo">B</span><span class="bs-txt"><b>Berie’s exam space</b><small>Een ander vak leren? Bekijk alle vakken</small></span><span class="bs-go">'+ic("arrowR")+'</span></a>'+
+      '<a class="brandstrip" href="https://beriesexamspace.github.io/?deel=1" title="Deel je samenvattingen"><span class="bs-logo">📚</span><span class="bs-txt"><b>Help mee, deel je vak</b><small>Heb jij samenvattingen of oude examenvragen? Stuur ze in (élk jaar).</small></span><span class="bs-go">'+ic("arrowR")+'</span></a>'+
+      '<div class="seclabel">'+ic("rocket")+'Hoe wil je oefenen?</div>'+
+      '<div class="tracks">'+
+        '<button class="track" data-track="training"><span class="tile">'+ic("book")+'</span><b>Examen Training</b><small>Oefen op examenniveau. Vragen met directe feedback en uitleg.</small><span class="go">Normaal niveau '+ic("arrowR")+'</span></button>'+
+        '<button class="track alt" data-track="herkansing"><span class="tile">'+ic("heart")+'</span><b>Herkansing</b><small>Rustig opbouwen, met aanmoediging. Jij bepaalt het tempo.</small><span class="go">Met begeleiding '+ic("arrowR")+'</span></button>'+
+      '</div>'+
+      '<div class="card pad" style="margin-top:18px"><b>Onderwerpen</b>'+
+        '<p class="muted" style="font-size:13.5px;margin:8px 0 0">'+Object.keys(TOPICS).map(function(k){return esc(TOPICS[k])+' ('+(byT[k]||0)+')';}).join(' · ')+'</p>'+
+        '<p class="muted" style="font-size:12.5px;margin:8px 0 0">Tip: bovenaan vind je ook Theorie en Studie-hacks.</p></div>';
+    setHTML(html);
+    [].slice.call(document.querySelectorAll(".track")).forEach(function(el){ el.onclick=function(){ var t=el.dataset.track; state.track=t; lset("socpsy_track",t); state.step=(t==="herkansing"?"herkansing":"practice"); renderHome(); window.scrollTo(0,0); }; });
+  }
+
+  function renderHerkansing(){
+    var html=
+      '<button class="backlink" id="backBtn">'+ic("back")+'Terug</button>'+
+      '<div class="seclabel" style="margin-top:2px">'+ic("heart")+'Herkansing</div>'+
+      (calm?'<div class="card pad warmcard"><div class="row" style="gap:11px;flex-wrap:nowrap;align-items:flex-start">'+ic("heart")+'<div><b>Een nieuwe kans, rustig aan.</b><p class="muted" style="margin:5px 0 0;font-size:13.5px">Herkansen betekent niet dat je het niet kunt. Stap voor stap kom je er. Jij kunt dit. 💙</p></div></div></div>':'')+
+      '<div class="card pad" style="margin-top:12px"><div class="row" style="justify-content:space-between;align-items:center;gap:14px"><div><b>Rustige modus</b><div class="muted" style="font-size:12.5px">Aanmoediging en kalme sfeer. Zet uit als je liever recht-voor-z’n-raap oefent.</div></div><button class="toggle'+(calm?" on":"")+'" id="calmToggle" role="switch" aria-checked="'+(calm?"true":"false")+'" aria-label="Rustige modus aan of uit"><span class="knob"></span></button></div></div>'+
+      '<div class="row" style="margin-top:16px"><button class="btn" id="beginBtn">Begin met oefenen '+ic("arrowR")+'</button></div>';
+    setHTML(html);
+    document.getElementById("backBtn").onclick=function(){ state.step="track"; renderHome(); window.scrollTo(0,0); };
+    document.getElementById("calmToggle").onclick=function(){ calm=!calm; lset("socpsy_calm",calm); applyCalm(); renderHerkansing(); };
+    document.getElementById("beginBtn").onclick=function(){ state.step="practice"; renderHome(); window.scrollTo(0,0); };
+  }
+
+  function renderPractice(){
+    var herk=state.track==="herkansing";
+    var html=
+      '<button class="backlink" id="backBtn">'+ic("back")+'Terug</button>'+
+      '<div class="modebanner'+(herk?" v":"")+'">'+ic(herk?"heart":"book")+'<span>'+modeLabel()+'</span><button type="button" class="bnlink" id="changeMode">wijzig</button></div>'+
+      '<div class="seclabel">'+ic("rocket")+'Waarmee wil je oefenen?</div>'+
+      '<div class="grid g2">'+
+        '<button class="mode" data-mode="quiz"><span class="me">'+ic("target")+'</span><b>Oefenvragen</b><small>Meerkeuze met directe feedback en uitleg. Kies je onderwerpen.</small></button>'+
+        '<button class="mode" id="quickStart"><span class="me">'+ic("rocket")+'</span><b>Snelle ronde</b><small>15 willekeurige vragen uit alle onderwerpen.</small></button>'+
+      '</div>';
+    setHTML(html);
+    document.getElementById("backBtn").onclick=function(){ if(state.fromHub){ location.href="https://beriesexamspace.github.io/"; return; } state.step=(herk?"herkansing":"track"); renderHome(); window.scrollTo(0,0); };
+    document.getElementById("changeMode").onclick=function(){ if(state.fromHub){ location.href="https://beriesexamspace.github.io/"; return; } state.step="track"; renderHome(); window.scrollTo(0,0); };
+    document.querySelector('[data-mode="quiz"]').onclick=function(){ go("quiz"); };
+    document.getElementById("quickStart").onclick=function(){ state.view="quiz"; tabBtns.forEach(function(b){b.classList.toggle("on",b.dataset.view==="quiz");}); startQuiz(shuffle(D.questions.slice()).slice(0,15)); window.scrollTo(0,0); };
+  }
+
+  function renderQuizGate(){
+    if(state.quiz) return renderQuiz();
+    var s=state.sel;
+    function pool(){ return D.questions.filter(function(q){return s.topics[q.t];}); }
+    var html='<div class="card pad"><h2 style="text-align:center;margin-top:0">Oefenvragen</h2>'+
+      '<p class="muted" style="text-align:center">Kies onderwerpen en het aantal vragen. Na elk antwoord krijg je meteen feedback én de uitleg.</p>'+
+      '<label class="fld">Onderwerpen</label><div class="chips" id="tps">'+
+        Object.keys(TOPICS).map(function(k){return '<button class="chip'+(s.topics[k]?" on":"")+'" data-tp="'+k+'">'+esc(TOPICS[k])+'</button>';}).join("")+'</div>'+
+      '<label class="fld">Aantal vragen</label><div class="chips" id="cnt">'+
+        [10,15,20,999].map(function(n){return '<button class="chip'+(s.count===n?" on":"")+'" data-n="'+n+'">'+(n===999?"Alle":n)+'</button>';}).join("")+'</div>'+
+      '<label class="fld">Volgorde van de vragen</label><div class="chips" id="ord">'+'<button class="chip'+(s.shuffle?" on":"")+'" data-sh="1">Door elkaar</button>'+'<button class="chip'+(s.shuffle?"":" on")+'" data-sh="0">Op volgorde</button>'+'</div>'+
+      '<div class="row" style="margin-top:18px"><button class="btn" id="startQ">Start '+ic("arrowR")+'</button><span class="muted" id="poolN"></span></div></div>';
+    setHTML(html);
+    function refresh(){ var n=pool().length; document.getElementById("poolN").textContent=n+" vragen beschikbaar"; document.getElementById("startQ").disabled=n===0; }
+    [].slice.call(document.querySelectorAll("#tps .chip")).forEach(function(b){ b.onclick=function(){ s.topics[b.dataset.tp]=!s.topics[b.dataset.tp]; b.classList.toggle("on"); refresh(); }; });
+    [].slice.call(document.querySelectorAll("#cnt .chip")).forEach(function(b){ b.onclick=function(){ s.count=+b.dataset.n; renderQuizGate(); }; });
+    [].slice.call(document.querySelectorAll("#ord .chip")).forEach(function(b){ b.onclick=function(){ s.shuffle=b.dataset.sh==="1"; [].slice.call(document.querySelectorAll("#ord .chip")).forEach(function(x){x.classList.toggle("on",x===b);}); }; });
+    document.getElementById("startQ").onclick=function(){ var p=pool(); if(s.shuffle)p=shuffle(p); if(s.count<p.length)p=p.slice(0,s.count); startQuiz(p); };
+    refresh();
+  }
+
+  function startQuiz(items){ bump("berat-socpsy", state.track==="herkansing"?"herkansing":"training"); state.quiz={items:items.map(function(q){return {q:q,opts:shuffle(q.o.map(function(t,i){return {text:t,ok:i===q.a};}))};}), picks:[], idx:0, answered:false, picked:-1, correct:0, wrong:[], done:false}; renderQuiz(); }
+
+  function renderQuiz(){
+    var Q=state.quiz; if(Q.done) return renderResult();
+    var cur=Q.items[Q.idx], q=cur.q; if(!Q.picks)Q.picks=[]; if(Q.picks[Q.idx]!=null){Q.answered=true;Q.picked=Q.picks[Q.idx];}else{Q.answered=false;Q.picked=-1;}
+    var html='<button class="backlink" id="backBtn">'+ic("back")+'Terug</button>'+
+      '<div class="card pad">'+
+      '<div class="runtop"><span class="pill">'+esc(TOPICS[q.t])+'</span><div class="bar"><i data-w="'+pct(Q.idx,Q.items.length)+'"></i></div><span>'+(Q.idx+1)+'/'+Q.items.length+'</span></div>'+
+      '<div class="qtext">'+esc(q.q)+'</div>'+
+      '<div id="opts">'+cur.opts.map(function(o,i){return '<button class="opt" data-i="'+i+'" style="--oi:'+(i*55)+'ms"><span class="k">'+String.fromCharCode(65+i)+'</span><span>'+esc(o.text)+'</span></button>';}).join("")+'</div>'+
+      '<div id="fb"></div>'+
+      '<div class="row" style="justify-content:space-between;margin-top:6px"><div class="row" style="gap:10px;align-items:center">'+(Q.idx>0?'<button class="btn ghost" id="prevBtn">'+ic("back")+'Vorige</button>':'')+'<span class="muted" style="font-size:12px">Toets <span class="kbd">A–D</span> · <span class="kbd">Enter</span> = volgende</span></div><button class="btn hide" id="nextBtn">Volgende '+ic("arrowR")+'</button></div></div>';
+    setHTML(html);
+    var tl=document.querySelector("b[data-telop]");
+    if(tl){ var doel=+tl.getAttribute("data-telop")||0;
+      var stil=window.matchMedia&&window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      if(stil||doel<=0){ tl.textContent=doel; }
+      else { tl.textContent=0; var t0=null, duur=900;
+        requestAnimationFrame(function stap(ts){ if(t0===null)t0=ts;
+          var p=Math.min(1,(ts-t0)/duur), e=1-Math.pow(1-p,3);
+          tl.textContent=Math.round(doel*e);
+          if(p<1) requestAnimationFrame(stap); else tl.textContent=doel; }); } }
+    var i2=document.querySelector(".bar>i"); requestAnimationFrame(function(){ if(i2) i2.style.width=i2.getAttribute("data-w")+"%"; });
+    document.getElementById("backBtn").onclick=function(){ state.quiz=null; renderQuizGate(); };
+    var optBtns=[].slice.call(document.querySelectorAll("#opts .opt"));
+    var nb=document.getElementById("nextBtn"); nb.onclick=next; var pb=document.getElementById("prevBtn"); if(pb)pb.onclick=function(){ if(Q.idx>0){ Q.idx--; renderQuiz(); } };
+    function showAnswered(i){
+      optBtns.forEach(function(b){ var bi=+b.dataset.i; b.disabled=true; if(cur.opts[bi].ok)b.classList.add("correct"); else if(bi===i)b.classList.add("wrong"); });
+      var ok=cur.opts[i].ok, fb=document.getElementById("fb"); fb.className="feedback "+(ok?"ok":"no");
+      var juist=cur.opts.filter(function(o){return o.ok;})[0].text;
+      fb.innerHTML=ok?"<b>"+rnd(PRAISE)+" ✓</b>":"<b>"+wrongLead()+"</b><span class=\"sub\">Juiste antwoord: "+esc(juist)+"</span>";
+      var w=document.createElement("div"); w.innerHTML='<div class="whybox"><h4>'+ic("sparkles")+'Waarom?</h4>'+esc(q.u)+'</div>'; fb.appendChild(w);
+      nb.classList.remove("hide"); nb.innerHTML=(Q.idx+1>=Q.items.length)?"Bekijk resultaat "+ic("arrowR"):"Volgende "+ic("arrowR");
+    }
+    function pick(i){ if(Q.answered)return; Q.answered=true; Q.picked=i; Q.picks[Q.idx]=i; if(cur.opts[i].ok)Q.correct++; else Q.wrong.push(q); showAnswered(i); nb.focus(); }
+    optBtns.forEach(function(b){ b.onclick=function(){ pick(+b.dataset.i); }; });
+    function next(){ if(!Q.answered)return; Q.idx++; Q.answered=false; Q.picked=-1; if(Q.idx>=Q.items.length)Q.done=true; renderQuiz(); }
+    if(Q.answered) showAnswered(Q.picked);
+    state.key=function(e){ if(!Q.answered){ var k=e.key.toLowerCase(); var idx="abcde".indexOf(k); if(idx<0&&/[1-5]/.test(k))idx=+k-1; if(idx>=0&&idx<cur.opts.length){pick(idx);e.preventDefault();} } else if(e.key==="Enter"||e.key===" "){ next(); e.preventDefault(); } };
+  }
+
+  function renderResult(){
+    var Q=state.quiz, p=pct(Q.correct,Q.items.length);
+    var msg=p>=80?"Sterk werk! 🎉":p>=60?"Goed bezig 👍":"Blijf oefenen, je komt er 💪";
+    var html='<div class="card pad results center"><span class="pill">Sociale psychologie</span><div class="big">'+p+'%</div>'+
+      '<p style="font-weight:600;margin:0 0 4px;font-size:17px">'+msg+'</p><p class="muted">'+Q.correct+' van '+Q.items.length+' juist</p>'+
+      '<div class="row" style="justify-content:center;margin-top:14px">'+
+        (Q.wrong.length?'<button class="btn" id="retry">Herhaal '+Q.wrong.length+' foute vragen</button>':'')+
+        '<button class="btn ghost" id="again">Nieuwe ronde</button><button class="btn ghost" id="home">Naar start</button></div></div>';
+    setHTML(html);
+    var rt=document.getElementById("retry"); if(rt) rt.onclick=function(){ startQuiz(shuffle(Q.wrong)); };
+    document.getElementById("again").onclick=function(){ state.quiz=null; renderQuizGate(); };
+    document.getElementById("home").onclick=function(){ state.quiz=null; go("home"); };
+    state.key=null;
+  }
+
+  function renderTheory(){
+    var q=state.sumq||"";
+    var html='<div class="card pad" style="margin-bottom:14px"><h2 style="text-align:center;margin:0 0 8px">Theorie en samenvatting</h2>'+
+      '<input type="search" id="sq" placeholder="Zoek een begrip… (bv. p-waarde, regressie, binomiaal)" value="'+esc(q)+'"></div><div id="list">'+theoryList(q)+'</div>';
+    setHTML(html);
+    var si=document.getElementById("sq"); si.oninput=function(){ state.sumq=si.value; document.getElementById("list").innerHTML=theoryList(si.value); si.focus(); };
+  }
+  function theoryList(query){
+    var Q=query.trim().toLowerCase(), out="", n=0;
+    D.theory.forEach(function(sec){
+      var items=sec.items.filter(function(it){ return !Q || it.toLowerCase().indexOf(Q)>=0 || sec.h.toLowerCase().indexOf(Q)>=0; });
+      if(!items.length) return; n++;
+      out+='<details class="acc"'+(Q?" open":(n===1?" open":""))+'><summary><span class="n">'+ic("search")+'</span>'+esc(sec.h)+ic("chevR","caret")+'</summary><div class="body"><ul>'+items.map(function(it){return '<li>'+hl(esc(it),Q)+'</li>';}).join("")+'</ul></div></details>';
+    });
+    return out||'<p class="muted center">Geen resultaten voor "'+esc(query)+'".</p>';
+  }
+  function hl(t,q){ if(!q)return t; try{ return t.replace(new RegExp("("+q.replace(/[.*+?^${}()|[\]\\]/g,"\\$&")+")","ig"),"<mark>$1</mark>"); }catch(e){ return t; } }
+
+  function renderHacks(){
+    var html='<div class="card pad" style="margin-bottom:16px"><h2 style="text-align:center;margin:0 0 6px">Studie-hacks</h2><p class="muted" style="text-align:center;margin:0">Ezelsbruggetjes om de kernideeën van statistiek te onthouden.</p></div>'+
+      '<div class="tipgrid">'+D.hacks.map(function(t){return '<div class="tip"><h4>'+ic("bulb")+esc(t.h)+'</h4><p>'+esc(t.t)+'</p></div>';}).join("")+'</div>';
+    setHTML(html);
+  }
+
+  function renderFeedback(){
+    var html='<div class="card pad"><h2 style="text-align:center;margin-top:0">Feedback &amp; klachten</h2>'+
+      '<p class="muted" style="text-align:center">Fout in een vraag, een idee, of werkt iets niet? Laat het hier weten, het komt rechtstreeks bij de maker terecht. Een review of compliment mag ook: de mooiste tonen we op de hub. 💬</p>'+
+      '<label class="fld" for="fbMsg">Je bericht</label><textarea id="fbMsg" rows="3" placeholder="Beschrijf de fout of je idee…"></textarea>'+
+      '<div class="fbextra"><div class="fbveld fbwaar"><label class="fld" for="fbWaar">Over welke vraag? <span class="muted">(optioneel)</span></label><input type="text" id="fbWaar" placeholder="bv. de vraag over de p-waarde"></div>'+
+      '<div class="fbveld"><label class="fld" for="fbNaam">Je naam <span class="muted">(optioneel)</span></label><input type="text" id="fbNaam" placeholder="zodat we je kunnen bedanken"></div>'+
+      '<div class="fbveld"><label class="fld" for="fbEmail">Je e-mail <span class="muted">(optioneel, als je een antwoord wilt)</span></label><input type="email" id="fbEmail" placeholder="naam@voorbeeld.be"></div></div>'+
+      '<input type="text" id="fbBot" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;opacity:0">'+
+      '<div class="row" style="margin-top:16px;align-items:center"><button class="btn" id="fbSend">'+ic("send")+'Versturen</button><span id="fbStatus" style="font-size:13px"></span></div></div>';
+    setHTML(html);
+    document.getElementById("fbSend").onclick=function(){
+      var status=document.getElementById("fbStatus");
+      if(document.getElementById("fbBot").value) return;
+      var msg=document.getElementById("fbMsg").value.trim();
+      if(!msg){ status.style.color="var(--bad)"; status.textContent="Schrijf eerst een bericht."; return; }
+      var btn=document.getElementById("fbSend"); btn.disabled=true; status.style.color="var(--muted)"; status.textContent="Versturen…";
+      var em=document.getElementById("fbEmail").value.trim();
+      var nm=document.getElementById("fbNaam").value.trim();
+      var waar=document.getElementById("fbWaar").value.trim();
+      var payload={_subject:"Statistiek-tool: feedback", _template:"table", _captcha:"false",
+        Naam:nm||"-", Over_welke_vraag:waar||"-", email:em||"-", Bericht:msg};
+      if(em) payload._replyto=em;
+      // vangnet: als de verzenddienst blokkeert (bv. spamfilter) of er is geen verbinding,
+      // bieden we een directe mailto-knop aan zodat de melding NOOIT stilletjes verdwijnt.
+      function failFallback(reden){
+        var body="Feedback Statistiek-tool%0D%0A%0D%0ANaam: "+encodeURIComponent(nm||"-")+"%0D%0AOver welke vraag: "+encodeURIComponent(waar||"-")+"%0D%0AE-mail: "+encodeURIComponent(em||"-")+"%0D%0A%0D%0ABericht:%0D%0A"+encodeURIComponent(msg);
+        var mailto="mailto:berat007yildirim@gmail.com?subject="+encodeURIComponent("Statistiek-tool: feedback")+"&body="+body;
+        setHTML('<div class="card pad"><h2 style="margin-top:0">Automatisch versturen lukte niet</h2><p class="muted">'+reden+' Geen zorgen, klik hieronder en je melding wordt geopend in je e-mail, helemaal klaar om te versturen:</p><a class="btn" href="'+mailto+'">'+ic("send")+'Mail mijn melding direct</a><div style="margin-top:14px"><button class="btn ghost" id="bk">Terug naar start</button></div></div>');
+        document.getElementById("bk").onclick=function(){go("home");};
+      }
+      fetch("https://formsubmit.co/ajax/Berat007yildirim@gmail.com",{method:"POST",headers:{Accept:"application/json"},body:new URLSearchParams(payload)})
+        .then(function(r){return r.json();}).then(function(d){
+          if(d&&(d.success===true||d.success==="true")){ setHTML('<div class="card pad results center"><div style="font-size:42px">✅</div><h2 style="margin:6px 0">Bedankt!</h2><p class="muted">Je melding is verstuurd.</p><button class="btn" id="bk" style="margin-top:8px">Terug naar start</button></div>'); document.getElementById("bk").onclick=function(){go("home");}; }
+          else { failFallback("Het automatisch versturen lukte niet."); }
+        }).catch(function(){ failFallback("Er was even geen verbinding."); });
+    };
+  }
+
+  document.addEventListener("keydown",function(e){ if(state.key) state.key(e); });
+  // bezoeker tellen (1x per toestel)
+  try{ if(!localStorage.getItem("socpsy_seen")){ localStorage.setItem("socpsy_seen","1"); bump("berat-socpsy","gebruikers"); } }catch(e){ bump("berat-socpsy","gebruikers"); }
+  // traject vanuit de hub overnemen → direct naar de oefenpagina
+  try{ var _q=new URLSearchParams(location.search); var _m=_q.get("m");
+    if(_m==="training"||_m==="herkansing"){ state.track=_m; lset("socpsy_track",_m);
+      var _c=_q.get("calm"); if(_c!=null){ calm=(_c!=="0"); lset("socpsy_calm",calm); applyCalm(); }
+      state.step="practice"; state.fromHub=true; }
+  }catch(e){}
+  render();
+  // launch-splash netjes laten verdwijnen
+  (function(){ var _sp=document.getElementById("splash"); if(!_sp) return; var _red=false; try{_red=window.matchMedia("(prefers-reduced-motion: reduce)").matches;}catch(e){} setTimeout(function(){ _sp.classList.add("hide"); setTimeout(function(){ if(_sp&&_sp.parentNode) _sp.parentNode.removeChild(_sp); }, 700); }, _red?300:1850); })();
+})();
+</script>
+<script>
+/* gedeelde interactie: klik-animatie en zacht openschuivende theorieblokken */
+(function(){
+  // Elk theorieblok krijgt precies een wikkel-element, anders klapt een blok met
+  // meerdere kinderen niet volledig dicht (MBG had er tien).
+  function wikkel(){
+    var lijst=document.querySelectorAll(".acc>.body");
+    for(var i=0;i<lijst.length;i++){
+      var b=lijst[i];
+      if(b.children.length===1 && b.firstElementChild && b.firstElementChild.className==="bes-wrap") continue;
+      var w=document.createElement("div"); w.className="bes-wrap";
+      while(b.firstChild) w.appendChild(b.firstChild);
+      b.appendChild(w);
+    }
+  }
+  var gepland=false;
+  function planWikkel(){ if(gepland)return; gepland=true; setTimeout(function(){ gepland=false; wikkel(); },0); }
+  if(document.readyState==="loading") document.addEventListener("DOMContentLoaded",wikkel); else wikkel();
+  try{ new MutationObserver(planWikkel).observe(document.documentElement,{childList:true,subtree:true}); }catch(e){}
+  var KLIK="button,.btn,.iconbtn,.opt,.track,.chrow,.backlink,.chip,.mode,.toggle,.scard,.ccard,.qcard,.srclink,.bnlink,.navlink,.ycard,.excat,.brandstrip,summary";
+  document.addEventListener("pointerdown",function(e){
+    var el=(e.target&&e.target.closest)?e.target.closest(KLIK):null; if(!el)return;
+    el.classList.remove("bes-klik"); void el.offsetWidth; el.classList.add("bes-klik");
+    setTimeout(function(){ el.classList.remove("bes-klik"); },260);
+  },true);
+  document.addEventListener("click",function(e){
+    var s=(e.target&&e.target.closest)?e.target.closest("details.acc>summary"):null; if(!s)return;
+    var d=s.parentNode; if(!d) return;
+    e.preventDefault();
+    if(d.open){
+      d.classList.add("bes-dicht");
+      setTimeout(function(){ d.open=false; d.classList.remove("bes-dicht"); },250);
+    } else {
+      d.open=true; d.classList.add("bes-open");
+      var los=function(){ d.classList.remove("bes-open"); };
+      requestAnimationFrame(function(){ requestAnimationFrame(los); });
+      setTimeout(los,400);
+    }
+  },false);
+})();
+</script>
+</body>
+</html>
