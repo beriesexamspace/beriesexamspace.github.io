@@ -1048,13 +1048,13 @@
     });
     html+='</div>';
     main.innerHTML=html; try{ main.classList.remove("bes-in"); void main.offsetWidth; main.classList.add("bes-in"); }catch(e){}
-    [].slice.call(main.querySelectorAll(".ycard")).forEach(function(b){ b.onclick=function(){ renderSubjects(+b.dataset.y); naarVakken(); }; });
+    [].slice.call(main.querySelectorAll(".ycard")).forEach(function(b){ b.onclick=function(){ renderSubjects(+b.dataset.y); naarKop("vakkop"); }; });
   }
 
   // Na het kiezen van een jaar landen op de vakkenlijst zelf, niet bovenaan de pagina.
-  function naarVakken(){
+  function naarKop(id){
     try{
-      var k=document.getElementById("vakkop"); if(!k){ window.scrollTo({top:0,behavior:"smooth"}); return; }
+      var k=document.getElementById(id); if(!k){ window.scrollTo({top:0,behavior:"smooth"}); return; }
       var rm=window.matchMedia&&window.matchMedia("(prefers-reduced-motion: reduce)").matches;
       var y=k.getBoundingClientRect().top+(window.pageYOffset||0)-78; if(y<0)y=0;
       window.scrollTo({top:y,behavior:rm?"auto":"smooth"});
@@ -1089,7 +1089,7 @@
     });
     html+='</div>';
     main.innerHTML=html; try{ main.classList.remove("bes-in"); void main.offsetWidth; main.classList.add("bes-in"); }catch(e){}
-    document.getElementById("bk").onclick=function(){ renderYears(); window.scrollTo({top:0,behavior:"smooth"}); };
+    document.getElementById("bk").onclick=function(){ renderYears(); naarKop("vakken"); };
     [].slice.call(main.querySelectorAll("[data-vak]")).forEach(function(el){ el.onclick=function(e){ e.preventDefault(); renderContribute(el.dataset.vak||"", true); }; });
   }
 
