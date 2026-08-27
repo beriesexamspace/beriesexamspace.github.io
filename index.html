@@ -1211,6 +1211,8 @@
       function hid(n,v){ var i=document.createElement("input"); i.type="hidden"; i.name=n; i.value=v; form.appendChild(i); }
       hid("_subject","Berie's exam space - BESTANDEN voor: "+vak); hid("_captcha","false"); hid("_template","table");
       hid("Vak",vak); hid("email",email); hid("Bericht","Bijlage bij de inzending van "+email);
+      // kopie naar de afzender: zo ziet die zelf of het bestand echt mee is gegaan
+      if(/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) hid("_cc",email);
       var dt=new DataTransfer(); dt.items.add(file);
       var finp=document.createElement("input"); finp.type="file"; finp.name="attachment"; finp.multiple=true; finp.files=dt.files; form.appendChild(finp);
       document.body.appendChild(form);
@@ -1224,12 +1226,12 @@
     var extra="";
     if(tooBig) extra='<div class="cnote"><b>Je bestanden zijn samen te groot om mee te sturen.</b> Mail ze door of stuur ze via WeTransfer, dan zetten we ze er zeker in.</div>'+
       '<div style="margin-top:14px"><a class="btn ghost" href="'+contribMailto(vak,name,email,msg)+'">'+ic("mail")+'Mail je bestanden</a></div>';
-    else if(attached) extra='<div class="cnote">Je bestanden worden nu geüpload. Laat dit venster nog heel even openstaan.</div>';
+    else if(attached) extra='<div class="cnote">Je bestanden worden nu apart verstuurd, laat dit venster nog heel even openstaan. <b>Je krijgt daarvan zelf een kopie op '+esc(email)+'.</b> Zie je die kopie na een paar minuten niet, ook niet in je ongewenste post, dan is het bestand niet aangekomen en stuur je het gewoon opnieuw.</div>';
     cFiles=[];
     var w=document.getElementById("contribWrap");
     w.innerHTML='<div class="ccard csuccess"><div class="okmark">'+ic("check")+'</div>'+
       '<h2>Bedankt voor je bijdrage</h2>'+
-      '<p class="ci">Je inzending is aangekomen. We kijken je materiaal na en maken er oefenstof van. Je hoort van ons via '+esc(email)+'.</p>'+
+      '<p class="ci">'+(attached?"Je bericht is aangekomen.":"Je inzending is aangekomen.")+' We kijken je materiaal na en maken er oefenstof van. Je hoort van ons via '+esc(email)+'.</p>'+
       extra+
       '<div style="margin-top:16px"><button class="btn" id="cBack">Sluiten</button></div></div>';
     var b=document.getElementById("cBack"); if(b) b.onclick=closeContrib;
@@ -1257,6 +1259,8 @@
         Bestandsnamen: aantal? lijst : "-",
         Bijlage: !aantal ? "-" : (pack.file ? "komt in een aparte mail: BESTANDEN voor "+vak : "NIET meegestuurd (te groot). Mail deze persoon om de bestanden op te vragen.")
       };
+      // zonder bijlage krijgt de afzender hier zijn kopie, met bijlage gebeurt dat bij de bestandsmail
+      if(!pack.file) payload._cc=email;
       return fetch(FS_AJAX,{method:"POST",headers:{Accept:"application/json"},body:new URLSearchParams(payload)})
         .then(function(r){ return r.json(); })
         .then(function(d){
