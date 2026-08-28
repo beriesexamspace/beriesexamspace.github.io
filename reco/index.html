@@ -229,6 +229,17 @@
   .rc-ook:hover{background:var(--accent-soft);border-color:var(--accent)}
   .rc-ook.on{background:var(--accent-soft);border-color:var(--accent);color:var(--accent-ink)}
   .rc-tel{font-variant-numeric:tabular-nums}
+  .rc-ook{transition:background .22s var(--ease),border-color .22s var(--ease),color .22s var(--ease),transform .18s var(--ease)}
+  .rc-ook .rc-lab{transition:opacity .14s var(--ease)}
+  .rc-tel{transition:color .22s var(--ease)}
+  @keyframes rc-duw{0%{transform:scale(1)}42%{transform:scale(1.055)}100%{transform:scale(1)}}
+  @keyframes rc-telop{from{opacity:0;transform:translateY(-5px)}to{opacity:1;transform:none}}
+  @keyframes rc-telaf{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:none}}
+  .rc-ook.rc-duw{animation:rc-duw .3s var(--ease)}
+  .rc-tel.op{animation:rc-telop .28s var(--ease)}
+  .rc-tel.af{animation:rc-telaf .28s var(--ease)}
+  @media (prefers-reduced-motion: reduce){.rc-ook.rc-duw,.rc-tel.op,.rc-tel.af{animation:none}.rc-ook .rc-lab{transition:none}}
+
   .rc-tijd{font-size:12.5px;color:var(--muted);margin-left:auto}
   .rc-leeg{text-align:center;color:var(--muted);padding:22px 6px;line-height:1.6}
   .rc-test{border:.8px solid var(--amber);background:var(--amber-soft);border-radius:var(--r);padding:12px 14px;margin-bottom:14px;font-size:13.5px;line-height:1.55}
@@ -367,12 +378,18 @@
         b.dataset.bezig="1";
         b.dataset.aan=aan?"1":"0";
         b.classList.toggle("on",aan);
-        lab.textContent=aan?"jij ook":"die had ik ook";
+        b.classList.remove("rc-duw"); void b.offsetWidth; b.classList.add("rc-duw");
+        setTimeout(function(){ b.classList.remove("rc-duw"); },320);
+        lab.style.opacity="0";
+        setTimeout(function(){ lab.textContent=aan?"jij ook":"die had ik ook"; lab.style.opacity="1"; },140);
+        tel.classList.remove("op","af"); void tel.offsetWidth;
         tel.textContent=Math.max(0,(parseInt(tel.textContent,10)||0)+(aan?1:-1));
+        tel.classList.add(aan?"op":"af");
+        setTimeout(function(){ tel.classList.remove("op","af"); },300);
         b.title=aan?"Klik opnieuw om je stem weg te halen":"Ik had deze vraag ook";
         opslag.bevestigen(b.dataset.ook,aan).then(function(){ b.dataset.bezig=""; }, function(){
           b.dataset.aan=terug.aan; b.classList.toggle("on",terug.aan==="1");
-          lab.textContent=terug.lab; tel.textContent=terug.tel; b.dataset.bezig="";
+          lab.textContent=terug.lab; lab.style.opacity="1"; tel.textContent=terug.tel; b.dataset.bezig="";
         });
       };
   }
