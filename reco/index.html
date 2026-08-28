@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+<meta name="theme-color" content="#0f6e6a" />
+<meta http-equiv="Cache-Control" content="no-cache, must-revalidate" />
+<meta http-equiv="Pragma" content="no-cache" />
+<title>Reconstructie, Berie’s exam space</title>
+<meta name="author" content="Berat Yildirim - Berie's exam space" />
+<meta name="copyright" content="© 2026 Berat Yildirim. Alle rechten voorbehouden." />
+<!-- Berie's exam space © 2026 Berat Yildirim. Alle rechten voorbehouden. Originele bron: https://beriesexamspace.github.io  Kopieren of hergebruiken zonder schriftelijke toestemming is niet toegestaan. -->
+<style>
+  :root{
+    --bg:#f4f2ee; --bg2:#ebe8e2; --card:#ffffff; --ink:#1b232c; --muted:#5d6873;
+    --line:#e2ddd4; --accent:#0f6e6a; --accent-ink:#0b4f4c; --accent-soft:#dcefed;
+    --amber:#c9821f; --amber-soft:#f7ecd9; --violet:#6d5bd0; --violet-soft:#e9e6fa;
+    --good:#1f8a4c; --good-soft:#e2f3e8; --bad:#c23b54; --bad-soft:#fbe5ea;
+    --shadow:0 1px 2px rgba(20,30,40,.05),0 6px 18px rgba(20,30,40,.05);
+    --shadow-lg:0 2px 6px rgba(20,30,40,.06),0 18px 40px rgba(20,30,40,.10);
+    --r:14px; --r-lg:20px; --ease:cubic-bezier(.2,.8,.2,1);
+  }
+  html[data-theme="dark"]{
+    --bg:#11151a; --bg2:#161b22; --card:#1b222b; --ink:#e7ecf1; --muted:#9aa6b2;
+    --line:#2a323c; --accent:#3fb9b2; --accent-ink:#7fd6d0; --accent-soft:#163230;
+    --amber:#e0a64a; --amber-soft:#2e2515; --violet:#a99cf0; --violet-soft:#221d3a;
+    --good:#46c178; --good-soft:#16301f; --bad:#ef6b82; --bad-soft:#331620;
+    --shadow:0 1px 2px rgba(0,0,0,.3),0 8px 24px rgba(0,0,0,.35);
+    --shadow-lg:0 2px 8px rgba(0,0,0,.4),0 22px 48px rgba(0,0,0,.5);
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);font-size:16px;line-height:1.55;
+    font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;-webkit-font-smoothing:antialiased}
+  h1,h2,h3{font-family:Georgia,"Iowan Old Style","Times New Roman",serif;letter-spacing:-.01em}
+  button,a{font-family:inherit;cursor:pointer;color:inherit}
+  .wrap{max-width:880px;margin:0 auto;padding:0 18px 96px}
+  :focus-visible{outline:2.5px solid var(--accent);outline-offset:2px;border-radius:8px}
+  .ic{width:1.25em;height:1.25em;flex:none;vertical-align:-.18em;stroke:currentColor;stroke-width:1.75;
+    stroke-linecap:round;stroke-linejoin:round;fill:none}
+
+  header.top{position:sticky;top:0;z-index:30;border-bottom:1px solid var(--line);
+    background:color-mix(in srgb,var(--bg) 88%,transparent);backdrop-filter:saturate(160%) blur(16px);-webkit-backdrop-filter:saturate(160%) blur(16px);box-shadow:inset 0 -1px 0 0 rgba(0,0,0,.04)}
+  .topin{max-width:880px;margin:0 auto;padding:10px 18px;display:flex;align-items:center;gap:12px}
+  .brand{display:flex;align-items:center;gap:11px;font-weight:700}
+  .logo{width:32px;height:32px;border-radius:10px;background:linear-gradient(145deg,var(--accent),var(--accent-ink));
+    color:#fff;display:grid;place-items:center;font-family:Georgia,serif;font-weight:700;font-size:16px;flex:none;
+    box-shadow:0 2px 6px rgba(15,110,106,.35)}
+  .brand small{display:block;font-weight:500;color:var(--muted);font-size:11px}
+  .spacer{flex:1}
+  .iconbtn{border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:10px;min-height:38px;
+    padding:7px 11px;font-size:13.5px;display:inline-flex;gap:7px;align-items:center;text-decoration:none;
+    transition:border-color .2s var(--ease),transform .12s var(--ease)}
+  .iconbtn:hover{border-color:var(--accent)} .iconbtn:active{transform:scale(.96)}
+  nav.tabs{display:flex;gap:2px;overflow:auto;max-width:880px;margin:0 auto;padding:6px 12px 0;scrollbar-width:none}
+  nav.tabs::-webkit-scrollbar{display:none}
+  nav.tabs button{border:none;background:none;color:var(--muted);padding:10px 13px;border-radius:9px 9px 0 0;
+    font-size:14px;font-weight:600;white-space:nowrap;border-bottom:2px solid transparent;display:inline-flex;align-items:center;gap:6px;transition:color .2s var(--ease)}
+  nav.tabs button .ic{width:16px;height:16px}
+  nav.tabs button.on{color:var(--accent-ink);border-bottom-color:var(--accent)}
+  nav.tabs button:hover{color:var(--ink)}
+
+  .card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow)}
+  .pad{padding:20px}
+  .muted{color:var(--muted)}
+  .pill{display:inline-flex;align-items:center;gap:5px;font-size:12px;font-weight:600;padding:4px 10px;border-radius:999px;background:var(--accent-soft);color:var(--accent-ink)}
+  .pill.amber{background:var(--amber-soft);color:var(--amber)}
+  .row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+  .grid{display:grid;gap:14px}
+  @media(min-width:620px){.g2{grid-template-columns:1fr 1fr}}
+
+  .hero{display:flex;flex-wrap:wrap;align-items:center;gap:16px;margin:20px 0 8px}
+  .count{flex:none;background:linear-gradient(150deg,var(--accent),var(--accent-ink));color:#fff;border-radius:var(--r);padding:14px 20px;text-align:center;min-width:118px;box-shadow:0 8px 20px rgba(15,110,106,.28)}
+  .count b{font-family:Georgia,serif;font-size:32px;display:block;line-height:1}
+  .count span{font-size:12px;opacity:.92}
+  .herotext h1{margin:0 0 4px;font-size:25px}
+  .herotext p{margin:0;color:var(--muted)}
+
+  .brandstrip{display:flex;align-items:center;gap:13px;width:100%;text-decoration:none;color:inherit;border:1px solid var(--line);background:var(--card);border-radius:var(--r);padding:12px 16px;margin:14px 0 2px;box-shadow:var(--shadow);transition:border-color .2s var(--ease),transform .15s var(--ease)}
+  .brandstrip:hover{border-color:var(--accent);transform:translateY(-1px)}
+  .brandstrip .bs-logo{width:36px;height:36px;border-radius:10px;flex:none;display:grid;place-items:center;color:#fff;font-family:Georgia,serif;font-weight:700;font-size:17px;background:linear-gradient(145deg,var(--accent),var(--accent-ink))}
+  .brandstrip .bs-txt{flex:1;min-width:0} .brandstrip .bs-txt b{display:block;font-size:14.5px} .brandstrip .bs-txt small{color:var(--muted);font-size:12.5px}
+  .brandstrip .bs-go{color:var(--accent-ink);flex:none;display:inline-flex} .brandstrip .bs-go .ic{width:18px;height:18px}
+
+  .seclabel{display:flex;align-items:center;gap:8px;margin:24px 0 12px;font-weight:700;font-size:15px}
+  .seclabel .ic{width:18px;height:18px;color:var(--accent-ink)}
+  .backlink{display:inline-flex;align-items:center;gap:5px;border:none;background:none;color:var(--muted);font-size:13.5px;font-weight:600;padding:6px 0;margin-bottom:4px;transition:color .2s var(--ease)}
+  .backlink:hover{color:var(--accent-ink)} .backlink .ic{width:16px;height:16px}
+  .tracks{display:grid;gap:14px} @media(min-width:600px){.tracks{grid-template-columns:1fr 1fr}}
+  .track{display:flex;flex-direction:column;gap:8px;text-align:left;width:100%;border:1.5px solid var(--line);background:var(--card);border-radius:var(--r-lg);padding:20px;box-shadow:var(--shadow);transition:transform .22s var(--ease),border-color .22s var(--ease),box-shadow .22s var(--ease)}
+  .track:hover{transform:translateY(-3px);border-color:var(--accent);box-shadow:var(--shadow-lg)} .track:active{transform:translateY(-1px) scale(.995)}
+  .track .tile{width:46px;height:46px;border-radius:13px;display:grid;place-items:center;color:#fff;margin-bottom:4px;background:linear-gradient(150deg,var(--accent),var(--accent-ink))}
+  .track.alt .tile{background:linear-gradient(150deg,var(--violet),#4f40a8)} .track .tile .ic{width:24px;height:24px}
+  .track b{font-size:18px} .track small{color:var(--muted);font-size:13.5px;line-height:1.5}
+  .track .go{margin-top:6px;display:inline-flex;align-items:center;gap:6px;color:var(--accent-ink);font-weight:600;font-size:13.5px} .track.alt .go{color:var(--violet)} .track .go .ic{width:16px;height:16px}
+  .toggle{width:48px;height:28px;border-radius:999px;border:none;background:var(--line);position:relative;cursor:pointer;flex:none;transition:background .2s var(--ease)}
+  .toggle .knob{position:absolute;top:3px;left:3px;width:22px;height:22px;border-radius:50%;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.25);transition:left .2s var(--ease)}
+  .toggle.on{background:var(--violet)} .toggle.on .knob{left:23px}
+  .warmcard{border-color:var(--violet)!important;background:var(--violet-soft)} .warmcard .ic{width:22px;height:22px;color:var(--violet);flex:none}
+  .modebanner{display:flex;align-items:center;gap:10px;margin-bottom:14px;padding:11px 14px;border-radius:var(--r);background:var(--accent-soft);color:var(--accent-ink);font-size:13.5px;font-weight:600}
+  .modebanner.v{background:var(--violet-soft);color:var(--violet)} .modebanner .ic{width:18px;height:18px} .modebanner a,.modebanner .bnlink{margin-left:auto;font-size:13px;font-weight:600;cursor:pointer;text-decoration:underline;color:inherit;border:none;background:none;font-family:inherit;padding:0}
+  html.snappy .card,html.snappy .mode,html.snappy .tip,html.snappy .track{animation-duration:.12s!important}
+  .mode{display:flex;flex-direction:column;text-align:left;width:100%;border:1px solid var(--line);background:var(--card);border-radius:var(--r);padding:17px;gap:7px;box-shadow:var(--shadow);transition:transform .2s var(--ease),border-color .2s var(--ease),box-shadow .2s var(--ease)}
+  .mode:hover{border-color:var(--accent);transform:translateY(-3px);box-shadow:var(--shadow-lg)}
+  .mode .me{width:40px;height:40px;border-radius:11px;display:grid;place-items:center;background:var(--accent-soft);color:var(--accent-ink)} .mode .me .ic{width:22px;height:22px}
+  .mode b{font-size:16px} .mode small{color:var(--muted);font-size:13px}
+
+  label.fld{display:block;font-size:13px;font-weight:600;margin:16px 0 7px}
+  .chips{display:flex;flex-wrap:wrap;gap:8px}
+  .chip{border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:999px;min-height:38px;padding:7px 13px;font-size:13.5px;transition:all .18s var(--ease)}
+  .chip:hover{border-color:var(--accent)} .chip.on{background:var(--accent);color:#fff;border-color:var(--accent)}
+  .btn{background:var(--accent);color:#fff;border:none;border-radius:11px;min-height:46px;padding:12px 20px;font-size:15px;font-weight:600;display:inline-flex;align-items:center;gap:8px;justify-content:center;box-shadow:0 4px 12px rgba(15,110,106,.25);transition:background .2s var(--ease),transform .12s var(--ease)}
+  .btn:hover{background:var(--accent-ink)} .btn:active{transform:scale(.97) translateY(1px)} .btn .ic{width:18px;height:18px}
+  .btn.ghost{background:var(--card);color:var(--ink);border:1px solid var(--line);box-shadow:none} .btn.ghost:hover{border-color:var(--accent)}
+  .btn:disabled{opacity:.5;cursor:not-allowed;box-shadow:none}
+  input[type=search],input[type=text],input[type=email],textarea{font-family:inherit;font-size:15px;padding:9px 11px;border:1px solid var(--line);border-radius:10px;background:var(--card);color:var(--ink);width:100%}
+  input:focus,textarea:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-soft)}
+
+  .runtop{display:flex;align-items:center;gap:12px;margin:2px 0 14px;font-size:13px;color:var(--muted)}
+  .bar{height:8px;border-radius:6px;background:var(--bg2);overflow:hidden;flex:1}
+  .bar>i{display:block;height:100%;width:0;background:var(--accent);border-radius:6px;transition:width .7s var(--ease)}
+  .qtext{font-size:19px;font-weight:600;margin:8px 0 16px;font-family:Georgia,serif;line-height:1.45}
+  .opt{display:flex;gap:12px;align-items:flex-start;width:100%;text-align:left;border:1.5px solid var(--line);background:var(--card);color:var(--ink);border-radius:12px;padding:14px 15px;margin-bottom:10px;font-size:15px;transition:border-color .15s var(--ease),background .15s var(--ease),transform .12s var(--ease)}
+  .opt:hover:not(:disabled){border-color:var(--accent);background:var(--accent-soft)} .opt:active:not(:disabled){transform:scale(.99)}
+  .opt .k{flex:none;width:27px;height:27px;border-radius:8px;background:var(--bg2);color:var(--muted);display:grid;place-items:center;font-weight:700;font-size:13px}
+  .opt.correct{border-color:var(--good);background:var(--good-soft)} .opt.correct .k{background:var(--good);color:#fff}
+  .opt.wrong{border-color:var(--bad);background:var(--bad-soft)} .opt.wrong .k{background:var(--bad);color:#fff}
+  .opt:disabled{cursor:default}
+  .feedback{border-radius:12px;padding:13px 15px;margin:4px 0 12px;font-size:14.5px}
+  .feedback.ok{background:var(--good-soft);color:var(--good)} .feedback.no{background:var(--bad-soft);color:var(--bad)}
+  .feedback b{font-weight:700} .feedback .sub{display:block;margin-top:3px;color:var(--ink);font-weight:500;opacity:.92}
+  .whybtn{border:1px solid var(--line);background:var(--card);color:var(--accent-ink);border-radius:10px;min-height:40px;padding:9px 14px;font-size:13.5px;font-weight:600;display:inline-flex;align-items:center;gap:7px;transition:border-color .2s var(--ease),background .2s var(--ease)}
+  .whybtn:hover{border-color:var(--accent);background:var(--accent-soft)} .whybtn .ic{width:16px;height:16px}
+  .whybox{border:1px solid var(--accent);background:var(--accent-soft);border-radius:12px;padding:14px 16px;margin:12px 0 4px;font-size:14px;line-height:1.55}
+  .whybox h4{margin:0 0 6px;font-size:13px;text-transform:uppercase;letter-spacing:.5px;color:var(--accent-ink);font-family:system-ui;display:flex;align-items:center;gap:7px}
+  .whybox .ic{width:16px;height:16px}
+
+  .acc{border:1px solid var(--line);border-radius:var(--r);margin-bottom:10px;background:var(--card);overflow:hidden;box-shadow:var(--shadow)}
+  .acc>summary{padding:15px 16px;font-weight:700;cursor:pointer;list-style:none;display:flex;align-items:center;gap:11px}
+  .acc>summary::-webkit-details-marker{display:none}
+  .acc>summary .n{flex:none;width:28px;height:28px;border-radius:8px;background:var(--accent-soft);color:var(--accent-ink);display:grid;place-items:center;font-size:13px;font-weight:700}
+  .acc>summary .caret{margin-left:auto;color:var(--muted);transition:transform .25s var(--ease)} .acc[open]>summary .caret{transform:rotate(90deg)}
+  .acc[open]>summary{border-bottom:1px solid var(--line)} .acc .body{padding:6px 18px 16px}
+  .acc h4{margin:14px 0 6px;font-size:13px;color:var(--accent-ink);text-transform:uppercase;letter-spacing:.4px;font-family:system-ui}
+  .acc ul{margin:0;padding-left:20px} .acc li{margin:6px 0;font-size:14.5px;line-height:1.5}
+  .acc.hack li::marker{content:"💡  "} .acc.hack>summary .n{background:var(--violet-soft);color:var(--violet)}
+  mark{background:var(--amber-soft);color:inherit;padding:0 2px;border-radius:3px}
+
+  .tip{border:1px solid var(--line);background:var(--card);border-radius:var(--r);padding:15px;box-shadow:var(--shadow)}
+  .tip h4{margin:0 0 5px;font-size:14.5px;display:flex;align-items:center;gap:8px;font-family:system-ui} .tip h4 .ic{width:18px;height:18px;color:var(--violet)}
+  .tip p{margin:0;font-size:13.5px;color:var(--muted);line-height:1.55}
+  .tipgrid{display:grid;gap:12px} @media(min-width:620px){.tipgrid{grid-template-columns:1fr 1fr}}
+
+  .results .big{font-family:Georgia,serif;font-size:54px;text-align:center;margin:8px 0;line-height:1}
+  .center{text-align:center} .hide{display:none!important}
+  footer{margin-top:34px;text-align:center;color:var(--muted);font-size:13px}
+  .kbd{font-size:11px;border:1px solid var(--line);border-bottom-width:2px;border-radius:5px;padding:1px 6px;color:var(--muted)}
+  @keyframes fadeUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+  @keyframes slideIn{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:none}}
+  @keyframes pop{0%{transform:scale(1)}45%{transform:scale(1.03)}100%{transform:scale(1)}}
+  @keyframes optIn{from{opacity:0;transform:translateX(-9px)}to{opacity:1;transform:none}}
+  @media (prefers-reduced-motion: no-preference){
+    .card,.mode,.tip{animation:fadeUp .34s var(--ease) both}
+    .acc{animation:fadeUp .32s var(--ease) both}
+    .opt{animation:optIn .3s var(--ease) backwards;animation-delay:var(--oi,0s)}
+    .chip.on{animation:pop .22s var(--ease)}
+    .feedback{animation:slideIn .26s var(--ease) both} .whybox{animation:slideIn .28s var(--ease) .07s both} .opt.correct{animation:pop .34s var(--ease)}
+  }
+  @media (prefers-reduced-motion: reduce){*{animation-duration:.001ms!important;transition-duration:.001ms!important}}
+  /* ---- Premium launch (Gemini-stijl) + header-logo gloed ---- */
+  @property --bes-a{syntax:'<angle>';initial-value:0deg;inherits:false}
+  #splash{position:fixed;inset:0;z-index:200;display:grid;place-items:center;background:radial-gradient(125% 125% at 50% 38%,var(--bg2) 0%,var(--bg) 68%);transition:opacity .6s var(--ease),transform .7s var(--ease)}
+  #splash.hide{opacity:0;transform:scale(1.07);pointer-events:none}
+  .sp-inner{display:flex;flex-direction:column;align-items:center;gap:20px;text-align:center}
+  .sp-mark{position:relative;width:100px;height:100px;display:grid;place-items:center}
+  .sp-mark::before{content:"";position:absolute;inset:-16px;border-radius:34px;z-index:0;background:conic-gradient(from var(--bes-a),var(--accent),var(--violet),var(--amber),var(--accent));filter:blur(17px);opacity:.75}
+  .sp-mark::after{content:"";position:absolute;inset:-3px;border-radius:27px;z-index:1;background:conic-gradient(from var(--bes-a),var(--accent),var(--violet),var(--amber),var(--accent));padding:3px;-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude}
+  .sp-logo{position:relative;z-index:2;width:92px;height:92px;border-radius:24px;display:grid;place-items:center;color:#fff;font-family:Georgia,serif;font-weight:700;font-size:46px;background:linear-gradient(150deg,var(--accent),var(--accent-ink));box-shadow:0 14px 38px rgba(15,110,106,.4)}
+  .sp-spark{position:absolute;z-index:3;top:-7px;right:-7px;width:30px;height:30px;color:#fff;filter:drop-shadow(0 2px 7px rgba(0,0,0,.35))}
+  .sp-name{position:relative;font-family:Georgia,serif;font-size:26px;font-weight:700;letter-spacing:-.01em;color:var(--ink);overflow:hidden}
+  .sp-name::after{content:"";position:absolute;inset:0;background:linear-gradient(110deg,transparent 35%,rgba(255,255,255,.75) 50%,transparent 65%);transform:translateX(-130%)}
+  .sp-tag{font-size:13px;color:var(--muted);margin-top:-8px;letter-spacing:.03em}
+  @media (prefers-reduced-motion: no-preference){
+    .sp-mark::before{animation:bes-spin 3s linear infinite,bes-breathe 2.4s var(--ease) infinite}
+    .sp-mark::after{animation:bes-spin 3s linear infinite}
+    .sp-logo{animation:bes-pop .7s var(--ease) both}
+    .sp-spark{animation:bes-pop .6s var(--ease) .12s both,bes-twinkle 1.9s var(--ease) .9s infinite}
+    .sp-name{animation:bes-rise .6s var(--ease) .14s both}
+    .sp-name::after{animation:bes-shimmer 1.5s var(--ease) .5s 1}
+    .sp-tag{animation:bes-rise .6s var(--ease) .26s both}
+  }
+  @keyframes bes-spin{to{--bes-a:360deg}}
+  @keyframes bes-breathe{0%,100%{opacity:.55;filter:blur(16px)}50%{opacity:.95;filter:blur(22px)}}
+  @keyframes bes-shimmer{to{transform:translateX(130%)}}
+  @keyframes bes-twinkle{0%,100%{opacity:1;transform:scale(1) rotate(0deg)}50%{opacity:.65;transform:scale(.82) rotate(18deg)}}
+  @keyframes bes-rise{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+  /* mobiel: header-knoppen alleen iconen zodat niks zijwaarts overflowt */
+  @media(max-width:440px){ header.top .iconbtn span{display:none} header.top .iconbtn{padding:7px 9px;min-width:38px;justify-content:center} .topin{gap:8px} }
+</style>
+</head>
+<body>
+<header class="top">
+  <div class="topin">
+    <div class="brand"><span class="logo">R</span><div>Reconstructie<small>Statistiek II</small></div></div>
+    <span class="spacer"></span>
+    <a class="iconbtn" href="https://beriesexamspace.com/" title="Naar de vakken"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true" style="width:16px;height:16px"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg></a>
+    <button class="iconbtn" id="themeBtn" aria-label="Wissel tussen licht en donker thema"></button>
+  </div>
+</header>
+<div class="wrap" id="app"></div>
+<footer class="wrap" style="padding-top:0">Reconstructie · Berie’s exam space<br><span style="opacity:.7">© 2026 Berie’s exam space · Alle rechten voorbehouden</span></footer>
+
+<style>
+  .rc-kop{display:flex;align-items:center;gap:14px;justify-content:center;margin-bottom:10px}
+  .rc-tegel{width:52px;height:52px;border-radius:14px;flex:none;display:grid;place-items:center;color:#fff;background:linear-gradient(145deg,var(--accent),var(--accent-ink));box-shadow:var(--shadow)}
+  .rc-tegel .ic{width:26px;height:26px}
+  .reco-glans{position:relative;padding:2px;border-radius:calc(var(--r) + 3px);background:conic-gradient(from var(--bes-a),var(--accent),var(--violet),var(--amber),var(--accent));animation:bes-spin 6s linear infinite;margin-bottom:14px}
+  .reco-glans::before{content:"";position:absolute;inset:-9px;border-radius:calc(var(--r) + 12px);z-index:-1;background:conic-gradient(from var(--bes-a),var(--accent),var(--violet),var(--amber),var(--accent));filter:blur(14px);opacity:.55;animation:bes-spin 6s linear infinite}
+  .reco-glans>.card{margin:0;border:none}
+  @media (prefers-reduced-motion: reduce){.reco-glans,.reco-glans::before{animation:none}}
+  #rcSend{width:100%;justify-content:center}
+  .rc-hero{text-align:center;margin:6px 0 18px}
+  .rc-hero h1{font-family:Georgia,"Iowan Old Style","Times New Roman",serif;margin:0 0 6px;font-size:26px}
+  .rc-kaart{margin-bottom:14px}
+  .rc-vraag{border:.8px solid var(--line);border-radius:var(--r);padding:14px;margin-bottom:10px;background:var(--card)}
+  .rc-vraag p{margin:0 0 8px;line-height:1.5}
+  .rc-gedacht{font-size:13.5px;color:var(--muted);margin:0 0 10px}
+  .rc-rij{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+  .rc-ook{display:inline-flex;align-items:center;gap:7px;border:.8px solid var(--line);background:transparent;color:var(--ink);font:inherit;font-size:13.5px;font-weight:600;border-radius:999px;padding:6px 12px;cursor:pointer;transition:background .18s var(--ease),border-color .18s var(--ease)}
+  .rc-ook:hover{background:var(--accent-soft);border-color:var(--accent)}
+  .rc-ook.on{background:var(--accent-soft);border-color:var(--accent);color:var(--accent-ink)}
+  .rc-tel{font-variant-numeric:tabular-nums}
+  .rc-tijd{font-size:12.5px;color:var(--muted);margin-left:auto}
+  .rc-leeg{text-align:center;color:var(--muted);padding:22px 6px;line-height:1.6}
+  .rc-test{border:.8px solid var(--amber);background:var(--amber-soft);border-radius:var(--r);padding:12px 14px;margin-bottom:14px;font-size:13.5px;line-height:1.55}
+  .rc-fout{border:.8px solid #c2564e;background:#2e1a18;border-radius:10px;padding:10px 12px;margin-top:10px;font-size:13.5px}
+  :root[data-theme="light"] .rc-fout{background:#fdeceb;color:#7d2a24}
+  select.rc-sel{font-family:inherit;font-size:15px;padding:9px 11px;border:1px solid var(--line);border-radius:10px;background:var(--card);color:var(--ink);width:100%}
+  textarea.rc-txt{width:100%;min-height:92px;resize:vertical}
+</style>
+
+<script>
+(function(){
+  "use strict";
+
+  /* ===== Supabase: vul deze twee regels in zodra het project bestaat ===== */
+  var SUPABASE_URL = "";
+  var SUPABASE_KEY = "";
+  /* ====================================================================== */
+
+  var LIVE = !!(SUPABASE_URL && SUPABASE_KEY);
+  var VAKKEN = [{"jaar":"1ste bachelor","naam":"Inleiding tot de pedagogische wetenschappen","slug":"inlped"},{"jaar":"1ste bachelor","naam":"Statistiek II: kansrekening en inductieve statistiek","slug":"stat2"},{"jaar":"1ste bachelor","naam":"Statistiek I: meetschalen en beschrijvende statistiek","slug":"stat1"},{"jaar":"1ste bachelor","naam":"Ontwikkelingspsychologie","slug":"ontwikkeling"},{"jaar":"1ste bachelor","naam":"Philosophy of Science","slug":"logica"},{"jaar":"1ste bachelor","naam":"Menselijke biologie en genetica","slug":"mbg"},{"jaar":"1ste bachelor","naam":"Sociologie I","slug":"sociologie"},{"jaar":"1ste bachelor","naam":"Onderzoeksmethoden en -technieken I: psychometrie","slug":"omt1"},{"jaar":"1ste bachelor","naam":"Sociale psychologie I: sociale cognitie","slug":"socpsy"},{"jaar":"1ste bachelor","naam":"Algemene psychologie","slug":"algpsy"},{"jaar":"1ste bachelor","naam":"Biologische psychologie I: inleiding","slug":"biopsy1"},{"jaar":"2de bachelor","naam":"Persoonlijkheidspsychologie","slug":"pers"},{"jaar":"2de bachelor","naam":"Theoretische en historische grondslagen van de psychologie","slug":"thg"},{"jaar":"2de bachelor","naam":"Cross-cultural psychology","slug":"cross"},{"jaar":"2de bachelor","naam":"Statistiek III: univariate data-analyse","slug":"stat3"},{"jaar":"2de bachelor","naam":"Arbeids- en organisatiepsychologie","slug":"ao"},{"jaar":"2de bachelor","naam":"Inleiding tot de orthopedagogiek","slug":"ortho"},{"jaar":"2de bachelor","naam":"Biologische psychologie II: functies","slug":"biologische2"},{"jaar":"2de bachelor","naam":"Cognitieve psychologie","slug":"cogpsy"},{"jaar":"2de bachelor","naam":"Klinische psychiatrie","slug":"kpsy"},{"jaar":"2de bachelor","naam":"Research Methods and Techniques II: Quantitative Methods","slug":"rmt2"},{"jaar":"2de bachelor","naam":"Social psychology II: Relations","slug":"socpsy2"},{"jaar":"3de bachelor","naam":"Onderwijspsychologie en leerstoornissen","slug":"onderwijspsy"},{"jaar":"3de bachelor","naam":"Statistiek IV: multivariate data-analyse","slug":"stat4"},{"jaar":"3de bachelor","naam":"Differentiële psychologie","slug":"diffpsy"},{"jaar":"3de bachelor","naam":"Psychologische gespreksvoering met urban engaged praktijk","slug":"pg"},{"jaar":"3de bachelor","naam":"Gezondheidspsychologie","slug":"gezpsy"},{"jaar":"3de bachelor","naam":"Evidence-based kritisch handelen","slug":"ebkh"},{"jaar":"3de bachelor","naam":"Onderzoeksmethoden en -technieken III: kwalitatieve methoden","slug":"omt3"},{"jaar":"3de bachelor","naam":"Psychopathologie van kinderen en adolescenten","slug":"ppka"},{"jaar":"3de bachelor","naam":"Principles of Human Resources Management","slug":"hrm"},{"jaar":"3de bachelor","naam":"Organisatie van de hulpverlening","slug":"ohv"},{"jaar":"3de bachelor","naam":"Forensische Psychiatrie","slug":"forensische"}];
+  var app = document.getElementById("app");
+
+  function esc(s){ return String(s).replace(/[&<>"]/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;"}[c];}); }
+  function lget(k,d){ try{ var v=localStorage.getItem(k); return v==null?d:v; }catch(e){ return d; } }
+  function lset(k,v){ try{ localStorage.setItem(k,v); }catch(e){} }
+
+  // thema, gelijk aan de andere tools
+  var theme = lget("site_theme","dark");
+  var tb = document.getElementById("themeBtn");
+  var ICS = {
+    sun:'<circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/>',
+    moon:'<path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/>',
+    check:'<path d="M20 6 9 17l-5-5"/>',
+    hand:'<path d="M18 11V6a2 2 0 0 0-4 0v5"/><path d="M14 10V4a2 2 0 0 0-4 0v6"/><path d="M10 10.5V6a2 2 0 0 0-4 0v8"/><path d="M18 8a2 2 0 1 1 4 0v6a8 8 0 0 1-8 8h-2c-2.8 0-4.5-.86-5.99-2.34l-3.6-3.6a2 2 0 0 1 2.83-2.82L7 15"/>'
+  };
+  function ic(n){ return '<svg class="ic" viewBox="0 0 24 24" aria-hidden="true">'+(ICS[n]||"")+'</svg>'; }
+  function applyTheme(){ document.documentElement.setAttribute("data-theme",theme); tb.innerHTML=(theme==="dark"?ic("sun"):ic("moon"))+'<span>'+(theme==="dark"?"Licht":"Donker")+'</span>'; }
+  applyTheme();
+  tb.onclick=function(){ theme=theme==="dark"?"light":"dark"; lset("site_theme",theme); applyTheme(); };
+
+  // wie ben jij, alleen om dubbel bevestigen te voorkomen. Geen naam, geen mail.
+  var BROWSER = lget("reco_browser","");
+  if(!BROWSER){ BROWSER = "b" + Math.random().toString(36).slice(2) + Date.now().toString(36); lset("reco_browser",BROWSER); }
+
+  /* ===== opslag: Supabase als de sleutels ingevuld zijn, anders lokaal ===== */
+  function lokaalLees(){ try{ return JSON.parse(lget("reco_demo","[]")); }catch(e){ return []; } }
+  function lokaalSchrijf(a){ lset("reco_demo", JSON.stringify(a)); }
+
+  var opslag = {
+    lijst: function(vak){
+      if(!LIVE) return Promise.resolve(lokaalLees().filter(function(v){ return v.vak===vak; }));
+      return fetch(SUPABASE_URL+"/rest/v1/reco_vragen?select=id,vraag,gedacht,aangemaakt&verborgen=is.false&vak=eq."+encodeURIComponent(vak)+"&order=aangemaakt.desc",
+        {headers:{apikey:SUPABASE_KEY,Authorization:"Bearer "+SUPABASE_KEY}})
+        .then(function(r){ if(!r.ok) throw new Error("lezen mislukt"); return r.json(); })
+        .then(function(rijen){ return tellingenErbij(rijen); });
+    },
+    toevoegen: function(vak,vraag,gedacht){
+      if(!LIVE){
+        var a=lokaalLees();
+        a.unshift({id:"l"+Date.now(),vak:vak,vraag:vraag,gedacht:gedacht,aangemaakt:new Date().toISOString(),ook:0,ookIk:false});
+        lokaalSchrijf(a); return Promise.resolve();
+      }
+      return fetch(SUPABASE_URL+"/rest/v1/reco_vragen",
+        {method:"POST",headers:{apikey:SUPABASE_KEY,Authorization:"Bearer "+SUPABASE_KEY,"Content-Type":"application/json",Prefer:"return=minimal"},
+         body:JSON.stringify({vak:vak,vraag:vraag,gedacht:gedacht||null})})
+        .then(function(r){ if(!r.ok) throw new Error("opslaan mislukt"); });
+    },
+    bevestigen: function(id,aan){
+      if(!LIVE){
+        var a=lokaalLees();
+        a.forEach(function(v){
+          if(v.id!==id) return;
+          if(aan && !v.ookIk){ v.ook=(v.ook||0)+1; v.ookIk=true; }
+          if(!aan && v.ookIk){ v.ook=Math.max(0,(v.ook||1)-1); v.ookIk=false; }
+        });
+        lokaalSchrijf(a); return Promise.resolve();
+      }
+      var kop={apikey:SUPABASE_KEY,Authorization:"Bearer "+SUPABASE_KEY};
+      if(!aan){
+        return fetch(SUPABASE_URL+"/rest/v1/reco_bevestigingen?vraag_id=eq."+encodeURIComponent(id)+"&browser=eq."+encodeURIComponent(BROWSER),
+          {method:"DELETE",headers:kop}).then(function(){});
+      }
+      kop["Content-Type"]="application/json"; kop.Prefer="return=minimal";
+      return fetch(SUPABASE_URL+"/rest/v1/reco_bevestigingen",
+        {method:"POST",headers:kop,body:JSON.stringify({vraag_id:id,browser:BROWSER})})
+        .then(function(){});
+    }
+  };
+
+  function tellingenErbij(rijen){
+    if(!rijen.length) return rijen;
+    var ids = rijen.map(function(r){ return r.id; }).join(",");
+    return fetch(SUPABASE_URL+"/rest/v1/reco_bevestigingen?select=vraag_id,browser&vraag_id=in.("+ids+")",
+      {headers:{apikey:SUPABASE_KEY,Authorization:"Bearer "+SUPABASE_KEY}})
+      .then(function(r){ return r.ok?r.json():[]; })
+      .then(function(bev){
+        rijen.forEach(function(v){
+          var mijne = bev.filter(function(b){ return b.vraag_id===v.id; });
+          v.ook = mijne.length;
+          v.ookIk = mijne.some(function(b){ return b.browser===BROWSER; });
+        });
+        return rijen;
+      })
+      .catch(function(){ return rijen; });
+  }
+
+  /* ===== scherm ===== */
+  var vak = "stat2";
+
+  function vakOpties(){
+    var jaren=[], perJaar={};
+    VAKKEN.forEach(function(v){ if(!perJaar[v.jaar]){ perJaar[v.jaar]=[]; jaren.push(v.jaar); } perJaar[v.jaar].push(v); });
+    return jaren.map(function(j){
+      return '<optgroup label="'+esc(j)+'">'+perJaar[j].map(function(v){
+        return '<option value="'+esc(v.slug)+'"'+(v.slug===vak?" selected":"")+'>'+esc(v.naam)+'</option>';
+      }).join("")+'</optgroup>';
+    }).join("");
+  }
+
+  function geleden(iso){
+    var s = Math.max(0, Math.round((Date.now()-new Date(iso).getTime())/1000));
+    if(s<60) return "net";
+    if(s<3600) return Math.round(s/60)+" min geleden";
+    if(s<86400) return Math.round(s/3600)+" uur geleden";
+    return Math.round(s/86400)+" dagen geleden";
+  }
+
+  function render(lijst, bezig, fout){
+    var testbalk = LIVE ? "" :
+      '<div class="rc-test"><b>Testmodus.</b> Wat je hier toevoegt blijft alleen op dit toestel staan, andere studenten zien het nog niet. Zodra de opslag gekoppeld is, schrijft iedereen in dezelfde lijst.</div>';
+
+    var vragen;
+    if(bezig) vragen = '<div class="rc-leeg">Bezig met laden...</div>';
+    else if(fout) vragen = '<div class="rc-leeg">De lijst kon niet geladen worden. Probeer het zo nog eens.</div>';
+    else if(!lijst.length) vragen = '<div class="rc-leeg">Nog geen vragen.<br>Wees de eerste, ook een half onthouden vraag helpt de rest verder.</div>';
+    else vragen = lijst.map(function(v){
+      return '<div class="rc-vraag">'+
+        '<p>'+esc(v.vraag)+'</p>'+
+        (v.gedacht ? '<p class="rc-gedacht">Antwoord volgens de student: '+esc(v.gedacht)+'</p>' : '')+
+        '<div class="rc-rij">'+
+          '<button class="rc-ook'+(v.ookIk?" on":"")+'" data-ook="'+esc(String(v.id))+'" data-aan="'+(v.ookIk?"1":"0")+'" title="'+(v.ookIk?"Klik opnieuw om je stem weg te halen":"Ik had deze vraag ook")+'">'+
+            ic("hand")+'<span>'+(v.ookIk?"jij ook":"die had ik ook")+'</span><span class="rc-tel">'+(v.ook||0)+'</span>'+
+          '</button>'+
+          '<span class="rc-tijd">'+geleden(v.aangemaakt)+'</span>'+
+        '</div>'+
+      '</div>';
+    }).join("");
+
+    app.innerHTML =
+      '<div class="rc-hero"><div class="rc-kop"><span class="rc-tegel">'+ic("hand")+'</span><h1 style="margin:0">Reconstructie Statistiek II</h1></div>'+
+      '<p class="muted">Kom je net uit een examen? Typ hier de vragen die je je nog herinnert. Samen maken jullie de lijst compleet voor wie na jullie komt. Alles is anoniem.</p></div>'+
+      testbalk+
+      '<div class="reco-glans"><div class="card pad rc-kaart">'+
+        '<label class="fld">De vraag zoals jij ze je herinnert</label>'+
+        '<textarea class="rc-txt" id="rcVraag" maxlength="600" placeholder="Hoeft niet woordelijk. Schrijf op wat je nog weet."></textarea>'+
+        '<label class="fld">Wat dacht jij dat juist was? Mag je leeg laten</label>'+
+        '<input type="text" id="rcGedacht" maxlength="200" style="width:100%" placeholder="Bijvoorbeeld: b, of het antwoord in je eigen woorden">'+
+        '<div class="row" style="margin-top:16px"><button class="btn" id="rcSend">Toevoegen</button></div>'+
+        '<div id="rcFout"></div>'+
+      '</div></div>'+
+      '<div class="seclabel" style="margin-top:22px">Al ingestuurd</div>'+
+      vragen;
+
+    document.getElementById("rcSend").onclick=versturen;
+    [].slice.call(document.querySelectorAll("[data-ook]")).forEach(function(b){
+      b.onclick=function(){ var aan=b.dataset.aan!=="1"; b.disabled=true; opslag.bevestigen(b.dataset.ook,aan).then(laden,laden); };
+    });
+  }
+
+  function laden(){
+    render([], true, false);
+    opslag.lijst(vak).then(function(l){ render(l,false,false); }, function(){ render([],false,true); });
+  }
+
+  var laatste = 0;
+  function versturen(){
+    var vraag=(document.getElementById("rcVraag").value||"").trim();
+    var gedacht=(document.getElementById("rcGedacht").value||"").trim();
+    var fout=document.getElementById("rcFout");
+    fout.innerHTML="";
+    if(vraag.length<10){ fout.innerHTML='<div class="rc-fout">Schrijf iets meer, minstens een tiental tekens, anders kan niemand er iets mee.</div>'; return; }
+    if(Date.now()-laatste < 8000){ fout.innerHTML='<div class="rc-fout">Rustig aan, wacht even voor je de volgende toevoegt.</div>'; return; }
+    laatste=Date.now();
+    var knop=document.getElementById("rcSend"); knop.disabled=true; knop.textContent="Bezig...";
+    opslag.toevoegen(vak,vraag,gedacht).then(laden, function(){
+      knop.disabled=false; knop.textContent="Toevoegen";
+      document.getElementById("rcFout").innerHTML='<div class="rc-fout">Toevoegen lukte niet. Probeer het zo nog eens.</div>';
+    });
+  }
+
+  laden();
+})();
+</script>
+<script>
+/* gedeelde interactie: klik-animatie en zacht openschuivende theorieblokken */
+(function(){
+  // Elk theorieblok krijgt precies een wikkel-element, anders klapt een blok met
+  // meerdere kinderen niet volledig dicht (MBG had er tien).
+  function wikkel(){
+    var lijst=document.querySelectorAll(".acc>.body");
+    for(var i=0;i<lijst.length;i++){
+      var b=lijst[i];
+      if(b.children.length===1 && b.firstElementChild && b.firstElementChild.className==="bes-wrap") continue;
+      var w=document.createElement("div"); w.className="bes-wrap";
+      while(b.firstChild) w.appendChild(b.firstChild);
+      b.appendChild(w);
+    }
+  }
+  var gepland=false;
+  function planWikkel(){ if(gepland)return; gepland=true; setTimeout(function(){ gepland=false; wikkel(); },0); }
+  if(document.readyState==="loading") document.addEventListener("DOMContentLoaded",wikkel); else wikkel();
+  try{ new MutationObserver(planWikkel).observe(document.documentElement,{childList:true,subtree:true}); }catch(e){}
+  var KLIK="button,.btn,.iconbtn,.opt,.track,.chrow,.backlink,.chip,.mode,.toggle,.scard,.ccard,.qcard,.srclink,.bnlink,.navlink,.ycard,.excat,.brandstrip,summary";
+  document.addEventListener("pointerdown",function(e){
+    var el=(e.target&&e.target.closest)?e.target.closest(KLIK):null; if(!el)return;
+    el.classList.remove("bes-klik"); void el.offsetWidth; el.classList.add("bes-klik");
+    setTimeout(function(){ el.classList.remove("bes-klik"); },260);
+  },true);
+  document.addEventListener("click",function(e){
+    var s=(e.target&&e.target.closest)?e.target.closest("details.acc>summary"):null; if(!s)return;
+    var d=s.parentNode; if(!d) return;
+    e.preventDefault();
+    if(d.open){
+      d.classList.add("bes-dicht");
+      setTimeout(function(){ d.open=false; d.classList.remove("bes-dicht"); },250);
+    } else {
+      d.open=true; d.classList.add("bes-open");
+      var los=function(){ d.classList.remove("bes-open"); };
+      requestAnimationFrame(function(){ requestAnimationFrame(los); });
+      setTimeout(los,400);
+    }
+  },false);
+})();
+</script>
+</body>
+</html>
