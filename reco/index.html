@@ -370,7 +370,7 @@
         (v.gedacht ? '<p class="rc-gedacht">Antwoord volgens de student: '+esc(v.gedacht)+'</p>' : '')+
         '<div class="rc-rij">'+
           '<button class="rc-ook'+(v.ookIk?" on":"")+'" data-ook="'+esc(String(v.id))+'" data-aan="'+(v.ookIk?"1":"0")+'" title="'+(v.ookIk?"Klik opnieuw om je stem weg te halen":"Ik had deze vraag ook")+'">'+
-            ic("hand")+'<span>'+(v.ookIk?"jij ook":"die had ik ook")+'</span><span class="rc-tel">'+(v.ook||0)+'</span>'+
+            ic("hand")+'<span class="rc-lab">'+(v.ookIk?"jij ook":"die had ik ook")+'</span><span class="rc-tel">'+(v.ook||0)+'</span>'+
           '</button>'+
           '<span class="rc-tijd">'+geleden(v.aangemaakt)+'</span>'+
         '</div>'+
@@ -394,7 +394,22 @@
 
     document.getElementById("rcSend").onclick=versturen;
     [].slice.call(document.querySelectorAll("[data-ook]")).forEach(function(b){
-      b.onclick=function(){ var aan=b.dataset.aan!=="1"; b.disabled=true; opslag.bevestigen(b.dataset.ook,aan).then(laden,laden); };
+      b.onclick=function(){
+        if(b.dataset.bezig==="1") return;
+        var aan=b.dataset.aan!=="1";
+        var lab=b.querySelector(".rc-lab"), tel=b.querySelector(".rc-tel");
+        var terug={aan:b.dataset.aan, lab:lab.textContent, tel:tel.textContent};
+        b.dataset.bezig="1";
+        b.dataset.aan=aan?"1":"0";
+        b.classList.toggle("on",aan);
+        lab.textContent=aan?"jij ook":"die had ik ook";
+        tel.textContent=Math.max(0,(parseInt(tel.textContent,10)||0)+(aan?1:-1));
+        b.title=aan?"Klik opnieuw om je stem weg te halen":"Ik had deze vraag ook";
+        opslag.bevestigen(b.dataset.ook,aan).then(function(){ b.dataset.bezig=""; }, function(){
+          b.dataset.aan=terug.aan; b.classList.toggle("on",terug.aan==="1");
+          lab.textContent=terug.lab; tel.textContent=terug.tel; b.dataset.bezig="";
+        });
+      };
     });
   }
 
