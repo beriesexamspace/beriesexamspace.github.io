@@ -219,6 +219,7 @@
   @media (prefers-reduced-motion: reduce){.reco-glans,.reco-glans::before{animation:none}}
   #rcSend{width:100%;justify-content:center}
   .rc-hero{text-align:center;margin:6px 0 18px}
+
   .rc-hero h1{font-family:Georgia,"Iowan Old Style","Times New Roman",serif;margin:0 0 6px;font-size:26px}
   .rc-kaart{margin-bottom:14px}
   .rc-vraag{border:.8px solid var(--line);border-radius:var(--r);padding:14px;margin-bottom:10px;background:var(--card)}
@@ -247,6 +248,19 @@
   :root[data-theme="light"] .rc-fout{background:#fdeceb;color:#7d2a24}
   select.rc-sel{font-family:inherit;font-size:15px;padding:9px 11px;border:1px solid var(--line);border-radius:10px;background:var(--card);color:var(--ink);width:100%}
   textarea.rc-txt{width:100%;min-height:92px;resize:vertical}
+@media (max-width:560px){
+    .rc-hero{margin:2px 0 14px}
+    .rc-kop{flex-direction:column;gap:10px;margin-bottom:8px}
+    .rc-hero h1{font-size:21px;line-height:1.25}
+    .rc-tegel{width:46px;height:46px;border-radius:13px}
+    .rc-tegel .ic{width:23px;height:23px}
+    .rc-hero .muted{font-size:14px;line-height:1.55}
+    .rc-vraag{padding:13px 13px 12px}
+    .rc-vraag p{font-size:15px}
+    .rc-ook{padding:10px 15px;font-size:14px}
+    .rc-tijd{font-size:12px}
+    .reco-glans{margin-bottom:12px}
+  }
 </style>
 
 <script>
