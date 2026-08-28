@@ -288,13 +288,14 @@
     toevoegen: function(vak,vraag,gedacht){
       if(!LIVE){
         var a=lokaalLees();
-        a.unshift({id:"l"+Date.now(),vak:vak,vraag:vraag,gedacht:gedacht,aangemaakt:new Date().toISOString(),ook:0,ookIk:false});
-        lokaalSchrijf(a); return Promise.resolve();
+        var rij={id:"l"+Date.now(),vak:vak,vraag:vraag,gedacht:gedacht,aangemaakt:new Date().toISOString(),ook:0,ookIk:false};
+        a.unshift(rij); lokaalSchrijf(a); return Promise.resolve(rij);
       }
       return fetch(SUPABASE_URL+"/rest/v1/reco_vragen",
-        {method:"POST",headers:{apikey:SUPABASE_KEY,Authorization:"Bearer "+SUPABASE_KEY,"Content-Type":"application/json",Prefer:"return=minimal"},
+        {method:"POST",headers:{apikey:SUPABASE_KEY,Authorization:"Bearer "+SUPABASE_KEY,"Content-Type":"application/json",Prefer:"return=representation"},
          body:JSON.stringify({vak:vak,vraag:vraag,gedacht:gedacht||null})})
-        .then(function(r){ if(!r.ok) throw new Error("opslaan mislukt"); });
+        .then(function(r){ if(!r.ok) throw new Error("opslaan mislukt"); return r.json(); })
+        .then(function(rijen){ var rij=rijen&&rijen[0]?rijen[0]:{id:0,vraag:vraag,gedacht:gedacht,aangemaakt:new Date().toISOString()}; rij.ook=0; rij.ookIk=false; return rij; });
     },
     bevestigen: function(id,aan){
       if(!LIVE){
@@ -356,44 +357,8 @@
     return Math.round(s/86400)+" dagen geleden";
   }
 
-  function render(lijst, bezig, fout){
-    var testbalk = LIVE ? "" :
-      '<div class="rc-test"><b>Testmodus.</b> Wat je hier toevoegt blijft alleen op dit toestel staan, andere studenten zien het nog niet. Zodra de opslag gekoppeld is, schrijft iedereen in dezelfde lijst.</div>';
-
-    var vragen;
-    if(bezig) vragen = '<div class="rc-leeg">Bezig met laden...</div>';
-    else if(fout) vragen = '<div class="rc-leeg">De lijst kon niet geladen worden. Probeer het zo nog eens.</div>';
-    else if(!lijst.length) vragen = '<div class="rc-leeg">Nog geen vragen.<br>Wees de eerste, ook een half onthouden vraag helpt de rest verder.</div>';
-    else vragen = lijst.map(function(v){
-      return '<div class="rc-vraag">'+
-        '<p>'+esc(v.vraag)+'</p>'+
-        (v.gedacht ? '<p class="rc-gedacht">Antwoord volgens de student: '+esc(v.gedacht)+'</p>' : '')+
-        '<div class="rc-rij">'+
-          '<button class="rc-ook'+(v.ookIk?" on":"")+'" data-ook="'+esc(String(v.id))+'" data-aan="'+(v.ookIk?"1":"0")+'" title="'+(v.ookIk?"Klik opnieuw om je stem weg te halen":"Ik had deze vraag ook")+'">'+
-            ic("hand")+'<span class="rc-lab">'+(v.ookIk?"jij ook":"die had ik ook")+'</span><span class="rc-tel">'+(v.ook||0)+'</span>'+
-          '</button>'+
-          '<span class="rc-tijd">'+geleden(v.aangemaakt)+'</span>'+
-        '</div>'+
-      '</div>';
-    }).join("");
-
-    app.innerHTML =
-      '<div class="rc-hero"><div class="rc-kop"><span class="rc-tegel">'+ic("hand")+'</span><h1 style="margin:0">Reconstructie Statistiek II</h1></div>'+
-      '<p class="muted">Kom je net uit een examen? Typ hier de vragen die je je nog herinnert. Samen maken jullie de lijst compleet voor wie na jullie komt. Alles is anoniem.</p></div>'+
-      testbalk+
-      '<div class="reco-glans"><div class="card pad rc-kaart">'+
-        '<label class="fld">De vraag zoals jij ze je herinnert</label>'+
-        '<textarea class="rc-txt" id="rcVraag" maxlength="600" placeholder="Hoeft niet woordelijk. Schrijf op wat je nog weet."></textarea>'+
-        '<label class="fld">Wat dacht jij dat juist was? Mag je leeg laten</label>'+
-        '<input type="text" id="rcGedacht" maxlength="200" style="width:100%" placeholder="Bijvoorbeeld: b, of het antwoord in je eigen woorden">'+
-        '<div class="row" style="margin-top:16px"><button class="btn" id="rcSend">Toevoegen</button></div>'+
-        '<div id="rcFout"></div>'+
-      '</div></div>'+
-      '<div class="seclabel" style="margin-top:22px">Al ingestuurd</div>'+
-      vragen;
-
-    document.getElementById("rcSend").onclick=versturen;
-    [].slice.call(document.querySelectorAll("[data-ook]")).forEach(function(b){
+  function bindKnop(b){
+    if(!b) return;
       b.onclick=function(){
         if(b.dataset.bezig==="1") return;
         var aan=b.dataset.aan!=="1";
@@ -410,7 +375,49 @@
           lab.textContent=terug.lab; tel.textContent=terug.tel; b.dataset.bezig="";
         });
       };
-    });
+  }
+
+  function kaartHTML(v){
+      return '<div class="rc-vraag">'+
+        '<p>'+esc(v.vraag)+'</p>'+
+        (v.gedacht ? '<p class="rc-gedacht">Antwoord volgens de student: '+esc(v.gedacht)+'</p>' : '')+
+        '<div class="rc-rij">'+
+          '<button class="rc-ook'+(v.ookIk?" on":"")+'" data-ook="'+esc(String(v.id))+'" data-aan="'+(v.ookIk?"1":"0")+'" title="'+(v.ookIk?"Klik opnieuw om je stem weg te halen":"Ik had deze vraag ook")+'">'+
+            ic("hand")+'<span class="rc-lab">'+(v.ookIk?"jij ook":"die had ik ook")+'</span><span class="rc-tel">'+(v.ook||0)+'</span>'+
+          '</button>'+
+          '<span class="rc-tijd">'+geleden(v.aangemaakt)+'</span>'+
+        '</div>'+
+      '</div>';
+    }
+
+  function render(lijst, bezig, fout){
+    var testbalk = LIVE ? "" :
+      '<div class="rc-test"><b>Testmodus.</b> Wat je hier toevoegt blijft alleen op dit toestel staan, andere studenten zien het nog niet. Zodra de opslag gekoppeld is, schrijft iedereen in dezelfde lijst.</div>';
+
+    var vragen;
+    if(bezig) vragen = '<div class="rc-leeg">Bezig met laden...</div>';
+    else if(fout) vragen = '<div class="rc-leeg">De lijst kon niet geladen worden. Probeer het zo nog eens.</div>';
+    else if(!lijst.length) vragen = '<div class="rc-leeg">Nog geen vragen.<br>Wees de eerste, ook een half onthouden vraag helpt de rest verder.</div>';
+    else vragen = lijst.map(kaartHTML).join("");
+
+
+    app.innerHTML =
+      '<div class="rc-hero"><div class="rc-kop"><span class="rc-tegel">'+ic("hand")+'</span><h1 style="margin:0">Reconstructie Statistiek II</h1></div>'+
+      '<p class="muted">Kom je net uit een examen? Typ hier de vragen die je je nog herinnert. Samen maken jullie de lijst compleet voor wie na jullie komt. Alles is anoniem.</p></div>'+
+      testbalk+
+      '<div class="reco-glans"><div class="card pad rc-kaart">'+
+        '<label class="fld">De vraag zoals jij ze je herinnert</label>'+
+        '<textarea class="rc-txt" id="rcVraag" maxlength="600" placeholder="Hoeft niet woordelijk. Schrijf op wat je nog weet."></textarea>'+
+        '<label class="fld">Wat dacht jij dat juist was? Mag je leeg laten</label>'+
+        '<input type="text" id="rcGedacht" maxlength="200" style="width:100%" placeholder="Bijvoorbeeld: b, of het antwoord in je eigen woorden">'+
+        '<div class="row" style="margin-top:16px"><button class="btn" id="rcSend">Toevoegen</button></div>'+
+        '<div id="rcFout"></div>'+
+      '</div></div>'+
+      '<div class="seclabel" style="margin-top:22px">Al ingestuurd</div>'+
+      '<div id="rcLijst">'+vragen+'</div>';
+
+    document.getElementById("rcSend").onclick=versturen;
+    [].slice.call(document.querySelectorAll("[data-ook]")).forEach(bindKnop);
   }
 
   function laden(){
@@ -428,7 +435,17 @@
     if(Date.now()-laatste < 8000){ fout.innerHTML='<div class="rc-fout">Rustig aan, wacht even voor je de volgende toevoegt.</div>'; return; }
     laatste=Date.now();
     var knop=document.getElementById("rcSend"); knop.disabled=true; knop.textContent="Bezig...";
-    opslag.toevoegen(vak,vraag,gedacht).then(laden, function(){
+    opslag.toevoegen(vak,vraag,gedacht).then(function(rij){
+      knop.disabled=false; knop.textContent="Toevoegen";
+      document.getElementById("rcVraag").value="";
+      document.getElementById("rcGedacht").value="";
+      var lijst=document.getElementById("rcLijst"); if(!lijst) return laden();
+      var leeg=lijst.querySelector(".rc-leeg"); if(leeg && leeg.parentNode) leeg.parentNode.removeChild(leeg);
+      var wikkel=document.createElement("div"); wikkel.innerHTML=kaartHTML(rij);
+      var kaart=wikkel.firstElementChild;
+      lijst.insertBefore(kaart, lijst.firstChild);
+      bindKnop(kaart.querySelector("[data-ook]"));
+    }, function(){
       knop.disabled=false; knop.textContent="Toevoegen";
       document.getElementById("rcFout").innerHTML='<div class="rc-fout">Toevoegen lukte niet. Probeer het zo nog eens.</div>';
     });
