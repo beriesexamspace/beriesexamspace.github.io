@@ -230,7 +230,7 @@
   .rc-ook.on{background:var(--accent-soft);border-color:var(--accent);color:var(--accent-ink)}
   .rc-tel{font-variant-numeric:tabular-nums}
   .rc-ook{transition:background .22s var(--ease),border-color .22s var(--ease),color .22s var(--ease),transform .18s var(--ease)}
-  .rc-ook .rc-lab{display:inline-block;width:92px;text-align:left;transition:opacity .14s var(--ease)}
+  .rc-ook .rc-lab{display:inline-block;min-width:0;flex:0 0 auto;white-space:nowrap;overflow:hidden;text-align:left;transition:flex-basis .3s var(--ease),opacity .15s var(--ease)}
   .rc-tel{transition:color .22s var(--ease)}
   @keyframes rc-duw{0%{transform:scale(1)}42%{transform:scale(1.055)}100%{transform:scale(1)}}
   @keyframes rc-telop{from{opacity:0;transform:translateY(-5px)}to{opacity:1;transform:none}}
@@ -368,6 +368,16 @@
     return Math.round(s/86400)+" dagen geleden";
   }
 
+  var meetlat;
+  function tekstBreedte(tekst, voorbeeld){
+    if(!meetlat){ meetlat=document.createElement("span"); meetlat.style.cssText="position:absolute;left:-9999px;top:0;visibility:hidden;white-space:nowrap"; document.body.appendChild(meetlat); }
+    var s=getComputedStyle(voorbeeld);
+    meetlat.style.fontFamily=s.fontFamily; meetlat.style.fontSize=s.fontSize;
+    meetlat.style.fontWeight=s.fontWeight; meetlat.style.letterSpacing=s.letterSpacing;
+    meetlat.textContent=tekst;
+    return Math.ceil(meetlat.getBoundingClientRect().width);
+  }
+
   function bindKnop(b){
     if(!b) return;
       b.onclick=function(){
@@ -380,8 +390,12 @@
         b.classList.toggle("on",aan);
         b.classList.remove("rc-duw"); void b.offsetWidth; b.classList.add("rc-duw");
         setTimeout(function(){ b.classList.remove("rc-duw"); },320);
+        var nieuweTekst=aan?"jij ook":"die had ik ook";
+        lab.style.flexBasis=lab.getBoundingClientRect().width+"px";
+        void lab.offsetWidth;
         lab.style.opacity="0";
-        setTimeout(function(){ lab.textContent=aan?"jij ook":"die had ik ook"; lab.style.opacity="1"; },140);
+        lab.style.flexBasis=tekstBreedte(nieuweTekst,lab)+"px";
+        setTimeout(function(){ lab.textContent=nieuweTekst; lab.style.opacity="1"; },150);
         tel.classList.remove("op","af"); void tel.offsetWidth;
         tel.textContent=Math.max(0,(parseInt(tel.textContent,10)||0)+(aan?1:-1));
         tel.classList.add(aan?"op":"af");
@@ -389,7 +403,7 @@
         b.title=aan?"Klik opnieuw om je stem weg te halen":"Ik had deze vraag ook";
         opslag.bevestigen(b.dataset.ook,aan).then(function(){ b.dataset.bezig=""; }, function(){
           b.dataset.aan=terug.aan; b.classList.toggle("on",terug.aan==="1");
-          lab.textContent=terug.lab; lab.style.opacity="1"; tel.textContent=terug.tel; b.dataset.bezig="";
+          lab.textContent=terug.lab; lab.style.opacity="1"; lab.style.flexBasis=tekstBreedte(terug.lab,lab)+"px"; tel.textContent=terug.tel; b.dataset.bezig="";
         });
       };
   }
