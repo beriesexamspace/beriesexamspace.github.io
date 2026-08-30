@@ -200,7 +200,7 @@
 <body>
 <header class="top">
   <div class="topin">
-    <div class="brand"><span class="logo">R</span><div>Reconstructie<small>Statistiek II</small></div></div>
+    <div class="brand"><span class="logo">R</span><div>Reconstructie<small id="merkVak">Berie’s exam space</small></div></div>
     <span class="spacer"></span>
     <a class="iconbtn" href="https://beriesexamspace.com/" title="Naar de vakken"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true" style="width:16px;height:16px"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg></a>
     <button class="iconbtn" id="themeBtn" aria-label="Wissel tussen licht en donker thema"></button>
@@ -362,7 +362,11 @@
   }
 
   /* ===== scherm ===== */
+  // welk vak? staat in het adres, bijvoorbeeld reco/?vak=thg
   var vak = "stat2";
+  try{ var q=new URLSearchParams(location.search).get("vak"); if(q && VAKKEN.some(function(x){return x.slug===q;})) vak=q; }catch(e){}
+  var vakNaam = (function(){ var t=VAKKEN.filter(function(x){return x.slug===vak;})[0]; return t?t.naam:"dit vak"; })();
+  var vakKort = vakNaam.split(":")[0];
 
   function vakOpties(){
     var jaren=[], perJaar={};
@@ -447,7 +451,7 @@
 
 
     app.innerHTML =
-      '<div class="rc-hero"><div class="rc-kop"><span class="rc-tegel">'+ic("hand")+'</span><h1 style="margin:0">Reconstructie Statistiek II</h1></div>'+
+      '<div class="rc-hero"><div class="rc-kop"><span class="rc-tegel">'+ic("hand")+'</span><h1 style="margin:0">Reconstructie '+esc(vakKort)+'</h1></div>'+
       '<p class="muted">Kom je net uit een examen? Typ hier de vragen die je je nog herinnert. Samen maken jullie de lijst compleet voor wie na jullie komt. Alles is anoniem.</p></div>'+
       testbalk+
       '<div class="reco-glans"><div class="card pad rc-kaart">'+
@@ -496,6 +500,7 @@
     });
   }
 
+  try{ var mv=document.getElementById("merkVak"); if(mv) mv.textContent=vakKort; document.title="Reconstructie "+vakKort+", Berie’s exam space"; }catch(e){}
   laden();
 })();
 </script>
