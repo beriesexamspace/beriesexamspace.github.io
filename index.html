@@ -1635,11 +1635,13 @@
       k.addEventListener("click",function(){ naarTool(k.dataset.tool); });
     });
 
-    // deep-links: ?deel=1(&vak=) opent inlever-formulier · ?jaar=1/2/3 opent vakken van dat jaar
+    // deep-links: ?deel=1(&vak=) opent inlever-formulier · ?jaar=1/2/3 opent vakken
+    // van dat jaar · ?leren=1 opent het leerscherm · ?over=1 opent wie erachter zit
     var qs; try{ qs=new URLSearchParams(location.search); }catch(e){ qs=null; }
     if(qs && qs.get("over")){ window.besNaarOver(); }
     else if(qs && qs.get("deel")){ renderYears(); renderContribute(qs.get("vak")||"", true); }
     else if(qs && /^[123]$/.test(qs.get("jaar")||"")){ renderSubjects(+qs.get("jaar")-1); window.besNaarLeren(); }
+    else if(qs && qs.get("leren")){ renderYears(); window.besNaarLeren(); }
     else { renderYears(); }
   })();
 
