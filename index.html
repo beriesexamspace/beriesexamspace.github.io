@@ -281,6 +281,45 @@
   @keyframes bes-twinkle{0%,100%{opacity:1;transform:scale(1) rotate(0deg)}50%{opacity:.65;transform:scale(.82) rotate(18deg)}}
   @keyframes bes-rise{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
   @keyframes bes-shimmer{to{transform:translateX(150%)}}
+
+  /* ===== nieuwe indeling: losse schermen ===== */
+  .topin{max-width:none}
+  .brand{border:0;background:none;padding:0;text-align:left;cursor:pointer;font-family:inherit;color:inherit}
+  .navbtns{display:flex;gap:8px}
+  .backbtn,.homebtn{display:none}
+  .backbtn.on,.homebtn.on{display:inline-flex}
+  @media(max-width:700px){.backbtn span,.homebtn span{display:none}.iconbtn{padding:7px 9px}}
+
+  @keyframes bes-next{from{opacity:0;transform:translateX(26px)}to{opacity:1;transform:none}}
+  @keyframes bes-prev{from{opacity:0;transform:translateX(-26px)}to{opacity:1;transform:none}}
+  .slide{display:none}
+  .slide.on{display:block}
+  @media (prefers-reduced-motion: no-preference){
+    .slide.on.next{animation:bes-next .34s var(--ease) both}
+    .slide.on.prev{animation:bes-prev .34s var(--ease) both}
+  }
+
+  .hero-in{min-height:calc(100vh - 59px);min-height:calc(100dvh - 59px);
+    display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;padding:36px 18px 30px}
+  .hero-in .hero{margin:0}
+  .hero-in .wagroep{max-width:880px;width:100%;text-align:left}
+  .onder{max-width:880px;margin:0 auto;padding:0 18px 96px}
+
+  .bigbtn{border:0;border-radius:999px;padding:17px 38px;font-size:17px;font-weight:700;color:#fff;
+    font-family:inherit;cursor:pointer;margin-top:26px;
+    background:linear-gradient(145deg,var(--accent),var(--accent-ink));
+    box-shadow:0 10px 30px rgba(15,110,106,.42);
+    display:inline-flex;align-items:center;gap:10px;
+    transition:transform .16s var(--ease),box-shadow .2s var(--ease)}
+  .bigbtn:hover{transform:translateY(-2px);box-shadow:0 15px 40px rgba(15,110,106,.5)}
+  .bigbtn:active{transform:scale(.97)}
+  .bigbtn .ic{width:19px;height:19px}
+
+  .dots{display:flex;justify-content:center;gap:8px;margin-top:34px}
+  .dots i{width:7px;height:7px;border-radius:50%;background:var(--line);transition:background .25s var(--ease),width .25s var(--ease)}
+  .dots i.on{background:var(--accent);width:22px;border-radius:99px}
+
+  #s-leren .wrap{padding-top:26px}
 </style>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
 </head>
@@ -294,7 +333,15 @@
 </div></div>
 <header class="top">
   <div class="topin">
-    <div class="brand"><span class="logo">B</span><div>Berie’s exam space<small>oefen slim voor je examen</small></div></div>
+    <button class="brand" id="brandHome" type="button" aria-label="Naar het beginscherm"><span class="logo">B</span><div>Berie’s exam space<small>oefen slim voor je examen</small></div></button>
+    <span class="navbtns">
+      <button class="iconbtn backbtn" id="navBack" type="button" aria-label="Een stap terug">
+        <svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg><span>Terug</span>
+      </button>
+      <button class="iconbtn homebtn" id="navHome" type="button" aria-label="Naar het beginscherm">
+        <svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 10.5 12 3l9 7.5"/><path d="M5.5 9.5V20a1 1 0 0 0 1 1h11a1 1 0 0 0 1-1V9.5"/></svg><span>Home</span>
+      </button>
+    </span>
     <span class="spacer"></span>
     <nav class="topnav">
       <a class="navlink" href="#vakken">Vakken</a>
@@ -307,14 +354,27 @@
   </div>
 </header>
 
+<div class="slide on" id="s-start">
 <div class="wrap">
+  <div class="hero-in">
   <div class="hero">
     <div class="heromark"><div class="hl">B</div></div>
     <h1>Berie’s exam space</h1>
     <p class="sub">Leer goed voor je examen.</p>
     <p class="motto">Sic Parvis Magna</p>
-    <div class="statpill"><span class="dot"></span><span>Wordt al gebruikt door <b id="statN">489</b> studenten</span></div>
+    <button class="bigbtn" id="startLeren" type="button">Begin met leren <svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></button>
+    <div style="margin-top:18px"><div class="statpill"><span class="dot"></span><span>Wordt al gebruikt door <b id="statN">489</b> studenten</span></div></div>
   </div>
+
+  <div class="seclabel" id="groep" style="margin-top:34px;scroll-margin-top:78px"><span class="ic" style="color:#25D366"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.25-1.38a9.9 9.9 0 0 0 4.79 1.22h.01c5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.82 9.82 0 0 0 12.04 2m0 1.67c2.2 0 4.27.86 5.83 2.42a8.2 8.2 0 0 1 2.41 5.82c0 4.54-3.7 8.24-8.25 8.24a8.2 8.2 0 0 1-4.2-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.19 8.19 0 0 1-1.26-4.38c0-4.54 3.7-8.24 8.26-8.24M8.53 7.33c-.16 0-.43.06-.66.31-.22.25-.87.85-.87 2.07 0 1.22.89 2.4 1.01 2.56.12.17 1.72 2.63 4.18 3.69.58.25 1.04.4 1.4.51.59.19 1.12.16 1.55.1.47-.07 1.45-.59 1.66-1.17.2-.57.2-1.06.14-1.16-.06-.11-.22-.17-.46-.29-.25-.12-1.45-.72-1.68-.8-.22-.08-.38-.12-.55.12-.16.25-.62.79-.76.95-.14.17-.28.19-.52.07-.25-.13-1.04-.39-1.99-1.23-.73-.65-1.23-1.46-1.37-1.71-.14-.24-.02-.37.11-.5.11-.11.24-.29.37-.43.12-.14.16-.25.24-.41.08-.17.04-.31-.02-.43-.06-.12-.55-1.34-.76-1.83-.2-.48-.4-.42-.55-.43-.14 0-.3-.01-.47-.01"/></svg></span>Blijf op de hoogte</div>
+  <div class="wagroep">
+    <span class="wa-logo"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.25-1.38a9.9 9.9 0 0 0 4.79 1.22h.01c5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.82 9.82 0 0 0 12.04 2m0 1.67c2.2 0 4.27.86 5.83 2.42a8.2 8.2 0 0 1 2.41 5.82c0 4.54-3.7 8.24-8.25 8.24a8.2 8.2 0 0 1-4.2-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.19 8.19 0 0 1-1.26-4.38c0-4.54 3.7-8.24 8.26-8.24M8.53 7.33c-.16 0-.43.06-.66.31-.22.25-.87.85-.87 2.07 0 1.22.89 2.4 1.01 2.56.12.17 1.72 2.63 4.18 3.69.58.25 1.04.4 1.4.51.59.19 1.12.16 1.55.1.47-.07 1.45-.59 1.66-1.17.2-.57.2-1.06.14-1.16-.06-.11-.22-.17-.46-.29-.25-.12-1.45-.72-1.68-.8-.22-.08-.38-.12-.55.12-.16.25-.62.79-.76.95-.14.17-.28.19-.52.07-.25-.13-1.04-.39-1.99-1.23-.73-.65-1.23-1.46-1.37-1.71-.14-.24-.02-.37.11-.5.11-.11.24-.29.37-.43.12-.14.16-.25.24-.41.08-.17.04-.31-.02-.43-.06-.12-.55-1.34-.76-1.83-.2-.48-.4-.42-.55-.43-.14 0-.3-.01-.47-.01"/></svg></span>
+    <span class="wa-txt"><b>De WhatsApp-groep van Berie's exam space</b><small>Daar komt alles binnen: nieuwe vakken, extra examenvragen en verbeteringen aan de tools. Zo hoef je zelf niet te kijken of er iets veranderd is. Heb je samenvattingen of oude examenvragen, dan kan je ze daar ook meteen doorsturen.</small></span>
+    <a class="btn wa-knop" href="https://chat.whatsapp.com/Ci1d1PQzvWr6VPcq10l7bK" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.25-1.38a9.9 9.9 0 0 0 4.79 1.22h.01c5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.82 9.82 0 0 0 12.04 2m0 1.67c2.2 0 4.27.86 5.83 2.42a8.2 8.2 0 0 1 2.41 5.82c0 4.54-3.7 8.24-8.25 8.24a8.2 8.2 0 0 1-4.2-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.19 8.19 0 0 1-1.26-4.38c0-4.54 3.7-8.24 8.26-8.24M8.53 7.33c-.16 0-.43.06-.66.31-.22.25-.87.85-.87 2.07 0 1.22.89 2.4 1.01 2.56.12.17 1.72 2.63 4.18 3.69.58.25 1.04.4 1.4.51.59.19 1.12.16 1.55.1.47-.07 1.45-.59 1.66-1.17.2-.57.2-1.06.14-1.16-.06-.11-.22-.17-.46-.29-.25-.12-1.45-.72-1.68-.8-.22-.08-.38-.12-.55.12-.16.25-.62.79-.76.95-.14.17-.28.19-.52.07-.25-.13-1.04-.39-1.99-1.23-.73-.65-1.23-1.46-1.37-1.71-.14-.24-.02-.37.11-.5.11-.11.24-.29.37-.43.12-.14.16-.25.24-.41.08-.17.04-.31-.02-.43-.06-.12-.55-1.34-.76-1.83-.2-.48-.4-.42-.55-.43-.14 0-.3-.01-.47-.01"/></svg>Word lid van de groep</a>
+  </div>
+
+  <div class="dots"><i class="on"></i><i></i><i></i></div>
+  </div><!-- /hero-in -->
 
   <a href="#over" class="truststrip">
     <span class="ts-pfp" aria-hidden="true">B<!-- vervang door foto: <img src="berat.jpg" alt="Berat"> --></span>
@@ -329,7 +389,6 @@
   </button>
   <div id="contribWrap" style="display:none"></div>
 
-  <div id="main"></div>
 
   <style>
   .wagroep{display:flex;align-items:center;gap:18px;flex-wrap:wrap;background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:20px 22px;box-shadow:var(--shadow);position:relative;overflow:hidden}
@@ -344,12 +403,7 @@
   .wa-knop svg{width:19px;height:19px}
   @media (max-width:560px){.wagroep{padding:18px;align-items:flex-start;gap:14px}.wa-logo{width:40px;height:40px}.wa-logo svg{width:23px;height:23px}.wa-txt{flex:1 1 100%;order:2}.wa-knop{width:100%;order:3}}
   </style>
-  <div class="seclabel" id="groep" style="margin-top:34px;scroll-margin-top:78px"><span class="ic" style="color:#25D366"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.25-1.38a9.9 9.9 0 0 0 4.79 1.22h.01c5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.82 9.82 0 0 0 12.04 2m0 1.67c2.2 0 4.27.86 5.83 2.42a8.2 8.2 0 0 1 2.41 5.82c0 4.54-3.7 8.24-8.25 8.24a8.2 8.2 0 0 1-4.2-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.19 8.19 0 0 1-1.26-4.38c0-4.54 3.7-8.24 8.26-8.24M8.53 7.33c-.16 0-.43.06-.66.31-.22.25-.87.85-.87 2.07 0 1.22.89 2.4 1.01 2.56.12.17 1.72 2.63 4.18 3.69.58.25 1.04.4 1.4.51.59.19 1.12.16 1.55.1.47-.07 1.45-.59 1.66-1.17.2-.57.2-1.06.14-1.16-.06-.11-.22-.17-.46-.29-.25-.12-1.45-.72-1.68-.8-.22-.08-.38-.12-.55.12-.16.25-.62.79-.76.95-.14.17-.28.19-.52.07-.25-.13-1.04-.39-1.99-1.23-.73-.65-1.23-1.46-1.37-1.71-.14-.24-.02-.37.11-.5.11-.11.24-.29.37-.43.12-.14.16-.25.24-.41.08-.17.04-.31-.02-.43-.06-.12-.55-1.34-.76-1.83-.2-.48-.4-.42-.55-.43-.14 0-.3-.01-.47-.01"/></svg></span>Blijf op de hoogte</div>
-  <div class="wagroep">
-    <span class="wa-logo"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.25-1.38a9.9 9.9 0 0 0 4.79 1.22h.01c5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.82 9.82 0 0 0 12.04 2m0 1.67c2.2 0 4.27.86 5.83 2.42a8.2 8.2 0 0 1 2.41 5.82c0 4.54-3.7 8.24-8.25 8.24a8.2 8.2 0 0 1-4.2-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.19 8.19 0 0 1-1.26-4.38c0-4.54 3.7-8.24 8.26-8.24M8.53 7.33c-.16 0-.43.06-.66.31-.22.25-.87.85-.87 2.07 0 1.22.89 2.4 1.01 2.56.12.17 1.72 2.63 4.18 3.69.58.25 1.04.4 1.4.51.59.19 1.12.16 1.55.1.47-.07 1.45-.59 1.66-1.17.2-.57.2-1.06.14-1.16-.06-.11-.22-.17-.46-.29-.25-.12-1.45-.72-1.68-.8-.22-.08-.38-.12-.55.12-.16.25-.62.79-.76.95-.14.17-.28.19-.52.07-.25-.13-1.04-.39-1.99-1.23-.73-.65-1.23-1.46-1.37-1.71-.14-.24-.02-.37.11-.5.11-.11.24-.29.37-.43.12-.14.16-.25.24-.41.08-.17.04-.31-.02-.43-.06-.12-.55-1.34-.76-1.83-.2-.48-.4-.42-.55-.43-.14 0-.3-.01-.47-.01"/></svg></span>
-    <span class="wa-txt"><b>De WhatsApp-groep van Berie's exam space</b><small>Daar komt alles binnen: nieuwe vakken, extra examenvragen en verbeteringen aan de tools. Zo hoef je zelf niet te kijken of er iets veranderd is. Heb je samenvattingen of oude examenvragen, dan kan je ze daar ook meteen doorsturen.</small></span>
-    <a class="btn wa-knop" href="https://chat.whatsapp.com/Ci1d1PQzvWr6VPcq10l7bK" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.25-1.38a9.9 9.9 0 0 0 4.79 1.22h.01c5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.82 9.82 0 0 0 12.04 2m0 1.67c2.2 0 4.27.86 5.83 2.42a8.2 8.2 0 0 1 2.41 5.82c0 4.54-3.7 8.24-8.25 8.24a8.2 8.2 0 0 1-4.2-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.19 8.19 0 0 1-1.26-4.38c0-4.54 3.7-8.24 8.26-8.24M8.53 7.33c-.16 0-.43.06-.66.31-.22.25-.87.85-.87 2.07 0 1.22.89 2.4 1.01 2.56.12.17 1.72 2.63 4.18 3.69.58.25 1.04.4 1.4.51.59.19 1.12.16 1.55.1.47-.07 1.45-.59 1.66-1.17.2-.57.2-1.06.14-1.16-.06-.11-.22-.17-.46-.29-.25-.12-1.45-.72-1.68-.8-.22-.08-.38-.12-.55.12-.16.25-.62.79-.76.95-.14.17-.28.19-.52.07-.25-.13-1.04-.39-1.99-1.23-.73-.65-1.23-1.46-1.37-1.71-.14-.24-.02-.37.11-.5.11-.11.24-.29.37-.43.12-.14.16-.25.24-.41.08-.17.04-.31-.02-.43-.06-.12-.55-1.34-.76-1.83-.2-.48-.4-.42-.55-.43-.14 0-.3-.01-.47-.01"/></svg>Word lid van de groep</a>
-  </div>
+
 
   <!-- ===== EXAMEN-INFO (staat onder de WhatsApp-sectie) ===== -->
   <style>
@@ -940,6 +994,13 @@
     </div>
   </div>
 </section>
+</div><!-- /s-start -->
+
+<div class="slide" id="s-leren">
+  <div class="wrap">
+    <div id="main"></div>
+  </div>
+</div>
 
 <footer class="wrap" style="padding-top:0">Gemaakt om mee te oefenen, veel succes!<br><span style="opacity:.7">© 2026 Berie’s exam space · Alle rechten voorbehouden</span></footer>
 
@@ -1067,6 +1128,11 @@
     var html='<button class="backlink" id="bk">'+ic("back")+'Terug naar jaren</button>'+
       '<div class="seclabel" id="vakkop" style="scroll-margin-top:78px">'+ic("sparkles")+'Welk vak wil je oefenen? · '+esc(yr.y)+'</div>'+
       '<p class="muted" style="margin:-4px 0 14px;font-size:13.5px">Staat er <b>examenvragen</b>? Dan komen ze uit echte examens of uit reconstructies van studenten. Staat er <b>oefenvragen</b>? Dan zijn ze gemaakt op basis van de cursus en samenvattingen.</p>'+
+      '<button class="callout" id="deelHier" type="button" style="margin:0 0 22px">'+
+        '<span class="co-ic">'+ic("upload")+'</span>'+
+        '<span class="co-txt"><b>Help mee, deel je samenvattingen</b><small>Mis je vragen bij een vak, of staat jouw vak er nog niet bij? Stuur je samenvatting of oude examenvragen in, dan maken wij er oefenvragen van.</small></span>'+
+        '<span class="co-go">'+ic("arrowR")+'</span>'+
+      '</button>'+
       '<div class="subjects">';
     var subs=yr.subjects.slice().sort(function(a,b){ return (a.soon?1:0)-(b.soon?1:0); });
     subs.forEach(function(s,idx){
@@ -1091,6 +1157,10 @@
     html+='</div>';
     main.innerHTML=html; try{ main.classList.remove("bes-in"); void main.offsetWidth; main.classList.add("bes-in"); }catch(e){}
     document.getElementById("bk").onclick=function(){ renderYears(); naarKop("vakken"); };
+    var dh=document.getElementById("deelHier"); if(dh) dh.onclick=function(){
+      if(window.besNaarStart) window.besNaarStart();
+      renderContribute("", true);
+    };
     [].slice.call(main.querySelectorAll("[data-vak]")).forEach(function(el){ el.onclick=function(e){ e.preventDefault(); renderContribute(el.dataset.vak||"", true); }; });
   }
 
@@ -1315,11 +1385,46 @@
   function yearUse(yr){ if(!USE)return null; var t=0,has=false; yr.subjects.forEach(function(s){ if(!s.soon&&s.url){ var ns=nsForUrl(s.url); if(ns&&USE[ns]!=null){ t+=USE[ns]; has=true; } } }); return has?t:null; }
   function fmtN(n){ return Number(n).toLocaleString("nl-NL"); }
 
-  // deep-links: ?deel=1(&vak=) opent inlever-formulier · ?jaar=1/2/3 opent vakken van dat jaar
+  // ===== losse schermen: beginscherm en leerscherm =====
   (function(){
+    var navBack=document.getElementById("navBack"),
+        navHome=document.getElementById("navHome"),
+        brandHome=document.getElementById("brandHome"),
+        startKnop=document.getElementById("startLeren");
+
+    function toon(id, richting){
+      var huidig=document.querySelector(".slide.on");
+      if(huidig) huidig.className="slide";
+      var el=document.getElementById(id);
+      if(!el) return;
+      el.className="slide on "+(richting==="prev" ? "prev" : "next");
+      var weg = id!=="s-start";
+      if(navBack) navBack.classList.toggle("on", weg);
+      if(navHome) navHome.classList.toggle("on", weg);
+      try{ window.scrollTo({top:0,behavior:"auto"}); }catch(e){ window.scrollTo(0,0); }
+    }
+    window.besNaarStart = function(){ toon("s-start","prev"); };
+    window.besNaarLeren = function(){ toon("s-leren","next"); };
+
+    if(startKnop) startKnop.onclick=function(){ renderYears(); window.besNaarLeren(); };
+    if(navHome) navHome.onclick=function(){ window.besNaarStart(); };
+    if(brandHome) brandHome.onclick=function(){ window.besNaarStart(); };
+    if(navBack) navBack.onclick=function(){
+      if(!onYears){ renderYears(); naarKop("vakken"); }
+      else { window.besNaarStart(); }
+    };
+
+    // de nav-link "Vakken" opent het leerscherm in plaats van te scrollen
+    var vakLink=document.querySelector('.topnav a[href="#vakken"]');
+    if(vakLink) vakLink.addEventListener("click",function(e){
+      e.preventDefault(); e.stopPropagation();
+      renderYears(); window.besNaarLeren();
+    },true);
+
+    // deep-links: ?deel=1(&vak=) opent inlever-formulier · ?jaar=1/2/3 opent vakken van dat jaar
     var qs; try{ qs=new URLSearchParams(location.search); }catch(e){ qs=null; }
     if(qs && qs.get("deel")){ renderYears(); renderContribute(qs.get("vak")||"", true); }
-    else if(qs && /^[123]$/.test(qs.get("jaar")||"")){ renderSubjects(+qs.get("jaar")-1); }
+    else if(qs && /^[123]$/.test(qs.get("jaar")||"")){ renderSubjects(+qs.get("jaar")-1); window.besNaarLeren(); }
     else { renderYears(); }
   })();
 
