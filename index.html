@@ -459,7 +459,7 @@
     <p class="sub">Leer goed voor je examen.</p>
     <p class="motto">Sic Parvis Magna</p>
     <button class="bigbtn" id="startLeren" type="button">Begin met leren <svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></button>
-    <div style="margin-top:18px"><div class="statpill"><span class="dot"></span><span>Wordt al gebruikt door <b id="statN">489</b> studenten</span></div></div>
+    <div style="margin-top:18px"><div class="statpill"><span class="dot"></span><span>Wordt al gebruikt door <b id="statN">1.439</b> studenten</span></div></div>
   </div>
 
   <button class="truststrip" id="naarOver" type="button">
@@ -1645,7 +1645,7 @@
     else { renderYears(); }
   })();
 
-  // live teller: telt automatisch mee, gaat ALLEEN omhoog (nooit omlaag, vloer 489)
+  // live teller: een persoon telt een keer mee (per apparaat), gaat ALLEEN omhoog (nooit omlaag, vloer 1439)
   function countUp(node, from, to){
     var reduce=false; try{reduce=window.matchMedia("(prefers-reduced-motion: reduce)").matches;}catch(e){}
     if(reduce||to<=from){ node.textContent=to.toLocaleString("nl-NL"); return; }
@@ -1654,15 +1654,20 @@
     requestAnimationFrame(step); setTimeout(function(){ node.textContent=to.toLocaleString("nl-NL"); }, dur+120);
   }
   (function(){
-    function get(ns,key){ return fetch("https://abacus.jasoncameron.dev/get/"+ns+"/"+key).then(function(r){return r.json();}).then(function(d){return (d&&d.value)||0;}).catch(function(){return 0;}); }
-    Promise.all([get("berat-hub","bezoekers"),get("berat-mbg","gebruikers"),get("berat-stat","gebruikers"),get("berat-socio","gebruikers"),get("berat-socpsy","gebruikers")]).then(function(a){
-      USE={"berat-hub":a[0],"berat-mbg":a[1],"berat-stat":a[2],"berat-socio":a[3]};
-      var total=a[0]+a[1]+a[2]+a[3]+a[4];
-      var floor=489, stored=0; try{ stored=parseInt(localStorage.getItem("bes_usecount")||"0",10)||0; }catch(e){}
-      var show=Math.max(total, stored, floor);          // nooit omlaag, nooit onder 489
+    // Sinds 11-09-2026 telt een persoon een keer mee, via de teller berat-hub/personen.
+    // Voorheen werden vijf tellers opgeteld (hub + mbg + stat + socio + socpsy), waardoor
+    // wie meerdere vakken opende meerdere keren meetelde. Die som stond op 1439 en is
+    // bevroren als basis, zodat het getal niet verandert. Vanaf nu: per nieuw apparaat 1 erbij.
+    var BASE=1439;
+    var counted=false; try{ counted=localStorage.getItem("bes_person_counted")==="1"; }catch(e){}
+    var url="https://abacus.jasoncameron.dev/"+(counted?"get":"hit")+"/berat-hub/personen";
+    fetch(url).then(function(r){return r.json();}).then(function(d){
+      var n=(d&&typeof d.value==="number")?d.value:0;
+      if(!counted){ try{ localStorage.setItem("bes_person_counted","1"); }catch(e){} }
+      var total=BASE+n, stored=0; try{ stored=parseInt(localStorage.getItem("bes_usecount")||"0",10)||0; }catch(e){}
+      var show=Math.max(total, stored, BASE);          // nooit omlaag, nooit onder 1439
       try{ localStorage.setItem("bes_usecount", String(show)); }catch(e){}
-      var node=document.getElementById("statN"); if(node) countUp(node, floor, show);
-      if(onYears) renderYears();
+      var node=document.getElementById("statN"); if(node) countUp(node, BASE, show);
     }).catch(function(){});
   })();
 })();
