@@ -1624,6 +1624,15 @@
       },true);
     });
 
+    // de WhatsApp-groep staat op het beginscherm; vanaf een ander scherm eerst
+    // terug naar het begin en daarna naar het blok scrollen
+    var groepLink=document.querySelector('.topnav a[href="#groep"]');
+    if(groepLink) groepLink.addEventListener("click",function(e){
+      e.preventDefault(); e.stopPropagation();
+      if(!document.getElementById("s-start").classList.contains("on")) window.besNaarStart();
+      naarKop("groep");
+    },true);
+
     // de tools op het leerscherm
     function naarTool(wat){
       if(!document.getElementById("s-leren").classList.contains("on")) window.besNaarLeren();
