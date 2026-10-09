@@ -1,0 +1,596 @@
+<!doctype html>
+<html lang="nl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script src="assets/deur.js?v=80"></script>
+  <link rel="apple-touch-icon" href="/assets/icoon-180.png">
+  <link rel="manifest" href="/manifest.webmanifest">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Berie's Exam Space">
+  <meta property="og:title" content="Welkom | Berie's Exam Space">
+  <meta property="og:description" content="Kies je jaar, gebruik de tools en help mee met je eigen vak in Berie's Exam Space.">
+  <meta property="og:image" content="https://beriesexamspace.com/assets/deel.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:url" content="https://beriesexamspace.com/hub.html">
+  <meta name="twitter:card" content="summary_large_image">
+  <script src="assets/updates.js?v=80"></script>
+  <script>
+    // Welkomstscherm (Wat is nieuw) één keer per persoon per versie.
+    // Op dit toestel al gezien: meteen door. Anders even wachten op het account (misschien al gezien op een ander toestel).
+    (() => {
+      try {
+        // hub.html?welkom laat de hele kennismaking opnieuw zien, zoals bij een nieuw account:
+        // welkomstscherm, Begrepen, het voorstelscherm van Comit en de balk die binnenschuift.
+        if (new URLSearchParams(window.location.search).has('welkom')) {
+          window.localStorage.removeItem('bes_versie_gezien');
+          window.localStorage.removeItem('bes_comit_voorgesteld');
+          window.location.replace('nieuw.html' + window.location.hash);
+          return;
+        }
+        const versie = window.BES_VERSIE || 0;
+        const gezien = Number(window.localStorage.getItem('bes_versie_gezien')) || 0;
+        if (gezien >= versie) return;
+        window.BES_VERSIE_CHECK = true;
+        document.documentElement.classList.add('versie-check');
+        window.setTimeout(() => document.documentElement.classList.remove('versie-check'), 2500);
+      } catch {}
+    })();
+    (() => {
+      try {
+        if (!window.sessionStorage.getItem('bes_nav_intro')) return;
+        window.sessionStorage.removeItem('bes_nav_intro');
+        document.documentElement.classList.add('nav-intro');
+      } catch {}
+    })();
+  </script>
+  <meta name="description" content="Kies je jaar, gebruik de tools en help mee met je eigen vak in Berie's Exam Space.">
+  <meta name="theme-color" content="#FFFFFF">
+  <script>
+    (() => {
+      let keuze;
+      try { keuze = window.localStorage.getItem('bes_thema'); } catch {}
+      const donker = keuze === 'donker' || (keuze !== 'licht' && window.matchMedia('(prefers-color-scheme: dark)').matches);
+      document.documentElement.dataset.theme = donker ? 'dark' : 'light';
+      document.querySelector('meta[name="theme-color"]').content = donker ? '#0B0B0C' : '#FFFFFF';
+    })();
+  </script>
+  <meta name="robots" content="noindex">
+  <title>Welkom | Berie's Exam Space</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/style.css?v=80">
+  <link rel="stylesheet" href="assets/intro.css?v=80">
+  <script src="assets/app.js?v=80"></script>
+  <script src="assets/intro.js?v=80"></script>
+  <script src="assets/vakken.js?v=80"></script>
+  <script src="assets/config.js?v=80" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js" defer></script>
+  <script src="assets/auth.js?v=80" defer></script>
+  <script src="assets/plan.js?v=80" defer></script>
+  <script src="assets/comit.js?v=80" defer></script>
+  <script src="assets/activiteit.js?v=80" defer></script>
+  <style>
+    html { scroll-behavior: smooth; }
+
+    .kaart.jaar {
+      --jaar-schaduw: 0 14px 30px rgba(0,0,0,.14), 0 2px 6px rgba(0,0,0,.06);
+      --jaar-schaduw-hover: 0 22px 40px rgba(0,0,0,.18), 0 3px 8px rgba(0,0,0,.07);
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+      min-height: 0;
+      padding: 0;
+      overflow: hidden;
+      background: var(--card);
+      box-shadow: var(--jaar-schaduw);
+      transition: transform 220ms var(--ease), box-shadow 220ms var(--ease);
+    }
+
+    .jaar[data-jaar="1ba"] { --jaar: #3FB9B2; --jaar-licht: #8FDAD5; }
+    .jaar[data-jaar="2ba"] { --jaar: #8B7CF6; --jaar-licht: #C4BAFF; }
+    .jaar[data-jaar="3ba"] { --jaar: #E0A030; --jaar-licht: #F5D08A; }
+
+    html[data-theme="dark"] .kaart.jaar {
+      --jaar-schaduw: 0 14px 30px var(--shadow-far-color), 0 2px 6px var(--shadow-near-color);
+      --jaar-schaduw-hover: 0 22px 40px var(--shadow-far-color), 0 3px 8px var(--shadow-near-color);
+    }
+
+    .jaar-band {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      flex: 0 0 96px;
+      height: 96px;
+      padding: 20px 24px;
+      background: linear-gradient(135deg, var(--jaar), var(--jaar-licht));
+      color: var(--white);
+    }
+
+    .jaar-nummer { font-size: 44px; font-weight: 700; line-height: 1; }
+    .jaar .label {
+      visibility: hidden;
+      background: color-mix(in srgb, var(--white) 24%, transparent);
+      color: var(--white);
+    }
+    .jaar.is-laatst .label { visibility: visible; }
+    .jaar-body { flex: 1; gap: 8px; padding: 24px; background: var(--card); }
+    .jaar-link { display: flex; align-items: center; gap: 8px; margin-top: 12px; color: var(--jaar); font-weight: 600; }
+    .jaar-pijl { display: inline-block; transition: transform 150ms var(--ease); }
+    a.kaart.jaar[data-jaar]:not([aria-disabled="true"]):active { transform: scale(.99); transition-duration: 150ms; }
+
+    :where(html.has-hover) a.kaart.jaar[data-jaar]:not([aria-disabled="true"]):hover { transform: translateY(-2px); box-shadow: var(--jaar-schaduw-hover); }
+    :where(html.has-hover) a.kaart.jaar[data-jaar]:hover .jaar-pijl { transform: translateX(2px); }
+    :where(html.has-hover) a.kaart.jaar[data-jaar]:not([aria-disabled="true"]):active { transform: scale(.99); }
+
+    .hub-sectie { scroll-margin-top: 88px; }
+    /* Wie is Berie: donkerrood blok (de kleur van de foto), tekst links, de hele staande foto rechts; op de telefoon staat de foto boven de tekst. */
+    .hub-wie-kaart { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 42%); padding: 0; overflow: hidden; border: 0; background: #450c11; color: #fff; }
+    .hub-wie-tekst { display: flex; flex-direction: column; align-items: flex-start; justify-content: center; gap: 16px; padding: clamp(28px, 5vw, 56px); }
+    .hub-wie-tekst h2 { margin: 0; color: #fff; font-size: clamp(1.75rem, 4vw, 2.5rem); font-weight: 700; line-height: 1.1; letter-spacing: -.03em; }
+    .hub-wie-tekst p { max-width: 36ch; margin: 0; color: rgba(255, 255, 255, .8); font-size: 1.0625rem; line-height: 1.65; }
+    .hub-wie-tekst .knop-secundair { margin-top: 8px; border-color: rgba(255, 255, 255, .4); background: transparent; color: #fff; }
+    :where(html.has-hover) .hub-wie-tekst .knop-secundair:hover { border-color: #fff; background: rgba(255, 255, 255, .14); color: #fff; }
+    .hub-wie-tekst .knop-secundair:focus-visible { outline-color: #fff; }
+    .hub-wie-foto { background: #450c11; }
+    .hub-wie-foto img { display: block; width: 100%; height: auto; }
+    @media (max-width: 720px) {
+      .hub-wie-kaart { grid-template-columns: minmax(0, 1fr); }
+      .hub-wie-foto { order: -1; }
+      .hub-wie-tekst { padding: 24px 22px 28px; }
+    }
+    .hub-verder { margin-bottom: 24px; }
+    .hub-verder .kaart { min-height: 44px; padding: 20px 24px; }
+    .hub-verder-label { color: var(--accent); font-size: .8125rem; font-weight: 600; }
+    .kaart-binnenkort { cursor: default; opacity: .8; }
+    /* Comit: een eigen knop in het midden onder de drie jaren, met een rand in teal naar blauw. */
+    .hub-comit { display: flex; justify-content: center; margin-top: 28px; animation: rise 400ms var(--ease) 150ms both; }
+    .hub-comit-knop { display: flex; align-items: center; gap: 14px; width: min(100%, 480px); min-height: 72px; padding: 12px 14px 12px 12px; border: 1.5px solid var(--transparent); border-radius: var(--pill); background: linear-gradient(var(--card), var(--card)) padding-box, linear-gradient(135deg, var(--teal), var(--accent)) border-box; color: var(--ink); text-decoration: none; box-shadow: 0 10px 28px var(--shadow-primary-color); transition: transform 200ms var(--ease), box-shadow 200ms var(--ease); }
+    .hub-comit-logo { display: grid; flex: 0 0 48px; place-items: center; width: 48px; height: 48px; border-radius: 50%; background: var(--accent-zacht); transition: transform 200ms var(--ease); }
+    .hub-comit-tekst { display: grid; flex: 1 1 auto; gap: 2px; min-width: 0; }
+    .hub-comit-titel { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; font-size: 1.0625rem; font-weight: 600; line-height: 1.3; }
+    .hub-comit-titel .label { flex: 0 0 auto; padding: 3px 8px; }
+    .hub-comit-sub { color: var(--ink-soft); font-size: .875rem; line-height: 1.4; }
+    .hub-comit-knop .pijl { background: var(--accent); color: var(--white); }
+    :where(html.has-hover) .hub-comit-knop:hover { transform: translateY(-2px); box-shadow: 0 14px 34px var(--shadow-primary-hover-color); }
+    :where(html.has-hover) .hub-comit-knop:hover .hub-comit-logo { transform: rotate(-6deg); }
+    :where(html.has-hover) .hub-comit-knop:hover .pijl { transform: translateX(2px); }
+    .hub-comit-knop:active { transform: scale(.98); }
+    @media (max-width: 600px) {
+      .hub-comit-knop { gap: 10px; }
+      .hub-comit-titel { font-size: 1rem; }
+      .hub-comit-titel .label { padding-inline: 6px; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .hub-comit { animation: none; }
+      .hub-comit-knop, .hub-comit-logo, .hub-comit-knop .pijl { transition: none; }
+      .hub-comit-knop:is(:hover, :active), .hub-comit-knop:hover .hub-comit-logo, .hub-comit-knop:hover .pijl { transform: none; }
+    }
+    .kaart-binnenkort .kaart-label { flex: 0 0 auto; padding: 4px 10px; border-radius: var(--radius-pill); background: var(--surface); color: var(--ink-soft); font-size: .75rem; font-weight: 600; line-height: 1.4; white-space: nowrap; }
+
+
+
+    .hub-updates {
+      display: grid;
+      gap: 0;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    /* Label en datum links in één kolom, de tekst ernaast bovenaan; een dun lijntje tussen de regels. */
+    .hub-update {
+      display: grid;
+      grid-template-columns: 150px minmax(0, 1fr);
+      gap: 20px;
+      padding: 16px 0;
+      font-size: .9375rem;
+      line-height: 1.6;
+    }
+    .hub-update:first-child { padding-top: 0; }
+    .hub-update + .hub-update { border-top: 1px solid var(--line); }
+    .hub-update > span:last-child { padding-top: 1px; }
+
+    .update-meta { display: grid; gap: 4px; justify-items: start; align-content: start; }
+    .update-datum { color: var(--ink-soft); font-size: .8125rem; line-height: 1.5; }
+    .update-label { display: inline-flex; padding: 2px 8px; border-radius: var(--radius-pill); font-size: 11px; font-weight: 600; line-height: 1.5; }
+    .update-label-nieuw { background: var(--teal-zacht); color: var(--teal-tekst); }
+    .update-label-verbeterd { background: var(--surface); color: var(--ink-soft); }
+    .hub-updates-knop { margin-top: 24px; }
+    .hub-update.is-net-zichtbaar { animation: menu-open 200ms var(--ease) both; }
+
+    @media (max-width: 767px) {
+      .hub-update { grid-template-columns: minmax(0, 1fr); gap: 6px; padding: 14px 0; }
+      .update-meta { grid-auto-flow: column; align-items: center; gap: 8px; }
+    }
+
+    .hub-intro { margin: 0 -24px; }
+
+    html.versie-check body { visibility: hidden; }
+
+    /* Na het welkomstscherm komt de navigatiebalk voor het eerst in beeld. */
+    html.nav-intro .site-header { animation: nav-binnen 700ms var(--ease) 350ms both; }
+    @keyframes nav-binnen {
+      from { opacity: 0; transform: translateY(-18px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      html.nav-intro .site-header { animation: none; }
+      .kaart.jaar, .jaar-pijl { transition: none; }
+      .hub-update.is-net-zichtbaar { animation: none; }
+      a.kaart.jaar:hover, a.kaart.jaar:active, a.kaart.jaar:hover .jaar-pijl { transform: none !important; }
+    }
+  </style>
+</head>
+<body>
+  <a class="skip-link" href="#inhoud">Ga naar inhoud</a>
+  <header class="site-header">
+    <nav class="navigation" aria-label="Hoofdnavigatie">
+      <a class="brand" href="index.html" aria-label="Berie's Exam Space, startpagina">
+        <span class="brand-symbol" aria-hidden="true">B</span>
+        <span class="brand-name"><span>Berie's</span> <span>Exam Space</span></span>
+      </a>
+      <a class="home-knop" href="hub.html" aria-label="Home" title="Home">
+        <svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 10.5 12 3l9 7.5M5 9v12h5v-7h4v7h5V9"/></svg>
+      </a>
+      <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="site-menu">Menu</button>
+      <ul class="navigation-links" id="site-menu">
+        <li><a href="hub.html#hoe-werkt-het">Hoe werkt het</a></li>
+        <li><a href="hub.html#wie-is-berie">Over mij</a></li>
+        <li><a href="whatsapp.html">WhatsApp-groep</a></li>
+      </ul>
+      <a class="pill login-button" href="inloggen.html">Inloggen&nbsp; →</a>
+    </nav>
+  </header>
+
+  <main id="inhoud" class="pagina" aria-labelledby="begroeting">
+    <div class="wrap">
+      <header class="pagina-kop">
+        <h1 id="begroeting">Welkom.</h1>
+        <p id="hub-vraag">In welk jaar zit je?</p>
+      </header>
+
+      <div class="hub-verder" id="hub-verder" hidden>
+        <a class="kaart kaart-pijl" id="hub-verder-link">
+          <span class="kaart-tekst">
+            <span class="hub-verder-label">Verder oefenen</span>
+            <span class="kaart-titel" id="hub-verder-vak"></span>
+            <span class="kaart-sub" id="hub-verder-sub">Kies je oefenvorm en hoofdstukken.</span>
+          </span>
+          <span class="pijl" aria-hidden="true">→</span>
+        </a>
+      </div>
+
+      <section class="rijst hub-sectie" id="kies-je-jaar" aria-label="Kies je jaar">
+        <div class="rooster-3">
+          <a class="kaart jaar" href="jaar-1ba.html" data-jaar="1ba">
+            <span class="jaar-band">
+              <span class="jaar-nummer">1</span>
+              <span class="label">Laatst gekozen</span>
+            </span>
+            <span class="kaart-tekst jaar-body">
+              <span class="kaart-titel">1ste bachelor</span>
+              <span class="kaart-sub">Alle vakken van dit jaar</span>
+              <span class="jaar-link">Bekijk vakken <span class="jaar-pijl" aria-hidden="true">→</span></span>
+            </span>
+          </a>
+          <a class="kaart jaar" href="jaar-2ba.html" data-jaar="2ba">
+            <span class="jaar-band">
+              <span class="jaar-nummer">2</span>
+              <span class="label">Laatst gekozen</span>
+            </span>
+            <span class="kaart-tekst jaar-body">
+              <span class="kaart-titel">2de bachelor</span>
+              <span class="kaart-sub">Alle vakken van dit jaar</span>
+              <span class="jaar-link">Bekijk vakken <span class="jaar-pijl" aria-hidden="true">→</span></span>
+            </span>
+          </a>
+          <a class="kaart jaar" href="jaar-3ba.html" data-jaar="3ba">
+            <span class="jaar-band">
+              <span class="jaar-nummer">3</span>
+              <span class="label">Laatst gekozen</span>
+            </span>
+            <span class="kaart-tekst jaar-body">
+              <span class="kaart-titel">3de bachelor</span>
+              <span class="kaart-sub">Alle vakken van dit jaar</span>
+              <span class="jaar-link">Bekijk vakken <span class="jaar-pijl" aria-hidden="true">→</span></span>
+            </span>
+          </a>
+        </div>
+        <div class="hub-comit">
+          <a class="hub-comit-knop" href="comit.html">
+            <span class="hub-comit-logo" data-hub-comit-logo aria-hidden="true"></span>
+            <span class="hub-comit-tekst">
+              <span class="hub-comit-titel"><span>Praat met Comit</span> <span class="label">Demo</span></span>
+              <span class="hub-comit-sub">Je studiemaatje voor leren en je vakken.</span>
+            </span>
+            <span class="pijl" aria-hidden="true">→</span>
+          </a>
+        </div>
+      </section>
+
+      <section class="sectie" aria-labelledby="tools-kop">
+        <h2 class="sectie-kop" id="tools-kop">Tools</h2>
+        <div class="rooster-2">
+          <a class="kaart kaart-pijl" href="reken.html">
+            <span class="kaart-tekst">
+              <span class="kaart-titel">Reken je punten</span>
+              <span class="kaart-sub">Bereken je gewogen gemiddelde en of je gedelibereerd wordt.</span>
+            </span>
+            <span class="pijl" aria-hidden="true">→</span>
+          </a>
+          <a class="kaart kaart-pijl" href="examen-info.html">
+            <span class="kaart-tekst">
+              <span class="kaart-titel">Examen-info</span>
+              <span class="kaart-sub">Deliberatie, tweede zit, puntenblad, inzage en beroep.</span>
+            </span>
+            <span class="pijl" aria-hidden="true">→</span>
+          </a>
+          <a class="kaart kaart-pijl" href="leren.html">
+            <span class="kaart-tekst">
+              <span class="kaart-titel">Leren leren</span>
+              <span class="kaart-sub">Slim studeren, focus en hulp als het even niet gaat.</span>
+            </span>
+            <span class="pijl" aria-hidden="true">→</span>
+          </a>
+          <a class="kaart kaart-pijl" href="fouten.html">
+            <span class="kaart-tekst">
+              <span class="kaart-titel">Foutenlijst</span>
+              <span class="kaart-sub">Alle vragen die je fout had, per vak. Werk ze gericht weg.</span>
+            </span>
+            <span class="pijl" aria-hidden="true">→</span>
+          </a>
+          <a class="kaart kaart-pijl" href="examenplan.html">
+            <span class="kaart-tekst">
+              <span class="kaart-titel">Jouw examenplan</span>
+              <span class="kaart-sub">Een plan per dag tot je examen, met je zwakste hoofdstukken eerst.</span>
+            </span>
+            <span class="pijl" aria-hidden="true">→</span>
+          </a>
+          <a class="kaart kaart-pijl" href="boeken.html">
+            <span class="kaart-tekst">
+              <span class="kaart-titel">Verkoop je boeken</span>
+              <span class="kaart-sub">Verkoop je studieboeken aan andere studenten, of vind er een tweedehands.</span>
+            </span>
+            <span class="pijl" aria-hidden="true">→</span>
+          </a>
+          <a class="kaart kaart-pijl" href="sjablonen.html">
+            <span class="kaart-tekst">
+              <span class="kaart-titel">Sjablonen</span>
+              <span class="kaart-sub">Vaste opmaak voor je opdrachten, zoals groepswerk. Download en vul in.</span>
+            </span>
+            <span class="pijl" aria-hidden="true">→</span>
+          </a>
+        </div>
+      </section>
+
+      <section class="sectie hub-sectie" id="hoe-werkt-het" aria-labelledby="hoe-werkt-het-kop">
+        <h2 class="sectie-kop" id="hoe-werkt-het-kop">Hoe werkt het</h2>
+        <section class="hub-intro" id="hub-intro" aria-roledescription="carrousel" aria-label="Hoe werkt het"></section>
+
+      </section>
+
+      <section class="sectie hub-sectie hub-wie" id="wie-is-berie" aria-labelledby="wie-kop">
+        <div class="kaart hub-wie-kaart">
+          <div class="hub-wie-tekst">
+            <h2 id="wie-kop">Wie is Berie?</h2>
+            <p>Ik ben Berie. Ik heb industriële automatisering gestudeerd en studeer nu engineering. Sinds kort bouw ik ook websites. Zin om te horen hoe dat zo kwam?</p>
+            <a class="knop-secundair" href="over-mij.html">Lees verder →</a>
+          </div>
+          <div class="hub-wie-foto">
+            <img src="assets/berie-foto.jpg?v=80" width="920" height="1239" alt="Berie in profiel, in de schaduw voor een donkerrode achtergrond" loading="lazy" decoding="async">
+          </div>
+        </div>
+      </section>
+
+      <section class="sectie hub-sectie" id="nieuw" aria-labelledby="nieuw-kop">
+        <h2 class="sectie-kop" id="nieuw-kop">Wat is nieuw</h2>
+        <div class="kaart">
+          <ul class="hub-updates" id="hub-updates"></ul>
+          <button class="knop-secundair hub-updates-knop" id="hub-updates-knop" type="button" aria-expanded="false" aria-controls="hub-updates" hidden>Alles bekijken →</button>
+        </div>
+      </section>
+
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <p class="footer-brand">Berie's Exam Space</p>
+    <div class="footer-details">
+      <p>Duidelijk leren. Rustig groeien.</p>
+      <p class="project-label">Een project van The Berie Foundation</p>
+    </div>
+  </footer>
+
+  <script>
+    (() => {
+      const bes = window.BES || {};
+      const begroeting = document.getElementById('begroeting');
+      const vraag = document.getElementById('hub-vraag');
+      const updateBegroeting = user => {
+        const gegevens = user && typeof bes.auth?.naamGegevens === 'function' ? bes.auth.naamGegevens(user) : null;
+        const naam = gegevens && (gegevens.gesplitst || gegevens.bijnaam) ? gegevens.aanspreeknaam : '';
+        begroeting.textContent = naam ? 'Welkom terug, ' + naam + '.' : user ? 'Welkom terug.' : 'Welkom.';
+        vraag.textContent = user ? 'Wat gaan we vandaag oefenen?' : 'In welk jaar zit je?';
+      };
+      updateBegroeting();
+      window.addEventListener('bes:auth', event => updateBegroeting(event.detail?.user));
+
+      const verder = document.getElementById('hub-verder');
+      const verderLink = document.getElementById('hub-verder-link');
+      const verderVak = document.getElementById('hub-verder-vak');
+      const verderSub = document.getElementById('hub-verder-sub');
+      const verderVakken = (bes.vakken || []).filter(vak => vak.v2 === true);
+      let verderEigenaar = null;
+      let verderGeneratie = 0;
+      let verderSessieVak = null;
+      let verderSessieOpgevraagd = false;
+      let authOntvangen = false;
+      const lokaalVerderVak = () => {
+        try {
+          const laatstGeoefend = JSON.parse(window.localStorage.getItem('bes_laatst_geoefend_' + verderEigenaar));
+          const vak = verderVakken.find(item => item.id === laatstGeoefend?.vak);
+          return vak ? { vak, t: Date.parse(laatstGeoefend.t) || 0 } : null;
+        } catch { return null; }
+      };
+      const laadVerderSessie = async () => {
+        const client = bes.auth?.client;
+        if (!verderEigenaar || !client || verderSessieOpgevraagd || !verderVakken.length) return;
+        const eigenaar = verderEigenaar;
+        const generatie = verderGeneratie;
+        verderSessieOpgevraagd = true;
+        try {
+          const { data: sessies, error } = await client.from('sessies').select('vak,gemaakt_op')
+            .eq('user_id', eigenaar).in('vak', verderVakken.map(vak => vak.id))
+            .order('gemaakt_op', { ascending: false }).limit(1);
+          if (generatie !== verderGeneratie || eigenaar !== verderEigenaar) return;
+          if (!error) {
+            const vak = verderVakken.find(item => item.id === sessies?.[0]?.vak);
+            verderSessieVak = vak ? { vak, t: Date.parse(sessies[0].gemaakt_op) || 0 } : null;
+          }
+        } catch {}
+        if (generatie === verderGeneratie && eigenaar === verderEigenaar) updateVerderOefenen();
+      };
+      const updateVerderOefenen = () => {
+        verder.hidden = true;
+        verderLink.removeAttribute('href');
+        verderVak.textContent = '';
+        verderSub.textContent = '';
+        if (!verderEigenaar) return;
+        // Het recentste van twee: de laatst gestarte ronde op dit toestel of de laatste afgeronde ronde van het account.
+        const lokaal = lokaalVerderVak();
+        const vak = (lokaal && (!verderSessieVak || lokaal.t >= verderSessieVak.t) ? lokaal : verderSessieVak)?.vak || null;
+        verderVak.textContent = vak ? vak.naam : 'Kies een vak';
+        verderSub.textContent = vak ? 'Kies je oefenvorm en hoofdstukken.' : 'Ga naar je jaar en kies een vak om te oefenen.';
+        verderLink.href = vak ? 'vak/' + vak.id + '/' : '#kies-je-jaar';
+        verder.hidden = false;
+        laadVerderSessie();
+      };
+      const verderVoorGebruiker = user => {
+        const eigenaar = typeof user?.id === 'string' && user.id ? user.id : null;
+        if (eigenaar !== verderEigenaar) {
+          verderEigenaar = eigenaar;
+          verderGeneratie += 1;
+          verderSessieVak = null;
+          verderSessieOpgevraagd = false;
+        }
+        updateVerderOefenen();
+      };
+      window.addEventListener('bes:auth', event => {
+        authOntvangen = true;
+        verderVoorGebruiker(event.detail?.uitloggen ? null : event.detail?.user);
+      });
+      document.addEventListener('DOMContentLoaded', () => {
+        Promise.resolve(bes.auth?.gebruiker?.()).then(user => {
+          if (!authOntvangen) verderVoorGebruiker(user);
+        }).catch(() => {});
+      }, { once: true });
+      window.addEventListener('storage', event => {
+        if (event.key === null || event.key === 'bes_laatst_geoefend_' + verderEigenaar) updateVerderOefenen();
+      });
+      window.addEventListener('pageshow', updateVerderOefenen);
+
+      const kaarten = Array.from(document.querySelectorAll('.jaar[data-jaar]'));
+      const laatst = typeof bes.jaarOphalen === 'function' ? bes.jaarOphalen() : null;
+      kaarten.forEach(kaart => {
+        kaart.classList.toggle('is-laatst', kaart.dataset.jaar === laatst);
+        kaart.addEventListener('click', () => {
+          if (typeof bes.jaarOpslaan === 'function') bes.jaarOpslaan(kaart.dataset.jaar);
+        });
+      });
+
+      // auth.js is uitgesteld geladen; pas na DOMContentLoaded is BES.auth er.
+      if (window.BES_VERSIE_CHECK) document.addEventListener('DOMContentLoaded', () => {
+        const versie = window.BES_VERSIE || 0;
+        const auth = window.BES.auth;
+        const klaar = new Promise(resolve => window.setTimeout(resolve, 2000));
+        Promise.race([auth?.gereed || klaar, klaar]).then(() => {
+          if ((auth?.versieGezien || 0) >= versie) {
+            try { window.localStorage.setItem('bes_versie_gezien', String(versie)); } catch {}
+            document.documentElement.classList.remove('versie-check');
+          } else {
+            window.location.replace('nieuw.html' + window.location.hash);
+          }
+        });
+      });
+
+      window.BES.carrousel(document.getElementById('hub-intro'), { soorten: ['uitleg'] });
+
+      const updates = document.getElementById('hub-updates');
+      const updatesKnop = document.getElementById('hub-updates-knop');
+      const extraUpdates = [];
+      (window.BES_UPDATES || []).forEach((update, index) => {
+        const item = window.BES.updateRij(update, 'hub');
+        if (index >= 4) {
+          item.hidden = true;
+          extraUpdates.push(item);
+        }
+        updates.append(item);
+      });
+      updatesKnop.hidden = extraUpdates.length === 0;
+      updatesKnop.addEventListener('click', () => {
+        const uitgevouwen = updatesKnop.getAttribute('aria-expanded') !== 'true';
+        extraUpdates.forEach(item => {
+          item.hidden = !uitgevouwen;
+          item.classList.toggle('is-net-zichtbaar', uitgevouwen);
+        });
+        updatesKnop.setAttribute('aria-expanded', String(uitgevouwen));
+        updatesKnop.textContent = uitgevouwen ? 'Minder tonen' : 'Alles bekijken →';
+      });
+
+      const motion = window.matchMedia('(prefers-reduced-motion: reduce)');
+      const sectionForHash = hash => {
+        if (hash !== '#nieuw' && hash !== '#hoe-werkt-het' && hash !== '#wie-is-berie') return null;
+        return document.getElementById(hash.slice(1));
+      };
+      let scrollRequest = 0;
+      const scrollToSection = async section => {
+        const request = ++scrollRequest;
+        if (!motion.matches) {
+          await Promise.allSettled(section.getAnimations().map(animation => animation.finished));
+        }
+        if (request !== scrollRequest) return;
+        section.scrollIntoView({ behavior: motion.matches ? 'auto' : 'smooth', block: 'start' });
+      };
+      let clickedNavigation = false;
+
+      document.querySelectorAll('.navigation-links a[href]').forEach(link => {
+        const target = new URL(link.href, window.location.href);
+        const section = sectionForHash(target.hash);
+        if (!section || target.pathname !== window.location.pathname || target.origin !== window.location.origin) return;
+        link.addEventListener('click', event => {
+          if (event.button !== 0 || event.ctrlKey || event.metaKey || event.shiftKey || event.altKey) return;
+          event.preventDefault();
+          clickedNavigation = true;
+          scrollToSection(section);
+        });
+      });
+
+      const arrivalSection = sectionForHash(window.location.hash);
+      if (arrivalSection) {
+        const afterLayout = () => {
+          Promise.resolve(document.fonts?.ready).then(() => {
+            window.requestAnimationFrame(() => window.requestAnimationFrame(() => {
+              if (!clickedNavigation) scrollToSection(arrivalSection);
+            }));
+          });
+        };
+        if (document.readyState === 'complete') afterLayout();
+        else window.addEventListener('load', afterLayout, { once: true });
+      }
+    })();
+  </script>
+  <script>
+    // Comit-logo in de knop onder de jaren (BES.comitLogo uit assets/comit.js).
+    document.addEventListener("DOMContentLoaded", () => {
+      if (typeof window.BES?.comitLogo !== "function") return;
+      document.querySelectorAll("[data-hub-comit-logo]").forEach((plek) => plek.append(window.BES.comitLogo(30)));
+    });
+  </script>
+</body>
+</html>

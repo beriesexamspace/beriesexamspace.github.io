@@ -1,0 +1,157 @@
+<!doctype html>
+<html lang="nl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex">
+  <meta name="theme-color" content="#FFFFFF">
+  <script>
+    (() => {
+      let keuze;
+      try { keuze = window.localStorage.getItem('bes_thema'); } catch {}
+      const donker = keuze === 'donker' || (keuze !== 'licht' && window.matchMedia('(prefers-color-scheme: dark)').matches);
+      document.documentElement.dataset.theme = donker ? 'dark' : 'light';
+      document.querySelector('meta[name="theme-color"]').content = donker ? '#0B0B0C' : '#FFFFFF';
+    })();
+  </script>
+  <title>Comit-schetsen | Berie's Exam Space</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/style.css?v=80">
+  <style>
+    body { margin: 0; padding: 48px 16px 64px; }
+    .wrap { max-width: 1000px; margin: 0 auto; }
+    h1 { margin: 0 0 8px; font-size: 2rem; letter-spacing: -.02em; }
+    .sub { margin: 0 0 36px; color: var(--ink-soft); line-height: 1.6; }
+    .rooster { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 20px; }
+    .schets { display: flex; flex-direction: column; align-items: center; gap: 16px; padding: 28px 20px 24px; text-align: center; }
+    .schets h2 { margin: 0; font-size: 1.125rem; }
+    .schets p { margin: 0; color: var(--ink-soft); font-size: .875rem; line-height: 1.5; max-width: 26ch; }
+    .podium { display: grid; place-items: center; width: 200px; height: 200px; border-radius: 24px; background: var(--surface); }
+    .comit { width: 160px; height: 160px; transform-origin: 50% 85%; }
+    .knoppen { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; }
+    .knoppen button { min-height: 36px; padding: 0 14px; border: 1px solid var(--line); border-radius: var(--radius-pill); background: var(--card, var(--white)); color: var(--ink); font: inherit; font-size: .8125rem; font-weight: 500; cursor: pointer; }
+    .knoppen button:hover { background: var(--surface); }
+    .knoppen button:active { transform: scale(.97); }
+
+    /* Ogen knipperen rustig vanzelf */
+    .oog { transform-origin: center; animation: knipper 5s ease-in-out infinite; }
+    @keyframes knipper { 0%, 92%, 100% { transform: scaleY(1); } 95% { transform: scaleY(.1); } }
+
+    /* Vier bewegingen, elk maximaal 700ms */
+    .comit.verschijnen { animation: verschijnen 600ms cubic-bezier(.22, 1, .36, 1) both; }
+    @keyframes verschijnen { from { opacity: 0; transform: scale(.6); } to { opacity: 1; transform: scale(1); } }
+
+    .comit.knikken { animation: knikken 700ms ease-in-out both; }
+    @keyframes knikken { 0%, 100% { transform: rotate(0); } 25% { transform: rotate(6deg); } 50% { transform: rotate(-6deg); } 75% { transform: rotate(6deg); } }
+
+    .comit.blij { animation: blij 600ms cubic-bezier(.22, 1, .36, 1) both; }
+    .comit.blij .oog { animation: blij-oog 600ms ease-in-out both; }
+    @keyframes blij { 0%, 100% { transform: translateY(0); } 40% { transform: translateY(-8px); } 70% { transform: translateY(0); } 85% { transform: translateY(-3px); } }
+    @keyframes blij-oog { 0%, 100% { transform: scaleY(1); } 30%, 70% { transform: scaleY(.15); } }
+
+    .comit.meeleven { animation: meeleven 700ms ease-in-out both; }
+    @keyframes meeleven { 0% { transform: rotate(0); } 35% { transform: rotate(4deg) translateY(2px); } 100% { transform: rotate(0); } }
+
+    @media (prefers-reduced-motion: reduce) {
+      .oog { animation: none; }
+      .comit.verschijnen { animation: alleen-opacity 400ms ease both; }
+      .comit.knikken, .comit.blij, .comit.meeleven { animation: alleen-opacity 400ms ease both; }
+      .comit.blij .oog { animation: none; }
+      @keyframes alleen-opacity { from { opacity: .4; } to { opacity: 1; } }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <h1>Comit, drie schetsen</h1>
+    <p class="sub">Alleen uiterlijk en beweging, om uit te kiezen. Klik op een beweging om die af te spelen. Niet gelinkt vanaf de site.</p>
+
+    <div class="rooster">
+      <div class="kaart schets">
+        <div class="podium">
+          <svg class="comit" viewBox="0 0 160 160" aria-label="Schets 1: Bol">
+            <defs><radialGradient id="bol-glans" cx="38%" cy="32%" r="70%"><stop offset="0" stop-color="#8fdad5"/><stop offset="1" stop-color="#3fb9b2"/></radialGradient></defs>
+            <ellipse cx="80" cy="140" rx="34" ry="6" fill="rgba(0,0,0,.12)"/>
+            <path d="M80 26c34 0 54 24 54 54 0 32-22 52-54 52S26 112 26 80c0-30 20-54 54-54z" fill="url(#bol-glans)"/>
+            <g class="oog"><ellipse cx="64" cy="78" rx="6" ry="8" fill="#0b0b0c"/><circle cx="66" cy="75" r="2" fill="#fff"/></g>
+            <g class="oog"><ellipse cx="96" cy="78" rx="6" ry="8" fill="#0b0b0c"/><circle cx="98" cy="75" r="2" fill="#fff"/></g>
+            <path d="M72 98q8 6 16 0" fill="none" stroke="#0b0b0c" stroke-width="3" stroke-linecap="round"/>
+            <circle cx="52" cy="92" r="4" fill="#ff8f8f" opacity=".55"/><circle cx="108" cy="92" r="4" fill="#ff8f8f" opacity=".55"/>
+          </svg>
+        </div>
+        <h2>1. Bol</h2>
+        <p>Zachte ronde vorm, twee ogen, klein mondje. Rustig en vriendelijk.</p>
+        <div class="knoppen" data-doel="0">
+          <button type="button" data-beweging="verschijnen">Verschijnen</button>
+          <button type="button" data-beweging="knikken">Knikken</button>
+          <button type="button" data-beweging="blij">Blij</button>
+          <button type="button" data-beweging="meeleven">Meeleven</button>
+        </div>
+      </div>
+
+      <div class="kaart schets">
+        <div class="podium">
+          <svg class="comit" viewBox="0 0 160 160" aria-label="Schets 2: Uil">
+            <ellipse cx="80" cy="142" rx="30" ry="5" fill="rgba(0,0,0,.12)"/>
+            <path d="M48 44 L58 28 L70 42z" fill="#3fb9b2"/><path d="M112 44 L102 28 L90 42z" fill="#3fb9b2"/>
+            <path d="M80 34c30 0 46 22 46 52 0 30-16 50-46 50S34 116 34 86c0-30 16-52 46-52z" fill="#3fb9b2"/>
+            <ellipse cx="80" cy="104" rx="26" ry="26" fill="#bfe8e5"/>
+            <circle cx="64" cy="76" r="15" fill="#fff"/><circle cx="96" cy="76" r="15" fill="#fff"/>
+            <g class="oog"><circle cx="65" cy="77" r="8" fill="#0b0b0c"/><circle cx="68" cy="73" r="2.5" fill="#fff"/></g>
+            <g class="oog"><circle cx="97" cy="77" r="8" fill="#0b0b0c"/><circle cx="100" cy="73" r="2.5" fill="#fff"/></g>
+            <path d="M74 92 L80 100 L86 92z" fill="#f2c878"/>
+            <path d="M52 132 q4 -8 12 -4 M96 128 q8 -4 12 4" fill="none" stroke="#f2c878" stroke-width="3" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <h2>2. Uil</h2>
+        <p>Kleine uil met grote ronde ogen, lichtere buik en twee oortjes. Slim en alert.</p>
+        <div class="knoppen" data-doel="1">
+          <button type="button" data-beweging="verschijnen">Verschijnen</button>
+          <button type="button" data-beweging="knikken">Knikken</button>
+          <button type="button" data-beweging="blij">Blij</button>
+          <button type="button" data-beweging="meeleven">Meeleven</button>
+        </div>
+      </div>
+
+      <div class="kaart schets">
+        <div class="podium">
+          <svg class="comit" viewBox="0 0 160 160" aria-label="Schets 3: Vonk">
+            <defs><radialGradient id="vonk-gloed" cx="50%" cy="60%" r="55%"><stop offset="0" stop-color="#3fb9b2" stop-opacity=".35"/><stop offset="1" stop-color="#3fb9b2" stop-opacity="0"/></radialGradient></defs>
+            <circle cx="80" cy="92" r="64" fill="url(#vonk-gloed)"/>
+            <path d="M80 18c10 26 40 44 40 76a40 40 0 0 1-80 0c0-32 30-50 40-76z" fill="#3fb9b2"/>
+            <path d="M80 48c6 16 22 28 22 46a22 22 0 0 1-44 0c0-18 16-30 22-46z" fill="#8fdad5" opacity=".7"/>
+            <g class="oog"><circle cx="80" cy="98" r="13" fill="#fff"/><circle cx="82" cy="99" r="7" fill="#0b0b0c"/><circle cx="85" cy="95" r="2.5" fill="#fff"/></g>
+            <path d="M70 118q10 6 20 0" fill="none" stroke="#0b0b0c" stroke-width="2.5" stroke-linecap="round" opacity=".7"/>
+          </svg>
+        </div>
+        <h2>3. Vonk</h2>
+        <p>Druppel- of vlamvorm met één groot oog en een lichte gloed. Energiek en nieuwsgierig.</p>
+        <div class="knoppen" data-doel="2">
+          <button type="button" data-beweging="verschijnen">Verschijnen</button>
+          <button type="button" data-beweging="knikken">Knikken</button>
+          <button type="button" data-beweging="blij">Blij</button>
+          <button type="button" data-beweging="meeleven">Meeleven</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const figuren = Array.from(document.querySelectorAll('.comit'));
+    const bewegingen = ['verschijnen', 'knikken', 'blij', 'meeleven'];
+    document.querySelectorAll('.knoppen').forEach(groep => {
+      const figuur = figuren[Number(groep.dataset.doel)];
+      groep.addEventListener('click', event => {
+        const knop = event.target.closest('[data-beweging]');
+        if (!knop || !figuur) return;
+        figuur.classList.remove(...bewegingen);
+        void figuur.getBoundingClientRect();
+        figuur.classList.add(knop.dataset.beweging);
+      });
+      figuur?.addEventListener('animationend', () => figuur.classList.remove(...bewegingen));
+    });
+  </script>
+</body>
+</html>

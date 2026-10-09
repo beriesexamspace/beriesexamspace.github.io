@@ -1,0 +1,235 @@
+<!doctype html>
+<html lang="nl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script src="../../assets/deur.js?v=80"></script>
+  <link rel="apple-touch-icon" href="/assets/icoon-180.png">
+  <link rel="manifest" href="/manifest.webmanifest">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Berie's Exam Space">
+  <meta property="og:title" content="Psychopathologie van kinderen en adolescenten | Berie's Exam Space">
+  <meta property="og:description" content="Oefen per hoofdstuk, bekijk studie-hacks en herhaal de theorie in Berie's Exam Space.">
+  <meta property="og:image" content="https://beriesexamspace.com/assets/deel.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:url" content="https://beriesexamspace.com/vak/ppka/">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="description" content="Oefen per hoofdstuk, bekijk studie-hacks en herhaal de theorie in Berie's Exam Space.">
+  <meta name="theme-color" content="#FFFFFF">
+  <script>
+    (() => {
+      let keuze;
+      try { keuze = window.localStorage.getItem('bes_thema'); } catch {}
+      const donker = keuze === 'donker' || (keuze !== 'licht' && window.matchMedia('(prefers-color-scheme: dark)').matches);
+      document.documentElement.dataset.theme = donker ? 'dark' : 'light';
+      document.querySelector('meta[name="theme-color"]').content = donker ? '#0B0B0C' : '#FFFFFF';
+    })();
+  </script>
+  <meta name="robots" content="noindex">
+  <title>Psychopathologie van kinderen en adolescenten | Berie's Exam Space</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../assets/style.css?v=80">
+  <link rel="stylesheet" href="../../assets/vak.css?v=80">
+  <script src="../../assets/app.js?v=80"></script>
+  <script src="../../assets/config.js?v=80" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js" defer></script>
+  <script src="../../assets/auth.js?v=80" defer></script>
+  <script src="../../assets/plan.js?v=80" defer></script>
+  <script src="../../assets/activiteit.js?v=80" defer></script>
+  <script src="data.js?v=80" defer></script>
+  <script src="../../assets/comit.js?v=80" defer></script>
+  <script src="../../assets/vak.js?v=80" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#inhoud">Ga naar inhoud</a>
+  <header class="site-header">
+    <nav class="navigation" aria-label="Hoofdnavigatie">
+      <a class="brand" href="../../index.html" aria-label="Berie's Exam Space, startpagina">
+        <span class="brand-symbol" aria-hidden="true">B</span>
+        <span class="brand-name"><span>Berie's</span> <span>Exam Space</span></span>
+      </a>
+      <a class="home-knop" href="../../hub.html" aria-label="Home" title="Home">
+        <svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 10.5 12 3l9 7.5M5 9v12h5v-7h4v7h5V9"/></svg>
+      </a>
+      <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="site-menu">Menu</button>
+      <ul class="navigation-links" id="site-menu">
+        <li><a href="../../hub.html#hoe-werkt-het">Hoe werkt het</a></li>
+        <li><a href="../../hub.html#wie-is-berie">Over mij</a></li>
+        <li><a href="../../whatsapp.html">WhatsApp-groep</a></li>
+      </ul>
+      <a class="pill login-button" href="../../inloggen.html">Inloggen&nbsp; →</a>
+    </nav>
+  </header>
+
+  <main id="inhoud" class="pagina vak-pagina" aria-labelledby="vak-naam" data-niveaus>
+    <div class="wrap">
+      <a class="terug" id="vak-terug" href="../../jaar-1ba.html" data-terug="../../jaar-1ba.html" data-terug-tekst="Terug">← Terug</a>
+      <header class="pagina-kop">
+        <span class="label gedimd" id="vak-jaar"></span>
+        <h1 id="vak-naam"></h1>
+        <p id="vak-aantallen"></p>
+      </header>
+      <p class="kaart" id="vak-fout" role="status" hidden></p>
+      <noscript><p class="kaart">Schakel JavaScript in om de vragen van dit vak te bekijken.</p></noscript>
+
+      <div class="vak-tabs" id="vak-tabs" role="tablist" aria-label="Kies wat je wilt doen">
+        <button class="vak-tab" type="button" role="tab" id="tab-oefenen" aria-selected="true" aria-controls="paneel-oefenen">Oefenen</button>
+        <button class="vak-tab" type="button" role="tab" id="tab-hacks" aria-selected="false" aria-controls="paneel-hacks" tabindex="-1">Studie-hacks</button>
+        <button class="vak-tab" type="button" role="tab" id="tab-theorie" aria-selected="false" aria-controls="paneel-theorie" tabindex="-1">Theorie</button>
+      </div>
+
+      <section id="paneel-oefenen" role="tabpanel" aria-labelledby="tab-oefenen">
+        <div id="vak-keuzes">
+          <div class="kaart" id="vak-leeg" hidden>
+            <p>Voor dit vak staan nog geen vragen klaar.</p>
+            <a class="terug" href="../../jaar-1ba.html" data-vak-jaar-link>← Terug naar het jaar</a>
+          </div>
+          <div id="vak-instellingen">
+            <section class="sectie oefen-stap" id="stap-modus" aria-labelledby="modus-kop">
+              <p class="keuze-stap">Stap 1</p>
+              <h2 class="sectie-kop" id="modus-kop">Hoe wil je oefenen?</h2>
+              <p class="vak-hint" id="laatste-simulatie" hidden></p>
+              <div class="rooster-2" id="modus-keuzes" role="radiogroup" aria-labelledby="modus-kop">
+                <button class="kaart modus is-gekozen" type="button" role="radio" aria-checked="true" data-modus="training">
+                  <span class="modus-boven" aria-hidden="true"><span class="modus-icoon"><svg viewBox="0 0 24 24" width="24" height="24"><path d="M12 6c-3-2-6-2-9-1v15c3-1 6-1 9 1m0-15c3-2 6-2 9-1v15c-3-1-6-1-9 1V6"/></svg></span><span class="modus-vink"></span></span>
+                  <span class="kaart-titel">Examen Training</span>
+                  <span class="kaart-sub">Oefen de hoofdstukken die jij kiest. Na ieder antwoord krijg je feedback en uitleg.</span>
+                  <span class="modus-detail">Op jouw tempo</span>
+                </button>
+                <button class="kaart modus" type="button" role="radio" aria-checked="false" data-modus="simulatie" tabindex="-1">
+                  <span class="modus-boven" aria-hidden="true"><span class="modus-icoon"><svg viewBox="0 0 24 24" width="24" height="24"><rect x="5" y="4" width="14" height="17" rx="2"/><path d="M9 4V2h6v2M9 10h6M9 14h6M9 18h3"/></svg></span><span class="modus-vink"></span></span>
+                  <span class="kaart-titel">Examensimulatie</span>
+                  <span class="kaart-sub">Vragen uit alle beschikbare hoofdstukken. Je score en de uitleg zie je aan het einde.</span>
+                  <span class="modus-detail">Maximaal 20 vragen</span>
+                </button>
+              </div>
+            </section>
+
+            <section class="sectie oefen-stap" id="stap-niveau" aria-labelledby="niveau-kop" hidden>
+              <p class="keuze-stap">Stap 2</p>
+              <h2 class="sectie-kop" id="niveau-kop">Kies je niveau</h2>
+              <div class="niveau-keuzes" id="niveau-keuzes" role="radiogroup" aria-labelledby="niveau-kop" aria-describedby="niveau-uitleg">
+                <button class="niveau-keuze" type="button" role="radio" data-niveau="normaal" aria-checked="true">Normaal</button>
+                <button class="niveau-keuze" type="button" role="radio" data-niveau="hard" aria-checked="false" tabindex="-1">Hard mode</button>
+              </div>
+              <p class="vak-hint" id="niveau-uitleg">Oefen met de bestaande vragen en bouw je kennis op.</p>
+            </section>
+
+            <section class="sectie oefen-stap" id="stap-tijd" aria-labelledby="tijd-kop" hidden>
+              <p class="keuze-stap">Stap 3</p>
+              <h2 class="sectie-kop" id="tijd-kop">Hoe lang doe je erover?</h2>
+              <div class="niveau-keuzes" id="tijd-keuzes" role="radiogroup" aria-labelledby="tijd-kop">
+                <button class="niveau-keuze" type="button" role="radio" data-tijd="zonder" aria-checked="true" tabindex="0">Zonder tijd</button>
+                <button class="niveau-keuze" type="button" role="radio" data-tijd="met" aria-checked="false" tabindex="-1">Met tijd</button>
+              </div>
+              <div class="tijd-instellingen" id="tijd-instellingen" hidden>
+                <div class="tijd-label">
+                  <label for="tijd-per-vraag">Tijd per vraag</label>
+                  <output id="tijd-waarde" for="tijd-per-vraag">1 min 15 per vraag</output>
+                </div>
+                <input type="range" id="tijd-per-vraag" min="45" max="120" step="15" value="75" aria-describedby="tijd-totaal">
+                <p class="vak-hint" id="tijd-totaal"></p>
+              </div>
+            </section>
+
+            <section class="sectie oefen-stap" id="stap-hoofdstukken" aria-labelledby="hoofdstukken-kop" hidden>
+              <p class="keuze-stap">Stap 4</p>
+              <div class="vak-sectie-kop">
+                <div>
+                  <h2 class="sectie-kop" id="hoofdstukken-kop">Kies je hoofdstukken</h2>
+                  <p class="vak-hint" id="voortgang-niveau">Voortgang voor Normaal</p>
+                </div>
+                <div class="hoofdstuk-acties" id="hoofdstuk-acties">
+                  <button class="vak-tekstknop" type="button" id="kies-alles">Alles</button>
+                  <button class="vak-tekstknop" type="button" id="kies-niets">Niets</button>
+                </div>
+              </div>
+              <div id="hoofdstuk-selectie">
+                <div class="kaart-rij" id="hoofdstukken" role="group" aria-labelledby="hoofdstukken-kop"></div>
+              </div>
+              <p class="vak-hint" id="simulatie-uitleg" hidden>Simulatie gebruikt alle beschikbare hoofdstukken.</p>
+            </section>
+
+            <div class="kaart vak-start keuze-start oefen-stap" id="stap-start" hidden>
+              <div class="keuze-overzicht">
+                <p class="keuze-stap">Jouw oefening</p>
+                <dl id="keuze-samenvatting" aria-live="polite" aria-atomic="true"></dl>
+                <p class="vak-hint" id="keuze-aantal"></p>
+              </div>
+              <button class="knop" type="button" id="start-oefening" aria-describedby="keuze-samenvatting keuze-aantal start-hint">Start →</button>
+              <p class="vak-hint" id="start-hint" hidden>Kies minstens één hoofdstuk.</p>
+            </div>
+          </div>
+        </div>
+
+        <section class="oefenscherm" id="oefenscherm" aria-labelledby="vraag-tekst" hidden>
+          <button class="terug vak-tekstknop" type="button" id="stop-oefening">Stop</button>
+          <div class="kaart stop-bevestiging" id="stop-bevestiging" role="group" aria-labelledby="stop-tekst" hidden>
+            <p id="stop-tekst">Stoppen? Je voortgang van dit hoofdstuk blijft bewaard.</p>
+            <div class="vak-knoppen">
+              <button class="knop" type="button" id="stop-ja">Ja, stoppen</button>
+              <button class="knop-secundair" type="button" id="stop-nee">Verder oefenen</button>
+            </div>
+          </div>
+          <div class="voortgang-balk" id="vraag-balk" role="progressbar" aria-label="Voortgang van deze oefening" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><span></span></div>
+          <p class="eyebrow" id="vraag-teller"></p>
+          <p class="vak-hint tijdklok" id="tijdklok" aria-live="off" hidden></p>
+          <p class="vak-sr-only" id="tijd-melding" aria-live="polite" aria-atomic="true"></p>
+          <p class="label oefening-niveau" id="niveau-status"></p>
+          <p class="vak-hint" id="simulatie-melding" hidden>Examensimulatie: uitslag aan het einde.</p>
+          <h2 id="vraag-tekst" tabindex="-1"></h2>
+          <div class="opties" id="opties" role="group" aria-labelledby="vraag-tekst"></div>
+          <div class="kaart uitleg" id="uitleg" role="status" aria-live="polite" hidden>
+            <h3>Waarom</h3>
+            <p id="uitleg-tekst"></p>
+          </div>
+          <div class="vak-volgende"><button class="knop" type="button" id="volgende-vraag" hidden>Volgende →</button></div>
+        </section>
+
+        <section class="eindscherm" id="eindscherm" aria-labelledby="score-kop" hidden>
+          <svg class="vinkje" viewBox="0 0 64 64" aria-hidden="true"><circle cx="32" cy="32" r="30"></circle><path d="M20 33 l9 9 l17 -18"></path></svg>
+          <p class="vak-hint" id="tijd-om" hidden>De tijd was om. Onbeantwoorde vragen tellen als fout.</p>
+          <h2 id="score-kop" tabindex="-1"></h2>
+          <p class="label oefening-niveau" id="score-niveau"></p>
+          <p class="vak-hint" id="tijd-resultaat" hidden></p>
+          <p class="vak-score-tekst" id="score-tekst"></p>
+          <div class="score-hoofdstukken" id="score-hoofdstukken"></div>
+          <aside class="kaart comit" id="comit" aria-labelledby="comit-naam">
+            <span class="comit-gezicht" aria-hidden="true"></span>
+            <div class="comit-tekst">
+              <p class="comit-naam" id="comit-naam">Comit</p>
+              <div class="comit-regels" id="comit-regels"></div>
+              <p class="comit-tip" id="comit-tip"></p>
+              <button class="knop-secundair comit-knop" type="button" id="comit-knop"></button>
+            </div>
+          </aside>
+          <div class="vak-knoppen">
+            <button class="knop" type="button" id="fouten-opnieuw">Fouten opnieuw →</button>
+            <button class="knop-secundair" type="button" id="opnieuw">Opnieuw</button>
+          </div>
+          <button class="terug vak-tekstknop" type="button" id="terug-vak">Terug naar het vak</button>
+          <details class="simulatie-overzicht" id="simulatie-overzicht" hidden>
+            <summary>Bekijk alle vragen</summary>
+            <div class="kaart-rij" id="overzicht-vragen"></div>
+          </details>
+          <p class="vak-disclaimer">Dit is oefening. Het zegt niets over je punten op het echte examen.</p>
+        </section>
+      </section>
+
+      <section id="paneel-hacks" role="tabpanel" aria-labelledby="tab-hacks" hidden><div id="hacks-inhoud"></div></section>
+      <section id="paneel-theorie" role="tabpanel" aria-labelledby="tab-theorie" hidden><div id="theorie-inhoud"></div></section>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <p class="footer-brand">Berie's Exam Space</p>
+    <div class="footer-details">
+      <p>Duidelijk leren. Rustig groeien.</p>
+      <p class="project-label">Een project van The Berie Foundation</p>
+    </div>
+  </footer>
+</body>
+</html>

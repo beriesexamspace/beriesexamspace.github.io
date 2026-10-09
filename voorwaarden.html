@@ -1,0 +1,255 @@
+<!doctype html>
+<html lang="nl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="apple-touch-icon" href="/assets/icoon-180.png">
+  <link rel="manifest" href="/manifest.webmanifest">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Berie's Exam Space">
+  <meta property="og:title" content="Voorwaarden | Berie's Exam Space">
+  <meta property="og:description" content="Voorwaarden van Berie's Exam Space: de plannen, de proefmaand, betalen, opzeggen en bedenktijd.">
+  <meta property="og:image" content="https://beriesexamspace.com/assets/deel.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:url" content="https://beriesexamspace.com/voorwaarden.html">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="description" content="Voorwaarden van Berie's Exam Space: de plannen, de proefmaand, betalen, opzeggen en bedenktijd.">
+  <meta name="theme-color" content="#FFFFFF">
+  <script>
+    (() => {
+      let keuze;
+      try { keuze = window.localStorage.getItem('bes_thema'); } catch {}
+      const donker = keuze === 'donker' || (keuze !== 'licht' && window.matchMedia('(prefers-color-scheme: dark)').matches);
+      document.documentElement.dataset.theme = donker ? 'dark' : 'light';
+      document.querySelector('meta[name="theme-color"]').content = donker ? '#0B0B0C' : '#FFFFFF';
+    })();
+  </script>
+  <title>Voorwaarden | Berie's Exam Space</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/style.css?v=80">
+  <script src="assets/app.js?v=80" defer></script>
+  <script src="assets/config.js?v=80" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js" defer></script>
+  <script src="assets/auth.js?v=80" defer></script>
+  <script src="assets/plan.js?v=80" defer></script>
+  <script src="assets/activiteit.js?v=80" defer></script>
+  <style>
+    .vw-wrap { max-width: 760px; }
+    .vw-sectie + .vw-sectie { margin-top: 40px; }
+    .vw-sectie .sectie-kop { margin-bottom: 16px; }
+    .vw-kaart { padding: clamp(22px, 5vw, 36px); font-size: .9375rem; line-height: 1.7; }
+    .vw-kaart p { max-width: 68ch; margin: 0; }
+    .vw-kaart p + p, .vw-kaart ul + p, .vw-kaart p + ul { margin-top: 16px; }
+    .vw-kaart strong { font-weight: 600; }
+    .vw-kaart a { color: var(--accent); text-decoration: none; font-weight: 500; overflow-wrap: anywhere; }
+    :where(html.has-hover) .vw-kaart a:hover { text-decoration: underline; }
+    .vw-lijst { display: grid; gap: 12px; margin: 0; padding: 0; list-style: none; }
+    .vw-lijst li { display: grid; grid-template-columns: 22px minmax(0, 1fr); column-gap: 12px; }
+    .vw-lijst li::before { content: '·'; color: var(--accent); font-weight: 700; line-height: inherit; }
+    .vw-lijst strong { display: block; }
+    .vw-datum { margin-top: 32px; color: var(--ink-soft); font-size: .875rem; }
+  </style>
+</head>
+<body data-nav="vast">
+  <a class="skip-link" href="#inhoud">Ga naar inhoud</a>
+  <header class="site-header">
+    <nav class="navigation" aria-label="Hoofdnavigatie">
+      <a class="brand" href="index.html" aria-label="Berie's Exam Space, startpagina">
+        <span class="brand-symbol" aria-hidden="true">B</span>
+        <span class="brand-name"><span>Berie's</span> <span>Exam Space</span></span>
+      </a>
+      <a class="home-knop" href="hub.html" aria-label="Home" title="Home">
+        <svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 10.5 12 3l9 7.5M5 9v12h5v-7h4v7h5V9"/></svg>
+      </a>
+      <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="site-menu">Menu</button>
+      <ul class="navigation-links" id="site-menu">
+        <li><a href="hub.html#hoe-werkt-het">Hoe werkt het</a></li>
+        <li><a href="over-mij.html" data-over-mij>Over mij</a></li>
+        <li><a href="whatsapp.html">WhatsApp-groep</a></li>
+      </ul>
+      <a class="pill login-button" href="inloggen.html">Inloggen →</a>
+    </nav>
+  </header>
+    <main id="inhoud" class="pagina" aria-labelledby="vw-titel">
+    <div class="wrap vw-wrap">
+      <a class="terug tekstlink" href="abonnement.html" data-terug="abonnement.html" data-terug-tekst="Terug">← Terug</a>
+      <header class="pagina-kop">
+        <h1 id="vw-titel">Voorwaarden</h1>
+        <p class="pagina-sub">De afspraken tussen jou en Berie's Exam Space, zo kort en duidelijk mogelijk.</p>
+      </header>
+
+      <section class="vw-sectie" aria-labelledby="kort-kop">
+        <h2 class="sectie-kop" id="kort-kop">In het kort</h2>
+        <div class="kaart vw-kaart">
+          <ul class="vw-lijst">
+            <li><div><strong>Free blijft zonder kosten.</strong> Plus kost 2,99 euro en Pro 9,99 euro per maand, inclusief btw.</div></li>
+            <li><div><strong>Eén proefmaand per plan.</strong> Die kost niets, start meteen en vraagt geen betaalgegevens.</div></li>
+            <li><div><strong>Opzeggen kan altijd</strong>, met één knop op je profiel. Je houdt je plan tot het einde van de periode die al liep.</div></li>
+            <li><div><strong>14 dagen bedenktijd</strong> bij elk nieuw betaald abonnement. Herroepen kan met één knop op je profiel. Je betaalt dan alleen de dagen tot je herroeping.</div></li>
+          </ul>
+        </div>
+      </section>
+
+      <section class="vw-sectie" aria-labelledby="wie-kop">
+        <h2 class="sectie-kop" id="wie-kop">Wie we zijn</h2>
+        <div class="kaart vw-kaart">
+          <p>Berie's Exam Space is een oefenplatform voor studenten psychologie. Het wordt gemaakt en beheerd door één persoon, zelf student. Lees meer op <a href="over-mij.html">Over mij</a>.</p>
+          <p>Berie's Exam Space is een project van Berat Yildirim, eenmanszaak, ingeschreven bij de Kamer van Koophandel onder nummer 42183092. Telefoon: <a href="tel:+31615685727">+31 6 1568 5727</a>. Adres: Koningin Regentesselaan 116, 6043 CP Roermond, Nederland. Btw-nummer: NL005562746B66. The Berie Foundation is een projectnaam, geen stichting.</p>
+          <p>Contact: <a href="mailto:berie007yldrm@gmail.com">berie007yldrm@gmail.com</a>. Je krijgt meestal binnen een dag antwoord.</p>
+        </div>
+      </section>
+
+      <section class="vw-sectie" aria-labelledby="plannen-kop">
+        <h2 class="sectie-kop" id="plannen-kop">De plannen</h2>
+        <div class="kaart vw-kaart">
+          <p>Er zijn drie plannen: <strong>Free</strong>, <strong>Plus</strong> (2,99 euro per maand) en <strong>Pro</strong> (9,99 euro per maand). Alle prijzen zijn in euro en inclusief btw. Wat bij elk plan hoort, staat op de pagina <a href="abonnement.html">Abonnement</a>.</p>
+          <p>We verbeteren de site voortdurend, dus onderdelen kunnen veranderen. Wordt je betaalde plan daardoor duidelijk minder, bijvoorbeeld omdat een onderdeel verdwijnt of Comit minder vragen per dag toelaat, dan laten we het vooraf per e-mail weten. Je kan dan tot 30 dagen na de verandering opzeggen. Voor de dagen na de verandering krijg je je geld terug.</p>
+        </div>
+      </section>
+
+      <section class="vw-sectie" aria-labelledby="proef-kop">
+        <h2 class="sectie-kop" id="proef-kop">De proefmaand</h2>
+        <div class="kaart vw-kaart">
+          <ul class="vw-lijst">
+            <li><div><strong>Eén keer per plan.</strong> Elk account kan één proefmaand Plus en één proefmaand Pro gebruiken.</div></li>
+            <li><div><strong>Kost niets.</strong> De proefmaand start meteen en vraagt geen betaalgegevens.</div></li>
+            <li><div><strong>Van Plus naar Pro.</strong> Start je de proefmaand van Pro terwijl je proefmaand van Plus nog loopt, dan stopt je proefmaand van Plus meteen. Zolang je Pro hebt, kan je geen proefmaand van Plus starten, want Plus zit al in Pro.</div></li>
+            <li><div><strong>Betaalde Plus blijft.</strong> Betaal je al voor Plus en start je de proefmaand van Pro, dan heb je na die proefmaand gewoon weer Plus.</div></li>
+            <li><div><strong>Daarna terug naar Free.</strong> Na de proefmaand ga je vanzelf terug naar Free. Er wordt niets afgeschreven.</div></li>
+          </ul>
+        </div>
+      </section>
+
+      <section class="vw-sectie" aria-labelledby="betalen-kop">
+        <h2 class="sectie-kop" id="betalen-kop">Betalen</h2>
+        <div class="kaart vw-kaart">
+          <p>Betalen kan nog niet. Tot dan zijn er alleen de proefmaanden, en na je proefmaand ga je terug naar Free. Zodra betalen kan, zie je dat op de pagina <a href="abonnement.html">Abonnement</a> en geldt wat hieronder staat.</p>
+          <ul class="vw-lijst">
+            <li><div><strong>Per maand, vooraf.</strong> Kies je om verder te gaan met Plus of Pro, dan betaal je per maand vooraf met Bancontact, iDEAL of kaart, via een erkende betaaldienst.</div></li>
+            <li><div><strong>Loopt door tot je opzegt.</strong> Je abonnement wordt elke maand verlengd en het maandbedrag wordt dan afgeschreven, tot je opzegt.</div></li>
+            <li><div><strong>Geen kaartgegevens bij ons.</strong> Je betaalgegevens blijven bij de betaaldienst. Wij bewaren alleen of en tot wanneer je betaald hebt.</div></li>
+            <li><div><strong>Lukt een betaling niet</strong>, dan krijg je bericht. Blijft de betaling uit, dan ga je terug naar Free. Je voortgang blijft bewaard.</div></li>
+          </ul>
+        </div>
+      </section>
+
+      <section class="vw-sectie" aria-labelledby="opzeggen-kop">
+        <h2 class="sectie-kop" id="opzeggen-kop">Opzeggen</h2>
+        <div class="kaart vw-kaart">
+          <p>Opzeggen kan altijd, zonder reden, met één knop op je <a href="profiel.html#abonnement">profiel</a> bij Jouw abonnement. Er wordt daarna niets meer afgeschreven.</p>
+          <p>Je houdt je plan tot het einde van je proefmaand of van de maand die je al betaalde. Daarna ga je terug naar Free. Voor de lopende maand krijg je geen geld terug, behalve binnen de bedenktijd.</p>
+        </div>
+      </section>
+
+      <section class="vw-sectie" aria-labelledby="bedenktijd-kop">
+        <h2 class="sectie-kop" id="bedenktijd-kop">Bedenktijd</h2>
+        <div class="kaart vw-kaart">
+          <p>Neem je een betaald abonnement op Plus of Pro, dan heb je 14 dagen bedenktijd. Die tellen vanaf de dag na je aanmelding. Neem je later opnieuw een abonnement, dan krijg je opnieuw 14 dagen. Een maandelijkse verlenging geeft geen nieuwe bedenktijd.</p>
+          <p>Herroepen doe je met de knop <strong>Hier de overeenkomst herroepen</strong> op je profiel, bij Jouw abonnement. Die knop staat er zolang je bedenktijd loopt. Je krijgt meteen per e-mail een bevestiging met datum en tijd. Je kan ook mailen naar <a href="mailto:berie007yldrm@gmail.com">berie007yldrm@gmail.com</a> of het modelformulier hieronder sturen. Je hoeft geen reden te geven.</p>
+          <p>Bij het afsluiten vraag je zelf om je plan meteen te laten starten. Herroep je, dan stopt je plan meteen en betaal je alleen voor de dagen tot je herroeping. De rest krijg je binnen 14 dagen terug, op dezelfde manier als je betaalde.</p>
+        </div>
+      </section>
+
+      <section class="vw-sectie" aria-labelledby="formulier-kop">
+        <h2 class="sectie-kop" id="formulier-kop">Modelformulier voor herroeping</h2>
+        <div class="kaart vw-kaart">
+          <p>Vul dit formulier alleen in als je je abonnement wil herroepen. Mail het naar <a href="mailto:berie007yldrm@gmail.com">berie007yldrm@gmail.com</a>.</p>
+          <ul class="vw-lijst vw-formulier">
+            <li><div><strong>Aan</strong> Berie's Exam Space, <a href="mailto:berie007yldrm@gmail.com">berie007yldrm@gmail.com</a>. Berat Yildirim, Koningin Regentesselaan 116, 6043 CP Roermond, Nederland. KvK-nummer 42183092.</div></li>
+            <li><div><strong>Ik herroep hierbij</strong> mijn overeenkomst voor de volgende dienst: abonnement [Plus of Pro] op Berie's Exam Space.</div></li>
+            <li><div><strong>Afgesloten op</strong> [datum]</div></li>
+            <li><div><strong>Naam</strong> [je naam]</div></li>
+            <li><div><strong>Adres</strong> [je adres]</div></li>
+            <li><div><strong>E-mailadres van je account</strong> [e-mailadres]</div></li>
+            <li><div><strong>Handtekening</strong> [alleen als je dit formulier op papier stuurt]</div></li>
+            <li><div><strong>Datum</strong> [datum]</div></li>
+          </ul>
+        </div>
+      </section>
+
+      <section class="vw-sectie" aria-labelledby="prijzen-kop">
+        <h2 class="sectie-kop" id="prijzen-kop">Prijzen veranderen</h2>
+        <div class="kaart vw-kaart">
+          <p>Veranderen de prijzen, dan hoor je dat minstens 30 dagen vooraf per e-mail. Wil je niet verder tegen de nieuwe prijs, dan zeg je gewoon op voor die ingaat.</p>
+        </div>
+      </section>
+
+      <section class="vw-sectie" aria-labelledby="account-kop">
+        <h2 class="sectie-kop" id="account-kop">Je account</h2>
+        <div class="kaart vw-kaart">
+          <ul class="vw-lijst">
+            <li><div><strong>Eén account per persoon.</strong> Deel je inloggegevens niet met anderen.</div></li>
+            <li><div><strong>Goed gebruik.</strong> Kopieer, verkoop of verspreid de vragen, theorie en hacks niet buiten de site, en haal ze niet automatisch binnen.</div></li>
+            <li><div><strong>Misbruik.</strong> Bij duidelijk misbruik kunnen we een account blokkeren. Heb je dan nog een betaalde periode, dan krijg je het deel dat je niet gebruikte terug.</div></li>
+            <li><div><strong>Je account wissen</strong> kan zelf, onderaan je <a href="profiel.html">profiel</a>. Een lopend abonnement stopt dan meteen en er wordt niets meer afgeschreven. De maand die je al betaalde krijg je niet terug, behalve binnen de bedenktijd. Wil je alleen stoppen met betalen, zeg dan op en laat je account staan. Je voortgang blijft dan bewaard.</div></li>
+          </ul>
+        </div>
+      </section>
+
+      <section class="vw-sectie" aria-labelledby="inhoud-kop">
+        <h2 class="sectie-kop" id="inhoud-kop">De inhoud</h2>
+        <div class="kaart vw-kaart">
+          <p>De vragen, theorie en hacks zijn met zorg gemaakt op basis van de leerstof. Toch kan er een fout in staan. Zie je er een, meld het dan via <a href="feedback.html">Feedback</a>, dan passen we het aan.</p>
+          <p>Berie's Exam Space is een hulpmiddel om te oefenen. Het vervangt je cursus, lessen en officiële informatie van je opleiding niet, en we kunnen niet beloven dat je slaagt.</p>
+        </div>
+      </section>
+
+      <section class="vw-sectie" aria-labelledby="comit-kop">
+        <h2 class="sectie-kop" id="comit-kop">Comit</h2>
+        <div class="kaart vw-kaart">
+          <p>Vaste vragen over de site beantwoordt Comit zelf. Andere vragen beantwoordt hij met hulp van AI. Comit is nog een demo en kan zich vergissen. Controleer belangrijke dingen dus altijd in je cursus. Vragen met AI zijn per dag beperkt: 10 met Free, 30 met Plus en 60 met Pro. Ezelsbruggetjes van Comit zitten alleen in Pro en tellen ook mee.</p>
+        </div>
+      </section>
+
+      <section class="vw-sectie" aria-labelledby="beschikbaar-kop">
+        <h2 class="sectie-kop" id="beschikbaar-kop">Beschikbaarheid en aansprakelijkheid</h2>
+        <div class="kaart vw-kaart">
+          <p>We doen ons best om de site altijd bereikbaar te houden, maar door onderhoud of storingen kan hij soms even niet werken. Voor Plus en Pro geldt de wettelijke garantie: wat je betaalt, moet werken zoals afgesproken. Werkt een betaald onderdeel niet, laat het ons dan weten. Dan lossen we het op, of je krijgt de dagen erbij of het bedrag voor die dagen terug. Je andere rechten uit de wet blijven gelden.</p>
+          <p>Zijn wij aansprakelijk voor schade, dan vergoeden we alleen de schade die rechtstreeks door onze fout komt. Dat is hoogstens het bedrag dat je in de 12 maanden daarvoor betaalde, met een minimum van 50 euro. Die grens geldt niet bij opzet of grove nalatigheid, niet bij overlijden of letsel, en niet als de wet van je land meer vergoeding verplicht.</p>
+        </div>
+      </section>
+
+      <section class="vw-sectie" aria-labelledby="boeken-kop">
+        <h2 class="sectie-kop" id="boeken-kop">Boeken verkopen</h2>
+        <div class="kaart vw-kaart">
+          <p>Bij Verkoop je boeken bied je zelf je boeken aan. De koop, de betaling en het ophalen spreek je samen af; Berie's Exam Space is daar geen partij in. Zet alleen echte boeken en cursussen erbij, geen kopieën of samenvattingen van anderen. Meld een advertentie die niet klopt, dan halen we ze weg.</p>
+        </div>
+      </section>
+
+      <section class="vw-sectie" aria-labelledby="privacy-kop">
+        <h2 class="sectie-kop" id="privacy-kop">Privacy</h2>
+        <div class="kaart vw-kaart">
+          <p>Hoe we met je gegevens omgaan, lees je op de pagina <a href="privacy.html">Privacy</a>.</p>
+        </div>
+      </section>
+
+      <section class="vw-sectie" aria-labelledby="wijzigen-kop">
+        <h2 class="sectie-kop" id="wijzigen-kop">Deze voorwaarden veranderen</h2>
+        <div class="kaart vw-kaart">
+          <p>Veranderen deze voorwaarden, dan zie je dat op deze pagina en bij <a href="hub.html#nieuw">Wat is nieuw</a>. Is een verandering in je nadeel, dan laten we het minstens 30 dagen vooraf per e-mail weten. Ga je er niet mee akkoord, dan zeg je op voor de verandering ingaat. Je betaalt dan niets meer.</p>
+        </div>
+      </section>
+
+      <section class="vw-sectie" aria-labelledby="klacht-kop">
+        <h2 class="sectie-kop" id="klacht-kop">Klachten en welk recht geldt</h2>
+        <div class="kaart vw-kaart">
+          <p>Ben je ergens niet tevreden over, mail dan naar <a href="mailto:berie007yldrm@gmail.com">berie007yldrm@gmail.com</a>. We zoeken samen een oplossing.</p>
+          <p>Op deze voorwaarden is het Nederlandse recht van toepassing. Woon je in België of een ander land van de Europese Unie, dan houd je de bescherming die het consumentenrecht van dat land je geeft.</p>
+          <p class="vw-datum">Laatst bijgewerkt: 3 oktober 2026.</p>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <p class="footer-brand">Berie's Exam Space</p>
+    <div class="footer-details">
+      <p>Duidelijk leren. Rustig groeien.</p>
+      <p class="project-label">Een project van The Berie Foundation</p>
+    </div>
+  </footer>
+</body>
+</html>

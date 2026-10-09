@@ -1,0 +1,302 @@
+/* Eigen scherm voor Comit. De gedeelde navigatie en voettekst blijven bestaan. */
+.comit-pagina-body .comit-pagina {
+  position: relative;
+  top: var(--comit-viewport-top, 0px);
+  flex: 0 0 auto;
+  width: 100%;
+  height: 100vh;
+  height: var(--comit-viewport-hoogte, 100dvh);
+  min-height: 0;
+  padding: 80px 24px max(20px, env(safe-area-inset-bottom));
+  overflow: hidden;
+  isolation: isolate;
+  background: var(--bg);
+}
+
+/* Houd de schermruimte vrij terwijl de begroeting en het lettertype laden. */
+.comit-pagina-body:has(.comit-pagina[hidden]) { visibility: hidden; }
+.comit-pagina-body .comit-pagina[hidden] { display: block !important; visibility: hidden; }
+
+.comit-pagina::before {
+  content: '';
+  position: absolute;
+  z-index: -1;
+  inset: 0 -25%;
+  pointer-events: none;
+  background: linear-gradient(120deg, var(--transparent) 10%, var(--teal) 38%, var(--accent) 65%, var(--transparent) 92%);
+  opacity: .045;
+}
+
+.comit-shell {
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr);
+  width: 100%;
+  max-width: 800px;
+  height: 100%;
+  margin: 0 auto;
+  /* Plus de ruimte voor het demo-zinnetje boven de typbalk. */
+  padding-bottom: calc(var(--comit-invoer-hoogte, 62px) + 52px);
+}
+
+.comit-kop {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  min-height: 28px;
+  padding-inline: 4px;
+}
+
+/* Terug naar de hub, links in de kop, met een dun streepje voor de naam Comit. */
+.comit-terug { flex: 0 0 auto; min-height: 40px; margin: -6px 6px -6px 0; padding-right: 14px; border-right: 1px solid var(--line); }
+.comit-kop [data-comit-logo], .comit-bericht-logo { display: flex; flex: 0 0 24px; }
+.comit-kop h1 { margin: 0; color: var(--ink); font-size: 1rem; font-weight: 600; line-height: 1.4; letter-spacing: -.02em; }
+.comit-pagina [data-comit-logo] svg, .comit-bericht-logo svg { display: block; flex-shrink: 0; }
+
+.comit-scroll {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  padding: 12px 4px 24px;
+  overflow-x: hidden;
+  overflow-y: auto;
+  overscroll-behavior-y: contain;
+  scrollbar-width: thin;
+  scrollbar-color: var(--line) var(--transparent);
+}
+
+.comit-welkom {
+  flex: 0 0 auto;
+  width: 100%;
+  max-width: 624px;
+  margin: auto;
+  padding: 24px 0;
+  text-align: center;
+}
+
+#comit-welkom.is-vertrekkend { animation: comit-welkom-weg 220ms var(--ease) both; }
+
+.comit-hero-logo {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  width: 72px;
+  height: 72px;
+  margin: 0 auto 22px;
+  isolation: isolate;
+}
+
+.comit-hero-logo::after {
+  content: '';
+  position: absolute;
+  z-index: -1;
+  inset: 0;
+  border: 2px solid var(--teal);
+  border-radius: 50%;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.comit-hero-logo::before {
+  content: '';
+  position: absolute;
+  z-index: -1;
+  inset: -12px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--teal), var(--accent));
+  filter: blur(22px);
+  opacity: .16;
+  pointer-events: none;
+}
+
+.comit-begroeting-rij { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 8px 12px; }
+.comit-demo-label { flex-shrink: 0; }
+
+.comit-begroeting {
+  min-width: 0;
+  max-width: 100%;
+  margin: 0;
+  font-size: 2.5rem;
+  font-weight: 600;
+  line-height: 1.15;
+  letter-spacing: -.045em;
+  overflow-wrap: anywhere;
+  color: var(--teal-tekst);
+}
+
+.comit-woord {
+  display: inline-block;
+  max-width: 100%;
+  background: linear-gradient(115deg, var(--teal), var(--accent));
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: var(--transparent);
+}
+
+.comit-hulpvraag { margin: 12px 0 0; color: var(--ink-soft); font-size: 1.0625rem; line-height: 1.5; }
+.comit-voorstellen { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; margin-top: 32px; }
+
+.comit-voorstel {
+  min-width: 0;
+  min-height: 68px;
+  padding: 16px 20px;
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  background: var(--card);
+  color: var(--ink);
+  font: 500 .9375rem/1.45 var(--font);
+  text-align: left;
+  overflow-wrap: anywhere;
+  cursor: pointer;
+  transition: border-color 150ms var(--ease), background-color 150ms var(--ease), transform 150ms var(--ease), box-shadow 150ms var(--ease);
+}
+
+:where(html.has-hover) .comit-voorstel:hover { border-color: var(--accent); background: var(--accent-zacht); box-shadow: var(--shadow-soft); }
+:where(html.has-hover) .comit-voorstel:hover:not(:active) { transform: translateY(-2px); }
+.comit-voorstel:focus-visible { outline-offset: 2px; }
+.comit-voorstel:active { transform: scale(.99); }
+
+.comit-gesprek { display: flex; flex-direction: column; gap: 22px; width: 100%; margin-top: auto; padding-top: 24px; }
+.comit-gesprek:empty { margin-top: 0; padding-top: 0; }
+.comit-bericht { display: flex; align-items: flex-start; gap: 10px; min-width: 0; animation: comit-bericht-binnen 220ms var(--ease) both; }
+.comit-bericht-gebruiker { --comit-bericht-start: 10px; justify-content: flex-end; }
+.comit-bericht-logo { margin-top: 13px; }
+.comit-bericht.is-denkend .comit-bericht-logo { animation: comit-ademen 1600ms var(--ease) infinite; }
+.comit-wolk { max-width: 82%; margin: 0; padding: 14px 18px; border-radius: 20px; color: var(--ink); font-size: .9375rem; line-height: 1.65; white-space: pre-wrap; overflow-wrap: anywhere; }
+.comit-bericht-gebruiker .comit-wolk { border-bottom-right-radius: 6px; background: var(--accent-zacht); }
+.comit-bericht-assistent .comit-wolk { max-width: calc(100% - 34px); border-top-left-radius: 6px; background: var(--surface); }
+.comit-antwoord-tekst { white-space: pre-wrap; }
+.comit-antwoord-woord { animation: comit-verschijnen 150ms var(--ease) both; }
+.comit-antwoord-knoppen { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 14px; white-space: normal; }
+.comit-antwoord-knoppen.is-zichtbaar { animation: comit-verschijnen 180ms var(--ease) both; }
+.comit-antwoord-knoppen .comit-antwoord-knop { flex: 0 1 auto; width: auto; min-width: 0; max-width: 100%; min-height: 44px; margin: 0; padding: 10px 14px; color: var(--accent); font-size: .875rem; line-height: 1.5; text-align: center; white-space: normal; overflow-wrap: anywhere; }
+/* Geschiedenis: knop in de kop, eerdere gesprekken boven het lopende gesprek. */
+.comit-kop-knop { display: inline-flex; align-items: center; gap: 6px; min-height: 44px; margin: -8px 0 -8px auto; padding: 0 14px; border: 1px solid var(--line); border-radius: var(--pill); background: var(--card); color: var(--ink-soft); font: 500 .875rem/1.2 var(--font); cursor: pointer; transition: border-color 150ms var(--ease), color 150ms var(--ease), background-color 150ms var(--ease), transform 150ms var(--ease); }
+.comit-kop-knop svg { display: block; flex-shrink: 0; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+:where(html.has-hover) .comit-kop-knop:hover, .comit-kop-knop[aria-expanded="true"] { border-color: var(--accent); background: var(--accent-zacht); color: var(--accent); }
+.comit-kop-knop:active { transform: scale(.97); }
+.comit-kop-knop:disabled { cursor: default; opacity: .6; }
+.comit-geschiedenis { display: flex; flex-direction: column; gap: 22px; width: 100%; margin-top: auto; padding-top: 8px; }
+.comit-geschiedenis:not([hidden]) { animation: comit-verschijnen 220ms var(--ease) both; }
+.comit-geschiedenis .comit-bericht { animation: none; }
+.comit-scroll:has(.comit-geschiedenis:not([hidden])) .comit-gesprek { margin-top: 0; }
+.comit-scroll:has(.comit-geschiedenis:not([hidden])) .comit-gesprek:not(:empty) { margin-top: 8px; border-top: 1px solid var(--line); }
+.comit-geschiedenis-kop { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 4px 12px; }
+.comit-geschiedenis-kop h2 { margin: 0; color: var(--ink); font-size: 1.125rem; font-weight: 600; letter-spacing: -.02em; }
+.comit-geschiedenis-gesprek { display: flex; flex-direction: column; gap: 22px; }
+.comit-geschiedenis-datum { margin: 8px 0 0; color: var(--ink-soft); font-size: .8125rem; font-weight: 500; text-align: center; }
+.comit-geschiedenis-melding { margin: 0; color: var(--ink-soft); font-size: .9375rem; line-height: 1.55; }
+.comit-wis-knop { min-height: 44px; padding: 10px 0; border: 0; background: none; color: var(--ink-soft); font: 400 .875rem/1.4 var(--font); text-decoration: underline; text-underline-offset: 3px; cursor: pointer; transition: color 150ms var(--ease), transform 150ms var(--ease); }
+:where(html.has-hover) .comit-wis-knop:hover { color: var(--fout); }
+.comit-wis-knop:active { transform: scale(.97); }
+.comit-wis-zeker { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 16px; padding: 14px 18px; border-radius: 18px; background: var(--surface); }
+.comit-wis-zeker:not([hidden]) { animation: comit-omhoog 200ms var(--ease) both; }
+.comit-wis-zeker p { flex: 1 1 260px; margin: 0; color: var(--ink); font-size: .9375rem; line-height: 1.5; }
+.comit-wis-zeker .knop-secundair { width: auto; min-width: 0; max-width: none; margin: 0; padding: 10px 18px; font-size: .9375rem; }
+.comit-wis-zeker .tekstlink { min-height: 44px; padding: 10px 0; border: 0; background: none; font: inherit; font-size: .9375rem; cursor: pointer; }
+
+.comit-denkt { display: flex; align-items: center; min-height: 52px; }
+.comit-denk-tekst { color: var(--ink-soft); }
+
+@supports (background-clip: text) or (-webkit-background-clip: text) {
+  .comit-denkt .comit-denk-tekst {
+    background-image: linear-gradient(100deg, var(--ink-soft) 40%, color-mix(in srgb, var(--white) 65%, var(--ink-soft)) 50%, var(--ink-soft) 60%);
+    background-size: 300% 100%;
+    background-clip: text;
+    -webkit-background-clip: text;
+    color: var(--transparent);
+    animation: comit-glans 1600ms var(--ease) infinite;
+  }
+}
+
+.comit-invoer {
+  position: fixed;
+  z-index: 5;
+  bottom: calc(var(--comit-viewport-bodem, 0px) + max(20px, env(safe-area-inset-bottom)));
+  left: 50%;
+  translate: -50% 0;
+  display: flex;
+  align-items: flex-end;
+  gap: 8px;
+  min-width: 0;
+  width: min(800px, calc(100% - 48px));
+  margin: 0;
+  padding: 8px;
+  border: 1px solid var(--line);
+  border-radius: 30px;
+  background: var(--input-bg);
+  box-shadow: var(--shadow-soft);
+  transition: border-color 150ms var(--ease), box-shadow 150ms var(--ease);
+}
+
+/* Klein demo-zinnetje net boven de typbalk: absoluut, zodat de balk zelf even hoog blijft. */
+.comit-demo-regel { position: absolute; left: 50%; bottom: calc(100% + 8px); translate: -50% 0; width: max-content; max-width: calc(100% - 24px); margin: 0; padding: 3px 12px; border-radius: 980px; background: var(--bg); color: var(--ink-soft); font-size: .75rem; line-height: 1.5; text-align: center; }
+.comit-demo-regel a { color: var(--accent); text-decoration: underline; text-underline-offset: 2px; }
+
+.comit-invoer:focus-within { border-color: var(--accent); box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 12%, var(--transparent)), var(--shadow-soft); }
+.comit-invoer textarea { display: block; flex: 1 1 auto; width: 100%; min-width: 0; min-height: 44px; max-height: 116px; padding: 10px 10px 10px 14px; border: 0; border-radius: 20px; outline: none; resize: none; background: var(--transparent); color: var(--ink); font: 400 1rem/24px var(--font); overflow-x: hidden; overflow-y: auto; }
+.comit-invoer textarea::placeholder { color: var(--ink-soft); opacity: 1; }
+.comit-verstuur { display: inline-flex; flex: 0 0 44px; align-items: center; justify-content: center; width: 44px; height: 44px; min-height: 44px; padding: 10px; border: 0; border-radius: 50%; background: var(--accent); color: var(--white); cursor: pointer; transition: transform 180ms var(--ease), color 180ms var(--ease), background-color 180ms var(--ease), box-shadow 180ms var(--ease); }
+.comit-verstuur svg { display: block; width: 22px; height: 22px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+.comit-verstuur:disabled { background: var(--surface); color: var(--ink-soft); cursor: default; }
+:where(html.has-hover) .comit-verstuur:not(:disabled):hover { background: var(--accent-dark); box-shadow: var(--shadow-soft); }
+:where(html.has-hover) .comit-verstuur:not(:disabled):hover:not(:active) { transform: translateY(-1px); }
+.comit-verstuur:not(:disabled):active { transform: scale(.94); }
+.comit-sr-only { position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0; border: 0; clip-path: inset(50%); overflow: hidden; white-space: nowrap; }
+
+.comit-pagina-body :is(.home-knop, .thema-knop) { flex-basis: 44px; width: 44px; height: 44px; }
+.comit-pagina-body :is(.menu-toggle, .profiel-knop, .login-button, .navigation-links a) { min-height: 44px; }
+.comit-pagina-body .site-footer { padding-bottom: calc(var(--comit-invoer-hoogte, 62px) + 92px); }
+
+.comit-pagina[data-opening="eerste"]::before { animation: comit-kleur 200ms var(--ease) 300ms both; }
+.comit-pagina[data-opening="eerste"] .comit-hero-logo { animation: comit-logo 800ms var(--ease) both; }
+.comit-pagina[data-opening="eerste"] .comit-hero-logo::before { animation: comit-gloed 700ms var(--ease) 300ms both; }
+.comit-pagina[data-opening="eerste"] .comit-hero-logo::after { animation: comit-ring 700ms var(--ease) 320ms both; }
+.comit-pagina[data-opening="eerste"] .comit-woord { animation: comit-verschijnen 200ms var(--ease) calc(750ms + var(--woord-index, 0) * var(--comit-woord-interval, 100ms)) both; }
+.comit-pagina[data-opening="eerste"]  .comit-demo-label { animation: comit-omhoog 200ms var(--ease) var(--comit-intro-vervolg, 900ms) both; }
+.comit-pagina[data-opening="eerste"] :is(.comit-hulpvraag, .comit-kop) { animation: comit-verschijnen 200ms var(--ease) calc(var(--comit-intro-vervolg, 900ms) + 200ms) both; }
+.comit-pagina[data-opening="eerste"] .comit-voorstel { animation: comit-omhoog 150ms var(--ease) calc(var(--comit-intro-vervolg, 900ms) + 400ms + var(--voorstel-index, 0) * 50ms) both; }
+.comit-pagina[data-opening="eerste"] .comit-invoer { animation: comit-omhoog 200ms var(--ease) calc(var(--comit-intro-vervolg, 900ms) + 700ms) both; }
+.comit-pagina[data-opening="herhaal"]  .comit-begroeting-rij { animation: comit-verschijnen 300ms var(--ease) both; }
+
+/* De ster draait in het midden van het scherm binnen, groeit even aan, en schuift dan rustig naar zijn plek. */
+@keyframes comit-logo { 0% { opacity: 0; transform: translateY(var(--comit-logo-start-y, 0px)) scale(.3) rotate(-135deg); } 42% { opacity: 1; transform: translateY(var(--comit-logo-start-y, 0px)) scale(1.08) rotate(0deg); } 58% { transform: translateY(var(--comit-logo-start-y, 0px)) scale(1) rotate(0deg); } 100% { opacity: 1; transform: translateY(0) scale(1) rotate(0deg); } }
+@keyframes comit-gloed { 0% { opacity: 0; } 40% { opacity: .42; } 100% { opacity: .16; } }
+@keyframes comit-ring { 0% { opacity: .55; transform: scale(.7); } 100% { opacity: 0; transform: scale(1.9); } }
+@keyframes comit-kleur { 0% { opacity: 0; transform: translateX(-25%); } 45% { opacity: .15; } 100% { opacity: .045; transform: translateX(0); } }
+@keyframes comit-verschijnen { from { opacity: 0; } to { opacity: 1; } }
+@keyframes comit-omhoog { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes comit-bericht-binnen { from { opacity: 0; transform: translateX(var(--comit-bericht-start, -10px)); } to { opacity: 1; transform: translateX(0); } }
+@keyframes comit-welkom-weg { from { opacity: 1; transform: translateY(0); } to { opacity: 0; transform: translateY(-8px); } }
+@keyframes comit-glans { from { background-position: 100% 0; } to { background-position: 0% 0; } }
+@keyframes comit-ademen { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.06); } }
+
+@media (max-width: 600px) {
+  .comit-pagina-body .comit-pagina { padding: 74px 16px max(16px, env(safe-area-inset-bottom)); }
+  .comit-scroll { padding: 8px 4px 16px; }
+  .comit-welkom { padding: 18px 0; }
+  .comit-hero-logo { margin-bottom: 18px; }
+  .comit-begroeting { font-size: 2.125rem; }
+  .comit-hulpvraag { margin-top: 10px; font-size: 1rem; }
+  .comit-voorstellen { grid-template-columns: minmax(0, 1fr); gap: 8px; margin-top: 24px; }
+  .comit-voorstel { min-height: 48px; padding: 12px 16px; border-radius: 15px; }
+  .comit-gesprek, .comit-geschiedenis, .comit-geschiedenis-gesprek { gap: 18px; }
+  .comit-gesprek { padding-top: 16px; }
+  .comit-kop-knop { padding: 0 12px; }
+  .comit-wis-zeker .knop-secundair { width: 100%; }
+  .comit-wolk { padding: 12px 15px; }
+  .comit-antwoord-knoppen { flex-direction: column; }
+  .comit-antwoord-knoppen .comit-antwoord-knop { width: 100%; }
+  .comit-invoer { width: calc(100% - 32px); bottom: calc(var(--comit-viewport-bodem, 0px) + max(16px, env(safe-area-inset-bottom))); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .comit-pagina *, .comit-pagina::before, .comit-pagina *::before, .comit-pagina *::after { animation: none !important; transition: none !important; }
+  :is(.comit-voorstel, .comit-verstuur):is(:hover, :active) { transform: none; }
+  .comit-denkt .comit-denk-tekst { background: none; color: var(--ink-soft); }
+}
+
+/* Smalle telefoon: bij Geschiedenis alleen het klokje, zodat Terug, Comit en de knop niet tegen elkaar komen. Het woord blijft voor schermlezers. */
+@media (max-width: 420px) {
+  .comit-kop-knop { width: 44px; padding: 0; justify-content: center; }
+  .comit-kop-knop span { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+}

@@ -1,0 +1,536 @@
+<!doctype html>
+<html lang="nl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script src="assets/deur.js?v=80"></script>
+  <link rel="apple-touch-icon" href="/assets/icoon-180.png">
+  <link rel="manifest" href="/manifest.webmanifest">
+  <meta name="robots" content="noindex">
+  <meta name="theme-color" content="#FFFFFF">
+  <script>
+    (() => {
+      let keuze;
+      try { keuze = window.localStorage.getItem('bes_thema'); } catch {}
+      const donker = keuze === 'donker' || (keuze !== 'licht' && window.matchMedia('(prefers-color-scheme: dark)').matches);
+      document.documentElement.dataset.theme = donker ? 'dark' : 'light';
+      document.querySelector('meta[name="theme-color"]').content = donker ? '#0B0B0C' : '#FFFFFF';
+    })();
+  </script>
+  <title>Beheer | Berie's Exam Space</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/style.css?v=80">
+  <script src="assets/app.js?v=80" defer></script>
+  <script src="assets/vakken.js?v=80"></script>
+  <script src="assets/config.js?v=80" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js" defer></script>
+  <script src="assets/auth.js?v=80" defer></script>
+  <script src="assets/plan.js?v=80" defer></script>
+  <style>
+    .beheer-wrap { max-width: 760px; }
+    .beheer-tegels { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
+    .beheer-tegel { padding: 20px 22px; }
+    .beheer-tegel .getal { display: block; font-size: 2rem; font-weight: 700; line-height: 1.1; font-variant-numeric: tabular-nums; }
+    .beheer-tegel .uitleg { display: block; margin-top: 6px; color: var(--ink-soft); font-size: .875rem; }
+    .beheer-dagen { margin-top: 32px; }
+    .beheer-dagen .sectie-kop { margin-bottom: 12px; }
+    .beheer-lijst { display: grid; gap: 6px; margin: 0; padding: 0; list-style: none; font-size: .875rem; }
+    .beheer-lijst li { display: grid; grid-template-columns: 96px minmax(0, 1fr) 64px; align-items: center; gap: 12px; }
+    .beheer-lijst .dag { color: var(--ink-soft); font-variant-numeric: tabular-nums; }
+    .beheer-lijst .balk { height: 10px; border-radius: 5px; background: var(--surface); overflow: hidden; }
+    .beheer-lijst .balk i { display: block; height: 100%; border-radius: inherit; background: var(--accent); min-width: 0; }
+    .beheer-lijst .aantal { text-align: right; font-weight: 600; font-variant-numeric: tabular-nums; }
+    .beheer-lijst .aantal small { color: var(--ink-soft); font-weight: 400; }
+    .beheer-status { margin: 0; color: var(--ink-soft); }
+    .beheer-sectie { margin-top: 40px; }
+    .beheer-sectie .sectie-kop { margin-bottom: 14px; }
+    .beheer-tegels.is-vijf { grid-template-columns: repeat(5, minmax(0, 1fr)); }
+    .beheer-cijfers { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 12px; }
+    .beheer-cijfer { padding: 14px 16px; }
+    .beheer-cijfer .getal { display: block; font-size: 1.375rem; font-weight: 700; font-variant-numeric: tabular-nums; }
+    .beheer-cijfer .uitleg { display: block; margin-top: 2px; color: var(--ink-soft); font-size: .8125rem; }
+    .beheer-rijen { display: grid; gap: 0; margin: 0; padding: 0; list-style: none; }
+    .beheer-rijen li { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 4px 12px; padding: 10px 0; border-bottom: 1px solid var(--line); font-size: .9375rem; }
+    .beheer-rijen li:last-child { border-bottom: 0; }
+    .beheer-rijen small { color: var(--ink-soft); font-size: .8125rem; }
+    .beheer-plan { padding: 2px 8px; border-radius: var(--pill); background: var(--surface); color: var(--ink-soft); font-size: .75rem; font-weight: 600; }
+    .beheer-plan[data-plan="plus"] { background: var(--teal-zacht); color: var(--teal-tekst); }
+    .beheer-plan[data-plan="pro"] { background: #0b0a08; color: #e6c872; }
+    .beheer-feedback li { display: block; }
+    .beheer-feedback p { margin: 4px 0 0; color: var(--ink); font-size: .9375rem; line-height: 1.5; overflow-wrap: anywhere; }
+    .beheer-boeken-kaart { margin-top: 12px; }
+    .beheer-boek-meldingen li { display: block; }
+    .beheer-boek-meldingen strong, .beheer-boek-meldingen p { overflow-wrap: anywhere; }
+    .beheer-boek-meldingen strong { display: block; margin-bottom: 4px; }
+    .beheer-boek-meldingen p { margin: 6px 0 10px; line-height: 1.5; }
+    .beheer-boek-acties { display: flex; flex-wrap: wrap; gap: 8px; }
+    .beheer-boek-acties button { min-height: 44px; max-width: 100%; white-space: normal; }
+    .beheer-boek-bevestiging { margin-top: 10px; padding: 12px; border: 1px solid var(--line); border-radius: 12px; background: var(--surface); }
+    .beheer-boek-bevestiging:not([hidden]) { animation: menu-open 200ms var(--ease); }
+    .beheer-boek-status { margin: 10px 0 0; color: var(--ink-soft); font-size: .9375rem; overflow-wrap: anywhere; }
+    .beheer-boek-status:empty { margin: 0; }
+    .beheer-leeg { margin: 0; color: var(--ink-soft); font-size: .9375rem; }
+    .beheer-verborgen { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+    .beheer-zoek { position: sticky; z-index: 5; top: 68px; display: flex; flex-wrap: wrap; align-items: center; gap: 6px 14px; margin: 0 -4px 12px; padding: 8px 4px; background: var(--bg); }
+    .beheer-zoek-veld { position: relative; flex: 1 1 100%; display: flex; }
+    .beheer-zoek-veld svg { position: absolute; top: 50%; left: 16px; width: 20px; height: 20px; translate: 0 -50%; fill: none; stroke: var(--ink-soft); stroke-width: 2; stroke-linecap: round; pointer-events: none; }
+    .beheer-zoek input { flex: 1 1 auto; min-width: 0; min-height: 52px; padding: 12px 16px 12px 46px; border: 1px solid var(--line); border-radius: var(--pill); background: var(--input-bg); color: var(--ink); font: inherit; font-size: 1.0625rem; transition: border-color 150ms var(--ease), box-shadow 150ms var(--ease); }
+    .beheer-zoek input:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-zacht); }
+    .beheer-zoek small { color: var(--ink-soft); font-size: .8125rem; font-variant-numeric: tabular-nums; }
+    .beheer-accounts { display: grid; gap: 12px; margin: 0; padding: 0; list-style: none; }
+    .beheer-accounts .beheer-leeg { padding: 8px 0; }
+    .beheer-geen { margin: 8px 0 0; color: var(--ink-soft); font-size: .9375rem; }
+    .beheer-account { padding: 18px 20px; }
+    .beheer-account[hidden] { display: none; }
+    .beheer-account-kop { display: flex; align-items: center; gap: 12px; }
+    .beheer-account-letter { display: grid; flex: 0 0 44px; place-items: center; width: 44px; height: 44px; border-radius: 50%; background: var(--surface); color: var(--ink-soft); font-size: 1.125rem; font-weight: 700; }
+    .beheer-account[data-plan="plus"] .beheer-account-letter { background: var(--teal-zacht); color: var(--teal-tekst); }
+    .beheer-account[data-plan="pro"] .beheer-account-letter { background: #0b0a08; color: #e6c872; }
+    .beheer-account-wie { display: grid; flex: 1 1 auto; gap: 2px; min-width: 0; }
+    .beheer-account-naam { font-size: 1.0625rem; font-weight: 600; line-height: 1.3; overflow-wrap: anywhere; }
+    .beheer-account-labels { display: flex; flex-wrap: wrap; align-self: flex-start; justify-content: flex-end; gap: 6px; }
+    .beheer-account-mail { position: relative; justify-self: start; margin-top: 0; color: var(--accent); font-size: .9375rem; overflow-wrap: anywhere; text-decoration: none; }
+    .beheer-account-mail::after { content: ''; position: absolute; inset: -11px -4px; }
+    :where(html.has-hover) .beheer-account-mail:hover { text-decoration: underline; }
+    .beheer-account-gegevens { display: grid; grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); gap: 10px 16px; margin: 16px 0 0; padding-top: 14px; border-top: 1px solid var(--line); }
+    .beheer-account-gegevens div { min-width: 0; }
+    .beheer-account-gegevens dt { color: var(--ink-soft); font-size: .75rem; }
+    .beheer-account-gegevens dd { margin: 2px 0 0; font-size: .875rem; font-variant-numeric: tabular-nums; overflow-wrap: anywhere; }
+    .beheer-plan.is-beheerder { background: var(--accent-zacht); color: var(--accent); }
+    .beheer-over { display: grid; gap: 6px; margin: 16px 0 0; padding-top: 14px; border-top: 1px solid var(--line); }
+    .beheer-over p { margin: 0; }
+    .beheer-over-kop { color: var(--ink-soft); font-size: .75rem; }
+    .beheer-over-regel { font-size: .875rem; font-weight: 600; overflow-wrap: anywhere; }
+    .beheer-over-tekst { font-size: .9375rem; line-height: 1.55; white-space: pre-line; overflow-wrap: anywhere; }
+    @media (max-width: 600px) {
+      .beheer-tegels, .beheer-tegels.is-vijf { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .beheer-lijst li { grid-template-columns: 72px minmax(0, 1fr) 56px; }
+    }
+  </style>
+</head>
+<body data-nav="vast">
+  <a class="skip-link" href="#inhoud">Ga naar inhoud</a>
+  <header class="site-header">
+    <nav class="navigation" aria-label="Hoofdnavigatie">
+      <a class="brand" href="index.html" aria-label="Berie's Exam Space, startpagina">
+        <span class="brand-symbol" aria-hidden="true">B</span>
+        <span class="brand-name"><span>Berie's</span> <span>Exam Space</span></span>
+      </a>
+      <a class="home-knop" href="hub.html" aria-label="Home" title="Home">
+        <svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 10.5 12 3l9 7.5M5 9v12h5v-7h4v7h5V9"/></svg>
+      </a>
+      <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="site-menu">Menu</button>
+      <ul class="navigation-links" id="site-menu">
+        <li><a href="hub.html#hoe-werkt-het">Hoe werkt het</a></li>
+        <li><a href="hub.html#wie-is-berie">Over mij</a></li>
+        <li><a href="whatsapp.html">WhatsApp-groep</a></li>
+      </ul>
+      <a class="pill login-button" href="inloggen.html">Inloggen →</a>
+    </nav>
+  </header>
+  <main id="inhoud" class="pagina" aria-labelledby="beheer-titel">
+    <div class="wrap beheer-wrap">
+      <a class="terug tekstlink" href="hub.html" data-terug="hub.html" data-terug-tekst="Terug">← Terug</a>
+      <header class="pagina-kop">
+        <h1 id="beheer-titel">Beheer</h1>
+        <p class="pagina-sub">Alleen voor jou. Per account zie je naam, e-mail, plan en hoeveel er geoefend is; deel die gegevens met niemand.</p>
+      </header>
+
+      <p class="beheer-status" id="beheer-status" role="status">Even laden.</p>
+
+      <div id="beheer-inhoud" hidden>
+        <div class="beheer-tegels is-vijf">
+          <div class="kaart beheer-tegel"><span class="getal" id="tegel-accounts">0</span><span class="uitleg">accounts</span></div>
+          <div class="kaart beheer-tegel"><span class="getal" id="tegel-nieuw">0</span><span class="uitleg">nieuw deze week</span></div>
+          <div class="kaart beheer-tegel"><span class="getal" id="tegel-week">0</span><span class="uitleg">oefenden de laatste 7 dagen</span></div>
+          <div class="kaart beheer-tegel"><span class="getal" id="tegel-plus">0</span><span class="uitleg">met Plus</span></div>
+          <div class="kaart beheer-tegel"><span class="getal" id="tegel-pro">0</span><span class="uitleg">met Pro</span></div>
+        </div>
+
+        <section class="beheer-sectie" aria-labelledby="abo-kop">
+          <h2 class="sectie-kop" id="abo-kop">Abonnementen</h2>
+          <div class="beheer-cijfers" id="beheer-abo"></div>
+        </section>
+
+        <section class="beheer-sectie" aria-labelledby="nieuwste-kop">
+          <h2 class="sectie-kop" id="nieuwste-kop">Accounts, nieuwste eerst</h2>
+          <div class="beheer-zoek" role="search">
+            <label class="beheer-verborgen" for="beheer-zoek">Zoek een account</label>
+            <div class="beheer-zoek-veld">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+              <input id="beheer-zoek" type="search" placeholder="Zoek op naam of e-mail" autocomplete="off" spellcheck="false">
+            </div>
+            <small id="beheer-zoek-aantal" aria-live="polite"></small>
+          </div>
+          <ul class="beheer-accounts" id="beheer-nieuwste"></ul>
+          <p class="beheer-geen" id="beheer-geen" hidden>Niemand gevonden met die naam of dat e-mailadres.</p>
+        </section>
+
+        <section class="beheer-sectie" aria-labelledby="oefenen-kop">
+          <h2 class="sectie-kop" id="oefenen-kop">Oefenen</h2>
+          <div class="beheer-cijfers" id="beheer-oefenen"></div>
+          <div class="kaart" style="margin-top: 12px"><ul class="beheer-rijen" id="beheer-vakken"></ul></div>
+        </section>
+
+        <section class="beheer-sectie" aria-labelledby="comit-kop">
+          <h2 class="sectie-kop" id="comit-kop">Comit</h2>
+          <div class="beheer-cijfers" id="beheer-comit"></div>
+        </section>
+
+        <section class="beheer-sectie" aria-labelledby="feedback-kop">
+          <h2 class="sectie-kop" id="feedback-kop">Feedback</h2>
+          <div class="beheer-cijfers" id="beheer-feedback-cijfers"></div>
+          <div class="kaart" style="margin-top: 12px"><ul class="beheer-rijen beheer-feedback" id="beheer-feedback"></ul></div>
+        </section>
+
+        <section class="beheer-sectie" id="beheer-boeken" aria-labelledby="boeken-kop">
+          <h2 class="sectie-kop" id="boeken-kop" tabindex="-1">Boeken</h2>
+          <div class="beheer-cijfers" id="beheer-boeken-cijfers"></div>
+          <div class="kaart beheer-boeken-kaart">
+            <ul class="beheer-rijen beheer-boek-meldingen" id="beheer-boek-meldingen" aria-label="Nieuwste boekmeldingen"></ul>
+          </div>
+          <p class="beheer-boek-status" id="beheer-boek-status" role="status"></p>
+        </section>
+
+        <section class="beheer-sectie" aria-labelledby="vertrek-kop">
+          <h2 class="sectie-kop" id="vertrek-kop">Waarom mensen hun account wisten</h2>
+          <div class="kaart"><ul class="beheer-rijen" id="beheer-vertrek"></ul></div>
+        </section>
+
+        <section class="beheer-sectie beheer-dagen" aria-labelledby="dagen-kop">
+          <h2 class="sectie-kop" id="dagen-kop">Oefenaars per dag, laatste 30 dagen</h2>
+          <div class="kaart">
+            <ul class="beheer-lijst" id="beheer-lijst"></ul>
+          </div>
+        </section>
+
+        <section class="beheer-sectie beheer-dagen" aria-labelledby="nieuw-kop">
+          <h2 class="sectie-kop" id="nieuw-kop">Nieuwe accounts per dag, laatste 14 dagen</h2>
+          <div class="kaart">
+            <ul class="beheer-lijst" id="beheer-nieuw-lijst"></ul>
+          </div>
+        </section>
+      </div>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <p class="footer-brand">Berie's Exam Space</p>
+    <div class="footer-details">
+      <p>Duidelijk leren. Rustig groeien.</p>
+      <p class="project-label">Een project van The Berie Foundation</p>
+    </div>
+  </footer>
+
+  <script>
+    // Beheer: beheer_overzicht (supabase/beheer-overzicht.sql) en de dagcijfers (supabase/account-en-beheer.sql). Alleen voor beheerders.
+    document.addEventListener('DOMContentLoaded', async () => {
+      const auth = window.BES.auth;
+      const status = document.getElementById('beheer-status');
+      const inhoud = document.getElementById('beheer-inhoud');
+      const $ = (id) => document.getElementById(id);
+      const el = (tag, klasse, tekst) => { const node = document.createElement(tag); if (klasse) node.className = klasse; if (tekst !== undefined) node.textContent = String(tekst); return node; };
+      const kort = new Intl.DateTimeFormat('nl-BE', { day: 'numeric', month: 'short' });
+      const lang = new Intl.DateTimeFormat('nl-BE', { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' });
+      const vakNaam = new Map((window.BES_VAKKEN || []).map((vak) => [vak.id, vak.naam]));
+      const redenen = { klaar: 'Klaar met de opleiding', 'gebruik-niet': 'Gebruikt het niet meer', 'te-weinig-vakken': 'Vakken staan er niet bij', 'werkt-niet': 'Iets werkt niet goed', anders: 'Een andere reden' };
+
+      const cijfers = (plek, lijst) => $(plek).replaceChildren(...lijst.map(([getal, uitleg]) => {
+        const tegel = el('div', 'kaart beheer-cijfer');
+        tegel.append(el('span', 'getal', getal ?? 0), el('span', 'uitleg', uitleg));
+        return tegel;
+      }));
+      const rijen = (plek, items, leeg) => $(plek).replaceChildren(...(items.length ? items : [el('li', 'beheer-leeg', leeg)]));
+      const balken = (plek, lijst, sleutel, label) => {
+        const max = Math.max(1, ...lijst.map((rij) => rij[sleutel]));
+        $(plek).replaceChildren(...lijst.map((rij) => {
+          const li = el('li');
+          const dag = el('span', 'dag', kort.format(new Date(rij.dag + 'T12:00:00')));
+          const balk = el('span', 'balk');
+          const vul = el('i');
+          vul.style.width = (rij[sleutel] / max * 100) + '%';
+          balk.append(vul);
+          li.append(dag, balk, el('span', 'aantal', rij[sleutel]));
+          li.setAttribute('aria-label', dag.textContent + ': ' + rij[sleutel] + ' ' + label);
+          return li;
+        }));
+      };
+
+      let accounts = [];
+      let totaalAccounts = 0;
+      let laadVersie = 0;
+      let beheerderId = null;
+      let boekBezig = false;
+      let sluitBoekBevestiging = null;
+      const boekStatus = $('beheer-boek-status');
+      const boekKnoppen = (bezig) => {
+        $('beheer-boeken').setAttribute('aria-busy', String(bezig));
+        $('beheer-boek-meldingen').querySelectorAll('button').forEach((knop) => { knop.disabled = bezig; });
+      };
+      const boekMelding = (rij, index) => {
+        const li = el('li');
+        li.append(el('strong', '', rij.titel), el('small', '', lang.format(new Date(rij.gemaakt))), el('p', '', rij.reden));
+        const acties = el('div', 'beheer-boek-acties');
+        const wis = el('button', 'knop-secundair', 'Wis dit boek');
+        wis.type = 'button';
+        wis.disabled = boekBezig;
+        wis.setAttribute('aria-expanded', 'false');
+        const bevestiging = el('div', 'beheer-boek-bevestiging');
+        bevestiging.id = 'beheer-boek-bevestiging-' + index;
+        bevestiging.hidden = true;
+        bevestiging.setAttribute('role', 'group');
+        const vraag = el('p', '', 'Wil je "' + rij.titel + '" wissen? Het boek en de bijbehorende meldingen verdwijnen uit het overzicht.');
+        vraag.id = bevestiging.id + '-vraag';
+        bevestiging.setAttribute('aria-labelledby', vraag.id);
+        wis.setAttribute('aria-controls', bevestiging.id);
+        const keuze = el('div', 'beheer-boek-acties');
+        const ja = el('button', 'knop', 'Ja, wis dit boek');
+        const nee = el('button', 'knop-secundair', 'Annuleren');
+        ja.type = nee.type = 'button';
+        ja.disabled = nee.disabled = boekBezig;
+        const sluit = (focus = true) => {
+          bevestiging.hidden = true;
+          wis.setAttribute('aria-expanded', 'false');
+          if (sluitBoekBevestiging === sluit) sluitBoekBevestiging = null;
+          if (focus && wis.isConnected) wis.focus();
+        };
+        wis.addEventListener('click', () => {
+          if (boekBezig || !beheerderId) return;
+          if (!bevestiging.hidden) { sluit(); return; }
+          if (sluitBoekBevestiging) sluitBoekBevestiging(false);
+          sluitBoekBevestiging = sluit;
+          boekStatus.textContent = '';
+          bevestiging.hidden = false;
+          wis.setAttribute('aria-expanded', 'true');
+          nee.focus();
+        });
+        nee.addEventListener('click', () => { if (!boekBezig) sluit(); });
+        bevestiging.addEventListener('keydown', (event) => {
+          if (event.key === 'Escape' && !boekBezig) { event.preventDefault(); sluit(); }
+        });
+        ja.addEventListener('click', async () => {
+          if (boekBezig || !beheerderId || bevestiging.hidden) return;
+          const eigenaar = beheerderId;
+          boekBezig = true;
+          boekKnoppen(true);
+          ja.textContent = 'Bezig met wissen.';
+          boekStatus.textContent = '';
+          try {
+            const user = await auth.gebruiker();
+            if (!user || user.id !== eigenaar || beheerderId !== eigenaar) { await laadOverzicht(); return; }
+            // De RPC controleert de beheerder en kan ook verlopen of verkochte boeken wissen.
+            const resultaat = await auth.client.rpc('beheer_boek_wissen', { p_boek_id: rij.boek_id });
+            if (resultaat.error) throw resultaat.error;
+            const huidig = await auth.gebruiker();
+            if (!huidig || huidig.id !== eigenaar) return;
+            const vernieuwd = await laadOverzicht();
+            if (vernieuwd && beheerderId === eigenaar) {
+              boekStatus.textContent = resultaat.data === false ? 'Dit boek was al gewist. Het overzicht is bijgewerkt.' : 'Het boek is gewist.';
+              $('boeken-kop').focus();
+            } else if (vernieuwd === false && (await auth.gebruiker())?.id === eigenaar) {
+              status.textContent = 'Het boek is gewist, maar het overzicht kon niet worden geladen. Vernieuw de pagina.';
+            }
+          } catch {
+            if (beheerderId === eigenaar && li.isConnected) {
+              boekStatus.textContent = 'Wissen is niet gelukt. Probeer het opnieuw.';
+              sluit(false);
+            }
+          } finally {
+            boekBezig = false;
+            boekKnoppen(false);
+            ja.textContent = 'Ja, wis dit boek';
+            if (li.isConnected && bevestiging.hidden && !inhoud.hidden) wis.focus();
+          }
+        });
+        acties.append(wis);
+        keuze.append(ja, nee);
+        bevestiging.append(vraag, keuze);
+        li.append(acties, bevestiging);
+        return li;
+      };
+      const zoek = $('beheer-zoek');
+      const telAccounts = () => {
+        const term = zoek.value.trim().toLowerCase();
+        let zichtbaar = 0;
+        accounts.forEach((li) => { li.hidden = Boolean(term) && !li.dataset.zoek.includes(term); if (!li.hidden) zichtbaar += 1; });
+        $('beheer-geen').hidden = !term || zichtbaar > 0;
+        const afgekapt = totaalAccounts > accounts.length ? ' (de ' + accounts.length + ' nieuwste van ' + totaalAccounts + ')' : '';
+        $('beheer-zoek-aantal').textContent = (term ? zichtbaar + ' van ' + accounts.length : accounts.length + (accounts.length === 1 ? ' account' : ' accounts')) + afgekapt;
+      };
+      zoek.addEventListener('input', telAccounts);
+
+      const laad = async (versie) => {
+        await auth.gereed;
+        const user = await auth.gebruiker();
+        if (versie !== laadVersie) return null;
+        if (!user) { status.textContent = 'Log in om dit overzicht te zien.'; return false; }
+        status.textContent = 'Even laden.';
+        const [overzicht, dagen] = await Promise.all([
+          auth.client.rpc('beheer_overzicht'),
+          auth.client.rpc('studie_dagcijfers', { p_dagen: 30 })
+        ]);
+        if (versie !== laadVersie) return null;
+        if (overzicht.error) { status.textContent = 'Laden is niet gelukt. Staat de SQL uit supabase/beheer-overzicht.sql al in het project?'; return false; }
+        const o = overzicht.data;
+        if (!o) { status.textContent = 'Dit overzicht is alleen voor de beheerder.'; return false; }
+
+        $('tegel-accounts').textContent = o.accounts.totaal;
+        $('tegel-nieuw').textContent = o.accounts.week;
+        $('tegel-week').textContent = o.accounts.actief_week;
+        $('tegel-plus').textContent = o.plannen.plus;
+        $('tegel-pro').textContent = o.plannen.pro;
+
+        cijfers('beheer-abo', [
+          [o.plannen.in_proef, 'in een proefmaand'],
+          [o.plannen.betaald, 'betalend'],
+          [o.plannen.opgezegd, 'opgezegd, loopt nog'],
+          [o.plannen.proeven_plus, 'proefmaanden Plus ooit'],
+          [o.plannen.proeven_pro, 'proefmaanden Pro ooit']
+        ]);
+
+        // Elk account met naam, e-mail en gegevens; zoeken op naam of e-mail.
+        const wanneer = (moment) => moment ? lang.format(new Date(moment)) : 'Nog nooit';
+        const planNaam = (plan) => plan === 'pro' ? 'Pro' : plan === 'plus' ? 'Plus' : 'Free';
+        const planTekst = (rij) => {
+          if (rij.plan !== 'plus' && rij.plan !== 'pro') return 'Free';
+          const soort = rij.plan_status === 'proef' ? 'proefmaand' : rij.plan_status === 'opgezegd' ? 'opgezegd' : 'betaald';
+          return planNaam(rij.plan) + ', ' + soort + (rij.plan_tot ? ' tot ' + kort.format(new Date(rij.plan_tot)) : '');
+        };
+        const inlogNamen = { google: 'Google', email: 'E-mail en wachtwoord' };
+        const jaarNamen = { '1ba': '1ste bachelor', '2ba': '2de bachelor', '3ba': '3de bachelor', master: 'Master', anders: 'Anders' };
+        accounts = (o.accounts.nieuwste || []).map((rij) => {
+          const li = el('li', 'kaart beheer-account');
+          li.dataset.plan = rij.plan;
+          li.dataset.zoek = [rij.naam, rij.bijnaam, rij.email].filter(Boolean).join(' ').toLowerCase();
+          const naam = (rij.naam || 'Geen naam') + (rij.bijnaam ? ' (' + rij.bijnaam + ')' : '');
+          const kop = el('div', 'beheer-account-kop');
+          const letter = el('span', 'beheer-account-letter', ((rij.naam || rij.email || '?').trim().charAt(0) || '?').toUpperCase());
+          letter.setAttribute('aria-hidden', 'true');
+          const wie = el('div', 'beheer-account-wie');
+          wie.append(el('span', 'beheer-account-naam', naam));
+          if (rij.email) {
+            const mail = el('a', 'beheer-account-mail', rij.email);
+            mail.href = 'mailto:' + rij.email;
+            wie.append(mail);
+          }
+          const labels = el('div', 'beheer-account-labels');
+          const plan = el('span', 'beheer-plan', planNaam(rij.plan));
+          plan.dataset.plan = rij.plan;
+          labels.append(plan);
+          const benJij = Boolean(rij.email && user.email && rij.email.toLowerCase() === user.email.toLowerCase());
+          if (benJij || rij.beheerder) labels.append(el('span', 'beheer-plan is-beheerder', benJij ? 'Jij' : 'Beheerder'));
+          kop.append(letter, wie, labels);
+          li.append(kop);
+          const gegevens = el('dl', 'beheer-account-gegevens');
+          [
+            ['Account gemaakt', lang.format(new Date(rij.gemaakt))],
+            ['Laatst ingelogd', wanneer(rij.laatst_ingelogd)],
+            ['Inloggen via', (Array.isArray(rij.via) ? rij.via : [rij.via || 'email']).map((p) => inlogNamen[p] || p).join(', ')],
+            ['E-mail bevestigd', rij.bevestigd ? 'Ja' : 'Nee'],
+            ['Plan', planTekst(rij)],
+            ['Geoefend', rij.rondes + (rij.rondes === 1 ? ' ronde, ' : ' rondes, ') + rij.vragen + ' vragen' + (rij.score === null ? '' : ', ' + rij.score + '% goed')],
+            ['Laatst geoefend', wanneer(rij.laatst_geoefend)],
+            ['Vragen aan Comit', rij.comit_vragen],
+            ['Open fouten', rij.open_fouten]
+          ].forEach(([term, waarde]) => {
+            const paar = el('div');
+            paar.append(el('dt', '', term), el('dd', '', waarde));
+            gegevens.append(paar);
+          });
+          li.append(gegevens);
+          // Wat iemand over zichzelf vertelde (optioneel), als platte tekst.
+          const over = rij.over && typeof rij.over === 'object' ? rij.over : null;
+          const overTekst = (waarde, max) => (typeof waarde === 'string' ? waarde.trim() : '').slice(0, max);
+          const overJaar = over && Object.hasOwn(jaarNamen, over.jaar) ? jaarNamen[over.jaar] : '';
+          if (over && (overTekst(over.studie, 60) || overJaar || overTekst(over.tekst, 300))) {
+            const blok = el('div', 'beheer-over');
+            blok.append(el('p', 'beheer-over-kop', over.openbaar === true ? 'Over zichzelf, openbaar' : 'Over zichzelf, alleen voor jou'));
+            const regel = [overTekst(over.studie, 60), overJaar].filter(Boolean).join(' · ');
+            if (regel) blok.append(el('p', 'beheer-over-regel', regel));
+            if (overTekst(over.tekst, 300)) blok.append(el('p', 'beheer-over-tekst', overTekst(over.tekst, 300)));
+            li.append(blok);
+          }
+          return li;
+        });
+        totaalAccounts = o.accounts.totaal || accounts.length;
+        rijen('beheer-nieuwste', accounts, 'Nog geen accounts.');
+        telAccounts();
+
+        cijfers('beheer-oefenen', [
+          [o.oefenen.sessies_week, 'rondes deze week'],
+          [o.oefenen.vragen_week, 'vragen deze week'],
+          [o.oefenen.score_week === null ? '-' : o.oefenen.score_week + '%', 'goed deze week'],
+          [o.oefenen.open_fouten, 'open fouten (Plus)'],
+          [o.oefenen.examens, 'examens ingevuld (Pro)']
+        ]);
+        rijen('beheer-vakken', (o.oefenen.top_vakken || []).map((rij) => {
+          const li = el('li');
+          li.append(el('span', '', vakNaam.get(rij.vak) || rij.vak), el('small', '', rij.sessies + (rij.sessies === 1 ? ' ronde' : ' rondes') + ' in 30 dagen'));
+          return li;
+        }), 'De laatste 30 dagen nog niet geoefend.');
+
+        cijfers('beheer-comit', [
+          [o.comit.vandaag, 'vragen vandaag'],
+          [o.comit.week, 'vragen deze week'],
+          [o.comit.mensen_week, 'mensen deze week']
+        ]);
+
+        cijfers('beheer-feedback-cijfers', [
+          [o.feedback.week, 'deze week'],
+          [o.feedback.totaal, 'in totaal']
+        ]);
+        const soorten = { fout: 'Fout in een vraag', idee: 'Idee', anders: 'Iets anders' };
+        rijen('beheer-feedback', (o.feedback.nieuwste || []).map((rij) => {
+          const li = el('li');
+          const kop = el('small', '', (soorten[rij.soort] || rij.soort) + (rij.vak ? ' · ' + (vakNaam.get(rij.vak) || rij.vak) : '') + ' · ' + lang.format(new Date(rij.gemaakt)));
+          li.append(kop, el('p', '', rij.tekst));
+          return li;
+        }), 'Nog geen feedback.');
+
+        cijfers('beheer-boeken-cijfers', [
+          [o.boeken ? o.boeken.te_koop : '-', 'te koop'],
+          [o.boeken ? o.boeken.verkocht : '-', 'verkocht']
+        ]);
+        rijen('beheer-boek-meldingen', (o.boeken?.meldingen || []).map(boekMelding), o.boeken ? 'Nog geen boekmeldingen.' : 'Boekenbeheer is nog niet ingeschakeld.');
+
+        rijen('beheer-vertrek', Object.entries(o.vertrek || {}).sort((a, b) => b[1] - a[1]).map(([reden, aantal]) => {
+          const li = el('li');
+          li.append(el('span', '', redenen[reden] || reden), el('small', '', aantal + ' keer'));
+          return li;
+        }), 'Nog niemand heeft zijn account gewist.');
+
+        if (!dagen.error) balken('beheer-lijst', dagen.data || [], 'oefenaars', 'oefenaars');
+        balken('beheer-nieuw-lijst', o.accounts.per_dag || [], 'nieuw', 'nieuwe accounts');
+
+        status.textContent = '';
+        beheerderId = user.id;
+        inhoud.hidden = false;
+        return true;
+      };
+
+      const laadOverzicht = () => {
+        const versie = ++laadVersie;
+        beheerderId = null;
+        inhoud.hidden = true;
+        sluitBoekBevestiging = null;
+        boekStatus.textContent = '';
+        $('beheer-boek-meldingen').replaceChildren();
+        return laad(versie).catch(() => {
+          if (versie !== laadVersie) return null;
+          status.textContent = 'Laden is niet gelukt. Probeer het later opnieuw.';
+          return false;
+        });
+      };
+      // Zelfde account (tokenverversing, tabblad terug): niets doen, zodat de pagina en een open bevestiging blijven staan.
+      window.addEventListener('bes:auth', (event) => {
+        const id = event.detail?.uitloggen ? null : event.detail?.user?.id || null;
+        if (beheerderId && id === beheerderId) return;
+        laadOverzicht();
+      });
+      laadOverzicht();
+    });
+  </script>
+</body>
+</html>

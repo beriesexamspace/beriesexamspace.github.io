@@ -1,0 +1,249 @@
+<!doctype html>
+<html lang="nl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script src="assets/deur.js?v=80"></script>
+  <link rel="apple-touch-icon" href="/assets/icoon-180.png">
+  <link rel="manifest" href="/manifest.webmanifest">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Berie's Exam Space">
+  <meta property="og:title" content="Welkom | Berie's Exam Space">
+  <meta property="og:description" content="Oefenvragen, theorie en examensimulaties voor psychologiestudenten aan de VUB.">
+  <meta property="og:image" content="https://beriesexamspace.com/assets/deel.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:url" content="https://beriesexamspace.com/nieuw.html">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="theme-color" content="#FFFFFF">
+  <script>
+    (() => {
+      let keuze;
+      try { keuze = window.localStorage.getItem('bes_thema'); } catch {}
+      const donker = keuze === 'donker' || (keuze !== 'licht' && window.matchMedia('(prefers-color-scheme: dark)').matches);
+      document.documentElement.dataset.theme = donker ? 'dark' : 'light';
+      document.querySelector('meta[name="theme-color"]').content = donker ? '#0B0B0C' : '#FFFFFF';
+    })();
+  </script>
+  <meta name="robots" content="noindex">
+  <title>Welkom | Berie's Exam Space</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/style.css?v=80">
+  <link rel="stylesheet" href="assets/intro.css?v=80">
+  <script src="assets/app.js?v=80"></script>
+  <script src="assets/updates.js?v=80"></script>
+  <script src="assets/intro.js?v=80"></script>
+  <script src="assets/config.js?v=80" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js" defer></script>
+  <script src="assets/auth.js?v=80" defer></script>
+  <script src="assets/plan.js?v=80" defer></script>
+  <script src="assets/activiteit.js?v=80" defer></script>
+  <script src="assets/comit.js?v=80" defer></script>
+  <style>
+    /* Alles in één scherm: kop, de stap, en de knoppen, zonder scrollen. */
+    html, body { height: 100%; overflow: hidden; }
+    .nieuw-pagina { display: flex; flex-direction: column; height: 100vh; height: 100dvh; padding: 36px 0 16px; overflow: hidden; }
+    .nieuw-pagina .pagina-kop { margin-bottom: 12px; }
+    .nieuw-pagina .pagina-kop .eyebrow { margin: 0 0 10px; color: var(--accent); font-size: .9375rem; }
+    .nieuw-pagina .pagina-kop h1 { font-size: clamp(1.625rem, 3.2vw, 2.5rem); }
+    .nieuw-pagina .pagina-kop p { margin-top: 10px; font-size: clamp(.9375rem, 1.2vw, 1.125rem); }
+    .nieuw-intro { flex: 1 1 auto; min-height: 0; width: 100%; max-width: 1100px; margin: 0 auto; padding: 0 24px; box-sizing: border-box; }
+    .nieuw-intro .stap-kaart { flex: 1 1 auto; min-height: 0; }
+    .site-footer { display: none; }
+    @media (max-width: 767px) {
+      .nieuw-pagina { padding-top: 22px; }
+      .nieuw-pagina .pagina-kop { margin-bottom: 8px; padding-right: 56px; }
+      .nieuw-intro { padding: 0 16px; }
+    }
+    /* Comit stelt zich voor: een laag die bijna het hele scherm bedekt, één keer per toestel na de slideshow. */
+    .comit-voorstel { position: fixed; z-index: 50; inset: 0; display: grid; place-items: center; padding: 16px; opacity: 1; transition: opacity 200ms var(--ease); }
+    .comit-voorstel::before { content: ''; position: absolute; inset: 0; background: color-mix(in srgb, var(--ink) 45%, transparent); animation: comit-voorstel-fade 180ms var(--ease) both; }
+    html[data-theme="dark"] .comit-voorstel::before { background: color-mix(in srgb, var(--bg) 65%, transparent); }
+    .comit-voorstel.is-weg { opacity: 0; pointer-events: none; }
+    .comit-voorstel-kaart { position: relative; display: flex; flex-direction: column; align-items: center; gap: 18px; width: min(100%, 1060px); height: min(100%, 720px); padding: clamp(28px, 6vw, 64px); border: 1px solid var(--line); border-radius: 28px; background: var(--card); box-shadow: var(--shadow-card-hover); text-align: center; overflow: auto; animation: comit-voorstel-kaart-in 260ms var(--ease) 180ms both; }
+    .comit-voorstel-kaart > * { flex-shrink: 0; max-width: 100%; }
+    .comit-voorstel-logo { position: relative; display: grid; place-items: center; width: 112px; height: 112px; margin-top: auto; border-radius: 32px; background: var(--accent-zacht); animation: comit-voorstel-logo-in 300ms var(--ease) 440ms both; }
+    .comit-voorstel-logo::before { content: ''; position: absolute; inset: 0; border-radius: inherit; box-shadow: 0 0 32px 12px var(--teal-zacht); opacity: 0; pointer-events: none; animation: comit-voorstel-gloed 400ms var(--ease) 440ms both; }
+    .comit-voorstel-logo svg { width: 64px; height: 64px; }
+    .comit-voorstel-labels { display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: 8px; animation: comit-voorstel-rij-in 220ms var(--ease) 740ms both; }
+    .comit-voorstel .eyebrow { margin: 0; }
+    .comit-voorstel h2 { margin: 0; font-size: clamp(2rem, 5vw, 3.25rem); line-height: 1.08; text-wrap: balance; animation: comit-voorstel-rij-in 220ms var(--ease) 830ms both; }
+    .comit-voorstel-uitleg { display: grid; gap: 10px; width: min(100%, 34rem); animation: comit-voorstel-rij-in 220ms var(--ease) 920ms both; }
+    .comit-voorstel p.comit-voorstel-tekst { margin: 0; color: var(--ink-soft); font-size: clamp(1rem, 1.6vw, 1.1875rem); line-height: 1.55; }
+    .comit-voorstel p.comit-voorstel-demo { font-size: clamp(.875rem, 1.4vw, 1rem); }
+    .comit-voorstel-demo a { color: var(--accent); text-underline-offset: 3px; }
+    .comit-voorstel-knoppen { display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; margin-top: 8px; margin-bottom: auto; animation: comit-voorstel-rij-in 220ms var(--ease) 1010ms both; }
+    .comit-voorstel-knoppen a { min-height: 44px; }
+    @keyframes comit-voorstel-fade { from { opacity: 0; } to { opacity: 1; } }
+    @keyframes comit-voorstel-kaart-in { from { opacity: 0; transform: scale(.96); } to { opacity: 1; transform: scale(1); } }
+    @keyframes comit-voorstel-logo-in { from { opacity: 0; transform: scale(.8); } to { opacity: 1; transform: scale(1); } }
+    @keyframes comit-voorstel-gloed { 0%, 100% { opacity: 0; } 35% { opacity: 1; } }
+    @keyframes comit-voorstel-rij-in { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+    .comit-voorstel.is-stil, .comit-voorstel.is-stil::before, .comit-voorstel.is-stil *, .comit-voorstel.is-stil *::before { animation: none; transition: none; }
+    @media (prefers-reduced-motion: reduce) {
+      .comit-voorstel, .comit-voorstel::before, .comit-voorstel *, .comit-voorstel *::before { animation: none; transition: none; }
+    }
+    @media (max-width: 767px) {
+      .comit-voorstel-knoppen { flex-direction: column; width: 100%; max-width: 320px; }
+    }
+    /* Te weinig hoogte (bijvoorbeeld een telefoon in de breedte): dan mag de pagina gewoon scrollen. */
+    @media (max-height: 560px) {
+      html, body { height: auto; overflow: auto; }
+      .nieuw-pagina { height: auto; min-height: 100vh; min-height: 100dvh; overflow: visible; }
+      .nieuw-intro .stap-kaart { min-height: 380px; }
+    }
+  </style>
+</head>
+<body>
+  <a class="skip-link" href="#inhoud">Ga naar inhoud</a>
+  <main id="inhoud" class="pagina nieuw-pagina" aria-labelledby="nieuw-titel">
+    <div class="wrap">
+      <header class="pagina-kop">
+        <p class="eyebrow">Berie's Exam Space</p>
+        <h1 id="nieuw-titel">Welkom.</h1>
+        <p>Klik op Volgende, of sla over. Daarna weet je hoe alles werkt.</p>
+      </header>
+    </div>
+
+    <section class="nieuw-intro" id="intro" aria-label="Kennismaking met Berie's Exam Space"></section>
+  </main>
+
+  <footer class="site-footer">
+    <p class="footer-brand">Berie's Exam Space</p>
+    <div class="footer-details">
+      <p>Duidelijk leren. Rustig groeien.</p>
+      <p class="project-label">Een project van The Berie Foundation</p>
+    </div>
+  </footer>
+
+  <script>
+    (() => {
+      let klaar = false;
+      const afronden = async () => {
+        if (klaar) return;
+        klaar = true;
+        const versie = window.BES_VERSIE || 0;
+        try {
+          window.localStorage.setItem('bes_versie_gezien', String(versie));
+          window.sessionStorage.setItem('bes_nav_intro', '1');
+        } catch {}
+        try {
+          const auth = window.BES.auth;
+          await Promise.race([auth.gereed, new Promise(resolve => window.setTimeout(resolve, 1500))]);
+          if (await auth.gebruiker()) await auth.profielBijwerken({ versieGezien: versie });
+        } catch {}
+        if (await comitVoorstellen()) return;
+        window.location.assign('hub.html' + window.location.hash);
+      };
+
+      // Na de slideshow stelt Comit zich één keer per toestel voor. Kiezen: praten met Comit of later (naar de hub).
+      const comitVoorstellen = async () => {
+        let gezien = false;
+        try { gezien = window.localStorage.getItem('bes_comit_voorgesteld') === '1'; } catch {}
+        if (gezien || typeof window.BES.comitLogo !== 'function') return false;
+        try { window.localStorage.setItem('bes_comit_voorgesteld', '1'); } catch {}
+        const laag = document.createElement('div');
+        laag.className = 'comit-voorstel';
+        laag.setAttribute('role', 'dialog');
+        laag.setAttribute('aria-modal', 'true');
+        laag.setAttribute('aria-labelledby', 'comit-voorstel-kop');
+        const kaart = document.createElement('div');
+        kaart.className = 'comit-voorstel-kaart';
+        const logo = document.createElement('div');
+        logo.className = 'comit-voorstel-logo';
+        logo.append(window.BES.comitLogo(64));
+        const eyebrow = document.createElement('p');
+        eyebrow.className = 'eyebrow';
+        eyebrow.textContent = 'Nieuw op Berie\'s Exam Space';
+        const labels = document.createElement('div');
+        labels.className = 'comit-voorstel-labels';
+        const demo = document.createElement('span');
+        demo.className = 'label';
+        demo.textContent = 'Demo';
+        labels.append(eyebrow, demo);
+        const kop = document.createElement('h2');
+        kop.id = 'comit-voorstel-kop';
+        kop.textContent = 'Hallo, ik ben Comit.';
+        const tekst = document.createElement('p');
+        tekst.className = 'comit-voorstel-tekst';
+        tekst.textContent = 'Je studiemaatje. Vraag me wat je nog moet oefenen, hoe je week ging, of leg me een begrip voor dat je niet snapt.';
+        const demoTekst = document.createElement('p');
+        demoTekst.className = 'comit-voorstel-tekst comit-voorstel-demo';
+        const feedback = document.createElement('a');
+        feedback.href = 'feedback.html';
+        feedback.textContent = 'Feedback';
+        demoTekst.append('Comit is nog een demo. Je test hem mee en hij wordt vanaf nu alleen maar beter. Klopt er iets niet? Laat het weten via ', feedback, '.');
+        const uitleg = document.createElement('div');
+        uitleg.className = 'comit-voorstel-uitleg';
+        uitleg.append(tekst, demoTekst);
+        const knoppen = document.createElement('div');
+        knoppen.className = 'comit-voorstel-knoppen';
+        const praat = document.createElement('a');
+        praat.className = 'knop';
+        praat.href = 'comit.html';
+        praat.textContent = 'Praat met Comit →';
+        const later = document.createElement('a');
+        later.className = 'knop-secundair';
+        later.href = 'hub.html' + window.location.hash;
+        later.textContent = 'Later';
+        knoppen.append(praat, later);
+        kaart.append(logo, labels, kop, uitleg, knoppen);
+        laag.append(kaart);
+        const minderBeweging = window.matchMedia('(prefers-reduced-motion: reduce)');
+        let bestemming = '';
+        let vertrekTimer;
+        const vertrek = () => {
+          window.clearTimeout(vertrekTimer);
+          minderBeweging.removeEventListener('change', bewegingGewijzigd);
+          window.location.assign(bestemming);
+        };
+        const bewegingGewijzigd = () => {
+          if (!minderBeweging.matches) return;
+          laag.classList.add('is-stil');
+          if (bestemming) vertrek();
+        };
+        const afsluiten = href => {
+          if (bestemming) return;
+          bestemming = href;
+          if (minderBeweging.matches || laag.classList.contains('is-stil')) { vertrek(); return; }
+          laag.classList.add('is-weg');
+          vertrekTimer = window.setTimeout(vertrek, 200);
+        };
+        minderBeweging.addEventListener('change', bewegingGewijzigd);
+        bewegingGewijzigd();
+        // Terug via de browser (bfcache): de laag weer zichtbaar en bruikbaar maken.
+        window.addEventListener('pageshow', event => {
+          if (!event.persisted || !bestemming) return;
+          window.clearTimeout(vertrekTimer);
+          bestemming = '';
+          laag.classList.remove('is-weg');
+          minderBeweging.addEventListener('change', bewegingGewijzigd);
+          praat.focus({ preventScroll: true });
+        });
+        [praat, later].forEach(link => link.addEventListener('click', event => {
+          if (event.button !== 0 || event.ctrlKey || event.metaKey || event.shiftKey || event.altKey) return;
+          event.preventDefault();
+          afsluiten(link.href);
+        }));
+        laag.addEventListener('keydown', (event) => {
+          if (event.key === 'Escape') { event.preventDefault(); afsluiten(later.href); return; }
+          if (event.key !== 'Tab') return;
+          if (event.shiftKey && document.activeElement === feedback) { event.preventDefault(); later.focus(); }
+          else if (!event.shiftKey && document.activeElement === later) { event.preventDefault(); feedback.focus(); }
+        });
+        document.body.append(laag);
+        praat.focus({ preventScroll: true });
+        return true;
+      };
+      window.BES.stappen(document.getElementById('intro'), {
+        kopniveau: 'h2',
+        overslaan: true,
+        laatsteTekst: 'Begin met leren →',
+        bijKlaar: afronden
+      });
+    })();
+  </script>
+</body>
+</html>

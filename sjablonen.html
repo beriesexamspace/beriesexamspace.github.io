@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="nl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script src="assets/deur.js?v=80"></script>
+  <link rel="apple-touch-icon" href="/assets/icoon-180.png">
+  <link rel="manifest" href="/manifest.webmanifest">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Berie's Exam Space">
+  <meta property="og:title" content="Sjablonen | Berie's Exam Space">
+  <meta property="og:description" content="Sjablonen voor je opdrachten bij Berie's Exam Space: downloaden, invullen en samen de taken verdelen.">
+  <meta property="og:image" content="https://beriesexamspace.com/assets/deel.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:url" content="https://beriesexamspace.com/sjablonen.html">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="description" content="Sjablonen voor je opdrachten bij Berie's Exam Space: downloaden, invullen en samen de taken verdelen.">
+  <meta name="theme-color" content="#FFFFFF">
+  <script>
+    (() => {
+      let keuze;
+      try { keuze = window.localStorage.getItem('bes_thema'); } catch {}
+      const donker = keuze === 'donker' || (keuze !== 'licht' && window.matchMedia('(prefers-color-scheme: dark)').matches);
+      document.documentElement.dataset.theme = donker ? 'dark' : 'light';
+      document.querySelector('meta[name="theme-color"]').content = donker ? '#0B0B0C' : '#FFFFFF';
+    })();
+  </script>
+  <meta name="robots" content="noindex">
+  <title>Sjablonen | Berie's Exam Space</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/style.css?v=80">
+  <script src="assets/app.js?v=80" defer></script>
+  <script src="assets/config.js?v=80" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js" defer></script>
+  <script src="assets/auth.js?v=80" defer></script>
+  <script src="assets/plan.js?v=80" defer></script>
+  <style>
+    .sjablonen-wrap { max-width: 760px; }
+    .sjablonen-lijst { display: grid; gap: 16px; margin: 0; padding: 0; list-style: none; }
+    .sjabloon { display: grid; grid-template-columns: 52px minmax(0, 1fr) auto; align-items: center; gap: 8px 20px; padding: clamp(20px, 4vw, 28px); }
+    .sjabloon-icoon { display: grid; width: 52px; height: 52px; place-items: center; border-radius: 14px; background: var(--teal-zacht); color: var(--teal-tekst); }
+    .sjabloon-icoon svg { fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+    .sjabloon h2 { margin: 0; font-size: 1.125rem; font-weight: 600; line-height: 1.3; }
+    .sjabloon p { max-width: 52ch; margin: 4px 0 0; color: var(--ink-soft); font-size: .9375rem; line-height: 1.6; }
+    .sjabloon-meta { display: block; margin-top: 8px; color: var(--ink-soft); font-size: .8125rem; font-variant-numeric: tabular-nums; }
+    .sjabloon .knop { display: inline-flex; align-items: center; justify-content: center; min-width: 0; text-decoration: none; }
+    .sjablonen-noot { margin: 24px 0 0; color: var(--ink-soft); font-size: .9375rem; }
+    @media (max-width: 600px) {
+      .sjabloon { grid-template-columns: 44px minmax(0, 1fr); }
+      .sjabloon-icoon { width: 44px; height: 44px; border-radius: 12px; }
+      .sjabloon .knop { grid-column: 1 / -1; width: 100%; max-width: none; margin-top: 12px; }
+    }
+  </style>
+</head>
+<body data-nav="vast">
+  <a class="skip-link" href="#inhoud">Ga naar inhoud</a>
+  <header class="site-header">
+    <nav class="navigation" aria-label="Hoofdnavigatie">
+      <a class="brand" href="index.html" aria-label="Berie's Exam Space, startpagina">
+        <span class="brand-symbol" aria-hidden="true">B</span>
+        <span class="brand-name"><span>Berie's</span> <span>Exam Space</span></span>
+      </a>
+      <a class="home-knop" href="hub.html" aria-label="Home" title="Home">
+        <svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 10.5 12 3l9 7.5M5 9v12h5v-7h4v7h5V9"/></svg>
+      </a>
+      <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="site-menu">Menu</button>
+      <ul class="navigation-links" id="site-menu">
+        <li><a href="hub.html#hoe-werkt-het">Hoe werkt het</a></li>
+        <li><a href="hub.html#wie-is-berie">Over mij</a></li>
+        <li><a href="whatsapp.html">WhatsApp-groep</a></li>
+      </ul>
+      <a class="pill login-button" href="inloggen.html">Inloggen →</a>
+    </nav>
+  </header>
+
+  <main id="inhoud" class="pagina" aria-labelledby="sjablonen-titel">
+    <div class="wrap sjablonen-wrap">
+      <a class="terug tekstlink" href="hub.html" data-terug="hub.html" data-terug-tekst="Terug">← Terug</a>
+      <header class="pagina-kop">
+        <h1 id="sjablonen-titel">Sjablonen</h1>
+        <p class="pagina-sub">De vaste opmaak voor je opdrachten. Download, vul in en verdeel samen de taken.</p>
+      </header>
+
+      <ul class="sjablonen-lijst" aria-label="Sjablonen om te downloaden">
+        <li class="kaart sjabloon">
+          <span class="sjabloon-icoon" aria-hidden="true">
+            <svg width="24" height="24" viewBox="0 0 24 24"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5M9 13h6M9 17h4"/></svg>
+          </span>
+          <div>
+            <h2 id="sjabloon-groepswerk">Groepswerk</h2>
+            <p>Het VUB-sjabloon voor groepswerk: voorblad, inhoudstafel en hoofdstukken in de huisstijl, met een voorbeeld van een ingevuld voorblad.</p>
+            <span class="sjabloon-meta">Word-bestand · 3 pagina's · 89 kB</span>
+          </div>
+          <a class="knop" href="assets/sjablonen/sjabloon-groepswerk.docx" download="Sjabloon groepswerk.docx" aria-describedby="sjabloon-groepswerk">Download</a>
+        </li>
+      </ul>
+      <p class="sjablonen-noot">Mis je een sjabloon? Laat het weten via <a class="tekstlink" href="feedback.html">Feedback</a>.</p>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <p class="footer-brand">Berie's Exam Space</p>
+    <div class="footer-details">
+      <p>Duidelijk leren. Rustig groeien.</p>
+      <p class="project-label">Een project van The Berie Foundation</p>
+    </div>
+  </footer>
+</body>
+</html>

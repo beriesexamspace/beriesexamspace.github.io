@@ -1,0 +1,150 @@
+<!doctype html>
+<html lang="nl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script src="assets/deur.js?v=80"></script>
+  <link rel="apple-touch-icon" href="/assets/icoon-180.png">
+  <link rel="manifest" href="/manifest.webmanifest">
+  <meta name="robots" content="noindex">
+  <meta name="theme-color" content="#FFFFFF">
+  <script>
+    (() => {
+      let keuze;
+      try { keuze = window.localStorage.getItem('bes_thema'); } catch {}
+      const donker = keuze === 'donker' || (keuze !== 'licht' && window.matchMedia('(prefers-color-scheme: dark)').matches);
+      document.documentElement.dataset.theme = donker ? 'dark' : 'light';
+      document.querySelector('meta[name="theme-color"]').content = donker ? '#0B0B0C' : '#FFFFFF';
+    })();
+  </script>
+  <title>Foutenlijst | Berie's Exam Space</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/style.css?v=80">
+  <script src="assets/app.js?v=80" defer></script>
+  <script src="assets/vakken.js?v=80"></script>
+  <script src="assets/config.js?v=80" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js" defer></script>
+  <script src="assets/auth.js?v=80" defer></script>
+  <script src="assets/plan.js?v=80" defer></script>
+  <script src="assets/activiteit.js?v=80" defer></script>
+  <style>
+    .fl-wrap { max-width: 760px; }
+    .fl-status { margin: 0 0 16px; color: var(--ink-soft); }
+    .fl-status:empty { display: none; }
+    .fl-lijst { display: grid; gap: 14px; }
+    .fl-vak { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 20px 24px; }
+    .fl-vak h2 { margin: 0; font-size: 1.0625rem; line-height: 1.3; }
+    .fl-vak p { margin: 4px 0 0; color: var(--ink-soft); font-size: .875rem; }
+    .fl-vak .knop-secundair, .fl-plus .knop-secundair { flex-shrink: 0; width: auto; min-width: 0; margin: 0; padding: 10px 20px; }
+    .fl-plus { display: flex; align-items: center; justify-content: space-between; gap: 20px; padding: 24px; }
+    .fl-plus h2 { margin: 0 0 6px; font-size: 1.125rem; }
+    .fl-plus p, .fl-leeg p { margin: 0; color: var(--ink-soft); font-size: .9375rem; line-height: 1.5; }
+    .fl-leeg { padding: 24px; }
+    @media (max-width: 560px) {
+      .fl-vak, .fl-plus { flex-direction: column; align-items: stretch; }
+      .fl-vak .knop-secundair, .fl-plus .knop-secundair { width: 100%; max-width: none; }
+    }
+  </style>
+</head>
+<body data-nav="vast">
+  <a class="skip-link" href="#inhoud">Ga naar inhoud</a>
+  <header class="site-header">
+    <nav class="navigation" aria-label="Hoofdnavigatie">
+      <a class="brand" href="index.html" aria-label="Berie's Exam Space, startpagina">
+        <span class="brand-symbol" aria-hidden="true">B</span>
+        <span class="brand-name"><span>Berie's</span> <span>Exam Space</span></span>
+      </a>
+      <a class="home-knop" href="hub.html" aria-label="Home" title="Home">
+        <svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 10.5 12 3l9 7.5M5 9v12h5v-7h4v7h5V9"/></svg>
+      </a>
+      <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="site-menu">Menu</button>
+      <ul class="navigation-links" id="site-menu">
+        <li><a href="hub.html#hoe-werkt-het">Hoe werkt het</a></li>
+        <li><a href="hub.html#wie-is-berie">Over mij</a></li>
+        <li><a href="whatsapp.html">WhatsApp-groep</a></li>
+      </ul>
+      <a class="pill login-button" href="inloggen.html">Inloggen →</a>
+    </nav>
+  </header>
+  <main id="inhoud" class="pagina" aria-labelledby="fl-titel">
+    <div class="wrap fl-wrap">
+      <a class="terug tekstlink" href="hub.html" data-terug="hub.html" data-terug-tekst="Terug">← Terug</a>
+      <header class="pagina-kop">
+        <h1 id="fl-titel">Foutenlijst</h1>
+        <p class="pagina-sub">De vragen die je fout had, per vak. Beantwoord je ze later goed, dan gaan ze vanzelf van de lijst.</p>
+      </header>
+
+      <p class="fl-status" id="fl-status" role="status">Even laden.</p>
+
+      <section class="kaart fl-plus" id="fl-plus" aria-labelledby="fl-plus-kop" hidden>
+        <div>
+          <h2 id="fl-plus-kop">Je foutenlijst zit in Plus</h2>
+          <p>Met Plus onthoudt de site welke vragen je fout had, zodat je ze gericht kan wegwerken.</p>
+        </div>
+        <a class="knop-secundair" href="abonnement.html">Probeer Plus een maand</a>
+      </section>
+
+      <div class="fl-lijst" id="fl-lijst"></div>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <p class="footer-brand">Berie's Exam Space</p>
+    <div class="footer-details">
+      <p>Duidelijk leren. Rustig groeien.</p>
+      <p class="project-label">Een project van The Berie Foundation</p>
+    </div>
+  </footer>
+
+  <script>
+    // Foutenlijst: open fouten per vak uit de tabel fouten (supabase/fouten.sql), met een knop naar de vakpagina (?fouten=1).
+    document.addEventListener('DOMContentLoaded', () => {
+      const BES = window.BES || {};
+      const status = document.getElementById('fl-status');
+      const lijst = document.getElementById('fl-lijst');
+      const el = (tag, klasse, tekst) => { const node = document.createElement(tag); if (klasse) node.className = klasse; if (tekst !== undefined) node.textContent = tekst; return node; };
+      const vragenTekst = (aantal) => aantal + ' ' + (aantal === 1 ? 'vraag' : 'vragen');
+
+      const laad = async () => {
+        const auth = BES.auth;
+        const user = auth ? await auth.gebruiker() : null;
+        if (!user || !auth.client) { status.textContent = 'Log in om je foutenlijst te zien.'; return; }
+        const plus = BES.heeftPlan ? await BES.heeftPlan('plus') : false;
+        if (!plus) { status.textContent = ''; document.getElementById('fl-plus').hidden = false; return; }
+        const { data, error } = await auth.client.from('fouten').select('vak,sleutel').eq('user_id', user.id).eq('opgelost', false);
+        if (error) { status.textContent = 'Je foutenlijst kon niet geladen worden. Probeer het later opnieuw.'; return; }
+        const perVak = new Map();
+        (data || []).forEach((rij) => {
+          const vak = perVak.get(rij.vak) || { normaal: 0, hard: 0 };
+          if (rij.sleutel.startsWith('h:')) vak.hard++; else vak.normaal++;
+          perVak.set(rij.vak, vak);
+        });
+        const namen = new Map((window.BES_VAKKEN || []).map((vak) => [vak.id, vak.naam]));
+        const vakken = [...perVak.entries()].filter(([id]) => namen.has(id)).sort((a, b) => (b[1].normaal + b[1].hard) - (a[1].normaal + a[1].hard));
+        status.textContent = '';
+        if (!vakken.length) {
+          const leeg = el('div', 'kaart fl-leeg');
+          leeg.append(el('p', '', 'Geen open fouten. Oefen een vak; wat je fout hebt, komt hier vanzelf te staan.'));
+          lijst.replaceChildren(leeg);
+          return;
+        }
+        lijst.replaceChildren(...vakken.map(([id, aantal]) => {
+          const kaart = el('article', 'kaart fl-vak');
+          const tekst = el('div');
+          const delen = [];
+          if (aantal.normaal) delen.push(vragenTekst(aantal.normaal) + ' in Normaal');
+          if (aantal.hard) delen.push(vragenTekst(aantal.hard) + ' in Hard mode');
+          tekst.append(el('h2', '', namen.get(id)), el('p', '', delen.join(', ')));
+          const knop = el('a', 'knop-secundair', 'Oefen je fouten');
+          knop.href = 'vak/' + encodeURIComponent(id) + '/?fouten=1';
+          kaart.append(tekst, knop);
+          return kaart;
+        }));
+      };
+      laad().catch(() => { status.textContent = 'Laden is niet gelukt. Probeer het later opnieuw.'; });
+    });
+  </script>
+</body>
+</html>
