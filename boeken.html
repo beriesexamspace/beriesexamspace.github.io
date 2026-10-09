@@ -1,0 +1,178 @@
+<!doctype html>
+<html lang="nl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script src="assets/deur.js?v=80"></script>
+  <link rel="apple-touch-icon" href="/assets/icoon-180.png">
+  <link rel="manifest" href="/manifest.webmanifest">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Berie's Exam Space">
+  <meta property="og:title" content="Verkoop je boeken | Berie's Exam Space">
+  <meta property="og:description" content="Geef je studieboeken een volgende plek. Bekijk boeken en spreek samen de koop af.">
+  <meta property="og:image" content="https://beriesexamspace.com/assets/deel.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:url" content="https://beriesexamspace.com/boeken.html">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="description" content="Geef je studieboeken een volgende plek. Bekijk boeken en spreek samen de koop af.">
+  <meta name="theme-color" content="#FFFFFF">
+  <meta name="robots" content="noindex">
+  <script>
+    (() => {
+      let keuze;
+      try { keuze = window.localStorage.getItem('bes_thema'); } catch {}
+      const donker = keuze === 'donker' || (keuze !== 'licht' && window.matchMedia('(prefers-color-scheme: dark)').matches);
+      document.documentElement.dataset.theme = donker ? 'dark' : 'light';
+      document.querySelector('meta[name="theme-color"]').content = donker ? '#0B0B0C' : '#FFFFFF';
+    })();
+  </script>
+  <title>Verkoop je boeken | Berie's Exam Space</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/style.css?v=80">
+  <link rel="stylesheet" href="assets/boeken.css?v=80">
+  <script src="assets/app.js?v=80" defer></script>
+  <script src="assets/config.js?v=80" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js" defer></script>
+  <script src="assets/auth.js?v=80" defer></script>
+  <script src="assets/plan.js?v=80" defer></script>
+  <script src="assets/vakken.js?v=80" defer></script>
+  <script src="assets/activiteit.js?v=80" defer></script>
+  <script src="assets/boeken.js?v=80" defer></script>
+</head>
+<body data-nav="vast">
+  <a class="skip-link" href="#inhoud">Ga naar inhoud</a>
+  <header class="site-header">
+    <nav class="navigation" aria-label="Hoofdnavigatie">
+      <a class="brand" href="index.html" aria-label="Berie's Exam Space, startpagina">
+        <span class="brand-symbol" aria-hidden="true">B</span>
+        <span class="brand-name"><span>Berie's</span> <span>Exam Space</span></span>
+      </a>
+      <a class="home-knop" href="hub.html" aria-label="Home" title="Home">
+        <svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 10.5 12 3l9 7.5M5 9v12h5v-7h4v7h5V9"/></svg>
+      </a>
+      <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="site-menu">Menu</button>
+      <ul class="navigation-links" id="site-menu">
+        <li><a href="hub.html#hoe-werkt-het">Hoe werkt het</a></li>
+        <li><a href="hub.html#wie-is-berie">Over mij</a></li>
+        <li><a href="whatsapp.html">WhatsApp-groep</a></li>
+      </ul>
+      <a class="pill login-button" href="inloggen.html">Inloggen →</a>
+    </nav>
+  </header>
+
+  <main id="inhoud" class="pagina boeken-pagina" aria-labelledby="boeken-titel">
+    <div class="wrap">
+      <a class="terug tekstlink" href="hub.html" data-terug="hub.html" data-terug-tekst="Terug">← Terug</a>
+      <header class="pagina-kop">
+        <h1 id="boeken-titel">Verkoop je boeken</h1>
+        <p class="pagina-sub">Een boek uitgelezen? Geef het een volgende plek. De koop en het ophalen spreek je samen af.</p>
+      </header>
+
+      <div class="kaart boeken-melding" id="boeken-toegang" role="status">
+        <p id="boeken-toegang-tekst">Je account wordt geladen…</p>
+        <a class="tekstlink" id="boeken-inloggen" href="inloggen.html?terug=boeken.html" hidden>Log in om de boeken te bekijken →</a>
+      </div>
+
+      <div id="boeken-inhoud" hidden>
+        <div class="boeken-acties boeken-startacties">
+          <a class="knop" href="#boek-toevoegen">Zet een boek erbij →</a>
+          <a class="knop-secundair" href="#mijn-boeken">Mijn boeken</a>
+        </div>
+
+        <section class="sectie" aria-labelledby="boeken-aanbod-titel">
+          <div class="sectie-kop"><h2 id="boeken-aanbod-titel">Boeken te koop</h2></div>
+          <div class="boeken-filters" role="group" aria-label="Filter op jaar">
+            <button class="boeken-filter" type="button" data-jaar="alle" aria-pressed="true">Alle</button>
+            <button class="boeken-filter" type="button" data-jaar="1ba" aria-pressed="false">1ste bachelor</button>
+            <button class="boeken-filter" type="button" data-jaar="2ba" aria-pressed="false">2de bachelor</button>
+            <button class="boeken-filter" type="button" data-jaar="3ba" aria-pressed="false">3de bachelor</button>
+            <button class="boeken-filter" type="button" data-jaar="ander" aria-pressed="false">Ander vak</button>
+          </div>
+          <div class="boeken-zoekveld">
+            <label for="boeken-zoeken">Zoek op titel of vak</label>
+            <input class="auth-input" id="boeken-zoeken" type="search" maxlength="120" placeholder="Welk boek zoek je?">
+          </div>
+          <p class="boeken-status" id="boeken-status" role="status" aria-live="polite"></p>
+          <button class="knop-secundair" id="boeken-opnieuw" type="button" hidden>Opnieuw proberen</button>
+          <div class="boeken-rooster" id="boeken-lijst" aria-busy="true"></div>
+          <div class="kaart boeken-leeg" id="boeken-leeg" hidden>
+            <p id="boeken-leeg-tekst">Er staan nog geen boeken te koop. Jouw boek kan het eerste zijn.</p>
+            <a class="tekstlink" href="#boek-toevoegen">Zet een boek erbij →</a>
+          </div>
+        </section>
+
+        <section class="sectie" id="boek-toevoegen" aria-labelledby="boek-toevoegen-titel">
+          <div class="sectie-kop"><h2 id="boek-toevoegen-titel">Zet een boek erbij</h2></div>
+          <form class="kaart boeken-form" id="boek-form">
+            <fieldset id="boek-velden">
+              <div class="boeken-formrooster">
+                <div class="boeken-veld boeken-breed">
+                  <label for="boek-vak">Vak</label>
+                  <select class="auth-input" id="boek-vak" name="vak" required><option value="">Kies een vak</option></select>
+                </div>
+                <div class="boeken-veld boeken-breed">
+                  <label for="boek-titel">Titel</label>
+                  <input class="auth-input" id="boek-titel" name="titel" type="text" required maxlength="120">
+                </div>
+                <div class="boeken-veld">
+                  <label for="boek-staat">Staat</label>
+                  <select class="auth-input" id="boek-staat" name="staat" required>
+                    <option value="">Kies de staat</option>
+                    <option value="nieuw">Nieuw</option>
+                    <option value="als-nieuw">Als nieuw</option>
+                    <option value="gebruikt">Gebruikt</option>
+                    <option value="notities">Met notities</option>
+                  </select>
+                </div>
+                <div class="boeken-veld">
+                  <label for="boek-prijs">Prijs in euro</label>
+                  <input class="auth-input" id="boek-prijs" name="prijs" type="number" min="0" max="500" step="0.01" inputmode="decimal" required>
+                </div>
+                <div class="boeken-veld boeken-breed">
+                  <label for="boek-plek">Plek (optioneel)</label>
+                  <input class="auth-input" id="boek-plek" name="plek" type="text" maxlength="60" placeholder="Bijvoorbeeld de campus">
+                </div>
+                <div class="boeken-veld boeken-breed">
+                  <label for="boek-fotos">Foto's (optioneel, maximaal 3)</label>
+                  <input class="auth-input" id="boek-fotos" name="fotos" type="file" accept="image/jpeg,image/png,image/webp,image/avif,image/heic,image/heif" multiple aria-describedby="boek-fotos-hint">
+                  <p class="auth-help" id="boek-fotos-hint">We verkleinen je foto's voor je ze plaatst.</p>
+                </div>
+                <div class="boeken-veld boeken-breed">
+                  <label for="boek-whatsapp">WhatsApp-nummer</label>
+                  <input class="auth-input" id="boek-whatsapp" name="whatsapp" type="tel" autocomplete="tel" required maxlength="30" aria-describedby="boek-nummer-hint boek-plaats-hint">
+                  <p class="auth-help" id="boek-nummer-hint">Met landcode, zoals +32 470 12 34 56.</p>
+                </div>
+                <label class="boeken-toestemming boeken-breed" for="boek-toestemming">
+                  <input id="boek-toestemming" name="toestemming" type="checkbox" required>
+                  <span>Mijn nummer mag zichtbaar zijn voor ingelogde studenten bij dit boek.</span>
+                </label>
+              </div>
+            </fieldset>
+            <p class="auth-help">Alleen echte boeken en cursussen. Geen kopieën, pdf's of samenvattingen van anderen.</p>
+            <p class="auth-help" id="boek-plaats-hint" role="status">Vul een geldig nummer met +32 of +31 in en geef toestemming om je boek te plaatsen.</p>
+            <p class="boeken-resultaat" id="boek-resultaat" role="status" hidden></p>
+            <button class="knop" id="boek-plaatsen" type="submit" disabled aria-describedby="boek-plaats-hint">Boek plaatsen →</button>
+          </form>
+        </section>
+
+        <section class="sectie" id="mijn-boeken" aria-labelledby="mijn-boeken-titel">
+          <div class="sectie-kop"><h2 id="mijn-boeken-titel">Mijn boeken</h2></div>
+          <p class="boeken-status" id="mijn-boeken-status" role="status" aria-live="polite"></p>
+          <div class="boeken-rooster" id="mijn-boeken-lijst"></div>
+        </section>
+      </div>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <p class="footer-brand">Berie's Exam Space</p>
+    <div class="footer-details">
+      <p>Duidelijk leren. Rustig groeien.</p>
+      <p class="project-label">Een project van The Berie Foundation</p>
+    </div>
+  </footer>
+</body>
+</html>

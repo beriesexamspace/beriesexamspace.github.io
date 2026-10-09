@@ -1,0 +1,361 @@
+.vak-pagina .wrap { max-width: 920px; }
+.vak-pagina button { font-family: var(--font-family); }
+.vak-pagina .pagina-kop .label { margin-bottom: 16px; }
+.vak-pagina .sectie { animation: none; }
+.vak-pagina h2:focus, .vak-pagina h1:focus { outline: none; }
+.vak-pagina p { line-height: 1.6; }
+.vak-tabs { display: flex; flex-wrap: wrap; gap: 10px; margin: 32px 0 40px; }
+.vak-tab { display: inline-flex; align-items: center; justify-content: center; min-height: 44px; padding: 0 22px; border: 1px solid var(--line); border-radius: var(--pill); font-size: .9375rem; font-weight: 600; line-height: 22px; box-shadow: none; cursor: pointer; transition: background-color 200ms var(--ease); }
+.vak-tab[aria-selected="true"] { background: var(--accent); border-color: var(--accent); color: var(--white); }
+.vak-tab[aria-selected="false"] { background: var(--card); border-color: var(--line); color: var(--ink); box-shadow: none; }
+.vak-sectie-kop { display: flex; align-items: center; justify-content: space-between; gap: 16px; margin-bottom: 20px; }
+.vak-sectie-kop .sectie-kop { margin: 0; }
+.vak-pagina [role="tabpanel"] .sectie:first-child { margin-top: 0; }
+.hoofdstuk-acties { display: flex; gap: 20px; }
+.vak-tekstknop { min-height: 44px; border: 0; padding: 0; background: var(--transparent); color: var(--accent); font-size: .9375rem; font-weight: 500; line-height: 1.5; cursor: pointer; }
+.vak-pagina .vak-tekstknop.terug { color: var(--muted); }
+.hoofdstuk { display: flex; align-items: flex-start; width: 100%; gap: 16px; text-align: left; cursor: pointer; }
+.vinkvak { display: inline-flex; align-items: center; justify-content: center; width: 24px; height: 24px; flex: 0 0 24px; border: 1px solid var(--line); border-radius: 50%; background: var(--surface); color: var(--transparent); font-size: 15px; line-height: 1; transition: color 150ms var(--ease), background-color 150ms var(--ease), border-color 150ms var(--ease); }
+.hoofdstuk.is-gekozen .vinkvak, .hoofdstuk[aria-checked="true"] .vinkvak { border-color: var(--accent); background: var(--accent); color: var(--white); }
+.hoofdstuk-inhoud { flex: 1; min-width: 0; }
+.hoofdstuk-boven, .score-boven { display: flex; justify-content: space-between; gap: 16px; align-items: baseline; }
+.hoofdstuk-kop { color: var(--ink); font-size: 1.0625rem; font-weight: 600; line-height: 1.4; }
+.hoofdstuk-aantal { flex: 0 0 auto; color: var(--muted); font-size: .875rem; line-height: 1.5; }
+.hoofdstuk-voortgang { display: block; margin-top: 16px; }
+.voortgang-balk { display: block; height: 4px; overflow: hidden; border-radius: var(--pill); background: var(--surface); }
+.voortgang-balk > span { display: block; width: 0; height: 100%; border-radius: inherit; background: var(--accent); transition: width 200ms var(--ease), background-color 200ms var(--ease); }
+.voortgang-balk.is-afgerond > span, .is-afgerond .voortgang-balk > span { background: var(--teal); }
+.voortgang-tekst { display: block; margin-top: 8px; color: var(--muted); font-size: .8125rem; line-height: 1.5; }
+.hoofdstuk.is-leeg { opacity: .5; cursor: default; }
+.hoofdstuk:disabled { transform: none; }
+#hoofdstuk-selectie.is-gedimd { opacity: .5; }
+.modus { display: flex; flex-direction: column; align-items: flex-start; gap: 10px; width: 100%; border-width: 2px; text-align: left; cursor: pointer; }
+.modus .kaart-titel { font-size: 1.125rem; }
+.modus.is-gekozen, .modus[aria-checked="true"] { border-color: var(--accent); background: var(--accent-zacht); }
+.vak-hint { margin: 12px 0 0; color: var(--muted); font-size: .875rem; }
+.vak-pagina .gedimde-tekst { color: var(--muted); }
+.vak-pagina :is(#oefenscherm, #eindscherm, #vraag-tekst, #score-kop, #start-oefening) { scroll-margin-top: 100px; }
+#laatste-simulatie { margin: -8px 0 20px; }
+.vak-start { margin-top: 32px; }
+.oefenscherm { margin-top: 36px; }
+.oefenscherm .eyebrow { margin: 24px 0 12px; color: var(--accent); font-size: .875rem; font-weight: 600; line-height: 1.5; }
+.oefenscherm h2, .eindscherm h2 { margin: 20px 0 28px; font-size: clamp(1.5rem, 3vw, 2rem); font-weight: 600; line-height: 1.35; text-wrap: balance; }
+.opties { display: flex; flex-direction: column; gap: 12px; }
+.optie { display: flex; align-items: center; width: 100%; gap: 16px; padding: 18px 20px; border: 1px solid var(--line); border-radius: 16px; color: var(--ink); background: var(--card); font-size: 1rem; text-align: left; line-height: 1.6; cursor: pointer; transition: background-color 150ms var(--ease), border-color 150ms var(--ease); }
+.optie-letter { display: flex; align-items: center; justify-content: center; flex: 0 0 32px; width: 32px; height: 32px; border-radius: 50%; background: var(--surface); color: var(--muted); font-weight: 600; font-size: .875rem; }
+.optie-tekst { min-width: 0; }
+.vraag-keuze-hint { margin-bottom: 16px; }
+.optie-meervoudig .optie-letter { border: 1px solid var(--line); border-radius: 8px; }
+.optie-meervoudig.is-gekozen .optie-letter { border-color: var(--accent); }
+.optie-meervoudig.is-goed .optie-letter { border-color: var(--transparent); }
+.optie-meervoudig.is-fout .optie-letter { border-color: var(--fout); }
+.optie:disabled { opacity: 1; cursor: default; }
+.optie.is-gekozen { border-color: var(--accent); background: var(--accent-zacht); }
+.optie.is-gekozen .optie-letter { color: var(--white); background: var(--accent); }
+.optie.is-goed { border-color: var(--teal); background: var(--teal-zacht); }
+.optie.is-goed .optie-letter { background: var(--transparent); }
+.optie.is-fout { border-color: var(--fout); background: var(--fout-zacht); }
+.optie.is-fout .optie-letter { color: var(--fout); background: var(--transparent); }
+.vinkje.vinkje-klein { width: 24px; height: 24px; margin: 0; }
+.uitleg { margin-top: 24px; }
+.uitleg h3 { margin: 0 0 10px; font-size: 1rem; font-weight: 600; }
+.uitleg p { margin: 0; color: var(--muted); }
+.vak-volgende { display: flex; justify-content: flex-end; align-items: center; flex-wrap: wrap; gap: 12px; margin-top: 24px; }
+.vak-volgende .vraag-melden { margin-right: auto; }
+.vraag-melding { width: min(560px, calc(100% - 32px)); max-height: calc(100dvh - 32px); margin: auto; padding: clamp(20px, 4vw, 32px); overflow-y: auto; border: 1px solid var(--line); border-radius: 24px; background: var(--card); color: var(--ink); box-shadow: var(--shadow-card-hover); font-family: var(--font); }
+.vraag-melding::backdrop { background: var(--nav-bg); backdrop-filter: blur(6px); }
+.vraag-melding h2 { margin: 0 0 16px; font-size: 1.5rem; }
+.vraag-melding p { line-height: 1.55; overflow-wrap: anywhere; }
+.vraag-melding-context { margin: 0; color: var(--ink-soft); font-size: .875rem; }
+.vraag-melding-vraag { max-height: 160px; overflow-y: auto; margin: 16px 0; padding: 14px; border-radius: 12px; background: var(--surface); }
+.vraag-melding label { display: block; margin: 20px 0 8px; font-weight: 500; }
+.vraag-melding textarea { display: block; resize: vertical; min-height: 108px; }
+.vraag-melding .vak-knoppen { justify-content: flex-end; margin-top: 24px; }
+.vraag-melding .vak-knoppen button { min-height: 44px; width: auto; min-width: 0; margin: 0; }
+.vraag-melding-gelukt { color: var(--teal-tekst); }
+/* Een native dialoog staat boven de getekende muisbol; gebruik hierin de gewone aanwijzer. */
+html.ball-cursor .vraag-melding, html.ball-cursor .vraag-melding *, html.ball-cursor dialog.vraag-melding::backdrop { cursor: auto !important; }
+html.ball-cursor .vraag-melding button { cursor: pointer !important; }
+html.ball-cursor .vraag-melding textarea { cursor: text !important; }
+@media (max-width: 480px) {
+  .vraag-melding .vak-knoppen { flex-direction: column-reverse; align-items: stretch; }
+  .vraag-melding .vak-knoppen button { width: 100%; max-width: none; }
+}
+.stop-bevestiging { margin-bottom: 28px; }
+.stop-bevestiging > p { margin: 0 0 20px; }
+.vak-knoppen { display: flex; justify-content: center; flex-wrap: wrap; gap: 12px; }
+.stop-bevestiging .vak-knoppen { justify-content: flex-start; }
+.eindscherm { text-align: center; padding-top: 24px; }
+.eindscherm h2 { margin-bottom: 12px; }
+.vak-score-tekst { margin: 0; color: var(--muted); }
+.score-hoofdstukken { display: grid; gap: 20px; max-width: 560px; margin: 36px auto; text-align: left; }
+.score-boven { margin-bottom: 10px; font-size: .9375rem; line-height: 1.5; }
+.score-boven span:last-child { color: var(--muted); }
+/* Knoppen onder de Comit-kaart: altijd afstand, nooit tegen de kaart aan. */
+.eindscherm .vak-knoppen { margin-top: 28px; }
+.eindscherm #terug-vak { margin: 20px 0; }
+.simulatie-overzicht { margin-top: 24px; text-align: left; }
+.simulatie-overzicht summary { width: fit-content; margin: 0 auto 24px; padding: 8px; color: var(--accent); cursor: pointer; font-size: .9375rem; font-weight: 500; }
+.simulatie-overzicht summary:focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; border-radius: 8px; }
+.overzicht-vraag h3 { margin: 0 0 16px; font-size: 1.0625rem; line-height: 1.5; }
+.overzicht-vraag p { margin: 8px 0 0; color: var(--muted); font-size: .9375rem; }
+.overzicht-vraag .antwoord-goed { color: var(--ink); border-left: 3px solid var(--teal); padding-left: 12px; }
+.overzicht-vraag .antwoord-fout { color: var(--fout); border-left: 3px solid var(--fout); padding-left: 12px; }
+.vak-disclaimer { margin: 28px auto 0; color: var(--muted); font-size: .8125rem; }
+.hacks-algemeen { margin: 0 0 28px; }
+.vak-pagina .sectie, .vak-pagina .vak-start { scroll-margin-top: 88px; }
+.hack-groep + .hack-groep, .theorie-groep + .theorie-groep { margin-top: 36px; }
+.hack-groep h2, .theorie-groep h2 { margin: 0 0 20px; font-size: 1.375rem; font-weight: 600; }
+.hack-regel { display: flex; align-items: baseline; gap: 16px; margin-top: 12px; }
+.hack-vink { flex: 0 0 auto; color: var(--teal); font-size: 1.25rem; }
+.hack-regel p { margin: 0; color: var(--ink); font-size: .9375rem; }
+.hack-tekst { display: flex; flex-direction: column; gap: 4px; min-width: 0; }
+.hack-tekst strong { font-weight: 600; font-size: 1rem; }
+.theorie-kaart + .theorie-kaart { margin-top: 16px; }
+.theorie-kaart h3 { margin: 0 0 16px; font-size: 1.0625rem; font-weight: 600; }
+.theorie-kaart ul { margin: 0; padding-left: 20px; color: var(--muted); font-size: .9375rem; line-height: 1.7; }
+.theorie-kaart li + li { margin-top: 8px; }
+.vak-pagina :is(.uitleg, .stop-bevestiging, .hack-regel, .theorie-kaart, .overzicht-vraag):active,
+:where(html.has-hover) .vak-pagina :is(.uitleg, .stop-bevestiging, .hack-regel, .theorie-kaart, .overzicht-vraag):hover { transform: none; box-shadow: var(--shadow-soft); }
+:where(html.has-hover) .vak-tekstknop:hover,
+:where(html.has-hover) .optie:not(:disabled):hover { border-color: var(--accent); background: var(--surface); }
+@media (max-width: 767px) {
+  .vak-pagina .pagina-kop h1 { overflow-wrap: anywhere; hyphens: auto; }
+  .vak-pagina .wrap { padding-inline: 20px; }
+  .vak-tabs { gap: 8px; margin-bottom: 32px; }
+  .vak-tab { flex: 1 1 auto; padding: 0 12px; font-size: .8125rem; }
+  .vak-sectie-kop { align-items: flex-start; flex-direction: column; gap: 8px; }
+  .hoofdstuk { padding: 20px; gap: 12px; }
+  .hoofdstuk-boven { flex-direction: column; gap: 4px; }
+  .modus { padding: 20px; }
+  .optie { padding: 16px; gap: 12px; }
+  .score-boven { gap: 12px; }
+  .hack-regel, .theorie-kaart, .overzicht-vraag, .uitleg, .stop-bevestiging { padding: 20px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .vak-pagina *, .vak-pagina *::before, .vak-pagina *::after { animation: none !important; transition: none !important; }
+  .vak-pagina :is(.kaart, .knop, .knop-secundair):is(:hover, :active) { transform: none; }
+  .vak-pagina .vinkje circle, .vak-pagina .vinkje path { stroke-dashoffset: 0; }
+}
+
+.vak-pagina[data-niveaus] .keuze-stap { margin: 0 0 10px; color: var(--muted); font-size: .8125rem; font-weight: 500; line-height: 1.4; }
+.vak-pagina[data-niveaus] .modus { padding: 28px; gap: 14px; border-width: 1px; }
+.vak-pagina[data-niveaus] .modus .kaart-titel { font-size: 1.375rem; }
+.vak-pagina[data-niveaus] .modus .kaart-sub { flex: 1; font-weight: 400; line-height: 1.65; }
+.vak-pagina[data-niveaus] .modus-boven { display: flex; align-items: center; justify-content: space-between; width: 100%; margin-bottom: 10px; }
+.vak-pagina[data-niveaus] .modus-icoon { display: inline-grid; place-items: center; width: 48px; height: 48px; border-radius: 14px; background: var(--surface); color: var(--ink); }
+.vak-pagina[data-niveaus] .modus-icoon svg { fill: none; stroke: currentColor; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
+.vak-pagina[data-niveaus] .modus[aria-checked="true"] .modus-icoon { background: var(--accent); color: var(--white); }
+.vak-pagina[data-niveaus] .modus-vink { display: inline-grid; place-items: center; width: 22px; height: 22px; border: 1px solid var(--line); border-radius: 50%; font-size: .8125rem; }
+.vak-pagina[data-niveaus] .modus[aria-checked="true"] .modus-vink { background: var(--accent); border-color: var(--accent); color: var(--white); }
+.vak-pagina[data-niveaus] .modus[aria-checked="true"] .modus-vink::after { content: '✓'; }
+.vak-pagina[data-niveaus] .modus-detail { color: var(--ink-soft); font-size: .8125rem; font-weight: 500; }
+.vak-pagina[data-niveaus] .niveau-keuzes { display: inline-flex; max-width: 100%; gap: 4px; padding: 4px; border: 1px solid var(--line); border-radius: var(--radius-pill); background: var(--surface); }
+.vak-pagina[data-niveaus] .niveau-keuze { min-height: 44px; padding: 10px 24px; border: 1px solid var(--transparent); border-radius: var(--radius-pill); background: var(--transparent); color: var(--ink-soft); font-size: .9375rem; font-weight: 500; cursor: pointer; transition: background-color 150ms var(--ease), color 150ms var(--ease), box-shadow 150ms var(--ease), transform 150ms var(--ease); }
+.vak-pagina[data-niveaus] .niveau-keuze[aria-checked="true"] { background: var(--card); color: var(--ink); border-color: var(--line); box-shadow: var(--shadow-soft); }
+.vak-pagina[data-niveaus] .niveau-keuze:disabled { opacity: .5; cursor: default; }
+.vak-pagina[data-niveaus] .niveau-keuze.komt-binnenkort { display: inline-flex; flex-direction: column; align-items: center; gap: 2px; padding-top: 6px; padding-bottom: 6px; line-height: 1.2; }
+.vak-pagina[data-niveaus] .niveau-keuze.komt-binnenkort::after { content: 'Komt binnenkort'; font-size: .6875rem; font-weight: 500; color: var(--ink-soft); }
+/* Hard mode en Met tijd zonder Plus: klein label onder de knop, klikken toont een melding met link naar Abonnement. */
+.vak-pagina .niveau-keuze.met-plus { display: inline-flex; flex-direction: column; align-items: center; gap: 2px; padding-top: 6px; padding-bottom: 6px; line-height: 1.2; }
+.vak-pagina .niveau-keuze.met-plus::after { content: 'Met Plus'; font-size: .6875rem; font-weight: 500; color: var(--ink-soft); }
+.vak-pagina .plus-slot a { color: var(--accent); font-weight: 500; }
+:where(html.has-hover) .vak-pagina[data-niveaus] .niveau-keuze:not(:disabled):hover { color: var(--ink); background: var(--card); }
+:where(html.has-hover) .vak-pagina[data-niveaus] .niveau-keuze:not(:disabled):hover:not(:active) { transform: translateY(-1px); }
+.vak-pagina[data-niveaus] .niveau-keuze:not(:disabled):active { transform: scale(.97); }
+.vak-pagina[data-niveaus] #niveau-uitleg { max-width: 68ch; line-height: 1.65; }
+.vak-pagina[data-niveaus] .keuze-start { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 12px 24px; align-items: center; background: var(--surface); box-shadow: none; }
+.vak-pagina[data-niveaus] .keuze-start .keuze-stap { color: var(--ink); font-weight: 600; }
+.vak-pagina[data-niveaus] #keuze-samenvatting { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 6px 20px; margin: 0; font-size: .9375rem; line-height: 1.65; overflow-wrap: anywhere; }
+.vak-pagina[data-niveaus] #keuze-samenvatting dt { color: var(--ink-soft); }
+.vak-pagina[data-niveaus] #keuze-samenvatting dd { min-width: 0; margin: 0; color: var(--ink); }
+.vak-pagina[data-niveaus] #keuze-aantal { margin-top: 8px; }
+.vak-pagina[data-niveaus] .keuze-start #start-hint { grid-column: 1 / -1; margin: 0; }
+.vak-pagina[data-niveaus] .keuze-start .knop { min-width: 132px; }
+.vak-pagina[data-niveaus] .oefening-niveau { margin: 0 0 12px; background: var(--surface); color: var(--ink-soft); }
+@media (max-width: 767px) {
+  .vak-pagina[data-niveaus] .modus { padding: 24px; }
+  .vak-pagina[data-niveaus] .keuze-start { grid-template-columns: minmax(0, 1fr); gap: 20px; }
+  .vak-pagina[data-niveaus] .keuze-start .knop { width: 100%; max-width: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .vak-pagina[data-niveaus] .niveau-keuze:is(:hover, :active) { transform: none !important; }
+}
+
+/* Oefenkeuzes verschijnen na elkaar; de gekozen tijd geldt voor de hele ronde. */
+.vak-pagina .oefen-stap.is-nieuw { animation: oefen-stap-in 200ms var(--ease) both; }
+@keyframes oefen-stap-in {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.tijd-instellingen { max-width: 520px; margin-top: 28px; }
+.tijd-label { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 8px 20px; color: var(--ink); font-size: .9375rem; line-height: 1.5; }
+.tijd-label label { font-weight: 600; }
+.tijd-label output { color: var(--ink-soft); font-variant-numeric: tabular-nums; }
+#tijd-per-vraag { display: block; appearance: none; -webkit-appearance: none; width: 100%; height: 44px; margin: 12px 0 0; padding: 0; border: 0; border-radius: var(--pill); background: var(--transparent); cursor: pointer; }
+#tijd-per-vraag::-webkit-slider-runnable-track { height: 6px; border-radius: var(--pill); background: var(--line); }
+#tijd-per-vraag::-moz-range-track { height: 6px; border-radius: var(--pill); background: var(--line); }
+#tijd-per-vraag::-webkit-slider-thumb { appearance: none; -webkit-appearance: none; box-sizing: border-box; width: 44px; height: 44px; margin-top: -19px; border: 2px solid var(--accent); border-radius: 50%; background: var(--card); box-shadow: var(--shadow-soft); }
+#tijd-per-vraag::-moz-range-thumb { box-sizing: border-box; width: 44px; height: 44px; border: 2px solid var(--accent); border-radius: 50%; background: var(--card); box-shadow: var(--shadow-soft); }
+#tijd-per-vraag:focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; }
+#tijd-per-vraag::-webkit-slider-thumb { transition: transform 150ms var(--ease), border-color 150ms var(--ease), box-shadow 150ms var(--ease); }
+#tijd-per-vraag::-moz-range-thumb { transition: transform 150ms var(--ease), border-color 150ms var(--ease), box-shadow 150ms var(--ease); }
+:where(html.has-hover) #tijd-per-vraag:hover::-webkit-slider-thumb { box-shadow: var(--shadow-card-hover); }
+:where(html.has-hover) #tijd-per-vraag:hover::-moz-range-thumb { box-shadow: var(--shadow-card-hover); }
+#tijd-per-vraag:active::-webkit-slider-thumb { transform: scale(.97); }
+#tijd-per-vraag:active::-moz-range-thumb { transform: scale(.97); }
+#tijd-totaal { margin-top: 12px; }
+.tijdklok { margin: -4px 0 12px; color: var(--ink); font-size: 1.125rem; font-weight: 600; font-variant-numeric: tabular-nums; }
+.tijdklok.is-bijna-om { color: var(--fout); }
+.vak-sr-only { position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0; overflow: hidden; clip-path: inset(50%); white-space: nowrap; border: 0; }
+#tijd-resultaat { margin: 0 0 16px; }
+
+/* Comit-basis op het eindscherm: gezicht, drie regels, één knop. Uiterlijk van Comit is nog voorlopig. */
+.comit { display: flex; gap: 16px; align-items: flex-start; margin: 20px 0 0; padding: 18px 20px; text-align: left; }
+.comit-gezicht { display: grid; place-items: center; flex: 0 0 auto; width: 44px; height: 44px; border-radius: 50%; background: var(--teal-zacht); color: var(--teal-tekst); font-size: 1.125rem; font-weight: 700; }
+.comit-tekst { display: grid; gap: 6px; min-width: 0; }
+.comit-naam { margin: 0; font-size: .8125rem; font-weight: 600; letter-spacing: .04em; text-transform: uppercase; color: var(--teal-tekst); }
+.comit-regels p { margin: 0; font-size: .9375rem; line-height: 1.55; }
+.comit-tip { margin: 2px 0 0; color: var(--ink-soft); font-size: .9375rem; line-height: 1.55; }
+.comit-knop.knop-secundair { justify-self: start; width: auto; max-width: 100%; min-width: 0; margin: 8px 0 0; padding: 10px 20px; line-height: 1.3; white-space: normal; text-align: center; }
+.comit-knop:empty { display: none; }
+@media (max-width: 480px) { .comit { flex-direction: column; } }
+
+/* Oefenen: alleen de vraag en Stop op het scherm. Examensimulatie: ook de navigatiebalk weg; weg willen betekent eerst Stop. */
+html.is-oefenen .vak-pagina .pagina-kop, html.is-oefenen .vak-pagina #vak-terug, html.is-oefenen .vak-pagina .vak-tabs, html.is-oefenen .site-footer { display: none; }
+html.is-examen .site-header { display: none; }
+html.is-examen .pagina { padding-top: 40px; }
+html.is-examen .thema-knop.is-los { display: none; }
+
+/* Foutenlijst (Plus en Pro): bovenaan de keuzes, met een knop om alleen je fouten te oefenen. */
+.vak-pagina .fouten-blok { display: flex; align-items: center; justify-content: space-between; gap: 16px; margin: 0 0 28px; padding: 20px 24px; }
+.vak-pagina .fouten-blok .kaart-titel, .vak-pagina .fouten-blok .kaart-sub { margin: 0; }
+.vak-pagina .fouten-blok .kaart-sub { margin-top: 4px; }
+.vak-pagina .fouten-blok .knop-secundair { flex-shrink: 0; width: auto; min-width: 0; margin: 0; padding: 10px 20px; }
+@media (max-width: 560px) {
+  .vak-pagina .fouten-blok { flex-direction: column; align-items: stretch; }
+  .vak-pagina .fouten-blok .knop-secundair { width: 100%; max-width: none; }
+}
+.vak-pagina .pro-vooruitgang { margin-top: 12px; color: var(--ink); font-weight: 500; }
+
+/* De keuze vloeit ook door naar het icoon, vinkje en de antwoordletter. */
+.vak-pagina :is(.optie-letter, .modus-icoon, .modus-vink) { transition: color 150ms var(--ease), background-color 150ms var(--ease), border-color 150ms var(--ease); }
+.vak-pagina .modus-vink::after { content: '✓'; opacity: 0; transition: opacity 150ms var(--ease); }
+.vak-pagina .modus[aria-checked="true"] .modus-vink::after { opacity: 1; }
+.vak-pagina #hoofdstuk-selectie { transition: opacity 200ms var(--ease); }
+.vak-pagina .tijdklok { transition: color 200ms var(--ease); }
+.vak-pagina :is(.tijd-instellingen, #controleer-antwoord):not([hidden]) { animation: menu-open 200ms var(--ease); }
+.vak-pagina .pro-vooruitgang:not([hidden]) { animation: appear 200ms var(--ease); }
+.vak-pagina .vinkje.vinkje-klein circle, .vak-pagina .vinkje.vinkje-klein path { animation: appear 200ms var(--ease) both; stroke-dashoffset: 0; }
+
+@media (prefers-reduced-motion: reduce) {
+  #tijd-per-vraag::-webkit-slider-thumb { transition: none; }
+  #tijd-per-vraag::-moz-range-thumb { transition: none; }
+  #tijd-per-vraag:active::-webkit-slider-thumb { transform: none; }
+  #tijd-per-vraag:active::-moz-range-thumb { transform: none; }
+}
+
+/* Simulatie: een kleine balk in plaats van de hoofdstukkenlijst. */
+#simulatie-uitleg:not([hidden]) { display: flex; align-items: center; gap: 12px; margin: 4px 0 0; padding: 14px 18px; border: 1px solid var(--line); border-radius: 14px; background: var(--surface); color: var(--ink); font-size: .9375rem; line-height: 1.5; animation: rise 300ms var(--ease) both; }
+#simulatie-uitleg:not([hidden])::before { content: ''; flex: 0 0 10px; width: 10px; height: 10px; border-radius: 50%; background: var(--accent); }
+
+/* Studie-hacks: Voor jou (Pro) bovenaan, met ezelsbruggetjes van Comit. */
+.hack-voorjou { margin: 0 0 32px; padding: clamp(20px, 4vw, 28px); border-color: var(--teal); }
+.hack-voorjou.is-slot { border-color: var(--line); }
+.hack-voorjou-kop { display: flex; align-items: center; gap: 10px; }
+.hack-voorjou-kop h2 { margin: 0; font-size: 1.25rem; font-weight: 600; }
+.hack-voorjou .kaart-sub { margin: 6px 0 0; }
+.hack-voorjou .kaart-sub .tekstlink { font-size: inherit; }
+.hack-voorjou-punt { margin-top: 20px; padding-top: 18px; border-top: 1px solid var(--line); }
+.hack-voorjou-punt h3 { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 4px 12px; margin: 0; font-size: 1rem; }
+.hack-voorjou-punt h3 span { color: var(--ink-soft); font-size: .8125rem; font-weight: 500; }
+.hack-voorjou-punt ul { display: grid; gap: 8px; margin: 12px 0 0; padding-left: 18px; font-size: .9375rem; line-height: 1.55; }
+.hack-voorjou-knoppen { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 14px; }
+.hack-voorjou-knoppen .knop-secundair { width: auto; min-width: 0; max-width: none; margin: 0; padding: 10px 18px; gap: 8px; font-size: .9375rem; }
+.hack-brug { margin: 12px 0 0; padding: 14px 16px; border-radius: 12px; background: var(--surface); font-size: .9375rem; line-height: 1.55; white-space: pre-line; }
+.hack-brug:empty { display: none; }
+.uitleg-hack { margin: 12px 0 0; padding: 12px 14px; border-radius: 12px; background: var(--teal-zacht); color: var(--ink); font-size: .9375rem; line-height: 1.55; }
+@media (max-width: 560px) {
+  .hack-voorjou-knoppen .knop-secundair { width: 100%; }
+}
+
+/* Pro-label: goud op zwart, zoals in het profielmenu en op Abonnement. */
+.vak-pagina .label.label-pro { border: 1px solid rgba(212,175,55,.35); background: #0b0a08; color: #e6c872; }
+
+/* Free: rustige melding onder de modus als de simulatie van vandaag voor dit vak al gedaan is. */
+.vak-pagina .sim-slot:not([hidden]) { margin: 16px 0 0; padding: 14px 18px; border: 1px solid var(--line); border-radius: 14px; background: var(--surface); color: var(--ink); font-size: .9375rem; line-height: 1.55; animation: appear 200ms var(--ease) both; }
+
+/* Waarom niet mijn antwoord? (Pro): kleine knop onder de uitleg, het antwoord van Comit eronder. */
+.vak-pagina .waarom-blok { margin-top: 16px; }
+.vak-pagina .waarom-knop.knop-secundair { display: inline-flex; width: auto; min-width: 0; max-width: 100%; margin: 0; padding: 10px 18px; gap: 8px; font-size: .9375rem; line-height: 1.3; white-space: normal; text-align: left; }
+.vak-pagina .waarom-knop[aria-busy="true"] { cursor: progress; opacity: .7; }
+.vak-pagina .waarom-antwoord { margin: 12px 0 0; padding: 12px 14px; border-radius: 12px; background: var(--surface); color: var(--ink); font-size: .9375rem; line-height: 1.55; white-space: pre-line; overflow-wrap: anywhere; }
+.vak-pagina .waarom-antwoord:empty { margin: 0; padding: 0; }
+.vak-pagina .waarom-antwoord.is-slot { padding: 0; background: var(--transparent); color: var(--ink-soft); }
+.vak-pagina .waarom-antwoord .tekstlink { font-size: inherit; }
+.vak-pagina .waarom-antwoord.is-laden { color: var(--ink-soft); animation: waarom-laden 900ms var(--ease) infinite alternate; }
+@keyframes waarom-laden { from { opacity: .55; } to { opacity: 1; } }
+.vak-pagina .overzicht-vraag .waarom-blok + .vraag-melden { margin-top: 12px; }
+@media (max-width: 560px) {
+  .vak-pagina .waarom-knop.knop-secundair { width: 100%; justify-content: center; text-align: center; }
+}
+
+/* Klaar-meter (Pro): compact bovenaan Oefenen. Zonder Pro één regel met slot. */
+.vak-pagina .klaar-meter { margin: 0 0 28px; padding: 20px 24px; }
+.vak-pagina .klaar-kop { display: flex; align-items: center; gap: 10px; }
+.vak-pagina .klaar-kop h2 { margin: 0; font-size: 1.125rem; font-weight: 600; line-height: 1.3; }
+.vak-pagina .klaar-inhoud { display: grid; grid-template-columns: minmax(0, 220px) minmax(0, 1fr); gap: 20px 32px; align-items: start; margin-top: 16px; }
+.vak-pagina .klaar-getal { margin: 0; color: var(--ink-soft); font-size: .9375rem; line-height: 1.2; }
+.vak-pagina .klaar-getal strong { color: var(--ink); font-size: 2.25rem; font-weight: 700; font-variant-numeric: tabular-nums; letter-spacing: -.02em; }
+.vak-pagina .klaar-balk { display: block; height: 6px; margin-top: 12px; overflow: hidden; border-radius: var(--pill); background: var(--surface); }
+.vak-pagina .klaar-balk > span { display: block; height: 100%; border-radius: inherit; background: linear-gradient(90deg, var(--teal), var(--accent)); transition: width 400ms var(--ease); }
+.vak-pagina .klaar-noot { margin: 10px 0 0; color: var(--ink-soft); font-size: .8125rem; line-height: 1.5; }
+.vak-pagina .klaar-stappen-kop { margin: 0 0 10px; color: var(--ink); font-size: .9375rem; font-weight: 600; line-height: 1.4; }
+.vak-pagina .klaar-stappen-kop + .klaar-noot { margin-top: 0; }
+.vak-pagina .klaar-stappen-lijst { display: grid; gap: 10px; }
+.vak-pagina .klaar-stap { display: flex; align-items: center; justify-content: space-between; gap: 12px; width: 100%; min-height: 44px; padding: 10px 14px; border: 1px solid var(--line); border-radius: 12px; background: var(--surface); color: var(--ink); font-size: .9375rem; line-height: 1.4; text-align: left; cursor: pointer; transition: border-color 150ms var(--ease), background-color 150ms var(--ease), transform 150ms var(--ease); }
+.vak-pagina .klaar-stap-tekst { min-width: 0; overflow-wrap: anywhere; }
+.vak-pagina .klaar-stap-winst { flex: 0 0 auto; color: var(--teal-tekst); font-size: .8125rem; font-weight: 600; font-variant-numeric: tabular-nums; }
+:where(html.has-hover) .vak-pagina .klaar-stap:hover { border-color: var(--accent); background: var(--card); }
+.vak-pagina .klaar-stap:active { transform: scale(.98); }
+.vak-pagina .klaar-stap:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.vak-pagina .klaar-meter.is-slot { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 14px; padding: 16px 20px; box-shadow: none; }
+.vak-pagina .klaar-slot-tekst { flex: 1 1 280px; margin: 0; color: var(--ink-soft); font-size: .9375rem; line-height: 1.55; }
+.vak-pagina .klaar-slot-tekst .tekstlink { font-size: inherit; }
+@media (max-width: 640px) {
+  .vak-pagina .klaar-meter { padding: 20px; }
+  .vak-pagina .klaar-inhoud { grid-template-columns: minmax(0, 1fr); }
+}
+
+/* Eindscherm: scorering met het percentage in het midden, en een zin met icoon die bij de score past. */
+.vak-pagina .score-ring { position: relative; display: grid; place-items: center; width: 132px; height: 132px; margin: 0 auto 8px; }
+.vak-pagina .score-ring svg { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
+.vak-pagina .score-ring circle { fill: none; stroke-width: 8; }
+.vak-pagina .score-ring-spoor { stroke: var(--line); }
+.vak-pagina .score-ring-boog { stroke: var(--accent); stroke-linecap: round; }
+.vak-pagina .score-ring:is([data-trede="goed"], [data-trede="top"]) .score-ring-boog { stroke: var(--teal); }
+.vak-pagina .score-ring-getal { position: relative; color: var(--ink); font-size: 1.875rem; font-weight: 700; line-height: 1; font-variant-numeric: tabular-nums; letter-spacing: -.02em; }
+/* Icoon staat in de regel zelf: op een smal scherm loopt de zin eronder door in plaats van los naast een blok tekst. */
+.vak-pagina .eindscherm .vak-score-tekst { display: block; margin: 0 auto; color: var(--ink); font-size: 1.0625rem; font-weight: 500; line-height: 1.5; text-wrap: balance; }
+.vak-pagina .score-icoon { display: inline-block; width: 22px; height: 22px; margin-right: 8px; vertical-align: -5px; fill: none; stroke: currentColor; stroke-width: 1.75; stroke-linecap: round; stroke-linejoin: round; color: var(--accent); }
+.vak-pagina .vak-score-tekst:is([data-trede="goed"], [data-trede="top"]) .score-icoon { color: var(--teal-tekst); }
+.vak-pagina .eindscherm #score-niveau { margin: 16px 0 0; }
+.vak-pagina .eindscherm #tijd-resultaat { margin: 12px 0 0; }
+/* 85 procent en meer: korte gloed en een handvol deeltjes, samen hooguit 1,2 seconde. */
+.vak-pagina .score-ring.is-feest svg { animation: score-gloed 1200ms var(--ease) both; }
+@keyframes score-gloed {
+  0%, 100% { filter: drop-shadow(0 0 0 rgba(63,185,178,0)); }
+  45% { filter: drop-shadow(0 0 12px rgba(63,185,178,.55)); }
+}
+.vak-pagina .score-deeltje { position: absolute; top: 50%; left: 50%; width: 8px; height: 8px; border-radius: 50%; background: var(--teal); opacity: 0; pointer-events: none; animation: score-deeltje 900ms var(--ease) 300ms forwards; }
+.vak-pagina .score-deeltje[data-kleur="1"] { background: var(--accent); }
+.vak-pagina .score-deeltje[data-kleur="2"] { width: 6px; height: 6px; background: #d4af37; }
+@keyframes score-deeltje {
+  0% { opacity: 0; transform: translate(-50%, -50%) scale(.3); }
+  20% { opacity: 1; }
+  100% { opacity: 0; transform: translate(calc(-50% + var(--dx)), calc(-50% + var(--dy))) scale(1); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .vak-pagina .score-deeltje { display: none; }
+  .vak-pagina .klaar-stap:active { transform: none; }
+}

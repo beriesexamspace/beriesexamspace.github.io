@@ -1,0 +1,445 @@
+<!doctype html>
+<html lang="nl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script src="assets/deur.js?v=80"></script>
+  <link rel="apple-touch-icon" href="/assets/icoon-180.png">
+  <link rel="manifest" href="/manifest.webmanifest">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Berie's Exam Space">
+  <meta property="og:title" content="Examen-info | Berie's Exam Space">
+  <meta property="og:description" content="Antwoorden over deliberatie, tweede zit, punten, inzage en beroep met de bron uit het VUB-reglement.">
+  <meta property="og:image" content="https://beriesexamspace.com/assets/deel.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:url" content="https://beriesexamspace.com/examen-info.html">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="description" content="Antwoorden over deliberatie, tweede zit, punten, inzage en beroep met de bron uit het VUB-reglement.">
+  <meta name="theme-color" content="#FFFFFF">
+  <script>
+    (() => {
+      let keuze;
+      try { keuze = window.localStorage.getItem('bes_thema'); } catch {}
+      const donker = keuze === 'donker' || (keuze !== 'licht' && window.matchMedia('(prefers-color-scheme: dark)').matches);
+      document.documentElement.dataset.theme = donker ? 'dark' : 'light';
+      document.querySelector('meta[name="theme-color"]').content = donker ? '#0B0B0C' : '#FFFFFF';
+    })();
+  </script>
+  <title>Examen-info | Berie's Exam Space</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/style.css?v=80">
+  <script src="assets/app.js?v=80"></script>
+  <script src="assets/config.js?v=80" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js" defer></script>
+  <script src="assets/auth.js?v=80" defer></script>
+  <script src="assets/plan.js?v=80" defer></script>
+  <script src="assets/activiteit.js?v=80" defer></script>
+  <style>
+    .info-vraag-ontbreekt { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 14px 20px; margin-top: 28px; }
+    .info-vraag-ontbreekt p { margin: 0; max-width: 34rem; color: var(--ink-soft); font-size: .9375rem; line-height: 1.6; }
+    .info-vraag-ontbreekt .knop-secundair { width: auto; min-width: 0; margin: 0; text-decoration: none; }
+    .info-wrap { max-width: 808px; }
+    .info-wrap .pagina-kop .eyebrow { margin: 0 0 20px; color: var(--accent); font-size: .875rem; }
+    .info-filters { margin: 0 0 28px; }
+    .info-tabs { display: flex; flex-wrap: wrap; gap: 10px; margin: 20px 0 0; }
+    .info-tab { min-height: 44px; padding: 10px 22px; font-size: .9375rem; line-height: 22px; box-shadow: none; }
+    .info-tab[aria-selected="true"] { background: var(--accent); border-color: var(--accent); color: var(--white); }
+    .info-tab[aria-selected="false"] { background: var(--card); border-color: var(--line); color: var(--ink); box-shadow: none; }
+    .info-resultaten:focus-visible { outline: 2px solid var(--accent); outline-offset: 6px; border-radius: 16px; }
+    .info-kaart h2 { margin: 0; font-size: 1.0625rem; font-weight: 600; line-height: 1.45; }
+    .info-antwoord { margin: 14px 0 0; color: var(--muted); font-size: .9375rem; line-height: 1.7; }
+    .info-bronnen { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px; margin-top: 20px; }
+    .info-bron { display: inline-flex; align-items: center; min-height: 44px; color: var(--accent); font-size: .8125rem; line-height: 1.6; text-underline-offset: 4px; }
+    .info-leeg { margin: 0; padding: 24px 0; color: var(--muted); font-size: .9375rem; line-height: 1.7; }
+    .info-leeg a, .info-brondatum a { color: var(--accent); text-underline-offset: 4px; }
+    .info-brondatum { margin: 28px 0 0; color: var(--muted); font-size: .8125rem; line-height: 1.7; }
+    .info-aankondiging { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; border: 0; }
+    :where(html.has-hover) .info-bron:hover,
+    :where(html.has-hover) .info-leeg a:hover,
+    :where(html.has-hover) .info-brondatum a:hover { text-decoration: underline; }
+    @media (max-width: 767px) {
+      .info-tabs { gap: 8px; }
+      .info-tab { flex: 1 1 auto; padding: 10px 12px; font-size: .8125rem; }
+    }
+  </style>
+</head>
+<body>
+  <a class="skip-link" href="#inhoud">Ga naar inhoud</a>
+  <header class="site-header">
+    <nav class="navigation" aria-label="Hoofdnavigatie">
+      <a class="brand" href="index.html" aria-label="Berie's Exam Space, startpagina">
+        <span class="brand-symbol" aria-hidden="true">B</span>
+        <span class="brand-name"><span>Berie's</span> <span>Exam Space</span></span>
+      </a>
+      <a class="home-knop" href="hub.html" aria-label="Home" title="Home">
+        <svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 10.5 12 3l9 7.5M5 9v12h5v-7h4v7h5V9"/></svg>
+      </a>
+      <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="site-menu">Menu</button>
+      <ul class="navigation-links" id="site-menu">
+        <li><a href="hub.html#hoe-werkt-het">Hoe werkt het</a></li>
+        <li><a href="hub.html#wie-is-berie">Over mij</a></li>
+        <li><a href="whatsapp.html">WhatsApp-groep</a></li>
+      </ul>
+      <a class="pill login-button" href="inloggen.html">Inloggen&nbsp; →</a>
+    </nav>
+  </header>
+
+  <main id="inhoud" class="pagina" aria-labelledby="info-titel">
+    <div class="wrap info-wrap">
+      <a class="terug" href="hub.html" data-terug="hub.html" data-terug-tekst="Terug">← Terug</a>
+      <header class="pagina-kop">
+        <p class="eyebrow">Tools</p>
+        <h1 id="info-titel">Examen-info</h1>
+        <p>Deliberatie, tolerantie, tweede zit, punten, inzage en beroep, met bij elk antwoord het artikelnummer uit het reglement.</p>
+      </header>
+
+      <div class="info-filters">
+        <input class="auth-input" id="info-zoek" type="search" placeholder="Zoek, bijvoorbeeld: tolerantie" aria-label="Zoek in de vragen en antwoorden" aria-controls="info-resultaten" autocomplete="off">
+        <div class="info-tabs" id="info-tabs" role="tablist" aria-label="Kies een categorie">
+          <button class="knop info-tab" type="button" role="tab" id="categorie-all" aria-selected="true" aria-controls="info-resultaten" tabindex="0" data-cat="all">Alles</button>
+          <button class="knop-secundair info-tab" type="button" role="tab" id="categorie-delib" aria-selected="false" aria-controls="info-resultaten" tabindex="-1" data-cat="delib">Deliberatie</button>
+          <button class="knop-secundair info-tab" type="button" role="tab" id="categorie-tweede" aria-selected="false" aria-controls="info-resultaten" tabindex="-1" data-cat="tweede">Tweede zit</button>
+          <button class="knop-secundair info-tab" type="button" role="tab" id="categorie-taken" aria-selected="false" aria-controls="info-resultaten" tabindex="-1" data-cat="taken">Taken &amp; deelcijfers</button>
+          <button class="knop-secundair info-tab" type="button" role="tab" id="categorie-punten" aria-selected="false" aria-controls="info-resultaten" tabindex="-1" data-cat="punten">Je puntenblad</button>
+          <button class="knop-secundair info-tab" type="button" role="tab" id="categorie-cijfer" aria-selected="false" aria-controls="info-resultaten" tabindex="-1" data-cat="cijfer">Eindcijfer &amp; graad</button>
+          <button class="knop-secundair info-tab" type="button" role="tab" id="categorie-inzage" aria-selected="false" aria-controls="info-resultaten" tabindex="-1" data-cat="inzage">Inzage &amp; beroep</button>
+          <button class="knop-secundair info-tab" type="button" role="tab" id="categorie-volgend" aria-selected="false" aria-controls="info-resultaten" tabindex="-1" data-cat="volgend">Volgend jaar</button>
+        </div>
+      </div>
+
+      <p class="info-aankondiging" id="info-aankondiging" role="status" aria-live="polite" aria-atomic="true"></p>
+      <section class="info-resultaten" id="info-resultaten" role="tabpanel" aria-labelledby="categorie-all" tabindex="0">
+        <div class="kaart-rij" id="info-kaarten">
+          <article class="kaart info-kaart" data-cat="delib">
+            <h2>Vanaf welk punt kan je gedelibereerd worden?</h2>
+            <p class="info-antwoord">8/20 is de absolute ondergrens. Een resultaat lager dan 8 op 20 kan nooit getolereerd worden, niet na het eerste jaar en niet voor de hele bachelor.</p>
+            <div class="info-bronnen">
+              <span class="label">Bevestigd</span>
+              <a class="info-bron" href="https://www.vub.be/sites/default/files/2025-07/2025_Reglementen_OER_2025-2026_NL.pdf" rel="noopener">OER Art. 139 ↗</a>
+            </div>
+          </article>
+          <article class="kaart info-kaart" data-cat="delib">
+            <h2>Word je automatisch gedelibereerd?</h2>
+            <p class="info-antwoord">Ja, als je aan alle voorwaarden voldoet: gewogen gemiddelde minstens 55%, hoogstens drie punten tekort over maximaal twee vakken, en geen punt onder 8. De examencommissie kan daarnaast extra delibereren bij bijzondere omstandigheden.</p>
+            <div class="info-bronnen">
+              <span class="label">Bevestigd</span>
+              <a class="info-bron" href="https://www.vub.be/sites/default/files/2025-07/2025_Reglementen_OER_2025-2026_NL.pdf" rel="noopener">OER Art. 139 ↗</a>
+            </div>
+          </article>
+          <article class="kaart info-kaart" data-cat="delib">
+            <h2>Wat is een getolereerde onvoldoende (tolerated fail)?</h2>
+            <p class="info-antwoord">Een vak waar je onder de 10/20 staat, maar dat toch meetelt als geslaagd omdat je aan alle deliberatievoorwaarden voldoet. Je krijgt er geen creditbewijs voor en je hoeft het niet te hernemen, het wordt gewoon meegesleept.</p>
+            <div class="info-bronnen">
+              <span class="label">Bevestigd</span>
+              <a class="info-bron" href="https://www.vub.be/sites/default/files/2025-07/2025_Reglementen_OER_2025-2026_NL.pdf" rel="noopener">OER Art. 139 en 143 ↗</a>
+            </div>
+          </article>
+          <article class="kaart info-kaart" data-cat="delib">
+            <h2>Wat is het gewogen-punten-tekort (GPT)?</h2>
+            <p class="info-antwoord">Per vak: (10 min je punt) maal het aantal studiepunten. Voorbeeld: 8/20 op een vak van 6 studiepunten is (10 min 8) maal 6, dus 12. Je telt alle tekorten op. Over de hele bachelor mag dat samen maximaal 18 zijn.</p>
+            <div class="info-bronnen">
+              <span class="label">Bevestigd</span>
+              <a class="info-bron" href="https://www.vub.be/sites/default/files/2025-07/2025_Reglementen_OER_2025-2026_NL.pdf" rel="noopener">OER Art. 139 ↗</a>
+            </div>
+          </article>
+          <article class="kaart info-kaart" data-cat="delib">
+            <h2>Kunnen tweedejaarsvakken niet gedelibereerd worden?</h2>
+            <p class="info-antwoord">Misverstand. Ze kunnen wel getolereerd worden, maar pas in de eindeliberatie van de hele bachelor, niet als losse stap op het einde van het tweede jaar.</p>
+            <div class="info-bronnen">
+              <span class="label">Bevestigd</span>
+              <a class="info-bron" href="https://www.vub.be/sites/default/files/2025-07/2025_Reglementen_OER_2025-2026_NL.pdf" rel="noopener">OER Art. 143 ↗</a>
+            </div>
+          </article>
+          <article class="kaart info-kaart" data-cat="delib">
+            <h2>Welke vakken kunnen nooit getolereerd worden?</h2>
+            <p class="info-antwoord">Je bachelorproef, masterproef en verplichte stage. Daarvoor moet je echt slagen (minstens 10/20), die kunnen nooit weggedelibereerd worden.</p>
+            <div class="info-bronnen">
+              <span class="label">Bevestigd</span>
+              <a class="info-bron" href="https://www.vub.be/sites/default/files/2025-07/2025_Reglementen_OER_2025-2026_NL.pdf" rel="noopener">OER Art. 143 ↗</a>
+            </div>
+          </article>
+          <article class="kaart info-kaart" data-cat="delib">
+            <h2>Kan ik een getolereerde onvoldoende toch hernemen?</h2>
+            <p class="info-antwoord">Ja. Je mag hem in de tweede zit toch opnieuw afleggen. Vraag dat schriftelijk aan bij het faculteitssecretariaat binnen 7 kalenderdagen na de bekendmaking. Let op: je oorspronkelijke punt vervalt dan onherroepelijk, ook als je nieuwe punt lager is.</p>
+            <div class="info-bronnen">
+              <span class="label">Bevestigd</span>
+              <a class="info-bron" href="https://www.vub.be/sites/default/files/2025-07/2025_Reglementen_OER_2025-2026_NL.pdf" rel="noopener">OER Art. 139 en 143 ↗</a>
+            </div>
+          </article>
+          <article class="kaart info-kaart" data-cat="tweede">
+            <h2>Moet ik mij inschrijven voor de herexamens?</h2>
+            <p class="info-antwoord">Nee. Je wordt automatisch ingeschreven voor elk vak waarvoor je nog geen credit haalde. Een getolereerd vak wordt niet automatisch heringeschreven, dat mag je zelf kiezen.</p>
+            <div class="info-bronnen">
+              <span class="label">Bevestigd</span>
+              <a class="info-bron" href="https://www.vub.be/sites/default/files/2025-07/2025_Reglementen_OER_2025-2026_NL.pdf" rel="noopener">OER Art. 110 ↗</a>
+            </div>
+          </article>
+          <article class="kaart info-kaart" data-cat="tweede">
+            <h2>Blijft mijn punt van de eerste zit staan?</h2>
+            <p class="info-antwoord">Nee. Zodra je een vak herneemt, vervalt je eerste punt automatisch en komt het nieuwe resultaat in de plaats, ook als dat lager is.</p>
+            <div class="info-bronnen">
+              <span class="label">Bevestigd</span>
+              <a class="info-bron" href="https://www.vub.be/sites/default/files/2025-07/2025_Reglementen_OER_2025-2026_NL.pdf" rel="noopener">OER Art. 110 ↗</a>
+            </div>
+          </article>
+          <article class="kaart info-kaart" data-cat="tweede">
+            <h2>Wanneer ken ik mijn rooster voor de tweede zit?</h2>
+            <p class="info-antwoord">Het voorlopige rooster krijg je minstens 4 weken op voorhand, het definitieve rooster 2 weken voor de start van de examenperiode. Voor de tweede zit is die termijn dus korter dan in juni.</p>
+            <div class="info-bronnen">
+              <span class="label">Bevestigd</span>
+              <a class="info-bron" href="https://www.vub.be/sites/default/files/2025-07/2025_Reglementen_OER_2025-2026_NL.pdf" rel="noopener">OER Art. 106 ↗</a>
+            </div>
+          </article>
+          <article class="kaart info-kaart" data-cat="tweede">
+            <h2>Wanneer valt de tweede zit dit jaar?</h2>
+            <p class="info-antwoord">Voor Psychologie en Educatiewetenschappen 2025-2026: van maandag 17 augustus tot zaterdag 5 september 2026, met de resultaten online op vrijdag 11 september 2026. Deze data kunnen per jaar wijzigen, check de facultaire kalender.</p>
+            <div class="info-bronnen">
+              <span class="label">Bevestigd</span>
+              <a class="info-bron" href="https://www.vub.be/sites/default/files/2025-10/2025_Examenregeling_Kalender_PE_2526_NL.pdf">Examenkalender PE ↗</a>
+            </div>
+          </article>
+          <article class="kaart info-kaart" data-cat="tweede">
+            <h2>Kan ik een januari-vak al in juni herkansen?</h2>
+            <p class="info-antwoord">Nee. Een vak uit het eerste semester dat je niet haalde, herneem je ten vroegste in de tweede zit (augustus of september), niet al in de juni-periode.</p>
+            <div class="info-bronnen">
+              <span class="label">Bevestigd</span>
+              <a class="info-bron" href="https://www.vub.be/sites/default/files/2025-07/2025_Reglementen_OER_2025-2026_NL.pdf" rel="noopener">OER Art. 104 ↗</a>
+            </div>
+          </article>
+          <article class="kaart info-kaart" data-cat="tweede">
+            <h2>Ik ben ziek op mijn examen, wat nu?</h2>
+            <p class="info-antwoord">Bij overmacht meld je dat ten laatste op de dag zelf via het online overmachtsformulier van de faculteit, en je bezorgt je originele attest binnen 3 kalenderdagen aan het faculteitssecretariaat. Regel het dus meteen, niet later.</p>
+            <div class="info-bronnen">
+              <span class="label">Bevestigd</span>
+              <a class="info-bron" href="https://www.vub.be/sites/default/files/2025-09/2025_Reglementen_Facultaire_aanvullingen_OER_PE_2526_NL.pdf" rel="noopener">OER Art. 111 + PE ↗</a>
+            </div>
+          </article>
+          <article class="kaart info-kaart" data-cat="taken">
+            <h2>Blijft een geslaagde taak staan voor de tweede zit?</h2>
+            <p class="info-antwoord">Dat hangt van de vakfiche af. Een taak die je in de tweede zit niet meer kan overdoen (zoals een groepsopdracht tijdens het semester) blijft staan. Een taak die je wel opnieuw kan doen, telt standaard niet mee, tenzij de vakfiche uitdrukkelijk zegt dat je resultaat blijft.</p>
+            <div class="info-bronnen">
+              <span class="label">Bevestigd</span>
+              <a class="info-bron" href="https://www.vub.be/sites/default/files/2025-07/2025_Reglementen_OER_2025-2026_NL.pdf" rel="noopener">OER Art. 141 ↗</a>
+            </div>
+          </article>
+          <article class="kaart info-kaart" data-cat="taken">
+            <h2>Wat gebeurt met mijn deelcijfers in de tweede zit?</h2>
+            <p class="info-antwoord">Deelresultaten die je niet kan hernemen, blijven behouden. Deelresultaten die je wel opnieuw aflegt, worden niet overgedragen tenzij de vakfiche anders bepaalt. Deelcijfers gaan sowieso niet mee naar een volgend academiejaar, tenzij de fiche dat toelaat.</p>
+            <div class="info-bronnen">
+              <span class="label">Bevestigd</span>
+              <a class="info-bron" href="https://www.vub.be/sites/default/files/2025-07/2025_Reglementen_OER_2025-2026_NL.pdf" rel="noopener">OER Art. 141 ↗</a>
+            </div>
+          </article>
+          <article class="kaart info-kaart" data-cat="punten">
+            <h2>Waar staan mijn officiele punten?</h2>
+            <p class="info-antwoord">Alleen op cali.vub.be (SelfService), in je puntenblad. Canvas is enkel het leerplatform, daar staat je officiele resultaat niet. Wat je tijdens de examenperiode ziet is voorlopig tot de proclamatie.</p>
+            <div class="info-bronnen">
+              <span class="label">Bevestigd</span>
+              <a class="info-bron" href="https://www.vub.be/nl/studeren-aan-de-vub/praktische-info-voor-studenten/examens-en-deliberatie/mijn-examenresultaten">VUB examenresultaten ↗</a>
+            </div>
+          </article>
+          <article class="kaart info-kaart" data-cat="punten">
+            <h2>Study Overview of Transcript of records?</h2>
+            <p class="info-antwoord">In SelfService toont Study Overview snel je cijfers per academiejaar. Het Transcript of records is je officiele puntenblad: daar staat je proclamatiecode op. Voor de officiele beslissing kijk je dus in je transcript, niet enkel in het overzicht.</p>
+            <div class="info-bronnen">
+              <span class="label">Bevestigd</span>
+              <a class="info-bron" href="https://www.vub.be/nl/studeren-aan-de-vub/praktische-info-voor-studenten/examens-en-deliberatie/mijn-examenresultaten">VUB examenresultaten ↗</a>
+            </div>
+          </article>
+          <article class="kaart info-kaart" data-cat="punten">
+            <h2>Wat betekent 'tolerated fail' op mijn puntenblad?</h2>
+            <p class="info-antwoord">Dat is een getolereerd vak: je onderliggende cijfer staat onder 10/20 en je krijgt er geen creditbewijs voor, maar het telt wel mee in je geslaagd-beslissing. Twijfel je over een code of label? Vraag het na bij het faculteitssecretariaat.</p>
+            <div class="info-bronnen">
+              <span class="label">Bevestigd</span>
+              <a class="info-bron" href="https://www.vub.be/sites/default/files/2025-07/2025_Reglementen_OER_2025-2026_NL.pdf" rel="noopener">OER Art. 138 en 139 ↗</a>
+            </div>
+          </article>
+          <article class="kaart info-kaart" data-cat="punten">
+            <h2>Wat is de proclamatiecode?</h2>
+            <p class="info-antwoord">Dat is de enige officiele uitslag over of je slaagt en of je je opleiding mag verderzetten. De examencommissie legt die vast na de deliberatie en je vindt hem op je Transcript of records, niet in het snelle cijferoverzicht.</p>
+            <div class="info-bronnen">
+              <span class="label">Bevestigd</span>
+              <a class="info-bron" href="https://www.vub.be/nl/studeren-aan-de-vub/praktische-info-voor-studenten/examens-en-deliberatie/mijn-examenresultaten">VUB examenresultaten ↗</a>
+            </div>
+          </article>
+          <article class="kaart info-kaart" data-cat="cijfer">
+            <h2>Hoe wordt mijn eindcijfer per vak opgebouwd?</h2>
+            <p class="info-antwoord">Volgens de vakfiche: elk deel (examen, taak, werkcollege) heeft daar zijn eigen gewicht. Alleen het eindcijfer wordt afgerond, de deelcijfers zelf worden nooit afgerond.</p>
+            <div class="info-bronnen">
+              <span class="label">Bevestigd</span>
+              <a class="info-bron" href="https://www.vub.be/sites/default/files/2025-07/2025_Reglementen_OER_2025-2026_NL.pdf" rel="noopener">OER Art. 137 ↗</a>
+            </div>
+          </article>
+          <article class="kaart info-kaart" data-cat="cijfer">
+            <h2>Moet ik op elk deel apart slagen?</h2>
+            <p class="info-antwoord">Er is geen algemene VUB-regel die dat oplegt. Zo'n eis (bijvoorbeeld minstens 8/20 op je examen) bestaat enkel als ze in de vakfiche van dat specifieke vak staat. Check dus altijd de fiche op Canvas.</p>
+            <div class="info-bronnen">
+              <span class="label">Bevestigd</span>
+              <a class="info-bron" href="https://www.vub.be/sites/default/files/2025-07/2025_Reglementen_OER_2025-2026_NL.pdf" rel="noopener">OER Art. 137 en 103 ↗</a>
+            </div>
+          </article>
+          <article class="kaart info-kaart" data-cat="cijfer">
+            <h2>Hoe wordt mijn eindpercentage berekend?</h2>
+            <p class="info-antwoord">Als een gewogen gemiddelde: elk vak telt mee volgens zijn aantal studiepunten, dus een vak van 6 studiepunten weegt dubbel zo zwaar als een van 3. Dit is wat studenten soms hun grade point noemen. 55% is de deliberatiedrempel.</p>
+            <div class="info-bronnen">
+              <span class="label">Bevestigd</span>
+              <a class="info-bron" href="https://www.vub.be/sites/default/files/2025-07/2025_Reglementen_OER_2025-2026_NL.pdf" rel="noopener">OER Art. 140 ↗</a>
+            </div>
+          </article>
+          <article class="kaart info-kaart" data-cat="cijfer">
+            <h2>Welke graden van verdienste bestaan er?</h2>
+            <p class="info-antwoord">Op basis van je gemiddeld eindresultaat: voldoening onder 68%, onderscheiding vanaf 68%, grote onderscheiding vanaf 77% en grootste onderscheiding vanaf 85%. Het percentage wordt afgerond, dus 67,5% wordt al 68%.</p>
+            <div class="info-bronnen">
+              <span class="label">Bevestigd</span>
+              <a class="info-bron" href="https://www.vub.be/sites/default/files/2025-07/2025_Reglementen_OER_2025-2026_NL.pdf" rel="noopener">OER Art. 144 ↗</a>
+            </div>
+          </article>
+          <article class="kaart info-kaart" data-cat="inzage">
+            <h2>Mag ik mijn examen inkijken en feedback vragen?</h2>
+            <p class="info-antwoord">Ja. Voor schriftelijke examens heb je recht op inzage in je kopij binnen 5 kalenderdagen na de bekendmaking. De afspraak vraag je aan binnen 3 kalenderdagen. Je kan in diezelfde periode ook feedback vragen.</p>
+            <div class="info-bronnen">
+              <span class="label">Bevestigd</span>
+              <a class="info-bron" href="https://www.vub.be/sites/default/files/2025-07/2025_Reglementen_OER_2025-2026_NL.pdf" rel="noopener">OER Art. 114 ↗</a>
+            </div>
+          </article>
+          <article class="kaart info-kaart" data-cat="inzage">
+            <h2>Kan ik beroep aantekenen tegen een resultaat?</h2>
+            <p class="info-antwoord">Ja, binnen een vervaltermijn van 7 kalenderdagen na de bekendmaking van de resultaten. Valt je inzage later, vermeld dat dan in je verzoekschrift en onderbouw het binnen 7 kalenderdagen daarna.</p>
+            <div class="info-bronnen">
+              <span class="label">Bevestigd</span>
+              <a class="info-bron" href="https://www.vub.be/sites/default/files/2025-07/2025_Reglementen_OER_2025-2026_NL.pdf" rel="noopener">OER Art. 153 ↗</a>
+            </div>
+          </article>
+          <article class="kaart info-kaart" data-cat="inzage">
+            <h2>Hoe vind ik het mailadres van de prof of assistent?</h2>
+            <p class="info-antwoord">De titularis organiseert vaak zelf een inzagemoment en kondigt dat aan via Canvas. Is er geen moment? Dan vraag je per e-mail een afspraak. Het adres vind je in de vakfiche of studiegids en op de faculteitspagina van Psychologie en Educatiewetenschappen.</p>
+            <div class="info-bronnen">
+              <span class="label">Bevestigd</span>
+              <a class="info-bron" href="https://www.vub.be/sites/default/files/2025-07/2025_Reglementen_OER_2025-2026_NL.pdf" rel="noopener">OER Art. 114 + PE ↗</a>
+            </div>
+          </article>
+          <article class="kaart info-kaart" data-cat="volgend">
+            <h2>Moet ik mij elk jaar opnieuw inschrijven?</h2>
+            <p class="info-antwoord">Ja. De herinschrijving voor een volgend academiejaar is iets anders dan de inschrijving voor de tweede zit. De administratieve herinschrijving voor het volgende jaar doe je uiterlijk op 15 februari. Voor de tweede zit schrijf je je apart in tussen 15 en 30 juni.</p>
+            <div class="info-bronnen">
+              <span class="label">Bevestigd</span>
+              <a class="info-bron" href="https://www.vub.be/sites/default/files/2025-07/2025_Reglementen_OER_2025-2026_NL.pdf" rel="noopener">OER Art. 60 §4 en Art. 107 §2 ↗</a>
+            </div>
+          </article>
+          <article class="kaart info-kaart" data-cat="volgend">
+            <h2>Wat is studievoortgangsbewaking?</h2>
+            <p class="info-antwoord">Haal je in je eerste jaar niet voor alle vakken een credit of een getolereerde onvoldoende, dan moet je die vakken bij je tweede inschrijving alsnog halen. Dat is een bindende voorwaarde: lukt het niet, dan mag je je niet opnieuw inschrijven voor dezelfde opleiding, behalve bij overmacht of bijzondere omstandigheden.</p>
+            <div class="info-bronnen">
+              <span class="label">Bevestigd</span>
+              <a class="info-bron" href="https://www.vub.be/sites/default/files/2025-07/2025_Reglementen_OER_2025-2026_NL.pdf" rel="noopener">OER Art. 88 §1 ↗</a>
+            </div>
+          </article>
+          <article class="kaart info-kaart" data-cat="volgend">
+            <h2>Ik haalde minder dan 30 procent van mijn studiepunten. Wat nu?</h2>
+            <p class="info-antwoord">Wie na de eerste inschrijving minder dan 30 procent studierendement heeft, kan zich niet opnieuw inschrijven voor dezelfde opleiding, behalve bij overmacht of bijzondere omstandigheden. Hoe het rendement precies berekend wordt, vraag je na bij Studiebegeleiding.</p>
+            <div class="info-bronnen">
+              <span class="label">Bevestigd</span>
+              <a class="info-bron" href="https://www.vub.be/sites/default/files/2025-07/2025_Reglementen_OER_2025-2026_NL.pdf" rel="noopener">OER Art. 88 §2 ↗</a>
+            </div>
+          </article>
+          <article class="kaart info-kaart" data-cat="volgend">
+            <h2>Ik zit onder 60 procent van mijn studiepunten. Wat betekent dat?</h2>
+            <p class="info-antwoord">Dan krijg je bij je volgende herinschrijving een bindende voorwaarde: slagen voor 75 procent van de opgenomen studiepunten, en voor elk vak waarvoor je al twee keer zonder credit ingeschreven was. Je mag maximaal 60 studiepunten opnemen en de faculteit kan studiebegeleiding verplichten.</p>
+            <div class="info-bronnen">
+              <span class="label">Bevestigd</span>
+              <a class="info-bron" href="https://www.vub.be/sites/default/files/2025-07/2025_Reglementen_OER_2025-2026_NL.pdf" rel="noopener">OER Art. 88 §3 ↗</a>
+            </div>
+          </article>
+          <article class="kaart info-kaart" data-cat="volgend">
+            <h2>Heb ik recht op een gesprek en op genoeg studiepunten?</h2>
+            <p class="info-antwoord">Ja. Bij zo een bindende voorwaarde heb je recht op een gesprek met Studiebegeleiding, en op minstens 45 studiepunten in je programma, tenzij de volgtijdelijkheid van vakken dat verhindert.</p>
+            <div class="info-bronnen">
+              <span class="label">Bevestigd</span>
+              <a class="info-bron" href="https://www.vub.be/sites/default/files/2025-07/2025_Reglementen_OER_2025-2026_NL.pdf" rel="noopener">OER Art. 88 §3 en Art. 59 §3 ↗</a>
+            </div>
+          </article>
+        </div>
+        <p class="info-leeg" id="info-leeg" hidden>Geen antwoord gevonden. <a href="feedback.html">Stel je vraag via Feedback</a>, dan voegen we hem toe.</p>
+      </section>
+
+      <div class="kaart info-vraag-ontbreekt">
+        <p>Staat je vraag er niet bij? Stuur hem in, dan zoeken we het antwoord op in het reglement en zetten we hem hier neer.</p>
+        <a class="knop-secundair" href="feedback.html">Mijn vraag staat er niet bij →</a>
+      </div>
+      <p class="info-brondatum">Bron: VUB-reglement 2025-2026. Referentie overgenomen op 15-09-2026, aangevuld op 21-09-2026.<br>Klopt er iets niet meer? <a href="feedback.html">Laat het weten via Feedback.</a></p>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <p class="footer-brand">Berie's Exam Space</p>
+    <div class="footer-details">
+      <p>Duidelijk leren. Rustig groeien.</p>
+      <p class="project-label">Een project van The Berie Foundation</p>
+    </div>
+  </footer>
+
+  <script>
+    (() => {
+      const search = document.getElementById('info-zoek');
+      const tablist = document.getElementById('info-tabs');
+      const tabs = Array.from(tablist.querySelectorAll('[role="tab"]'));
+      const panel = document.getElementById('info-resultaten');
+      const empty = document.getElementById('info-leeg');
+      const status = document.getElementById('info-aankondiging');
+      const cards = Array.from(document.querySelectorAll('.info-kaart')).map(card => ({
+        element: card,
+        category: card.dataset.cat,
+        text: (card.querySelector('h2').textContent + ' ' + card.querySelector('.info-antwoord').textContent).toLocaleLowerCase('nl')
+      }));
+      let category = 'all';
+
+      const filter = () => {
+        const query = search.value.trim().toLocaleLowerCase('nl');
+        let count = 0;
+        cards.forEach(card => {
+          const visible = (category === 'all' || card.category === category) && card.text.includes(query);
+          card.element.hidden = !visible;
+          if (visible) count += 1;
+        });
+        empty.hidden = count !== 0;
+        status.textContent = count === 1 ? '1 antwoord gevonden.' : count + ' antwoorden gevonden.';
+      };
+
+      const select = tab => {
+        category = tab.dataset.cat;
+        tabs.forEach(button => {
+          const active = button === tab;
+          button.setAttribute('aria-selected', String(active));
+          button.tabIndex = active ? 0 : -1;
+          button.classList.toggle('knop', active);
+          button.classList.toggle('knop-secundair', !active);
+        });
+        panel.setAttribute('aria-labelledby', tab.id);
+        filter();
+      };
+
+      tabs.forEach(tab => tab.addEventListener('click', () => select(tab)));
+      tablist.addEventListener('keydown', event => {
+        const index = tabs.indexOf(event.target);
+        if (index < 0) return;
+        const target = event.key === 'ArrowRight' ? (index + 1) % tabs.length
+          : event.key === 'ArrowLeft' ? (index + tabs.length - 1) % tabs.length
+          : event.key === 'Home' ? 0
+          : event.key === 'End' ? tabs.length - 1
+          : null;
+        if (target === null) return;
+        event.preventDefault();
+        select(tabs[target]);
+        tabs[target].focus();
+      });
+      search.addEventListener('input', filter);
+      search.addEventListener('search', filter);
+      window.addEventListener('pageshow', filter);
+      filter();
+    })();
+  </script>
+</body>
+</html>

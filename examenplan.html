@@ -1,0 +1,595 @@
+<!doctype html>
+<html lang="nl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script src="assets/deur.js?v=80"></script>
+  <link rel="apple-touch-icon" href="/assets/icoon-180.png">
+  <link rel="manifest" href="/manifest.webmanifest">
+  <meta name="robots" content="noindex">
+  <meta name="theme-color" content="#FFFFFF">
+  <script>
+    (() => {
+      let keuze;
+      try { keuze = window.localStorage.getItem('bes_thema'); } catch {}
+      const donker = keuze === 'donker' || (keuze !== 'licht' && window.matchMedia('(prefers-color-scheme: dark)').matches);
+      document.documentElement.dataset.theme = donker ? 'dark' : 'light';
+      document.querySelector('meta[name="theme-color"]').content = donker ? '#0B0B0C' : '#FFFFFF';
+    })();
+  </script>
+  <title>Jouw examenplan | Berie's Exam Space</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/style.css?v=80">
+  <script src="assets/app.js?v=80" defer></script>
+  <script src="assets/vakken.js?v=80"></script>
+  <script src="assets/config.js?v=80" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js" defer></script>
+  <script src="assets/auth.js?v=80" defer></script>
+  <script src="assets/plan.js?v=80" defer></script>
+  <script src="assets/activiteit.js?v=80" defer></script>
+  <style>
+    .ep-wrap { max-width: 760px; }
+    .ep-status { margin: 0 0 16px; color: var(--ink-soft); }
+    .ep-status:empty { display: none; }
+    .ep-sectie + .ep-sectie { margin-top: 44px; }
+    .ep-sectie .sectie-kop { margin-bottom: 16px; }
+    .ep-kaart { padding: clamp(20px, 4vw, 28px); }
+    .ep-pro { display: flex; align-items: center; justify-content: space-between; gap: 20px; padding: 24px; }
+    .ep-pro h2 { margin: 0 0 6px; font-size: 1.125rem; }
+    .ep-pro p { margin: 0; color: var(--ink-soft); font-size: .9375rem; line-height: 1.5; }
+    .ep-pro .knop-secundair { flex-shrink: 0; width: auto; min-width: 0; margin: 0; padding: 10px 20px; }
+    .ep-examens { display: grid; gap: 12px; margin: 0; padding: 0; list-style: none; }
+    .ep-examen { display: grid; grid-template-columns: minmax(0, 1fr) auto auto; align-items: center; gap: 12px; padding-bottom: 12px; border-bottom: 1px solid var(--line); }
+    .ep-examen-naam { font-weight: 600; font-size: .9375rem; line-height: 1.4; }
+    .ep-examen-dagen { display: block; margin-top: 2px; color: var(--ink-soft); font-size: .8125rem; font-weight: 400; }
+    .ep-kaart input[type="date"], .ep-kaart select { min-height: 44px; padding: 8px 12px; border: 1px solid var(--line); border-radius: 12px; background: var(--input-bg); color: var(--ink); font: inherit; font-size: .9375rem; }
+    .ep-kaart select { width: 100%; }
+    .ep-weg { min-height: 44px; padding: 10px 4px; border: 0; background: none; color: var(--ink-soft); font: inherit; font-size: .875rem; text-decoration: underline; text-underline-offset: 3px; cursor: pointer; }
+    .ep-weg { transition: color 180ms var(--ease), opacity 180ms var(--ease), transform 180ms var(--ease); }
+    .ep-weg:not(:disabled):active { transform: scale(.97); }
+    :where(html.has-hover) .ep-weg:hover { color: var(--fout); }
+    .ep-nieuw { display: grid; grid-template-columns: minmax(0, 1fr) auto auto; align-items: end; gap: 12px; margin-top: 16px; }
+    .ep-nieuw label { display: grid; gap: 6px; font-size: .875rem; font-weight: 600; }
+    .ep-nieuw .knop-secundair { width: auto; min-width: 0; margin: 0; padding: 10px 20px; }
+    .ep-melding { margin: 12px 0 0; color: var(--ink-soft); font-size: .875rem; }
+    .ep-melding:empty { display: none; }
+    .ep-leeg { margin: 0; color: var(--ink-soft); font-size: .9375rem; line-height: 1.5; }
+    .ep-plan-boven { display: flex; align-items: center; justify-content: space-between; gap: 16px 24px; }
+    .ep-uitleg { margin: 0; max-width: 30rem; color: var(--ink-soft); font-size: .9375rem; line-height: 1.5; }
+    .ep-plan-boven .knop-secundair { gap: 8px; width: auto; min-width: 0; margin: 0; padding: 10px 20px; font-size: .9375rem; }
+    .ep-plan-boven .knop-secundair svg { width: 18px; height: 18px; flex-shrink: 0; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+    .ep-weken { margin-top: 24px; border-top: 1px solid var(--line); }
+    .ep-weken:empty { display: none; }
+    .ep-week { border-bottom: 1px solid var(--line); }
+    .ep-week:last-child { border-bottom: 0; }
+    .ep-week > summary { display: flex; align-items: center; justify-content: space-between; gap: 16px; min-height: 56px; margin: 4px -8px; padding: 8px; cursor: pointer; list-style: none; }
+    .ep-week > summary::-webkit-details-marker { display: none; }
+    .ep-week-tekst { display: grid; gap: 2px; min-width: 0; }
+    .ep-week-naam { font-size: 1rem; font-weight: 600; line-height: 1.35; }
+    .ep-week-meta { color: var(--ink-soft); font-size: .8125rem; line-height: 1.4; }
+    .ep-week-pijl { width: 18px; height: 18px; flex-shrink: 0; fill: none; stroke: var(--ink-soft); stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; transition: transform 200ms var(--ease); }
+    .ep-week[open] .ep-week-pijl { transform: rotate(180deg); }
+    .ep-week .ep-dagen { padding-bottom: 8px; }
+    .ep-grens { margin-top: 16px; font-size: .875rem; }
+    .ep-dagen { display: grid; gap: 0; margin: 0; padding: 0; list-style: none; }
+    .ep-dag { display: grid; grid-template-columns: 116px minmax(0, 1fr) auto; align-items: center; gap: 12px 16px; padding: 14px 0; border-bottom: 1px solid var(--line); }
+    .ep-dag:last-child { border-bottom: 0; }
+    /* Vandaag springt eruit: zacht vlak binnen de kaartmarge, met minstens 16 px lucht rond de knop en tot de weekkop erboven. */
+    .ep-dag.is-vandaag { margin: 12px -12px; padding: 16px 16px 16px 12px; border-bottom-color: transparent; border-radius: 12px; background: var(--accent-zacht); }
+    .ep-dag-naam { display: block; color: var(--ink-soft); font-size: .8125rem; font-weight: 600; }
+    .ep-dag-naam::first-letter { text-transform: uppercase; }
+    /* Op het zachte vlak is de donkerdere accentkleur nodig voor genoeg contrast (licht en donker thema). */
+    .ep-dag-naam.is-vandaag { color: var(--accent-dark); }
+    .ep-dag-taak { font-size: .9375rem; line-height: 1.45; }
+    .ep-dag-taak small { display: block; color: var(--ink-soft); font-size: .8125rem; }
+    .ep-dag-examen { display: flex; width: fit-content; margin-bottom: 6px; border-radius: 10px; }
+    .ep-dag .knop-secundair, .ep-punt .knop-secundair { width: auto; min-width: 0; margin: 0; padding: 8px 16px; font-size: .9375rem; }
+    .ep-week-cijfers { margin: 0 0 16px; font-size: .9375rem; line-height: 1.6; }
+    .ep-punten { display: grid; gap: 12px; }
+    .ep-punt { padding: 16px 0 0; border-top: 1px solid var(--line); }
+    .ep-punt-boven { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+    .ep-punt h3 { margin: 0; font-size: 1rem; }
+    .ep-punt p { margin: 2px 0 0; color: var(--ink-soft); font-size: .8125rem; }
+    .ep-punt-knoppen { display: flex; flex-wrap: wrap; gap: 8px; }
+    .ep-brug { margin: 12px 0 0; padding: 14px 16px; border-radius: 12px; background: var(--surface); font-size: .9375rem; line-height: 1.55; white-space: pre-line; }
+    .ep-brug:empty { display: none; }
+    .ep-brug:not(:empty) { animation: appear 200ms var(--ease); }
+    @media (max-width: 560px) {
+      .ep-pro, .ep-punt-boven { flex-direction: column; align-items: stretch; }
+      .ep-pro .knop-secundair { width: 100%; max-width: none; }
+      .ep-examen { grid-template-columns: minmax(0, 1fr) auto; }
+      .ep-examen input[type="date"] { grid-column: 1 / -1; grid-row: 2; }
+      .ep-nieuw { grid-template-columns: minmax(0, 1fr); }
+      .ep-nieuw .knop-secundair { width: 100%; max-width: none; }
+      .ep-dag { grid-template-columns: minmax(0, 1fr) auto; }
+      .ep-dag-naam { grid-column: 1 / -1; }
+      .ep-plan-boven { flex-direction: column; align-items: stretch; }
+      .ep-plan-boven .knop-secundair { width: 100%; max-width: none; }
+    }
+    @media (prefers-reduced-motion: reduce) { .ep-week-pijl { transition: none; } }
+  </style>
+</head>
+<body data-nav="vast">
+  <a class="skip-link" href="#inhoud">Ga naar inhoud</a>
+  <header class="site-header">
+    <nav class="navigation" aria-label="Hoofdnavigatie">
+      <a class="brand" href="index.html" aria-label="Berie's Exam Space, startpagina">
+        <span class="brand-symbol" aria-hidden="true">B</span>
+        <span class="brand-name"><span>Berie's</span> <span>Exam Space</span></span>
+      </a>
+      <a class="home-knop" href="hub.html" aria-label="Home" title="Home">
+        <svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 10.5 12 3l9 7.5M5 9v12h5v-7h4v7h5V9"/></svg>
+      </a>
+      <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="site-menu">Menu</button>
+      <ul class="navigation-links" id="site-menu">
+        <li><a href="hub.html#hoe-werkt-het">Hoe werkt het</a></li>
+        <li><a href="hub.html#wie-is-berie">Over mij</a></li>
+        <li><a href="whatsapp.html">WhatsApp-groep</a></li>
+      </ul>
+      <a class="pill login-button" href="inloggen.html">Inloggen →</a>
+    </nav>
+  </header>
+  <main id="inhoud" class="pagina" aria-labelledby="ep-titel">
+    <div class="wrap ep-wrap">
+      <a class="terug tekstlink" href="hub.html" data-terug="hub.html" data-terug-tekst="Terug">← Terug</a>
+      <header class="pagina-kop">
+        <h1 id="ep-titel">Jouw examenplan</h1>
+        <p class="pagina-sub">Zet je examens erin. Je krijgt elke dag een plan tot de dag zelf, met je zwakste hoofdstukken eerst.</p>
+      </header>
+
+      <p class="ep-status" id="ep-status" role="status">Even laden.</p>
+
+      <section class="kaart ep-pro" id="ep-pro" aria-labelledby="ep-pro-kop" hidden>
+        <div>
+          <h2 id="ep-pro-kop">Je examenplan zit in Pro</h2>
+          <p>Met Pro krijg je een plan per dag tot je examen, dat je met één knop in je agenda zet. Je krijgt ook ezelsbruggetjes van Comit voor je zwakke hoofdstukken en per vak een Klaar-meter.</p>
+        </div>
+        <a class="knop-secundair" href="abonnement.html">Probeer Pro een maand</a>
+      </section>
+
+      <div id="ep-inhoud" hidden>
+        <section class="ep-sectie" aria-labelledby="ep-examens-kop">
+          <h2 class="sectie-kop" id="ep-examens-kop">Je examens</h2>
+          <div class="kaart ep-kaart">
+            <ul class="ep-examens" id="ep-examens"></ul>
+            <p class="ep-leeg" id="ep-geen-examens">Nog geen examens. Kies hieronder een vak en de datum van je examen.</p>
+            <form class="ep-nieuw" id="ep-nieuw">
+              <label>Vak<select id="ep-vak" required></select></label>
+              <label>Datum<input type="date" id="ep-datum" required></label>
+              <button class="knop-secundair" type="submit">Toevoegen</button>
+            </form>
+            <p class="ep-melding" id="ep-melding" role="status" aria-live="polite"></p>
+          </div>
+        </section>
+
+        <section class="ep-sectie" aria-labelledby="ep-plan-kop">
+          <h2 class="sectie-kop" id="ep-plan-kop">Je plan tot je examen</h2>
+          <div class="kaart ep-kaart">
+            <div class="ep-plan-boven" id="ep-plan-boven" hidden>
+              <p class="ep-uitleg">Je plan rekent elke dag opnieuw met je voortgang van dat moment. Mis je een dag, dan schuift alles gewoon op.</p>
+              <button class="knop-secundair" type="button" id="ep-agenda">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="5" width="17" height="15.5" rx="3"/><path d="M3.5 10h17M8 3v4M16 3v4M9 15l2 2 4-4"/></svg>
+                Zet in je agenda
+              </button>
+            </div>
+            <p class="ep-melding" id="ep-agenda-melding" role="status" aria-live="polite"></p>
+            <div class="ep-weken" id="ep-weken"></div>
+            <p class="ep-leeg ep-grens" id="ep-grens" hidden></p>
+            <p class="ep-leeg" id="ep-geen-plan">Zodra je een examen toevoegt, staat hier wat je elke dag oefent.</p>
+          </div>
+        </section>
+
+        <section class="ep-sectie" aria-labelledby="ep-week-kop">
+          <h2 class="sectie-kop" id="ep-week-kop">Je week in cijfers</h2>
+          <div class="kaart ep-kaart">
+            <p class="ep-week-cijfers" id="ep-week-cijfers"></p>
+            <div class="ep-punten" id="ep-punten"></div>
+          </div>
+        </section>
+      </div>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <p class="footer-brand">Berie's Exam Space</p>
+    <div class="footer-details">
+      <p>Duidelijk leren. Rustig groeien.</p>
+      <p class="project-label">Een project van The Berie Foundation</p>
+    </div>
+  </footer>
+
+  <script>
+    // Examenplan (Pro): examendata (supabase/examendata.sql), voortgang per hoofdstuk en sessies van de laatste twee weken.
+    // Het plan zet per dag twee hoofdstukken klaar: eerst wat je nog niet oefende, dan je laagste scores. De dag voor een examen: een simulatie.
+    // Het loopt tot je laatste komende examen (hoogstens 120 dagen), per week gegroepeerd, en kan als .ics-bestand in je agenda.
+    document.addEventListener('DOMContentLoaded', () => {
+      const BES = window.BES || {};
+      const status = document.getElementById('ep-status');
+      const $ = (id) => document.getElementById(id);
+      const el = (tag, klasse, tekst) => { const node = document.createElement(tag); if (klasse) node.className = klasse; if (tekst !== undefined) node.textContent = tekst; return node; };
+      const vakken = (window.BES_VAKKEN || []).filter((vak) => vak.v2);
+      const vakNaam = new Map(vakken.map((vak) => [vak.id, vak.naam]));
+      const dagMs = 86400000;
+      const maxDagen = 120;
+      const begin = (datum) => new Date(datum.getFullYear(), datum.getMonth(), datum.getDate());
+      const vandaag = begin(new Date());
+      // Kalenderdagen optellen, niet 24 uur: zo blijft elke dag middernacht, ook rond de overgang naar winter- of zomertijd.
+      const plusDagen = (datum, aantal) => new Date(datum.getFullYear(), datum.getMonth(), datum.getDate() + aantal);
+      const iso = (datum) => datum.getFullYear() + '-' + String(datum.getMonth() + 1).padStart(2, '0') + '-' + String(datum.getDate()).padStart(2, '0');
+      const leesDatum = (tekst) => { const [j, m, d] = tekst.split('-').map(Number); return new Date(j, m - 1, d); };
+      const dagNaam = (datum, index) => index === 0 ? 'Vandaag' : index === 1 ? 'Morgen' : new Intl.DateTimeFormat('nl-BE', { weekday: 'long', day: 'numeric', month: 'short' }).format(datum);
+      const maandag = (datum) => plusDagen(datum, -((datum.getDay() + 6) % 7));
+      const weekNaam = (start) => {
+        const verschil = Math.round((start - maandag(vandaag)) / (7 * dagMs));
+        return verschil === 0 ? 'Deze week' : verschil === 1 ? 'Volgende week' : 'Week van ' + new Intl.DateTimeFormat('nl-BE', { day: 'numeric', month: 'long' }).format(start);
+      };
+      const opsomming = (delen) => delen.length > 1 ? delen.slice(0, -1).join(', ') + ' en ' + delen[delen.length - 1] : delen.join('');
+
+      // Vakdata (hoofdstukken en vragen) één keer per vak laden; data.js zet window.BES_VAK, dus om beurten.
+      const vakData = new Map();
+      let rij = Promise.resolve();
+      const laadVak = (id) => {
+        if (vakData.has(id)) return vakData.get(id);
+        const belofte = rij = rij.then(() => new Promise((klaar) => {
+          const script = document.createElement('script');
+          script.src = 'vak/' + encodeURIComponent(id) + '/data.js';
+          script.onload = () => { const data = window.BES_VAK && window.BES_VAK.id === id ? window.BES_VAK : null; window.BES_VAK = undefined; script.remove(); klaar(data); };
+          script.onerror = () => { script.remove(); klaar(null); };
+          document.head.append(script);
+        }));
+        vakData.set(id, belofte);
+        return belofte;
+      };
+
+      let client = null;
+      let gebruiker = null;
+      let examens = [];
+      let scores = new Map();
+      let planDagen = [];
+      // Volgnummer van de laatste planberekening: een tragere, oudere berekening tekent niet over een nieuwere heen.
+      let planBeurt = 0;
+      // Weken die je zelf open- of dichtklapte, zodat dat zo blijft als het plan opnieuw tekent.
+      const weekKeuze = new Map();
+
+      const vulKeuzes = () => {
+        const kies = $('ep-vak');
+        const jaren = [['1ba', '1ste bachelor'], ['2ba', '2de bachelor'], ['3ba', '3de bachelor']];
+        const gekozen = new Set(examens.map((examen) => examen.vak));
+        kies.replaceChildren(el('option', '', 'Kies een vak'));
+        kies.firstChild.value = '';
+        jaren.forEach(([jaar, label]) => {
+          const groep = document.createElement('optgroup');
+          groep.label = label;
+          vakken.filter((vak) => vak.jaar === jaar && !gekozen.has(vak.id)).forEach((vak) => { const optie = el('option', '', vak.naam); optie.value = vak.id; groep.append(optie); });
+          if (groep.children.length) kies.append(groep);
+        });
+        $('ep-datum').min = iso(vandaag);
+      };
+
+      const toonExamens = () => {
+        const lijst = $('ep-examens');
+        lijst.replaceChildren(...examens.map((examen) => {
+          const item = el('li', 'ep-examen');
+          const naam = el('span', 'ep-examen-naam', vakNaam.get(examen.vak) || examen.vak);
+          const dagen = Math.round((leesDatum(examen.datum) - vandaag) / dagMs);
+          naam.append(el('span', 'ep-examen-dagen', dagen < 0 ? 'Voorbij' : dagen === 0 ? 'Vandaag' : dagen === 1 ? 'Morgen' : 'Over ' + dagen + ' dagen'));
+          const datum = document.createElement('input');
+          datum.type = 'date';
+          datum.value = examen.datum;
+          datum.min = iso(vandaag);
+          datum.setAttribute('aria-label', 'Examendatum ' + (vakNaam.get(examen.vak) || examen.vak));
+          datum.addEventListener('change', () => { if (datum.value) bewaar(examen.vak, datum.value); });
+          const weg = el('button', 'ep-weg', 'Weg');
+          weg.type = 'button';
+          weg.setAttribute('aria-label', (vakNaam.get(examen.vak) || examen.vak) + ' weghalen');
+          weg.addEventListener('click', () => verwijder(examen.vak));
+          item.append(naam, datum, weg);
+          return item;
+        }));
+        $('ep-geen-examens').hidden = examens.length > 0;
+        vulKeuzes();
+      };
+
+      const melding = (tekst) => { $('ep-melding').textContent = tekst; };
+
+      async function bewaar(vak, datum) {
+        const { error } = await client.from('examendata').upsert({ user_id: gebruiker.id, vak, datum, bijgewerkt: new Date().toISOString() }, { onConflict: 'user_id,vak' });
+        if (error) { melding('Opslaan lukte niet. Probeer het zo opnieuw.'); return; }
+        melding('Opgeslagen.');
+        await laadExamens();
+      }
+
+      async function verwijder(vak) {
+        const { error } = await client.from('examendata').delete().eq('user_id', gebruiker.id).eq('vak', vak);
+        if (error) { melding('Weghalen lukte niet. Probeer het zo opnieuw.'); return; }
+        melding('');
+        await laadExamens();
+      }
+
+      async function laadExamens() {
+        const { data } = await client.from('examendata').select('vak,datum').eq('user_id', gebruiker.id).order('datum');
+        examens = (data || []).filter((examen) => vakNaam.has(examen.vak));
+        toonExamens();
+        await maakPlan();
+      }
+
+      // Hoofdstukken van een vak in volgorde van aandacht: nog niet geoefend, dan laagste laatste score.
+      const wachtrij = (data) => {
+        const aantal = new Map();
+        data.vragen.forEach((vraag) => aantal.set(vraag.h, (aantal.get(vraag.h) || 0) + 1));
+        return data.hoofdstukken.filter((h) => aantal.get(h.id)).map((h) => {
+          const score = scores.get(data.id + '|' + h.id);
+          return { id: h.id, naam: h.naam, score: score === undefined ? -1 : score };
+        }).sort((a, b) => a.score - b.score);
+      };
+
+      // Waar de knop Oefen van een plandag naartoe gaat: bij een simulatie het vak, anders het eerste hoofdstuk van die dag.
+      const oefenLink = (item) => 'vak/' + encodeURIComponent(item.plan.vak) + '/' + (item.simulatie ? '' : '?hoofdstuk=' + encodeURIComponent(item.stukken[0].id));
+
+      async function maakPlan() {
+        const beurt = ++planBeurt;
+        const weken = $('ep-weken');
+        const lijstExamens = examens;
+        const komend = lijstExamens.filter((examen) => leesDatum(examen.datum) > vandaag);
+        const plannen = (await Promise.all(komend.map(async (examen) => {
+          const data = await laadVak(examen.vak);
+          if (!data) return null;
+          return { vak: examen.vak, naam: vakNaam.get(examen.vak), datum: leesDatum(examen.datum), rij: wachtrij(data), plek: 0, beurten: 0, gezien: new Set() };
+        }))).filter(Boolean);
+        // Intussen een examen toegevoegd, verzet of weggehaald: dan tekent de nieuwere berekening.
+        if (beurt !== planBeurt) return;
+        $('ep-plan-kop').textContent = komend.length > 1 ? 'Je plan tot je examens' : 'Je plan tot je examen';
+        // Het plan loopt tot je laatste komende examen, hoogstens 120 dagen vooruit.
+        const laatste = plannen.reduce((verst, plan) => plan.datum > verst ? plan.datum : verst, vandaag);
+        const totLaatste = Math.round((laatste - vandaag) / dagMs);
+        const dagen = [];
+        for (let i = 0; i < Math.min(maxDagen, totLaatste); i++) {
+          const dag = plusDagen(vandaag, i);
+          const open = plannen.filter((plan) => plan.datum > dag && plan.rij.length);
+          if (!open.length) break;
+          // Examen morgen: simulatie. Anders het vak met de minste beurten, bij gelijkstand het dichtste examen.
+          const morgen = open.find((plan) => Math.round((plan.datum - dag) / dagMs) === 1);
+          if (morgen) { dagen.push({ dag, i, plan: morgen, simulatie: true }); morgen.beurten++; continue; }
+          open.sort((a, b) => a.beurten - b.beurten || a.datum - b.datum);
+          const plan = open[0];
+          const stukken = [plan.rij[plan.plek % plan.rij.length], plan.rij[(plan.plek + 1) % plan.rij.length]].filter((stuk, index, alle) => alle.findIndex((ander) => ander.id === stuk.id) === index);
+          // Komt een hoofdstuk later in het plan terug, dan staat er herhalen in plaats van de score van vandaag.
+          const labels = stukken.map((stuk) => plan.gezien.has(stuk.id) ? 'herhalen' : stuk.score < 0 ? 'nieuw' : Math.round(stuk.score * 100) + '%');
+          stukken.forEach((stuk) => plan.gezien.add(stuk.id));
+          plan.plek += stukken.length;
+          plan.beurten++;
+          dagen.push({ dag, i, plan, stukken, labels });
+        }
+        // Examens vanaf vandaag krijgen een label op hun dag; de dag van je laatste examen sluit het plan af.
+        const examenOp = new Map();
+        lijstExamens.filter((examen) => leesDatum(examen.datum) >= vandaag).forEach((examen) => examenOp.set(examen.datum, [...(examenOp.get(examen.datum) || []), vakNaam.get(examen.vak) || examen.vak]));
+        if (dagen.length && totLaatste <= maxDagen) dagen.push({ dag: laatste, i: totLaatste, alleenExamen: true });
+        dagen.forEach((item) => { item.examens = examenOp.get(iso(item.dag)) || []; });
+        planDagen = dagen.filter((item) => !item.alleenExamen);
+
+        $('ep-plan-boven').hidden = !planDagen.length;
+        $('ep-agenda-melding').textContent = '';
+        $('ep-geen-plan').hidden = planDagen.length > 0;
+        $('ep-geen-plan').textContent = komend.length && !plannen.length ? 'Je plan laden lukte niet. Probeer het later opnieuw.'
+          : lijstExamens.length && !komend.length ? 'Na vandaag staat er geen examen meer. Voeg je volgende examen toe, dan staat hier wat je elke dag oefent.'
+          : 'Zodra je een examen toevoegt, staat hier wat je elke dag oefent.';
+        $('ep-grens').hidden = !planDagen.length || totLaatste <= maxDagen;
+        $('ep-grens').textContent = 'Je plan toont de komende ' + maxDagen + ' dagen. Komt je examen dichterbij, dan loopt het vanzelf verder.';
+        if (!planDagen.length) { weken.replaceChildren(); return; }
+
+        // Per week groeperen (maandag tot zondag). Deze week staat open; heeft die nog maar een of twee dagen, dan volgende week ook.
+        const groepen = [];
+        dagen.forEach((item) => {
+          const start = maandag(item.dag);
+          const laatsteGroep = groepen[groepen.length - 1];
+          if (laatsteGroep && laatsteGroep.sleutel === iso(start)) laatsteGroep.dagen.push(item);
+          else groepen.push({ sleutel: iso(start), start, dagen: [item] });
+        });
+        weken.replaceChildren(...groepen.map((groep, index) => {
+          const week = el('details', 'ep-week');
+          week.dataset.week = groep.sleutel;
+          const standaard = index === 0 || (index === 1 && groepen[0].dagen.length < 3);
+          week.open = weekKeuze.has(groep.sleutel) ? weekKeuze.get(groep.sleutel) : standaard;
+          week.addEventListener('toggle', () => { if (week.open === standaard) weekKeuze.delete(groep.sleutel); else weekKeuze.set(groep.sleutel, week.open); });
+          const kop = el('summary');
+          const tekst = el('span', 'ep-week-tekst');
+          const oefendagen = groep.dagen.filter((item) => !item.alleenExamen).length;
+          const examenNamen = groep.dagen.flatMap((item) => item.examens);
+          const meta = [];
+          if (oefendagen) meta.push(oefendagen + (oefendagen === 1 ? ' dag' : ' dagen'));
+          if (examenNamen.length) meta.push((examenNamen.length === 1 ? 'examen ' : 'examens ') + opsomming(examenNamen));
+          // Een week met alleen je examendag begint met examen: dan met een hoofdletter.
+          const metaTekst = meta.join(', ');
+          tekst.append(el('span', 'ep-week-naam', weekNaam(groep.start)), el('span', 'ep-week-meta', metaTekst.charAt(0).toUpperCase() + metaTekst.slice(1)));
+          const pijl = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+          pijl.setAttribute('class', 'ep-week-pijl');
+          pijl.setAttribute('viewBox', '0 0 24 24');
+          pijl.setAttribute('aria-hidden', 'true');
+          const lijn = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+          lijn.setAttribute('d', 'm6 9 6 6 6-6');
+          pijl.append(lijn);
+          kop.append(tekst, pijl);
+          const lijst = el('ol', 'ep-dagen');
+          lijst.append(...groep.dagen.map(dagRegel));
+          week.append(kop, lijst);
+          return week;
+        }));
+      }
+
+      function dagRegel(item) {
+        const regel = el('li', 'ep-dag' + (item.i === 0 ? ' is-vandaag' : ''));
+        if (item.i === 0) regel.setAttribute('aria-current', 'date');
+        const naamDag = dagNaam(item.dag, item.i);
+        regel.append(el('span', 'ep-dag-naam' + (item.i === 0 ? ' is-vandaag' : ''), naamDag));
+        const taak = el('div', 'ep-dag-taak');
+        if (item.examens.length) taak.append(el('span', 'label ep-dag-examen', (item.examens.length === 1 ? 'Examen ' : 'Examens ') + opsomming(item.examens)));
+        if (item.alleenExamen) {
+          taak.append(el('small', '', item.examens.length > 1 ? 'Je laatste examens. Hier stopt je plan.' : 'Je laatste examen. Hier stopt je plan.'));
+          regel.append(taak);
+          return regel;
+        }
+        if (item.simulatie) taak.append(item.plan.naam, el('small', '', 'Morgen examen: doe een examensimulatie.'));
+        else taak.append(item.plan.naam, el('small', '', item.stukken.map((stuk, index) => stuk.naam + ' (' + item.labels[index] + ')').join(' en ')));
+        const knop = el('a', 'knop-secundair', 'Oefen');
+        knop.href = oefenLink(item);
+        knop.setAttribute('aria-label', 'Oefen ' + item.plan.naam + ', ' + naamDag.toLowerCase());
+        regel.append(taak, knop);
+        return regel;
+      }
+
+      // Agenda-bestand (iCalendar, RFC 5545): één afspraak voor de hele dag per plandag, regels met CRLF en gevouwen na 75 bytes.
+      const icsTekst = (tekst) => String(tekst).replace(/\\/g, '\\\\').replace(/;/g, '\\;').replace(/,/g, '\\,').replace(/\r?\n/g, '\\n');
+      const icsDatum = (datum) => iso(datum).replace(/-/g, '');
+      const bytes = new TextEncoder();
+      const vouw = (regel) => {
+        let uit = '', lengte = 0;
+        for (const teken of regel) {
+          const n = bytes.encode(teken).length;
+          if (lengte + n > 75) { uit += '\r\n '; lengte = 1; }
+          uit += teken;
+          lengte += n;
+        }
+        return uit;
+      };
+      // Kort in de titel: hoofdstuk 3 en 4. Een hoofdstuk zonder nummer (zoals oude examenvragen) staat er met zijn naam.
+      const hoofdstukKort = (stukken) => {
+        const nummers = stukken.map((stuk) => { const treffer = /^h(\d+)$/.exec(stuk.id); return treffer && !/examen|oefenvragen/i.test(stuk.naam) ? treffer[1] : null; });
+        if (nummers.every(Boolean)) return 'hoofdstuk ' + opsomming(nummers);
+        return opsomming(stukken.map((stuk, index) => nummers[index] ? 'hoofdstuk ' + nummers[index] : stuk.naam));
+      };
+      // In een agendatitel past de korte vaknaam: Statistiek II in plaats van de volledige naam na de dubbele punt.
+      const kortNaam = (naam) => String(naam).split(':')[0].trim();
+
+      function agendaBestand(dagen) {
+        const stempel = new Date().toISOString().replace(/[-:]/g, '').replace(/\.\d+/, '');
+        // Hoger volgnummer bij elke nieuwe download, zodat een agenda een plandag met dezelfde UID kan bijwerken.
+        const volgnummer = Math.max(0, Math.floor((Date.now() - Date.UTC(2026, 0, 1)) / 60000));
+        const regels = ['BEGIN:VCALENDAR', 'VERSION:2.0', "PRODID:-//Berie's Exam Space//Examenplan//NL", 'CALSCALE:GREGORIAN', 'METHOD:PUBLISH'];
+        dagen.forEach((item) => {
+          const link = new URL(oefenLink(item), window.location.href).href;
+          const titel = item.simulatie ? 'Berie: simulatie ' + kortNaam(item.plan.naam) : 'Berie: ' + kortNaam(item.plan.naam) + ', ' + hoofdstukKort(item.stukken);
+          const uitleg = (item.simulatie ? 'Morgen examen ' + item.plan.naam + '. Doe vandaag een examensimulatie.' : 'Oefen ' + opsomming(item.stukken.map((stuk) => stuk.naam)) + '.') + '\nOefen hier: ' + link;
+          regels.push(
+            'BEGIN:VEVENT',
+            'UID:examenplan-' + icsDatum(item.dag) + '@beriesexamspace.com',
+            'DTSTAMP:' + stempel,
+            'SEQUENCE:' + volgnummer,
+            'DTSTART;VALUE=DATE:' + icsDatum(item.dag),
+            'DTEND;VALUE=DATE:' + icsDatum(plusDagen(item.dag, 1)),
+            'SUMMARY:' + icsTekst(titel),
+            'DESCRIPTION:' + icsTekst(uitleg),
+            'URL:' + link,
+            'TRANSP:TRANSPARENT',
+            'END:VEVENT'
+          );
+        });
+        regels.push('END:VCALENDAR');
+        return regels.map(vouw).join('\r\n') + '\r\n';
+      }
+
+      $('ep-agenda').addEventListener('click', () => {
+        if (!planDagen.length) return;
+        const bestand = new Blob([agendaBestand(planDagen)], { type: 'text/calendar;charset=utf-8' });
+        const link = document.createElement('a');
+        link.href = URL.createObjectURL(bestand);
+        link.download = 'berie-examenplan.ics';
+        document.body.append(link);
+        link.click();
+        link.remove();
+        window.setTimeout(() => URL.revokeObjectURL(link.href), 4000);
+        $('ep-agenda-melding').textContent = 'Je agenda-bestand is gedownload. Open het om ' + (planDagen.length === 1 ? 'je plandag' : 'de ' + planDagen.length + ' plandagen') + ' in je agenda te zetten. Verschuift je plan, zet het dan gewoon opnieuw in je agenda.';
+      });
+
+      // Ezelsbruggetjes van Comit (Pro) voor een zwak hoofdstuk, op basis van een paar vragen met het juiste antwoord.
+      async function ezelsbrug(vak, hoofdstuk, doel, knop) {
+        knop.disabled = true;
+        doel.textContent = 'Comit denkt even na.';
+        try {
+          const data = await laadVak(vak);
+          const vragen = (data ? data.vragen : []).filter((vraag) => vraag.h === hoofdstuk.id).slice(0, 5);
+          let context = '';
+          vragen.forEach((vraag) => {
+            const juist = Array.isArray(vraag.a) ? vraag.a.map((i) => vraag.o[i]).join(', ') : vraag.o[vraag.a];
+            const stuk = 'Vraag: ' + vraag.q + '\nJuiste antwoord: ' + juist + '\n\n';
+            if (context.length + stuk.length <= 1500) context += stuk;
+          });
+          const { data: antwoord, error } = await client.functions.invoke('comit', { body: { soort: 'ezelsbrug', vraag: 'Ezelsbruggetjes voor het hoofdstuk ' + hoofdstuk.naam + ' van ' + (vakNaam.get(vak) || vak) + '.', context } });
+          doel.textContent = !error && antwoord && antwoord.tekst ? antwoord.tekst : 'Comit kan nu even niet nadenken. Probeer het zo opnieuw.';
+        } catch {
+          doel.textContent = 'Comit kan nu even niet nadenken. Probeer het zo opnieuw.';
+        }
+        knop.disabled = false;
+      }
+
+      async function toonWeek() {
+        const vanaf = new Date(vandaag.getTime() - 13 * dagMs);
+        const { data: sessies } = await client.from('sessies').select('goed,totaal,gemaakt_op').eq('user_id', gebruiker.id).gte('gemaakt_op', vanaf.toISOString());
+        const grens = new Date(vandaag.getTime() - 6 * dagMs);
+        const deze = { vragen: 0, goed: 0 }, vorige = { vragen: 0, goed: 0 };
+        (sessies || []).forEach((sessie) => { const doel = new Date(sessie.gemaakt_op) >= grens ? deze : vorige; doel.vragen += sessie.totaal; doel.goed += sessie.goed; });
+        const pct = (x) => x.vragen ? Math.round(x.goed / x.vragen * 100) : 0;
+        let tekst = deze.vragen ? 'De laatste zeven dagen maakte je ' + deze.vragen + ' vragen, ' + pct(deze) + '% goed.' : 'De laatste zeven dagen oefende je nog niet.';
+        if (deze.vragen && vorige.vragen) { const verschil = pct(deze) - pct(vorige); tekst += verschil === 0 ? ' Even goed als de week ervoor.' : ' Dat is ' + Math.abs(verschil) + ' punten ' + (verschil > 0 ? 'beter' : 'lager') + ' dan de week ervoor.'; }
+        $('ep-week-cijfers').textContent = tekst;
+
+        const zwak = [...scores.entries()].filter(([, score]) => score < .8).sort((a, b) => a[1] - b[1]).slice(0, 3);
+        const punten = await Promise.all(zwak.map(async ([sleutel, score]) => {
+          const [vak, hoofdstukId] = sleutel.split('|');
+          const data = await laadVak(vak);
+          const hoofdstuk = data && data.hoofdstukken.find((h) => h.id === hoofdstukId);
+          return hoofdstuk && vakNaam.has(vak) ? { vak, hoofdstuk, score } : null;
+        }));
+        const doelen = $('ep-punten');
+        const lijst = punten.filter(Boolean);
+        if (!lijst.length) { doelen.replaceChildren(el('p', 'ep-leeg', 'Nog geen verbeterpunten. Oefen een paar hoofdstukken, dan zie je hier waar je het meest kan winnen.')); return; }
+        doelen.replaceChildren(el('h3', '', 'Verbeterpunten'), ...lijst.map(({ vak, hoofdstuk, score }) => {
+          const punt = el('article', 'ep-punt');
+          const boven = el('div', 'ep-punt-boven');
+          const tekstDeel = el('div');
+          tekstDeel.append(el('h3', '', hoofdstuk.naam), el('p', '', vakNaam.get(vak) + ', ' + Math.round(score * 100) + '% goed'));
+          const knoppen = el('div', 'ep-punt-knoppen');
+          const oefen = el('a', 'knop-secundair', 'Oefen');
+          oefen.href = 'vak/' + encodeURIComponent(vak) + '/?hoofdstuk=' + encodeURIComponent(hoofdstuk.id);
+          const brugKnop = el('button', 'knop-secundair', 'Ezelsbruggetjes');
+          brugKnop.type = 'button';
+          const brug = el('p', 'ep-brug');
+          brug.setAttribute('aria-live', 'polite');
+          brugKnop.addEventListener('click', () => ezelsbrug(vak, hoofdstuk, brug, brugKnop));
+          knoppen.append(oefen, brugKnop);
+          boven.append(tekstDeel, knoppen);
+          punt.append(boven, brug);
+          return punt;
+        }));
+      }
+
+      $('ep-nieuw').addEventListener('submit', (event) => {
+        event.preventDefault();
+        const vak = $('ep-vak').value;
+        const datum = $('ep-datum').value;
+        if (!vak || !datum) { melding('Kies een vak en een datum.'); return; }
+        if (leesDatum(datum) < vandaag) { melding('Kies een datum vanaf vandaag.'); return; }
+        $('ep-datum').value = '';
+        bewaar(vak, datum);
+      });
+
+      const laad = async () => {
+        const auth = BES.auth;
+        gebruiker = auth ? await auth.gebruiker() : null;
+        client = auth && auth.client;
+        if (!gebruiker || !client) { status.textContent = 'Log in om je examenplan te zien.'; return; }
+        const plan = BES.plan ? await BES.plan() : { plan: 'free' };
+        if (plan.plan !== 'pro') { status.textContent = ''; $('ep-pro').hidden = false; return; }
+        const { data: voortgang } = await client.from('voortgang').select('vak,hoofdstuk,laatst_goed,laatst_totaal').eq('user_id', gebruiker.id);
+        scores = new Map((voortgang || []).filter((rij) => !rij.vak.endsWith('__hard') && rij.laatst_totaal >= 3).map((rij) => [rij.vak + '|' + rij.hoofdstuk, rij.laatst_goed / rij.laatst_totaal]));
+        status.textContent = '';
+        $('ep-inhoud').hidden = false;
+        await laadExamens();
+        await toonWeek();
+      };
+      laad().catch(() => { status.textContent = 'Laden is niet gelukt. Probeer het later opnieuw.'; });
+    });
+  </script>
+</body>
+</html>

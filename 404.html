@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="nl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="apple-touch-icon" href="/assets/icoon-180.png">
+  <link rel="manifest" href="/manifest.webmanifest">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Berie's Exam Space">
+  <meta property="og:title" content="Pagina niet gevonden | Berie's Exam Space">
+  <meta property="og:description" content="Oefenvragen, theorie en examensimulaties voor psychologiestudenten aan de VUB.">
+  <meta property="og:image" content="https://beriesexamspace.com/assets/deel.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:url" content="https://beriesexamspace.com/404.html">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="robots" content="noindex">
+  <meta name="theme-color" content="#FFFFFF">
+  <script>
+    (() => {
+      let keuze;
+      try { keuze = window.localStorage.getItem('bes_thema'); } catch {}
+      const donker = keuze === 'donker' || (keuze !== 'licht' && window.matchMedia('(prefers-color-scheme: dark)').matches);
+      document.documentElement.dataset.theme = donker ? 'dark' : 'light';
+      document.querySelector('meta[name="theme-color"]').content = donker ? '#0B0B0C' : '#FFFFFF';
+    })();
+  </script>
+  <title>Pagina niet gevonden | Berie's Exam Space</title>
+  <!-- Deze pagina kan op elke diepte verschijnen, daarom absolute paden. Bij de lancering op het hoofddomein: / vervangen door /. -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/assets/style.css?v=80">
+  <script src="/assets/app.js?v=80" defer></script>
+  <style>
+    .niet-gevonden { display: flex; flex: 1 0 auto; align-items: center; justify-content: center; width: 100%; box-sizing: border-box; padding: 88px 16px 48px; }
+    .niet-gevonden-kaart { width: 100%; max-width: 36rem; min-width: 0; box-sizing: border-box; padding: clamp(28px, 6vw, 48px) clamp(20px, 5vw, 44px); text-align: center; }
+    .niet-gevonden-b { display: inline-grid; place-items: center; width: 56px; height: 56px; margin: 0 auto 20px; border-radius: 50%; background: var(--accent); color: #fff; font-size: 1.625rem; font-weight: 700; }
+    .niet-gevonden .code { margin: 0 0 10px; color: var(--ink-soft); font-size: .8125rem; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; }
+    .niet-gevonden h1 { margin: 0; font-size: clamp(1.75rem, 5vw, 2.5rem); font-weight: 700; line-height: 1.1; letter-spacing: -.02em; text-wrap: balance; overflow-wrap: anywhere; }
+    .niet-gevonden p { margin: 14px 0 0; color: var(--ink-soft); font-size: 1rem; line-height: 1.6; text-wrap: pretty; overflow-wrap: anywhere; }
+    .niet-gevonden-knoppen { display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; margin-top: 28px; }
+    .niet-gevonden-knoppen .knop, .niet-gevonden-knoppen .knop-secundair { flex: 1 1 200px; max-width: 100%; box-sizing: border-box; }
+    .niet-gevonden-tip { margin-top: 20px; color: var(--ink-soft); font-size: .875rem; }
+    .niet-gevonden-tip a { color: var(--accent); text-decoration: none; font-weight: 500; }
+    :where(html.has-hover) .niet-gevonden-tip a:hover { text-decoration: underline; }
+    @media (max-width: 480px) {
+      .niet-gevonden { padding-top: 72px; }
+      .niet-gevonden-knoppen .knop, .niet-gevonden-knoppen .knop-secundair { flex-basis: 100%; }
+    }
+  </style>
+  <script>
+    // Oude links: /v2/... wordt /..., en alles in een oude vakmap (bijvoorbeeld /mbg/samenvatting.html) gaat naar de doorstuurpagina van die map.
+    (() => {
+      const oudeMappen = ["algpsy","ao","biologische2","biopsy1","cogpsy","cross","diffpsy","ebkh","forensische","gezpsy","hrm","inlped","kpsy","logica","mbg","ohv","omt1","omt3","onderwijspsy","ontwikkeling","ortho","pers","pg","philsci","ppka","reco","rmt2","sociologie","socpsy","socpsy2","stat","stat1","stat2","stat3","stat4","thg"];
+      const pad = window.location.pathname;
+      const eerste = pad.split('/')[1];
+      let nieuw = null;
+      if (eerste === 'v2') nieuw = pad.slice(3) || '/';
+      else if (oudeMappen.includes(eerste) && pad !== '/' + eerste + '/') nieuw = '/' + eerste + '/';
+      if (nieuw) window.location.replace(nieuw + window.location.search + window.location.hash);
+    })();
+  </script>
+</head>
+<body>
+  <a class="skip-link" href="#inhoud">Ga naar inhoud</a>
+  <main id="inhoud" class="niet-gevonden" aria-labelledby="niet-gevonden-titel">
+    <div class="kaart niet-gevonden-kaart">
+      <div class="niet-gevonden-b" aria-hidden="true">B</div>
+      <p class="code">Fout 404</p>
+      <h1 id="niet-gevonden-titel">Deze pagina bestaat niet.</h1>
+      <p>De link klopt niet meer, of de pagina is verhuisd. Alle vakken en tools vind je op de hub.</p>
+      <div class="niet-gevonden-knoppen">
+        <a class="knop" href="/hub.html">Naar de hub →</a>
+        <a class="knop-secundair" id="vorige" href="/index.html">Startpagina</a>
+      </div>
+      <p class="niet-gevonden-tip">Klopt dit niet? Laat het weten via <a href="/feedback.html">Feedback</a>.</p>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <p class="footer-brand">Berie's Exam Space</p>
+    <div class="footer-details">
+      <p>Duidelijk leren. Rustig groeien.</p>
+      <p class="project-label">Een project van The Berie Foundation</p>
+    </div>
+  </footer>
+
+  <script>
+    // Kwam de bezoeker van een eigen pagina, dan wordt de tweede knop "Vorige pagina".
+    (() => {
+      const vorige = document.getElementById('vorige');
+      let vanEigenSite = false;
+      try { vanEigenSite = Boolean(document.referrer) && new URL(document.referrer).origin === window.location.origin && window.history.length > 1; } catch {}
+      if (!vanEigenSite) return;
+      vorige.textContent = '← Vorige pagina';
+      vorige.addEventListener('click', event => { event.preventDefault(); window.history.back(); });
+    })();
+  </script>
+</body>
+</html>

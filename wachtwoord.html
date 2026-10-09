@@ -1,0 +1,200 @@
+<!doctype html>
+<html lang="nl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="apple-touch-icon" href="/assets/icoon-180.png">
+  <link rel="manifest" href="/manifest.webmanifest">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Berie's Exam Space">
+  <meta property="og:title" content="Wachtwoord herstellen | Berie's Exam Space">
+  <meta property="og:description" content="Kies een nieuw wachtwoord voor je account bij Berie's Exam Space.">
+  <meta property="og:image" content="https://beriesexamspace.com/assets/deel.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:url" content="https://beriesexamspace.com/wachtwoord.html">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="description" content="Kies een nieuw wachtwoord voor je account bij Berie's Exam Space.">
+  <meta name="theme-color" content="#FFFFFF">
+  <script>
+    (() => {
+      let keuze;
+      try { keuze = window.localStorage.getItem('bes_thema'); } catch {}
+      const donker = keuze === 'donker' || (keuze !== 'licht' && window.matchMedia('(prefers-color-scheme: dark)').matches);
+      document.documentElement.dataset.theme = donker ? 'dark' : 'light';
+      document.querySelector('meta[name="theme-color"]').content = donker ? '#0B0B0C' : '#FFFFFF';
+    })();
+  </script>
+  <title>Wachtwoord herstellen | Berie's Exam Space</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/style.css?v=80">
+  <script src="assets/app.js?v=80" defer></script>
+  <script src="assets/config.js?v=80" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js" defer></script>
+  <script src="assets/auth.js?v=80" defer></script>
+  <script src="assets/plan.js?v=80" defer></script>
+  <script src="assets/activiteit.js?v=80" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#inhoud">Ga naar inhoud</a>
+  <header class="site-header">
+    <nav class="navigation" aria-label="Hoofdnavigatie">
+      <a class="brand" href="index.html" aria-label="Berie's Exam Space, startpagina">
+        <span class="brand-symbol" aria-hidden="true">B</span>
+        <span class="brand-name"><span>Berie's</span> <span>Exam Space</span></span>
+      </a>
+      <a class="home-knop" href="hub.html" aria-label="Home" title="Home">
+        <svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 10.5 12 3l9 7.5M5 9v12h5v-7h4v7h5V9"/></svg>
+      </a>
+      <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="site-menu">Menu</button>
+      <ul class="navigation-links" id="site-menu">
+        <li><a href="hub.html#hoe-werkt-het">Hoe werkt het</a></li>
+        <li><a href="over-mij.html" data-over-mij>Over mij</a></li>
+        <li><a href="whatsapp.html">WhatsApp-groep</a></li>
+      </ul>
+      <a class="pill login-button" href="inloggen.html">Inloggen&nbsp; →</a>
+    </nav>
+  </header>
+
+  <div class="first-screen">
+    <main id="inhoud" class="hero" aria-labelledby="recovery-title">
+      <a class="terug auth-back tekstlink" href="inloggen.html" data-terug="inloggen.html" data-terug-tekst="Terug">← Terug</a>
+      <div class="hero-stage auth-stage">
+        <div class="hero-content">
+          <svg class="vinkje" id="recovery-check" viewBox="0 0 64 64" width="64" height="64" aria-hidden="true" hidden>
+            <circle cx="32" cy="32" r="30" fill="none" stroke="var(--teal)" stroke-width="2"></circle>
+            <path d="M20 33 l9 9 l17 -18" fill="none" stroke="var(--teal)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"></path>
+          </svg>
+          <h1 id="recovery-title" tabindex="-1">Kies een nieuw wachtwoord.</h1>
+          <form class="auth-form" id="recovery-form" novalidate hidden>
+            <input class="auth-input" id="recovery-password" type="password" placeholder="Je nieuwe wachtwoord" aria-label="Nieuw wachtwoord" aria-describedby="recovery-help recovery-error" autocomplete="new-password" minlength="8" enterkeyhint="go">
+            <p class="auth-help" id="recovery-help">Minimaal 8 tekens. Meer eisen stellen we niet.</p>
+            <p class="auth-error" id="recovery-error" role="alert" hidden></p>
+            <button class="knop" id="recovery-submit" type="submit">Opslaan →</button>
+          </form>
+          <div class="auth-form" id="recovery-state">
+            <p class="auth-error" id="recovery-message" role="status" hidden></p>
+            <div class="auth-links" id="recovery-links" hidden>
+              <a class="tekstlink" href="inloggen.html" id="recovery-action">Vraag een nieuwe link aan →</a>
+            </div>
+          </div>
+          <div class="auth-success" id="recovery-success" hidden>
+            <a class="knop" href="hub.html">Verder →</a>
+          </div>
+        </div>
+      </div>
+    </main>
+    <footer class="site-footer">
+      <p class="footer-brand">Berie's Exam Space</p>
+      <div class="footer-details">
+        <p>Duidelijk leren. Rustig groeien.</p>
+        <p class="project-label">Een project van The Berie Foundation</p>
+      </div>
+    </footer>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const auth = window.BES.auth;
+      const form = document.getElementById('recovery-form');
+      const field = document.getElementById('recovery-password');
+      const submit = document.getElementById('recovery-submit');
+      const error = document.getElementById('recovery-error');
+      const heading = document.getElementById('recovery-title');
+      let submitting = false;
+      let validRecovery = false;
+
+      const showState = (message, unavailable, retry = false) => {
+        validRecovery = false;
+        field.value = '';
+        form.hidden = true;
+        document.getElementById('recovery-state').hidden = false;
+        const state = document.getElementById('recovery-message');
+        state.textContent = message;
+        state.hidden = false;
+        document.getElementById('recovery-links').hidden = false;
+        const action = document.getElementById('recovery-action');
+        action.href = retry ? '#' : unavailable ? 'hub.html' : 'inloggen.html';
+        action.textContent = retry ? 'Probeer opnieuw →' : unavailable ? 'Ga verder met oefenen →' : 'Vraag een nieuwe link aan →';
+        action.toggleAttribute('data-recovery-retry', retry);
+      };
+
+      document.getElementById('recovery-action').addEventListener('click', event => {
+        if (!event.currentTarget.hasAttribute('data-recovery-retry')) return;
+        event.preventDefault();
+        window.location.reload();
+      });
+
+      field.addEventListener('input', () => {
+        field.removeAttribute('aria-invalid');
+        error.hidden = true;
+      });
+
+      form.addEventListener('submit', async event => {
+        event.preventDefault();
+        if (submitting || !validRecovery) return;
+        error.hidden = true;
+        field.removeAttribute('aria-invalid');
+        if (field.value.length < 8) {
+          error.textContent = 'Je wachtwoord is te kort. Gebruik minimaal 8 tekens.';
+          error.hidden = false;
+          field.setAttribute('aria-invalid', 'true');
+          field.focus({ preventScroll: true });
+          return;
+        }
+        submitting = true;
+        submit.disabled = true;
+        submit.textContent = 'Even geduld…';
+        form.setAttribute('aria-busy', 'true');
+        try {
+          await auth.nieuwWachtwoord(field.value);
+          field.value = '';
+          form.hidden = true;
+          document.getElementById('recovery-state').hidden = true;
+          document.getElementById('recovery-check').removeAttribute('hidden');
+          heading.textContent = 'Je wachtwoord is aangepast.';
+          document.getElementById('recovery-success').hidden = false;
+          heading.focus({ preventScroll: true });
+        } catch (failure) {
+          if (failure.code === 'recovery_invalid') {
+            showState('Deze link is verlopen. Vraag een nieuwe aan.', false);
+          } else if (failure.code === 'unavailable') {
+            showState('Accounts zijn nog niet ingeschakeld. Je kunt wel gewoon oefenen.', true);
+          } else {
+            error.textContent = failure.message || 'Opslaan is niet gelukt. Probeer het opnieuw.';
+            error.hidden = false;
+            if (failure.code === 'weak_password') {
+              field.setAttribute('aria-invalid', 'true');
+              field.focus({ preventScroll: true });
+            }
+          }
+        } finally {
+          submitting = false;
+          submit.disabled = false;
+          submit.textContent = 'Opslaan →';
+          form.removeAttribute('aria-busy');
+        }
+      });
+
+      if (!auth || !auth.beschikbaar) {
+        showState('Accounts zijn nog niet ingeschakeld. Je kunt wel gewoon oefenen.', true);
+        return;
+      }
+      auth.herstelGeldig().then(valid => {
+        if (!valid) {
+          showState('Deze link is verlopen. Vraag een nieuwe aan.', false);
+          return;
+        }
+        validRecovery = true;
+        document.getElementById('recovery-state').hidden = true;
+        form.hidden = false;
+      }).catch(failure => {
+        if (['network', 'rate_limit'].includes(failure.code)) showState(failure.message, false, true);
+        else showState('Deze link is verlopen. Vraag een nieuwe aan.', false);
+      });
+    });
+  </script>
+</body>
+</html>

@@ -1,77 +1,220 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="nl">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="robots" content="noindex">
-  <title>Even geduld | Berie's Exam Space</title>
-  <meta name="description" content="Berie's Exam Space krijgt een nieuwe website. Binnenkort terug.">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <style>
-    :root { --bg: #ffffff; --ink: #1d1d1f; --soft: #6e6e73; --accent: #0071e3; --teal: #3fb9b2; --line: #e9e7f3; --card: #f5f5f7; }
-    @media (prefers-color-scheme: dark) {
-      :root { --bg: #0b0b0c; --ink: #f5f5f7; --soft: #a1a1a6; --accent: #0a84ff; --line: rgba(255,255,255,.12); --card: #1c1c1e; }
-    }
-    * { box-sizing: border-box; }
-    html, body { height: 100%; }
-    body { margin: 0; background: var(--bg); color: var(--ink); font-family: Inter, -apple-system, system-ui, sans-serif; display: grid; place-items: center; padding: 24px; text-align: center; }
-    main { max-width: 34rem; display: grid; gap: 20px; justify-items: center; animation: in .6s ease both; }
-    @keyframes in { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
-    .logo { display: inline-flex; align-items: center; gap: 10px; font-weight: 600; }
-    .logo span:first-child { display: grid; place-items: center; width: 36px; height: 36px; border-radius: 50%; background: var(--teal); color: #fff; font-weight: 700; }
-    h1 { margin: 8px 0 0; font-size: clamp(2.2rem, 7vw, 3.6rem); font-weight: 800; line-height: 1.05; letter-spacing: -.02em; text-wrap: balance; }
-    p { margin: 0; color: var(--soft); font-size: 1.125rem; line-height: 1.55; text-wrap: pretty; }
-    .bezig { display: inline-flex; gap: 6px; }
-    .stip { width: 8px; height: 8px; border-radius: 50%; background: var(--teal); animation: stip 1.2s ease-in-out infinite; }
-    .stip:nth-child(2) { animation-delay: .15s; } .stip:nth-child(3) { animation-delay: .3s; }
-    @keyframes stip { 0%, 80%, 100% { opacity: .25; transform: scale(.8); } 40% { opacity: 1; transform: scale(1); } }
-    @media (prefers-reduced-motion: reduce) { main, .stip { animation: none; } }
-    .teller { display: none; gap: 12px; flex-wrap: wrap; justify-content: center; }
-    .teller.is-aan { display: flex; }
-    .teller div { min-width: 72px; padding: 12px 8px; border: 1px solid var(--line); border-radius: 16px; background: var(--card); }
-    .teller strong { display: block; font-size: 1.75rem; font-variant-numeric: tabular-nums; }
-    .teller small { color: var(--soft); font-size: .8125rem; }
-    .knop { display: inline-flex; align-items: center; justify-content: center; min-height: 48px; padding: 12px 24px; border-radius: 980px; background: #25d366; color: #fff; font-weight: 600; text-decoration: none; transition: transform .2s ease; }
-    .knop:hover { transform: translateY(-2px); }
-    .knop:focus-visible { outline: 3px solid var(--accent); outline-offset: 3px; }
-    footer { margin-top: 12px; color: var(--soft); font-size: .875rem; }
-  </style>
-</head>
-<body>
-  <main>
-    <div class="logo"><span aria-hidden="true">B</span><span>Berie's Exam Space</span></div>
-    <h1>Oeps, Berie is bezig met de nieuwe website.</h1>
-    <p>Alles komt binnenkort terug: nieuwer, sneller en met al je vakken. Even geduld nog.</p>
-    <div class="bezig" aria-hidden="true"><span class="stip"></span><span class="stip"></span><span class="stip"></span></div>
-    <div class="teller" id="teller" aria-live="polite">
-      <div><strong id="t-dagen">0</strong><small>dagen</small></div>
-      <div><strong id="t-uren">0</strong><small>uur</small></div>
-      <div><strong id="t-min">0</strong><small>minuten</small></div>
-      <div><strong id="t-sec">0</strong><small>seconden</small></div>
-    </div>
-    <p>Wil je als eerste weten wanneer we live gaan? Kom in de WhatsApp-groep.</p>
-    <a class="knop" href="https://chat.whatsapp.com/Ci1d1PQzvWr6VPcq10l7bK">Naar de WhatsApp-groep →</a>
-    <footer>Een project van The Berie Foundation</footer>
-  </main>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<link rel="apple-touch-icon" href="/assets/icoon-180.png">
+<link rel="manifest" href="/manifest.webmanifest">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Berie's Exam Space">
+<meta property="og:title" content="Berie's Exam Space">
+<meta property="og:description" content="Oefenvragen, theorie en examensimulaties voor psychologiestudenten aan de VUB.">
+<meta property="og:image" content="https://beriesexamspace.com/assets/deel.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:url" content="https://beriesexamspace.com/">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="description" content="Oefenvragen, theorie en examensimulaties voor psychologiestudenten aan de VUB.">
+<meta name="theme-color" content="#FFFFFF">
   <script>
-    // Lanceermoment voor de teller. Leeg = geen teller. Voorbeeld: '2026-10-10T20:00:00+02:00'
-    const LANCERING = '';
-    if (LANCERING) {
-      const doel = new Date(LANCERING).getTime();
-      const zet = (id, n) => { document.getElementById(id).textContent = String(n); };
-      const tik = () => {
-        const rest = Math.max(0, doel - Date.now());
-        zet('t-dagen', Math.floor(rest / 864e5));
-        zet('t-uren', Math.floor(rest / 36e5) % 24);
-        zet('t-min', Math.floor(rest / 6e4) % 60);
-        zet('t-sec', Math.floor(rest / 1e3) % 60);
-      };
-      document.getElementById('teller').classList.add('is-aan');
-      tik();
-      setInterval(tik, 1000);
-    }
+    (() => {
+      let keuze;
+      try { keuze = window.localStorage.getItem('bes_thema'); } catch {}
+      const donker = keuze === 'donker' || (keuze !== 'licht' && window.matchMedia('(prefers-color-scheme: dark)').matches);
+      document.documentElement.dataset.theme = donker ? 'dark' : 'light';
+      document.querySelector('meta[name="theme-color"]').content = donker ? '#0B0B0C' : '#FFFFFF';
+    })();
   </script>
+<title>Berie's Exam Space</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='32' cy='32' r='32' fill='%230071e3'/%3E%3Ctext x='32' y='43' text-anchor='middle' font-family='Inter,Arial,sans-serif' font-size='34' font-weight='700' fill='%23fff'%3EB%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/style.css?v=80">
+<style>
+  *{margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  :focus-visible{border-radius:6px}
+  .startpagina{isolation:isolate}
+
+  /* Hero */
+  .hero{
+    flex:1;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    position:relative;
+    padding:clamp(12px,3vh,32px) 24px clamp(12px,2.5vh,24px);
+    text-align:center;
+  }
+  .sig{
+    display:block;
+    width:min(86vw,1100px,140vh);
+    height:auto;
+    margin:0 auto -6%;
+    opacity:.95;
+    pointer-events:none;
+  }
+  .sig path{fill:none;stroke:var(--sig);stroke-width:9;stroke-linecap:round;stroke-linejoin:round}
+  .sig .krul{stroke-width:7}
+  .sig .verbinding{stroke-width:6}
+  .hero-in{
+    position:relative;z-index:1;
+    max-width:1260px;
+    opacity:0;
+    animation:rise .7s cubic-bezier(.2,.8,.2,1) .05s forwards;
+  }
+  h1{
+    font-size:clamp(3rem,min(8.3vw,14vh),7.25rem);
+    font-weight:700;
+    line-height:1.02;
+    text-wrap:balance;
+  }
+  h1 .r1{display:block;color:var(--ink)}
+  h1 .r2{display:block;color:var(--grey-title)}
+  .lead{
+    color:var(--ink-soft);
+    font-size:clamp(1.1rem,1.8vw,1.55rem);
+    line-height:1.5;
+    max-width:48rem;
+    margin:clamp(14px,2.6vh,24px) auto 0;
+  }
+  .cta{
+    margin-top:clamp(20px,4vh,36px);
+    opacity:0;
+    animation:rise .7s cubic-bezier(.2,.8,.2,1) .2s forwards;
+  }
+  .account-options,.account-session{display:flex;flex-direction:column;align-items:center;gap:14px}
+  .cta .knop{min-height:56px;padding-inline:36px;font-size:1.125rem}
+  .cta .tekstlink{font-size:1.0625rem}
+  .account-session{max-width:34rem;margin:0 auto}
+
+  @media (max-width:768px){
+    .hero{padding:clamp(16px,3vh,28px) 20px clamp(12px,2.5vh,20px)}
+    .sig{width:98vw;opacity:.9;margin-bottom:-4%}
+    .lead{font-size:1.1rem}
+    .cta .knop{min-height:52px;font-size:1.0625rem}
+  }
+  @media (prefers-reduced-motion:reduce){
+    .hero-in,.cta{animation:none;opacity:1}
+    html{scroll-behavior:auto}
+  }
+</style>
+</head>
+<body class="startpagina">
+  <a class="skip-link" href="#inhoud">Ga naar inhoud</a>
+
+<main id="inhoud" class="hero">
+
+  <div class="hero-in">
+  <svg class="sig" viewBox="0 60 1200 290" aria-hidden="true" focusable="false">
+<path d="M187.8 92.3 C188.1 93.7 190.9 95.1 189.5 100.7 C188.1 106.3 184.2 116.0 179.4 125.8 C174.6 135.5 166.3 149.9 160.8 159.2 C155.3 168.5 150.6 175.9 146.7 181.4 C142.7 187.0 141.5 187.9 137.1 192.6 C132.7 197.2 125.4 204.7 120.1 209.3 C114.9 213.9 109.9 217.6 105.4 220.4 C100.9 223.2 95.9 225.1 93.0 226.0 C90.0 226.9 89.2 226.9 87.9 226.0 C86.5 225.1 84.4 224.1 85.0 220.4 C85.6 216.7 87.9 211.1 91.8 203.7 C95.6 196.3 102.8 184.7 108.1 175.9 C113.4 167.1 118.8 157.8 123.3 150.8 C127.8 143.9 129.8 141.1 135.2 134.1 C140.6 127.1 149.3 116.0 155.5 109.0 C161.7 102.1 167.4 96.5 172.5 92.3 C177.6 88.2 180.7 86.8 186.1 84.0 C191.5 81.2 199.1 77.0 204.8 75.6 C210.4 74.2 216.4 74.2 220.1 75.6 C223.8 77.0 226.0 79.8 226.9 84.0 C227.8 88.2 226.7 95.1 225.3 100.7 C223.9 106.3 221.6 111.8 218.5 117.4 C215.4 123.0 210.0 129.9 206.7 134.1 C203.3 138.3 201.9 139.7 198.2 142.5 C194.5 145.2 190.0 148.0 184.6 150.8 C179.2 153.6 169.0 157.8 165.9 159.2"/>
+    <path class="verbinding" d="M165.9 159.2 C164.115 165.2, 162.585 153.2, 160.8 159.2"/>
+    <path d="M160.8 159.2 C161.7 159.2 163.1 157.8 165.9 159.2 C168.7 160.6 175.6 164.7 177.8 167.5 C180.1 170.3 179.2 172.6 179.6 175.9 C180.0 179.1 181.2 182.4 180.2 187.0 C179.2 191.7 176.2 199.1 173.4 203.7 C170.7 208.4 166.7 212.1 163.8 214.9 C161.0 217.6 159.8 218.6 156.5 220.4 C153.2 222.3 148.6 225.1 144.0 226.0 C139.4 226.9 132.6 226.9 128.7 226.0 C124.8 225.1 122.2 223.2 120.7 220.4 C119.3 217.6 120.2 211.1 120.1 209.3"/>
+    <path d="M182.0 216.7 C183.9 215.9 190.2 213.6 193.2 212.1 C196.1 210.5 197.2 209.8 199.7 207.4 C202.2 205.1 206.1 201.2 208.1 198.2 C210.1 195.1 211.7 191.2 211.8 188.9 C212.0 186.6 210.3 185.0 209.1 184.2 C207.8 183.5 207.1 183.5 204.4 184.2 C201.8 185.0 196.5 186.6 193.3 188.9 C190.0 191.2 187.2 194.3 184.9 198.2 C182.5 202.0 180.0 208.2 179.3 212.1 C178.5 215.9 178.8 219.0 180.1 221.4 C181.5 223.7 184.8 225.2 187.5 226.0 C190.3 226.8 193.4 226.8 196.8 226.0 C200.2 225.2 205.0 222.9 208.0 221.4 C210.9 219.8 210.9 219.8 214.5 216.7 C218.1 213.6 226.9 205.1 229.4 202.8"/>
+    <path class="verbinding" d="M229.4 202.8 C227.125 208.8, 225.175 196.8, 222.9 202.8"/>
+    <path d="M222.9 202.8 C225.4 200.5 233.8 193.1 237.8 188.9 C241.9 184.6 246.4 177.3 247.1 177.3 C247.9 177.3 240.9 186.9 242.5 188.9 C244.0 190.8 253.6 188.1 256.4 188.9 C259.2 189.6 259.3 191.2 259.2 193.5 C259.0 195.8 257.7 198.9 255.4 202.8 C253.1 206.7 247.2 213.6 245.1 216.7 C243.1 219.8 243.1 219.8 243.3 221.4 C243.4 222.9 244.8 225.2 246.0 226.0 C247.3 226.8 248.0 226.8 250.7 226.0 C253.3 225.2 258.9 222.9 261.8 221.4 C264.8 219.8 264.8 219.8 268.3 216.7 C271.9 213.6 280.8 205.1 283.2 202.8"/>
+    <path d="M319.7 149.4 C319.3 150.6 316.6 155.2 316.9 156.4 C317.2 157.5 320.3 157.5 321.6 156.4 C322.8 155.2 324.7 150.6 324.4 149.4 C324.1 148.3 320.5 149.4 319.7 149.4"/>
+    <path d="M284.2 202.8 C287.0 199.7 301.7 182.7 301.0 184.2 C300.4 185.8 284.5 205.9 280.5 212.1 C276.5 218.3 276.9 219.0 276.7 221.4 C276.6 223.7 278.3 225.2 279.5 226.0 C280.7 226.8 281.5 226.8 284.2 226.0 C286.8 225.2 292.4 222.9 295.3 221.4 C298.3 219.8 298.3 219.8 301.8 216.7 C305.4 213.6 314.3 205.1 316.7 202.8"/>
+    <path class="verbinding" d="M316.7 202.8 C317.085 208.8, 317.415 210.7, 317.8 216.7"/>
+    <path d="M317.8 216.7 C319.7 215.9 326.0 213.6 329.0 212.1 C331.9 210.5 333.0 209.8 335.5 207.4 C338.0 205.1 341.9 201.2 343.9 198.2 C345.9 195.1 347.5 191.2 347.6 188.9 C347.8 186.6 346.1 185.0 344.9 184.2 C343.6 183.5 342.9 183.5 340.2 184.2 C337.6 185.0 332.3 186.6 329.1 188.9 C325.8 191.2 323.0 194.3 320.7 198.2 C318.4 202.0 315.9 208.2 315.1 212.1 C314.3 215.9 314.6 219.0 316.0 221.4 C317.3 223.7 320.6 225.2 323.4 226.0 C326.1 226.8 329.2 226.8 332.6 226.0 C336.1 225.2 340.9 222.9 343.8 221.4 C346.7 219.8 346.7 219.8 350.3 216.7 C353.9 213.6 362.7 205.1 365.2 202.8"/>
+    <path class="verbinding" d="M365.2 202.8 C365.55 208.8, 365.85 196.8, 366.2 202.8"/>
+    <path d="M366.2 202.8 C368.7 200.5 377.1 193.1 381.1 188.9 C385.2 184.6 389.7 177.3 390.5 177.3 C391.2 177.3 385.9 184.6 385.8 188.9 C385.6 193.1 388.7 198.9 389.4 202.8 C390.2 206.7 390.8 209.0 390.3 212.1 C389.8 215.2 389.1 219.0 386.6 221.4 C384.1 223.7 377.3 225.2 375.4 226.0"/>
+    <path class="verbinding" d="M375.4 226 C369.555 232, 364.545 215.4, 358.7 221.4"/>
+    <path d="M358.7 221.4 C360.0 222.1 361.8 225.2 366.1 226.0 C370.5 226.8 379.7 226.8 384.7 226.0 C389.7 225.2 392.9 222.9 395.9 221.4 C398.8 219.8 398.8 219.8 402.4 216.7 C405.9 213.6 414.8 205.1 417.3 202.8"/>
+    <path d="M537.7 109.0 C537.1 110.4 534.6 114.6 534.3 117.4 C534.0 120.2 534.0 124.4 536.0 125.8 C538.0 127.1 543.1 127.1 546.2 125.8 C549.4 124.4 552.2 121.6 554.7 117.4 C557.3 113.2 560.1 106.3 561.5 100.7 C562.9 95.1 564.8 88.2 563.1 84.0 C561.4 79.8 556.6 77.0 551.2 75.6 C545.8 74.2 537.3 74.2 530.8 75.6 C524.2 77.0 517.2 79.8 512.1 84.0 C507.0 88.2 503.9 93.7 500.2 100.7 C496.5 107.7 492.0 118.8 490.1 125.8 C488.1 132.7 488.4 138.3 488.4 142.5 C488.5 146.6 487.9 148.0 490.2 150.8 C492.4 153.6 502.7 157.8 502.1 159.2 C501.5 160.6 492.5 157.8 486.8 159.2 C481.1 160.6 472.6 164.7 468.1 167.5 C463.6 170.3 462.6 172.6 459.6 175.9 C456.6 179.1 452.7 182.4 450.0 187.0 C447.3 191.7 444.3 199.1 443.3 203.7 C442.2 208.4 443.3 212.1 443.9 214.9 C444.4 217.6 444.1 218.6 446.7 220.4 C449.4 222.3 455.1 225.1 459.8 226.0 C464.5 226.9 469.6 226.9 475.1 226.0 C480.6 225.1 487.3 223.2 492.7 220.4 C498.1 217.6 503.3 213.0 507.4 209.3 C511.4 205.6 515.4 200.0 517.0 198.2"/>
+    <path class="verbinding" d="M517 198.2 C517.665 204.2, 518.235 196.8, 518.9 202.8"/>
+    <path d="M518.9 202.8 C521.4 200.5 529.5 192.0 533.8 188.9 C538.2 185.8 541.6 185.0 545.0 184.2 C548.4 183.5 552.3 183.5 554.3 184.2 C556.3 185.0 558.8 182.7 557.0 188.9 C555.3 195.1 545.6 215.2 543.9 221.4 C542.2 227.5 543.9 225.2 546.7 226.0 C549.5 226.8 555.3 227.5 560.6 226.0 C565.9 224.5 572.8 220.6 578.3 216.7 C583.7 212.9 590.7 205.1 593.2 202.8"/>
+    <path class="verbinding" d="M593.2 202.8 C590.295 208.8, 587.805 182.9, 584.9 188.9"/>
+    <path d="M584.9 188.9 C584.4 188.1 584.1 185.0 582.1 184.2 C580.1 183.5 575.5 183.5 572.8 184.2 C570.2 185.0 572.7 182.7 566.3 188.9 C559.9 195.1 541.0 215.2 534.6 221.4 C528.3 227.5 530.7 225.2 528.1 226.0 C525.5 226.8 520.8 226.8 518.8 226.0 C516.8 225.2 516.5 222.1 516.1 221.4"/>
+    <path d="M634.1 198.2 C633.9 196.6 634.6 191.2 633.2 188.9 C631.8 186.6 628.6 185.0 625.8 184.2 C623.0 183.5 619.9 183.5 616.5 184.2 C613.1 185.0 608.3 187.3 605.3 188.9 C602.4 190.4 601.3 191.2 598.8 193.5 C596.3 195.8 592.4 199.7 590.4 202.8 C588.4 205.9 587.2 209.0 586.7 212.1 C586.2 215.2 586.2 219.0 587.6 221.4 C588.9 223.7 592.2 225.2 595.0 226.0 C597.8 226.8 600.8 226.8 604.3 226.0 C607.7 225.2 612.2 223.7 615.4 221.4 C618.7 219.0 619.0 218.3 623.8 212.1 C628.6 205.9 643.2 185.0 644.3 184.2 C645.4 183.5 633.6 201.2 630.3 207.4 C627.0 213.6 625.2 218.3 624.7 221.4 C624.2 224.5 626.2 225.2 627.5 226.0 C628.7 226.8 629.5 226.8 632.1 226.0 C634.7 225.2 640.3 222.9 643.3 221.4 C646.2 219.8 646.2 219.8 649.8 216.7 C653.3 213.6 662.2 205.1 664.7 202.8"/>
+    <path class="verbinding" d="M664.7 202.8 C662.425 208.8, 660.475 196.8, 658.2 202.8"/>
+    <path d="M658.2 202.8 C660.7 200.5 668.7 192.0 673.1 188.9 C677.4 185.8 681.9 184.2 684.2 184.2 C686.6 184.2 686.9 187.3 687.0 188.9 C687.2 190.4 687.5 189.6 685.1 193.5 C682.8 197.4 676.7 206.7 673.0 212.1 C669.3 217.5 664.4 223.7 662.7 226.0"/>
+    <path class="verbinding" d="M662.7 226 C666.305 232, 669.395 206.1, 673 212.1"/>
+    <path d="M673.0 212.1 C674.4 210.5 677.5 206.7 681.4 202.8 C685.3 198.9 691.9 192.0 696.3 188.9 C700.6 185.8 704.0 185.0 707.4 184.2 C710.9 183.5 714.7 183.5 716.7 184.2 C718.7 185.0 719.3 187.3 719.5 188.9 C719.6 190.4 720.0 189.6 717.6 193.5 C715.3 197.4 709.2 206.7 705.5 212.1 C701.7 217.5 696.9 223.7 695.2 226.0"/>
+    <path class="verbinding" d="M695.2 226 C698.805 232, 701.895 206.1, 705.5 212.1"/>
+    <path d="M705.5 212.1 C706.9 210.5 710.0 206.7 713.9 202.8 C717.8 198.9 724.4 192.0 728.8 188.9 C733.1 185.8 736.5 185.0 739.9 184.2 C743.3 183.5 747.2 183.5 749.2 184.2 C751.2 185.0 752.1 186.6 752.0 188.9 C751.8 191.2 750.6 194.3 748.2 198.2 C745.9 202.0 740.3 208.2 738.0 212.1 C735.6 215.9 734.4 219.0 734.2 221.4 C734.1 223.7 735.7 225.2 737.0 226.0 C738.2 226.8 739.0 226.8 741.6 226.0 C744.3 225.2 749.8 222.9 752.8 221.4 C755.7 219.8 755.7 219.8 759.3 216.7 C762.9 213.6 771.7 205.1 774.2 202.8"/>
+    <path d="M800.2 226.0 C802.3 225.1 808.1 223.2 812.7 220.4 C817.2 217.6 820.9 214.9 827.4 209.3 C833.9 203.7 844.6 194.0 851.7 187.0 C858.7 180.1 862.8 176.3 869.8 167.5 C876.7 158.7 887.0 143.9 893.5 134.1 C900.0 124.4 904.5 117.4 908.7 109.0 C912.9 100.7 917.4 89.6 918.8 84.0 C920.2 78.4 918.2 77.0 917.1 75.6 C916.0 74.2 914.3 74.2 912.0 75.6 C909.7 77.0 906.9 79.8 903.5 84.0 C900.1 88.2 894.8 95.1 891.7 100.7 C888.6 106.3 886.3 111.8 884.9 117.4 C883.5 123.0 883.0 128.5 883.3 134.1 C883.6 139.7 884.7 145.2 886.7 150.8 C888.7 156.4 893.1 162.4 895.3 167.5 C897.5 172.6 899.0 177.3 899.9 181.4 C900.7 185.6 901.1 188.9 900.5 192.6 C899.8 196.3 898.3 200.0 896.0 203.7 C893.6 207.4 889.2 212.1 886.4 214.9 C883.5 217.6 883.2 218.6 879.0 220.4 C874.9 222.3 867.8 225.1 861.5 226.0 C855.1 226.9 846.6 226.9 841.0 226.0 C835.5 225.1 831.1 223.2 828.0 220.4 C824.8 217.6 823.3 213.0 822.3 209.3 C821.2 205.6 821.0 201.9 821.7 198.2 C822.3 194.4 825.4 188.9 826.2 187.0"/>
+    <path d="M888.4 202.8 C890.9 200.5 899.3 193.1 903.3 188.9 C907.4 184.6 913.3 175.7 912.6 177.3 C912.0 178.8 914.3 175.2 899.6 198.2 C884.9 221.1 837.0 295.6 824.5 315.1"/>
+    <path d="M899.6 198.2 C901.0 196.6 904.7 191.2 908.0 188.9 C911.2 186.6 915.7 185.0 919.1 184.2 C922.5 183.5 925.6 183.5 928.4 184.2 C931.2 185.0 934.4 186.6 935.8 188.9 C937.2 191.2 937.2 195.1 936.7 198.2 C936.2 201.2 935.0 204.3 932.9 207.4 C930.9 210.5 927.0 214.4 924.6 216.7 C922.1 219.0 921.0 219.8 918.0 221.4 C915.1 222.9 908.7 225.2 906.9 226.0"/>
+    <path class="verbinding" d="M906.9 226 C901.055 232, 896.045 215.4, 890.2 221.4"/>
+    <path d="M890.2 221.4 C891.4 222.1 894.0 225.2 897.6 226.0 C901.2 226.8 906.6 226.8 911.5 226.0 C916.5 225.2 922.8 222.9 927.3 221.4 C931.8 219.8 933.4 219.8 938.5 216.7 C943.6 213.6 954.8 205.1 958.0 202.8"/>
+    <path class="verbinding" d="M958 202.8 C972.315 208.8, 984.585 192.2, 998.9 198.2"/>
+    <path d="M998.9 198.2 C998.8 196.6 999.4 191.2 998.0 188.9 C996.6 186.6 993.4 185.0 990.6 184.2 C987.8 183.5 984.7 183.5 981.3 184.2 C977.9 185.0 973.1 187.3 970.2 188.9 C967.2 190.4 966.2 191.2 963.7 193.5 C961.2 195.8 957.3 199.7 955.3 202.8 C953.3 205.9 952.0 209.0 951.5 212.1 C951.1 215.2 951.0 219.0 952.4 221.4 C953.8 223.7 957.0 225.2 959.8 226.0 C962.6 226.8 965.7 226.8 969.1 226.0 C972.5 225.2 977.0 223.7 980.3 221.4 C983.5 219.0 983.8 218.3 988.7 212.1 C993.5 205.9 1008.1 185.0 1009.2 184.2 C1010.3 183.5 998.4 201.2 995.2 207.4 C991.9 213.6 990.0 218.3 989.5 221.4 C989.1 224.5 991.1 225.2 992.3 226.0 C993.5 226.8 994.3 226.8 997.0 226.0 C999.6 225.2 1005.2 222.9 1008.1 221.4 C1011.1 219.8 1011.1 219.8 1014.6 216.7 C1018.2 213.6 1027.0 205.1 1029.5 202.8"/>
+    <path class="verbinding" d="M1029.5 202.8 C1041.225 208.8, 1051.275 187.5, 1063 193.5"/>
+    <path d="M1063.0 193.5 C1063.3 192.7 1065.0 190.4 1064.9 188.9 C1064.7 187.3 1064.1 185.0 1062.1 184.2 C1060.1 183.5 1056.3 183.5 1052.8 184.2 C1049.4 185.0 1044.6 187.3 1041.7 188.9 C1038.7 190.4 1037.7 191.2 1035.2 193.5 C1032.7 195.8 1028.8 199.7 1026.8 202.8 C1024.8 205.9 1023.5 209.0 1023.0 212.1 C1022.6 215.2 1022.5 219.0 1023.9 221.4 C1025.3 223.7 1027.8 225.2 1031.3 226.0 C1034.9 226.8 1040.0 227.5 1045.3 226.0 C1050.5 224.5 1057.5 220.6 1062.9 216.7 C1068.4 212.9 1075.4 205.1 1077.8 202.8"/>
+    <path class="verbinding" d="M1077.8 202.8 C1076.505 208.8, 1075.395 210.7, 1074.1 216.7"/>
+    <path d="M1074.1 216.7 C1076.0 215.9 1082.3 213.6 1085.3 212.1 C1088.2 210.5 1089.3 209.8 1091.8 207.4 C1094.3 205.1 1098.1 201.2 1100.2 198.2 C1102.2 195.1 1103.8 191.2 1103.9 188.9 C1104.1 186.6 1102.4 185.0 1101.2 184.2 C1099.9 183.5 1099.1 183.5 1096.5 184.2 C1093.9 185.0 1088.6 186.6 1085.4 188.9 C1082.1 191.2 1079.3 194.3 1077.0 198.2 C1074.6 202.0 1072.1 208.2 1071.3 212.1 C1070.5 215.9 1070.8 219.0 1072.2 221.4 C1073.6 223.7 1076.9 225.2 1079.6 226.0 C1082.4 226.8 1085.5 226.8 1088.9 226.0 C1092.3 225.2 1097.1 222.9 1100.1 221.4 C1103.0 219.8 1103.0 219.8 1106.6 216.7 C1110.2 213.6 1119.0 205.1 1121.5 202.8"/>
+    <path class="krul" d="M1121.5 202.8 C1147.5 168.8 1175.0 134.0 1189.0 192.0 C1199.0 236.0 1135.0 270.0 1055.0 272.0 C765.0 282.0 445.0 262.0 165.0 282.0 C109.0 294.0 71.0 322.0 117.0 320.0 C161.0 318.0 167.0 284.0 133.0 280.0"/>
+  </svg>
+    <h1><span class="r1">Jouw leerstof.</span><span class="r2">Jouw eigen space.</span></h1>
+    <p class="lead">Alles wat je nodig hebt om overzicht te krijgen, slimmer te leren en door te groeien.</p>
+    <div class="cta">
+      <div class="account-options" data-account-opties>
+        <a class="knop" href="aanmelden.html">Aanmelden →</a>
+        <a class="tekstlink" href="inloggen.html">Heb je al een account? Log in</a>
+      </div>
+      <div class="account-session" data-account-sessie hidden>
+        <a class="knop" href="hub.html">Naar je space →</a>
+        <a class="tekstlink" data-account-uitloggen href="index.html">Uitloggen</a>
+      </div>
+    </div>
+  </div>
+</main>
+
+<footer class="site-footer">
+  <p class="footer-brand">Berie's Exam Space</p>
+  <div class="footer-details">
+    <p>Duidelijk leren. Rustig groeien.</p>
+    <p class="project-label">Een project van The Berie Foundation</p>
+  </div>
+</footer>
+
+<script>
+(function(){
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var paden = Array.prototype.slice.call(document.querySelectorAll('.sig path'));
+  var lens = paden.map(function(p){ return p.getTotalLength(); });
+  var total = lens.reduce(function(a,b){ return a+b; }, 0);
+
+  paden.forEach(function(p,i){
+    p.style.strokeDasharray = lens[i] + ' ' + lens[i];
+    p.style.strokeDashoffset = reduce ? 0 : lens[i];
+  });
+  if (reduce) return;
+
+  var SCHRIJF = 5000, STIL = 2200, WIS = 3200, LEEG = 900, LIFT = 45;
+  var anims = [];
+
+  function schrijf(){
+    anims.forEach(function(a){ a.cancel(); }); anims = [];
+    var t = 0;
+    paden.forEach(function(p,i){
+      var d = SCHRIJF * lens[i] / total;
+      anims.push(p.animate([{strokeDashoffset: lens[i]}, {strokeDashoffset: 0}],
+        {duration: d, delay: t, easing: 'linear', fill: 'both'}));
+      t += d + LIFT;
+    });
+    setTimeout(wis, t + STIL);
+  }
+  function wis(){
+    var t = 0;
+    for (var i = paden.length - 1; i >= 0; i--) {
+      var d = WIS * lens[i] / total;
+      anims.push(paden[i].animate([{strokeDashoffset: 0}, {strokeDashoffset: lens[i]}],
+        {duration: d, delay: t, easing: 'linear', fill: 'both'}));
+      t += d + LIFT;
+    }
+    setTimeout(schrijf, t + LEEG);
+  }
+  setTimeout(schrijf, 400);
+})();
+</script>
+<script src="assets/app.js?v=80"></script>
+<script src="assets/config.js?v=80" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js" defer></script>
+<script src="assets/auth.js?v=80" defer></script>
+<script src="assets/plan.js?v=80" defer></script>
+  <script src="assets/activiteit.js?v=80" defer></script>
 </body>
 </html>

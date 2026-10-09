@@ -1,0 +1,207 @@
+<!doctype html>
+<html lang="nl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script src="assets/deur.js?v=80"></script>
+  <link rel="apple-touch-icon" href="/assets/icoon-180.png">
+  <link rel="manifest" href="/manifest.webmanifest">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Berie's Exam Space">
+  <meta property="og:title" content="Reken je punten | Berie's Exam Space">
+  <meta property="og:description" content="Bereken je cijfer voor een vak, je gewogen gemiddelde en de deliberatievoorwaarden in Berie's Exam Space.">
+  <meta property="og:image" content="https://beriesexamspace.com/assets/deel.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:url" content="https://beriesexamspace.com/reken.html">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="description" content="Bereken je cijfer voor een vak, je gewogen gemiddelde en de deliberatievoorwaarden in Berie's Exam Space.">
+  <meta name="theme-color" content="#FFFFFF">
+  <script>
+    (() => {
+      let keuze;
+      try { keuze = window.localStorage.getItem('bes_thema'); } catch {}
+      const donker = keuze === 'donker' || (keuze !== 'licht' && window.matchMedia('(prefers-color-scheme: dark)').matches);
+      document.documentElement.dataset.theme = donker ? 'dark' : 'light';
+      document.querySelector('meta[name="theme-color"]').content = donker ? '#0B0B0C' : '#FFFFFF';
+    })();
+  </script>
+  <meta name="robots" content="noindex">
+  <title>Reken je punten | Berie's Exam Space</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/style.css?v=80">
+  <script src="assets/app.js?v=80"></script>
+  <script src="assets/config.js?v=80" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js" defer></script>
+  <script src="assets/auth.js?v=80" defer></script>
+  <script src="assets/plan.js?v=80" defer></script>
+  <script src="assets/activiteit.js?v=80" defer></script>
+  <script src="assets/reken.js?v=80" defer></script>
+  <style>
+
+    .reken-pagina .wrap { max-width: 808px; }
+    .reken-pagina .pagina-kop .eyebrow { margin: 0 0 16px; color: var(--accent); font-size: .875rem; font-weight: 600; line-height: 1.5; }
+    .reken-pagina .pagina-kop > p:last-child { max-width: 640px; }
+    .reken-kaarten { display: grid; gap: 32px; max-width: 760px; margin: 0 auto; }
+    .reken-kaart:is(:hover, :active) { transform: none; box-shadow: var(--shadow-soft); }
+    .reken-kaart h2 { margin: 0; font-size: 1.375rem; line-height: 1.3; font-weight: 600; }
+    .calcsub { max-width: 590px; margin: 12px 0 28px; color: var(--muted); font-size: .9375rem; line-height: 1.6; }
+    .wis-rij { display: flex; justify-content: flex-end; margin: 0 0 16px; }
+    .reken-pagina .tekstlink { padding: 0; border: 0; background: transparent; color: var(--accent); font: 500 .9375rem/1.5 var(--font-family); text-underline-offset: 4px; cursor: pointer; }
+    .chead, .crow { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 126px) minmax(0, 126px) 40px; align-items: center; gap: 12px; }
+    .chead { margin-bottom: 10px; color: var(--muted); font-size: .8125rem; line-height: 1.5; }
+    .rows { display: grid; gap: 12px; }
+    .reken-veld { min-width: 0; }
+    .reken-veld .auth-input { min-width: 0; }
+    .veld-label { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
+    .num { font-variant-numeric: tabular-nums; }
+    .delbtn { display: grid; place-items: center; width: 40px; height: 40px; border: 1px solid var(--line); border-radius: 50%; background: var(--card); color: var(--muted); font: 400 1.5rem/1 var(--font-family); cursor: pointer; }
+    .delbtn:disabled { opacity: .4; cursor: default; }
+    .delbtn { transition: color 180ms var(--ease), background-color 180ms var(--ease), border-color 180ms var(--ease), box-shadow 180ms var(--ease), transform 180ms var(--ease), opacity 180ms var(--ease); }
+    .delbtn:not(:disabled):active { transform: scale(.97); }
+    :is(.verdict, .verdict-teken, .vt, .ric, .rdet, .rlbl, #ex1Status, #ex2Graad) { transition: color 200ms var(--ease), background-color 200ms var(--ease), border-color 200ms var(--ease); }
+    .reken-pagina .addbtn { min-height: 44px; padding: 8px 22px; margin-top: 20px; font-size: .9375rem; line-height: 26px; }
+    .metrics { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px; margin-top: 32px; padding: 24px 0; border-top: 1px solid var(--line); }
+    .metric { min-width: 0; }
+    .ml, .mh { color: var(--muted); font-size: .8125rem; line-height: 1.5; }
+    .mv { margin: 10px 0 6px; font-size: 2.25rem; font-weight: 600; line-height: 1.2; letter-spacing: -.03em; font-variant-numeric: tabular-nums; }
+    .mv small { color: var(--muted); font-size: 1rem; font-weight: 400; letter-spacing: 0; white-space: nowrap; }
+    .metric-status { display: flex; flex-direction: column; justify-content: center; }
+    .metric-status .vt { font-weight: 600; font-size: 1rem; line-height: 1.5; margin-bottom: 5px; }
+    .metric-graad .mv { font-size: 1.125rem; letter-spacing: 0; line-height: 1.5; overflow-wrap: anywhere; }
+    [data-state="goed"]:is(#ex1Status, #ex2Graad) { color: var(--teal-tekst); }
+    [data-state="fout"]#ex1Status { color: var(--fout); }
+    [data-state="leeg"]:is(#ex1Status, #ex2Graad) { color: var(--muted); }
+    .wsum { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 8px 16px; padding-top: 16px; border-top: 1px solid var(--line); color: var(--muted); font-size: .8125rem; line-height: 1.5; }
+    .wsum b { color: var(--ink); font-weight: 600; }
+    .wwarn { color: var(--fout); }
+    .rules { display: grid; gap: 18px; padding: 0; margin: 0; list-style: none; }
+    .rule { display: grid; grid-template-columns: 24px minmax(0, 1fr); gap: 5px 12px; align-items: start; font-size: .875rem; line-height: 1.5; }
+    .ric { display: grid; place-items: center; grid-row: span 2; width: 24px; height: 24px; border-radius: 50%; background: var(--surface); color: var(--muted); font-size: 1rem; font-weight: 600; }
+    .rdet { grid-column: 2; justify-self: start; padding: 2px 8px; border-radius: 8px; color: var(--muted); background: var(--surface); font-size: .8125rem; overflow-wrap: anywhere; }
+    .rule[data-state="goed"] :is(.ric, .rdet) { color: var(--teal-tekst); background: var(--teal-zacht); }
+    .rule[data-state="fout"] :is(.ric, .rdet) { color: var(--fout); background: var(--fout-zacht); }
+    .rule[data-state="leeg"] .rlbl { color: var(--muted); }
+    .verdict { display: flex; align-items: flex-start; gap: 14px; margin: 0 0 24px; padding: 20px; border: 1px solid var(--line); border-radius: 16px; background: var(--surface); }
+    .verdict-teken { display: grid; place-items: center; width: 28px; height: 28px; border-radius: 50%; color: var(--muted); background: var(--line); font-size: 1.125rem; font-weight: 600; }
+    .vbox { flex: 0 0 28px; }
+    .verdict .vt { color: var(--muted); font-size: 1rem; font-weight: 600; line-height: 1.5; }
+    .vs { color: var(--muted); margin-top: 6px; font-size: .875rem; line-height: 1.6; }
+    .verdict[data-state="goed"] { border-color: var(--teal); background: var(--teal-zacht); }
+    .verdict[data-state="goed"] :is(.vt, .verdict-teken) { color: var(--teal-tekst); }
+    .verdict[data-state="goed"] .verdict-teken { background: transparent; }
+    .verdict[data-state="fout"] { border-color: var(--fout); background: var(--fout-zacht); }
+    .verdict[data-state="fout"] :is(.vt, .verdict-teken) { color: var(--fout); }
+    .verdict[data-state="fout"] .verdict-teken { background: transparent; }
+    .reken-noot { max-width: 760px; margin: 24px auto 0; color: var(--muted); font-size: .8125rem; line-height: 1.7; }
+    .reken-noot + .reken-noot { margin-top: 10px; }
+    :where(html.has-hover) .reken-pagina .tekstlink:hover { text-decoration: underline; }
+    :where(html.has-hover) .delbtn:hover:not(:disabled) { background: var(--surface); color: var(--ink); }
+    @media (max-width: 767px) {
+      .reken-pagina .wrap { padding-inline: 20px; }
+      .reken-kaart { padding: 20px; }
+      .reken-kaarten { gap: 24px; }
+      .chead { display: none; }
+      .crow { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) 36px; gap: 12px; padding-bottom: 20px; border-bottom: 1px solid var(--line); }
+      .crow .naam-veld { grid-column: 1 / 3; grid-row: 1; }
+      .crow .delbtn { grid-column: 3; grid-row: 1; width: 44px; height: 44px; align-self: end; margin-bottom: 6px; }
+      .crow .uwrap:nth-child(2) { grid-column: 1; grid-row: 2; }
+      .crow .uwrap:nth-child(3) { grid-column: 2 / 4; grid-row: 2; }
+      .veld-label { display: block; position: static; width: auto; height: auto; margin: 0 0 8px; overflow: visible; clip: auto; white-space: normal; color: var(--muted); font-size: .8125rem; line-height: 1.5; }
+      .metrics { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px 14px; }
+      .metric-status, .metric-graad { grid-column: 1 / -1; }
+      .mv { font-size: 2rem; }
+      .verdict { padding: 16px; gap: 10px; }
+      .reken-pagina .addbtn { max-width: 100%; }
+    }
+  </style>
+</head>
+<body>
+  <a class="skip-link" href="#inhoud">Ga naar inhoud</a>
+  <header class="site-header">
+    <nav class="navigation" aria-label="Hoofdnavigatie">
+      <a class="brand" href="index.html" aria-label="Berie's Exam Space, startpagina">
+        <span class="brand-symbol" aria-hidden="true">B</span>
+        <span class="brand-name"><span>Berie's</span> <span>Exam Space</span></span>
+      </a>
+      <a class="home-knop" href="hub.html" aria-label="Home" title="Home">
+        <svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 10.5 12 3l9 7.5M5 9v12h5v-7h4v7h5V9"/></svg>
+      </a>
+      <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="site-menu">Menu</button>
+      <ul class="navigation-links" id="site-menu">
+        <li><a href="hub.html#hoe-werkt-het">Hoe werkt het</a></li>
+        <li><a href="hub.html#wie-is-berie">Over mij</a></li>
+        <li><a href="whatsapp.html">WhatsApp-groep</a></li>
+      </ul>
+      <a class="pill login-button" href="inloggen.html">Inloggen&nbsp; →</a>
+    </nav>
+  </header>
+
+  <main id="inhoud" class="pagina reken-pagina" aria-labelledby="reken-kop">
+    <div class="wrap">
+      <a class="terug" href="hub.html" data-terug="hub.html" data-terug-tekst="Terug">← Terug</a>
+      <header class="pagina-kop">
+        <p class="eyebrow">Tools</p>
+        <h1 id="reken-kop">Reken je punten</h1>
+        <p>Je cijfer voor een vak, of je gewogen gemiddelde en de deliberatievoorwaarden over je hele jaar.</p>
+      </header>
+      <div class="wis-rij"><button class="tekstlink" id="reken-wissen" type="button">Alles wissen</button></div>
+      <div class="reken-kaarten">
+        <section class="kaart reken-kaart calc c1" aria-labelledby="cijfer-kop">
+          <h2 id="cijfer-kop">Cijfer voor een vak</h2>
+          <p class="calcsub">Vul je deelcijfers en hun gewicht in. Het gewicht per deel staat in de vakfiche op Canvas.</p>
+          <div class="chead" aria-hidden="true"><span>Onderdeel</span><span>Cijfer (op 20)</span><span>Gewicht (%)</span><span></span></div>
+          <div class="rows" id="ex1Rows"></div>
+          <button class="knop-secundair addbtn" id="ex1Add" type="button">Rij toevoegen</button>
+          <div aria-live="polite" aria-atomic="true">
+            <div class="metrics">
+              <div class="metric"><div class="ml">Gewogen eindcijfer</div><div class="mv"><span id="ex1Mark">--</span><small> /20</small></div><div class="mh">afgerond: <span id="ex1Round">--</span>/20</div></div>
+              <div class="metric"><div class="ml">Percentage</div><div class="mv"><span id="ex1Pct">--</span><small> %</small></div><div class="mh">van de 20 punten</div></div>
+              <div class="metric metric-status"><div class="vt" id="ex1Status">Vul gewichten in</div><div class="mh">vanaf 10/20</div></div>
+            </div>
+            <div class="wsum"><span>Som van de gewichten: <b id="ex1Wsum">0</b>%</span><span class="wwarn" id="ex1Warn" style="display:none">telt niet op tot 100%</span></div>
+          </div>
+        </section>
+
+        <section class="kaart reken-kaart calc c2" aria-labelledby="gemiddelde-kop">
+          <h2 id="gemiddelde-kop">Gemiddelde en deliberatie</h2>
+          <p class="calcsub">Vul per vak je cijfer en studiepunten in. Dit is wat studenten soms GPA of GAP noemen.</p>
+          <div class="chead" aria-hidden="true"><span>Vak</span><span>Studiepunten</span><span>Cijfer</span><span></span></div>
+          <div class="rows" id="ex2Rows"></div>
+          <button class="knop-secundair addbtn" id="ex2Add" type="button">Rij toevoegen</button>
+          <div aria-live="polite" aria-atomic="true">
+            <div class="metrics">
+              <div class="metric"><div class="ml">Gewogen gemiddelde</div><div class="mv"><span id="ex2Avg">--</span><small> /20</small></div></div>
+              <div class="metric"><div class="ml">In percentage</div><div class="mv"><span id="ex2Pct">--</span><small> %</small></div><div class="mh">drempel deliberatie: 55%</div></div>
+              <div class="metric metric-graad"><div class="ml">Graad van verdienste</div><div class="mv"><span id="ex2Graad">--</span></div><div class="mh" id="ex2GraadH">vanaf 68% onderscheiding</div></div>
+            </div>
+            <div class="verdict" id="ex2Verdict" data-state="leeg">
+              <span class="vbox" id="ex2VIc"></span>
+              <div><div class="vt" id="ex2VTitle">Vul je vakken in om te beginnen</div><div class="vs" id="ex2VSub">Je ziet hier meteen of je aan de deliberatievoorwaarden voldoet.</div></div>
+            </div>
+            <ul class="rules" aria-label="Deliberatievoorwaarden">
+              <li class="rule" id="ex2r1"></li>
+              <li class="rule" id="ex2r2"></li>
+              <li class="rule" id="ex2r3"></li>
+              <li class="rule" id="ex2r4"></li>
+              <li class="rule" id="ex2r5"></li>
+            </ul>
+          </div>
+        </section>
+      </div>
+      <p class="reken-noot">De regels zijn geverifieerd op het VUB OER 2025-2026 (Art. 139 en 143). Dit is een hulpmiddel en een indicatie voor een gewoon jaar zonder vrijstellingen of stagevakken. De examencommissie beslist. Check bij twijfel het OER of je studietrajectbegeleider.</p>
+      <p class="reken-noot">Dit is een hulpmiddel. De officiële beslissing neemt de examencommissie.</p>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <p class="footer-brand">Berie's Exam Space</p>
+    <div class="footer-details">
+      <p>Duidelijk leren. Rustig groeien.</p>
+      <p class="project-label">Een project van The Berie Foundation</p>
+    </div>
+  </footer>
+</body>
+</html>

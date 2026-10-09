@@ -1,0 +1,163 @@
+<!doctype html>
+<html lang="nl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script src="assets/deur.js?v=80"></script>
+  <link rel="apple-touch-icon" href="/assets/icoon-180.png">
+  <link rel="manifest" href="/manifest.webmanifest">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Berie's Exam Space">
+  <meta property="og:title" content="Leren leren | Berie's Exam Space">
+  <meta property="og:description" content="Leren leren bij Berie's Exam Space: slimmer studeren, beter focussen, en weten waar je terechtkunt als het even niet gaat.">
+  <meta property="og:image" content="https://beriesexamspace.com/assets/deel.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:url" content="https://beriesexamspace.com/leren.html">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="description" content="Leren leren bij Berie's Exam Space: slimmer studeren, beter focussen, en weten waar je terechtkunt als het even niet gaat.">
+  <meta name="theme-color" content="#FFFFFF">
+  <script>
+    (() => {
+      let keuze;
+      try { keuze = window.localStorage.getItem('bes_thema'); } catch {}
+      const donker = keuze === 'donker' || (keuze !== 'licht' && window.matchMedia('(prefers-color-scheme: dark)').matches);
+      document.documentElement.dataset.theme = donker ? 'dark' : 'light';
+      document.querySelector('meta[name="theme-color"]').content = donker ? '#0B0B0C' : '#FFFFFF';
+    })();
+  </script>
+  <meta name="robots" content="noindex">
+  <title>Leren leren | Berie's Exam Space</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/style.css?v=80">
+  <script src="assets/app.js?v=80" defer></script>
+  <script src="assets/config.js?v=80" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js" defer></script>
+  <script src="assets/auth.js?v=80" defer></script>
+  <script src="assets/plan.js?v=80" defer></script>
+  <script src="assets/activiteit.js?v=80" defer></script>
+  <style>
+    .leren-wrap { max-width: 760px; }
+    .leren-sectie + .leren-sectie { margin-top: 40px; }
+    .leren-sectie .sectie-kop { margin-bottom: 16px; }
+    .leren-kaart { padding: clamp(22px, 5vw, 36px); font-size: .9375rem; line-height: 1.7; }
+    .leren-kaart p { max-width: 68ch; margin: 0; }
+    .leren-kaart p + p, .leren-kaart ul + p, .leren-kaart p + ul { margin-top: 16px; }
+    .leren-kaart strong { font-weight: 600; }
+    .leren-lijst { display: grid; gap: 14px; margin: 0; padding: 0; list-style: none; }
+    .leren-lijst li { display: grid; grid-template-columns: 22px minmax(0, 1fr); column-gap: 12px; }
+    .leren-lijst li::before { content: '✓'; color: var(--teal); font-weight: 600; line-height: inherit; }
+    .leren-lijst strong { display: block; }
+    .leren-hulp { display: grid; gap: 12px; margin: 0; padding: 0; list-style: none; }
+    .leren-hulp li { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; gap: 12px 20px; padding: 14px 18px; border: 1px solid var(--line); border-radius: 16px; background: var(--surface); }
+    .leren-hulp strong { display: block; }
+    .leren-hulp span { color: var(--ink-soft); font-size: .875rem; }
+    .leren-hulp .leren-nummer { justify-self: end; color: var(--ink); font-size: 1.125rem; font-weight: 600; font-variant-numeric: tabular-nums; white-space: nowrap; }
+    .leren-hulp a { color: var(--accent); font-weight: 500; text-decoration: none; }
+    .leren-hulp a:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 6px; }
+    .leren-nood { margin-top: 20px; padding-top: 18px; border-top: 1px solid var(--line); color: var(--ink-soft); }
+    .leren-nood strong { color: var(--ink); }
+    @media (max-width: 480px) {
+      .leren-hulp li { grid-template-columns: minmax(0, 1fr); }
+      .leren-hulp .leren-nummer { justify-self: start; }
+    }
+  </style>
+</head>
+<body data-nav="vast">
+  <a class="skip-link" href="#inhoud">Ga naar inhoud</a>
+  <header class="site-header">
+    <nav class="navigation" aria-label="Hoofdnavigatie">
+      <a class="brand" href="index.html" aria-label="Berie's Exam Space, startpagina">
+        <span class="brand-symbol" aria-hidden="true">B</span>
+        <span class="brand-name"><span>Berie's</span> <span>Exam Space</span></span>
+      </a>
+      <a class="home-knop" href="hub.html" aria-label="Home" title="Home">
+        <svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 10.5 12 3l9 7.5M5 9v12h5v-7h4v7h5V9"/></svg>
+      </a>
+      <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="site-menu">Menu</button>
+      <ul class="navigation-links" id="site-menu">
+        <li><a href="hub.html#hoe-werkt-het">Hoe werkt het</a></li>
+        <li><a href="hub.html#wie-is-berie">Over mij</a></li>
+        <li><a href="whatsapp.html">WhatsApp-groep</a></li>
+      </ul>
+      <a class="pill login-button" href="inloggen.html">Inloggen →</a>
+    </nav>
+  </header>
+
+  <main id="inhoud" class="pagina" aria-labelledby="leren-titel">
+    <div class="wrap leren-wrap">
+      <a class="terug tekstlink" href="hub.html" data-terug="hub.html" data-terug-tekst="Terug">← Terug</a>
+      <header class="pagina-kop">
+        <h1 id="leren-titel">Leren leren</h1>
+        <p class="pagina-sub">Slimmer studeren, beter focussen, en weten waar je terechtkunt als het even niet gaat.</p>
+      </header>
+
+      <section class="leren-sectie" aria-labelledby="slim-kop">
+        <h2 class="sectie-kop" id="slim-kop">Zo leer je slim</h2>
+        <div class="kaart leren-kaart">
+          <p>Lang lezen voelt als leren, maar je hersenen onthouden vooral wat ze zelf moeten ophalen. Daarom werkt oefenen beter dan herlezen.</p>
+          <ul class="leren-lijst">
+            <li><div><strong>Overhoor jezelf.</strong> Sluit je cursus en probeer het antwoord te geven voordat je kijkt. Elke keer dat je iets uit je hoofd ophaalt, zit het steviger.</div></li>
+            <li><div><strong>Herhaal met tussenpozen.</strong> Kom terug op dezelfde stof op dag 1, dag 3, dag 7 en dag 14. Korte herhalingen verspreid over de tijd winnen het van één lange avond.</div></li>
+            <li><div><strong>Vat samen in je eigen woorden.</strong> Kun je een hoofdstuk in vijf zinnen uitleggen aan iemand die het vak niet volgt? Dan snap je het echt.</div></li>
+            <li><div><strong>Oefenvragen boven markeerstift.</strong> Gemarkeerde tekst voelt vertrouwd, maar dat is niet hetzelfde als kennen. Een fout antwoord op een oefenvraag leert je meer dan tien gele zinnen.</div></li>
+            <li><div><strong>Fouten zijn informatie.</strong> Elke fout vertelt je precies waar je nog moet kijken. Schrijf ze op en oefen ze opnieuw. Daar is "Fouten opnieuw →" voor.</div></li>
+          </ul>
+        </div>
+      </section>
+
+      <section class="leren-sectie" aria-labelledby="focus-kop">
+        <h2 class="sectie-kop" id="focus-kop">Zo blijf je bij de les</h2>
+        <div class="kaart leren-kaart">
+          <p>Concentratie is geen karaktertrek, het is een omgeving. Maak het jezelf makkelijk om te beginnen en moeilijk om af te dwalen.</p>
+          <ul class="leren-lijst">
+            <li><div><strong>Werk in blokken.</strong> 25 tot 50 minuten geconcentreerd, dan 5 tot 10 minuten echt pauze. Na drie of vier blokken een langere pauze.</div></li>
+            <li><div><strong>Telefoon in een andere kamer.</strong> Niet omgedraaid, niet op stil, maar weg. Elke melding die je niet ziet, is een gedachte die je niet kwijtraakt.</div></li>
+            <li><div><strong>Eén vak per blok.</strong> Wisselen tussen vakken voelt productief, maar kost elke keer opnieuw opstarttijd.</div></li>
+            <li><div><strong>Vaste plek, vast beginmoment.</strong> Dezelfde tafel, hetzelfde uur. Hoe minder je hoeft te beslissen, hoe makkelijker je begint.</div></li>
+            <li><div><strong>Slaap en beweging horen bij studeren.</strong> Ze zijn geen beloning voor later. Wat je overdag leert, wordt 's nachts vastgezet. Een rondje lopen tussen twee blokken is geen verloren tijd.</div></li>
+          </ul>
+        </div>
+      </section>
+
+      <section class="leren-sectie" aria-labelledby="hulp-kop">
+        <h2 class="sectie-kop" id="hulp-kop">Als het thuis of in je hoofd moeilijk is</h2>
+        <div class="kaart leren-kaart">
+          <p>Berie helpt niet alleen met leren. Stress, ruzie thuis, geldzorgen, somberheid of gewoon te veel tegelijk: het hoort bij het studentenleven meer dan mensen laten zien. Je hoeft dit niet alleen te dragen, en je hoeft er ook niet mee te wachten tot het groot is.</p>
+          <p>Dit zijn plekken waar je terechtkunt. Praten met iemand die ernaar luistert, is vaak al de eerste stap.</p>
+          <ul class="leren-hulp" aria-label="Hulp en luisterende oren">
+            <li>
+              <div><strong>Studentenpsychologen van de VUB</strong><span>Gesprekken voor VUB-studenten, zonder kosten en vertrouwelijk. Afspraak maken via <a href="https://www.vub.be/nl/studeren-aan-de-vub/praktische-info-voor-studenten/welzijn-en-gezondheid/studentenpsychologen">de pagina Studentenpsychologen op vub.be</a>.</span></div>
+            </li>
+            <li>
+              <div><strong>Tele-Onthaal</strong><span>Dag en nacht, anoniem, over alles wat je bezighoudt. Chatten kan ook via tele-onthaal.be.</span></div>
+              <span class="leren-nummer">106</span>
+            </li>
+            <li>
+              <div><strong>Awel</strong><span>Voor iedereen tot 25 jaar. Bellen, chatten of mailen, anoniem.</span></div>
+              <span class="leren-nummer">102</span>
+            </li>
+            <li>
+              <div><strong>JAC</strong><span>Het jongerenadviescentrum van het CAW: voor vragen over thuis, geld, wonen of relaties. Gesprek in de buurt of online via jac.be.</span></div>
+            </li>
+            <li>
+              <div><strong>Je huisarts</strong><span>Ook voor wat niet lichamelijk is. Een huisarts kent de weg en kan je doorverwijzen.</span></div>
+            </li>
+          </ul>
+          <p class="leren-nood"><strong>Bij direct gevaar bel je 112.</strong> Denk je aan zelfdoding, bel dan 1813 (Zelfmoordlijn, dag en nacht).</p>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <p class="footer-brand">Berie's Exam Space</p>
+    <div class="footer-details">
+      <p>Duidelijk leren. Rustig groeien.</p>
+      <p class="project-label">Een project van The Berie Foundation</p>
+    </div>
+  </footer>
+</body>
+</html>

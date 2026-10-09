@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="nl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex">
+  <meta name="theme-color" content="#FFFFFF">
+  <script>
+    (() => {
+      let keuze;
+      try { keuze = window.localStorage.getItem('bes_thema'); } catch {}
+      const donker = keuze === 'donker' || (keuze !== 'licht' && window.matchMedia('(prefers-color-scheme: dark)').matches);
+      document.documentElement.dataset.theme = donker ? 'dark' : 'light';
+      document.querySelector('meta[name="theme-color"]').content = donker ? '#0B0B0C' : '#FFFFFF';
+    })();
+  </script>
+  <title>Comit pixel | Berie's Exam Space</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../assets/style.css?v=80">
+  <script src="comit-pixel.js"></script>
+  <style>
+    body { margin: 0; padding: 48px 16px 64px; }
+    .wrap { max-width: 900px; margin: 0 auto; }
+    h1 { margin: 0 0 8px; font-size: 2rem; letter-spacing: -.02em; }
+    .sub { margin: 0 0 28px; color: var(--ink-soft); line-height: 1.6; }
+    .rij { display: flex; flex-wrap: wrap; gap: 20px; align-items: stretch; }
+    .podium { display: flex; flex-direction: column; align-items: center; gap: 18px; padding: 28px 24px; }
+    .podium h2 { margin: 0; font-size: 1rem; color: var(--ink-soft); font-weight: 500; }
+    .toon { display: grid; place-items: center; width: 220px; height: 240px; border-radius: 20px; background: var(--surface); }
+    .knoppen { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; }
+    .knoppen button, .thema button { min-height: 36px; padding: 0 14px; border: 1px solid var(--line); border-radius: var(--radius-pill); background: var(--card, var(--white)); color: var(--ink); font: inherit; font-size: .8125rem; font-weight: 500; cursor: pointer; }
+    .knoppen button:hover, .thema button:hover { background: var(--surface); }
+    .thema { margin: 0 0 20px; display: flex; gap: 8px; }
+    .maten { display: flex; gap: 24px; align-items: flex-end; margin-top: 28px; flex-wrap: wrap; }
+    .maten figure { margin: 0; display: flex; flex-direction: column; align-items: center; gap: 8px; color: var(--ink-soft); font-size: .8125rem; }
+
+    /* Bewegingen, pixel-stijl: verspringen in stappen, niets vloeiends dat de pixels vervaagt */
+    .comit-pixel { transform-origin: 50% 100%; }
+    .comit-pixel.idle { animation: comit-idle 1.6s steps(2, end) infinite; }
+    @keyframes comit-idle { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(2px); } }
+    .comit-pixel.verschijnen { animation: comit-verschijnen 500ms steps(5, end) both; }
+    @keyframes comit-verschijnen { from { opacity: 0; transform: translateY(12px) scale(.75); } to { opacity: 1; transform: translateY(0) scale(1); } }
+    .comit-pixel.knikken { animation: comit-knikken 600ms steps(3, end) both; }
+    @keyframes comit-knikken { 0%, 100% { transform: translateY(0); } 33% { transform: translateY(4px); } 66% { transform: translateY(0); } 83% { transform: translateY(4px); } }
+    .comit-pixel.blij { animation: comit-blij 600ms steps(6, end) both; }
+    @keyframes comit-blij { 0%, 100% { transform: translateY(0) scale(1, 1); } 20% { transform: translateY(2px) scale(1.06, .92); } 55% { transform: translateY(-14px) scale(.96, 1.06); } 85% { transform: translateY(0) scale(1.04, .96); } }
+    .comit-pixel.meeleven { animation: comit-meeleven 700ms steps(4, end) both; }
+    @keyframes comit-meeleven { 0% { transform: translateY(0) rotate(0); } 40% { transform: translateY(3px) rotate(-5deg); } 100% { transform: translateY(0) rotate(0); } }
+    @media (prefers-reduced-motion: reduce) {
+      .comit-pixel.idle, .comit-pixel.knikken, .comit-pixel.blij, .comit-pixel.meeleven { animation: none; }
+      .comit-pixel.verschijnen { animation: comit-alleen-opacity 400ms ease both; }
+      @keyframes comit-alleen-opacity { from { opacity: 0; } to { opacity: 1; } }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <h1>Comit als pixel-brie</h1>
+    <p class="sub">Eén raster in <code>comit-pixel.js</code> is de bron voor de site (SVG) en voor afbeeldingen (<code>node maak-png.js</code>). Een puntje brie met een gezicht en een trainingspak: wit in lichte modus, zwart in donkere modus. Kleuren zijn variabelen in het palet.</p>
+    <div class="thema">
+      <button type="button" data-thema="light">Lichte modus</button>
+      <button type="button" data-thema="dark">Donkere modus</button>
+    </div>
+
+    <div class="rij">
+      <div class="kaart podium">
+        <h2>Bewegingen</h2>
+        <div class="toon" id="toon"></div>
+        <div class="knoppen">
+          <button type="button" data-beweging="verschijnen">Verschijnen</button>
+          <button type="button" data-beweging="knikken">Knikken</button>
+          <button type="button" data-beweging="blij">Blij</button>
+          <button type="button" data-beweging="meeleven">Meeleven</button>
+          <button type="button" data-beweging="idle">Rust (ademen)</button>
+        </div>
+      </div>
+      <div class="kaart podium">
+        <h2>Groottes</h2>
+        <div class="maten" id="maten"></div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const comit = window.COMIT_PIXEL;
+    const style = document.createElement('style');
+    style.textContent = comit.css;
+    document.head.append(style);
+
+    const toon = document.getElementById('toon');
+    toon.innerHTML = comit.svg({ schaal: 8 });
+    const figuur = toon.querySelector('svg');
+    figuur.classList.add('idle');
+
+    const maten = document.getElementById('maten');
+    [2, 3, 4, 6].forEach(schaal => {
+      const fig = document.createElement('figure');
+      fig.innerHTML = comit.svg({ schaal }) + `<figcaption>${comit.breedte * schaal} × ${comit.hoogte * schaal} px</figcaption>`;
+      maten.append(fig);
+    });
+
+    const bewegingen = ['verschijnen', 'knikken', 'blij', 'meeleven', 'idle'];
+    document.querySelector('.knoppen').addEventListener('click', event => {
+      const knop = event.target.closest('[data-beweging]');
+      if (!knop) return;
+      figuur.classList.remove(...bewegingen);
+      void figuur.getBoundingClientRect();
+      figuur.classList.add(knop.dataset.beweging);
+    });
+    figuur.addEventListener('animationend', event => {
+      if (event.animationName === 'comit-idle') return;
+      figuur.classList.remove(...bewegingen);
+      figuur.classList.add('idle');
+    });
+
+    document.querySelector('.thema').addEventListener('click', event => {
+      const knop = event.target.closest('[data-thema]');
+      if (!knop) return;
+      document.documentElement.dataset.theme = knop.dataset.thema;
+    });
+  </script>
+</body>
+</html>

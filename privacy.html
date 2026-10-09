@@ -1,0 +1,167 @@
+<!doctype html>
+<html lang="nl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="apple-touch-icon" href="/assets/icoon-180.png">
+  <link rel="manifest" href="/manifest.webmanifest">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Berie's Exam Space">
+  <meta property="og:title" content="Privacy | Berie's Exam Space">
+  <meta property="og:description" content="Privacy bij Berie's Exam Space: wat we bewaren, waarom, waar het staat en hoe je het zelf wist.">
+  <meta property="og:image" content="https://beriesexamspace.com/assets/deel.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:url" content="https://beriesexamspace.com/privacy.html">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="description" content="Privacy bij Berie's Exam Space: wat we bewaren, waarom, waar het staat en hoe je het zelf wist.">
+  <meta name="theme-color" content="#FFFFFF">
+  <script>
+    (() => {
+      let keuze;
+      try { keuze = window.localStorage.getItem('bes_thema'); } catch {}
+      const donker = keuze === 'donker' || (keuze !== 'licht' && window.matchMedia('(prefers-color-scheme: dark)').matches);
+      document.documentElement.dataset.theme = donker ? 'dark' : 'light';
+      document.querySelector('meta[name="theme-color"]').content = donker ? '#0B0B0C' : '#FFFFFF';
+    })();
+  </script>
+  <title>Privacy | Berie's Exam Space</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/style.css?v=80">
+  <script src="assets/app.js?v=80" defer></script>
+  <script src="assets/config.js?v=80" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js" defer></script>
+  <script src="assets/auth.js?v=80" defer></script>
+  <script src="assets/plan.js?v=80" defer></script>
+  <script src="assets/activiteit.js?v=80" defer></script>
+  <style>
+    .privacy-wrap { max-width: 760px; }
+    .privacy-sectie + .privacy-sectie { margin-top: 40px; }
+    .privacy-sectie .sectie-kop { margin-bottom: 16px; }
+    .privacy-kaart { padding: clamp(22px, 5vw, 36px); font-size: .9375rem; line-height: 1.7; }
+    .privacy-kaart p { max-width: 68ch; margin: 0; }
+    .privacy-kaart p + p, .privacy-kaart ul + p, .privacy-kaart p + ul { margin-top: 16px; }
+    .privacy-kaart strong { font-weight: 600; }
+    .privacy-kaart a { color: var(--accent); text-decoration: none; font-weight: 500; overflow-wrap: anywhere; }
+    :where(html.has-hover) .privacy-kaart a:hover { text-decoration: underline; }
+    .privacy-lijst { display: grid; gap: 12px; margin: 0; padding: 0; list-style: none; }
+    .privacy-lijst li { display: grid; grid-template-columns: 22px minmax(0, 1fr); column-gap: 12px; }
+    .privacy-lijst li::before { content: '·'; color: var(--accent); font-weight: 700; line-height: inherit; }
+    .privacy-lijst strong { display: block; }
+    .privacy-datum { margin-top: 32px; color: var(--ink-soft); font-size: .875rem; }
+  </style>
+</head>
+<body data-nav="vast">
+  <a class="skip-link" href="#inhoud">Ga naar inhoud</a>
+  <header class="site-header">
+    <nav class="navigation" aria-label="Hoofdnavigatie">
+      <a class="brand" href="index.html" aria-label="Berie's Exam Space, startpagina">
+        <span class="brand-symbol" aria-hidden="true">B</span>
+        <span class="brand-name"><span>Berie's</span> <span>Exam Space</span></span>
+      </a>
+      <a class="home-knop" href="hub.html" aria-label="Home" title="Home">
+        <svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 10.5 12 3l9 7.5M5 9v12h5v-7h4v7h5V9"/></svg>
+      </a>
+      <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="site-menu">Menu</button>
+      <ul class="navigation-links" id="site-menu">
+        <li><a href="hub.html#hoe-werkt-het">Hoe werkt het</a></li>
+        <li><a href="over-mij.html" data-over-mij>Over mij</a></li>
+        <li><a href="whatsapp.html">WhatsApp-groep</a></li>
+      </ul>
+      <a class="pill login-button" href="inloggen.html">Inloggen →</a>
+    </nav>
+  </header>
+  <main id="inhoud" class="pagina" aria-labelledby="privacy-titel">
+    <div class="wrap privacy-wrap">
+      <a class="terug tekstlink" href="hub.html" data-terug="hub.html" data-terug-tekst="Terug">← Terug</a>
+      <header class="pagina-kop">
+        <h1 id="privacy-titel">Privacy</h1>
+        <p class="pagina-sub">Kort en eerlijk: wat we van je bewaren, waarom, en hoe je het zelf weer wist.</p>
+      </header>
+
+      <section class="privacy-sectie" aria-labelledby="wat-kop">
+        <h2 class="sectie-kop" id="wat-kop">Wat we bewaren</h2>
+        <div class="kaart privacy-kaart">
+          <p>Zonder account bewaren we niets over jou op onze servers. Je voortgang staat dan alleen in je eigen browser.</p>
+          <p>Met een account bewaren we:</p>
+          <ul class="privacy-lijst">
+            <li><div><strong>Je e-mailadres en je naam.</strong> Om in te loggen en je aan te spreken. Een bijnaam en een profielfoto zijn optioneel en voeg je zelf toe.</div></li>
+            <li><div><strong>Wat je over jezelf vertelt, als je dat wil.</strong> Je studie, je jaar en een korte tekst die je na het aanmelden of op je profiel invult. Je kiest zelf of het alleen voor Berie is of openbaar. Openbaar betekent dat andere studenten met een account het op je profiel kunnen lezen, zodra die plek er is. Je past het aan of haalt het weg op je profiel.</div></li>
+            <li><div><strong>Je voortgang per vak en hoofdstuk, en je oefenrondes.</strong> Hoeveel vragen je beantwoordde en hoeveel je goed had, ook per ronde en per hoofdstuk van die ronde, zodat je op elk toestel verder kan en later ziet hoe je vooruitgaat.</div></li>
+            <li><div><strong>Je studiekalender.</strong> Per dag hoe lang je oefende. Dit gebruiken we ook om te tellen hoeveel mensen per dag oefenen, altijd als aantal, nooit als naam.</div></li>
+            <li><div><strong>Je feedback.</strong> Wat je via de feedbackpagina stuurt, zodat we fouten kunnen verbeteren.</div></li>
+            <li><div><strong>Je boeken, als je iets verkoopt.</strong> De gegevens van je advertentie, de foto's en je WhatsApp-nummer. Alleen ingelogde studenten zien ze, en alleen zolang de advertentie loopt. Wis je de advertentie of je account, dan is alles weg.</div></li>
+            <li><div><strong>Je meldingen van boeken.</strong> Bij welk boek en de reden die je invult, zodat we het kunnen nakijken. Alleen de beheerder ziet ze.</div></li>
+            <li><div><strong>Je plan.</strong> Of je Free, Plus of Pro hebt, tot wanneer het loopt en of je een proefmaand gebruikte. Betaalgegevens bewaren wij niet.</div></li>
+            <li><div><strong>Je examendata, met Pro.</strong> De vakken en data van je examens die je zelf invult, voor je examenplan. Je haalt ze zelf weer weg op de pagina Jouw examenplan.</div></li>
+            <li><div><strong>Je gesprekken met Comit.</strong> Wat je Comit vraagt en wat hij antwoordt, zodat je ze later terugvindt bij Geschiedenis. Alleen jij kan ze lezen, en je wist ze zelf wanneer je wil. We houden per account de laatste 1000 berichten.</div></li>
+            <li><div><strong>Je foutenlijst, met Plus of Pro.</strong> Welke vragen je fout had en hoe vaak, zodat je ze gericht kan oefenen. Beantwoord je een vraag later goed, dan gaat hij van je lijst.</div></li>
+            <li><div><strong>Je keuze voor licht of donker.</strong> Zodat de site er overal hetzelfde uitziet.</div></li>
+          </ul>
+          <p>Meer niet. Zonder Plus of Pro bewaren we geen antwoorden op losse vragen. Geen locatie van je toestel, geen advertentieprofiel.</p>
+        </div>
+      </section>
+
+      <section class="privacy-sectie" aria-labelledby="google-kop">
+        <h2 class="sectie-kop" id="google-kop">Inloggen met Google</h2>
+        <div class="kaart privacy-kaart">
+          <p>Log je in met Google, dan krijgen we alleen je e-mailadres en je naam. Je Google-wachtwoord zien we nooit, en je Google-profielfoto nemen we niet over.</p>
+        </div>
+      </section>
+
+      <section class="privacy-sectie" aria-labelledby="waar-kop">
+        <h2 class="sectie-kop" id="waar-kop">Waar het staat</h2>
+        <div class="kaart privacy-kaart">
+          <p>Je gegevens staan bij <strong>Supabase</strong>, op servers in Frankfurt (EU). Andere gebruikers kunnen je gegevens niet lezen, behalve de advertenties die je zelf bij Verkoop je boeken plaatst en, zodra die plek er is, wat je zelf openbaar zet over jezelf; dat is technisch afgedwongen per account. De beheerder van de site ziet in een beheeroverzicht per account je naam en bijnaam, je e-mailadres, hoe je inlogt, of je e-mail bevestigd is, wanneer je account gemaakt is en wanneer je laatst inlogde en oefende, je plan, hoeveel rondes en vragen je deed en je score, hoeveel vragen je Comit stelde en hoeveel open fouten je hebt, wat je over jezelf vertelde, en de boeken die gemeld zijn met de reden van de melding. Dat is om de site te beheren en je te kunnen helpen. Je gesprekken met Comit en je antwoorden op losse vragen staan niet in dat overzicht. De site zelf wordt getoond via <strong>GitHub Pages</strong>, en het lettertype komt van <strong>Google Fonts</strong>. Die diensten zien daarbij je IP-adres, zoals bij elke website.</p>
+          <p>We verkopen niets door en delen niets met adverteerders.</p>
+        </div>
+      </section>
+
+      <section class="privacy-sectie" aria-labelledby="comit-kop">
+        <h2 class="sectie-kop" id="comit-kop">Comit</h2>
+        <div class="kaart privacy-kaart">
+          <p>Vraag je Comit iets wat hij niet zelf weet, dan gaat je vraag naar <strong>Google Gemini</strong> om een antwoord te maken. We sturen alleen je vraag mee en een kort overzicht van je scores per vak, of bij ezelsbruggetjes een paar oefenvragen van de site. Nooit je naam of e-mailadres. Google kan die vragen gebruiken om zijn diensten te verbeteren, dus typ geen persoonlijke gegevens in je vraag.</p>
+          <p>Je gesprekken met Comit bewaren we in je account, zodat je ze terugvindt bij <strong>Geschiedenis</strong> op de pagina van Comit. Alleen jij kan ze lezen. Met <strong>Wis alle gesprekken</strong> haal je ze zelf weg. We tellen ook hoeveel vragen je per dag stelt, zodat er voor iedereen genoeg overblijft.</p>
+        </div>
+      </section>
+
+      <section class="privacy-sectie" aria-labelledby="cookies-kop">
+        <h2 class="sectie-kop" id="cookies-kop">Cookies</h2>
+        <div class="kaart privacy-kaart">
+          <p>We gebruiken geen tracking en geen advertentiecookies. De site onthoudt in je browser alleen wat nodig is om te werken: je inlogsessie, je voortgang zonder account, en je keuze voor licht of donker. Daarom zie je hier geen cookiebanner.</p>
+        </div>
+      </section>
+
+      <section class="privacy-sectie" aria-labelledby="rechten-kop">
+        <h2 class="sectie-kop" id="rechten-kop">Jouw gegevens, jouw keuze</h2>
+        <div class="kaart privacy-kaart">
+          <ul class="privacy-lijst">
+            <li><div><strong>Inzien en aanpassen.</strong> Je naam, e-mailadres, wachtwoord, foto en wat je over jezelf vertelt wijzig je zelf op je <a href="profiel.html">profiel</a>.</div></li>
+            <li><div><strong>Wissen.</strong> Onderaan je profiel staat <strong>Account wissen</strong>. Dat verwijdert meteen je account, voortgang, studiekalender, foutenlijst, examenplan, gesprekken met Comit, abonnement, feedback, je boeken en foto. Dit kan niet ongedaan gemaakt worden.</div></li>
+            <li><div><strong>Vragen of iets gezien dat niet klopt?</strong> Mail naar <a href="mailto:berie007yldrm@gmail.com">berie007yldrm@gmail.com</a>. Je krijgt meestal binnen een dag antwoord.</div></li>
+          </ul>
+          <p>We bewaren je gegevens zolang je account bestaat. Wis je je account, dan is alles weg.</p>
+        </div>
+      </section>
+
+      <section class="privacy-sectie" aria-labelledby="wie-kop">
+        <h2 class="sectie-kop" id="wie-kop">Wie hierachter zit</h2>
+        <div class="kaart privacy-kaart">
+          <p>Berie's Exam Space wordt gemaakt en beheerd door één persoon, zelf student. Lees meer op <a href="over-mij.html">Over mij</a>. De afspraken over de plannen staan in de <a href="voorwaarden.html">voorwaarden</a>. Verandert er iets aan deze pagina, dan zie je dat bij <a href="hub.html#nieuw">Wat is nieuw</a>.</p>
+          <p class="privacy-datum">Laatst bijgewerkt: 4 oktober 2026.</p>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <p class="footer-brand">Berie's Exam Space</p>
+    <div class="footer-details">
+      <p>Duidelijk leren. Rustig groeien.</p>
+      <p class="project-label">Een project van The Berie Foundation</p>
+    </div>
+  </footer>
+</body>
+</html>

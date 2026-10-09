@@ -1,0 +1,1167 @@
+<!doctype html>
+<html lang="nl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script src="assets/deur.js?v=80"></script>
+  <link rel="apple-touch-icon" href="/assets/icoon-180.png">
+  <link rel="manifest" href="/manifest.webmanifest">
+  <meta name="robots" content="noindex">
+  <meta name="theme-color" content="#FFFFFF">
+  <script>
+    (() => {
+      let keuze;
+      try { keuze = window.localStorage.getItem('bes_thema'); } catch {}
+      const donker = keuze === 'donker' || (keuze !== 'licht' && window.matchMedia('(prefers-color-scheme: dark)').matches);
+      document.documentElement.dataset.theme = donker ? 'dark' : 'light';
+      document.querySelector('meta[name="theme-color"]').content = donker ? '#0B0B0C' : '#FFFFFF';
+    })();
+  </script>
+  <title>Jouw voortgang | Berie's Exam Space</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/style.css?v=80">
+  <script src="assets/app.js?v=80" defer></script>
+  <script src="assets/vakken.js?v=80"></script>
+  <script src="assets/config.js?v=80" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js" defer></script>
+  <script src="assets/auth.js?v=80" defer></script>
+  <script src="assets/plan.js?v=80" defer></script>
+  <script src="assets/klaarmeter.js?v=80" defer></script>
+  <script src="assets/activiteit.js?v=80" defer></script>
+  <style>
+    .vg-wrap { max-width: 860px; }
+    .vg-status { margin: 0 0 16px; color: var(--ink-soft); }
+    .vg-status:empty { display: none; }
+    .vg-samenvatting { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; margin-bottom: 28px; }
+    .vg-tegel { padding: 18px 20px; }
+    .vg-tegel .getal { display: block; font-size: 1.75rem; font-weight: 700; line-height: 1.1; font-variant-numeric: tabular-nums; }
+    .vg-tegel .uitleg { display: block; margin-top: 4px; color: var(--ink-soft); font-size: .875rem; }
+    .vg-lijst { display: grid; gap: 14px; }
+    .vg-sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+    /* Weekoverzicht (Plus): staven per dag of per week, daaronder de cijfers van die periode en wat aandacht vraagt. */
+    .vg-week { margin: 0 0 28px; padding: 20px; border: 1px solid var(--line); border-radius: 16px; background: var(--card); }
+    .vg-week h2, .vg-blok h2 { margin: 0 0 16px; font-size: 1.125rem; }
+    .vg-week h3 { margin: 0 0 16px; font-size: 1rem; font-weight: 600; }
+    .vg-week svg { display: block; width: 100%; height: 236px; }
+    .vg-staven text { fill: var(--ink-soft); font: 12px var(--font); text-anchor: middle; }
+    .vg-staven .is-vandaag { fill: var(--ink); font-weight: 700; }
+    .vg-week figcaption { display: flex; flex-wrap: wrap; gap: 18px; color: var(--ink-soft); font-size: .8125rem; }
+    .vg-legenda { display: inline-flex; align-items: center; gap: 7px; }
+    .vg-legenda i { width: 12px; height: 12px; background: var(--accent-zacht); border: 1.5px solid var(--accent); }
+    .vg-legenda .is-goed { background: var(--teal); border-color: var(--teal); }
+    .vg-week-leeg { margin: 18px 0 0; color: var(--ink-soft); line-height: 1.6; }
+    .vg-week-leeg a { color: var(--accent); }
+    .vg-blok { margin: 0 0 32px; }
+    .vg-blok .vg-samenvatting { margin-bottom: 12px; }
+    .vg-verschil { margin: 0; color: var(--ink-soft); font-size: .875rem; }
+    .vg-verschil.is-beter { color: var(--teal-tekst); }
+    /* Periode: 7 dagen en 4 weken (Plus), Sinds dag 1 (Pro). */
+    .vg-overzicht-kop { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px; margin: 0 0 16px; }
+    .vg-overzicht-kop h2 { margin: 0; }
+    .vg-periode { display: inline-flex; gap: 4px; padding: 4px; border-radius: var(--pill); background: var(--surface); }
+    .vg-periode button { min-height: 44px; padding: 0 16px; border: 0; border-radius: var(--pill); background: none; color: var(--ink-soft); font: 500 .875rem/1.2 var(--font); white-space: nowrap; cursor: pointer; }
+    .vg-periode button[aria-pressed="true"] { background: var(--card); color: var(--accent); font-weight: 600; box-shadow: inset 0 0 0 1px var(--accent); }
+    .vg-periode button:focus-visible { outline-offset: 2px; }
+    .vg-periode button:active { transform: scale(.97); }
+    :where(html.has-hover) .vg-periode button:not([aria-pressed="true"]):hover { color: var(--ink); }
+    .vg-plus { display: flex; align-items: center; justify-content: space-between; gap: 20px; margin: 0 0 28px; padding: 24px; }
+    .vg-plus h2 { margin: 0 0 6px; font-size: 1.125rem; }
+    .vg-plus p { margin: 0; color: var(--ink-soft); font-size: .9375rem; line-height: 1.5; }
+    .vg-plus .knop-secundair { width: auto; min-width: 0; margin: 0; padding: 10px 20px; }
+    .vg-regel a { display: inline-flex; align-items: center; min-height: 44px; }
+    .vg-verbeter-lijst { display: grid; gap: 12px; }
+    .vg-verbeter-kaart { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 20px; }
+    .vg-verbeter-kaart h3 { margin: 4px 0 8px; font-size: 1rem; }
+    .vg-verbeter-vak { margin: 0; color: var(--ink-soft); font-size: .8125rem; }
+    .vg-verbeter-score { margin: 0; color: var(--ink-soft); font-size: .875rem; }
+    .vg-verbeter-kaart .knop-secundair { min-height: 44px; width: auto; min-width: 0; margin: 0; padding: 10px 16px; white-space: normal; text-align: center; }
+    .vg-chips { display: flex; flex-wrap: wrap; gap: 8px; margin: 0; padding: 0; list-style: none; }
+    .vg-chips li { max-width: 100%; padding: 9px 13px; border-radius: var(--radius-pill); background: var(--teal-zacht); color: var(--teal-tekst); font-size: .8125rem; line-height: 1.6; overflow-wrap: anywhere; }
+    .vg-vak { padding: 20px 22px; }
+    .vg-kop { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; }
+    .vg-naam { margin: 0; font-size: 1.0625rem; font-weight: 600; line-height: 1.35; }
+    .vg-procent { flex: 0 0 auto; font-size: 1.5rem; font-weight: 700; font-variant-numeric: tabular-nums; }
+    .vg-procent.is-goed { color: var(--teal-tekst); }
+    .vg-balk { height: 10px; margin-top: 14px; border-radius: 5px; background: var(--surface); overflow: hidden; }
+    .vg-balk i { display: block; height: 100%; border-radius: inherit; background: var(--accent); transition: width 300ms var(--ease), background-color 200ms var(--ease); }
+    .vg-balk i.is-goed { background: var(--teal); }
+    .vg-regel { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px 16px; margin-top: 10px; color: var(--ink-soft); font-size: .875rem; }
+    .vg-regel a { color: var(--accent); font-weight: 500; text-decoration: none; }
+    :where(html.has-hover) .vg-regel a:hover { text-decoration: underline; }
+    .vg-hoofdstukken { margin-top: 14px; }
+    .vg-hoofdstukken summary { display: inline-flex; align-items: center; gap: 6px; min-height: 40px; padding: 0 4px; color: var(--accent); font-size: .875rem; font-weight: 500; cursor: pointer; list-style: none; }
+    .vg-hoofdstukken summary::-webkit-details-marker { display: none; }
+    .vg-hoofdstukken summary::after { content: '▾'; font-size: .8em; transition: transform 200ms var(--ease); }
+    .vg-hoofdstukken[open] summary::after { transform: rotate(180deg); }
+    .vg-hoofdstuk-lijst { display: grid; gap: 8px; margin: 6px 0 0; padding: 0; list-style: none; }
+    .vg-hoofdstuk { display: grid; grid-template-columns: minmax(0, 1fr) 120px 90px; align-items: center; gap: 12px; font-size: .875rem; }
+    .vg-hoofdstuk .vg-balk { height: 6px; margin: 0; }
+    .vg-hoofdstuk .stand { text-align: right; color: var(--ink-soft); font-variant-numeric: tabular-nums; white-space: nowrap; }
+    .vg-hoofdstuk .stand.is-goed { color: var(--teal-tekst); font-weight: 600; }
+    .vg-hoofdstuk.is-leeg { color: var(--ink-soft); }
+    .vg-jaar-kop { margin: 12px 0 0; font-size: 1.125rem; }
+    .vg-jaar-kop:first-child { margin-top: 0; }
+    .vg-leeg { padding: 28px; text-align: center; }
+    .vg-leeg p { margin: 0 0 16px; color: var(--ink-soft); }
+    /* Geavanceerd overzicht (Pro): eigen sectie met een gouden Pro-label, elk onderdeel in een eigen kaart. */
+    .vg-pro { margin: 8px 0 40px; padding-top: 28px; border-top: 1px solid rgba(212,175,55,.45); }
+    .vg-pro-kop { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; margin: 0 0 6px; }
+    .vg-pro-kop h2 { margin: 0; font-size: 1.375rem; line-height: 1.25; }
+    .vg-pro-label { display: inline-flex; align-items: center; padding: 4px 10px; border: 1px solid rgba(212,175,55,.45); border-radius: var(--pill); background: #0b0a08; color: #e6c872; font-size: .75rem; font-weight: 600; line-height: 1.2; letter-spacing: .02em; }
+    .vg-pro-sub { margin: 0 0 20px; color: var(--ink-soft); font-size: .9375rem; line-height: 1.5; }
+    .vg-pro-blokken { display: grid; gap: 20px; }
+    .vg-pro-blok { padding: 24px; }
+    .vg-pro-blok h3 { margin: 0 0 4px; font-size: 1.0625rem; line-height: 1.35; }
+    .vg-pro-blok h4 { margin: 0; font-size: .9375rem; font-weight: 600; line-height: 1.35; }
+    .vg-pro-uitleg { margin: 0 0 16px; color: var(--ink-soft); font-size: .875rem; line-height: 1.5; }
+    .vg-pro-leeg { margin: 0; color: var(--ink-soft); font-size: .9375rem; line-height: 1.55; }
+    .vg-pro-noot { margin: 16px 0 0; color: var(--ink-soft); font-size: .8125rem; line-height: 1.5; }
+    .vg-tegels { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 300px), 1fr)); gap: 16px; }
+    .vg-tegels > * { min-width: 0; padding: 16px; border-radius: 12px; background: var(--surface); }
+    .vg-klaar-boven { display: grid; grid-template-columns: 64px minmax(0, 1fr); align-items: center; gap: 14px; }
+    .vg-ring { display: block; width: 64px; height: 64px; }
+    .vg-ring-baan { fill: none; stroke: var(--line); stroke-width: 7; }
+    .vg-ring-boog { fill: none; stroke: var(--accent); stroke-width: 7; transition: stroke-dasharray 700ms var(--ease); }
+    .vg-ring-boog.is-goed { stroke: var(--teal); }
+    .vg-ring-getal { fill: var(--ink); font: 700 17px var(--font); text-anchor: middle; dominant-baseline: central; }
+    .vg-klaar-score { margin: 3px 0 0; font-size: .875rem; font-variant-numeric: tabular-nums; }
+    .vg-klaar-noot { margin: 2px 0 0; color: var(--ink-soft); font-size: .8125rem; line-height: 1.45; }
+    .vg-klein-kop { margin: 14px 0 2px; color: var(--ink-soft); font-size: .8125rem; font-weight: 600; }
+    .vg-klaar-stappen { margin: 0; padding: 0; list-style: none; }
+    .vg-klaar-stappen li + li { border-top: 1px solid var(--line); }
+    .vg-klaar-stappen a { display: flex; align-items: center; justify-content: space-between; gap: 12px; min-height: 44px; padding: 6px 0; color: var(--accent); font-size: .875rem; font-weight: 500; line-height: 1.4; }
+    .vg-klaar-stappen a span { flex-shrink: 0; color: var(--ink-soft); font-weight: 400; font-variant-numeric: tabular-nums; }
+    :where(html.has-hover) .vg-klaar-stappen a:hover { text-decoration: underline; }
+    .vg-alle-lijst { display: grid; margin: 0; padding: 0; list-style: none; }
+    .vg-alle-rij { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; gap: 16px; padding: 12px 0; border-top: 1px solid var(--line); }
+    .vg-alle-rij:first-child { padding-top: 0; border-top: 0; }
+    .vg-alle-naam { display: block; font-size: .9375rem; font-weight: 600; line-height: 1.4; }
+    .vg-alle-sub { display: block; margin-top: 2px; color: var(--ink-soft); font-size: .8125rem; line-height: 1.45; }
+    .vg-alle-rij .knop-secundair { width: auto; min-width: 0; max-width: none; margin: 0; padding: 10px 16px; font-size: .9375rem; }
+    .vg-meer { min-height: 44px; margin-top: 16px; padding: 10px 0; border: 0; background: none; color: var(--accent); font: 500 .9375rem/1.4 var(--font); cursor: pointer; }
+    :where(html.has-hover) .vg-meer:hover { text-decoration: underline; }
+    .vg-groei-legenda { display: flex; flex-wrap: wrap; gap: 8px 18px; margin: 0 0 12px; color: var(--ink-soft); font-size: .8125rem; }
+    .vg-groei-legenda span { display: inline-flex; align-items: center; gap: 7px; }
+    .vg-groei-vak + .vg-groei-vak { margin-top: 20px; }
+    .vg-groei-vak h4 { margin-bottom: 4px; }
+    .vg-groei-lijst { margin: 0; padding: 0; list-style: none; }
+    .vg-groei-rij { display: grid; grid-template-columns: minmax(0, 1fr) 140px 132px; align-items: center; gap: 12px; padding: 10px 0; border-top: 1px solid var(--line); font-size: .875rem; line-height: 1.4; }
+    .vg-groei-rij:first-child { border-top: 0; }
+    .vg-groei-naam small { display: block; color: var(--ink-soft); font-size: .75rem; }
+    .vg-baan { position: relative; height: 16px; }
+    .vg-baan::before { content: ''; position: absolute; top: 7px; right: 0; left: 0; height: 2px; border-radius: 1px; background: var(--line); }
+    .vg-baan .lijn { position: absolute; top: 6px; height: 4px; border-radius: 2px; background: var(--accent-zacht); box-shadow: inset 0 0 0 1px var(--accent); }
+    .vg-punt { position: absolute; top: 3px; width: 10px; height: 10px; margin-left: -5px; border-radius: 50%; }
+    .vg-punt.is-eerst, .vg-groei-legenda .is-eerst { border: 2px solid var(--ink-soft); background: var(--card); }
+    .vg-punt.is-laatst, .vg-groei-legenda .is-laatst { border: 2px solid var(--card); background: var(--accent); box-shadow: 0 0 0 1px var(--accent); }
+    .vg-groei-legenda .vg-punt { position: static; margin: 0; }
+    .vg-groei-cijfers { color: var(--ink-soft); font-variant-numeric: tabular-nums; text-align: right; white-space: nowrap; }
+    .vg-groei-cijfers b { margin-left: 6px; color: var(--ink); font-weight: 600; }
+    .vg-groei-cijfers b.is-beter { color: var(--teal-tekst); }
+    .vg-lijn svg { display: block; width: 100%; height: 132px; margin-top: 10px; }
+    .vg-lijn text { fill: var(--ink-soft); font: 11px var(--font); }
+    .vg-lijn .vg-lijn-waarde { fill: var(--ink); font-size: 12px; font-weight: 600; }
+    .vg-lijn-uitleg { margin: 8px 0 0; color: var(--ink-soft); font-size: .8125rem; line-height: 1.5; }
+    .vg-leertijd svg { display: block; width: 100%; height: 190px; }
+    .vg-feiten { display: grid; gap: 8px; margin: 16px 0 0; padding: 0; list-style: none; font-size: .9375rem; line-height: 1.5; }
+    .vg-feiten:first-child { margin-top: 0; }
+    .vg-feiten span { color: var(--ink-soft); }
+    .vg-fout-kop { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 4px 12px; margin-bottom: 10px; }
+    .vg-fout-kop span { color: var(--ink-soft); font-size: .8125rem; }
+    .vg-fout-hoofdstukken { display: grid; gap: 8px; margin: 0; padding: 0; list-style: none; }
+    .vg-fout-hoofdstuk { display: grid; grid-template-columns: minmax(0, 1fr) 90px 28px; align-items: center; gap: 10px; font-size: .8125rem; line-height: 1.4; }
+    .vg-fout-hoofdstuk .vg-balk, .vg-type-rij .vg-balk { height: 6px; margin: 0; background: var(--line); }
+    .vg-fout-hoofdstuk b { font-variant-numeric: tabular-nums; text-align: right; }
+    .vg-fout-vragen { display: grid; gap: 8px; margin: 0; padding: 0 0 0 18px; font-size: .875rem; line-height: 1.5; }
+    .vg-fout-vragen small { display: block; color: var(--ink-soft); font-size: .75rem; }
+    .vg-tegels .tekstlink { display: inline-flex; align-items: center; min-height: 44px; margin-top: 6px; font-size: .875rem; }
+    .vg-types { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr)); gap: 20px 32px; }
+    .vg-type-rij { display: grid; grid-template-columns: 84px minmax(0, 1fr) auto; align-items: center; gap: 12px; margin-top: 10px; font-size: .875rem; }
+    .vg-type-rij span:last-child { color: var(--ink-soft); font-variant-numeric: tabular-nums; text-align: right; white-space: nowrap; }
+    .vg-type-verschil { margin: 10px 0 0; color: var(--ink-soft); font-size: .8125rem; line-height: 1.5; }
+    /* Free en Plus: wat er in het geavanceerde overzicht zit, zonder cijfers. */
+    .vg-slot { margin: 40px 0 0; padding: 28px; }
+    .vg-slot-sub { margin: 0 0 20px; color: var(--ink-soft); font-size: .9375rem; line-height: 1.5; }
+    .vg-slot-lijst { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px 28px; margin: 0 0 28px; padding: 0; list-style: none; }
+    .vg-slot-lijst li { display: grid; grid-template-columns: 26px minmax(0, 1fr); gap: 12px; align-items: start; color: var(--ink-soft); font-size: .875rem; line-height: 1.5; }
+    .vg-slot-lijst strong { display: block; color: var(--ink); font-size: .9375rem; font-weight: 600; }
+    .vg-slotje { display: inline-flex; align-items: center; justify-content: center; width: 26px; height: 26px; border-radius: 50%; background: #0b0a08; color: #e6c872; }
+    .vg-slotje svg { width: 13px; height: 13px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+    .vg-slot .knop-secundair { width: auto; min-width: 0; margin: 0; padding: 10px 20px; border-color: rgba(212,175,55,.6); }
+    @media (max-width: 640px) {
+      .vg-samenvatting { grid-template-columns: minmax(0, 1fr); }
+      .vg-week { padding: 16px; }
+      .vg-verbeter-kaart { flex-direction: column; align-items: stretch; }
+      .vg-plus { flex-direction: column; align-items: stretch; }
+      .vg-plus .knop-secundair, .vg-slot .knop-secundair { width: 100%; max-width: none; }
+      .vg-hoofdstuk { grid-template-columns: minmax(0, 1fr) 80px; }
+      .vg-hoofdstuk .vg-balk { grid-column: 1 / -1; }
+      .vg-periode { display: flex; width: 100%; }
+      .vg-periode button { flex: 1 1 0; padding: 0 8px; }
+      .vg-pro-blok { padding: 18px; }
+      .vg-slot { padding: 22px; }
+      .vg-slot-lijst { grid-template-columns: minmax(0, 1fr); }
+      .vg-groei-rij { grid-template-columns: minmax(0, 1fr) auto; }
+      .vg-groei-rij .vg-baan { grid-column: 1 / -1; grid-row: 2; }
+      .vg-type-rij { grid-template-columns: 72px minmax(0, 1fr) auto; gap: 10px; }
+    }
+    @media (prefers-reduced-motion: reduce) { .vg-balk i, .vg-hoofdstukken summary::after, .vg-ring-boog, .vg-periode button { transition: none; } .vg-periode button:active { transform: none; } }
+  </style>
+</head>
+<body data-nav="vast">
+  <a class="skip-link" href="#inhoud">Ga naar inhoud</a>
+  <header class="site-header">
+    <nav class="navigation" aria-label="Hoofdnavigatie">
+      <a class="brand" href="index.html" aria-label="Berie's Exam Space, startpagina">
+        <span class="brand-symbol" aria-hidden="true">B</span>
+        <span class="brand-name"><span>Berie's</span> <span>Exam Space</span></span>
+      </a>
+      <a class="home-knop" href="hub.html" aria-label="Home" title="Home">
+        <svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 10.5 12 3l9 7.5M5 9v12h5v-7h4v7h5V9"/></svg>
+      </a>
+      <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="site-menu">Menu</button>
+      <ul class="navigation-links" id="site-menu">
+        <li><a href="hub.html#hoe-werkt-het">Hoe werkt het</a></li>
+        <li><a href="hub.html#wie-is-berie">Over mij</a></li>
+        <li><a href="whatsapp.html">WhatsApp-groep</a></li>
+      </ul>
+      <a class="pill login-button" href="inloggen.html">Inloggen →</a>
+    </nav>
+  </header>
+  <main id="inhoud" class="pagina" aria-labelledby="vg-titel">
+    <div class="wrap vg-wrap">
+      <a class="terug tekstlink" href="hub.html" data-terug="hub.html" data-terug-tekst="Terug">← Terug</a>
+      <header class="pagina-kop">
+        <h1 id="vg-titel">Jouw voortgang</h1>
+        <p class="pagina-sub">Per vak en per hoofdstuk: wat je al kent, en wat nog aandacht vraagt. Teal betekent gelukt, blauw is bezig.</p>
+      </header>
+
+      <p class="vg-status" id="vg-status" role="status">Even laden.</p>
+
+      <section class="kaart vg-plus" id="vg-plus" aria-labelledby="vg-plus-kop" hidden>
+        <div>
+          <h2 id="vg-plus-kop">Je weekoverzicht</h2>
+          <p>Per dag of per week hoeveel je oefent, hoe je scoort tegenover de periode ervoor en welke hoofdstukken nog aandacht vragen. Dat zit in Plus.</p>
+        </div>
+        <a class="knop-secundair" href="abonnement.html">Probeer Plus een maand</a>
+      </section>
+
+      <section class="vg-blok" id="vg-overzicht" aria-labelledby="vg-overzicht-kop" hidden>
+        <div class="vg-overzicht-kop">
+          <h2 id="vg-overzicht-kop">Weekoverzicht</h2>
+          <div class="vg-periode" id="vg-periode" role="group" aria-label="Kies een periode">
+            <button type="button" data-periode="7" aria-pressed="true">7 dagen</button>
+            <button type="button" data-periode="28" aria-pressed="false">4 weken</button>
+            <button type="button" data-periode="dag1" aria-pressed="false" hidden>Sinds dag 1</button>
+          </div>
+        </div>
+        <figure class="vg-week" id="vg-week" aria-labelledby="vg-week-kop">
+          <h3 id="vg-week-kop">Laatste 7 dagen</h3>
+          <svg class="vg-staven" id="vg-week-grafiek" role="img" aria-label=""></svg>
+          <figcaption>
+            <span class="vg-legenda"><i aria-hidden="true"></i>gemaakt</span>
+            <span class="vg-legenda"><i class="is-goed" aria-hidden="true"></i>goed</span>
+          </figcaption>
+          <p class="vg-week-leeg" id="vg-week-leeg" hidden><span id="vg-week-leeg-tekst">In de laatste 7 dagen nog niets geoefend.</span> <a href="hub.html">Kies een vak op de hub.</a></p>
+        </figure>
+        <div class="vg-samenvatting">
+          <div class="kaart vg-tegel"><span class="getal" id="vg-week-sessies">0</span><span class="uitleg">sessies</span></div>
+          <div class="kaart vg-tegel"><span class="getal" id="vg-week-vragen">0</span><span class="uitleg">vragen gemaakt</span></div>
+          <div class="kaart vg-tegel"><span class="getal" id="vg-week-score">0%</span><span class="uitleg">goed beantwoord</span></div>
+        </div>
+        <p class="vg-verschil" id="vg-verschil" hidden></p>
+      </section>
+
+      <section class="vg-blok" id="vg-verbeter" aria-labelledby="vg-verbeter-kop" hidden>
+        <h2 id="vg-verbeter-kop">Verbeterpunten</h2>
+        <div class="vg-verbeter-lijst" id="vg-verbeter-lijst"></div>
+      </section>
+
+      <section class="vg-pro" id="vg-pro" aria-labelledby="vg-pro-kop" hidden>
+        <div class="vg-pro-kop">
+          <h2 id="vg-pro-kop">Geavanceerd overzicht</h2>
+          <span class="vg-pro-label">Pro</span>
+        </div>
+        <p class="vg-pro-sub">Alles uit je rondes sinds dag 1, per vak en per hoofdstuk.</p>
+        <div class="vg-pro-blokken">
+          <section class="kaart vg-pro-blok" aria-labelledby="vg-klaar-kop">
+            <h3 id="vg-klaar-kop">Klaar-meter per vak</h3>
+            <p class="vg-pro-uitleg">Van 0 tot 100: hoeveel van de stof je zag, hoe goed het ging en hoe recent. Met de twee snelste stappen omhoog.</p>
+            <div id="vg-klaar"></div>
+          </section>
+          <section class="kaart vg-pro-blok" aria-labelledby="vg-alle-kop">
+            <h3 id="vg-alle-kop">Alle verbeterpunten</h3>
+            <p class="vg-pro-uitleg">Elk hoofdstuk onder 80 procent bij je laatste ronde, het zwakste eerst.</p>
+            <div id="vg-alle"></div>
+          </section>
+          <section class="kaart vg-pro-blok" aria-labelledby="vg-groei-kop">
+            <h3 id="vg-groei-kop">Groei per hoofdstuk</h3>
+            <p class="vg-pro-uitleg">Je eerste ronde naast je laatste, per hoofdstuk. Telt rondes met minstens 3 vragen uit dat hoofdstuk.</p>
+            <div id="vg-groei"></div>
+          </section>
+          <section class="kaart vg-pro-blok" aria-labelledby="vg-lijnen-kop">
+            <h3 id="vg-lijnen-kop">Score per vak door de tijd</h3>
+            <p class="vg-pro-uitleg">Elke ronde op Normaal als punt, van oud naar nieuw.</p>
+            <div id="vg-lijnen"></div>
+          </section>
+          <section class="kaart vg-pro-blok vg-leertijd" aria-labelledby="vg-leertijd-kop">
+            <h3 id="vg-leertijd-kop">Leertijd</h3>
+            <p class="vg-pro-uitleg" id="vg-leertijd-uitleg">Minuten per dag, laatste 7 dagen.</p>
+            <div id="vg-leertijd"></div>
+          </section>
+          <section class="kaart vg-pro-blok" aria-labelledby="vg-fouten-kop">
+            <h3 id="vg-fouten-kop">Foutenanalyse</h3>
+            <p class="vg-pro-uitleg">Vragen die je twee keer of vaker fout had en nog niet goed beantwoordde, per vak en per hoofdstuk.</p>
+            <div id="vg-fouten"></div>
+          </section>
+          <section class="kaart vg-pro-blok" aria-labelledby="vg-types-kop">
+            <h3 id="vg-types-kop">Normaal tegenover Hard, Training tegenover Simulatie</h3>
+            <p class="vg-pro-uitleg">Je gemiddelde score per soort ronde, over alle rondes sinds dag 1.</p>
+            <div id="vg-types"></div>
+          </section>
+        </div>
+      </section>
+
+      <section class="vg-blok" id="vg-goed" aria-labelledby="vg-goed-kop" hidden>
+        <h2 id="vg-goed-kop">Gaat goed</h2>
+        <ul class="vg-chips" id="vg-chips"></ul>
+      </section>
+      <div class="vg-samenvatting" id="vg-samenvatting" hidden>
+        <div class="kaart vg-tegel"><span class="getal" id="vg-vakken">0</span><span class="uitleg">vakken geoefend</span></div>
+        <div class="kaart vg-tegel"><span class="getal" id="vg-hoofdstukken">0</span><span class="uitleg">hoofdstukken geoefend</span></div>
+        <div class="kaart vg-tegel"><span class="getal" id="vg-afgerond">0</span><span class="uitleg">hoofdstukken afgerond</span></div>
+      </div>
+      <div class="vg-lijst" id="vg-lijst"></div>
+
+      <section class="kaart vg-slot" id="vg-slot" aria-labelledby="vg-slot-kop" hidden>
+        <div class="vg-pro-kop">
+          <h2 id="vg-slot-kop">Geavanceerd overzicht</h2>
+          <span class="vg-pro-label">Pro</span>
+        </div>
+        <p class="vg-slot-sub">Met Pro zie je je voortgang tot in detail.</p>
+        <ul class="vg-slot-lijst">
+          <li><span class="vg-slotje" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg></span><span><strong>Sinds dag 1</strong>Je hele geschiedenis in één grafiek, per week of per maand.</span></li>
+          <li><span class="vg-slotje" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg></span><span><strong>Klaar-meter per vak</strong>Hoeveel stof je zag en hoe goed het ging, met de twee snelste stappen omhoog.</span></li>
+          <li><span class="vg-slotje" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg></span><span><strong>Groei per hoofdstuk</strong>Je eerste ronde naast je laatste, per hoofdstuk.</span></li>
+          <li><span class="vg-slotje" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg></span><span><strong>Score per vak door de tijd</strong>Elke ronde als punt op een lijn.</span></li>
+          <li><span class="vg-slotje" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg></span><span><strong>Leertijd</strong>Minuten per dag en de weekdag waarop je het best scoort.</span></li>
+          <li><span class="vg-slotje" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg></span><span><strong>Foutenanalyse</strong>Welke vragen je vaker fout had, per hoofdstuk.</span></li>
+          <li><span class="vg-slotje" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg></span><span><strong>Normaal tegenover Hard</strong>Je gemiddelde per niveau, en training tegenover simulatie.</span></li>
+          <li><span class="vg-slotje" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg></span><span><strong>Alle verbeterpunten</strong>Niet alleen de drie zwakste, maar elk hoofdstuk onder 80 procent.</span></li>
+        </ul>
+        <a class="knop-secundair" href="abonnement.html">Probeer Pro een maand</a>
+      </section>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <p class="footer-brand">Berie's Exam Space</p>
+    <div class="footer-details">
+      <p>Duidelijk leren. Rustig groeien.</p>
+      <p class="project-label">Een project van The Berie Foundation</p>
+    </div>
+  </footer>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const auth = window.BES.auth;
+      const status = document.getElementById('vg-status');
+      const lijst = document.getElementById('vg-lijst');
+      const samenvatting = document.getElementById('vg-samenvatting');
+      const vakken = (window.BES_VAKKEN || []).filter(vak => vak.v2);
+      const vakNamen = Object.fromEntries(vakken.map(vak => [vak.id, vak.naam]));
+      const gegevens = {};
+      const laden = {};
+
+      // Hoofdstuknamen en vragen komen uit data.js van het vak; alleen voor vakken met voortgang, rondes of fouten.
+      // Elk bestand één keer; de load-gebeurtenis komt meteen na het uitvoeren, dus window.BES_VAK is dan van dit vak.
+      const laadVak = id => laden[id] || (laden[id] = new Promise(resolve => {
+        const script = document.createElement('script');
+        script.src = `vak/${id}/data.js?v=80`;
+        script.onload = () => { gegevens[id] = window.BES_VAK && window.BES_VAK.id === id ? window.BES_VAK : null; resolve(gegevens[id]); };
+        script.onerror = () => { gegevens[id] = null; resolve(null); };
+        document.head.append(script);
+      }));
+
+      const procent = (goed, totaal) => totaal ? Math.round(goed / totaal * 100) : 0;
+      const el = (tag, klasse, tekst) => { const node = document.createElement(tag); if (klasse) node.className = klasse; if (tekst !== undefined) node.textContent = tekst; return node; };
+      const balk = (waarde, goed, klein) => {
+        const wrap = el('div', 'vg-balk');
+        const vul = el('i', goed ? 'is-goed' : '');
+        vul.style.width = '0%';
+        wrap.append(vul);
+        window.requestAnimationFrame(() => { vul.style.width = waarde + '%'; });
+        return wrap;
+      };
+      const svgNode = (tag, attributen, tekst) => {
+        const node = document.createElementNS('http://www.w3.org/2000/svg', tag);
+        Object.entries(attributen).forEach(([naam, waarde]) => node.setAttribute(naam, waarde));
+        if (tekst !== undefined) node.textContent = tekst;
+        return node;
+      };
+      const meervoud = (aantal, een, meer) => `${aantal} ${aantal === 1 ? een : meer}`;
+      const puntTekst = aantal => meervoud(aantal, 'punt', 'punten');
+      const naamHoofdstuk = (vakId, id) => gegevens[vakId]?.hoofdstukken?.find(item => item.id === id)?.naam || id;
+
+      // Dagen tellen in UTC-nummers, zodat zomertijd geen dag verschuift.
+      const DAG = 86400000;
+      const dagNr = datum => Math.floor(Date.UTC(datum.getFullYear(), datum.getMonth(), datum.getDate()) / DAG);
+      const datumVan = nr => { const utc = new Date(nr * DAG); return new Date(utc.getUTCFullYear(), utc.getUTCMonth(), utc.getUTCDate()); };
+      const sessieNr = sessie => dagNr(new Date(sessie.gemaakt_op));
+      const fmtWeekdag = new Intl.DateTimeFormat('nl-BE', { weekday: 'short' });
+      const fmtKort = new Intl.DateTimeFormat('nl-BE', { day: 'numeric', month: 'short' });
+      const fmtLang = new Intl.DateTimeFormat('nl-BE', { day: 'numeric', month: 'long', year: 'numeric' });
+      const fmtMaand = new Intl.DateTimeFormat('nl-BE', { month: 'short' });
+      const fmtMaandLang = new Intl.DateTimeFormat('nl-BE', { month: 'long', year: 'numeric' });
+      const duur = minuten => minuten < 60 ? `${minuten} min` : `${Math.floor(minuten / 60)} u${minuten % 60 ? ` ${minuten % 60} min` : ''}`;
+
+      // Eén waarnemer voor alle grafieken: bij een andere breedte tekent elke svg zichzelf opnieuw.
+      const waarnemer = 'ResizeObserver' in window ? new ResizeObserver(items => items.forEach(item => item.target._teken && item.target._teken())) : null;
+      const tekenBijResize = (svg, teken) => {
+        svg._teken = teken;
+        teken();
+        if (waarnemer && !svg._gevolgd) { svg._gevolgd = true; waarnemer.observe(svg); }
+      };
+
+      // Staven per dag, per week (blokken van 7 dagen tot vandaag) of per maand.
+      const dagEmmers = (van, aantal, weekdag) => Array.from({ length: aantal }, (_, i) => {
+        const datum = datumVan(van + i);
+        return { van: van + i, tot: van + i + 1, soort: 'dag', label: weekdag ? fmtWeekdag.format(datum) : fmtKort.format(datum), lang: `${fmtWeekdag.format(datum)} ${fmtKort.format(datum)}` };
+      });
+      const maakEmmers = (periode, vandaagNr, eersteNr) => {
+        const perWeek = aantal => Array.from({ length: aantal }, (_, i) => {
+          const van = vandaagNr - 7 * (aantal - i) + 1;
+          return { van, tot: van + 7, soort: 'week', label: fmtKort.format(datumVan(van)), lang: `week van ${fmtKort.format(datumVan(van))}` };
+        });
+        if (periode === '7') return dagEmmers(vandaagNr - 6, 7, true);
+        if (periode === '28') return perWeek(4);
+        const dagen = vandaagNr - eersteNr + 1;
+        if (dagen <= 14) { const van = Math.min(eersteNr, vandaagNr - 6); return dagEmmers(van, vandaagNr - van + 1, false); }
+        if (dagen <= 140) return perWeek(Math.ceil(dagen / 7));
+        const eerste = datumVan(eersteNr);
+        const vandaag = datumVan(vandaagNr);
+        const maanden = (vandaag.getFullYear() - eerste.getFullYear()) * 12 + vandaag.getMonth() - eerste.getMonth() + 1;
+        const overJaar = eerste.getFullYear() !== vandaag.getFullYear();
+        return Array.from({ length: maanden }, (_, i) => {
+          const begin = new Date(eerste.getFullYear(), eerste.getMonth() + i, 1);
+          return { van: dagNr(begin), tot: dagNr(new Date(eerste.getFullYear(), eerste.getMonth() + i + 1, 1)), soort: 'maand', label: fmtMaand.format(begin) + (overJaar ? ` '${String(begin.getFullYear()).slice(2)}` : ''), lang: fmtMaandLang.format(begin) };
+        });
+      };
+      const emmerVan = (emmers, nr) => emmers.find(emmer => nr >= emmer.van && nr < emmer.tot);
+
+      // Staafgrafiek: waarde boven de staaf (bij smalle staven alleen de hoogste), labels eronder zonder botsing.
+      // Met goedVan twee lagen zoals altijd: blauw is gemaakt, teal is goed.
+      const tekenStaven = (grafiek, emmers, { hoogte, waardeVan, goedVan, titelVan }) => {
+        const basis = hoogte - 46;
+        const ruimte = basis - 30;
+        const waarden = emmers.map(waardeVan);
+        const maximum = Math.max(1, ...waarden);
+        const hoogste = waarden.indexOf(Math.max(...waarden));
+        const labelBreedte = Math.max(...emmers.map(emmer => emmer.label.length)) * 7 + 10;
+        tekenBijResize(grafiek, () => {
+          const breedte = Math.max(260, grafiek.clientWidth);
+          const stap = breedte / emmers.length;
+          const staaf = stap >= 24 ? Math.min(56, stap - 12) : Math.max(3, stap * .7);
+          const elke = Math.max(1, Math.ceil(labelBreedte / stap));
+          const midden = (x, breed) => Math.min(breedte - breed / 2, Math.max(breed / 2, x));
+          grafiek.setAttribute('viewBox', `0 0 ${breedte} ${hoogte}`);
+          grafiek.replaceChildren();
+          emmers.forEach((emmer, i) => {
+            const x = stap * (i + .5) - staaf / 2;
+            const waarde = waarden[i];
+            const h = waarde / maximum * ruimte;
+            const groep = svgNode('g', {});
+            groep.append(svgNode('title', {}, titelVan(emmer)));
+            if (waarde) {
+              if (goedVan) {
+                const goedHoogte = goedVan(emmer) / maximum * ruimte;
+                groep.append(
+                  svgNode('rect', { x, y: basis - h, width: staaf, height: h, fill: 'var(--accent-zacht)' }),
+                  svgNode('rect', { x, y: basis - goedHoogte, width: staaf, height: goedHoogte, fill: 'var(--teal)' }),
+                  svgNode('rect', { x, y: basis - h, width: staaf, height: h, fill: 'none', stroke: 'var(--accent)', 'stroke-width': 1.5 })
+                );
+              } else {
+                groep.append(svgNode('rect', { x, y: basis - h, width: staaf, height: h, rx: Math.min(4, staaf / 2), fill: 'var(--accent)' }));
+              }
+              if (stap >= 26 || i === hoogste) groep.append(svgNode('text', { x: midden(x + staaf / 2, String(waarde).length * 7 + 4), y: basis - 10 - h }, waarde));
+            } else {
+              groep.append(svgNode('rect', { x, y: basis - 2, width: staaf, height: 2, fill: 'var(--surface)' }));
+            }
+            const laatste = i === emmers.length - 1;
+            if ((emmers.length - 1 - i) % elke === 0) groep.append(svgNode('text', { x: midden(x + staaf / 2, labelBreedte), y: basis + 28, class: laatste ? 'is-vandaag' : '' }, emmer.label));
+            grafiek.append(groep);
+          });
+        });
+      };
+
+      // Plan en gegevens van deze pagina.
+      let plan = 'free';
+      let plusOk = false;
+      let pro = false;
+      let sessies = null;
+      let activiteit = null;
+      let periode = '7';
+      try { const bewaard = window.localStorage.getItem('bes_vg_periode'); if (['7', '28', 'dag1'].includes(bewaard)) periode = bewaard; } catch {}
+
+      const eersteDagNr = () => {
+        const kandidaten = [];
+        if (sessies && sessies.length) kandidaten.push(sessieNr(sessies[0]));
+        if (activiteit && activiteit.length) kandidaten.push(activiteit[0].nr);
+        return kandidaten.length ? Math.min(...kandidaten) : dagNr(new Date()) - 6;
+      };
+
+      // Weekoverzicht (Plus en Pro): de grafiek, de tegels en de vergelijking met de periode ervoor.
+      const toonOverzicht = () => {
+        if (!sessies) return;
+        const vandaagNr = dagNr(new Date());
+        const eersteNr = eersteDagNr();
+        const emmers = maakEmmers(periode, vandaagNr, eersteNr);
+        const cijfers = emmers.map(() => ({ sessies: 0, totaal: 0, goed: 0 }));
+        const lengte = periode === '7' ? 7 : periode === '28' ? 28 : 0;
+        const van = lengte ? vandaagNr - lengte + 1 : -Infinity;
+        const deze = { sessies: 0, totaal: 0, goed: 0 };
+        const vorige = { sessies: 0, totaal: 0, goed: 0 };
+        const tel = (doel, sessie) => { doel.sessies += 1; doel.totaal += sessie.totaal; doel.goed += sessie.goed; };
+        for (const sessie of sessies) {
+          const nr = sessieNr(sessie);
+          if (nr > vandaagNr) continue;
+          const emmer = emmerVan(emmers, nr);
+          if (emmer) tel(cijfers[emmers.indexOf(emmer)], sessie);
+          if (nr >= van) tel(deze, sessie);
+          else if (lengte && nr >= van - lengte) tel(vorige, sessie);
+        }
+        emmers.forEach((emmer, i) => Object.assign(emmer, cijfers[i]));
+
+        document.getElementById('vg-overzicht').hidden = false;
+        document.querySelectorAll('#vg-periode button').forEach(knop => knop.setAttribute('aria-pressed', String(knop.dataset.periode === periode)));
+        const soort = emmers[0].soort;
+        document.getElementById('vg-week-kop').textContent = periode === '7' ? 'Laatste 7 dagen' : periode === '28' ? 'Laatste 4 weken, per week' : `Sinds dag 1, per ${soort}`;
+        document.getElementById('vg-week-sessies').textContent = deze.sessies;
+        document.getElementById('vg-week-vragen').textContent = deze.totaal;
+        document.getElementById('vg-week-score').textContent = procent(deze.goed, deze.totaal) + '%';
+        document.getElementById('vg-week-leeg').hidden = deze.totaal > 0;
+        document.getElementById('vg-week-leeg-tekst').textContent = periode === '7' ? 'In de laatste 7 dagen nog niets geoefend.' : periode === '28' ? 'In de laatste 4 weken nog niets geoefend.' : 'Nog geen rondes.';
+
+        const verschil = document.getElementById('vg-verschil');
+        const punten = procent(deze.goed, deze.totaal) - procent(vorige.goed, vorige.totaal);
+        verschil.hidden = deze.sessies === 0;
+        verschil.classList.toggle('is-beter', lengte > 0 && vorige.sessies > 0 && punten > 0);
+        if (!lengte) {
+          verschil.textContent = sessies.length ? `Sinds je eerste ronde op ${fmtLang.format(new Date(sessies[0].gemaakt_op))}.` : '';
+        } else {
+          const ervoor = lengte === 7 ? 'vorige week' : 'de 4 weken ervoor';
+          verschil.textContent = !vorige.sessies ? `${lengte === 7 ? 'Vorige week' : 'De 4 weken ervoor'} nog niets geoefend` : !punten ? `Gelijk aan ${ervoor}` : `${punten > 0 ? '+' : '-'}${puntTekst(Math.abs(punten))} tegenover ${ervoor}`;
+        }
+
+        const grafiek = document.getElementById('vg-week-grafiek');
+        grafiek.setAttribute('aria-label', emmers.map(emmer => `${emmer.lang} ${emmer.totaal} vragen, ${emmer.goed} goed`).join('; '));
+        tekenStaven(grafiek, emmers, {
+          hoogte: 236,
+          waardeVan: emmer => emmer.totaal,
+          goedVan: emmer => emmer.goed,
+          titelVan: emmer => `${emmer.lang}: ${meervoud(emmer.totaal, 'vraag', 'vragen')}, ${emmer.goed} goed`
+        });
+        if (pro && activiteit) toonLeertijd(emmers);
+      };
+
+      document.getElementById('vg-periode').addEventListener('click', event => {
+        const knop = event.target.closest('button[data-periode]');
+        if (!knop || knop.hidden || knop.dataset.periode === periode) return;
+        periode = knop.dataset.periode;
+        try { window.localStorage.setItem('bes_vg_periode', periode); } catch {}
+        toonOverzicht();
+      });
+
+      // De drie zwakste hoofdstukken met een knop (Plus; Pro ziet ze allemaal), en de sterke als chips. Alleen bij minstens drie vragen.
+      const toonHoofdstukken = hoofdstukken => {
+        const verbeter = hoofdstukken.filter(item => item.verhouding < .8).sort((a, b) => a.verhouding - b.verhouding).slice(0, 3);
+        const goed = hoofdstukken.filter(item => item.verhouding >= .8).sort((a, b) => b.verhouding - a.verhouding);
+        document.getElementById('vg-verbeter').hidden = !verbeter.length || !plusOk || pro;
+        document.getElementById('vg-goed').hidden = !goed.length;
+        document.getElementById('vg-verbeter-lijst').replaceChildren(...verbeter.map(item => {
+          const kaart = el('article', 'kaart vg-verbeter-kaart');
+          const tekst = el('div');
+          tekst.append(el('p', 'vg-verbeter-vak', item.vak.naam), el('h3', '', item.naam), el('p', 'vg-verbeter-score', `${procent(item.goed, item.totaal)}% goed`));
+          const link = el('a', 'knop-secundair', 'Oefen dit hoofdstuk →');
+          link.href = `vak/${item.vak.id}/?hoofdstuk=${encodeURIComponent(item.id)}`;
+          kaart.append(tekst, link);
+          return kaart;
+        }));
+        const chips = goed.slice(0, 6).map(item => el('li', '', `${item.vak.naam} · ${item.naam} · ${procent(item.goed, item.totaal)}%`));
+        if (goed.length > 6) chips.push(el('li', '', `en ${goed.length - 6} meer`));
+        document.getElementById('vg-chips').replaceChildren(...chips);
+      };
+
+      const toon = async rijen => {
+        const perVak = {};
+        for (const rij of rijen) {
+          if (rij.vak.endsWith('__hard')) continue; // Hard mode telt apart, nog niet in dit overzicht
+          (perVak[rij.vak] = perVak[rij.vak] || []).push(rij);
+        }
+        const geoefend = vakken.filter(vak => perVak[vak.id]?.some(rij => rij.laatst_totaal > 0));
+        let totHoofdstukken = 0;
+        let totAfgerond = 0;
+        lijst.replaceChildren();
+        await Promise.all(geoefend.map(vak => laadVak(vak.id)));
+
+        const kaarten = [];
+        const hoofdstukken = [];
+        for (const vak of geoefend) {
+          const data = await laadVak(vak.id);
+          const rijenVak = perVak[vak.id].filter(rij => rij.laatst_totaal > 0);
+          const goed = rijenVak.reduce((som, rij) => som + rij.laatst_goed, 0);
+          const totaal = rijenVak.reduce((som, rij) => som + rij.laatst_totaal, 0);
+          const afgerond = rijenVak.filter(rij => rij.laatst_goed === rij.laatst_totaal).length;
+          const alleHoofdstukken = data?.hoofdstukken || rijenVak.map(rij => ({ id: rij.hoofdstuk, naam: rij.hoofdstuk }));
+          const score = procent(goed, totaal);
+          totHoofdstukken += rijenVak.length;
+          totAfgerond += afgerond;
+
+          for (const rij of rijenVak.filter(item => item.laatst_totaal >= 3)) {
+            const hoofdstuk = alleHoofdstukken.find(item => item.id === rij.hoofdstuk);
+            if (hoofdstuk) hoofdstukken.push({ vak, id: hoofdstuk.id, naam: hoofdstuk.naam, goed: rij.laatst_goed, totaal: rij.laatst_totaal, verhouding: rij.laatst_goed / rij.laatst_totaal });
+          }
+
+          const kaart = el('article', 'kaart vg-vak');
+          const kop = el('div', 'vg-kop');
+          const titel = el('h2', 'vg-naam', vak.naam);
+          const pct = el('span', 'vg-procent' + (score >= 80 ? ' is-goed' : ''), score + '%');
+          kop.append(titel, pct);
+          kaart.append(kop, balk(score, score >= 80));
+          const regel = el('div', 'vg-regel');
+          regel.append(el('span', '', `${rijenVak.length} van ${alleHoofdstukken.length} hoofdstukken geoefend · ${afgerond} afgerond`));
+          const link = el('a', '', 'Verder oefenen →');
+          link.href = `vak/${vak.id}/`;
+          regel.append(link);
+          kaart.append(regel);
+
+          const details = el('details', 'vg-hoofdstukken');
+          details.append(el('summary', '', 'Per hoofdstuk'));
+          const ul = el('ul', 'vg-hoofdstuk-lijst');
+          for (const hoofdstuk of alleHoofdstukken) {
+            const rij = rijenVak.find(item => item.hoofdstuk === hoofdstuk.id);
+            const li = el('li', 'vg-hoofdstuk' + (rij ? '' : ' is-leeg'));
+            li.append(el('span', '', hoofdstuk.naam));
+            if (rij) {
+              const p = procent(rij.laatst_goed, rij.laatst_totaal);
+              const klaar = rij.laatst_goed === rij.laatst_totaal;
+              li.append(balk(p, klaar, true), el('span', 'stand' + (klaar ? ' is-goed' : ''), klaar ? 'Afgerond ✓' : `${rij.laatst_goed} van ${rij.laatst_totaal}`));
+            } else {
+              li.append(balk(0, false, true), el('span', 'stand', 'Nog niet'));
+            }
+            ul.append(li);
+          }
+          details.append(ul);
+          kaart.append(details);
+          kaarten.push({ kaart, score, jaar: vak.jaar });
+        }
+        // Per jaar een kopje; binnen het jaar de laagste score bovenaan, daar is de meeste winst.
+        kaarten.sort((a, b) => a.score - b.score);
+        for (const jaar of window.BES_JAREN || []) {
+          const groep = kaarten.filter(item => item.jaar === jaar.id);
+          if (!groep.length) continue;
+          lijst.append(el('h2', 'vg-jaar-kop', jaar.naam));
+          groep.forEach(item => lijst.append(item.kaart));
+        }
+
+        toonHoofdstukken(hoofdstukken);
+
+        document.getElementById('vg-vakken').textContent = geoefend.length;
+        document.getElementById('vg-hoofdstukken').textContent = totHoofdstukken;
+        document.getElementById('vg-afgerond').textContent = totAfgerond;
+        samenvatting.hidden = !geoefend.length;
+
+
+        if (!geoefend.length) {
+          const leeg = el('div', 'kaart vg-leeg');
+          leeg.append(el('p', '', 'Je hebt nog niets geoefend. Kies een vak op de hub, dan verschijnt hier je voortgang per hoofdstuk.'));
+          const knop = el('a', 'knop', 'Naar de hub →');
+          knop.href = 'hub.html';
+          leeg.append(knop);
+          lijst.append(leeg);
+        }
+        return { geoefend, perVak, hoofdstukken };
+      };
+
+      // ---------- Geavanceerd overzicht (Pro) ----------
+
+      // Grafieken die uit een blok verdwijnen, hoeven niet meer mee te tekenen bij een andere breedte.
+      const vulBlok = (id, ...inhoud) => {
+        const blok = document.getElementById(id);
+        if (waarnemer) blok.querySelectorAll('svg').forEach(svg => { if (svg._gevolgd) waarnemer.unobserve(svg); });
+        blok.replaceChildren(...inhoud);
+      };
+      const leegBlok = (id, tekst) => vulBlok(id, el('p', 'vg-pro-leeg', tekst));
+      const nietGeladen = id => leegBlok(id, 'Dit deel kon niet geladen worden. Probeer het later opnieuw.');
+
+      // Ring van 0 tot 100 voor de Klaar-meter: teal vanaf 80, anders blauw.
+      const ring = score => {
+        const omtrek = 2 * Math.PI * 27;
+        const svg = svgNode('svg', { viewBox: '0 0 64 64', class: 'vg-ring', 'aria-hidden': 'true' });
+        const boog = svgNode('circle', { cx: 32, cy: 32, r: 27, class: 'vg-ring-boog' + (score >= 80 ? ' is-goed' : ''), transform: 'rotate(-90 32 32)' });
+        boog.style.strokeDasharray = `0 ${omtrek}`;
+        svg.append(svgNode('circle', { cx: 32, cy: 32, r: 27, class: 'vg-ring-baan' }), boog, svgNode('text', { x: 32, y: 32, class: 'vg-ring-getal' }, score));
+        window.requestAnimationFrame(() => window.requestAnimationFrame(() => { boog.style.strokeDasharray = `${omtrek * score / 100} ${omtrek}`; }));
+        return svg;
+      };
+
+      // (2) Klaar-meter per geoefend vak (assets/klaarmeter.js), laagste score eerst.
+      const toonKlaar = context => {
+        if (!context) { nietGeladen('vg-klaar'); return; }
+        if (!window.BES.klaarMeter) { nietGeladen('vg-klaar'); return; }
+        const nu = Date.now();
+        const meters = context.geoefend.filter(vak => gegevens[vak.id])
+          .map(vak => ({ vak, meter: window.BES.klaarMeter(gegevens[vak.id], context.perVak[vak.id] || [], nu) }))
+          .sort((a, b) => a.meter.score - b.meter.score);
+        if (!meters.length) { leegBlok('vg-klaar', 'Oefen een vak, dan zie je hier hoe klaar je ervoor bent.'); return; }
+        const rooster = el('div', 'vg-tegels');
+        for (const { vak, meter } of meters) {
+          const kaart = el('article', 'vg-klaar');
+          const boven = el('div', 'vg-klaar-boven');
+          const tekst = el('div');
+          tekst.append(el('h4', '', vak.naam), el('p', 'vg-klaar-score', `Klaar-meter: ${meter.score} van 100`), el('p', 'vg-klaar-noot', 'Geen voorspelling van je examencijfer.'));
+          boven.append(ring(meter.score), tekst);
+          kaart.append(boven);
+          if (meter.stappen.length) {
+            kaart.append(el('p', 'vg-klein-kop', 'Snelste stappen omhoog'));
+            const ul = el('ul', 'vg-klaar-stappen');
+            for (const stap of meter.stappen) {
+              const li = el('li');
+              const link = el('a', '', window.BES.klaarStapTekst(stap));
+              link.href = `vak/${vak.id}/?hoofdstuk=${encodeURIComponent(stap.hoofdstuk)}`;
+              const winst = el('span', '', `tot +${stap.winst}`);
+              winst.setAttribute('aria-label', `tot ${puntTekst(stap.winst)} erbij`);
+              link.append(winst);
+              li.append(link);
+              ul.append(li);
+            }
+            kaart.append(ul);
+          } else {
+            kaart.append(el('p', 'vg-pro-noot', 'Elk hoofdstuk is gezien, goed en recent geoefend. Een ronde af en toe houdt het vers.'));
+          }
+          rooster.append(kaart);
+        }
+        vulBlok('vg-klaar', rooster);
+      };
+
+      // (8) Alle verbeterpunten: elk hoofdstuk onder 80 procent, met een knop. Na zes rijen een knop om alles te tonen.
+      const toonAlle = context => {
+        if (!context) { nietGeladen('vg-alle'); return; }
+        const punten = context.hoofdstukken.filter(item => item.verhouding < .8).sort((a, b) => a.verhouding - b.verhouding);
+        if (!context.hoofdstukken.length) { leegBlok('vg-alle', 'Nog geen hoofdstuk met minstens 3 vragen geoefend. Daarna zie je hier elk hoofdstuk onder 80 procent.'); return; }
+        if (!punten.length) { leegBlok('vg-alle', 'Geen verbeterpunten: elk hoofdstuk dat je oefende, stond bij je laatste ronde op 80 procent of meer.'); return; }
+        const ol = el('ol', 'vg-alle-lijst');
+        const kort = punten.length > 8 ? 6 : punten.length;
+        punten.forEach((item, i) => {
+          const li = el('li', 'vg-alle-rij');
+          const tekst = el('div');
+          tekst.append(el('span', 'vg-alle-naam', item.naam), el('span', 'vg-alle-sub', `${item.vak.naam} · ${procent(item.goed, item.totaal)}% goed`));
+          const link = el('a', 'knop-secundair', 'Oefen →');
+          link.href = `vak/${item.vak.id}/?hoofdstuk=${encodeURIComponent(item.id)}`;
+          link.setAttribute('aria-label', `Oefen ${item.naam}, ${item.vak.naam}`);
+          li.append(tekst, link);
+          li.hidden = i >= kort;
+          ol.append(li);
+        });
+        vulBlok('vg-alle', ol, ...meerKnop(ol, kort, `Toon alle ${punten.length} verbeterpunten`));
+      };
+
+      // Knop onder een lange lijst: de eerste rijen blijven staan, de rest klapt open en weer dicht.
+      const meerKnop = (lijst, kort, tekst) => {
+        if (kort >= lijst.children.length) return [];
+        const knop = el('button', 'vg-meer', tekst);
+        knop.type = 'button';
+        knop.setAttribute('aria-expanded', 'false');
+        knop.addEventListener('click', () => {
+          const open = knop.getAttribute('aria-expanded') !== 'true';
+          [...lijst.children].forEach((li, i) => { li.hidden = !open && i >= kort; });
+          knop.setAttribute('aria-expanded', String(open));
+          knop.textContent = open ? 'Minder tonen' : tekst;
+        });
+        return [knop];
+      };
+
+      // (3) Groei per hoofdstuk uit sessies.hoofdstukken: eerste tegenover laatste ronde, per vak en niveau.
+      const toonGroei = () => {
+        const reeksen = new Map();
+        let metHoofdstukken = 0;
+        for (const sessie of sessies) {
+          if (!Array.isArray(sessie.hoofdstukken) || !vakNamen[sessie.vak]) continue;
+          metHoofdstukken += 1;
+          const niveau = sessie.niveau === 'hard' ? 'hard' : 'normaal';
+          for (const item of sessie.hoofdstukken) {
+            const goed = Number(item?.goed);
+            const totaal = Number(item?.totaal);
+            if (typeof item?.h !== 'string' || !(totaal >= 3) || !(goed >= 0) || goed > totaal) continue;
+            const sleutel = `${sessie.vak}|${niveau}|${item.h}`;
+            if (!reeksen.has(sleutel)) reeksen.set(sleutel, { vak: sessie.vak, niveau, h: item.h, rondes: [] });
+            reeksen.get(sleutel).rondes.push(procent(goed, totaal));
+          }
+        }
+        const noot = el('p', 'vg-pro-noot', 'Alleen rondes sinds 2 oktober 2026 bewaren de score per hoofdstuk.');
+        if (!metHoofdstukken) { vulBlok('vg-groei', el('p', 'vg-pro-leeg', 'Nog geen gegevens per hoofdstuk. Na twee rondes met hetzelfde hoofdstuk zie je hier je groei.'), noot); return; }
+        const metGroei = [...reeksen.values()].filter(reeks => reeks.rondes.length >= 2);
+        if (!metGroei.length) { vulBlok('vg-groei', el('p', 'vg-pro-leeg', 'Je hebt per hoofdstuk nog maar één ronde. Doe een hoofdstuk nog eens, dan zie je hier je groei.'), noot); return; }
+
+        const legenda = el('p', 'vg-groei-legenda');
+        const eerst = el('span');
+        eerst.append(el('i', 'vg-punt is-eerst'), 'eerste ronde');
+        const laatst = el('span');
+        laatst.append(el('i', 'vg-punt is-laatst'), 'laatste ronde');
+        legenda.append(eerst, laatst);
+        legenda.setAttribute('aria-hidden', 'true');
+        const inhoud = [legenda];
+        // Per vak de eerste vijf rijen; de rest achter een knop, zodat de pagina op een telefoon kort blijft.
+        const KORT = 5;
+        for (const vak of vakken) {
+          const rijen = metGroei.filter(reeks => reeks.vak === vak.id);
+          if (!rijen.length) continue;
+          const volgorde = (gegevens[vak.id]?.hoofdstukken || []).map(item => item.id);
+          rijen.sort((a, b) => (a.niveau === b.niveau ? 0 : a.niveau === 'hard' ? 1 : -1) || volgorde.indexOf(a.h) - volgorde.indexOf(b.h));
+          const groep = el('div', 'vg-groei-vak');
+          const ul = el('ul', 'vg-groei-lijst');
+          for (const [i, reeks] of rijen.entries()) {
+            const begin = reeks.rondes[0];
+            const eind = reeks.rondes[reeks.rondes.length - 1];
+            const verschil = eind - begin;
+            const li = el('li', 'vg-groei-rij');
+            const naam = el('span', 'vg-groei-naam', naamHoofdstuk(vak.id, reeks.h));
+            naam.append(el('small', '', `${meervoud(reeks.rondes.length, 'ronde', 'rondes')}${reeks.niveau === 'hard' ? ' · Hard mode' : ''}`));
+            const baan = el('span', 'vg-baan');
+            baan.setAttribute('aria-hidden', 'true');
+            const lijn = el('i', 'lijn');
+            lijn.style.left = Math.min(begin, eind) + '%';
+            lijn.style.width = Math.abs(verschil) + '%';
+            const puntEerst = el('i', 'vg-punt is-eerst');
+            puntEerst.style.left = begin + '%';
+            const puntLaatst = el('i', 'vg-punt is-laatst');
+            puntLaatst.style.left = eind + '%';
+            baan.append(lijn, puntEerst, puntLaatst);
+            const cijfers = el('span', 'vg-groei-cijfers');
+            const zichtbaar = el('span', '', `${begin}% → ${eind}%`);
+            zichtbaar.setAttribute('aria-hidden', 'true');
+            const getal = el('b', verschil > 0 ? 'is-beter' : '', verschil > 0 ? `+${verschil}` : verschil < 0 ? String(verschil) : '0');
+            getal.setAttribute('aria-hidden', 'true');
+            cijfers.append(zichtbaar, getal, el('span', 'vg-sr', `Eerste ronde ${begin} procent, laatste ronde ${eind} procent, ${verschil > 0 ? `${puntTekst(verschil)} beter` : verschil < 0 ? `${puntTekst(-verschil)} lager` : 'gelijk'}.`));
+            li.append(naam, baan, cijfers);
+            li.hidden = rijen.length > KORT + 1 && i >= KORT;
+            ul.append(li);
+          }
+          const kort = rijen.length > KORT + 1 ? KORT : rijen.length;
+          groep.append(el('h4', '', vak.naam), ul, ...meerKnop(ul, kort, `Toon alle ${rijen.length} rijen`));
+          inhoud.push(groep);
+        }
+        inhoud.push(noot);
+        vulBlok('vg-groei', ...inhoud);
+      };
+
+      // (4) Score per vak door de tijd: per vak een lijn met de laatste 30 rondes op Normaal.
+      const tekenLijn = (grafiek, punten) => {
+        tekenBijResize(grafiek, () => {
+          const breedte = Math.max(220, grafiek.clientWidth);
+          const hoogte = 132;
+          const links = 30, rechts = 38, boven = 10, onder = 12;
+          const y = waarde => boven + (1 - waarde / 100) * (hoogte - boven - onder);
+          const x = i => punten.length === 1 ? (links + breedte - rechts) / 2 : links + i * (breedte - links - rechts) / (punten.length - 1);
+          grafiek.setAttribute('viewBox', `0 0 ${breedte} ${hoogte}`);
+          grafiek.replaceChildren();
+          for (const lijnWaarde of [0, 50, 100]) {
+            grafiek.append(
+              svgNode('line', { x1: links, x2: breedte - rechts + 8, y1: y(lijnWaarde), y2: y(lijnWaarde), stroke: 'var(--line)', 'stroke-width': 1 }),
+              svgNode('text', { x: links - 8, y: y(lijnWaarde) + 4, 'text-anchor': 'end' }, lijnWaarde)
+            );
+          }
+          grafiek.append(svgNode('polyline', { points: punten.map((punt, i) => `${x(i)},${y(punt.score)}`).join(' '), fill: 'none', stroke: 'var(--accent)', 'stroke-width': 2, 'stroke-linejoin': 'round', 'stroke-linecap': 'round' }));
+          const ruim = punten.length < 2 || (breedte - links - rechts) / (punten.length - 1) >= 12;
+          punten.forEach((punt, i) => {
+            if (!ruim && i !== 0 && i !== punten.length - 1) return;
+            const stip = svgNode('circle', { cx: x(i), cy: y(punt.score), r: 4, fill: 'var(--accent)', stroke: 'var(--surface)', 'stroke-width': 2 });
+            stip.append(svgNode('title', {}, punt.titel));
+            grafiek.append(stip);
+          });
+          const laatste = punten[punten.length - 1];
+          grafiek.append(svgNode('text', { x: x(punten.length - 1) + 8, y: y(laatste.score) + 4, class: 'vg-lijn-waarde' }, laatste.score + '%'));
+        });
+      };
+
+      const toonLijnen = () => {
+        const perVak = new Map();
+        for (const sessie of sessies) {
+          if (sessie.niveau === 'hard' || !vakNamen[sessie.vak]) continue;
+          if (!perVak.has(sessie.vak)) perVak.set(sessie.vak, []);
+          perVak.get(sessie.vak).push(sessie);
+        }
+        const reeksen = [...perVak.entries()].filter(([, rondes]) => rondes.length >= 2).sort((a, b) => b[1].length - a[1].length);
+        if (!reeksen.length) { leegBlok('vg-lijnen', 'Na twee rondes van hetzelfde vak op Normaal zie je hier een lijn.'); return; }
+        const rooster = el('div', 'vg-tegels');
+        for (const [vakId, rondes] of reeksen) {
+          const laatste = rondes.slice(-30).map(sessie => {
+            const score = procent(sessie.goed, sessie.totaal);
+            return { score, titel: `${fmtKort.format(new Date(sessie.gemaakt_op))}, ${sessie.modus === 'simulatie' ? 'simulatie' : 'training'}: ${score}%` };
+          });
+          const alle = rondes.reduce((som, sessie) => ({ goed: som.goed + sessie.goed, totaal: som.totaal + sessie.totaal }), { goed: 0, totaal: 0 });
+          const kaart = el('article', 'vg-lijn');
+          const grafiek = svgNode('svg', { role: 'img', 'aria-label': `${vakNamen[vakId]}: ${laatste.map(punt => punt.titel).join('; ')}` });
+          // Bij meer dan 30 rondes gaan begin en eind over de getoonde lijn, het gemiddelde over alle rondes.
+          const begin = laatste[0].score;
+          const eind = laatste[laatste.length - 1].score;
+          const gemiddeld = procent(alle.goed, alle.totaal);
+          const uitleg = rondes.length > 30
+            ? `laatste 30 van ${rondes.length} rondes: van ${begin}% naar ${eind}% · gemiddeld ${gemiddeld}% over alle rondes`
+            : `${meervoud(rondes.length, 'ronde', 'rondes')} · eerste ${begin}% · laatste ${eind}% · gemiddeld ${gemiddeld}%`;
+          kaart.append(el('h4', '', vakNamen[vakId]), grafiek, el('p', 'vg-lijn-uitleg', uitleg));
+          rooster.append(kaart);
+          tekenLijn(grafiek, laatste);
+        }
+        vulBlok('vg-lijnen', rooster);
+      };
+
+      // (5) Leertijd per dag (studieactiviteit, alle apparaten samen) voor de gekozen periode, en de beste weekdag.
+      const besteWeekdag = () => {
+        const perDag = Array.from({ length: 7 }, () => ({ goed: 0, totaal: 0 }));
+        for (const sessie of sessies || []) {
+          const dag = perDag[new Date(sessie.gemaakt_op).getDay()];
+          dag.goed += sessie.goed;
+          dag.totaal += sessie.totaal;
+        }
+        const genoeg = perDag.map((dag, i) => ({ ...dag, i })).filter(dag => dag.totaal >= 20);
+        if (genoeg.length < 2) return null;
+        const beste = genoeg.sort((a, b) => b.goed / b.totaal - a.goed / a.totaal)[0];
+        const naam = new Intl.DateTimeFormat('nl-BE', { weekday: 'long' }).format(new Date(2026, 9, 4 + beste.i));
+        return { naam, score: procent(beste.goed, beste.totaal), totaal: beste.totaal };
+      };
+
+      // Bij 4 weken toch per dag (28 staven); sinds dag 1 volgt dezelfde indeling als het weekoverzicht.
+      const toonLeertijd = overzicht => {
+        const vandaagNr = dagNr(new Date());
+        const lengte = periode === '7' ? 7 : periode === '28' ? 28 : 0;
+        const emmers = lengte === 28 ? dagEmmers(vandaagNr - 27, 28, false) : overzicht;
+        const soort = emmers[0].soort;
+        document.getElementById('vg-leertijd-uitleg').textContent = `Minuten per ${soort}, ${periode === '7' ? 'laatste 7 dagen' : periode === '28' ? 'laatste 4 weken' : 'sinds dag 1'}. Alle apparaten samen.`;
+        const minuten = emmers.map(() => 0);
+        let totaalMs = 0;
+        let dagenMetTijd = 0;
+        for (const dag of activiteit) {
+          if (dag.nr > vandaagNr || (lengte && dag.nr <= vandaagNr - lengte)) continue;
+          const emmer = emmerVan(emmers, dag.nr);
+          if (emmer) minuten[emmers.indexOf(emmer)] += dag.ms;
+          totaalMs += dag.ms;
+          if (dag.ms >= 60000) dagenMetTijd += 1;
+        }
+        const reeks = emmers.map((emmer, i) => ({ ...emmer, minuten: Math.round(minuten[i] / 60000) }));
+        const beste = besteWeekdag();
+        const feiten = el('ul', 'vg-feiten');
+        const feit = (kop, tekst) => { const li = el('li'); li.append(el('strong', '', kop + ' '), el('span', '', tekst)); feiten.append(li); };
+        const totaalMin = Math.round(totaalMs / 60000);
+        if (totaalMin) feit(`Totaal ${duur(totaalMin)}.`, dagenMetTijd ? `Gemiddeld ${duur(Math.round(totaalMin / dagenMetTijd))} op een dag dat je leerde.` : '');
+        else feit('Nog geen leertijd gemeten in deze periode.', '');
+        // De beste weekdag komt uit de rondes; zonder rondes (laden mislukt) geen zin erover.
+        if (beste) feit(`Op ${beste.naam} scoor je het best:`, `${beste.score}% goed over ${beste.totaal} vragen, sinds dag 1.`);
+        else if (Array.isArray(sessies)) feit('Je beste weekdag', 'zie je zodra je op minstens twee weekdagen 20 vragen of meer maakte.');
+        // Zonder leertijd in deze periode alleen de zinnen, geen lege grafiek.
+        if (!totaalMin) { vulBlok('vg-leertijd', feiten); return; }
+        const grafiek = svgNode('svg', { class: 'vg-staven', role: 'img', 'aria-label': reeks.map(emmer => `${emmer.lang} ${emmer.minuten} minuten`).join('; ') });
+        vulBlok('vg-leertijd', grafiek, feiten);
+        tekenStaven(grafiek, reeks, { hoogte: 190, waardeVan: emmer => emmer.minuten, titelVan: emmer => `${emmer.lang}: ${duur(emmer.minuten)}` });
+      };
+
+      // (6) Foutenanalyse: open fouten met keer_fout >= 2, per vak en hoofdstuk; de vraagtekst via dezelfde sleutel als assets/vak.js.
+      const vraagSleutel = (tekst, hard) => {
+        let hash = 0x811c9dc5;
+        for (const teken of tekst) { hash ^= teken.codePointAt(0); hash = Math.imul(hash, 0x01000193) >>> 0; }
+        return (hard ? 'h:' : 'n:') + hash.toString(16).padStart(8, '0');
+      };
+      const vragenPerSleutel = data => {
+        const kaart = new Map();
+        (data?.vragen || []).forEach(vraag => { if (typeof vraag?.q === 'string') kaart.set(vraagSleutel(vraag.q, false), vraag); });
+        (data?.hardVragen || []).forEach(vraag => { if (typeof vraag?.q === 'string') kaart.set(vraagSleutel(vraag.q, true), vraag); });
+        return kaart;
+      };
+      const kortTekst = (tekst, max) => tekst.length > max ? tekst.slice(0, max - 1).trimEnd() + '…' : tekst;
+
+      const toonFouten = fouten => {
+        const perVak = new Map();
+        for (const rij of fouten) {
+          if (!vakNamen[rij.vak] || !(rij.keer_fout >= 2)) continue;
+          if (!perVak.has(rij.vak)) perVak.set(rij.vak, []);
+          perVak.get(rij.vak).push(rij);
+        }
+        if (!perVak.size) { leegBlok('vg-fouten', 'Geen vragen die je twee keer of vaker fout had. Gebeurt dat wel, dan zie je hier waar het vastloopt.'); return; }
+        const rooster = el('div', 'vg-tegels');
+        for (const [vakId, rijen] of [...perVak.entries()].sort((a, b) => b[1].length - a[1].length)) {
+          const kaart = el('article', 'vg-fout-vak');
+          const kop = el('div', 'vg-fout-kop');
+          kop.append(el('h4', '', vakNamen[vakId]), el('span', '', meervoud(rijen.length, 'vraag', 'vragen')));
+          const perHoofdstuk = new Map();
+          rijen.forEach(rij => perHoofdstuk.set(rij.hoofdstuk || '', (perHoofdstuk.get(rij.hoofdstuk || '') || 0) + 1));
+          const maximum = Math.max(...perHoofdstuk.values());
+          const ul = el('ul', 'vg-fout-hoofdstukken');
+          for (const [h, aantal] of [...perHoofdstuk.entries()].sort((a, b) => b[1] - a[1])) {
+            const li = el('li', 'vg-fout-hoofdstuk');
+            const naam = h ? naamHoofdstuk(vakId, h) : 'Onbekend hoofdstuk';
+            li.append(el('span', '', naam), balk(Math.round(aantal / maximum * 100), false), el('b', '', aantal));
+            ul.append(li);
+          }
+          kaart.append(kop, ul);
+          const vragen = vragenPerSleutel(gegevens[vakId]);
+          const vaakst = rijen.filter(rij => vragen.has(rij.sleutel))
+            .sort((a, b) => b.keer_fout - a.keer_fout || String(b.laatst_fout).localeCompare(String(a.laatst_fout))).slice(0, 3);
+          if (vaakst.length) {
+            kaart.append(el('p', 'vg-klein-kop', 'Vaakst fout'));
+            const ol = el('ol', 'vg-fout-vragen');
+            for (const rij of vaakst) {
+              const li = el('li', '', kortTekst(vragen.get(rij.sleutel).q, 140));
+              li.append(el('small', '', `${rij.keer_fout} keer fout${rij.sleutel.startsWith('h:') ? ' · Hard mode' : ''}`));
+              ol.append(li);
+            }
+            kaart.append(ol);
+          }
+          const link = el('a', 'tekstlink', 'Oefen je fouten →');
+          link.href = `vak/${encodeURIComponent(vakId)}/?fouten=1`;
+          kaart.append(link);
+          rooster.append(kaart);
+        }
+        vulBlok('vg-fouten', rooster);
+      };
+
+      // (7) Gemiddelde per soort ronde: Normaal tegenover Hard, Training tegenover Simulatie.
+      const toonTypes = () => {
+        const som = filter => sessies.filter(filter).reduce((uit, sessie) => ({ rondes: uit.rondes + 1, goed: uit.goed + sessie.goed, totaal: uit.totaal + sessie.totaal }), { rondes: 0, goed: 0, totaal: 0 });
+        const paren = [
+          { kop: 'Normaal tegenover Hard', a: ['Normaal', som(s => s.niveau !== 'hard')], b: ['Hard', som(s => s.niveau === 'hard')], zin: 'in Hard mode', tegen: 'op Normaal' },
+          { kop: 'Training tegenover Simulatie', a: ['Training', som(s => s.modus !== 'simulatie')], b: ['Simulatie', som(s => s.modus === 'simulatie')], zin: 'in simulatie', tegen: 'in training' }
+        ];
+        if (!sessies.length) { leegBlok('vg-types', 'Nog geen rondes. Na je eerste ronde zie je hier je gemiddelde per soort.'); return; }
+        const rooster = el('div', 'vg-types');
+        for (const paar of paren) {
+          const groep = el('div');
+          groep.append(el('h4', '', paar.kop));
+          for (const [naam, cijfer] of [paar.a, paar.b]) {
+            const rij = el('div', 'vg-type-rij');
+            const score = procent(cijfer.goed, cijfer.totaal);
+            rij.append(el('span', '', naam), balk(cijfer.rondes ? score : 0, false), el('span', '', cijfer.rondes ? `${score}% · ${meervoud(cijfer.rondes, 'ronde', 'rondes')}` : 'nog geen ronde'));
+            groep.append(rij);
+          }
+          if (paar.a[1].rondes && paar.b[1].rondes) {
+            const punten = procent(paar.b[1].goed, paar.b[1].totaal) - procent(paar.a[1].goed, paar.a[1].totaal);
+            groep.append(el('p', 'vg-type-verschil', !punten ? `Even hoog ${paar.zin} als ${paar.tegen}.` : `${paar.zin[0].toUpperCase() + paar.zin.slice(1)} scoor je ${puntTekst(Math.abs(punten))} ${punten > 0 ? 'hoger' : 'lager'} dan ${paar.tegen}.`));
+          }
+          rooster.append(groep);
+        }
+        vulBlok('vg-types', rooster);
+      };
+
+      // Elk onderdeel apart: als er één misloopt, blijven de andere staan.
+      const veilig = (id, teken) => { try { teken(); } catch { nietGeladen(id); } };
+
+      const toonPro = async (context, foutenUitslag) => {
+        const sessiesOk = Array.isArray(sessies);
+        const extra = new Set();
+        (sessies || []).forEach(sessie => { if (vakNamen[sessie.vak] && Array.isArray(sessie.hoofdstukken)) extra.add(sessie.vak); });
+        (foutenUitslag && !foutenUitslag.error ? foutenUitslag.data : []).forEach(rij => { if (vakNamen[rij.vak]) extra.add(rij.vak); });
+        await Promise.all([...extra].map(laadVak));
+        veilig('vg-klaar', () => toonKlaar(context));
+        veilig('vg-alle', () => toonAlle(context));
+        veilig('vg-groei', () => sessiesOk ? toonGroei() : nietGeladen('vg-groei'));
+        veilig('vg-lijnen', () => sessiesOk ? toonLijnen() : nietGeladen('vg-lijnen'));
+        veilig('vg-fouten', () => foutenUitslag && !foutenUitslag.error ? toonFouten(foutenUitslag.data) : nietGeladen('vg-fouten'));
+        veilig('vg-types', () => sessiesOk ? toonTypes() : nietGeladen('vg-types'));
+        document.getElementById('vg-pro').hidden = false;
+        // Leertijd volgt de gekozen periode (toonOverzicht tekent ze mee); zonder rondes toch de leertijd van die periode.
+        veilig('vg-leertijd', () => {
+          if (!activiteit) nietGeladen('vg-leertijd');
+          else if (sessiesOk) toonOverzicht();
+          else toonLeertijd(maakEmmers(periode, dagNr(new Date()), eersteDagNr()));
+        });
+      };
+
+      // Alle rijen in stukken van 1000: Supabase geeft er hoogstens 1000 per keer.
+      const alles = async maak => {
+        const rijen = [];
+        try {
+          for (let van = 0; van < 50000; van += 1000) {
+            const { data, error } = await maak().range(van, van + 999);
+            if (error) return { data: rijen, error };
+            rijen.push(...(data || []));
+            if (!data || data.length < 1000) break;
+          }
+          return { data: rijen, error: null };
+        } catch (error) {
+          return { data: rijen, error };
+        }
+      };
+
+      // Free: voortgang per vak. Plus: weekoverzicht en drie verbeterpunten (assets/plan.js). Pro: ook het geavanceerde overzicht.
+      const laad = async () => {
+        await auth.gereed;
+        const user = await auth.gebruiker();
+        if (!user) { status.textContent = 'Log in om je voortgang te zien.'; return; }
+        const client = auth.client;
+        status.textContent = 'Even laden.';
+        const voortgangBelofte = Promise.resolve(client.from('voortgang').select('vak,hoofdstuk,beantwoord,goed,laatst_goed,laatst_totaal,bijgewerkt').eq('user_id', user.id))
+          .catch(error => ({ data: null, error }));
+        plan = window.BES && window.BES.plan ? (await window.BES.plan()).plan : 'free';
+        pro = plan === 'pro';
+        plusOk = pro || plan === 'plus';
+        document.getElementById('vg-plus').hidden = plusOk;
+        document.querySelector('#vg-periode [data-periode="dag1"]').hidden = !pro;
+        if (periode === 'dag1' && !pro) periode = '7';
+
+        // Plus: acht weken (4 weken en de 4 ervoor). Pro: alles sinds de eerste ronde, met de score per hoofdstuk.
+        const vandaag = new Date();
+        const vanaf = new Date(vandaag.getFullYear(), vandaag.getMonth(), vandaag.getDate() - 55);
+        const vraagSessies = kolommen => alles(() => {
+          let vraag = client.from('sessies').select(kolommen).eq('user_id', user.id);
+          if (!pro) vraag = vraag.gte('gemaakt_op', vanaf.toISOString());
+          return vraag.order('gemaakt_op').order('id');
+        });
+        const basis = 'vak,niveau,modus,goed,totaal,gemaakt_op';
+        const sessiesBelofte = !plusOk ? Promise.resolve(null)
+          : pro ? vraagSessies(basis + ',hoofdstukken').then(uitslag => uitslag.error ? vraagSessies(basis) : uitslag)
+          : vraagSessies(basis);
+        const activiteitBelofte = pro ? alles(() => client.from('studieactiviteit').select('dag,leertijd_ms').eq('user_id', user.id).order('dag').order('apparaat')) : Promise.resolve(null);
+        const foutenBelofte = pro ? alles(() => client.from('fouten').select('vak,sleutel,hoofdstuk,keer_fout,laatst_fout').eq('user_id', user.id).eq('opgelost', false).gte('keer_fout', 2).order('vak').order('sleutel')) : Promise.resolve(null);
+
+        let context = null;
+        let mislukt = false;
+        const [, , activiteitUitslag, foutenUitslag] = await Promise.all([
+          voortgangBelofte.then(async uitslag => {
+            if (uitslag.error) { mislukt = true; return; }
+            context = await toon(uitslag.data || []);
+          }),
+          sessiesBelofte.then(uitslag => {
+            if (!uitslag) return;
+            if (uitslag.error) { mislukt = true; return; }
+            sessies = uitslag.data;
+            toonOverzicht();
+          }),
+          activiteitBelofte,
+          foutenBelofte
+        ]);
+
+        if (pro) {
+          if (activiteitUitslag && !activiteitUitslag.error) {
+            // Per dag opgeteld over alle apparaten.
+            const perDag = new Map();
+            for (const rij of activiteitUitslag.data) {
+              const deel = /^(\d{4})-(\d{2})-(\d{2})$/.exec(rij.dag || '');
+              if (!deel) continue;
+              const nr = Math.floor(Date.UTC(Number(deel[1]), Number(deel[2]) - 1, Number(deel[3])) / DAG);
+              perDag.set(nr, (perDag.get(nr) || 0) + (Number(rij.leertijd_ms) || 0));
+            }
+            activiteit = [...perDag.entries()].sort((a, b) => a[0] - b[0]).map(([nr, ms]) => ({ nr, ms }));
+          }
+          if ((activiteitUitslag && activiteitUitslag.error) || (foutenUitslag && foutenUitslag.error)) mislukt = true;
+          await toonPro(context, foutenUitslag);
+        } else {
+          document.getElementById('vg-slot').hidden = false;
+        }
+        status.textContent = mislukt ? 'Niet alle voortgang kon geladen worden. Probeer het later opnieuw.' : '';
+      };
+      laad().catch(() => { status.textContent = 'Laden is niet gelukt. Probeer het later opnieuw.'; });
+    });
+  </script>
+</body>
+</html>
