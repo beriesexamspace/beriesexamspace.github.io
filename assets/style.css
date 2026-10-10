@@ -141,7 +141,8 @@ a:focus-visible, button:focus-visible {
   /* Randen altijd 1px; boven en opzij onzichtbaar. Zo verandert bij het zweven alleen de kleur en springt er niets aan de zijkanten. */
   border: 1px solid var(--transparent);
   border-bottom-color: var(--line);
-  border-radius: 0;
+  /* Onderhoeken rond, zodat de lijn onder de balk niet hoekig afbreekt. */
+  border-radius: 0 0 20px 20px;
   background: var(--bg);
   box-shadow: none;
   -webkit-backdrop-filter: saturate(100%) blur(0);
