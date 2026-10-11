@@ -30,12 +30,12 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="/assets/style.css?v=83">
-  <script src="/assets/app.js?v=83" defer></script>
-  <script src="/assets/config.js?v=83" defer></script>
+  <link rel="stylesheet" href="/assets/style.css?v=84">
+  <script src="/assets/app.js?v=84" defer></script>
+  <script src="/assets/config.js?v=84" defer></script>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js" defer></script>
-  <script src="/assets/auth.js?v=83" defer></script>
-  <script src="/assets/plan.js?v=83" defer></script>
+  <script src="/assets/auth.js?v=84" defer></script>
+  <script src="/assets/plan.js?v=84" defer></script>
   <style>
     .niet-gevonden { display: flex; flex: 1 0 auto; align-items: center; justify-content: center; width: 100%; box-sizing: border-box; padding: 88px 16px 48px; }
     .niet-gevonden-kaart { width: 100%; max-width: 36rem; min-width: 0; box-sizing: border-box; padding: clamp(28px, 6vw, 48px) clamp(20px, 5vw, 44px); text-align: center; }
@@ -77,5 +77,19 @@
     </div>
   </footer>
 
+  <script>
+    // Mag dit account inmiddels wel binnen (site open of toegang gekregen), dan meteen door naar de hub.
+    document.addEventListener('DOMContentLoaded', async () => {
+      const auth = window.BES && window.BES.auth;
+      if (!auth || !auth.client) return;
+      try { await auth.gereed; } catch {}
+      try {
+        const gebruiker = await auth.gebruiker();
+        if (!gebruiker) return;
+        const { data, error } = await auth.client.rpc('heeft_toegang');
+        if (!error && data === true) window.location.replace('/hub.html');
+      } catch {}
+    });
+  </script>
 </body>
 </html>
