@@ -2842,126 +2842,16 @@ window.BES_VAK = {
       ]
     }
   ],
-  "hardVragen": [
-    {
-      "h": "h1",
-      "q": "Denkers gaan elk op hun eigen manier om met het besef dat de sociale orde contingent is. Welke koppeling is FOUT?",
-      "o": [
-        "Marx: de geschiedenis als legitimerend verhaal richting een klasseloze maatschappij.",
-        "Rousseau: een beroep op religie, zodat door mensen gemaakte regels niet willekeurig overkomen.",
-        "Luhmann: de wetenschap als enige methode om zeker te weten welke orde de ware is.",
-        "Habermas: open en redelijke communicatie, waardoor keuzes het arbitraire kunnen opheffen."
-      ],
-      "a": 2,
-      "u": "Luhmann verwacht niet dat de wetenschap ons kan vertellen welke orde de ware is: volgens hem moeten we leren leven met het arbitraire, omdat een consensus onmogelijk is. Marx gebruikt de geschiedenis als legitimerend verhaal, Rousseau doet een beroep op religie en Habermas rekent op open, redelijke communicatie."
-    },
-    {
-      "h": "h4",
-      "q": "Een werknemer is ziek verklaard, blijft thuis en krijgt geen straf voor zijn afwezigheid. Hij weigert wel elke behandeling en zegt dat hij geen zin heeft om te herstellen. Welke verwachting van de ziekterol volgens Parsons schendt hij?",
-      "o": [
-        "De verwachting dat hij ondanks zijn ziekte aan de gangbare gedragsverwachtingen blijft voldoen.",
-        "De verwachting dat hij zijn onbekwaamheid aanvaardt als een verdiende straf voor zijn gedrag.",
-        "De verwachting dat hij via uiterlijke kenmerken aan zijn omgeving toont dat hij echt ziek is.",
-        "De verwachting dat hij tijdens zijn afwezigheid blijk geeft van een wil tot genezen."
-      ],
-      "a": 3,
-      "u": "Volgens Parsons vervalt bij de ziekterol de verwachting dat je je normaal gedraagt, en word je niet gestraft voor je onbekwaamheid. Je moet wel blijk geven van een wil tot genezen, en precies die verwachting schendt deze werknemer."
-    },
-    {
-      "h": "h6",
-      "q": "Een student verwacht dat de bus om acht uur komt, maar die is wekenlang te laat, dus vertrekt hij voortaan later. Dezelfde student verwacht dat medestudenten niet spieken; als iemand toch spiekt, keurt hij dat af en blijft hij die verwachting koesteren. Welke analyse klopt, in de lijn van Luhmanns uitspraak 'normen zijn verwachtingen die niet leren'?",
-      "o": [
-        "De busverwachting is normatief, want ze wordt bijgesteld zodra ze een tijd niet ingelost wordt.",
-        "De spiekverwachting is normatief: bij een schending volgt afkeuring en blijft de verwachting staan.",
-        "Beide verwachtingen zijn cognitief, want ze steunen allebei op regelmaten die hij heeft waargenomen.",
-        "De spiekverwachting wordt na verloop van tijd vanzelf een cognitieve verwachting die zich aanpast."
-      ],
-      "a": 1,
-      "u": "Een cognitieve verwachting steunt op regelmaten en wordt bijgesteld als ze niet uitkomt, zoals bij de bus. Een normatieve verwachting leert niet: bij een schending hou je eraan vast en treed je sanctionerend op, bijvoorbeeld met afkeuring, zoals bij het spieken."
-    },
-    {
-      "h": "h7",
-      "q": "Veblen en Bourdieu leggen allebei een verband tussen smaak en sociale positie. Welke uitspraak geeft het verschil tussen beiden juist weer?",
-      "o": [
-        "Veblen legt de klemtoon op opzichtige verspilling om status te tonen, Bourdieu op de habitus uit je milieu.",
-        "Bourdieu ziet spilzucht en opzichtigheid als kenmerk van de elite, Veblen wijst vooral op het milieu.",
-        "Veblen stelt dat smaak losstaat van positie, Bourdieu dat enkel geld de smaak van een klasse bepaalt.",
-        "Bourdieu ziet bij de lagere klassen vooral innovatie en creativiteit, Veblen vooral statuscompensatie."
-      ],
-      "a": 0,
-      "u": "Bij Veblen gaat het om conspicuous consumption: door opzichtig te verspillen maak je je positie zichtbaar. Bourdieu bekritiseert net het idee dat enkel geld de smaak bepaalt en wijst op het milieu waarin je opgroeit, dat een voorspelbaar smaakpatroon oplevert (habitus)."
-    },
-    {
-      "h": "h8",
-      "q": "Een ouder wil dat een tiener minder gamet en zegt: 'Ik vraag dit omdat ik echt het beste met je voorheb.' Er volgt geen straf en geen beloning. Welke typering van deze sanctie klopt?",
-      "o": [
-        "Een externe, negatieve sanctie: bestraffen, wat steunt op politieke macht.",
-        "Een interne, negatieve sanctie: waardengetrouwheid, wat steunt op culturele macht.",
-        "Een interne, positieve sanctie: beïnvloeden, wat steunt op sociale macht.",
-        "Een externe, positieve sanctie: belonen, wat steunt op economische macht."
-      ],
-      "a": 2,
-      "u": "Wie zich beroept op het beste belang van de ander, beïnvloedt: een interne, positieve sanctie die via overtuiging werkt. In het schema van de vier vormen van macht hoort beïnvloeden bij sociale macht, terwijl belonen economisch, bestraffen politiek en het activeren van waardengetrouwheid cultureel is."
-    },
-    {
-      "h": "h9",
-      "q": "Een loketbediende weigert een dringende aanvraag omdat één vakje in de verkeerde kleur inkt is ingevuld, hoewel alle gegevens kloppen en de aanvrager recht heeft op de dienst. Welk begrip uit de cursus beschrijft zijn houding het best?",
-      "o": [
-        "Informele organisatie: rollen en netwerken die buiten de blauwdruk van de organisatie ontstaan.",
-        "Commodificatie: steeds meer menselijke activiteiten worden als koopwaar tegen geld geruild.",
-        "Versymbolisering: sancties worden overdraagbaar doordat ze via symbolen zoals geld verlopen.",
-        "Ritualisme: het nauwgezet volgen van de voorschriften wordt belangrijker dan het doel ervan."
-      ],
-      "a": 3,
-      "u": "Merton spreekt van ritualisme wanneer het middel belangrijker wordt dan het doel: de bediende houdt zich zo strikt aan de vormregel dat het eigenlijke doel, de aanvrager helpen, uit beeld verdwijnt. De andere begrippen kloppen op zich, maar beschrijven iets anders dan deze houding."
-    },
-    {
-      "h": "h11",
-      "q": "Leerling A haalt slechte punten en wordt de toonaangevende figuur in een groepje dat de schoolregels openlijk belachelijk maakt, zodat hij toch aanzien verwerft. Leerkrachten kennen de slechte reputatie van leerling B, lezen elk gedrag van hem sneller als storend, en na een tijd neemt B dat negatieve beeld zelf over. Welke koppeling klopt?",
-      "o": [
-        "A is een voorbeeld van statuscompensatie, B van etikettering.",
-        "A is een voorbeeld van etikettering, B van statuscompensatie.",
-        "A en B zijn allebei een voorbeeld van statuscompensatie in de klas.",
-        "A is een voorbeeld van een Mattheus-effect, B van etikettering."
-      ],
-      "a": 0,
-      "u": "Statuscompensatie betekent dat wie op school minder goed presteert aanzien zoekt in een peergroup met tegengestelde normen, zoals A. Bij B zie je de twee mechanismen van etikettering: gedrag van iemand met een slechte reputatie wordt sneller als afwijkend gelezen, en de persoon neemt dat negatieve beeld na een tijd over."
-    },
-    {
-      "h": "h12",
-      "q": "Fabrieksarbeiders delen jarenlang dezelfde lage lonen en onzekere contracten, maar zien zichzelf niet als één groep en ondernemen niets samen. Na een golf van ontslagen beseffen ze hun gedeelde lot en richten ze samen een actiecomité op. Hoe beschrijf je dit met het begrippenpaar van Weber?",
-      "o": [
-        "Ze worden pas een klasse op zichzelf wanneer ze zich van hun gedeelde lot bewust worden.",
-        "Ze evolueren van een klasse op zichzelf naar een klasse voor zichzelf door hun bewustwording.",
-        "Ze tonen dat gedeelde economische condities vanzelf en meteen tot politieke organisatie leiden.",
-        "Ze evolueren van een stand naar een klasse, doordat hun sociaal aanzien plots sterk daalt."
-      ],
-      "a": 1,
-      "u": "Een klasse op zichzelf deelt economische levenscondities, een klasse voor zichzelf is zich ook bewust van dat gedeelde lot en kan zich organiseren. Het verhaal toont net dat gedeelde condities niet vanzelf tot organisatie leiden: pas na de bewustwording ontstaat er een klasse voor zichzelf."
-    },
-    {
-      "h": "h13",
-      "q": "Een gesloten gemeenschap waarin de leden dag en nacht samenleven, ontvangt nieuwe leden met een ritueel waarin ze hun eigen naam en bezittingen afstaan. Daarna bindt ze hen vooral via hun overtuigingen. Welke analyse klopt volgens de cursus?",
-      "o": [
-        "Het ritueel maakt het lid los van zijn vroegere identiteit, en door de band via overtuigingen kan de gemeenschap moeilijk van doel veranderen.",
-        "Het ritueel versterkt de identiteit die het lid meebrengt, en door de band via overtuigingen kan de gemeenschap makkelijk van doel veranderen.",
-        "Het ritueel maakt het lid los van zijn vroegere identiteit, maar door de band via overtuigingen kan de gemeenschap leden makkelijk afdanken.",
-        "Het ritueel is een vorm van belonen, en door de band via overtuigingen gedraagt de gemeenschap zich als een klasse voor zichzelf."
-      ],
-      "a": 0,
-      "u": "Goffman beschrijft hoe een totale instelling nieuwe leden via initiatierituelen symbolisch 'vernietigt' en losmaakt van hun vroegere identiteit. Een organisatie die haar leden via hun overtuigingen bindt, kan bovendien moeilijk van doel veranderen of leden afdanken."
-    },
-    {
-      "h": "h14",
-      "q": "Een oudere dorpsbewoner klaagt dat vroeger iedereen elkaar kende en voor elkaar zorgde, terwijl mensen vandaag vooral zakelijk en berekend met elkaar omgaan. Hoe kaderen sociologen die klacht volgens de cursus?",
-      "o": [
-        "Als verlangen naar Gesellschaft, de samenleving waarin geborgenheid en persoonlijke banden centraal staan.",
-        "Als gemeenschapsverzuchting: nostalgie naar Gemeinschaft als reactie op modernisering, te verklaren via differentiatie.",
-        "Als culturalisme: de achterstand van het dorp ligt aan endogene factoren zoals de ligging en de cultuur.",
-        "Als Mattheus-effect: wie vroeger al veel sociale banden had, krijgt er in de moderne samenleving nog meer bij."
-      ],
-      "a": 1,
-      "u": "Tönnies zet Gemeinschaft (gemeenschap, geborgenheid) tegenover Gesellschaft (rationeel, zakelijk). Het heimwee naar die gemeenschap als reactie op modernisering heet gemeenschapsverzuchting, en de cursus verklaart het via de differentiatietheorie, waarbij onder meer gezin en productie uit elkaar groeien."
-    }
-  ]
+  "hardPerHoofdstuk": {
+    "h1": 1,
+    "h4": 1,
+    "h6": 1,
+    "h7": 1,
+    "h8": 1,
+    "h9": 1,
+    "h11": 1,
+    "h12": 1,
+    "h13": 1,
+    "h14": 1
+  }
 };

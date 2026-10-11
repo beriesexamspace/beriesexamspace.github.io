@@ -1478,131 +1478,16 @@ window.BES_VAK = {
    ]
   }
  ],
- "hardVragen": [
-  {
-   "h": "h1",
-   "q": "Een onderzoeker brengt met de TAT motieven zoals power, achievement en intimacy in kaart en gaat daarna vooral na hoe sterk personen op die motieven van elkaar verschillen. Welke combinatie van kennisdomeinen beschrijft dit onderzoek het best?",
-   "o": [
-    "Het cognitief en ervaringsdomein, samen met het biologische domein dat alle andere domeinen doorkruist",
-    "Het dispositionele domein, samen met het intrapsychiatrische domein dat alle andere domeinen doorkruist",
-    "Het intrapsychiatrische domein, samen met het dispositionele domein dat alle andere domeinen doorkruist",
-    "Het sociaal en cultureel domein, samen met het domein van aanpassing dat alle andere domeinen doorkruist"
-   ],
-   "a": 2,
-   "u": "De TAT is een projectieve methode die binnen het intrapsychiatrische domein motieven zoals power, achievement en intimacy meet. De nadruk op hoe individuen daarin van elkaar verschillen hoort bij het dispositionele domein, dat als enige alle andere domeinen doorkruist."
-  },
-  {
-   "h": "h2",
-   "q": "Onderzoekers volgen een groep jongvolwassenen twintig jaar lang op een persoonlijkheidstrek. Het groepsgemiddelde op die trek daalt duidelijk, maar wie bij de eerste meting hoger scoorde dan anderen, scoort ook bij de laatste meting nog hoger dan diezelfde anderen. Wat besluit je over de stabiliteit van deze trek?",
-   "o": [
-    "Er is wel rangorde stabiliteit, maar geen gemiddelde niveau stabiliteit",
-    "Er is wel gemiddelde niveau stabiliteit, maar geen rangorde stabiliteit",
-    "Er is zowel rangorde stabiliteit als gemiddelde niveau stabiliteit",
-    "Er is noch rangorde stabiliteit, noch gemiddelde niveau stabiliteit"
-   ],
-   "a": 0,
-   "u": "Rangorde stabiliteit gaat over je relatieve positie ten opzichte van anderen, en die blijft hier behouden. Gemiddelde niveau stabiliteit gaat over het gemiddelde van de hele groep, en omdat dat gemiddelde daalt, ontbreekt die vorm van stabiliteit."
-  },
-  {
-   "h": "h3",
-   "q": "Situatie 1: ouders met een sterke muzikale aanleg geven hun kind die aanleg door en laten het opgroeien in een huis vol instrumenten. Situatie 2: een kind met een erfelijk prikkelbaar temperament lokt bij leerkrachten telkens strengere reacties uit. Welk type genotype-omgevingscorrelatie illustreren beide situaties?",
-   "o": [
-    "Actief in situatie 1 en reactief in situatie 2",
-    "Passief in situatie 1 en actief in situatie 2",
-    "Reactief in situatie 1 en passief in situatie 2",
-    "Passief in situatie 1 en reactief in situatie 2"
-   ],
-   "a": 3,
-   "u": "Bij een passieve correlatie geven ouders zowel genen als omgeving door zonder dat het kind zelf een rol speelt, zoals in situatie 1. Bij een reactieve correlatie reageert de omgeving op het genotype van het kind, zoals de leerkrachten in situatie 2."
-  },
-  {
-   "h": "h4",
-   "q": "Een student zoekt voortdurend spanning en risico op om verveling tegen te gaan en reageert daarnaast sterk op signalen van beloning, met veel toenaderingsgedrag. Welk fysiologisch profiel past volgens de leerstof het best bij deze combinatie?",
-   "o": [
-    "Een sterk actief BIS en een hoog MAO-niveau",
-    "Een sterk actief BAS en een laag MAO-niveau",
-    "Een sterk actief BIS en een laag MAO-niveau",
-    "Een sterk actief BAS en een hoog MAO-niveau"
-   ],
-   "a": 1,
-   "u": "Gevoeligheid voor beloning en toenaderingsgedrag hoort bij het BAS van Gray, dat als versneller werkt en impulsiviteit produceert; het BIS reageert net op straf en onzekerheid en produceert angst. Sensatiezucht, het opzoeken van spanning en risico om verveling tegen te gaan, werd door Zuckerman gelinkt aan lage MAO-niveaus."
-  },
-  {
-   "h": "h5",
-   "q": "Welke stellingen over mechanismen in de evolutionaire benadering zijn FOUT? Duid alle foute stellingen aan.",
-   "o": [
-    "Seksuele selectie kan eigenschappen verklaren die voortplantingswaarde hebben, ook als ze de overleving niet dienen",
-    "Bij frequentie-afhankelijke selectie is een strategie succesvoller naarmate ze vaker voorkomt in de populatie",
-    "Differentiële genreproductie, het vaker doorgeven van genen die tot overleven en voortplanten leiden, is het basismechanisme van evolutie",
-    "In de Big Five als adaptief landschap hebben zowel hoge als lage scores op een trek voor- en nadelen",
-    "Een nevenproduct is een kenmerk dat specifiek geëvolueerd is als oplossing voor een eigen adaptief probleem"
-   ],
-   "a": [
-    1,
-    4
-   ],
-   "kies": "fout",
-   "u": "Bij frequentie-afhankelijke selectie heeft een eigenschap net enkel waarde als ze in beperkte mate voorkomt, zodat zeldzame strategieën succesvoller zijn dan frequente. Een nevenproduct is een toevallig effect van een adaptatie dat niet voor dat doel geëvolueerd is, zoals de neus die een bril draagt; de andere drie stellingen kloppen."
-  },
-  {
-   "h": "h6",
-   "q": "Een grootmoeder van 70 en haar kleinzoon van 25 maken dezelfde intelligentietest. Welk patroon verwacht je op basis van de leerstof over gekristalliseerde en vloeiende intelligentie en het Flynn-effect het meest?",
-   "o": [
-    "De grootmoeder scoort hoger op verbanden zien zonder voorkennis, de kleinzoon hoger op woordenschat",
-    "Er is geen verschil, want gekristalliseerde en vloeiende intelligentie blijven levenslang even stabiel",
-    "De grootmoeder scoort hoger op woordenschat, de kleinzoon hoger op verbanden zien zonder voorkennis",
-    "De kleinzoon scoort op beide hoger, want het Flynn-effect betreft vooral gekristalliseerde kennis"
-   ],
-   "a": 2,
-   "u": "Gekristalliseerde intelligentie, zoals woordenschat, neemt toe tijdens de levensloop, terwijl vloeiende intelligentie afneemt met de leeftijd. Het Flynn-effect versterkt dat laatste nog, want de stijging van generatie op generatie zit vooral in vloeiende intelligentie."
-  },
-  {
-   "h": "h7",
-   "q": "Twee personen ervaren ongeveer dezelfde verhouding van positieve tot negatieve emoties. Bij de eerste zijn die emoties telkens zeer sterk en wisselt de stemming vaak, bij de tweede zijn ze eerder mild en stabiel. Hoe beschrijf je dit verschil, en welk trekprofiel past bij de eerste persoon?",
-   "o": [
-    "Een verschil in emotionele inhoud; de eerste scoort wellicht hoog op extraversie en laag op neuroticisme",
-    "Een verschil in hedonistische balans; de eerste scoort wellicht hoog op neuroticisme en laag op extraversie",
-    "Een verschil in emotionele stijl; de eerste scoort wellicht laag op zowel extraversie als neuroticisme",
-    "Een verschil in emotionele stijl; de eerste scoort wellicht hoog op zowel extraversie als neuroticisme"
-   ],
-   "a": 3,
-   "u": "Inhoud gaat over welke emoties iemand ervaart, stijl over hoe iemand ze ervaart, namelijk met welke intensiteit en variabiliteit. Omdat de verhouding positief/negatief gelijk is, zit het verschil in de stijl, en affectieve intensiteit hangt samen met hoge E, hoge N en meer stemmingsvariabiliteit."
-  },
-  {
-   "h": "h8",
-   "q": "Onderzoek toont dat mensen uit heel verschillende culturen dezelfde basisemoties in gezichtsuitdrukkingen herkennen, terwijl ze woede in het openbaar niet even vrij tonen. Hoe verklaar je deze twee vaststellingen samen het best?",
-   "o": [
-    "De herkenning wijst op overgedragen cultuur, het verschil in tonen op universele adaptieve functies",
-    "De herkenning wijst op universele emoties, het verschil in tonen op cultureel bepaalde display rules",
-    "De herkenning wijst op cultureel bepaalde display rules, het verschil in tonen op universele emoties",
-    "De herkenning wijst op self-enhancement, het verschil in tonen op acculturatie aan een nieuwe cultuur"
-   ],
-   "a": 1,
-   "u": "Emoties worden via het gezicht op een universele manier uitgedrukt en herkend omdat hun adaptieve functies universeel zijn, zoals het onderzoek van Ekman toonde. Display rules zijn cultureel bepaalde regels die voorschrijven hoe emoties zoals woede mogen worden geuit, en verklaren dus de verschillen in tonen."
-  },
-  {
-   "h": "h9",
-   "q": "Een onderzoeker vraagt mannen en vrouwen wat hen het meest zou kwetsen: een partner die seks heeft met iemand anders, of een partner die emotioneel gehecht raakt aan iemand anders. Welke combinatie van verwachting en verklaring past bij de evolutionaire theorie van Buss?",
-   "o": [
-    "Mannen vooral seksueel jaloers door onzekerheid over vaderschap, vrouwen vooral emotioneel jaloers door het belang van een investerende partner",
-    "Mannen vooral emotioneel jaloers door het belang van een investerende partner, vrouwen vooral seksueel jaloers door onzekerheid over vaderschap",
-    "Mannen vooral seksueel jaloers doordat jongens anders bekrachtigd worden, vrouwen vooral emotioneel jaloers door hun zorgende rollen",
-    "Geen verschil tussen mannen en vrouwen, omdat jaloezie geen domein is waarop beide seksen andere adaptieve problemen tegenkomen"
-   ],
-   "a": 0,
-   "u": "Buss verwacht geslachtsverschillen enkel op domeinen met andere adaptieve problemen, en jaloezie is zo'n domein: mannen zijn vooral seksueel jaloers door onzekerheid over het vaderschap, vrouwen vooral emotioneel jaloers door het belang van een investerende partner. Bekrachtiging en zorgende rollen zijn verklaringen uit de socialisatietheorie en de sociale roltheorie, niet uit de evolutionaire theorie."
-  },
-  {
-   "h": "h10",
-   "q": "Een heel sociale student (1) kiest bewust een studentenjob in een druk café, (2) krijgt van collega's spontaan meer uitnodigingen voor feestjes, en (3) probeert met veel charme zijn vrienden over te halen om mee naar een fuif te gaan. Welke koppeling aan de mechanismen tussen persoonlijkheid en sociale omgeving klopt?",
-   "o": [
-    "(1) selectie, (2) manipulatie, (3) evocatie",
-    "(1) evocatie, (2) selectie, (3) manipulatie",
-    "(1) selectie, (2) evocatie, (3) manipulatie",
-    "(1) manipulatie, (2) evocatie, (3) selectie"
-   ],
-   "a": 2,
-   "u": "Bij selectie zoek je op basis van je persoonlijkheid bepaalde situaties op, zoals de job in het café. Evocatie betekent dat je persoonlijkheid reacties bij anderen uitlokt, zoals de uitnodigingen, en manipulatie is het intentioneel beïnvloeden van het gedrag van anderen, zoals vrienden overhalen."
-  }
- ]
+ "hardPerHoofdstuk": {
+  "h1": 1,
+  "h2": 1,
+  "h3": 1,
+  "h4": 1,
+  "h5": 1,
+  "h6": 1,
+  "h7": 1,
+  "h8": 1,
+  "h9": 1,
+  "h10": 1
+ }
 };

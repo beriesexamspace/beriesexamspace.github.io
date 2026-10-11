@@ -1232,126 +1232,16 @@ window.BES_VAK = {
    ]
   }
  ],
- "hardVragen": [
-  {
-   "h": "h2",
-   "q": "Een onderzoeker registreert bij elke deelnemer (a) de reactietijd in seconden, (b) de lichaamstemperatuur in graden Celsius en (c) de behaalde plaats in een wedstrijd. Welk meetniveau hoort respectievelijk bij (a), (b) en (c)?",
-   "o": [
-    "Interval, ratio en ordinaal",
-    "Ratio, interval en nominaal",
-    "Ratio, interval en ordinaal",
-    "Ratio, ratio en ordinaal"
-   ],
-   "a": 2,
-   "u": "Reactietijd heeft een absoluut nulpunt (0 seconden betekent afwezigheid) en is dus ratio; 0°C is een relatief, arbitrair nulpunt, dus temperatuur in Celsius is interval. Een plaats in een wedstrijd geeft enkel een rangorde zonder informatie over de grootte van de verschillen, dus ordinaal."
-  },
-  {
-   "h": "h3",
-   "q": "Voor een testscore rapporteert een onderzoeker een gemiddelde van 42 en een mediaan van 48. De Pearson-correlatie tussen die testscore en een tweede variabele is r = -0,30. Welke interpretatie is juist?",
-   "o": [
-    "Negatief scheve verdeling en een negatief verband van gemiddelde sterkte",
-    "Positief scheve verdeling en een negatief verband van gemiddelde sterkte",
-    "Negatief scheve verdeling en een zwak verband, omdat r kleiner is dan nul",
-    "Positief scheve verdeling en een sterk negatief verband volgens de vuistregels"
-   ],
-   "a": 0,
-   "u": "Het gemiddelde ligt onder de mediaan (x̄ < x̃), dus de verdeling is negatief scheef. Het teken van r geeft de richting (negatief) en de absolute waarde de sterkte: |r| = 0,30 geldt volgens de vuistregels als een gemiddeld verband."
-  },
-  {
-   "h": "h4",
-   "q": "Een student behaalt op een test een z-score van 1,5. Welke combinatie van T-score en uitspraak over percentiele rangen is juist?",
-   "o": [
-    "T = 65, en percentiele rangen respecteren de afstanden tussen scores",
-    "T = 51,5, en van percentiele rangen mag je geen gemiddelde nemen",
-    "T = 51,5, en percentiele rangen respecteren de afstanden tussen scores",
-    "T = 65, en van percentiele rangen mag je geen gemiddelde nemen"
-   ],
-   "a": 3,
-   "u": "T = 10 × z + 50 = 10 × 1,5 + 50 = 65; 51,5 krijg je als je vergeet met 10 te vermenigvuldigen. Percentiele rangen zijn onafhankelijk van de steekproefgrootte, maar blijven ordinaal: er zijn geen gelijke afstanden tussen de scores en je mag er geen gemiddelde van nemen."
-  },
-  {
-   "h": "h5",
-   "q": "Een test heeft een standaarddeviatie van 10 en een betrouwbaarheid Rxx = 0,75. Welke uitspraak is juist?",
-   "o": [
-    "De standaardmeetfout is 2,5 en 75% van de geobserveerde variantie is true score variantie",
-    "De standaardmeetfout is 5 en 75% van de geobserveerde variantie is true score variantie",
-    "De standaardmeetfout is 5 en 25% van de geobserveerde variantie is true score variantie",
-    "De standaardmeetfout is 2,5 en 25% van de geobserveerde variantie is true score variantie"
-   ],
-   "a": 1,
-   "u": "se = sx · √(1 - Rxx) = 10 · √0,25 = 10 · 0,5 = 5; 2,5 krijg je als je de vierkantswortel vergeet. Rxx geeft aan welk percentage van de variantie in geobserveerde scores toe te schrijven is aan true score variantie, hier dus 75%; de overige 25% is foutvariantie."
-  },
-  {
-   "h": "h6",
-   "q": "Een onderzoeker wil de interne consistentie schatten van een test met enkel juist/fout-items. Uit factoranalyse blijkt dat de items duidelijk verschillende factorladingen hebben. Welke keuze is volgens de leerstof het best te verdedigen?",
-   "o": [
-    "KR20, omdat die speciaal ontwikkeld is voor testen met dichotome items",
-    "Ruwe Cronbachs alpha, omdat die de meest gebruikte item-level methode is",
-    "Omega, omdat die op factoranalyse steunt en geen tau-equivalentie vereist",
-    "Split-half, omdat die het probleem van een subjectieve itemverdeling vermijdt"
-   ],
-   "a": 2,
-   "u": "Verschillende factorladingen betekenen dat niet aan tau-equivalentie voldaan is. KR20 is mathematisch equivalent aan ruwe Cronbachs alpha en veronderstelt dus net als alpha tau-equivalentie, terwijl omega (gebaseerd op factoranalyse) dat niet vereist. Split-half heeft net het probleem van een subjectieve verdeling van de items."
-  },
-  {
-   "h": "h7",
-   "q": "Onderzoekers nemen een nieuwe angstschaal af. Een groep waarvan men theoretisch meer angst verwacht, scoort zoals voorspeld hoger dan een controlegroep. Op hetzelfde moment correleert de nieuwe schaal sterk met een bestaande angstvragenlijst. Welke vormen van validiteitsbewijs leveren ze zo?",
-   "o": [
-    "Known-groups validiteit en predictieve validiteit",
-    "Discriminante validiteit en convergente validiteit",
-    "Discriminante validiteit en predictieve validiteit",
-    "Known-groups validiteit en convergente validiteit"
-   ],
-   "a": 3,
-   "u": "Een verschil tussen groepen zoals theoretisch verwacht is bewijs voor known-groups validiteit. Een sterke correlatie met een test die hetzelfde construct meet is convergente validiteit; omdat beide op hetzelfde moment gemeten worden, gaat het om concurrente en niet om predictieve validiteit. Discriminante validiteit gaat net over het ontbreken van een verband waar geen verband verwacht wordt."
-  },
-  {
-   "h": "h8",
-   "q": "In een MTMM-studie worden extraversie en neuroticisme elk gemeten via zelfrapportage en via partnerbeoordeling. Bij welke correlatie verwacht men volgens het typische MTMM-patroon de zwakste waarde?",
-   "o": [
-    "Extraversie (zelfrapportage) met extraversie (partnerbeoordeling)",
-    "Extraversie (zelfrapportage) met neuroticisme (partnerbeoordeling)",
-    "Extraversie (zelfrapportage) met neuroticisme (zelfrapportage)",
-    "Neuroticisme (partnerbeoordeling) met extraversie (partnerbeoordeling)"
-   ],
-   "a": 1,
-   "u": "Het verwachte patroon is monotrait-monomethode > monotrait-heteromethode > heterotrait-monomethode > heterotrait-heteromethode. Extraversie via zelfrapportage met neuroticisme via partnerbeoordeling verschilt zowel in construct als in methode (heterotrait-heteromethode), dus daar verwacht men de zwakste correlatie."
-  },
-  {
-   "h": "h9",
-   "q": "Welke stelling over responsbias is FOUT?",
-   "o": [
-    "Een responsstijl treedt enkel op in een specifieke context en verdwijnt daarbuiten",
-    "Een gebalanceerde schaal met reverse-scoring vermindert effecten van acquiescence bias",
-    "Zowel sociale wenselijkheid als malingering kunnen tot overschatte verbanden leiden",
-    "De longstringindex spoort achteloos antwoordgedrag op via invariabiliteit van antwoorden"
-   ],
-   "a": 0,
-   "u": "Deze stelling beschrijft een responsset, die door een specifieke context uitgelokt wordt; een responsstijl is net consistent aanwezig, ongeacht de context. De andere drie stellingen kloppen volgens de leerstof."
-  },
-  {
-   "h": "h11",
-   "q": "Bij twee juist/fout-items kruisen de Item Characteristic Curves elkaar, en bij een zeer lage vaardigheid ligt de kans op een correct antwoord duidelijk boven 0. Welk IRT-model past het best bij dit patroon?",
-   "o": [
-    "Het 3PL-model, want naast discriminatie speelt ook de gokkans mee",
-    "Het 1PL-model, want de curves verschillen enkel in moeilijkheid",
-    "Het 2PL-model, want enkel het discriminerend vermogen verschilt",
-    "Het graded response model, want er zijn meerdere drempelparameters"
-   ],
-   "a": 0,
-   "u": "Kruisende curves wijzen op verschillend discriminerend vermogen (1PL-curves lopen altijd parallel). Curves die hoger starten door gokkans vragen daarnaast de parameter c van het 3PL-model; het graded response model is bedoeld voor polytome items, niet voor juist/fout-items."
-  },
-  {
-   "h": "h12",
-   "q": "Volgens de referentietest hebben 100 van de 1000 personen het kenmerk. Van die 100 personen testen er 80 positief op een nieuwe test; van de 900 personen zonder het kenmerk testen er 90 positief. Welke uitspraak is juist?",
-   "o": [
-    "Sensitiviteit 0,80, specificiteit 0,90 en PPV ongeveer 0,98",
-    "Sensitiviteit 0,90, specificiteit 0,80 en PPV ongeveer 0,47",
-    "Sensitiviteit 0,90, specificiteit 0,80 en PPV ongeveer 0,98",
-    "Sensitiviteit 0,80, specificiteit 0,90 en PPV ongeveer 0,47"
-   ],
-   "a": 3,
-   "u": "TP = 80, FN = 20, FP = 90 en TN = 810, dus sensitiviteit = 80/100 = 0,80 en specificiteit = 810/900 = 0,90. PPV = TP/(TP+FP) = 80/170 ≈ 0,47; de waarde 0,98 is de NPV (810/830). Omdat de PPV afhangt van de prevalentie (hier 10%), is minder dan de helft van de positieve resultaten terecht, ondanks goede sensitiviteit en specificiteit."
-  }
- ]
+ "hardPerHoofdstuk": {
+  "h2": 1,
+  "h3": 1,
+  "h4": 1,
+  "h5": 1,
+  "h6": 1,
+  "h7": 1,
+  "h8": 1,
+  "h9": 1,
+  "h11": 1,
+  "h12": 1
+ }
 };

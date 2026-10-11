@@ -1529,131 +1529,16 @@ window.BES_VAK = {
    ]
   }
  ],
- "hardVragen": [
-  {
-   "h": "h1",
-   "q": "Welke stellingen over kwalitatief en kwantitatief onderzoek zijn FOUT?",
-   "o": [
-    "Volgens het kwantitatief imperatief gelden methodes die niet meten als pre-wetenschappelijk.",
-    "Een idiografische benadering zoekt algemene, wetgevende regels die voor iedereen gelden.",
-    "Kwalitatief onderzoek verwerpt het idee dat enkel meetbare, universele wetten wetenschappelijk zijn.",
-    "Kwantitatief onderzoek ontdekt theorie en concepten, kwalitatief onderzoek confirmeert theorie.",
-    "Saturatie wordt in homogene groepen sneller bereikt dan in heterogene groepen."
-   ],
-   "a": [
-    1,
-    3
-   ],
-   "kies": "fout",
-   "u": "Algemene, wetgevende regels zoeken is nomothetisch en hoort bij de kwantitatieve pool, terwijl idiografisch zich op het individu als individu richt. Daarnaast is de rolverdeling omgekeerd: kwalitatief onderzoek ontdekt theorie en concepten, kwantitatief onderzoek confirmeert theorie."
-  },
-  {
-   "h": "h2",
-   "q": "Een onderzoekster wil daklozen interviewen en verkennen wat hen bezighoudt. Ze wil zelf geen onderwerpen vastleggen en laat de deelnemers bepalen waarover het gesprek gaat. Welke combinatie van interviewvorm en rekrutering sluit het best aan bij de leerstof?",
-   "o": [
-    "Een gestructureerd interview via CATI, met deelnemers uit een aselecte steekproef",
-    "Een semigestructureerd interview met vooraf vastgelegde vragen, via snowballsampling",
-    "Een ongestructureerd interview, met deelnemers die via andere deelnemers gevonden worden",
-    "Een gestructureerd interview met gesloten vragen, via snowballsampling bij stakeholders"
-   ],
-   "a": 2,
-   "u": "Wanneer de geïnterviewde zelf het gespreksonderwerp bepaalt, zoals in het voorbeeld van daklozen, gaat het om een ongestructureerd interview. Omdat random selectie zeldzaam is, worden geschikte deelnemers vaak via snowballsampling gevonden, dus via andere deelnemers of stakeholders."
-  },
-  {
-   "h": "h3",
-   "q": "Een onderzoeker wil een wijkgemeenschap bestuderen die afgesloten is voor buitenstaanders en enkel toegankelijk is via toelating. Hij vertelt de leden eerlijk dat hij onderzoek doet. Welke typering past bij deze situatie?",
-   "o": [
-    "Een coverte rol in een open context, waarbij een gatekeeper hem toegang verschaft",
-    "Een overte rol in een open context, waarbij purposive sampling de toegang regelt",
-    "Een coverte rol in een gesloten context, waarbij een gatekeeper hem toegang verschaft",
-    "Een overte rol in een gesloten context, waarbij een gatekeeper hem toegang verschaft"
-   ],
-   "a": 3,
-   "u": "Wie zijn rol als onderzoeker bekendmaakt, neemt een overte rol aan, en een setting die enkel via toelating toegankelijk is, is een gesloten context. Toegang tot zo'n gemeenschap kan verlopen via een gatekeeper, een sleutelpersoon die de onderzoeker toegang verschaft, zoals in de studie Street Corner Society."
-  },
-  {
-   "h": "h4",
-   "q": "Een onderzoeker wil via focusgroepen de ervaringen met de zorg voor kankerpatiënten bevragen bij patiënten, familieleden en artsen. Welke aanpak sluit het best aan bij de leerstof?",
-   "o": [
-    "Een single category design waarin de drie groepen samen zitten, zodat saturatie sneller volgt",
-    "Een multiple-categorie design met aparte groepen per categorie, zodat deelnemers dezelfde status hebben",
-    "Een multiple-categorie design met gemengde groepen, waarin een arts de discussie modereert",
-    "Eén gemengde groep met random geselecteerde deelnemers, zodat de resultaten veralgemeenbaar zijn"
-   ],
-   "a": 1,
-   "u": "Bij een multiple-categorie design organiseer je aparte groepen per categorie, met kankerpatiënten, familieleden en artsen als voorbeeld uit de leerstof. Dat sluit aan bij het principe dat deelnemers best dezelfde status hebben, zodat een veilige sfeer ontstaat."
-  },
-  {
-   "h": "h5",
-   "q": "Een onderzoeker wil nagaan hoe een respondent zachter en op een lagere toon begint te spreken wanneer een pijnlijk onderwerp ter sprake komt. Hij heeft het interview echter enkel verbatim uitgetypt. Welke uitspraak klopt?",
-   "o": [
-    "Het paralinguïstische taalgebruik gaat verloren; een Jefferson-transcriptie legt zulke details wel vast",
-    "Het proxemische taalgebruik gaat verloren; een Jefferson-transcriptie legt zulke details wel vast",
-    "Het kinesische taalgebruik gaat verloren; member checking kan dit achteraf volledig herstellen",
-    "Er gaat niets verloren, want een verbatim transcriptie legt ook volume en toonhoogte volledig vast"
-   ],
-   "a": 0,
-   "u": "Volume en toonhoogte vallen onder paralinguïstisch taalgebruik, en een verbatim transcriptie baseert zich enkel op het gesproken woord. De Jefferson-methode legt net de details van de interactie en alle non-verbale geluiden vast om te onderzoeken hoe iets gezegd wordt."
-  },
-  {
-   "h": "h6",
-   "q": "Tijdens de analyse merkt een grounded theory-onderzoeker dat een categorie nog onvoldoende uitgewerkt is. Hij keert terug naar het veld, zoekt gericht enkele nieuwe deelnemers die precies over dat aspect kunnen vertellen en analyseert daarna opnieuw. Welke principes zie je hier samen aan het werk?",
-   "o": [
-    "Member validation en het tellen van woorden om de categorie verder af te bakenen",
-    "Deductief hypothesetesten met een vooraf vastgelegde, grote aselecte steekproef",
-    "Saturatie en datareductie, waarbij codes die niet correleren uit de analyse vallen",
-    "Theoretische sampling en constante vergelijking, heen en weer tussen data en analyse"
-   ],
-   "a": 3,
-   "u": "Bij theoretische sampling bepaalt de zich ontwikkelende theorie met een kleine, gerichte n welke data in de volgende fase verzameld worden. Het heen en weer bewegen tussen data en analyse is de constante vergelijking; saturatie is hier nog niet bereikt, want de categorie levert nog nieuwe informatie op."
-  },
-  {
-   "h": "h7",
-   "q": "Twee onderzoekers analyseren dezelfde gesprekken over drugsbeleid. De eerste bestudeert hoe een spreker door te wisselen tussen 'ik' en 'wij' verantwoordelijkheid verschuift. De tweede bestudeert hoe het discours beleid legitimeert en mensen positioneert als burger, gebruiker, dealer of agent. Welke typering klopt?",
-   "o": [
-    "De eerste werkt Foucauldiaans op macroniveau, de tweede sociaal constructionistisch op microniveau",
-    "Beide werken Foucauldiaans, want in beide analyses draait het om macht en verantwoordelijkheid",
-    "De eerste werkt sociaal constructionistisch op microniveau, de tweede Foucauldiaans op macroniveau",
-    "Beide werken sociaal constructionistisch, want beide beperken zich tot de losse woorden in de tekst"
-   ],
-   "a": 2,
-   "u": "Footing, het verschuiven tussen ik, we, ons en zij, is een kernconcept van de sociaal constructionistische discoursanalyse van Potter & Wetherell, die op microniveau dicht bij het materiaal werkt. De war on drugs die beleid legitimeert en individuen positioneert is een Foucauldiaans voorbeeld van een politieke macro-analyse in termen van macht."
-  },
-  {
-   "h": "h8",
-   "q": "Welke stelling over klassieke fenomenologie en IPA is FOUT?",
-   "o": [
-    "Bracketing en epoché horen bij de beschrijvende fenomenologie, die ervaringen beschrijft in plaats van ze te verklaren",
-    "IPA werkt deductief: de onderzoeker is de expert die de ervaring van de deelnemer verklaart vanuit theorie",
-    "Bij dubbele hermeneutiek interpreteert de onderzoeker de interpretatie die de deelnemer van zijn ervaring maakt",
-    "De interpretatieve fenomenologie van Heidegger, binnen een specifieke context, geldt als voorloper van IPA"
-   ],
-   "a": 1,
-   "u": "IPA volgt een inductieve benadering van data naar interpretatie, waarbij de deelnemers experts zijn over hun eigen ervaringen. De andere stellingen kloppen: bracketing en epoché horen bij de beschrijvende fenomenologie, dubbele hermeneutiek is een kernbegrip van IPA en Heidegger geldt als voorloper van IPA."
-  },
-  {
-   "h": "h9",
-   "q": "Een onderzoeker heeft opnames van natuurlijke telefoongesprekken en wil nagaan hoe beide sprekers samen een misverstand rechtzetten. Een collega wil bij andere deelnemers levensverhalen afnemen om te zien hoe zij hun identiteit construeren. Welke combinatie van methodes past het best?",
-   "o": [
-    "De eerste doet narratieve analyse op zoek naar emplotment, de tweede conversatie-analyse van wendingen",
-    "De eerste doet conversatie-analyse met Jefferson-transcriptie, de tweede narratieve analyse via McAdams",
-    "De eerste doet conversatie-analyse naar diepere motieven, de tweede narratieve analyse met gesloten vragen",
-    "Beiden doen conversatie-analyse, want ook een levensverhaal-interview geldt als natuurlijke conversatie"
-   ],
-   "a": 1,
-   "u": "Conversatie-analyse bestudeert natuurlijke conversaties zoals telefoongesprekken, met aandacht voor problemen en probleemhantering, en gebruikt bij voorkeur de Jefferson-methode. Wie wil weten hoe mensen via hun verhaal identiteit construeren, kiest voor narratieve analyse, bijvoorbeeld met de McAdams-leidraad."
-  },
-  {
-   "h": "h10",
-   "q": "Een onderzoeker neemt, gespreid over enkele maanden, drie narratieve interviews af bij dezelfde deelnemers, zonder dat het opzet van de studie substantieel wijzigt. Hij kent de identiteit van de deelnemers en past strikt databeheer toe. Welke combinatie van begrippen past bij deze situatie?",
-   "o": [
-    "Proces consent bij de vervolginterviews, en confidentialiteit omdat de identiteit gekend is",
-    "Implied consent bij de vervolginterviews, en anonimiteit omdat de gegevens strikt beheerd worden",
-    "Proces consent bij de vervolginterviews, en anonimiteit omdat de deelnemers gekend zijn",
-    "Implied consent bij elk interview, en confidentialiteit omdat de identiteit gekend is"
-   ],
-   "a": 0,
-   "u": "Bij meerdere narratieve interviews zonder substantiële wijzigingen raadpleeg je de informed consent opnieuw, wat proces consent heet. Omdat de onderzoeker de identiteit kent en strikt databeheer toepast, gaat het om confidentialiteit en niet om anonimiteit; implied consent hoort bijvoorbeeld bij het invullen van een vragenlijst."
-  }
- ]
+ "hardPerHoofdstuk": {
+  "h1": 1,
+  "h2": 1,
+  "h3": 1,
+  "h4": 1,
+  "h5": 1,
+  "h6": 1,
+  "h7": 1,
+  "h8": 1,
+  "h9": 1,
+  "h10": 1
+ }
 };

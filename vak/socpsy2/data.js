@@ -1091,119 +1091,13 @@ window.BES_VAK = {
    ]
   }
  ],
- "hardVragen": [
-  {
-   "h": "h1",
-   "q": "Welke stellingen over evolutionaire verklaringen van sociaal gedrag zijn volgens de leerstof FOUT? Duid alle foute stellingen aan.",
-   "o": [
-    "Fitness is het aantal nakomelingen uit je eigen genen, vergeleken met anderen in je omgeving",
-    "Reciproque altruïsme werkt het best in anonieme groepen waar niemand de ander onthoudt",
-    "Bij groepselectie bepaalt het sociale klimaat van een groep mee hoe goed die presteert",
-    "Vrouwen zijn vooral jaloers op seksueel overspel, mannen vooral op emotioneel overspel",
-    "Mannen vertonen een grotere variatie in reproductief succes en zoeken meerdere partners"
-   ],
-   "a": [
-    1,
-    3
-   ],
-   "kies": "fout",
-   "u": "Reciproque altruïsme veronderstelt net dat je bijhoudt wat iemand eerder deed, zodat je dat later kunt compenseren met een wederdienst; in een anonieme groep waar niemand de ander onthoudt, lukt dat niet. Bij jaloezie is het omgekeerd: vrouwen zijn jaloers op emotioneel overspel, mannen op seksueel overspel."
-  },
-  {
-   "h": "h2",
-   "q": "Welke koppeling tussen hersengebied en functie is volgens de leerstof FOUT?",
-   "o": [
-    "De FFA staat in voor het herkennen van de gezichten van andere mensen",
-    "De pSTS herkent biologische bewegingen, zoals een blik die iets aanwijst",
-    "De premotorische cortex zet doelen om in stabiele persoonlijkheidstrekken",
-    "De precuneus is betrokken bij de sociale context van een gebeurtenis"
-   ],
-   "a": 2,
-   "u": "De premotorische cortex (PMC) herkent de doelen achter een beweging. Het omzetten van doelen in persoonlijkheidstrekken is volgens de leerstof de taak van de mPFC."
-  },
-  {
-   "h": "h3",
-   "q": "Na een reorganisatie vinden werknemers dat de bonussen op zich eerlijk verdeeld zijn, maar ze zijn boos omdat niemand hen vooraf naar hun mening vroeg. Welke vorm van rechtvaardigheid staat hier volgens de leerstof onder druk?",
-   "o": [
-    "Distributieve rechtvaardigheid, want de norm van gelijkheid werd niet gevolgd",
-    "Distributieve rechtvaardigheid, want de bonus hield geen rekening met noodzaak",
-    "Procedurele rechtvaardigheid, want de beloning volgde niet de geleverde prestatie",
-    "Procedurele rechtvaardigheid, want inspraak in het beslissingsproces ontbrak"
-   ],
-   "a": 3,
-   "u": "Procedurele rechtvaardigheid gaat niet over de beloningen zelf maar over de eerlijkheid van het beslissingsproces, waarbij mensen vooral inspraak willen. Gelijkheid, billijkheid en noodzaak zijn normen van distributieve rechtvaardigheid: die gaan over de verdeling van de beloningen zelf, en die verdeling vonden de werknemers net eerlijk."
-  },
-  {
-   "h": "h4",
-   "q": "Een jeugdtrainer raadt een woedende speler aan om na de wedstrijd flink op een boksbal te slaan, zodat de opgekropte woede eruit kan. Hoe beoordeelt de leerstof dit advies?",
-   "o": [
-    "Zinvol, want zo komt opgehoopte energie vrij zoals het stoommachinemodel stelt",
-    "Zinvol, want afreageren is een vaste fase in woedebeheersing (anger management)",
-    "Contraproductief, want bij catharsis wordt agressieve inhoud net toegankelijker",
-    "Contraproductief, want enkel mensen met weinig empathie reageren zich zo af"
-   ],
-   "a": 2,
-   "u": "Dit is catharsis: je agressie afreageren op iets anders. Volgens de leerstof werkt dat contraproductief, omdat agressieve inhoud er net toegankelijker door wordt, en het stoommachinemodel dat zo'n ontlading voorspelt heeft geen empirische evidentie."
-  },
-  {
-   "h": "h4",
-   "q": "Welke koppeling tussen een verklaring van agressie en haar kernidee is volgens de leerstof FOUT?",
-   "o": [
-    "Sociale informatieverwerking: opgehoopte energie komt vrij door externe signalen",
-    "Miller: frustratie kan tot agressie leiden, en angst voor straf remt die af",
-    "Zillman: overgebleven arousal wordt verkeerd toegeschreven en versterkt agressie",
-    "Berkowitz: associaties met vroegere gebeurtenissen bepalen of je angst of woede voelt"
-   ],
-   "a": 0,
-   "u": "Het idee dat opgehoopte interne energie door externe signalen wordt vrijgelaten, is het stoommachinemodel uit de ethologie. Sociale informatieverwerkingsmodellen verklaren agressie net via aangeleerde scripts over wat de gepaste norm is."
-  },
-  {
-   "h": "h5",
-   "q": "Iemand ziet op het perron een man in elkaar zakken en beseft meteen dat het om een noodsituatie gaat. Toch denkt hij: 'Er staan hier zoveel mensen, iemand anders belt wel.' Bij welke stap van het procesmodel van Latane en Darley loopt het mis, en welk begrip past daarbij?",
-   "o": [
-    "Stap 3, verantwoordelijkheid nemen, door diffusie van verantwoordelijkheid",
-    "Stap 2, de noodsituatie herkennen, door pluralistische onwetendheid",
-    "Stap 4, de middelen kennen om te helpen, door inhibitie door publiek",
-    "Stap 1, bewustzijn van wat er gebeurt, door een gebrek aan we-ness"
-   ],
-   "a": 0,
-   "u": "De man merkt het voorval op en herkent de noodsituatie wel, maar voelt zich niet persoonlijk aangesproken omdat de verantwoordelijkheid over veel omstaanders verdeeld lijkt. Dat is diffusie van verantwoordelijkheid, en die blokkeert stap 3: persoonlijke verantwoordelijkheid nemen."
-  },
-  {
-   "h": "h6",
-   "q": "In een relatie doet partner A bijna al het huishouden en de planning, terwijl partner B vooral van de voordelen geniet zonder veel bij te dragen. Wat voorspelt de billijkheidstheorie voor beide partners?",
-   "o": [
-    "A voelt zich vooral schuldig, B voelt zich vooral gefrustreerd",
-    "A voelt zich vooral gefrustreerd, B voelt zich vooral schuldig",
-    "Beiden blijven tevreden zolang de baten voor B hoog genoeg blijven",
-    "A voelt zich vooral gefrustreerd, B voelt zich net erg tevreden"
-   ],
-   "a": 1,
-   "u": "Volgens de billijkheidstheorie werkt een relatie best bij een goede balans tussen kosten en baten. De benadeelde partner (A) voelt zich gefrustreerd, terwijl de bevoordeelde partner (B) zich net schuldig voelt."
-  },
-  {
-   "h": "h6",
-   "q": "Het brugexperiment van Dutton en Aron wordt verklaard door arousal misattributie. Bij welke emotietheorie uit het hoofdstuk over emoties sluit die verklaring het best aan?",
-   "o": [
-    "James-Lange, want elke emotie heeft een eigen specifieke fysiologische respons",
-    "Facial feedback, want de gezichtsuitdrukking versterkt het gevoel van aantrekking",
-    "Lazarus, want de primaire beoordeling van de brug was aangenaam en niet bedreigend",
-    "Schachter-Singer, want algemene arousal krijgt een verkeerde cognitieve interpretatie"
-   ],
-   "a": 3,
-   "u": "Volgens Schachter-Singer ontstaat een emotie uit algemene arousal plus een cognitieve interpretatie; klopt de link tussen die twee niet, dan krijg je misattributie. De opwinding door de enge brug werd zo ten onrechte als romantische aantrekking geïnterpreteerd."
-  },
-  {
-   "h": "h7",
-   "q": "Wat onderscheidt de James-Lange theorie het duidelijkst van de Schachter-Singer theorie?",
-   "o": [
-    "James-Lange gaat uit van algemene arousal plus een cognitieve interpretatie, Schachter-Singer van een specifieke lichaamsrespons per emotie",
-    "James-Lange laat de emotie voorafgaan aan de lichaamsrespons, Schachter-Singer laat de lichaamsrespons voorafgaan aan de emotie",
-    "James-Lange gaat uit van een specifieke lichaamsrespons per emotie, Schachter-Singer van algemene arousal plus een cognitieve interpretatie",
-    "James-Lange geeft cognitie de hoofdrol bij het ontstaan van emotie, Schachter-Singer laat cognitie volledig buiten beschouwing"
-   ],
-   "a": 2,
-   "u": "Bij James-Lange lokt een gebeurtenis eerst een specifieke fysiologische respons van het autonome zenuwstelsel uit, waaruit de emotie volgt. Bij Schachter-Singer ontstaat de emotie uit algemene arousal plus een cognitieve interpretatie van de situatie."
-  }
- ]
+ "hardPerHoofdstuk": {
+  "h1": 1,
+  "h2": 1,
+  "h3": 1,
+  "h4": 2,
+  "h5": 1,
+  "h6": 2,
+  "h7": 1
+ }
 };
