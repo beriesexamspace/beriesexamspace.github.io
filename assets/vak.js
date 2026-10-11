@@ -328,7 +328,7 @@
 
     function chooseMode(value) {
       // Free met de simulaties van vandaag al gedaan: rustige melding, Training blijft gekozen.
-      if (value === 'simulatie' && simulatieOp()) { toonSimSlot(); return; }
+      if (value === 'simulatie' && simulatieOp()) { toonSimSlot(true); return; }
       if (byId('sim-slot')) byId('sim-slot').hidden = true;
       setMode(value);
       revealStep(showLevelStep ? 'niveau' : 'tijd');
@@ -340,7 +340,8 @@
     const simVandaag = () => simTeller.dag === vandaag() && simTeller.eigenaar === eigenaarNu() ? simTeller.aantal : 0;
     const simulatieOp = () => planBekend && accountPlan === 'free' && simVandaag() >= FREE_SIMULATIES_PER_DAG;
 
-    function toonSimSlot() {
+    // popup: true als de bezoeker zelf een simulatie wilde starten; dan komt ook de pop-up Kies je plan (app.js).
+    function toonSimSlot(popup = false) {
       let melding = byId('sim-slot');
       if (!melding) {
         melding = create('p', 'vak-hint plus-slot sim-slot');
@@ -348,10 +349,14 @@
         melding.setAttribute('role', 'status');
         byId('modus-keuzes').after(melding);
       }
-      const link = create('a', '', 'oefen onbeperkt met Plus');
+      const reden = `Je ${FREE_SIMULATIES_PER_DAG} simulaties van vandaag voor dit vak heb je gedaan. Met Plus of Pro oefen je onbeperkt.`;
+      const link = create('a', '', 'oefen onbeperkt met Plus of Pro');
       link.href = '../../abonnement.html';
+      link.dataset.kiesPlan = 'plus';
+      link.dataset.reden = reden;
       melding.replaceChildren(`Je ${FREE_SIMULATIES_PER_DAG} simulaties van vandaag voor dit vak heb je gedaan. Morgen kan je weer, of `, link, '.');
       melding.hidden = false;
+      if (popup) BES.kiesPlan?.({ nodig: 'plus', reden });
       return melding;
     }
 
@@ -417,7 +422,7 @@
       markeerSimulatie();
     }
 
-    // Melding onder de keuze als iemand zonder Plus Hard mode of Met tijd kiest, met een link naar Abonnement.
+    // Melding onder de keuze als iemand zonder Plus Hard mode of Met tijd kiest, en de pop-up Kies je plan (app.js).
     function toonPlusSlot(stap) {
       const plek = byId(stap === 'niveau' ? 'niveau-uitleg' : 'tijd-keuzes');
       if (!plek) return;
@@ -428,9 +433,13 @@
         melding.setAttribute('role', 'status');
         plek.after(melding);
       }
-      const link = create('a', '', 'Probeer Plus een maand');
+      const reden = stap === 'niveau' ? 'Hard mode zit in Plus en Pro.' : 'Oefenen met tijd zit in Plus en Pro.';
+      const link = create('a', '', 'Bekijk de abonnementen');
       link.href = '../../abonnement.html';
-      melding.replaceChildren(stap === 'niveau' ? 'Hard mode zit in Plus. ' : 'Oefenen met tijd zit in Plus. ', link, '.');
+      link.dataset.kiesPlan = 'plus';
+      link.dataset.reden = reden;
+      melding.replaceChildren(reden + ' ', link, '.');
+      BES.kiesPlan?.({ nodig: 'plus', reden });
     }
 
     function markeerPlus() {
@@ -911,9 +920,10 @@
       if (runMode === 'simulatie' && simulatieOp()) {
         if (screen !== 'keuzes') { session = null; showScreen('keuzes'); }
         if (mode === 'simulatie') setMode('training');
-        toonSimSlot();
+        const melding = toonSimSlot();
         byId('modus-keuzes').querySelector('[data-modus="training"]')?.focus({ preventScroll: !reducedMotion.matches });
         scrollNaar(byId('stap-modus'));
+        BES.kiesPlan?.({ nodig: 'plus', reden: melding.querySelector('a')?.dataset.reden });
         return;
       }
       if (context.owner) {
@@ -1423,6 +1433,8 @@
         const tekst = create('p', 'kaart-sub', 'Met Pro zie je hier de hacks en kernpunten van je zwakste hoofdstukken in dit vak, zodat je weet waar je het meest wint. ');
         const link = create('a', 'tekstlink', 'Probeer Pro een maand');
         link.href = '../../abonnement.html';
+        link.dataset.kiesPlan = 'pro';
+        link.dataset.reden = 'De hacks voor je zwakste hoofdstukken zitten in Pro.';
         tekst.append(link);
         blok.append(tekst);
         return;
@@ -1472,9 +1484,13 @@
 
     async function maakEzelsbrug(chapter, knop, uitkomst) {
       if (accountPlan !== 'pro') {
+        const reden = 'Ezelsbruggetjes van Comit zitten in Pro.';
         const link = create('a', 'tekstlink', 'Probeer Pro een maand');
         link.href = '../../abonnement.html';
-        uitkomst.replaceChildren('Ezelsbruggetjes van Comit zitten in Pro. ', link);
+        link.dataset.kiesPlan = 'pro';
+        link.dataset.reden = reden;
+        uitkomst.replaceChildren(reden + ' ', link);
+        BES.kiesPlan?.({ nodig: 'pro', reden });
         return;
       }
       const client = BES.auth?.client;
@@ -1577,10 +1593,14 @@
       try {
         const plan = BES.plan ? await BES.plan().catch(() => null) : null;
         if (plan?.plan !== 'pro') {
+          const reden = 'Met Pro legt Comit uit waarom jouw antwoord niet klopt.';
           const link = create('a', 'tekstlink', 'Probeer Pro een maand');
           link.href = '../../abonnement.html';
+          link.dataset.kiesPlan = 'pro';
+          link.dataset.reden = reden;
           uitkomst.classList.add('is-slot');
-          uitkomst.replaceChildren('Met Pro legt Comit uit waarom jouw antwoord niet klopt. ', link);
+          uitkomst.replaceChildren(reden + ' ', link);
+          BES.kiesPlan?.({ nodig: 'pro', reden });
           return;
         }
         uitkomst.classList.remove('is-slot');
@@ -1621,7 +1641,7 @@
       if (!klaarScript) {
         klaarScript = new Promise((klaar, mislukt) => {
           const script = document.createElement('script');
-          script.src = new URL('klaarmeter.js?v=81', scriptBron).href;
+          script.src = new URL('klaarmeter.js?v=82', scriptBron).href;
           script.onload = () => (typeof BES.klaarMeter === 'function' ? klaar() : mislukt());
           script.onerror = () => { klaarScript = null; mislukt(); };
           document.head.append(script);
@@ -1658,6 +1678,8 @@
         const tekst = create('p', 'klaar-slot-tekst', 'Zie hoe klaar je bent voor dit vak, van 0 tot 100. ');
         const link = create('a', 'tekstlink', 'Probeer Pro een maand');
         link.href = '../../abonnement.html';
+        link.dataset.kiesPlan = 'pro';
+        link.dataset.reden = 'De Klaar-meter zit in Pro: zie hoe klaar je bent voor dit vak, van 0 tot 100.';
         tekst.append(link);
         kaart.replaceChildren(kop, tekst);
         return;

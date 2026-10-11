@@ -55,6 +55,79 @@
     jaarOphalen: window.jaarOphalen
   });
 
+  // Kies je plan: pop-up met Plus en Pro naast elkaar, zodra iemand iets kiest dat niet in zijn plan zit.
+  // BES.kiesPlan({ nodig: 'plus' | 'pro', reden }) opent hem; een link met data-kies-plan (en data-reden) ook.
+  // De knoppen gaan naar Abonnement, want daar staat het vinkje "Laat mijn plan meteen starten".
+  const abonnementUrl = (() => {
+    try { return new URL('../abonnement.html', document.currentScript.src).href; } catch { return 'abonnement.html'; }
+  })();
+  const PLANNEN = [
+    { id: 'plus', naam: 'Plus', prijs: '2,99 euro per maand', punten: ['Hard mode op examenniveau', 'Tijdklok bij simulaties', 'Foutenlijst en fouten opnieuw oefenen', 'Weekoverzicht met verbeterpunten', 'Onbeperkt simulaties'] },
+    { id: 'pro', naam: 'Pro', prijs: '9,99 euro per maand', label: 'Meest compleet', punten: ['Alles van Plus', 'Klaar-meter per vak', 'Examenplan in je agenda', 'Comit legt je fouten uit', 'Ezelsbruggetjes voor je zwakke hoofdstukken'] }
+  ];
+  let kiesPlanVenster = null;
+  const maak = (tag, klasse, tekst) => {
+    const el = document.createElement(tag);
+    if (klasse) el.className = klasse;
+    if (tekst) el.textContent = tekst;
+    return el;
+  };
+  const bouwKiesPlan = () => {
+    const venster = maak('dialog', 'kies-plan');
+    venster.setAttribute('aria-labelledby', 'kies-plan-kop');
+    const kop = maak('h2', '', 'Kies je plan');
+    kop.id = 'kies-plan-kop';
+    const reden = maak('p', 'kies-plan-reden');
+    const keuzes = maak('div', 'kies-plan-keuzes');
+    PLANNEN.forEach(plan => {
+      const kaart = maak('section', 'kies-plan-kaart is-' + plan.id);
+      kaart.dataset.plan = plan.id;
+      kaart.setAttribute('aria-labelledby', 'kies-plan-' + plan.id);
+      const kaartKop = maak('div', 'kies-plan-kaart-kop');
+      const naam = maak('h3', 'kies-plan-naam', plan.naam);
+      naam.id = 'kies-plan-' + plan.id;
+      kaartKop.append(naam);
+      if (plan.label) kaartKop.append(maak('span', 'label', plan.label));
+      const lijst = maak('ul', 'kies-plan-lijst');
+      plan.punten.forEach(punt => lijst.append(maak('li', '', punt)));
+      const zonder = maak('p', 'kies-plan-zonder', 'Zonder dit onderdeel');
+      zonder.hidden = true;
+      const knop = maak('a', plan.id === 'pro' ? 'knop' : 'knop-secundair', 'Kies ' + plan.naam);
+      knop.href = abonnementUrl + '#plan-' + plan.id;
+      kaart.append(kaartKop, maak('p', 'kies-plan-prijs', plan.prijs), lijst, zonder, knop);
+      keuzes.append(kaart);
+    });
+    const voet = maak('div', 'kies-plan-voet');
+    const later = maak('button', 'kies-plan-later', 'Misschien later');
+    later.type = 'button';
+    later.addEventListener('click', () => venster.close());
+    voet.append(maak('p', 'kies-plan-proef', 'Elk plan probeer je eerst een maand.'), later);
+    venster.append(kop, reden, keuzes, voet);
+    // Klik naast het venster sluit het.
+    venster.addEventListener('click', event => { if (event.target === venster) venster.close(); });
+    document.body.append(venster);
+    return venster;
+  };
+  window.BES.kiesPlan = ({ nodig = 'plus', reden = '' } = {}) => {
+    if (typeof HTMLDialogElement !== 'function') { window.location.href = abonnementUrl; return; }
+    if (!kiesPlanVenster) kiesPlanVenster = bouwKiesPlan();
+    if (kiesPlanVenster.open) return;
+    kiesPlanVenster.querySelector('.kies-plan-reden').textContent = reden || 'Dit zit niet in Free. Kies het plan dat bij je past.';
+    kiesPlanVenster.querySelectorAll('.kies-plan-kaart').forEach(kaart => {
+      const mist = nodig === 'pro' && kaart.dataset.plan === 'plus';
+      kaart.classList.toggle('is-zonder', mist);
+      kaart.querySelector('.kies-plan-zonder').hidden = !mist;
+    });
+    kiesPlanVenster.showModal();
+    kiesPlanVenster.querySelector('.kies-plan-kaart.is-' + (nodig === 'pro' ? 'pro' : 'plus') + ' a').focus({ preventScroll: true });
+  };
+  document.addEventListener('click', event => {
+    const link = event.target.closest && event.target.closest('a[data-kies-plan]');
+    if (!link || typeof HTMLDialogElement !== 'function') return;
+    event.preventDefault();
+    window.BES.kiesPlan({ nodig: link.dataset.kiesPlan, reden: link.dataset.reden });
+  });
+
   const systemTheme = window.matchMedia('(prefers-color-scheme: dark)');
   const validTheme = value => value === 'licht' || value === 'donker';
   const storedTheme = () => {
