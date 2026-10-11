@@ -94,10 +94,18 @@
     };
     if (raw.vragen.some(invalidQuestion)) return null;
     const hardQuestions = Array.isArray(raw.hardVragen) && !raw.hardVragen.some(invalidQuestion) ? raw.hardVragen : [];
+    // Hard mode-vragen staan in Supabase (supabase/hard-vragen.sql); data.js heeft alleen hardPerHoofdstuk.
+    // Tot ze voor Plus of Pro geladen zijn, staan er plaatshouders per hoofdstuk, zodat keuzes en aantallen kloppen.
+    const placeholders = !hardQuestions.length && raw.hardPerHoofdstuk && typeof raw.hardPerHoofdstuk === 'object'
+      ? Object.entries(raw.hardPerHoofdstuk)
+        .filter(([chapter, count]) => chapters.has(chapter) && Number.isInteger(count) && count > 0 && count <= 500)
+        .flatMap(([chapter, count]) => Array.from({ length: count }, () => ({ h: chapter, q: '', o: [], a: 0, u: '', plaatshouder: true })))
+      : [];
     return {
       ...raw,
+      vraagOngeldig: invalidQuestion,
       vragen: raw.vragen.map((question, id) => ({ ...question, id })),
-      hardVragen: hardQuestions.map((question, id) => ({ ...question, id: `hard:${id}` })),
+      hardVragen: (hardQuestions.length ? hardQuestions : placeholders).map((question, id) => ({ ...question, id: `hard:${id}` })),
       hacks: (Array.isArray(raw.hacks) ? raw.hacks : []).filter(item => item && (item.h === 'algemeen' || chapters.has(item.h)) && typeof item.t === 'string'),
       theorie: (Array.isArray(raw.theorie) ? raw.theorie : []).filter(item => item && (item.h === 'algemeen' || chapters.has(item.h)) && typeof item.kop === 'string' && Array.isArray(item.items) && item.items.every(point => typeof point === 'string'))
     };
@@ -420,6 +428,38 @@
       planBekend = Boolean(plan);
       markeerPlus();
       markeerSimulatie();
+      if (plusOk) laadHardVragen();
+    }
+
+    // Hard mode-vragen uit Supabase (alleen Plus en Pro, de database controleert dat). Elke plaatshouder krijgt de
+    // vraag van hetzelfde hoofdstuk op dezelfde plek, zodat lijsten die al gemaakt zijn meteen de echte vragen tonen.
+    let hardBelofte = null;
+    const hardGeladen = () => !data.hardVragen.some(question => question.plaatshouder);
+    function laadHardVragen() {
+      if (hardGeladen()) return Promise.resolve(true);
+      if (hardBelofte) return hardBelofte;
+      const client = BES.auth?.client;
+      if (!client) return Promise.resolve(false);
+      hardBelofte = Promise.resolve(client.rpc('hard_vragen_voor', { p_vak: data.id })).then(({ data: lijst, error }) => {
+        if (error || !Array.isArray(lijst) || lijst.some(data.vraagOngeldig)) return false;
+        const perHoofdstuk = new Map();
+        lijst.forEach(question => {
+          if (!perHoofdstuk.has(question.h)) perHoofdstuk.set(question.h, []);
+          perHoofdstuk.get(question.h).push(question);
+        });
+        data.hardVragen.forEach(plek => {
+          const echt = plek.plaatshouder && perHoofdstuk.get(plek.h)?.shift();
+          if (!echt) return;
+          delete plek.plaatshouder;
+          Object.assign(plek, echt, { id: plek.id });
+        });
+        toonFoutenKnop();
+        return hardGeladen();
+      }, () => false).then(gelukt => {
+        if (!gelukt) hardBelofte = null;
+        return gelukt;
+      });
+      return hardBelofte;
     }
 
     // Melding onder de keuze als iemand zonder Plus Hard mode of Met tijd kiest, en de pop-up Kies je plan (app.js).
@@ -506,6 +546,9 @@
         const url = new URL(window.location.href);
         url.searchParams.delete('fouten');
         window.history.replaceState(window.history.state, '', url);
+        // Fouten in Hard mode herken je pas aan de echte vraagtekst.
+        await laadHardVragen();
+        if (screen !== 'keuzes' || context?.owner !== owner) return;
         if (!foutVragen().length && hasLevels && data.hardVragen.some(question => openFouten.has(vraagSleutel(question)))) setLevel(level === 'hard' ? 'normaal' : 'hard');
         const lijst = foutVragen();
         if (lijst.length) { setMode('training'); start(shuffle(lijst), 'training', level, 0); }
@@ -916,6 +959,16 @@
 
     function start(questions, runMode = mode, runLevel = level, runSeconds = timed ? secondsPerQuestion : 0) {
       if (!questions.length || !context.authReady || runLevel !== level) return;
+      // Hard mode: eerst de echte vragen uit Supabase; lukt dat niet (geen Plus of Pro, of geen verbinding), dan niet starten.
+      if (questions.some(question => question.plaatshouder)) {
+        const uitleg = byId('niveau-uitleg');
+        laadHardVragen().then(() => {
+          const echte = questions.filter(question => !question.plaatshouder);
+          if (echte.length) { start(echte, runMode, runLevel, runSeconds); return; }
+          if (uitleg) uitleg.textContent = plusOk ? 'Hard mode laden lukte niet. Probeer het zo opnieuw.' : 'Hard mode zit in Plus en Pro.';
+        });
+        return;
+      }
       // Free: geen tweede simulatie vandaag voor dit vak. Terug naar de keuzes met de melding bij de modus.
       if (runMode === 'simulatie' && simulatieOp()) {
         if (screen !== 'keuzes') { session = null; showScreen('keuzes'); }
@@ -1641,7 +1694,7 @@
       if (!klaarScript) {
         klaarScript = new Promise((klaar, mislukt) => {
           const script = document.createElement('script');
-          script.src = new URL('klaarmeter.js?v=82', scriptBron).href;
+          script.src = new URL('klaarmeter.js?v=83', scriptBron).href;
           script.onload = () => (typeof BES.klaarMeter === 'function' ? klaar() : mislukt());
           script.onerror = () => { klaarScript = null; mislukt(); };
           document.head.append(script);

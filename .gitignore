@@ -1,1 +1,4 @@
 .claude/
+
+# Hard mode-vragen: alleen lokaal, nooit in de openbare repo (zie supabase/hard-vragen.sql)
+supabase/hard-vragen-data.sql

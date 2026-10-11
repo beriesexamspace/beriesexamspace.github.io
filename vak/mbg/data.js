@@ -16756,131 +16756,16 @@ window.BES_VAK = {
    ]
   }
  ],
- "hardVragen": [
-  {
-   "h": "h1",
-   "q": "Na een maaltijd wordt zetmeel in de darm afgebroken tot glucose, en de lever slaat een deel van die glucose op als glycogeen. Welke combinatie van reacties hoort bij deze twee stappen?",
-   "o": [
-    "Zetmeel afbreken via dehydratatiesynthese, glycogeen opbouwen via hydrolyse",
-    "Zetmeel afbreken via hydrolyse, glycogeen opbouwen via dehydratatiesynthese",
-    "Zetmeel afbreken en glycogeen opbouwen gebeuren allebei via hydrolyse",
-    "Zetmeel afbreken en glycogeen opbouwen gebeuren allebei via dehydratatiesynthese"
-   ],
-   "a": 1,
-   "u": "Hydrolyse voegt water toe en breekt macromoleculen af, zoals zetmeel tot glucose. Dehydratatiesynthese splitst water af en bouwt macromoleculen op, zoals glycogeen uit glucose."
-  },
-  {
-   "h": "h2",
-   "q": "Welke stelling over transport door het celmembraan is FOUT?",
-   "o": [
-    "Glucose komt de cel binnen via kanaaleiwitten, zonder dat dit ATP kost",
-    "De natrium-kaliumpomp werkt tegen de gradiënt in en verbruikt ATP",
-    "Exocytose is passief transport, omdat er geen gradiënt overwonnen wordt",
-    "Water gaat via aquaporines door het membraan, zonder energieverbruik"
-   ],
-   "a": 2,
-   "u": "Endo- en exocytose kosten energie, net als actief transport via de natrium-kaliumpomp. Gefaciliteerde diffusie van glucose via kanaaleiwitten en osmose van water via aquaporines zijn passief en kosten geen ATP."
-  },
-  {
-   "h": "h3",
-   "q": "Welke TWEE stellingen over weefsels en membranen zijn FOUT?",
-   "o": [
-    "Bot en bloed worden allebei tot het gespecialiseerde bindweefsel gerekend",
-    "Het basaalmembraan onder het epitheel bestaat uit een laag levende cellen",
-    "De fibroblast is de meest voorkomende levende cel in de dermis",
-    "De huid bestaat uit eenlagig plaveiselepitheel, zodat stoffen vlot passeren",
-    "Bekercellen in het epitheel scheiden slijm af dat mucine bevat"
-   ],
-   "a": [
-    1,
-    3
-   ],
-   "kies": "fout",
-   "u": "Het basaalmembraan bestaat niet uit cellen, en de huid is gestratificeerd (meerlagig) plaveiselepitheel. De andere stellingen kloppen: bot en bloed zijn gespecialiseerd bindweefsel, fibroblasten domineren de dermis en bekercellen maken mucine."
-  },
-  {
-   "h": "h4",
-   "q": "Iemand breekt zijn scheenbeen. Welke beschrijving van het verdere herstel van de botbreuk klopt?",
-   "o": [
-    "Na het hematoom vormt zich meteen een benige callus, die osteoclasten nadien omzetten in kraakbeen",
-    "Na het hematoom breken osteoblasten het beschadigde bot af, waarna osteoclasten nieuw bot afzetten",
-    "Na het hematoom volgt meteen de remodeling door osteoblasten, zonder tussenstap van een callus",
-    "Na het hematoom ontstaat een fibrocartilagineuze callus, waarna osteoblasten een benige callus vormen"
-   ],
-   "a": 3,
-   "u": "Het herstel verloopt van hematoom naar fibrocartilagineuze callus, dan een benige callus door osteoblasten en tot slot remodeling door osteoclasten. Osteoblasten bouwen bot op en osteoclasten breken het af, niet omgekeerd."
-  },
-  {
-   "h": "h5",
-   "q": "Botulinetoxine en myasthenia gravis verstoren allebei de werking van acetylcholine (ACh) op de skeletspier. Welke vergelijking klopt?",
-   "o": [
-    "Botulinetoxine remt de afgifte van ACh; bij myasthenia gravis valt het immuunsysteem de ACh-receptoren aan",
-    "Botulinetoxine blokkeert de ACh-receptoren; bij myasthenia gravis geeft het motorneuron te weinig ACh af",
-    "Botulinetoxine belet dat calcium aan troponine bindt; myasthenia gravis breekt de myosinekoppen af",
-    "Beide zijn auto-immuunziekten waarbij het eigen afweersysteem het motorneuron zelf vernietigt"
-   ],
-   "a": 0,
-   "u": "Botulinetoxine remt de afgifte van ACh door het motorneuron, waardoor de spier niet samentrekt. Myasthenia gravis is een auto-immuunziekte die zich richt tegen de ACh-receptoren op de spier."
-  },
-  {
-   "h": "h7",
-   "q": "Een rode bloedcel wordt in de longcapillairen met zuurstof beladen. Welke weg volgt ze daarna tot in de aorta?",
-   "o": [
-    "Longslagader → rechter atrium → AV-klep → rechter ventrikel → semilunaire klep → aorta",
-    "Longader → rechter atrium → semilunaire klep → linker ventrikel → AV-klep → aorta",
-    "Longader → linker atrium → AV-klep → linker ventrikel → semilunaire klep → aorta",
-    "Longader → linker ventrikel → AV-klep → linker atrium → semilunaire klep → aorta"
-   ],
-   "a": 2,
-   "u": "Longaders brengen zuurstofrijk bloed naar het linker atrium; via de AV-klep gaat het naar de linker ventrikel, die het via de semilunaire klep in de aorta pompt. Longslagaders voeren juist zuurstofarm bloed naar de longen."
-  },
-  {
-   "h": "h8",
-   "q": "Baby A krijgt via colostrum antilichamen van de moeder. Kind B krijgt een vaccin. Welke vergelijking klopt?",
-   "o": [
-    "A krijgt actieve immuniteit met blijvend geheugen; B krijgt kant-en-klare antilichamen die snel werken",
-    "A en B krijgen allebei passieve immuniteit, want de bescherming komt telkens van buiten het lichaam",
-    "A en B krijgen allebei actieve immuniteit, want beide kinderen maken zelf geheugencellen aan",
-    "A is passief beschermd, direct maar kortdurend; B maakt zelf antistoffen aan en bouwt geheugen op"
-   ],
-   "a": 3,
-   "u": "Antilichamen via colostrum of borstvoeding zijn kant-en-klaar: passieve immunisatie met directe maar kortdurende bescherming. Een vaccin is actieve immunisatie: het lichaam maakt zelf antistoffen en geheugencellen."
-  },
-  {
-   "h": "h10",
-   "q": "De bijnier bestaat uit een cortex en een merg. Welke vergelijking van beide delen klopt?",
-   "o": [
-    "De cortex maakt adrenaline onder invloed van ACTH; het merg maakt cortisol, gestuurd door het sympathisch zenuwstelsel",
-    "De cortex maakt cortisol onder invloed van ACTH; het merg maakt adrenaline, gestuurd door het sympathisch zenuwstelsel",
-    "Cortex en merg worden allebei via de hypofysevoorkwab aangestuurd, en het merg maakt daarnaast ook renine",
-    "De cortex maakt peptidehormonen zoals adrenaline; het merg maakt steroïden onder invloed van TSH uit de hypofyse"
-   ],
-   "a": 1,
-   "u": "De bijniercortex maakt steroïden zoals cortisol en aldosteron en krijgt ACTH van de hypofysevoorkwab. Het bijniermerg maakt adrenaline en noradrenaline en wordt niet door de hypofyse maar door het sympathisch zenuwstelsel aangestuurd; renine komt uit de nieren."
-  },
-  {
-   "h": "h12",
-   "q": "Bij een gezonde persoon bevat de urine normaal geen eiwit en geen glucose. Welke verklaring klopt voor beide stoffen?",
-   "o": [
-    "Grote eiwitten worden niet gefilterd; glucose wordt wel gefilterd maar volledig gereabsorbeerd",
-    "Eiwit en glucose zijn allebei te groot om in de glomerulus in het filtraat terecht te komen",
-    "Glucose wordt niet gefilterd; grote eiwitten worden wel gefilterd maar volledig gereabsorbeerd",
-    "Eiwit en glucose worden allebei gefilterd, maar daarna in de tubulus allebei volledig gereabsorbeerd"
-   ],
-   "a": 0,
-   "u": "Het glomerulaire filtraat bevat water en kleine opgeloste stoffen, maar geen grote eiwitten; daarom zit er normaal geen eiwit in de urine. Glucose passeert de filter wel, maar wordt tijdens de tubulaire reabsorptie volledig teruggenomen."
-  },
-  {
-   "h": "h16",
-   "q": "Twee gezonde ouders zijn allebei drager (Aa) van mucoviscidose, een autosomaal recessieve aandoening. Hoe groot is voor elk kind de kans dat het ziek is, en de kans dat het drager is?",
-   "o": [
-    "25% kans op ziek en 25% kans op drager",
-    "25% kans op ziek en 50% kans op drager",
-    "50% kans op ziek en 25% kans op drager",
-    "0% kans op ziek en 100% kans op drager"
-   ],
-   "a": 1,
-   "u": "In het Punnett-vierkant van Aa × Aa ontstaan AA, Aa, Aa en aa. Alleen aa (1 op 4 = 25%) is ziek, omdat een recessief kenmerk pas homozygoot zichtbaar wordt; Aa (2 op 4 = 50%) is drager."
-  }
- ]
+ "hardPerHoofdstuk": {
+  "h1": 1,
+  "h2": 1,
+  "h3": 1,
+  "h4": 1,
+  "h5": 1,
+  "h7": 1,
+  "h8": 1,
+  "h10": 1,
+  "h12": 1,
+  "h16": 1
+ }
 };

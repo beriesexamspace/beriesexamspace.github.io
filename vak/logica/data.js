@@ -628,128 +628,13 @@ window.BES_VAK = {
    "u": "Het sterk programma verwerpt de oude taakverdeling: niet alleen de context maar ook de inhoud van wetenschappelijke kennis wordt onderwerp van sociologische analyse, en die kennis is geen uitzondering op andere groepsfenomenen."
   }
  ],
- "hardVragen": [
-  {
-   "h": "h1",
-   "q": "Een onderzoeker veralgemeent waarnemingen tot een wet en leidt daaruit een voorspelling af; welke combinatie beschrijft de zekerheid van deze twee stappen?",
-   "o": [
-    "De veralgemening is deductief zeker; de voorspelling blijft onzeker doordat zij een nieuw geval betreft.",
-    "De veralgemening is inductief zeker; de voorspelling is deductief onzeker zolang zij niet geobserveerd is.",
-    "De veralgemening is inductief onzeker; de voorspelling volgt noodzakelijk als wet en afleiding correct zijn.",
-    "De veralgemening is deductief onzeker; de voorspelling wordt inductief zeker zodra de wet aanvaard wordt."
-   ],
-   "a": 2,
-   "u": "Inductie gaat verder dan de onderzochte gevallen en kan ondanks correcte premissen een foute conclusie opleveren. Een deductief afgeleide voorspelling volgt noodzakelijk wanneer de premissen waar zijn en de afleidingsregels aanvaard worden."
-  },
-  {
-   "h": "h1",
-   "q": "Een onderzoeker wil elke theoretische uitspraak afzonderlijk aan een waarneming koppelen; welke kritiek volgt uit het betekenisholisme op deze aanpak?",
-   "o": [
-    "De empirische betekenis hangt samen met de hele theorie en laat zich niet tot zo'n losse koppeling beperken.",
-    "De empirische betekenis ontstaat pas wanneer dezelfde uitspraak zonder theoretische achtergrond wordt herhaald.",
-    "De empirische betekenis ligt in één object vast en wordt door correspondentieregels volledig daarvan afgelezen.",
-    "De empirische betekenis volgt uit bronnenkritiek en maakt verbanden met andere theoretische uitspraken overbodig."
-   ],
-   "a": 0,
-   "u": "Betekenisholisme spreidt de empirische inhoud en betekenis van een uitspraak over de theorie waarvan zij deel uitmaakt. Het betwist dus een eenvoudige een-op-eenkoppeling tussen een afzonderlijke uitspraak en een object of waarneming."
-  },
-  {
-   "h": "h2",
-   "q": "Een hypothese is zelf niet rechtstreeks verifieerbaar, maar er volgt een verifieerbare voorspelling uit die nog niet is onderzocht; wat verandert als die voorspelling werkelijk wordt waargenomen?",
-   "o": [
-    "De hypothese gaat van geconfirmeerd naar verifieerbaar, omdat afleidbaarheid al voldoende was voor confirmatie.",
-    "De hypothese gaat van niet-wetenschappelijk naar deductief bewezen, omdat haar voorspelling nu waar blijkt.",
-    "De hypothese gaat van verifieerbaar naar confirmeerbaar, omdat waarneming haar rechtstreekse toetsbaarheid vervangt.",
-    "De hypothese gaat van confirmeerbaar naar geconfirmeerd, omdat het afgeleide verifieerbare feit nu is waargenomen."
-   ],
-   "a": 3,
-   "u": "Volgens het H-D model maakt de afleidbaarheid van een verifieerbaar feit een hypothese confirmeerbaar. Pas wanneer dat feit ook echt wordt waargenomen, is de hypothese geconfirmeerd."
-  },
-  {
-   "h": "h2",
-   "q": "Vóór 1 januari 2050 worden alleen groene smaragden onderzocht; waarom beslist deze waarneming volgens de groen-grauw paradox niet tussen \"alle smaragden zijn groen\" en \"alle smaragden zijn grauw\"?",
-   "o": [
-    "Beide hypothesen voorspellen na die datum dezelfde kleur, zodat een keuze pas via bronnenkritiek mogelijk wordt.",
-    "Beide hypothesen passen bij deze waarneming, terwijl het predicaat grauw na die datum naar blauw verwijst.",
-    "Alleen de groene hypothese is confirmeerbaar, terwijl de grauwe hypothese geen verifieerbare gevolgen heeft.",
-    "Alleen de grauwe hypothese is geconfirmeerd, omdat zij een toekomstig tijdstip in haar omschrijving opneemt."
-   ],
-   "a": 1,
-   "u": "Grauw betekent hier groen vóór 1 januari 2050 en blauw daarna. De huidige groene smaragden passen dus bij beide hypothesen, ook al verschillen hun voorspellingen voor later."
-  },
-  {
-   "h": "h3",
-   "q": "Een gewaagde hypothese doorstaat een serieuze weerleggingspoging, terwijl een andere hypothese elke mogelijke uitkomst toelaat; welke beoordeling past bij de falsificatieleer?",
-   "o": [
-    "De eerste is gecorroboreerd zonder bewezen te zijn; de tweede mist falsifieerbaarheid doordat zij niets uitsluit.",
-    "De eerste is geverifieerd door het geslaagde experiment; de tweede is gecorroboreerd doordat zij alles verklaart.",
-    "De eerste is niet-wetenschappelijk door haar risico; de tweede is wetenschappelijk door haar brede verklaringskracht.",
-    "De eerste is door inductie gerechtvaardigd; de tweede heeft meer verisimilitude doordat zij geen tegenvoorbeelden toelaat."
-   ],
-   "a": 0,
-   "u": "Een mislukte serieuze weerlegging geeft corroboratie, dus voorlopige steun en geen definitief bewijs. Een hypothese die iedere uitkomst toelaat, kan niet weerlegd worden en voldoet niet aan het demarcatiecriterium."
-  },
-  {
-   "h": "h3",
-   "q": "Een voorspelling volgt uit een hypothese samen met achtergrondaannames en het experimentele opzet, maar de voorspelling komt niet uit; welk probleem verhindert een onmiddellijke verwerping van uitsluitend de hypothese?",
-   "o": [
-    "Het inductieprobleem, want een mislukte voorspelling kan alleen via meer bevestigende waarnemingen beoordeeld worden.",
-    "Het demarcatieprobleem, want een hypothese die een onjuiste voorspelling oplevert was vooraf niet falsifieerbaar.",
-    "Het achtergrondprobleem, want ook andere theorieonderdelen of het experimentele opzet kunnen ter discussie staan.",
-    "Het corroboratieprobleem, want een mislukte voorspelling versterkt de hypothese zolang haar achtergrond aanvaard wordt."
-   ],
-   "a": 2,
-   "u": "Bij het achtergrondprobleem is onduidelijk of de hypothese, een ander deel van de theorie of het experimentele opzet wordt weerlegd. Dat sluit aan bij betekenisholisme: een hypothese wordt samen met achtergrondaannames getoetst."
-  },
-  {
-   "h": "h4",
-   "q": "Een gemeenschap lost eerst problemen op binnen één standaardtheorie, maar gaat na opeenstapeling van hardnekkige problemen haar basiskader bevragen; welke overgang beschrijft Kuhn hiermee?",
-   "o": [
-    "Van proto-wetenschap naar normale wetenschap, omdat hardnekkige problemen een eerste gedeeld paradigma opleveren.",
-    "Van normale wetenschap naar crisis, omdat aanhoudende anomalieën het vertrouwen in het paradigma aantasten.",
-    "Van crisis naar revolutie, omdat het bevragen van basisaannames al een volledig nieuw paradigma oplevert.",
-    "Van revolutie naar normale wetenschap, omdat anomalieën de onverenigbaarheid van opeenvolgende kaders opheffen."
-   ],
-   "a": 1,
-   "u": "Probleemoplossing binnen een standaardtheorie kenmerkt normale wetenschap. Als anomalieën zich opstapelen en het paradigma zelf ter discussie komt, ontstaat een crisis; daarmee is nog geen nieuw paradigma ingevoerd."
-  },
-  {
-   "h": "h4",
-   "q": "Na een paradigmawisseling worden oude problemen vanuit een wezenlijk ander kader opgelost; welke conclusie verbindt een Gestalt switch correct met incommensurabiliteit?",
-   "o": [
-    "Het nieuwe kader voegt alleen feiten aan het oude toe, waardoor dezelfde normen beide kaders volledig vergelijkbaar maken.",
-    "Het nieuwe kader maakt een vergelijking onmogelijk, waardoor probleemoplossend vermogen geen rol meer kan spelen.",
-    "Het nieuwe kader verandert uitsluitend de waarnemingsprikkels, waardoor begrippen en methodologische keuzes intact blijven.",
-    "Het nieuwe kader verandert hoe de werkelijkheid wordt gezien, zonder dat onverenigbaarheid wetenschap tot willekeur maakt."
-   ],
-   "a": 3,
-   "u": "Een Gestalt switch is een wezenlijk andere kijk op de werkelijkheid die oude problemen oplosbaar kan maken. Incommensurabiliteit betekent dat opeenvolgende kaders essentieel onverenigbaar zijn, maar sluit een rol voor probleemoplossend vermogen niet uit."
-  },
-  {
-   "h": "h5",
-   "q": "Een onderzoeksprogramma beschermt zijn harde kern en past randhypothesen telkens achteraf aan zonder theoretische vooruitgang of empirische groei; welke beoordeling past bij Lakatos?",
-   "o": [
-    "Het is progressief, omdat het beschermen van de harde kern al voldoende theoretische vooruitgang oplevert.",
-    "Het is onmiddellijk verworpen, omdat de eerste aanpassing van de gordel het onderzoeksprogramma beëindigt.",
-    "Het is degeneratief, maar moet over tijd worden beoordeeld omdat falsificatie bij programma's uitgestrekt is.",
-    "Het is niet langer een programma, omdat een beschermende gordel uit onveranderlijke basisovertuigingen bestaat."
-   ],
-   "a": 2,
-   "u": "Een programma dat alleen achteraf gaten dicht zonder vooruitgang is degeneratief. Lakatos beoordeelt ketens van theorieën over tijd en geeft een programma de kans zich te bewijzen, in plaats van het onmiddellijk af te schrijven."
-  },
-  {
-   "h": "h5",
-   "q": "Een socioloog verklaart alleen onjuiste overtuigingen vanuit groepsinvloeden en houdt de inhoud van ware kennis buiten haar analyse; wat zou Bloors sterk programma hieraan veranderen?",
-   "o": [
-    "Ook ware kennis inhoudelijk sociologisch verklaren en ware en valse overtuigingen op dezelfde manier behandelen.",
-    "Alleen de context van ware kennis sociologisch verklaren en haar inhoud als uitzondering op groepsfenomenen behouden.",
-    "Onjuiste overtuigingen niet langer verklaren en de sociologische analyse uitsluitend op ware kennis richten.",
-    "Ware kennis uit de sociologie verwijderen en alle onjuiste overtuigingen op hun rationele structuur beoordelen."
-   ],
-   "a": 0,
-   "u": "Het sterke programma betrekt zowel de context als de inhoud van wetenschappelijke kennis in sociologische analyse. Radicale symmetrie verlangt dat ware en valse overtuigingen op dezelfde manier worden verklaard."
-  }
- ],
+ "hardPerHoofdstuk": {
+  "h1": 2,
+  "h2": 2,
+  "h3": 2,
+  "h4": 2,
+  "h5": 2
+ },
  "hacks": [
   {
    "h": "algemeen",

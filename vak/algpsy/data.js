@@ -1425,131 +1425,16 @@ window.BES_VAK = {
    ]
   }
  ],
- "hardVragen": [
-  {
-   "h": "h1",
-   "q": "Een onderzoeker stelt bij studenten een correlatie van -0,80 vast tussen het aantal uren slaap en het aantal fouten op een aandachtstest. Welke conclusie is correct?",
-   "o": [
-    "Het verband is zwak, want het minteken wijst op een kleine samenhang tussen slaap en fouten",
-    "Meer slaap veroorzaakt minder fouten, want een sterke correlatie toont een oorzaak aan",
-    "Het verband is sterk en negatief, maar een oorzakelijk verband is hiermee niet aangetoond",
-    "Er is geen echt verband, want een negatieve correlatie wijst op een illusoire correlatie"
-   ],
-   "a": 2,
-   "u": "Het teken van een correlatie geeft de richting aan en het getal (0 tot 1) de sterkte, dus -0,80 is een sterk negatief verband: meer slaap gaat samen met minder fouten. Een correlatie bewijst echter geen oorzakelijk verband. Een illusoire correlatie is een verband dat je meent te zien terwijl het er in werkelijkheid niet is; dat heeft niets met het minteken te maken."
-  },
-  {
-   "h": "h2",
-   "q": "Een jongen die te laat thuiskomt, mag een week niet gamen en komt daarna op tijd thuis. Zijn zus ruimt haar kamer op, waarna het aanhoudende gezeur van haar ouders stopt, en ze ruimt voortaan vaker op. Welke benoeming is correct?",
-   "o": [
-    "Jongen: negatieve bekrachtiging; zus: negatieve straf",
-    "Jongen: negatieve straf; zus: negatieve bekrachtiging",
-    "Jongen: positieve straf; zus: positieve bekrachtiging",
-    "Jongen: negatieve straf; zus: positieve bekrachtiging"
-   ],
-   "a": 1,
-   "u": "Bij de jongen wordt een aangename prikkel (gamen) weggenomen en daalt het te laat thuiskomen: dat is negatieve straf. Bij de zus valt een onaangename prikkel (het gezeur) weg en stijgt het opruimen: dat is negatieve bekrachtiging, want bekrachtiging verhoogt gedrag en het minteken betekent wegnemen."
-  },
-  {
-   "h": "h3",
-   "q": "Je hoort 's nachts plots gekraak op de trap en wordt bang. Welke koppeling tussen een emotietheorie en het verloop van je angst is correct?",
-   "o": [
-    "Cannon-Bard: je voelt eerst angst, en die angst doet daarna pas je hart sneller slaan",
-    "Appraisal: je hart slaat eerst sneller, en daarna beoordeel je het gekraak als gevaarlijk",
-    "James-Lange: vanuit de thalamus ontstaan lichaamsreactie en angst tegelijk via twee routes",
-    "James-Lange: je hart slaat eerst sneller, en je brein interpreteert dat daarna als angst"
-   ],
-   "a": 3,
-   "u": "Volgens James-Lange lokt de prikkel eerst een lichamelijke reactie uit, die de hersenen daarna als emotie interpreteren. Cannon-Bard laat lichaamsreactie en emotie tegelijk ontstaan via twee onafhankelijke routes vanuit de thalamus, en bij de appraisal theorie komt de cognitieve beoordeling van de prikkel net eerst."
-  },
-  {
-   "h": "h4",
-   "q": "Welke koppelingen tussen persoonlijkheidsbenadering en kernidee zijn FOUT?",
-   "o": [
-    "Psychoanalyse: fixatie in een psychoseksueel stadium kan een persoonlijkheidstype opleveren",
-    "Humanisme: gezond is een duidelijke kloof tussen het actuele en het ideale zelf",
-    "Behaviorisme: persoonlijkheid is het resultaat van iemands conditioneringsgeschiedenis",
-    "Trekbenadering: je hebt een kenmerk ofwel volledig, ofwel helemaal niet",
-    "Humanisme: zelfactualisatie is het streven om jezelf maximaal te ontplooien"
-   ],
-   "a": [
-    1,
-    3
-   ],
-   "kies": "fout",
-   "u": "In de humanistische visie is congruentie, dus overeenstemming tussen het actuele en het ideale zelf, gezond, en is een kloof (incongruentie) juist ongezond. De trekbenadering is dimensioneel: iedereen heeft meer of minder van dezelfde kenmerken, in plaats van ze volledig wel of niet te hebben."
-  },
-  {
-   "h": "h5",
-   "q": "In de schemering zie je verderop een donkere vorm op de stoep. Omdat je net hoorde dat er een hond los rondloopt, zie je er een hond in; van dichtbij blijkt het een vuilniszak. Welke analyse klopt?",
-   "o": [
-    "De vuilniszak is de distale stimulus, en je verwachting stuurde de waarneming top-down",
-    "De vuilniszak is de proximale stimulus, en je verwachting stuurde de waarneming bottom-up",
-    "Het licht op je retina is de distale stimulus, en je kennis stuurde de waarneming top-down",
-    "Het licht op je retina is de proximale stimulus, en de stimulus stuurde alles bottom-up"
-   ],
-   "a": 0,
-   "u": "De vuilniszak is het voorwerp dat het licht reflecteert, dus de distale stimulus; het licht op je retina is de proximale stimulus. Dat je er een hond in ziet, komt door top-down verwerking: je verwachting stuurt hoe het brein de meest waarschijnlijke distale stimulus reconstrueert, wat hier misloopt."
-  },
-  {
-   "h": "h6",
-   "q": "In twee zoektaken wordt het aantal afleiders verdubbeld. Taak 1: zoek een rode cirkel tussen groene cirkels. Taak 2: zoek een rode cirkel tussen groene cirkels en rode vierkanten. Wat voorspelt de leerstof?",
-   "o": [
-    "Beide taken worden evenveel trager, omdat elk extra item evenveel aandacht vraagt",
-    "Taak 1 wordt trager omdat kleur aandacht vraagt, taak 2 blijft even snel door pop-out",
-    "Taak 1 blijft even snel door pop-out, taak 2 wordt trager omdat ze aandacht vraagt",
-    "Geen van beide verandert, omdat aandacht als lijm alle kenmerken meteen samenbindt"
-   ],
-   "a": 2,
-   "u": "Taak 1 is kenmerkzoeken: één onderscheidend kenmerk (de kleur) springt er automatisch uit en vraagt geen aandacht, los van het aantal afleiders. Taak 2 is conjunctiezoeken (rood en cirkel samen), wat aandacht vraagt en trager wordt naarmate er meer afleiders zijn."
-  },
-  {
-   "h": "h7",
-   "q": "Een EEG toont bij een slaper eerst trage golven met een hoge amplitude. Later volgt verhoogde hersenactiviteit, terwijl de spieren verlamd zijn. Welke interpretatie klopt?",
-   "o": [
-    "Eerst REM-slaap met dromen, daarna diepe slaap met trage deltagolven",
-    "Eerst diepe slaap met deltagolven, daarna REM-slaap met dromen",
-    "Eerst ontspannen waken met alfagolven, daarna diepe slaap met deltagolven",
-    "Eerst diepe slaap met deltagolven, daarna een hypnotische trance"
-   ],
-   "a": 1,
-   "u": "Trage golven met een hoge amplitude zijn deltagolven, typisch voor de diepe slaap. Verhoogde hersenactiviteit samen met spierverlamming kenmerkt de REM-slaap of droomslaap; hypnose vertoont net geen objectieve EEG-tekenen van een trance."
-  },
-  {
-   "h": "h8",
-   "q": "Welke stelling over de geheugensystemen is FOUT?",
-   "o": [
-    "Het iconisch geheugen registreert veel visuele info, die binnen minder dan 500 ms vervaagt",
-    "Het kortetermijngeheugen houdt ongeveer 7 items vast gedurende 20 tot 30 seconden",
-    "Het procedureel geheugen is impliciet en moeilijk in woorden uit te leggen",
-    "Het recency-effect ontstaat doordat de laatste woorden via herhaling in het LTG belanden"
-   ],
-   "a": 3,
-   "u": "Het recency-effect gaat over de laatste woorden van een lijst, die beter onthouden worden omdat ze nog vers in het KTG zitten. Het is het primacy-effect dat de eerste woorden via herhaling in het LTG brengt."
-  },
-  {
-   "h": "h9",
-   "q": "Een kind van 8 jaar presteert op een intelligentietest op het niveau van een gemiddeld kind van 10 jaar. Welke uitspraak over het IQ volgens Stern klopt?",
-   "o": [
-    "Het IQ is 125, en de formule werkt bij kinderen maar loopt mis bij volwassenen",
-    "Het IQ is 80, en de formule werkt bij kinderen maar loopt mis bij volwassenen",
-    "Het IQ is 125, en de formule werkt bij volwassenen maar loopt mis bij kinderen",
-    "Het IQ is 80, en de formule werkt bij volwassenen maar loopt mis bij kinderen"
-   ],
-   "a": 0,
-   "u": "Volgens Stern is het IQ de mentale leeftijd gedeeld door de chronologische leeftijd maal 100, dus 10 / 8 x 100 = 125. Wie 8 / 10 rekent, komt foutief op 80 uit. Volgens de leerstof werkt die formule goed bij kinderen, maar niet bij volwassenen."
-  },
-  {
-   "h": "h10",
-   "q": "Een patiënt met schizofrenie hoort stemmen terwijl niemand spreekt, is ervan overtuigd dat de buren hem bespioneren en toont nauwelijks nog emoties. Hoe deel je deze symptomen correct in?",
-   "o": [
-    "Drie positieve symptomen, want elk van de drie wijkt af van het normale gedrag",
-    "Eén positief symptoom (de waan) en twee negatieve (stemmen en affectvervlakking)",
-    "Twee positieve symptomen (hallucinatie en waan) en één negatief (affectvervlakking)",
-    "Twee negatieve symptomen (hallucinatie en waan) en één positief (affectvervlakking)"
-   ],
-   "a": 2,
-   "u": "Stemmen horen terwijl niemand spreekt is een hallucinatie en overtuigd zijn dat de buren je bespioneren is een waan; volgens de leerstof zijn dat allebei positieve symptomen. Nauwelijks nog emoties tonen is affectvervlakking, en dat hoort bij de negatieve symptomen."
-  }
- ]
+ "hardPerHoofdstuk": {
+  "h1": 1,
+  "h2": 1,
+  "h3": 1,
+  "h4": 1,
+  "h5": 1,
+  "h6": 1,
+  "h7": 1,
+  "h8": 1,
+  "h9": 1,
+  "h10": 1
+ }
 };

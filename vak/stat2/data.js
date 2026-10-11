@@ -3576,128 +3576,18 @@ window.BES_VAK = {
    "u": "De variabele filter_$ zegt alleen wie meedoet en wie niet. Voor het inhoudelijke antwoord vraag je daarna de frequenties van de variabele zelf op."
   }
  ],
- "hardVragen": [
-  {
-   "h": "h1",
-   "q": "Je stelt een batterij van zeven testen samen uit tien, waarvan vier vaste testen verplicht zijn. Daarna leg je ook de volgorde van alle zeven testen vast; welke berekening telt de mogelijke geordende batterijen?",
-   "o": [
-    "C(10,7) maal 7!: kies zeven testen uit alle tien en orden vervolgens die zeven.",
-    "C(6,3) maal 7!: kies drie aanvullende testen uit de overige zes en orden vervolgens alle zeven.",
-    "V(3 uit 6) maal 7!: kies drie aanvullende testen met volgorde en orden vervolgens alle zeven opnieuw.",
-    "C(6,3) maal 3!: kies drie aanvullende testen uit de overige zes en orden vervolgens alleen die drie."
-   ],
-   "a": 1,
-   "u": "De vier verplichte testen liggen vast, dus je kiest de overige drie zonder volgorde uit zes met C(6,3). Elke gekozen batterij bevat zeven verschillende testen die je op 7! manieren kunt ordenen."
-  },
-  {
-   "h": "h2",
-   "q": "Bij twee eerlijke dobbelstenen berekent iemand P(totaal = 2 of totaal = 5) als 2/11, omdat twee van de elf totalen gunstig zijn. Welke correctie past bij het kansmodel?",
-   "o": [
-    "Gebruik 5/36: totaal 2 ontstaat uit één paar en totaal 5 uit vier van de gelijk waarschijnlijke paren.",
-    "Gebruik 2/36: de twee gunstige totalen tellen elk als één van de gelijk waarschijnlijke paren.",
-    "Gebruik 5/11: de vijf gunstige paren tel je ten opzichte van de elf mogelijke totalen.",
-    "Gebruik 2/11: eerlijke dobbelstenen zorgen ervoor dat alle elf mogelijke totalen even waarschijnlijk zijn."
-   ],
-   "a": 0,
-   "u": "De 36 afzonderlijke paren zijn gelijk waarschijnlijk, maar de elf totalen niet. Totaal 2 heeft één gunstig paar en totaal 5 heeft er vier, zodat de gezamenlijke kans 5/36 is."
-  },
-  {
-   "h": "h3",
-   "q": "Een reiziger neemt in 30 procent van de gevallen de bus en anders de metro, met controlekansen van respectievelijk 20 en 10 procent. Er is geen controle geweest; wat is dan de kans dat de reiziger de bus nam?",
-   "o": [
-    "Ongeveer 30 procent: zonder controle blijft het oorspronkelijke aandeel busritten de gevraagde kans.",
-    "Ongeveer 24 procent: vermenigvuldig het aandeel busritten met de kans op geen controle in de bus.",
-    "Ongeveer 46 procent: deel de kans op bus en controle door de totale kans op controle.",
-    "Ongeveer 28 procent: deel de kans op bus zonder controle door de totale kans op geen controle."
-   ],
-   "a": 3,
-   "u": "De kans op bus zonder controle is 0,30 maal 0,80 = 0,24 en die op metro zonder controle is 0,70 maal 0,90 = 0,63. Voorwaardelijk op geen controle krijg je 0,24 gedeeld door 0,87, dus ongeveer 28 procent."
-  },
-  {
-   "h": "h4",
-   "q": "X telt het aantal keer kruis bij drie eerlijke muntworpen en Y is uniform verdeeld tussen 0 en 1. Wat gebeurt er als je bij X de grens ≥ 2 vervangt door > 2 en bij Y de grens ≥ 0,5 door > 0,5?",
-   "o": [
-    "Beide kansen blijven gelijk, want een grenswaarde heeft bij beide variabelen kans nul.",
-    "Beide kansen worden kleiner, want bij beide variabelen verwijder je een grens met positieve kans.",
-    "De kans bij X wordt kleiner, maar die bij Y blijft gelijk omdat één continue waarde kans nul heeft.",
-    "De kans bij X blijft gelijk, maar die bij Y wordt kleiner omdat het continue interval smaller wordt."
-   ],
-   "a": 2,
-   "u": "Bij X verwijder je de kansmassa P(X = 2) = 3/8, zodat alleen P(X = 3) overblijft. Bij de continue Y is P(Y = 0,5) gelijk aan nul, zodat de oppervlakte en dus de kans niet verandert."
-  },
-  {
-   "h": "h5",
-   "q": "X en Y zijn onafhankelijk, a en b zijn vaste getallen en Z = a + b(X - Y). Welke combinatie van verwachting en variantie volgt uit de rekenregels?",
-   "o": [
-    "E(Z) = a + b(E(X) - E(Y)); Var(Z) = b²(Var(X) - Var(Y)).",
-    "E(Z) = a + b(E(X) - E(Y)); Var(Z) = b²(Var(X) + Var(Y)).",
-    "E(Z) = a + b(E(X) + E(Y)); Var(Z) = b²(Var(X) + Var(Y)).",
-    "E(Z) = a + b(E(X) - E(Y)); Var(Z) = a + b²(Var(X) + Var(Y))."
-   ],
-   "a": 1,
-   "u": "Verwachtingen volgen de lineaire bewerking, dus de verwachtingen worden hier afgetrokken, met b vermenigvuldigd en met a verhoogd. Bij onafhankelijke variabelen tellen de varianties ook voor een verschil op; vermenigvuldigen met b geeft factor b² en de constante a verandert de variantie niet."
-  },
-  {
-   "h": "h6",
-   "q": "X is binomiaal met n = 2500 en p = 0,60 en je zoekt P(X ≥ 1520) met een normaalbenadering. Welke keuze combineert de voorwaarden, de continuïteitscorrectie en de juiste staart?",
-   "o": [
-    "De benadering is toegestaan; gebruik z = (1519,5 - 1500) / √600 en neem de rechterstaart.",
-    "De benadering is toegestaan; gebruik z = (1520,5 - 1500) / √600 en neem de rechterstaart.",
-    "De benadering is toegestaan; gebruik z = (1519,5 - 1500) / √600 en neem de linkerstaart.",
-    "De benadering is niet toegestaan; bij p = 0,60 zijn de successen en mislukkingen niet even waarschijnlijk."
-   ],
-   "a": 0,
-   "u": "np = 1500 en n(1 - p) = 1000 voldoen beide aan de grens van 10, met verwachting 1500 en standaarddeviatie √600. Omdat 1520 zelf meetelt, begint de rechterstaart na continuïteitscorrectie bij 1519,5."
-  },
-  {
-   "h": "h7",
-   "q": "Uit dezelfde scheve populatie vergelijk je aselecte steekproeven met omvang n en 4n, allebei groot genoeg voor de centrale limietstelling. Wat klopt voor de steekproevenverdeling van het gemiddelde en voor de populatie?",
-   "o": [
-    "De steekproevenverdeling is bij benadering normaal, haar standaardfout wordt viermaal kleiner en de populatie blijft scheef.",
-    "De steekproevenverdeling is bij benadering normaal, haar standaardfout halveert en de populatie wordt eveneens normaal.",
-    "De steekproevenverdeling blijft even scheef als de populatie, haar standaardfout halveert en de populatie blijft scheef.",
-    "De steekproevenverdeling is bij benadering normaal, haar standaardfout halveert en de populatie blijft scheef."
-   ],
-   "a": 3,
-   "u": "De centrale limietstelling gaat over de verdeling van de steekproefgemiddelden, niet over de populatie zelf. De standaardfout is σ/√n, zodat verviervoudigen van n de standaardfout halveert."
-  },
-  {
-   "h": "h8",
-   "q": "Een onderzoeker wil een smaller betrouwbaarheidsinterval van 95 procent door alleen de populatiegrootte te verhogen en noemt 95 procent de kans dat mu in het berekende interval ligt. Welke twee correcties zijn nodig?",
-   "o": [
-    "Vergroot de steekproef bij gelijkblijvende sigma; 95 procent is het aandeel individuele waarnemingen dat in het interval valt.",
-    "Vergroot de populatie bij gelijkblijvende steekproef; 95 procent is het aandeel herhaalde intervallen dat mu bevat.",
-    "Vergroot de steekproef bij gelijkblijvende sigma; 95 procent is het aandeel herhaalde intervallen dat mu bevat.",
-    "Vergroot de populatie bij gelijkblijvende steekproef; 95 procent is de kans dat mu in dit ene berekende interval ligt."
-   ],
-   "a": 2,
-   "u": "Bij gelijk niveau en gelijke sigma wordt de foutmarge kleiner door een grotere steekproef n, niet door een grotere populatie N. De betrouwbaarheid beschrijft hoe vaak de methode mu vangt bij herhaald steekproeven; mu ligt in een eenmaal berekend interval of niet."
-  },
-  {
-   "h": "h9",
-   "q": "Een tweezijdige toets geeft p = 0,012. Hoe verschillen de beslissingen bij de vooraf gekozen grenzen alfa = 0,01 en alfa = 0,05, en welke fout is verwerpen wanneer H0 toch waar is?",
-   "o": [
-    "Bij 0,01 H0 niet verwerpen, bij 0,05 wel verwerpen; onterecht verwerpen is een Type I-fout.",
-    "Bij 0,01 H0 wel verwerpen, bij 0,05 niet verwerpen; onterecht verwerpen is een Type I-fout.",
-    "Bij 0,01 H0 niet verwerpen, bij 0,05 wel verwerpen; onterecht verwerpen is een Type II-fout.",
-    "Bij beide grenzen H0 verwerpen, want 0,012 moet nog gehalveerd worden; dat risico is een Type I-fout."
-   ],
-   "a": 0,
-   "u": "De gegeven tweezijdige p-waarde ligt boven 0,01 maar onder 0,05 en hoeft niet opnieuw aangepast te worden. H0 verwerpen terwijl ze waar is, is een Type I-fout."
-  },
-  {
-   "h": "h10",
-   "q": "Je wilt in SPSS binnen Franstalige sergeanten percentages van geldige antwoorden berekenen, met taal = 2, graad = 3 en ontbrekende antwoorden als 999. Welke aanpak past?",
-   "o": [
-    "Filter met (taal = 2) | (graad = 3), stel Missing = 999 in, lees Valid Percent en herstel daarna All cases.",
-    "Filter met (taal = 2) & (graad = 3), stel Missing = 999 in, lees Valid Percent en herstel daarna All cases.",
-    "Filter met (taal = 2) & (graad = 3), stel Missing = 999 in, lees Percent en herstel daarna All cases.",
-    "Filter met (taal = 2) & (graad = 3), geef 999 alleen een waardelabel, lees Valid Percent en herstel All cases."
-   ],
-   "a": 1,
-   "u": "Beide selectievoorwaarden moeten gelden, dus je gebruikt EN (&), en 999 moet als Missing ingesteld worden om niet mee te tellen. Valid Percent gebruikt alleen geldige antwoorden; met All cases voorkom je dat volgende analyses onbedoeld gefilterd blijven."
-  }
- ],
+ "hardPerHoofdstuk": {
+  "h1": 1,
+  "h2": 1,
+  "h3": 1,
+  "h4": 1,
+  "h5": 1,
+  "h6": 1,
+  "h7": 1,
+  "h8": 1,
+  "h9": 1,
+  "h10": 1
+ },
  "hacks": [
   {
    "h": "algemeen",

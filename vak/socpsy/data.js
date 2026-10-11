@@ -1273,131 +1273,15 @@ window.BES_VAK = {
    ]
   }
  ],
- "hardVragen": [
-  {
-   "h": "h1",
-   "q": "Een student die weinig gestudeerd heeft, haalt een slecht cijfer en overtuigt zichzelf ervan dat het examen oneerlijk was opgesteld. Hoe verklaar je dit het best met de twee kernmotieven uit de inleiding?",
-   "o": [
-    "Het streven naar nauwkeurigheid wint het van de zelfwaardering, omdat hij zo de echte oorzaak van zijn slechte cijfer vindt",
-    "Er speelt geen motief, want het gaat om een self-fulfilling prophecy waarbij zijn verwachting het cijfer veroorzaakte",
-    "Het motief om een positief zelfbeeld te behouden wint het van het streven naar nauwkeurigheid, wat tot rationalisatie leidt",
-    "Beide motieven werken hier samen, omdat een oneerlijk examen zowel zijn zelfbeeld beschermt als de juiste oorzaak is"
-   ],
-   "a": 2,
-   "u": "Volgens de inleiding botsen de behoefte aan een positief zelfbeeld (self-enhancement) en de behoefte aan nauwkeurigheid soms, en die spanning verklaart rationalisatie. Hier wint het zelfbeeld: de student legt de oorzaak bij het examen in plaats van bij zijn eigen beperkte inzet."
-  },
-  {
-   "h": "h2",
-   "q": "Een onderzoeker wijst studenten willekeurig toe aan twee condities in een streng gecontroleerd labo en vindt een significant verschil (p < 0,05) op de afhankelijke variabele. Welke conclusie is correct?",
-   "o": [
-    "Randomisatie en controle laten een causale conclusie toe, maar de generaliseerbaarheid naar andere situaties blijft open",
-    "Door de randomisatie is ook de externe validiteit hoog, zodat het effect ook buiten het labo en bij andere groepen geldt",
-    "Omdat enkel studenten deelnamen, is de interne validiteit laag en kan er geen oorzaak-gevolgrelatie worden vastgesteld",
-    "Omdat er slechts twee groepen vergeleken worden, gaat het om correlationeel onderzoek dat enkel voorspellingen toelaat"
-   ],
-   "a": 0,
-   "u": "Een experiment met randomisatie en strikte controle heeft een hoge interne validiteit en kan een oorzaak-gevolgrelatie aantonen. Externe validiteit (generaliseerbaarheid) is daarmee niet gegarandeerd: dat is het basisdilemma tussen interne en externe validiteit."
-  },
-  {
-   "h": "h3",
-   "q": "Situatie 1: na een week vol nieuwsberichten over inbraken schat iemand de kans op een inbraak in zijn straat veel hoger in dan ze is. Situatie 2: iemand denkt dat een stille, belezen man eerder bibliothecaris is dan verkoper, hoewel er veel meer verkopers zijn. Welke koppeling klopt?",
-   "o": [
-    "1 is de representativiteitsheuristiek, 2 is de beschikbaarheidsheuristiek omdat een bibliothecaris snel in je opkomt",
-    "1 is de anker-en-correctieheuristiek met het nieuws als startpunt, 2 is de representativiteitsheuristiek",
-    "1 is de beschikbaarheidsheuristiek, 2 is de anker-en-correctieheuristiek omdat het eerste beeld niet wordt bijgesteld",
-    "1 is de beschikbaarheidsheuristiek, 2 is de representativiteitsheuristiek waarbij de basisfrequentie genegeerd wordt"
-   ],
-   "a": 3,
-   "u": "In situatie 1 steunt het oordeel op hoe gemakkelijk voorbeelden in het geheugen opkomen (beschikbaarheid). In situatie 2 oordeelt men op gelijkenis met een typisch voorbeeld en negeert men de basisfrequentie (er zijn veel meer verkopers): representativiteit."
-  },
-  {
-   "h": "h4",
-   "q": "Iemand lost een moeilijke rekenopdracht op en ziet tegelijk een student nerveus een presentatie geven voor een streng publiek. Wat voorspelt het tweeledige attributieproces?",
-   "o": [
-    "Hij maakt eerder een situationele attributie, omdat de automatische eerste stap wegvalt wanneer zijn aandacht verdeeld is",
-    "Hij schrijft de nervositeit eerder aan de persoon toe, omdat de bewuste correctie voor de situatie inspanning vraagt en uitblijft",
-    "Hij maakt geen attributie, omdat een oorzaak pas wordt toegekend na een bewuste afweging van consensus, consistentie en distinctiviteit",
-    "Hij houdt evenveel rekening met persoon en situatie, omdat beide stappen van het proces automatisch en zonder inspanning verlopen"
-   ],
-   "a": 1,
-   "u": "Volgens het tweeledige proces volgt eerst een automatische interne attributie en pas daarna een bewuste correctie voor de situatie. Omdat die correctie gecontroleerd (bewust, inspannend) denken vraagt, blijft ze bij een belaste aandacht vaak achterwege en ontstaat de fundamentele attributiefout."
-  },
-  {
-   "h": "h5",
-   "q": "Een kind tekent uit zichzelf elke dag. Zijn ouders belonen voortaan elke tekening met snoep. Wanneer de beloning na enkele weken stopt, tekent het kind veel minder dan vroeger. Welke verklaring past bij de stof?",
-   "o": [
-    "Het kind ervaart dissonantie omdat de beloning te klein was, en waardeert tekenen daarom lager om de spanning te verminderen",
-    "Het kind schrijft zijn opwinding tijdens het tekenen ten onrechte toe aan het snoep, een misattributie van arousal",
-    "Het kind leidt uit zijn gedrag af dat het voor de beloning tekent, zodat de intrinsieke motivatie daalt: overrechtvaardiging",
-    "Het kind heeft zijn zelfcontrole opgebruikt door elke dag te tekenen, zodat ego-depletie het tekenen nu afremt"
-   ],
-   "a": 2,
-   "u": "Wanneer een van nature leuke activiteit extern beloond wordt, schrijft men het eigen gedrag toe aan de beloning in plaats van aan plezier, waardoor de intrinsieke motivatie afneemt. Dit overrechtvaardigingseffect sluit aan bij Bems zelfperceptietheorie: we leiden onze attitudes af uit ons eigen gedrag."
-  },
-  {
-   "h": "h6",
-   "q": "Wat hebben het resultaat van de $1-groep bij Festinger & Carlsmith en het principe van onvoldoende straf met elkaar gemeen?",
-   "o": [
-    "In beide gevallen ontbreekt een sterke externe rechtvaardiging, waardoor men intern rechtvaardigt en de attitude duurzaam verandert",
-    "In beide gevallen zorgt een sterke externe druk ervoor dat men het gedrag aanpast, terwijl de onderliggende attitude onveranderd blijft",
-    "In beide gevallen verhoogt een grote beloning of een zware straf de dissonantie, wat uiteindelijk tot zelfoverreding leidt",
-    "In beide gevallen gaat het om postdecision dissonance, waarbij men na een onomkeerbare keuze de afgewezen optie afwaardeert"
-   ],
-   "a": 0,
-   "u": "De $1-groep veranderde haar houding omdat een sterke externe reden om te liegen ontbrak; bij onvoldoende straf is de straf te mild om het gedrag extern te verklaren. In beide gevallen zoekt men een interne rechtvaardiging, wat tot zelfoverreding en duurzame attitudeverandering leidt."
-  },
-  {
-   "h": "h7",
-   "q": "Welke twee stellingen over attitudes en overtuiging zijn FOUT?",
-   "o": [
-    "Volgens de theorie van gepland gedrag bepalen de attitude tegenover het gedrag, de subjectieve norm en de gedragscontrole de intentie",
-    "Angstopwekkende communicatie werkt het best wanneer de angst zo hoog mogelijk wordt opgedreven en concrete instructies achterwege blijven",
-    "Een attitude die vooral op emoties en waarden steunt, verander je volgens de stof beter met emotionele dan met rationele argumenten",
-    "Attitudeverandering via de perifere route is volgens het ELM duurzamer dan verandering via de centrale route met sterke argumenten",
-    "Impliciete attitudes zijn onwillekeurig, vaak onbewust en moeilijk te controleren, en ze worden gemeten met de IAT"
-   ],
-   "a": [
-    1,
-    3
-   ],
-   "kies": "fout",
-   "u": "Angstopwekkende communicatie werkt net het best bij matige angst samen met coping-instructies, en volgens het ELM leidt de centrale route (niet de perifere) tot duurzame verandering. De andere stellingen kloppen met de stof over gepland gedrag, affectief gebaseerde attitudes en de IAT."
-  },
-  {
-   "h": "h8",
-   "q": "Een student zakt voor statistiek en denkt: 'ik ben gewoon niet slim genoeg voor cijfers'. Hoe zou een attributionele retraining deze attributie volgens de stof herformuleren?",
-   "o": [
-    "Naar 'het examen was gewoon te moeilijk': een externe en stabiele oorzaak, zodat zijn zelfwaardering beschermd blijft",
-    "Naar 'ik had pech met de vragen': een onstabiele maar oncontroleerbare oorzaak, zodat hij zich minder verantwoordelijk voelt",
-    "Naar 'ik ben enkel niet slim genoeg voor statistiek': dezelfde aanleg, maar specifieker, zodat ze niet voor andere vakken geldt",
-    "Naar 'ik heb te weinig of verkeerd gestudeerd': een onstabiele, controleerbare oorzaak, zodat inzet het resultaat kan veranderen"
-   ],
-   "a": 3,
-   "u": "Attributionele retraining vervangt onaangepaste attributies zoals lage aanleg (stabiel, oncontroleerbaar) door aangepaste attributies zoals lage inzet of een foute methode (onstabiel, controleerbaar). Zo stijgen motivatie en kans op succes, omdat de student zelf iets aan de oorzaak kan doen."
-  },
-  {
-   "h": "h8",
-   "q": "Iemand met aangeleerde hulpeloosheid verwacht na één mislukt sollicitatiegesprek ook te falen in zijn studie en in zijn vriendschappen. Welke causale dimensie verklaart vooral deze uitbreiding naar andere situaties?",
-   "o": [
-    "De stabiliteit, omdat hij de oorzaak als blijvend ziet en daardoor ook in de toekomst hulpeloosheid verwacht",
-    "De globaliteit, omdat hij de oorzaak als algemeen ziet en daardoor ook in andere situaties hulpeloosheid verwacht",
-    "De locus, omdat hij de oorzaak buiten zichzelf legt en daardoor in geen enkele situatie nog controle ervaart",
-    "De controleerbaarheid, omdat hij de oorzaak als controleerbaar ziet en daarom overal harder zijn best gaat doen"
-   ],
-   "a": 1,
-   "u": "Bij aangeleerde hulpeloosheid zijn de attributies voor negatieve gebeurtenissen intern, stabiel en globaal. Globale attributies zorgen voor de verwachting van hulpeloosheid in andere situaties; stabiele attributies voor hulpeloosheid in de toekomst en interne attributies voor een lagere zelfwaardering."
-  },
-  {
-   "h": "h9",
-   "q": "Een deelnemer doet eerst de Sally & Anne-taak, waarin hij moet voorspellen waar Sally zal zoeken op basis van haar eigen (foute) kennis, en legt daarna een reeks sociale prenten in de juiste volgorde. Welke koppeling van taak en hersengebied klopt het best?",
-   "o": [
-    "Sally-taak vooral de mPFC (opslaan van sociale kennis); prenten ordenen vooral de TPJ (wisselen van perspectief)",
-    "Sally-taak vooral het cerebellum (forward model); prenten ordenen vooral de mPFC (repetition suppression bij herhaling)",
-    "Sally-taak vooral de TPJ (wisselen van perspectief); prenten ordenen vooral het posterior cerebellum (sociale sequenties)",
-    "Sally-taak vooral het mirror system (spiegelen van beweging); prenten ordenen vooral de precuneus (sociale situaties)"
-   ],
-   "a": 2,
-   "u": "De Sally & Anne false-belief taak vraagt dat je wisselt tussen je eigen kennis en het (foute) perspectief van Sally, een functie van de TPJ. Prenten in de juiste volgorde leggen (picture sequencing) is een sociale sequentietaak waarin het posterior cerebellum gespecialiseerd is."
-  }
- ]
+ "hardPerHoofdstuk": {
+  "h1": 1,
+  "h2": 1,
+  "h3": 1,
+  "h4": 1,
+  "h5": 1,
+  "h6": 1,
+  "h7": 1,
+  "h8": 2,
+  "h9": 1
+ }
 };

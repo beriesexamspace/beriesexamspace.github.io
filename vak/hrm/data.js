@@ -1454,131 +1454,15 @@ window.BES_VAK = {
    ]
   }
  ],
- "hardVragen": [
-  {
-   "h": "h1",
-   "q": "Een bedrijf werft zeer bekwame en gemotiveerde ingenieurs aan, maar laat hen nooit meedenken of ideeën inbrengen over hun werk. Wat verklaart volgens het AMO framework waarom hun prestaties toch tegenvallen?",
-   "o": [
-    "Hun abilities schieten tekort, dus extra training zou hun discretionary effort vrijmaken",
-    "Hun motivatie ontbreekt, dus een hoger loon zou hun discretionary effort vrijmaken",
-    "De opportunity to participate ontbreekt, dus hun discretionary effort komt niet vrij",
-    "Hun KSAO's en motivatie zijn niet in balans, dus enkel strengere selectie helpt nog"
-   ],
-   "a": 2,
-   "u": "Het AMO framework stelt dat abilities en motivatie niet volstaan: mensen moeten ook de kans krijgen om te participeren. De ingenieurs zijn bekwaam en gemotiveerd, maar zonder inspraak komt hun discretionary effort, de inspanning boven het minimum, niet vrij."
-  },
-  {
-   "h": "h2",
-   "q": "In een fabriek wordt het werk opgedeeld in kleine deeltaken, wordt per taak wetenschappelijk de beste werkwijze bepaald en blijven gevoelens van arbeiders buiten beschouwing. Later blijkt dat arbeiders productiever worden wanneer ze gezien worden en kunnen participeren. Welke combinatie van stromingen beschrijft deze evolutie correct?",
-   "o": [
-    "Scientific management, later weerlegd door de human relations movement en de Hawthorne-experimenten",
-    "Human relations movement, later weerlegd door scientific management en de Hawthorne-experimenten",
-    "Industrial welfare, later weerlegd door de human relations movement en de opkomst van vakbonden",
-    "Paternalistisch leiderschap, later weerlegd door scientific management en de rationalization of work"
-   ],
-   "a": 0,
-   "u": "Werk rationeel opbreken in componenten om wetenschappelijk de beste werkwijze te bepalen, zonder emoties of motivatie, is scientific management. De human relations movement toonde met de Hawthorne-experimenten aan dat sociale en psychologische behoeften de productiviteit beïnvloeden, waardoor Taylors aannames onjuist bleken."
-  },
-  {
-   "h": "h3",
-   "q": "Een HR-manager moet beslissen of ze een nieuw selectie-instrument invoert. Ze beschikt over selectiedata uit haar eigen organisatie, haar eigen ervaring met vroegere aanwervingen, een meta-analyse en een blogtekst zonder peer review. Welke stelling klopt volgens evidence-based HRM?",
-   "o": [
-    "De eigen selectiedata zijn experiental evidence, en de blogtekst weegt zwaarder dan de meta-analyse",
-    "Haar eigen ervaring is organisational evidence, en de meta-analyse staat onderaan de pyramid of trust",
-    "De eigen selectiedata zijn organisational evidence, en de blogtekst staat bovenaan de pyramid of trust",
-    "De eigen selectiedata zijn organisational evidence, en de meta-analyse weegt zwaarder dan de blogtekst"
-   ],
-   "a": 3,
-   "u": "Selectie- en gebruikersdata uit de eigen organisatie zijn organisational evidence, eigen ervaring is experiental evidence. In de pyramid of trust staan systematische reviews en meta-analyses bovenaan en non-peer review onderaan, dus de meta-analyse is de betrouwbaarste basis."
-  },
-  {
-   "h": "h4",
-   "q": "Een concurrent werft het volledige salesteam van een bedrijf weg, maar haalt met hetzelfde team niet dezelfde resultaten. Niemand kan precies verklaren waarom het team vroeger zo goed presteerde, en de informele netwerken waarin kennis werd gedeeld bleven bij het oude bedrijf achter. Welke twee begrippen uit de resource based view verklaren dit het best?",
-   "o": [
-    "Path dependency en emergence",
-    "Causal ambiguity en social complexity",
-    "Path dependency en causal ambiguity",
-    "Social complexity en emergence"
-   ],
-   "a": 1,
-   "u": "Causal ambiguity betekent dat het onduidelijk is waarom een team hoog presteert, en social complexity verwijst naar opgebouwde formele en informele netwerken waarin kennis makkelijker gedeeld wordt. Beide maken menselijke resources moeilijk te imiteren, zodat zelfs een kopieerpoging mogelijk geen effect heeft."
-  },
-  {
-   "h": "h4",
-   "q": "Een bedrijf met een innovatiestrategie selecteert bewust op creativiteit, maar beloont en beoordeelt werknemers nadien enkel op het aantal afgewerkte standaardtaken. Hoe beoordeel je deze situatie in termen van alignment?",
-   "o": [
-    "De beloning is verticaal uitgelijnd met de innovatiestrategie, en enkel de selectie wijkt daarvan af",
-    "Selectie en beloning zijn horizontaal op elkaar afgestemd, want beide HR-praktijken streven hun eigen doel na",
-    "De selectie is verticaal uitgelijnd met de strategie, maar de horizontale afstemming tussen selectie en beloning ontbreekt",
-    "Alignment speelt hier geen rol, omdat de contingency theory universele best practices voor elke selectie voorschrijft"
-   ],
-   "a": 2,
-   "u": "Selecteren op creativiteit bij een innovatiestrategie is een voorbeeld van verticale uitlijning. Alignment vraagt daarnaast horizontale afstemming: de HR-onderdelen moeten hetzelfde doel nastreven en op elkaar afgestemd zijn, zoals het Michigan Matching model benadrukt. Belonen en beoordelen op standaardtaken breekt die afstemming met de selectie op creativiteit."
-  },
-  {
-   "h": "h5",
-   "q": "Een farmabedrijf met een innovatiestrategie volgt drie indicatoren op: het aantal ingediende patenten, de open mindedness van de onderzoekers en het aantal gewerkte uren. Hoe worden deze indicatoren in de HR scorecard ingedeeld?",
-   "o": [
-    "Patenten zijn een performance driver, open mindedness een deliverable, gewerkte uren een doable",
-    "Patenten zijn een deliverable, open mindedness een performance driver, gewerkte uren een doable",
-    "Patenten zijn een deliverable, open mindedness een enabler, gewerkte uren een performance driver",
-    "Patenten zijn een doable, open mindedness een performance driver, gewerkte uren een deliverable"
-   ],
-   "a": 1,
-   "u": "HR deliverables zijn uitkomsten die direct met de strategie verbonden zijn, zoals het aantal patenten. Performance drivers zijn KSAO's zoals open mindedness die nodig zijn om die deliverables te halen, en doables zijn KPI's zoals gewerkte uren die niet noodzakelijk een effect op de strategie hebben."
-  },
-  {
-   "h": "h6",
-   "q": "Een supermarktketen die inzet op kostenleiderschap wil een vrijgekomen managementfunctie invullen. Welke recruitmentkeuze past het best bij die strategie, en welk risico hoort daarbij?",
-   "o": [
-    "Interne recruitment, omdat die goedkoper uitvalt, met het Peter principle als risico",
-    "Externe recruitment, omdat die meer innovatie brengt, met het Peter principle als risico",
-    "Interne recruitment, omdat die meer innovatie brengt, met minder diverse kandidaten als risico",
-    "Externe recruitment, omdat die goedkoper uitvalt, met het verlies van interne kennis als risico"
-   ],
-   "a": 0,
-   "u": "Interne recruitment past bij cost-leadership omdat ze goedkoper is en de kennis in de organisatie blijft, terwijl externe recruitment met meer innovatie bij differentiation past. Het nadeel van intern promoveren is het Peter principle: mensen worden gepromoveerd tot het niveau waarop ze niet meer effectief zijn."
-  },
-  {
-   "h": "h7",
-   "q": "Een callcenter meet de prestatie van medewerkers enkel via het aantal afgehandelde oproepen per uur. Vriendelijkheid tegenover klanten, nochtans cruciaal voor de job, telt daardoor niet mee, en medewerkers op de drukke ochtendshift scoren hoger omdat er dan meer oproepen binnenkomen. Welke problemen met het criterium stel je vast?",
-   "o": [
-    "Enkel criteriumbesmetting, want zowel de niet-gemeten vriendelijkheid als de shift zijn irrelevante invloeden",
-    "Enkel criteriumdeficiëntie, want zowel de niet-gemeten vriendelijkheid als de shift wijzen op een onvolledige meting",
-    "Criteriumbesmetting door de niet-gemeten vriendelijkheid, en criteriumdeficiëntie door de invloed van de shift",
-    "Criteriumdeficiëntie door de niet-gemeten vriendelijkheid, en criteriumbesmetting door de invloed van de shift"
-   ],
-   "a": 3,
-   "u": "Criteriumdeficiëntie betekent dat de meting het conceptuele criterium niet volledig dekt, zoals de vriendelijkheid die niet meetelt. Criteriumbesmetting betekent dat irrelevante invloeden meespelen, zoals de shift die het aantal oproepen verhoogt, net zoals de agent die meer arresteert omdat zijn district moeilijker is."
-  },
-  {
-   "h": "h8",
-   "q": "Welke stellingen over training en performance management zijn FOUT?",
-   "o": [
-    "Level 3 van de Kirkpatrick-taxonomie (behavior) meet het gedrag voor en na de training",
-    "Introjection is een vorm van intrinsieke motivatie waarbij je iets puur uit interesse doet",
-    "De werkomgeving fungeert als bemiddelaar tussen wat geleerd wordt en de transfer ervan",
-    "Bij tell and listen luistert de supervisor en beslist de werknemer uiteindelijk zelf",
-    "Trait appraisals zijn moeilijk te rechtvaardigen omdat ze persoonskenmerken beoordelen"
-   ],
-   "a": [
-    1,
-    3
-   ],
-   "kies": "fout",
-   "u": "Introjection is een vorm van extrinsieke motivatie: je doet iets omdat het stemmetje in je hoofd het zegt, bijvoorbeeld om schaamte te voorkomen. Bij tell and listen luistert de supervisor wel, maar neemt hij uiteindelijk zelf de beslissing, wat pseudo-democracy genoemd wordt."
-  },
-  {
-   "h": "h9",
-   "q": "Een bedrijf schakelt over van een vast loon naar individuele pay for performance. Bij nieuwe vacatures solliciteren nu vooral risicozoekers, en de huidige werknemers gaan meer doen van het gedrag dat beloond wordt. Welke combinatie van effecten beschrijft dit correct?",
-   "o": [
-    "De nieuwe instroom is een incentive-effect, de gedragsverandering is een sorting effect",
-    "De nieuwe instroom is een sorting effect, de gedragsverandering is een incentive-effect",
-    "De nieuwe instroom is relational return, de gedragsverandering is een incentive-effect",
-    "De nieuwe instroom is een sorting effect, de gedragsverandering is social loafing"
-   ],
-   "a": 1,
-   "u": "Het sorting effect houdt in dat een beloningssysteem de mensen aantrekt die er het best op afgestemd zijn, zoals risicozoekers bij pay for performance. Het incentive-effect is de motivationele werking van beloning op gedrag: waar je voor betaald wordt, ga je meer doen."
-  }
- ]
+ "hardPerHoofdstuk": {
+  "h1": 1,
+  "h2": 1,
+  "h3": 1,
+  "h4": 2,
+  "h5": 1,
+  "h6": 1,
+  "h7": 1,
+  "h8": 1,
+  "h9": 1
+ }
 };

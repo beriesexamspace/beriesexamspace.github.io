@@ -1306,131 +1306,15 @@ window.BES_VAK = {
    ]
   }
  ],
- "hardVragen": [
-  {
-   "h": "h1",
-   "q": "Een onderzoeker laat deelnemers een reactietijdtaak oefenen en meet hun reactietijd na 1, 5, 10 en 20 sessies. Welke uitspraak over de variabelen en de verwachte uitkomst klopt volgens de tekst?",
-   "o": [
-    "Het aantal sessies is de onafhankelijke variabele, en de winst is het grootst in de laatste sessies",
-    "De reactietijd is de onafhankelijke variabele, en de winst is het grootst in de eerste sessies",
-    "Het aantal sessies is de onafhankelijke variabele, en de winst is het grootst in de eerste sessies",
-    "De reactietijd is de onafhankelijke variabele, en de winst is na elke sessie even groot"
-   ],
-   "a": 2,
-   "u": "Het aantal sessies manipuleer je zelf, dus dat is de onafhankelijke variabele; de reactietijd meet je als uitkomst. Volgens de power law of practice neemt de winst van oefening af naarmate je bekwamer wordt: vooral verbetering in het begin, daarna stagnatie."
-  },
-  {
-   "h": "h2",
-   "q": "In een reactietijdexperiment volgens Donders duurt de A-reactie 200 ms, de C-reactie 280 ms en de B-reactie 350 ms. Hoeveel tijd kosten de deelprocessen volgens de subtractiemethode?",
-   "o": [
-    "Discriminatie en identificatie 80 ms, responsselectie 70 ms",
-    "Discriminatie en identificatie 70 ms, responsselectie 80 ms",
-    "Discriminatie en identificatie 150 ms, responsselectie 70 ms",
-    "Discriminatie en identificatie 80 ms, responsselectie 150 ms"
-   ],
-   "a": 0,
-   "u": "De C-reactie voegt discriminatie en identificatie toe aan de simpele A-reactie, dus C min A geeft 80 ms. De B-reactie voegt daar nog responsselectie aan toe, dus B min C geeft 70 ms."
-  },
-  {
-   "h": "h3",
-   "q": "Bij een standaardgewicht van 100 g ligt de JND op 2 g. Welke JND verwacht je volgens de wet van Weber bij een standaardgewicht van 400 g, en waarom?",
-   "o": [
-    "2 g, omdat de verschildrempel voor gewicht een vaste waarde heeft",
-    "8 g, omdat de weberfractie voor elk zintuig dezelfde waarde heeft",
-    "0,5 g, omdat je gevoeliger wordt naarmate het gewicht zwaarder is",
-    "8 g, omdat de verhouding JND gedeeld door intensiteit gelijk blijft"
-   ],
-   "a": 3,
-   "u": "Volgens de wet van Weber is de JND relatief: de weberfractie k (JND gedeeld door intensiteit) blijft constant, hier 2 op 100. Bij 400 g geeft dat 8 g. Die k verschilt wel per sensorische modaliteit, dus ze is niet voor elk zintuig dezelfde."
-  },
-  {
-   "h": "h4",
-   "q": "Welke stellingen over aandacht zijn FOUT? Duid alle foute stellingen aan.",
-   "o": [
-    "Exogene aandacht wordt automatisch door een opvallende prikkel getrokken, endogene aandacht richt je intentioneel",
-    "Het spotlight-model gaat uit van een flexibele focusbreedte, het zoomlens-model van een vaste diameter",
-    "Bij coverte aandacht verplaats je je aandacht zonder dat je ogen mee naar die plek bewegen",
-    "Inhibition of return maakt zoeken minder efficiënt, omdat je steeds naar dezelfde plek terugkeert",
-    "Bij veranderingsblindheid merk je een verschil tussen twee beelden pas op als je aandacht erop gericht is"
-   ],
-   "a": [
-    1,
-    3
-   ],
-   "kies": "fout",
-   "u": "Het spotlight-model veronderstelt net een vaste focusdiameter en het zoomlens-model een flexibele focusbreedte, dus die stelling is omgekeerd. Inhibition of return remt het terugkeren naar een plek waar de aandacht al was en bevordert zo juist efficiënt zoeken."
-  },
-  {
-   "h": "h5",
-   "q": "Een patiënt met anterograde amnesie, zoals H.M., hoort een woordenlijst en moet die meteen vrij herinneren. Welk patroon in de seriële positiecurve verwacht je op basis van de tekst?",
-   "o": [
-    "Een normaal primacy-effect, maar een verzwakt recency-effect",
-    "Een verzwakt primacy-effect, maar een normaal recency-effect",
-    "Zowel het primacy- als het recency-effect vallen volledig weg",
-    "Een normale U-curve, omdat meteen herinneren enkel het KTG meet"
-   ],
-   "a": 1,
-   "u": "Het recency-effect steunt op het KTG, en dat bleef bij H.M. intact. Het primacy-effect vraagt opslag in het LTG, en net het opslaan van nieuwe info in het LTG is bij anterograde amnesie verstoord."
-  },
-  {
-   "h": "h6",
-   "q": "Welke indeling klopt voor deze drie voorbeelden: (1) weten dat Parijs de hoofdstad van Frankrijk is, (2) je herinneren hoe je vorige zomer op reis vertrok, (3) kunnen fietsen?",
-   "o": [
-    "1 episodisch, 2 semantisch, 3 procedureel; enkel 1 en 2 zijn declaratief",
-    "1 semantisch, 2 episodisch, 3 procedureel; enkel 3 is declaratief",
-    "1 semantisch, 2 episodisch, 3 procedureel; enkel 1 en 2 zijn declaratief",
-    "1 semantisch, 2 procedureel, 3 episodisch; alle drie zijn declaratief"
-   ],
-   "a": 2,
-   "u": "Feitenkennis los van context is semantisch, een persoonlijke gebeurtenis gebonden aan tijd en ruimte is episodisch, en fietsen is procedureel. Episodisch en semantisch geheugen vormen samen het declaratieve geheugen, het procedurele geheugen is nondeclaratief."
-  },
-  {
-   "h": "h7",
-   "q": "Na een verloren match zegt een speler: 'Ik speelde goed, de scheidsrechter floot gewoon partijdig.' Over een tegenstander die slecht speelde, zegt hij: 'Die is gewoon lui.' Welke twee denkfouten herken je?",
-   "o": [
-    "Fundamentele attributiefout bij zijn eigen verlies, self-serving bias bij de tegenstander",
-    "Hindsight bias bij zijn eigen verlies, confirmatiebias bij de tegenstander",
-    "Self-serving bias bij zijn eigen verlies, belief bias bij de tegenstander",
-    "Self-serving bias bij zijn eigen verlies, fundamentele attributiefout bij de tegenstander"
-   ],
-   "a": 3,
-   "u": "Zijn eigen falen schuift hij af op externe omstandigheden (de scheidsrechter): dat is de self-serving bias. Het slechte spel van de ander schrijft hij toe aan karakter (lui) zonder de situatie mee te wegen: dat is de fundamentele attributiefout."
-  },
-  {
-   "h": "h7",
-   "q": "Iemand krijgt de redenering: 'Alle zoogdieren kunnen vliegen. Een walvis is een zoogdier. Dus een walvis kan vliegen.' Hij noemt ze ongeldig omdat walvissen niet kunnen vliegen. Wat klopt hier?",
-   "o": [
-    "De redenering is deductief geldig; ze afwijzen omdat de conclusie ongeloofwaardig is, is belief bias",
-    "De redenering is deductief ongeldig, want een conclusie die niet klopt met de werkelijkheid is nooit geldig",
-    "Het is een inductieve redenering, want uit één specifiek geval wordt een algemene regel afgeleid",
-    "De redenering is deductief geldig; ze afwijzen omdat de conclusie ongeloofwaardig is, is confirmatiebias"
-   ],
-   "a": 0,
-   "u": "Bij deductie volgt de conclusie dwingend uit de algemene premissen, dus de redenering is logisch geldig, ook al is de eerste premisse onwaar. Wie de geldigheid afleidt uit hoe geloofwaardig de conclusie is in plaats van uit de logica, vertoont belief bias."
-  },
-  {
-   "h": "h8",
-   "q": "Mensen vinden een appel een typischer stuk fruit dan een olijf. Waarom is dat lastig voor de klassieke theorie, en welke theorie vangt het wel op?",
-   "o": [
-    "In de klassieke theorie hangt lidmaatschap af van de context; de exemplaartheorie verklaart het met één vaste definitie",
-    "In de klassieke theorie is lidmaatschap binair; de prototypetheorie verklaart het met gelijkenis aan het meest typische lid",
-    "In de klassieke theorie is lidmaatschap binair; de verklaring-georiënteerde theorie verklaart het met een vaste definitie",
-    "In de klassieke theorie zijn er geen definiërende attributen; de prototypetheorie verklaart het met noodzakelijke kenmerken"
-   ],
-   "a": 1,
-   "u": "In de klassieke theorie ben je lid of niet (binair), dus er is geen ruimte voor meer of minder typische leden. De prototypetheorie werkt met het meest typische lid en karakteristieke eigenschappen, waardoor een appel dichter bij het prototype van fruit ligt dan een olijf."
-  },
-  {
-   "h": "h9",
-   "q": "Midden in een gesproken zin wordt één klank van een woord weggeknipt en vervangen door een kuch, maar luisteraars horen het woord toch volledig. Welk proces is dit, en welk soort verwerking?",
-   "o": [
-    "Coarticulatie, een top-down proces waarbij de context de ontbrekende klank invult",
-    "Foneemrestauratie, een bottom-up proces waarbij het oor de klank toch nog opvangt",
-    "Foneemrestauratie, een top-down proces waarbij de context de ontbrekende klank invult",
-    "Categorische spraakperceptie, een bottom-up proces dat klanken in scherpe groepen deelt"
-   ],
-   "a": 2,
-   "u": "Bij foneemrestauratie vult het brein een ontbrekende spraakklank in op basis van de context, een top-down proces. Coarticulatie gaat over fonemen die tijdens het spreken overlappen, en categorische spraakperceptie over het indelen van een continue klankovergang in scherpe categorieën."
-  }
- ]
+ "hardPerHoofdstuk": {
+  "h1": 1,
+  "h2": 1,
+  "h3": 1,
+  "h4": 1,
+  "h5": 1,
+  "h6": 1,
+  "h7": 2,
+  "h8": 1,
+  "h9": 1
+ }
 };

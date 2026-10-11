@@ -1700,131 +1700,16 @@ window.BES_VAK = {
    ]
   }
  ],
- "hardVragen": [
-  {
-   "h": "h1",
-   "q": "Bij een leerling verloopt de fonologische verwerking afwijkend. Hij leest daardoor traag en moeizaam, waardoor hij in de klas niet zoals zijn klasgenoten kan meedoen wanneer iedereen om beurt een tekst voorleest. Welke koppeling met de begrippen stoornis, beperking en handicap klopt?",
-   "o": [
-    "Afwijkende verwerking is een beperking, traag en moeizaam lezen is de stoornis, en niet kunnen meedoen met voorlezen is de handicap",
-    "Afwijkende verwerking is de stoornis, traag en moeizaam lezen is de handicap, en niet kunnen meedoen met voorlezen is een beperking",
-    "Afwijkende verwerking is de stoornis, traag en moeizaam lezen is een beperking, en niet kunnen meedoen met voorlezen is de handicap",
-    "Afwijkende verwerking is de handicap, traag en moeizaam lezen is een beperking, en niet kunnen meedoen met voorlezen is de stoornis"
-   ],
-   "a": 2,
-   "u": "Een stoornis is een afwijking van een structuur of functie (de afwijkende fonologische verwerking), een beperking is een verminderd vermogen tot activiteiten (traag en moeizaam lezen), en een handicap is de nadelige situatie die de normale rolvervulling belemmert (niet kunnen meedoen met de klas)."
-  },
-  {
-   "h": "h2",
-   "q": "Een school stelt dyslexie vast zonder IQ-test: alle leerlingen krijgen groepsinstructie, wie achterblijft krijgt verlengde en daarna intensieve individuele instructie, en wie dan nog steeds achterblijft, wordt als dyslectisch beschouwd. Welke aanpak is dit, en wanneer is het onderliggende criterium volgens de leerstof betrouwbaar?",
-   "o": [
-    "Het discrepantiemodel, op voorwaarde dat de kloof tussen de op IQ verwachte en de geleverde leesprestatie groot genoeg is",
-    "Response to Instruction/Intervention, op voorwaarde dat de remediëring gestandaardiseerd is en bij alle leerlingen gecontroleerd wordt",
-    "Response to Instruction/Intervention, op voorwaarde dat de leesproblemen volledig door externe onderwijsomstandigheden verklaard worden",
-    "Het exclusiecriterium, op voorwaarde dat de leerling minstens zes maanden in de gewone groepsinstructie heeft gezeten"
-   ],
-   "a": 1,
-   "u": "Door de instructie stap voor stap te intensiveren en de non-responders als dyslectisch te beschouwen, past de school RTI toe. Het achterliggende criterium is hardnekkigheid, dat volgens de leerstof enkel betrouwbaar is als de remediëring gestandaardiseerd is en bij alle leerlingen gecontroleerd wordt."
-  },
-  {
-   "h": "h3",
-   "q": "Verschillende cognitieve factoren worden onderzocht als mogelijke risicofactor voor dyslexie. Welke koppeling tussen een factor en wat de leerstof erover besluit, klopt?",
-   "o": [
-    "Letterkennis: er blijven twijfels bestaan of dit wel een specifieke risicofactor voor dyslexie is",
-    "Impliciet volgorde leren: dit geldt volgens recent onderzoek als de sterkste en specifieke risicofactor",
-    "Visuele aandachtspanne: dit meet hoe snel een reeks bekende symbolen zoals letters benoemd wordt",
-    "Verbaal kortetermijngeheugen: de lagere score komt vooral door comorbiditeit met zwakkere mondelinge taal"
-   ],
-   "a": 3,
-   "u": "Dyslectici scoren slechter op de non-woord-repetitietaak, maar dat wordt vooral toegeschreven aan comorbiditeit met een zwakkere mondelinge taalvaardigheid. Letterkennis is juist een specifieke risicofactor, impliciet volgorde leren wordt door recent onderzoek tegengesproken, en het snel benoemen van bekende symbolen is RAN, niet de visuele aandachtspanne."
-  },
-  {
-   "h": "h4",
-   "q": "Bij diepte dyslexie is een van de twee routes uit het model van Coltheart verstoord. Met welke fase uit de fasetheorie van Frith komt de werking van precies die verstoorde route het best overeen?",
-   "o": [
-    "Met de alfabetische fase, omdat het kind dan fonologisch decodeert via letter-klankkoppelingen, zoals de indirecte route via GPC-regels werkt",
-    "Met de orthografische fase, omdat het kind dan hele woorden automatisch uit het lexicon herkent, zoals de directe route dat doet",
-    "Met de logografische fase, omdat het kind dan woorden herkent aan opvallende visuele kenmerken, zoals de indirecte route werkt",
-    "Met de orthografische fase, omdat het kind dan elk woord letter voor letter via GPC-regels verklankt, zoals de indirecte route dat doet"
-   ],
-   "a": 0,
-   "u": "Bij diepte dyslexie is de indirecte, niet-lexicale route verstoord, die grafemen via GPC-regels omzet in fonemen. Dat fonologisch decoderen via letter-klankkoppelingen leert het kind in de alfabetische fase van Frith. Hele woorden automatisch herkennen (orthografische fase) lijkt eerder op de directe route, en dat is bij diepte dyslexie niet de verstoorde route; herkennen aan visuele kenmerken hoort bij de logografische fase."
-  },
-  {
-   "h": "h5",
-   "q": "Welke stellingen over hoogbegaafdheid zijn FOUT volgens de leerstof? Duid alle foute stellingen aan.",
-   "o": [
-    "Het CHC-model is bruikbaar voor klinische en normale populaties en ligt aan de basis van de WISC-V.",
-    "Gekristalliseerde kennis is het redeneervermogen waarmee je nieuwe problemen in nieuwe situaties aanpakt.",
-    "Of hoogbegaafdheid herkend wordt, hangt mee af van achtergrondcovariaten zoals SES en opleiding van de ouders.",
-    "Een leerstoornis en hoogbegaafdheid kunnen elkaar maskeren, waardoor de HB-diagnose nauwelijks wordt gesteld.",
-    "Volgens Mönks en Mason groeien de capaciteiten ook zonder ondersteunende omgeving uit tot HB-potentieel."
-   ],
-   "a": [
-    1,
-    4
-   ],
-   "kies": "fout",
-   "u": "Gekristalliseerde kennis is cultureel gebonden kennis; het redeneervermogen voor nieuwe problemen in nieuwe situaties is vloeiende intelligentie. Volgens Mönks en Mason ontwikkelen de persoonsgebonden capaciteiten zich enkel in een ondersteunende en bevorderende omgeving tot HB-potentieel."
-  },
-  {
-   "h": "h6",
-   "q": "Een onderzoeker vergelijkt zittenblijvers aan het einde van hun overgedane jaar met hun nieuwe, jongere klasgenoten. De zittenblijvers scoren beter op de toets en voelen zich ook beter in de klas. Welke twee begrippen verklaren respectievelijk de betere score en het betere gevoel?",
-   "o": [
-    "Meetinvariantie verklaart de betere score, het sneeuwbaleffect verklaart het betere gevoel",
-    "Het double dosage effect verklaart de betere score, het big fish little pond effect verklaart het betere gevoel",
-    "De positiviteitsassumptie verklaart de betere score, het big fish little pond effect verklaart het betere gevoel",
-    "Het double dosage effect verklaart de betere score, het sneeuwbaleffect verklaart het betere gevoel"
-   ],
-   "a": 1,
-   "u": "Bij een vergelijking met klasgenoten speelt het double dosage effect: de zittenblijver heeft de leerstof al een keer gezien. Dat hij zich beter voelt, past bij het big fish little pond effect, omdat hij zich sociaal vergelijkt met de zwakkere leerlingen in zijn nieuwe klas; het sneeuwbaleffect verklaart net negatieve langetermijneffecten."
-  },
-  {
-   "h": "h7",
-   "q": "Een school laat een leerling met een beperking enkel meedoen aan de gewone lessen waar dat zonder aanpassingen lukt; de rest van de tijd volgt hij les in een aparte klas. Welk maatschappelijk model past hierbij, en wat zou er nodig zijn om van inclusie te spreken?",
-   "o": [
-    "Integratie; voor inclusie moet de school vertrekken vanuit gelijke rechten en maatwerk voorzien zodat hij volledig kan deelnemen",
-    "Separatie; voor inclusie moet de school vertrekken vanuit gelijke rechten en maatwerk voorzien zodat hij volledig kan deelnemen",
-    "Integratie; voor inclusie volstaat het dat hij meer uren in de gewone lessen zit, ook als de school daarvoor niets aanpast",
-    "Separatie; voor inclusie volstaat het dat hij meer uren in de gewone lessen zit, ook als de school daarvoor niets aanpast"
-   ],
-   "a": 0,
-   "u": "Op sommige aspecten deel uitmaken van het gewone onderwijs is integratie; bij separatie zou hij volledig in een apart instituut of een speciale instelling terechtkomen. Inclusie steunt op gelijke mensenrechten en het waarderen van diversiteit, en vraagt maatwerk: de nodige aanpassingen zodat elke leerling volledig kan deelnemen aan het gewone onderwijs. Meer uren zonder aanpassingen volstaat dus niet."
-  },
-  {
-   "h": "h8",
-   "q": "Een leerling met normale mogelijkheden heeft in rekenen minstens twee jaar achterstand. Na een periode van goede, gerichte hulp boekt hij echter duidelijke vooruitgang. Wat besluit je op basis van de DSM-5-criteria voor dyscalculie?",
-   "o": [
-    "Het gaat om dyscalculie, want twee jaar achterstand ondanks normale mogelijkheden volstaat op zich voor de diagnose",
-    "Het gaat eerder om een gewoon rekenprobleem, want voor dyscalculie is minstens vier jaar achterstand vereist",
-    "Het gaat eerder om een gewoon rekenprobleem, want er is vooruitgang na gerichte hulp en dus geen hardnekkigheid",
-    "Het gaat om dyscalculie, want de vooruitgang na hulp bewijst net dat er een discrepantie met de mogelijkheden is"
-   ],
-   "a": 2,
-   "u": "De DSM-5 vraagt naast een discrepantie tussen mogelijkheden en rekenkennis en minstens twee jaar achterstand ook hardnekkigheid: weinig vooruitgang ondanks goede, gerichte hulp. Omdat deze leerling na hulp wel vooruitgaat, ontbreekt net het criterium dat de stoornis van een gewoon rekenprobleem onderscheidt."
-  },
-  {
-   "h": "h10",
-   "q": "Een leerling kan in een rustige situatie vlot plannen en haar werk controleren. Tijdens een wiskundetoets raakt ze door faalangst overbelast, waarna haar cognitieve controle wegvalt en haar zelfbeeld daalt. Welke hypothese past hierbij, en waarom?",
-   "o": [
-    "Het beschikbaarheidsdeficiet, want de faalangst veroorzaakt een cognitieve overload waardoor de executieve functies falen",
-    "Het productiedeficiet, want haar executieve functies zijn op zich te zwak om de wiskundeangst te kunnen reguleren",
-    "Het beschikbaarheidsdeficiet, want een tekort aan cognitieve controle was er al en zorgt voor falende angstregulatie",
-    "Het productiedeficiet, want de faalangst veroorzaakt een cognitieve overload waardoor de executieve functies falen"
-   ],
-   "a": 3,
-   "u": "Bij het productiedeficiet zorgt faalangst voor cognitieve overload, waardoor cognitieve controle en executieve functies falen en het zelfbeeld daalt. Het beschikbaarheidsdeficiet gaat net uit van een tekort aan cognitieve controle en EF dat er al is, maar deze leerling plant en controleert in een rustige situatie wel vlot."
-  },
-  {
-   "h": "h11",
-   "q": "Een leerkracht laat leerlingen eerst echte pizza's eerlijk verdelen, daarna een schets van de verdeling tekenen, vervolgens de breuknotatie gebruiken en ten slotte een verkorte rekenregel toepassen. Welke stroming past hierbij, en wat geeft dit verloop weer?",
-   "o": [
-    "De realistische stroming, en het ijsbergmodel geeft de stapsgewijze weg van realiteit naar abstractie weer",
-    "De mechanische stroming, en het ijsbergmodel geeft de stapsgewijze weg van abstracte regel naar realiteit weer",
-    "De realistische stroming, en het stabiliteits-plasticiteitsdilemma geeft de weg van realiteit naar regel weer",
-    "De mechanische stroming, en het geleidelijkheidsprincipe geeft de weg van abstracte regel naar toepassing weer"
-   ],
-   "a": 0,
-   "u": "Vertrekken vanuit een reële situatie en die via schematisering en symbolisering naar verkorting brengen, is progressieve mathematisering binnen de realistische stroming. Het ijsbergmodel geeft dat stapsgewijze proces van realiteit naar abstractie weer, terwijl de mechanische stroming net eerst de abstracte regels aanleert."
-  }
- ]
+ "hardPerHoofdstuk": {
+  "h1": 1,
+  "h2": 1,
+  "h3": 1,
+  "h4": 1,
+  "h5": 1,
+  "h6": 1,
+  "h7": 1,
+  "h8": 1,
+  "h10": 1,
+  "h11": 1
+ }
 };

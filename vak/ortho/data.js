@@ -1612,107 +1612,14 @@ window.BES_VAK = {
    ]
   }
  ],
- "hardVragen": [
-  {
-   "h": "h1",
-   "q": "Ter Horst en Kok vertegenwoordigen twee verschillende stromingen binnen de orthopedagogiek. Welke combinatie van uitspraken over beide auteurs is juist?",
-   "o": [
-    "Ter Horst is empirisch-analytisch en ziet orthopedagogisch handelen als het herstellen van de verstoorde dialoog; Kok is hermeneutisch-fenomenologisch en ziet opvoeden als het optimaliseren van het ontwikkelingsproces.",
-    "Ter Horst is hermeneutisch-fenomenologisch en ziet opvoeden als het optimaliseren van het ontwikkelingsproces; Kok is empirisch-analytisch en ziet orthopedagogisch handelen als het herstellen van de verstoorde dialoog.",
-    "Ter Horst is hermeneutisch-fenomenologisch en ziet orthopedagogisch handelen als het herstellen van de verstoorde dialoog; Kok is empirisch-analytisch en ziet opvoeden als het optimaliseren van het ontwikkelingsproces.",
-    "Ter Horst is empirisch-analytisch en ziet opvoeden als het optimaliseren van het ontwikkelingsproces; Kok is hermeneutisch-fenomenologisch en ziet orthopedagogisch handelen als het herstellen van de verstoorde dialoog."
-   ],
-   "a": 2,
-   "u": "Ter Horst is een hermeneutisch-fenomenologische orthopedagoog: orthopedagogisch handelen is voor hem het herstellen van de verstoorde dialoog tussen het kind en zijn opvoeders en tussen het kind en de volle werkelijkheid. Kok is empirisch-analytisch en ziet opvoeden als functioneel: het optimaliseren van het ontwikkelingsproces, met een functie en geen intentie."
-  },
-  {
-   "h": "h2",
-   "q": "Volgens de afgenomen testen verloopt de ontwikkeling van een kind binnen de normale spreiding, zonder afwijkende discrepanties. Toch ervaren de ouders en het kind hun opvoedingssituatie als uitzichtloos, zinloos en bedreigend: ze zien geen perspectief meer. Kan men hier spreken van een problematische opvoedingssituatie (POS)?",
-   "o": [
-    "Nee, want afwijkende discrepanties bij het kind zijn een noodzakelijke voorwaarde; zonder afwijkende ontwikkeling is er per definitie geen POS.",
-    "Nee, want van een POS is pas sprake wanneer een specialist bij het kind een stoornis heeft vastgesteld die de opvoeding bemoeilijkt.",
-    "Ja, maar alleen als ook bij de ouders afwijkende discrepanties worden vastgesteld, want die vormen een noodzakelijke voorwaarde voor een POS.",
-    "Ja, want afwijkende discrepanties zijn geen noodzakelijke voorwaarde; de ervaren uitzichtloosheid en de stagnatie in de interactie zijn bepalend."
-   ],
-   "a": 3,
-   "u": "Ter Horst omschrijft een POS als een opvoedingssituatie die door de betrokkenen als uitzichtloos, zinloos en bedreigend wordt ervaren, zonder perspectief. Afwijkende discrepanties zijn daarvoor geen noodzakelijke en ook geen voldoende voorwaarde: de subjectieve lijdensdruk en de stagnatie in de interactie zijn bepalend."
-  },
-  {
-   "h": "h3",
-   "q": "Bij een meisje van 12 jaar wordt een IQ van 45 gemeten. Sinds haar vroege kindertijd heeft ze duidelijke beperkingen in persoonlijke onafhankelijkheid en sociale redzaamheid. Er werd geen genetische oorzaak gevonden. Welke conclusie is juist?",
-   "o": [
-    "Er is sprake van een lichte verstandelijke beperking, maar de diagnose blijft onzeker zolang er geen genetische oorzaak is aangetoond.",
-    "Er is sprake van een matige verstandelijke beperking; dat er geen genetische oorzaak werd gevonden, doet aan de diagnose niets af.",
-    "Er is sprake van een ernstige verstandelijke beperking; het gemeten IQ volstaat op zich om die diagnose te kunnen stellen.",
-    "Er is nog geen sprake van een verstandelijke beperking, omdat die diagnose pas na de leeftijd van 18 jaar gesteld mag worden."
-   ],
-   "a": 1,
-   "u": "Een IQ van 45 valt binnen de DSM-grenzen van een matige verstandelijke beperking (IQ 35-40 tot 50-55), en ook de beperkingen in sociale redzaamheid en het ontstaan vóór 18 jaar zijn aanwezig. Een verstandelijke beperking is niet altijd genetisch bepaald, dus het ontbreken van een genetische oorzaak sluit de diagnose niet uit."
-  },
-  {
-   "h": "h4",
-   "q": "Een kleuter met ASS houdt star vast aan routines (rigiditeit) en vertoont stereotiepe bewegingen. Daarnaast heeft hij ernstige slaapproblemen en agressie-uitbarstingen. Hoe worden deze problemen ingedeeld volgens de drie behandelingsdoelen van Rutter?",
-   "o": [
-    "Rigiditeit en stereotypieën vallen onder het stimuleren van de normale ontwikkeling; slaapproblemen en agressie onder het verminderen van de specifieke autismeproblemen.",
-    "Slaapproblemen en agressie vallen onder het verminderen van de specifieke autismeproblemen; rigiditeit en stereotypieën onder de niet-specifieke, geassocieerde problemen.",
-    "Rigiditeit en stereotypieën vallen onder het verminderen van de specifieke autismeproblemen; slaapproblemen en agressie onder het elimineren van niet-specifieke, geassocieerde problemen.",
-    "Alle vier de problemen worden samen aangepakt via een gestandaardiseerd voorprogramma dat voor elk kind met ASS identiek is en geen onderscheid maakt tussen soorten problemen."
-   ],
-   "a": 2,
-   "u": "Rutter onderscheidt het stimuleren van de normale ontwikkeling (spel, communicatie), het verminderen van specifieke problemen die rechtstreeks uit autisme voortvloeien (zoals rigiditeit en stereotypieën) en het elimineren van niet-specifieke, geassocieerde gedragsproblemen (zoals agressie, eet- en slaapproblemen). Een identiek standaardprogramma voor elk kind hoort daar niet bij."
-  },
-  {
-   "h": "h5",
-   "q": "Leerling A heeft een duidelijke leesachterstand, maar na een half jaar kwaliteitsvolle, intensieve instructie is die achterstand weggewerkt. Leerling B leest zwak omdat een ernstige slechthorendheid de toegang tot de instructietaal bemoeilijkt. Welke beoordeling is juist?",
-   "o": [
-    "Bij A is het hardnekkigheidscriterium niet vervuld; bij B gaat het om een secundair leerprobleem, zodat het exclusiviteitscriterium een leerstoornis uitsluit.",
-    "Bij A is het exclusiviteitscriterium niet vervuld; bij B gaat het om een primaire leerstoornis, omdat het probleem in het leren van het lezen zelf ligt.",
-    "Bij A zijn alle drie de criteria vervuld, want er was een duidelijke achterstand; bij B gaat het om een secundair leerprobleem door een andere oorzaak.",
-    "Bij A is het achterstandscriterium niet vervuld; bij B gaat het om een primaire leerstoornis, want zintuiglijke problemen horen bij het leren zelf."
-   ],
-   "a": 0,
-   "u": "Het hardnekkigheidscriterium vraagt dat de achterstand blijft bestaan ondanks kwaliteitsvolle instructie (didactische resistentie); bij A verdwijnt ze, dus is er geen specifieke leerstoornis. Bij B is de slechthorendheid een andere oorzaak van het leesprobleem: dat maakt het een secundair leerprobleem, en het exclusiviteitscriterium sluit dan een specifieke leerstoornis uit."
-  },
-  {
-   "h": "h6",
-   "q": "Welke twee stellingen over kindermishandeling (KMH) zijn FOUT?",
-   "o": [
-    "Naar schatting 30% tot 40% van de minderjarige slachtoffers vertoont op korte termijn geen klinisch significante symptomen.",
-    "Omdat één eenduidige causale factor gekend is, kan men bij secundaire preventie vrij nauwkeurig voorspellen of KMH zal optreden.",
-    "Een gezonde gehechtheidsband met één of meer volwassenen kan de langetermijngevolgen verzachten en de intergenerationele overdracht tegengaan.",
-    "Van alle vormen van KMH blijkt het bij verwaarlozing het moeilijkst om via hulpverlening effectieve vooruitgang te boeken.",
-    "Getuige zijn van geweld geldt niet als aparte categorie; men onderscheidt enkel fysieke, emotionele en seksuele mishandeling en verwaarlozing."
-   ],
-   "a": [
-    1,
-    4
-   ],
-   "kies": "fout",
-   "u": "Risicotaxatie bij KMH is net erg moeilijk, omdat er geen vaste, eenduidige set van factoren is die KMH verklaart. Bovendien onderscheidt men vijf categorieën van KMH: fysieke mishandeling, verwaarlozing, emotionele mishandeling, seksueel misbruik en getuige zijn van geweld."
-  },
-  {
-   "h": "h7",
-   "q": "In het orthopedagogisch classificatiesysteem van Kok stelt men bij een kind tegelijk een vraag naar structuur en een vraag naar ondersteuning van het Zelf vast. Waar situeer je deze twee vragen?",
-   "o": [
-    "Op de s-pool van de conatieve as en op de z-pool van de cognitieve as.",
-    "Op de s-pool van de cognitieve as en op de z-pool van de conatieve as.",
-    "Op de v-pool van de cognitieve as en op de h-pool van de conatieve as.",
-    "Op de s-pool van de cognitieve as en op de h-pool van de conatieve as."
-   ],
-   "a": 1,
-   "u": "De cognitieve as van Kok loopt van de s-pool (vraag naar structuur) naar de v-pool (vraag naar langzamerhand variëren). De conatieve as, de as van de eigenheid, loopt van de h-pool (harmonisering met de omgeving) naar de z-pool (ondersteuning van het Zelf)."
-  },
-  {
-   "h": "h8",
-   "q": "In een leefgroep grijpt opvoeder 1 een ruzie aan tafel bewust aan om het kind te laten ervaren hoe het een conflict kan oplossen. Opvoeder 2 herschikt de leefruimte, het dagschema en de sfeer in de groep om meer rust te brengen. Welke koppeling is juist volgens Kok?",
-   "o": [
-    "Opvoeder 1 doet aan klimaatcreatie, want hij richt de omgeving in; opvoeder 2 hanteert een situatie, want hij reageert op een incident.",
-    "Beide opvoeders doen aan klimaatcreatie, want zowel de ruzie als de herschikte ruimte horen bij de materiële omgeving van het kind.",
-    "Beide opvoeders hanteren situaties, want hanteren moet ook gebeuren zonder incidenten en omvat de volledige omgeving van het kind.",
-    "Opvoeder 1 hanteert een situatie, want hij maakt een incident groeibevorderend; opvoeder 2 doet aan klimaatcreatie in de omgeving."
-   ],
-   "a": 3,
-   "u": "Hanteren van situaties is een gerichte actie van de opvoeder om een dagelijkse of incidentele gebeurtenis groeibevorderend te laten zijn, zoals het aangrijpen van de ruzie. Klimaatcreatie houdt in dat men nadenkt over de totale materiële (ruimte, dagschema) en immateriële (houding, sfeer) omgeving van het kind."
-  }
- ]
+ "hardPerHoofdstuk": {
+  "h1": 1,
+  "h2": 1,
+  "h3": 1,
+  "h4": 1,
+  "h5": 1,
+  "h6": 1,
+  "h7": 1,
+  "h8": 1
+ }
 };

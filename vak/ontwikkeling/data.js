@@ -1048,128 +1048,16 @@ window.BES_VAK = {
    "u": "De samenvatting noemt bij succesvol ouder worden drie benaderingen: disengagement (terugtrekken), activity (selectieve optimalisatie) en continuiteit. Disengagement = zich geleidelijk terugtrekken uit sociale rollen en activiteiten."
   }
  ],
- "hardVragen": [
-  {
-   "h": "h1",
-   "q": "Onderzoek A meet de samenhang tussen tv-geweld en agressie zonder in te grijpen. Onderzoek B verandert één factor en vergelijkt een experimentele groep met een controlegroep. Welke beoordeling van beide onderzoeken klopt?",
-   "o": [
-    "A test causaliteit met een experiment; B toont alleen een samenhang tussen variabelen.",
-    "A toont causaliteit via een samenhang; B kan causaliteit toetsen met een experiment.",
-    "A toont samenhang zonder bewijs van causaliteit; B kan causaliteit toetsen met een experiment.",
-    "A toont samenhang zonder bewijs van causaliteit; B blijft correlationeel ondanks het ingrijpen."
-   ],
-   "a": 2,
-   "u": "Zonder ingrijpen is A correlationeel en kan een derde variabele de samenhang verklaren. B gebruikt een ingreep en een controlegroep om een causaal verband te toetsen."
-  },
-  {
-   "h": "h2",
-   "q": "Een kind noemt een paard eerst een hond, omdat het dier in zijn bestaande schema voor viervoeters past. Daarna past het zijn schema aan om paarden en honden te onderscheiden. Welke volgorde van processen beschrijft dit?",
-   "o": [
-    "Eerst assimilatie in het bestaande schema, daarna accommodatie van het schema.",
-    "Eerst accommodatie van het bestaande schema, daarna assimilatie in het schema.",
-    "Eerst assimilatie in het bestaande schema, daarna opnieuw assimilatie in dat schema.",
-    "Eerst accommodatie van het bestaande schema, daarna opnieuw accommodatie van dat schema."
-   ],
-   "a": 0,
-   "u": "Assimilatie past nieuwe informatie in een bestaand schema. Accommodatie verandert het schema zelf, zoals bij het leren onderscheiden van de dieren."
-  },
-  {
-   "h": "h3",
-   "q": "In situatie A komt een aanleg alleen tot uiting in een bepaalde stresscontext. In situatie B zoekt een kind zelf activiteiten op die bij zijn aanleg passen. Welke combinatie beschrijft het verschil?",
-   "o": [
-    "A is actieve gen-omgevingcorrelatie; B is gen-omgevinginteractie.",
-    "A is gen-omgevinginteractie; B is passieve gen-omgevingcorrelatie.",
-    "A is passieve gen-omgevingcorrelatie; B is actieve gen-omgevingcorrelatie.",
-    "A is gen-omgevinginteractie; B is actieve gen-omgevingcorrelatie."
-   ],
-   "a": 3,
-   "u": "Bij gen-omgevinginteractie hangt het tot uiting komen van aanleg af van de context. Zelf een passende omgeving opzoeken is actieve gen-omgevingcorrelatie, ook niche-picking genoemd."
-  },
-  {
-   "h": "h4",
-   "q": "Een beschrijving onderscheidt ontwikkeling van het hoofd naar de tenen en ontwikkeling van romp en armen naar fijne vingerbewegingen. Welke koppeling aan de twee fysieke ontwikkelingsprincipes klopt?",
-   "o": [
-    "Hoofd naar tenen is proximodistaal; romp naar vingers is cefalocaudaal.",
-    "Hoofd naar tenen is cefalocaudaal; romp naar vingers is proximodistaal.",
-    "Hoofd naar tenen is cefalocaudaal; romp naar vingers is ook cefalocaudaal.",
-    "Hoofd naar tenen is proximodistaal; romp naar vingers is ook proximodistaal."
-   ],
-   "a": 1,
-   "u": "Cefalocaudaal beschrijft de richting van het hoofd naar de tenen. Proximodistaal beschrijft ontwikkeling vanuit het midden naar buiten, zoals van romp en armen naar vingers."
-  },
-  {
-   "h": "h5",
-   "q": "Na het overgieten van water beoordeelt een kleuter de hoeveelheid alleen op de hoogte van het glas. Een ouder kind begrijpt dat de hoeveelheid gelijk blijft. Welke vergelijking van hun denken klopt?",
-   "o": [
-    "De kleuter toont centratie zonder conservatie; het oudere kind toont concreet-operationele conservatie.",
-    "De kleuter toont centratie zonder conservatie; het oudere kind toont pre-operationele conservatie.",
-    "De kleuter toont decentratie met conservatie; het oudere kind toont concreet-operationele conservatie.",
-    "De kleuter toont decentratie zonder conservatie; het oudere kind toont pre-operationele conservatie."
-   ],
-   "a": 0,
-   "u": "De kleuter richt zich op één dimensie, wat centratie heet, en begrijpt het behoud van hoeveelheid nog niet. Conservatie ontstaat in de concreet-operationele fase."
-  },
-  {
-   "h": "h6",
-   "q": "Twee kinderen volgen dezelfde regel. Het eerste wil straf vermijden, het tweede zoekt goedkeuring van anderen. Welke beoordeling van hun morele redenering past bij de drie niveaus van Kohlberg?",
-   "o": [
-    "Het eerste redeneert conventioneel; het tweede redeneert preconventioneel.",
-    "Het eerste redeneert preconventioneel; het tweede redeneert postconventioneel.",
-    "Het eerste redeneert postconventioneel; het tweede redeneert conventioneel.",
-    "Het eerste redeneert preconventioneel; het tweede redeneert conventioneel."
-   ],
-   "a": 3,
-   "u": "Straf en beloning horen bij het preconventionele niveau, terwijl goedkeuring en regels bij het conventionele niveau horen. Het niveau volgt uit de redenering, ook wanneer de uiteindelijke keuze hetzelfde is."
-  },
-  {
-   "h": "h6",
-   "q": "Een kind verklaart een fout door zijn eigen voorbereiding, die per dag verschilt. Een ander kind wijst op een omstandigheid buiten zichzelf die volgens hem altijd hetzelfde blijft. Hoe worden deze verklaringen op beide attributiedimensies ingedeeld?",
-   "o": [
-    "De eerste is intern en stabiel; de tweede is extern en variabel.",
-    "De eerste is extern en variabel; de tweede is intern en stabiel.",
-    "De eerste is intern en variabel; de tweede is extern en stabiel.",
-    "De eerste is extern en stabiel; de tweede is intern en variabel."
-   ],
-   "a": 2,
-   "u": "De attributietheorie onderscheidt intern van extern en stabiel van variabel. De eigen wisselende voorbereiding is intern en variabel; een onveranderlijke omstandigheid buiten het kind is extern en stabiel."
-  },
-  {
-   "h": "h7",
-   "q": "Twee adolescenten hebben zich aan dezelfde doelen verbonden. De eerste deed dat na eigen exploratie, de tweede nam de doelen zonder exploratie van zijn ouders over. Welke identiteitsstatussen passen bij deze vergelijking?",
-   "o": [
-    "De eerste toont foreclosure; de tweede toont achievement.",
-    "De eerste toont achievement; de tweede toont foreclosure.",
-    "De eerste toont achievement; de tweede toont achievement.",
-    "De eerste toont foreclosure; de tweede toont foreclosure."
-   ],
-   "a": 1,
-   "u": "Achievement combineert commitment met voorafgaande exploratie. Foreclosure is commitment zonder die eigen exploratie, ook als beide jongeren uiteindelijk dezelfde doelen kiezen."
-  },
-  {
-   "h": "h7",
-   "q": "Een adolescent denkt dat iedereen een klein vlekje op zijn shirt beoordeelt en zegt tegelijk dat de gevolgen van riskant gedrag hem niet kunnen treffen. Welke combinatie van adolescent egocentrisme beschrijft beide uitspraken?",
-   "o": [
-    "De eerste toont het imaginaire publiek; de tweede toont de persoonlijke fabel.",
-    "De eerste toont de persoonlijke fabel; de tweede toont het imaginaire publiek.",
-    "De eerste toont het imaginaire publiek; de tweede toont ook het imaginaire publiek.",
-    "De eerste toont de persoonlijke fabel; de tweede toont ook de persoonlijke fabel."
-   ],
-   "a": 0,
-   "u": "Het imaginaire publiek is het idee voortdurend door anderen bekeken en beoordeeld te worden. De persoonlijke fabel omvat het gevoel van onkwetsbaarheid, alsof negatieve gevolgen alleen anderen treffen."
-  },
-  {
-   "h": "h8",
-   "q": "Een volwassene in de midden volwassenheid bouwt expertise op, terwijl nieuwe abstracte taken moeilijker worden. Welke combinatie van intelligentieontwikkeling en psychosociaal conflict past bij deze levensfase?",
-   "o": [
-    "Gekristalliseerde intelligentie daalt en fluïde stijgt; generativiteit tegenover stagnatie.",
-    "Gekristalliseerde intelligentie stijgt en fluïde daalt; ego-integriteit tegenover wanhoop.",
-    "Gekristalliseerde intelligentie daalt en fluïde stijgt; intimiteit tegenover isolement.",
-    "Gekristalliseerde intelligentie stijgt en fluïde daalt; generativiteit tegenover stagnatie."
-   ],
-   "a": 3,
-   "u": "In de midden volwassenheid neemt gekristalliseerde intelligentie toe en fluïde intelligentie af, wat samen kan gaan met expertise. Het psychosociale conflict voor deze fase is generativiteit tegenover stagnatie."
-  }
- ],
+ "hardPerHoofdstuk": {
+  "h1": 1,
+  "h2": 1,
+  "h3": 1,
+  "h4": 1,
+  "h5": 1,
+  "h6": 2,
+  "h7": 2,
+  "h8": 1
+ },
  "hacks": [
   {
    "h": "algemeen",

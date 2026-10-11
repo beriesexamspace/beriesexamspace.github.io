@@ -1119,119 +1119,13 @@ window.BES_VAK = {
    ]
   }
  ],
- "hardVragen": [
-  {
-   "h": "h1",
-   "q": "Een onderzoeker test een nieuwe depressievragenlijst. De scores hangen nauwelijks samen met een vragenlijst voor extraversie, en de lijst maakt een duidelijk onderscheid tussen patiënten met een diagnose depressie en een controlegroep. Welke twee vormen van validiteit worden hier aangetoond?",
-   "o": [
-    "Convergerende en predictieve validiteit",
-    "Divergerende en predictieve validiteit",
-    "Convergerende en discriminante validiteit",
-    "Divergerende en discriminante validiteit"
-   ],
-   "a": 3,
-   "u": "Een lage of niet-significante correlatie met een vragenlijst die een ander construct meet, wijst op divergerende validiteit. Onderscheid maken tussen groepen waarvan men weet dat ze op het gemeten construct verschillen, is discriminante validiteit; over toekomstig gedrag wordt niets voorspeld."
-  },
-  {
-   "h": "h2",
-   "q": "Een vrouw met een strenge opvoeding voelt zich na elke kleine leugen dagenlang schuldig en angstig, ook al merkt niemand iets. Welke vorm van angst volgens Freud is dit, en uit welke structuur komt ze voort?",
-   "o": [
-    "Neurotische angst, vanuit een ego dat de controle over het id verliest",
-    "Morele angst, vanuit sterke morele gevoelens van het superego",
-    "Morele angst, vanuit de onmiddellijke driftbevrediging van het id",
-    "Neurotische angst, vanuit het geweten en ego-ideaal van het superego"
-   ],
-   "a": 1,
-   "u": "Angst die op schuld lijkt en voortkomt uit sterke morele gevoelens vanuit het superego, noemt Freud morele angst. Neurotische angst gaat daarentegen over een ego dat de controle over de impulsen van het id dreigt te verliezen."
-  },
-  {
-   "h": "h3",
-   "q": "Freud en Horney spreken allebei over het oedipuscomplex. Welke stelling geeft de afwijkende visie van Horney correct weer?",
-   "o": [
-    "Het is een universeel biologisch gegeven dat bij meisjes tot penisnijd leidt",
-    "Het is een seksueel verlangen dat rechtstreeks voortkomt uit fundamentele angst",
-    "Het is aangeleerd en drukt de neurotische behoefte aan liefde en veiligheid uit",
-    "Het is een fixatie in de fallische fase die alleen bij jongens kan optreden"
-   ],
-   "a": 2,
-   "u": "Voor Horney is het oedipuscomplex geen universeel biologisch gegeven maar aangeleerd: een uitdrukking van de neurotische behoefte aan liefde en veiligheid, zonder seksuele component. De koppeling aan de fallische fase, het castratiecomplex en penisnijd hoort bij Freud."
-  },
-  {
-   "h": "h3",
-   "q": "Een man zegt nooit nee, zoekt bij collega's, vrienden en partner voortdurend goedkeuring en onderwerpt zich zelfs als dat hem schaadt. Hoe beoordeelt Horney dit patroon?",
-   "o": [
-    "Bewegen naar mensen, neurotisch omdat hij die ene strategie star en overdreven inzet",
-    "Bewegen naar mensen, gezond omdat hij er affectie en goedkeuring mee verwerft",
-    "Bewegen weg van mensen, neurotisch omdat hij zijn eigen behoeften opzijzet",
-    "Bewegen tegen mensen, neurotisch omdat hij anderen via inschikkelijkheid controleert"
-   ],
-   "a": 0,
-   "u": "Zich onderwerpen en vooral affectie en goedkeuring zoeken is de inschikkelijke trend naar mensen. Dat hij deze ene strategie in elke situatie star en overdreven toepast, maakt het volgens Horney neurotisch; de gezonde mens zet de drie trends flexibel in."
-  },
-  {
-   "h": "h4",
-   "q": "Een student die zichzelf als uitblinker ziet, krijgt een zware onvoldoende met kritische feedback. De kritiek dringt helemaal niet tot zijn bewustzijn door: hij vertelt thuis oprecht dat alles goed ging. Hoe verklaart Rogers dit?",
-   "o": [
-    "De ervaring wordt vervormd toegelaten, als gevolg van introjectie van voorwaarden",
-    "De ervaring wordt consistent toegelaten, wat wijst op congruentie tussen zelf en ervaring",
-    "De ervaring blijft onder de drempelwaarde, als uiting van de actualiserende tendens",
-    "De ervaring blijft onder de drempelwaarde, als defensie om het zelfconcept te behouden"
-   ],
-   "a": 3,
-   "u": "Een ervaring die helemaal niet in het bewustzijn komt, blijft onder de drempelwaarde en wordt dus ontkend; bij vervorming zou ze wel toegelaten maar aangepast worden. Ervaringen ontkennen of vervormen om het zelfconcept te behouden noemt Rogers defensiviteit."
-  },
-  {
-   "h": "h6",
-   "q": "Twee studenten scoren allebei hoog op extraversie. De ene wordt in haar thuisstad actief in een studentenvereniging, de andere richt na een verhuis naar het buitenland een praatgroep voor nieuwkomers op. Hoe beschrijft het model van McCrae en Costa dit?",
-   "o": [
-    "Ze delen dezelfde karakteristieke aanpassing, maar verschillen in fundamentele tendens",
-    "Ze delen hetzelfde zelfconcept, maar verschillen in de biologische origine van hun trek",
-    "Ze delen dezelfde fundamentele tendens, maar verschillen in karakteristieke aanpassingen",
-    "Ze verschillen in fundamentele tendens, omdat hun omgeving die ruwe basis rechtstreeks vormt"
-   ],
-   "a": 2,
-   "u": "Extraversie als trek hoort bij de fundamentele tendensen, het universele ruwe basismateriaal dat beide studenten delen. De manier waarop die trek zich uit in hun concrete omgeving, een vereniging of een praatgroep, zijn karakteristieke aanpassingen."
-  },
-  {
-   "h": "h7",
-   "q": "Eysenck koppelt een hoge score op elk van zijn drie superfactoren aan een biologische basis. Welke reeks is volledig correct?",
-   "o": [
-    "E: lage corticale opwindbaarheid, N: hoge drempel limbisch systeem, P: laag testosteron en hoog MAO",
-    "E: hoge corticale opwindbaarheid, N: hoge drempel limbisch systeem, P: hoog testosteron en laag MAO",
-    "E: lage corticale opwindbaarheid, N: lage drempel limbisch systeem, P: hoog testosteron en laag MAO",
-    "E: hoge corticale opwindbaarheid, N: lage drempel limbisch systeem, P: laag testosteron en hoog MAO"
-   ],
-   "a": 2,
-   "u": "Extraverten hebben een lage corticale opwindbaarheid en zoeken daarom extra prikkels; een hoge opwindbaarheid hoort bij introversie. Bij neurotische mensen hebben limbisch systeem en amygdala een lagere drempel, waardoor emoties sneller op gang komen. Een hoge psychoticismescore hangt samen met hoog testosteron en laag MAO."
-  },
-  {
-   "h": "h7",
-   "q": "Welke stellingen over de theorie van Eysenck zijn FOUT?",
-   "o": [
-    "Psychoticisme is een kwetsbaarheid en niet hetzelfde als een psychotische stoornis",
-    "In zijn hiërarchie staan gewoontes boven trekken, als het meest algemene niveau",
-    "Ongeveer driekwart van de variatie is erfelijk, wat tweelingonderzoek ondersteunt",
-    "Een lage score op psychoticisme wijst op egoïstisch, kil en impulsief gedrag",
-    "Elk van de drie superfactoren is bipolair en heeft een genetische component"
-   ],
-   "a": [
-    1,
-    3
-   ],
-   "kies": "fout",
-   "u": "De hiërarchie loopt van specifieke handelingen naar gewoontes, trekken en pas dan types of superfactoren, dus gewoontes staan onder trekken. Egoïsme, kilte en impulsiviteit horen bij een hoge psychoticismescore; een lage score wijst op altruïstisch, empathisch en samenwerkend gedrag. De overige stellingen kloppen met de cursus."
-  },
-  {
-   "h": "h8",
-   "q": "Een kind is thuis week na week luidruchtig en dominant, maar in de klas telkens stil en teruggetrokken. Hoe interpreteert het CAPS-model van Mischel dit ogenschijnlijk inconsistente gedrag?",
-   "o": [
-    "Als meetfout, want een echte trek hoort over alle situaties heen consistent te blijven",
-    "Als bewijs dat persoonlijkheid niet bestaat en enkel de situatie het gedrag bepaalt",
-    "Als een kardinale trek die zo overheersend is dat hij beide situaties evenveel kleurt",
-    "Als een stabiel patroon van variatie dat voortkomt uit de interactie van persoon en situatie"
-   ],
-   "a": 3,
-   "u": "Volgens het CAPS-model wijst inconsistent gedrag ook op stabiele patronen van variatie binnen een persoon. Gedrag wordt het best begrepen vanuit de persoon, de situatie en de interactie tussen beide, niet vanuit vaste trekken of de situatie alleen."
-  }
- ]
+ "hardPerHoofdstuk": {
+  "h1": 1,
+  "h2": 1,
+  "h3": 2,
+  "h4": 1,
+  "h6": 1,
+  "h7": 2,
+  "h8": 1
+ }
 };
