@@ -30,27 +30,30 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="/assets/style.css?v=80">
-  <script src="/assets/app.js?v=80" defer></script>
-  <script src="/assets/config.js?v=80" defer></script>
+  <link rel="stylesheet" href="/assets/style.css?v=81">
+  <script src="/assets/app.js?v=81" defer></script>
+  <script src="/assets/config.js?v=81" defer></script>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js" defer></script>
-  <script src="/assets/auth.js?v=80" defer></script>
-  <script src="/assets/plan.js?v=80" defer></script>
+  <script src="/assets/auth.js?v=81" defer></script>
+  <script src="/assets/plan.js?v=81" defer></script>
   <style>
     .niet-gevonden { display: flex; flex: 1 0 auto; align-items: center; justify-content: center; width: 100%; box-sizing: border-box; padding: 88px 16px 48px; }
     .niet-gevonden-kaart { width: 100%; max-width: 36rem; min-width: 0; box-sizing: border-box; padding: clamp(28px, 6vw, 48px) clamp(20px, 5vw, 44px); text-align: center; }
     .niet-gevonden-b { display: inline-grid; place-items: center; width: 56px; height: 56px; margin: 0 auto 20px; border-radius: 50%; background: var(--accent); color: #fff; font-size: 1.625rem; font-weight: 700; }
-    .niet-gevonden .code { margin: 0 0 10px; color: var(--ink-soft); font-size: .8125rem; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; }
-    .niet-gevonden h1 { margin: 0; font-size: clamp(1.75rem, 5vw, 2.5rem); font-weight: 700; line-height: 1.1; letter-spacing: -.02em; text-wrap: balance; overflow-wrap: anywhere; }
+    .niet-gevonden h1 { margin: 0; font-size: clamp(2.5rem, 11vw, 3.5rem); font-weight: 700; line-height: 1.1; letter-spacing: -.02em; text-wrap: balance; overflow-wrap: anywhere; }
     .niet-gevonden p { margin: 14px 0 0; color: var(--ink-soft); font-size: 1rem; line-height: 1.6; text-wrap: pretty; overflow-wrap: anywhere; }
+    .niet-gevonden .gesloten-bezig { margin-top: 12px; color: var(--ink); font-size: 1.0625rem; font-weight: 600; line-height: 1.45; text-wrap: balance; }
+    .niet-gevonden .gesloten-bezig + p { margin-top: 8px; font-size: .9375rem; }
     .niet-gevonden-knoppen { display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; margin-top: 28px; }
-    .niet-gevonden-knoppen .knop, .niet-gevonden-knoppen .knop-secundair { flex: 1 1 200px; max-width: 100%; box-sizing: border-box; }
+    .niet-gevonden-knoppen .knop { flex: 0 1 auto; max-width: 100%; box-sizing: border-box; }
+    .gesloten-whatsapp.knop { gap: 10px; align-items: center; justify-content: center; min-height: 52px; padding-inline: 32px; }
+    .gesloten-whatsapp svg { flex-shrink: 0; }
     .niet-gevonden-tip { margin-top: 20px; color: var(--ink-soft); font-size: .875rem; }
     .niet-gevonden-tip a { color: var(--accent); text-decoration: none; font-weight: 500; }
     :where(html.has-hover) .niet-gevonden-tip a:hover { text-decoration: underline; }
     @media (max-width: 480px) {
       .niet-gevonden { padding-top: 72px; }
-      .niet-gevonden-knoppen .knop, .niet-gevonden-knoppen .knop-secundair { flex-basis: 100%; }
+      .niet-gevonden-knoppen .knop { flex-basis: 100%; }
     }
   </style>
 </head>
@@ -59,23 +62,29 @@
   <main id="inhoud" class="niet-gevonden" aria-labelledby="gesloten-titel">
     <div class="kaart niet-gevonden-kaart">
       <div class="niet-gevonden-b" aria-hidden="true">B</div>
-      <p class="code">Bijna klaar</p>
-      <h1 id="gesloten-titel">De nieuwe Berie's Exam Space is nog niet open.</h1>
-      <p>We leggen de laatste hand aan de site. In de WhatsApp-groep hoor je als eerste wanneer het zover is.</p>
-      <div class="niet-gevonden-knoppen" data-uitloggen-groep>
-        <a class="knop" href="/whatsapp.html">Naar de WhatsApp-groep →</a>
-        <a class="knop-secundair" href="/index.html" data-account-uitloggen>Uitloggen</a>
+      <h1 id="gesloten-titel">Bijna klaar</h1>
+      <p class="gesloten-bezig">Berie is druk bezig met de nieuwe versie van Berie's Exam Space.</p>
+      <p>Bijna 400 mensen gebruiken Berie's Exam Space en bijna 300 zitten al in de WhatsApp-groep. Kom er ook bij, dan hoor je als eerste wanneer de nieuwe versie er is.</p>
+      <div class="niet-gevonden-knoppen">
+        <a class="knop gesloten-whatsapp" href="/whatsapp.html">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false"><path d="M20.52 3.48A11.87 11.87 0 0 0 12.06 0C5.5 0 .16 5.34.16 11.9c0 2.1.55 4.15 1.6 5.95L.07 24l6.3-1.65a11.9 11.9 0 0 0 5.69 1.45h.01c6.55 0 11.89-5.34 11.89-11.9a11.82 11.82 0 0 0-3.44-8.42ZM12.07 21.8a9.85 9.85 0 0 1-5.03-1.38l-.36-.22-3.74.98 1-3.64-.24-.38a9.86 9.86 0 0 1-1.52-5.26c0-5.45 4.44-9.89 9.89-9.89 2.64 0 5.12 1.03 6.99 2.9a9.81 9.81 0 0 1 2.89 6.99c0 5.46-4.43 9.9-9.88 9.9Zm5.42-7.41c-.3-.15-1.76-.87-2.04-.97-.27-.1-.47-.15-.67.15-.2.3-.77.97-.94 1.17-.18.2-.35.22-.65.07-.3-.15-1.26-.46-2.4-1.48-.88-.78-1.48-1.75-1.65-2.05-.18-.3-.02-.46.13-.61.13-.13.3-.35.45-.52.15-.17.2-.3.3-.5.1-.19.05-.36-.03-.51-.07-.15-.67-1.61-.92-2.2-.24-.59-.48-.51-.67-.52H7.8c-.2 0-.52.07-.8.37-.27.3-1.04 1.01-1.04 2.47s1.06 2.87 1.21 3.07c.15.2 2.1 3.21 5.08 4.5.71.31 1.26.49 1.69.63.71.22 1.36.19 1.87.11.57-.08 1.76-.72 2.01-1.42.25-.69.25-1.29.18-1.41-.08-.13-.28-.2-.58-.35Z"/></svg>
+          <span>Word lid van de groep</span>
+        </a>
       </div>
     </div>
   </main>
-
-  <footer class="site-footer">
-    <p class="footer-brand">Berie's Exam Space</p>
-    <div class="footer-details">
-      <p>Duidelijk leren. Rustig groeien.</p>
-      <p class="project-label">Een project van The Berie Foundation</p>
-    </div>
-  </footer>
-
+  <script>
+    // Is de site intussen open, dan meteen naar de hub. Zo blijft niemand op deze pagina hangen.
+    document.addEventListener('DOMContentLoaded', async () => {
+      const auth = window.BES && window.BES.auth;
+      if (!auth) return;
+      try { await auth.gereed; } catch {}
+      if (!auth.client) return;
+      try {
+        const { data, error } = await auth.client.rpc('site_open');
+        if (!error && data === true) window.location.replace('/hub.html');
+      } catch {}
+    });
+  </script>
 </body>
 </html>
