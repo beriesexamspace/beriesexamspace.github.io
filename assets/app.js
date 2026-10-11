@@ -65,6 +65,19 @@
     { id: 'plus', naam: 'Plus', prijs: '2,99 euro per maand', punten: ['Hard mode op examenniveau', 'Tijdklok bij simulaties', 'Foutenlijst en fouten opnieuw oefenen', 'Weekoverzicht met verbeterpunten', 'Onbeperkt simulaties'] },
     { id: 'pro', naam: 'Pro', prijs: '9,99 euro per maand', label: 'Meest compleet', punten: ['Alles van Plus', 'Klaar-meter per vak', 'Examenplan in je agenda', 'Comit legt je fouten uit', 'Ezelsbruggetjes voor je zwakke hoofdstukken'] }
   ];
+  // Rijen: onderdeel, Free, Plus, Pro (true = inbegrepen, false = niet, tekst = hoeveel). Gelijk houden met abonnement.html.
+  const VERGELIJKING = [
+    ['Alle vakken en uitleg bij elke vraag', true, true, true],
+    ['Simulaties', '2 per dag', 'Onbeperkt', 'Onbeperkt'],
+    ['Vragen aan Comit per dag', '10', '30', '60'],
+    ['Hard mode', false, true, true],
+    ['Tijdklok bij simulaties', false, true, true],
+    ['Foutenlijst en fouten opnieuw oefenen', false, true, true],
+    ['Weekoverzicht', false, true, true],
+    ['Klaar-meter', false, false, true],
+    ['Examenplan in je agenda', false, false, true],
+    ['Comit legt je fouten uit', false, false, true]
+  ];
   let kiesPlanVenster = null;
   const maak = (tag, klasse, tekst) => {
     const el = document.createElement(tag);
@@ -97,21 +110,45 @@
       kaart.append(kaartKop, maak('p', 'kies-plan-prijs', plan.prijs), lijst, zonder, knop);
       keuzes.append(kaart);
     });
+    // Vergelijking Free, Plus en Pro onder de kaarten; alleen zichtbaar bij de pop-up op de hub (vergelijking: true).
+    const vergelijking = maak('div', 'kies-plan-vergelijking');
+    vergelijking.hidden = true;
+    const tabel = maak('table');
+    const kopRij = maak('tr');
+    kopRij.append(maak('th', 'kies-plan-sr', 'Onderdeel'), ...['Free', 'Plus', 'Pro'].map(naam => { const th = maak('th', '', naam); th.scope = 'col'; return th; }));
+    const thead = maak('thead');
+    thead.append(kopRij);
+    const tbody = maak('tbody');
+    VERGELIJKING.forEach(([onderdeel, ...waarden]) => {
+      const rij = maak('tr');
+      const th = maak('th', '', onderdeel);
+      th.scope = 'row';
+      rij.append(th, ...waarden.map(waarde => {
+        const td = maak('td', waarde === true ? 'is-ja' : waarde === false ? 'is-nee' : '', typeof waarde === 'string' ? waarde : '');
+        if (typeof waarde === 'boolean') td.setAttribute('aria-label', waarde ? 'Inbegrepen' : 'Niet inbegrepen');
+        return td;
+      }));
+      tbody.append(rij);
+    });
+    tabel.append(thead, tbody);
+    vergelijking.append(maak('h3', 'kies-plan-vergelijking-kop', 'Vergelijk de plannen'), tabel);
     const voet = maak('div', 'kies-plan-voet');
     const later = maak('button', 'kies-plan-later', 'Misschien later');
     later.type = 'button';
     later.addEventListener('click', () => venster.close());
     voet.append(maak('p', 'kies-plan-proef', 'Elk plan probeer je eerst een maand.'), later);
-    venster.append(kop, reden, keuzes, voet);
+    venster.append(kop, reden, keuzes, vergelijking, voet);
     // Klik naast het venster sluit het.
     venster.addEventListener('click', event => { if (event.target === venster) venster.close(); });
     document.body.append(venster);
     return venster;
   };
-  window.BES.kiesPlan = ({ nodig = 'plus', reden = '' } = {}) => {
+  window.BES.kiesPlan = ({ nodig = 'plus', reden = '', titel = '', vergelijking = false } = {}) => {
     if (typeof HTMLDialogElement !== 'function') { window.location.href = abonnementUrl; return; }
     if (!kiesPlanVenster) kiesPlanVenster = bouwKiesPlan();
     if (kiesPlanVenster.open) return;
+    kiesPlanVenster.querySelector('#kies-plan-kop').textContent = titel || 'Kies je plan';
+    kiesPlanVenster.querySelector('.kies-plan-vergelijking').hidden = !vergelijking;
     kiesPlanVenster.querySelector('.kies-plan-reden').textContent = reden || 'Dit zit niet in Free. Kies het plan dat bij je past.';
     kiesPlanVenster.querySelectorAll('.kies-plan-kaart').forEach(kaart => {
       const mist = nodig === 'pro' && kaart.dataset.plan === 'plus';
@@ -120,6 +157,21 @@
     });
     kiesPlanVenster.showModal();
     kiesPlanVenster.querySelector('.kies-plan-kaart.is-' + (nodig === 'pro' ? 'pro' : 'plus') + ' a').focus({ preventScroll: true });
+  };
+  // Op de hub: Free-accounts krijgen de pop-up met vergelijking vanzelf, hoogstens eens per drie dagen per toestel,
+  // en alleen als betalen aanstaat. hub.html roept dit aan.
+  window.BES.planReclame = async () => {
+    const sleutel = 'bes_plan_reclame';
+    let laatst = 0;
+    try { laatst = Number(window.localStorage.getItem(sleutel)) || 0; } catch {}
+    if (Date.now() - laatst < 3 * 864e5) return;
+    try {
+      if (!window.BES.plan || (window.BES.betalen && !(await window.BES.betalen()))) return;
+      const plan = await window.BES.plan();
+      if (!plan || !plan.ingelogd || plan.plan !== 'free' || document.querySelector('dialog[open]')) return;
+    } catch { return; }
+    try { window.localStorage.setItem(sleutel, String(Date.now())); } catch {}
+    window.BES.kiesPlan({ titel: 'Probeer Plus of Pro', reden: 'Haal meer uit je studietijd. Je probeert elk plan eerst een maand.', vergelijking: true });
   };
   document.addEventListener('click', event => {
     const link = event.target.closest && event.target.closest('a[data-kies-plan]');
