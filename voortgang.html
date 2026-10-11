@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <script src="assets/deur.js?v=81"></script>
+  <script src="assets/deur.js?v=82"></script>
   <link rel="apple-touch-icon" href="/assets/icoon-180.png">
   <link rel="manifest" href="/manifest.webmanifest">
   <meta name="robots" content="noindex">
@@ -21,15 +21,15 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="assets/style.css?v=81">
-  <script src="assets/app.js?v=81" defer></script>
-  <script src="assets/vakken.js?v=81"></script>
-  <script src="assets/config.js?v=81" defer></script>
+  <link rel="stylesheet" href="assets/style.css?v=82">
+  <script src="assets/app.js?v=82" defer></script>
+  <script src="assets/vakken.js?v=82"></script>
+  <script src="assets/config.js?v=82" defer></script>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js" defer></script>
-  <script src="assets/auth.js?v=81" defer></script>
-  <script src="assets/plan.js?v=81" defer></script>
-  <script src="assets/klaarmeter.js?v=81" defer></script>
-  <script src="assets/activiteit.js?v=81" defer></script>
+  <script src="assets/auth.js?v=82" defer></script>
+  <script src="assets/plan.js?v=82" defer></script>
+  <script src="assets/klaarmeter.js?v=82" defer></script>
+  <script src="assets/activiteit.js?v=82" defer></script>
   <style>
     .vg-wrap { max-width: 860px; }
     .vg-status { margin: 0 0 16px; color: var(--ink-soft); }
@@ -245,7 +245,7 @@
           <h2 id="vg-plus-kop">Je weekoverzicht</h2>
           <p>Per dag of per week hoeveel je oefent, hoe je scoort tegenover de periode ervoor en welke hoofdstukken nog aandacht vragen. Dat zit in Plus.</p>
         </div>
-        <a class="knop-secundair" href="abonnement.html">Probeer Plus een maand</a>
+        <a class="knop-secundair" href="abonnement.html" data-kies-plan="plus" data-reden="Je weekoverzicht zit in Plus en Pro.">Probeer Plus een maand</a>
       </section>
 
       <section class="vg-blok" id="vg-overzicht" aria-labelledby="vg-overzicht-kop" hidden>
@@ -351,7 +351,7 @@
           <li><span class="vg-slotje" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg></span><span><strong>Normaal tegenover Hard</strong>Je gemiddelde per niveau, en training tegenover simulatie.</span></li>
           <li><span class="vg-slotje" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg></span><span><strong>Alle verbeterpunten</strong>Niet alleen de drie zwakste, maar elk hoofdstuk onder 80 procent.</span></li>
         </ul>
-        <a class="knop-secundair" href="abonnement.html">Probeer Pro een maand</a>
+        <a class="knop-secundair" href="abonnement.html" data-kies-plan="pro" data-reden="Het geavanceerde overzicht zit in Pro.">Probeer Pro een maand</a>
       </section>
     </div>
   </main>
@@ -379,7 +379,7 @@
       // Elk bestand één keer; de load-gebeurtenis komt meteen na het uitvoeren, dus window.BES_VAK is dan van dit vak.
       const laadVak = id => laden[id] || (laden[id] = new Promise(resolve => {
         const script = document.createElement('script');
-        script.src = `vak/${id}/data.js?v=81`;
+        script.src = `vak/${id}/data.js?v=82`;
         script.onload = () => { gegevens[id] = window.BES_VAK && window.BES_VAK.id === id ? window.BES_VAK : null; resolve(gegevens[id]); };
         script.onerror = () => { gegevens[id] = null; resolve(null); };
         document.head.append(script);
