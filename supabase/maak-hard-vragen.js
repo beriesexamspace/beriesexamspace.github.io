@@ -4,8 +4,10 @@
 //   node supabase/maak-hard-vragen.js
 //
 // Daarna in de SQL-editor van Supabase eerst supabase/hard-vragen.sql en dan supabase/hard-vragen-data.sql uitvoeren.
-// Nieuwe Hard mode-vragen? Zet ze tijdelijk als "hardVragen" in data.js en draai dit script opnieuw: de SQL vervangt
-// de vragen van dat vak in de tabel (upsert), en data.js wordt weer zonder vragen weggeschreven.
+// Nieuwe Hard mode-vragen? Zet ALLE Hard mode-vragen van dat vak (de bestaande uit de tabel plus de nieuwe) tijdelijk als
+// "hardVragen" in data.js en draai dit script opnieuw: de SQL vervangt de hele set van dat vak in de tabel (upsert), en
+// data.js wordt weer zonder vragen weggeschreven. Alleen de nieuwe erin zetten wist dus de oude. Let op: dit script
+// overschrijft ook de lokale hard-vragen-data.sql, met alleen de vakken die op dat moment hardVragen hebben.
 
 const fs = require('fs');
 const path = require('path');

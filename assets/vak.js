@@ -961,11 +961,18 @@
       if (!questions.length || !context.authReady || runLevel !== level) return;
       // Hard mode: eerst de echte vragen uit Supabase; lukt dat niet (geen Plus of Pro, of geen verbinding), dan niet starten.
       if (questions.some(question => question.plaatshouder)) {
-        const uitleg = byId('niveau-uitleg');
+        const knop = byId('start-oefening');
+        const hint = byId('start-hint');
+        if (knop.disabled) return;
+        knop.disabled = true;
+        hint.textContent = 'Hard mode laden.';
+        hint.hidden = false;
         laadHardVragen().then(() => {
+          updateStart();
           const echte = questions.filter(question => !question.plaatshouder);
           if (echte.length) { start(echte, runMode, runLevel, runSeconds); return; }
-          if (uitleg) uitleg.textContent = plusOk ? 'Hard mode laden lukte niet. Probeer het zo opnieuw.' : 'Hard mode zit in Plus en Pro.';
+          hint.textContent = plusOk ? 'Hard mode laden lukte niet. Probeer het zo opnieuw.' : 'Hard mode zit in Plus en Pro.';
+          hint.hidden = false;
         });
         return;
       }
