@@ -372,7 +372,7 @@
           auth.client.rpc('studie_dagcijfers', { p_dagen: 30 })
         ]);
         if (versie !== laadVersie) return null;
-        if (overzicht.error) { status.textContent = 'Laden is niet gelukt. Staat de SQL uit supabase/beheer-overzicht.sql al in het project?'; return false; }
+        if (overzicht.error) { status.textContent = 'Laden is niet gelukt. Staat de SQL voor het beheeroverzicht al in het project?'; return false; }
         const o = overzicht.data;
         if (!o) { status.textContent = 'Dit overzicht is alleen voor de beheerder.'; return false; }
 

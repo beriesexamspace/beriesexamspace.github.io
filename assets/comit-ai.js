@@ -1,4 +1,4 @@
-// Comit stap 2: vragen die Comit niet zelf herkent, gaan via de Edge Function "comit" naar Gemini.
+// Comit stap 2: vragen die Comit niet zelf herkent, gaan via de Edge Function "comit" naar de antwoorddienst.
 // Er gaat alleen de vraag mee en een kort overzicht van de scores per vak, nooit een naam of e-mailadres.
 window.BES = window.BES || {};
 

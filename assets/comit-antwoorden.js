@@ -77,7 +77,7 @@
     return { tekst: `Deze week: ${deze.sessies} sessies, ${deze.totaal} vragen, ${procent(deze.goed, deze.totaal)} procent goed.\n${verschil}`, knoppen };
   }
 
-  // Alleen duidelijke vragen over de site zelf krijgen een vast antwoord; al het andere gaat naar Comit met AI.
+  // Alleen duidelijke vragen over de site zelf krijgen een vast antwoord; al het andere gaat naar de vrije antwoorden van Comit.
   const lijktOp = (tekst, ...patronen) => patronen.some(patroon => patroon.test(tekst));
 
   BES.comitAntwoord = async (vraag, { client, user }) => {
