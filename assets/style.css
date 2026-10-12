@@ -639,6 +639,15 @@ h1 span { display: block; }
   color: var(--ink-soft);
 }
 
+/* Alles open (supabase/alles-open.sql, plan.js zet .alles-open): geen labels of blokken over abonnementen. */
+[data-alles-open] { display: none; }
+.alles-open [data-alles-open] { display: grid; gap: 12px; justify-items: start; }
+.alles-open [data-alles-open] h1 { margin: 0; }
+.alles-open [data-alles-open] p { margin: 0; line-height: 1.55; }
+.alles-open [data-alles-open] ~ *,
+.alles-open [data-alleen-abonnement],
+.alles-open .label-pro, .alles-open .label-plus, .alles-open .ab-plus-chip, .alles-open .ab-pro-chip { display: none !important; }
+
 /* Kies je plan (pop-up uit app.js) */
 .kies-plan {
   width: min(660px, calc(100% - 32px));

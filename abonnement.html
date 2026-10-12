@@ -30,13 +30,13 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="assets/style.css?v=84">
-  <script src="assets/app.js?v=84" defer></script>
-  <script src="assets/config.js?v=84" defer></script>
+  <link rel="stylesheet" href="assets/style.css?v=85">
+  <script src="assets/app.js?v=85" defer></script>
+  <script src="assets/config.js?v=85" defer></script>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js" defer></script>
-  <script src="assets/auth.js?v=84" defer></script>
-  <script src="assets/plan.js?v=84" defer></script>
-  <script src="assets/activiteit.js?v=84" defer></script>
+  <script src="assets/auth.js?v=85" defer></script>
+  <script src="assets/plan.js?v=85" defer></script>
+  <script src="assets/activiteit.js?v=85" defer></script>
   <style>
     .ab-plannen {
       display: grid;
@@ -272,6 +272,14 @@
     <div class="wrap">
       <a class="terug tekstlink" href="hub.html" data-terug="hub.html" data-terug-tekst="Terug">← Terug</a>
 
+      <!-- Zolang 'alles_open' aanstaat (supabase/alles-open.sql) zie je alleen dit blok; de rest van de pagina is verborgen (style.css). -->
+      <section class="kaart ab-alles-open" data-alles-open aria-labelledby="ab-open-titel">
+        <h1 id="ab-open-titel">Alles is voor iedereen open</h1>
+        <p>Op dit moment zijn er geen abonnementen. Iedereen kan alle onderdelen van Berie's Exam Space gebruiken: Hard mode, de foutenlijst, je weekoverzicht, de klaar-meter, het examenplan en Comit.</p>
+        <p>Zo wil ik eerst zoveel mogelijk studenten helpen. Komt er later toch een abonnement, dan hoor je dat vooraf.</p>
+        <a class="knop" href="hub.html">Naar de hub →</a>
+      </section>
+
       <header class="pagina-kop">
         <h1 id="ab-titel">Kies je plan</h1>
         <p class="pagina-sub">Met Free oefen je alle vakken. Plus en Pro geven je extra hulp richting je examen.</p>
@@ -289,7 +297,7 @@
           <p class="ab-plan-sub">Alles om te oefenen voor je examens.</p>
           <ul class="ab-lijst">
             <li><svg class="ab-vink" viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12.5 4.5 4.5L19 7.5"/></svg><span>Alle vakken oefenen</span></li>
-            <li><svg class="ab-vink" viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12.5 4.5 4.5L19 7.5"/></svg><span>Training onbeperkt, 2 simulaties per dag per vak</span></li>
+            <li><svg class="ab-vink" viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12.5 4.5 4.5L19 7.5"/></svg><span>Training en simulaties onbeperkt, met tijdklok</span></li>
             <li><svg class="ab-vink" viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12.5 4.5 4.5L19 7.5"/></svg><span>Uitleg, theorie en studie-hacks per vak</span></li>
             <li><svg class="ab-vink" viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12.5 4.5 4.5L19 7.5"/></svg><span>Je voortgang en studiekalender</span></li>
             <li><svg class="ab-vink" viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12.5 4.5 4.5L19 7.5"/></svg><span>Handige tools: punten berekenen, examen-info en sjablonen</span></li>
@@ -298,7 +306,6 @@
           <p class="ab-lijst-kop is-mist-kop">Niet in Free:</p>
           <ul class="ab-lijst is-mist">
             <li><svg class="ab-slot" viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg><span>Hard mode<span class="ab-plus-chip">Plus</span></span></li>
-            <li><svg class="ab-slot" viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg><span>Onbeperkt simulaties<span class="ab-plus-chip">Plus</span></span></li>
             <li><svg class="ab-slot" viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg><span>Foutenlijst<span class="ab-plus-chip">Plus</span></span></li>
             <li><svg class="ab-slot" viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg><span>Weekoverzicht<span class="ab-plus-chip">Plus</span></span></li>
             <li><svg class="ab-slot" viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg><span>Examenplan tot je examen<span class="ab-pro-chip">Pro</span></span></li>
@@ -323,7 +330,6 @@
           <p class="ab-lijst-kop">Alles van Free, plus:</p>
           <ul class="ab-lijst">
             <li><svg class="ab-vink" viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12.5 4.5 4.5L19 7.5"/></svg><span>Hard mode: moeilijke toepassingsvragen op examenniveau</span></li>
-            <li><svg class="ab-vink" viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12.5 4.5 4.5L19 7.5"/></svg><span>Onbeperkt simulaties, met tijdklok zoals op de examendag</span></li>
             <li><svg class="ab-vink" viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12.5 4.5 4.5L19 7.5"/></svg><span>Foutenlijst: al je fouten op één plek</span></li>
             <li><svg class="ab-vink" viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12.5 4.5 4.5L19 7.5"/></svg><span>Je fouten opnieuw oefenen tot je ze kent</span></li>
             <li><svg class="ab-vink" viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12.5 4.5 4.5L19 7.5"/></svg><span>Weekoverzicht: 7 dagen en 4 weken terugkijken, met verbeterpunten</span></li>
@@ -369,7 +375,6 @@
           <p class="ab-lijst-kop is-ook-kop">En alles van Plus:</p>
           <ul class="ab-lijst is-ook">
             <li><svg class="ab-vink" viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12.5 4.5 4.5L19 7.5"/></svg><span>Hard mode: moeilijke toepassingsvragen op examenniveau</span></li>
-            <li><svg class="ab-vink" viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12.5 4.5 4.5L19 7.5"/></svg><span>Onbeperkt simulaties, met tijdklok zoals op de examendag</span></li>
             <li><svg class="ab-vink" viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12.5 4.5 4.5L19 7.5"/></svg><span>Foutenlijst: al je fouten op één plek</span></li>
             <li><svg class="ab-vink" viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12.5 4.5 4.5L19 7.5"/></svg><span>Je fouten opnieuw oefenen tot je ze kent</span></li>
             <li><svg class="ab-vink" viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12.5 4.5 4.5L19 7.5"/></svg><span>Weekoverzicht: 7 dagen en 4 weken terugkijken, met verbeterpunten</span></li>
@@ -427,13 +432,13 @@
                 </tr>
                 <tr>
                   <th scope="row"><span class="ab-v-naam">Simulaties</span><span class="ab-v-uitleg">Een proefexamen met je uitslag op het einde.</span></th>
-                  <td class="is-free"><span class="ab-v-tekst">2 per dag per vak</span></td>
+                  <td class="is-free"><span class="ab-v-tekst">Onbe&shy;perkt</span></td>
                   <td class="is-plus"><span class="ab-v-tekst">Onbe&shy;perkt</span></td>
                   <td class="is-pro"><span class="ab-v-tekst">Onbe&shy;perkt</span></td>
                 </tr>
                 <tr>
                   <th scope="row"><span class="ab-v-naam">Tijdklok</span><span class="ab-v-uitleg">Bij een simulatie loopt de tijd mee, zoals op de examendag.</span></th>
-                  <td class="is-free"><span class="ab-v-leeg" aria-hidden="true"></span><span class="ab-sr">Niet in Free</span></td>
+                  <td class="is-free"><svg class="ab-v-vink" viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12.5 4.5 4.5L19 7.5"/></svg><span class="ab-sr">Inbegrepen</span></td>
                   <td class="is-plus"><svg class="ab-v-vink" viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12.5 4.5 4.5L19 7.5"/></svg><span class="ab-sr">Inbegrepen</span></td>
                   <td class="is-pro"><svg class="ab-v-vink" viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12.5 4.5 4.5L19 7.5"/></svg><span class="ab-sr">Inbegrepen</span></td>
                 </tr>

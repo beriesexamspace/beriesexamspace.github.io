@@ -62,18 +62,18 @@
     try { return new URL('../abonnement.html', document.currentScript.src).href; } catch { return 'abonnement.html'; }
   })();
   const PLANNEN = [
-    { id: 'plus', naam: 'Plus', prijs: '2,99 euro per maand', punten: ['Hard mode op examenniveau', 'Tijdklok bij simulaties', 'Foutenlijst en fouten opnieuw oefenen', 'Weekoverzicht met verbeterpunten', 'Onbeperkt simulaties'] },
+    { id: 'plus', naam: 'Plus', prijs: '2,99 euro per maand', punten: ['Hard mode op examenniveau', 'Foutenlijst en fouten opnieuw oefenen', 'Weekoverzicht met verbeterpunten', 'Een hack erbij als je een vraag fout hebt', '30 vragen per dag aan Comit'] },
     { id: 'pro', naam: 'Pro', prijs: '9,99 euro per maand', label: 'Meest compleet', punten: ['Alles van Plus', 'Klaar-meter per vak', 'Examenplan in je agenda', 'Comit legt je fouten uit', 'Ezelsbruggetjes voor je zwakke hoofdstukken'] }
   ];
   // Rijen: onderdeel, Free, Plus, Pro (true = inbegrepen, false = niet, tekst = hoeveel). Gelijk houden met abonnement.html.
   const VERGELIJKING = [
     ['Alle vakken en uitleg bij elke vraag', true, true, true],
-    ['Simulaties', '2 per dag', 'Onbeperkt', 'Onbeperkt'],
+    ['Simulaties met tijdklok', true, true, true],
     ['Vragen aan Comit per dag', '10', '30', '60'],
     ['Hard mode', false, true, true],
-    ['Tijdklok bij simulaties', false, true, true],
     ['Foutenlijst en fouten opnieuw oefenen', false, true, true],
     ['Weekoverzicht', false, true, true],
+    ['Hack bij een fout', false, true, true],
     ['Klaar-meter', false, false, true],
     ['Examenplan in je agenda', false, false, true],
     ['Comit legt je fouten uit', false, false, true]

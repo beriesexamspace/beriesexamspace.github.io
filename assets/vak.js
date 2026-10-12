@@ -136,7 +136,7 @@
     let counts = countsFor(level);
     const chapterNames = Object.fromEntries(data.hoofdstukken.map(chapter => [chapter.id, chapter.naam]));
     let selected = selections.get(level);
-    // Hard mode en oefenen met tijd horen bij Plus (assets/plan.js). Tot het plan bekend is, staan ze op slot.
+    // Hard mode hoort bij Plus (assets/plan.js); tot het plan bekend is, staat die op slot. Oefenen met tijd is sinds 11-10-2026 voor iedereen.
     let plusOk = false;
     // Foutenlijst (Plus en Pro, supabase/fouten.sql): open fouten van dit vak, als sleutels. ?fouten=1 begint meteen met oefenen.
     let openFouten = new Set();
@@ -144,8 +144,9 @@
     // Plan van het account: 'free', 'plus' of 'pro'. Zolang het niet bekend is, geldt Free maar nog zonder simulatielimiet.
     let accountPlan = 'free';
     let planBekend = false;
-    // Free: twee examensimulaties per dag per vak (beslist 04-10-2026). Teller van vandaag voor dit account (tabel sessies plus dit toestel).
-    const FREE_SIMULATIES_PER_DAG = 2;
+    // Simulatielimiet voor Free: 0 = geen limiet. Sinds 11-10-2026 onbeperkt, zoals op de oude site (eerder 2 per dag per vak).
+    // Teller van vandaag voor dit account (tabel sessies plus dit toestel) blijft bestaan voor als er ooit weer een limiet komt.
+    const FREE_SIMULATIES_PER_DAG = 0;
     let simTeller = { dag: '', eigenaar: null, aantal: 0 };
     let context = null;
     let authGeneration = 0;
@@ -342,11 +343,11 @@
       revealStep(showLevelStep ? 'niveau' : 'tijd');
     }
 
-    // Free: twee examensimulaties per dag per vak; Plus en Pro onbeperkt, Training altijd.
+    // Simulatielimiet voor Free (FREE_SIMULATIES_PER_DAG, 0 = geen limiet); Plus en Pro onbeperkt, Training altijd.
     const vandaag = () => { const d = new Date(); return `${d.getFullYear()}-${d.getMonth() + 1}-${d.getDate()}`; };
     const eigenaarNu = () => context?.owner ?? null;
     const simVandaag = () => simTeller.dag === vandaag() && simTeller.eigenaar === eigenaarNu() ? simTeller.aantal : 0;
-    const simulatieOp = () => planBekend && accountPlan === 'free' && simVandaag() >= FREE_SIMULATIES_PER_DAG;
+    const simulatieOp = () => FREE_SIMULATIES_PER_DAG > 0 && planBekend && accountPlan === 'free' && simVandaag() >= FREE_SIMULATIES_PER_DAG;
 
     // popup: true als de bezoeker zelf een simulatie wilde starten; dan komt ook de pop-up Kies je plan (app.js).
     function toonSimSlot(popup = false) {
@@ -373,7 +374,7 @@
       const detail = byId('modus-keuzes')?.querySelector('[data-modus="simulatie"] .modus-detail');
       if (detail) {
         if (detail.dataset.origineel === undefined) detail.dataset.origineel = detail.textContent;
-        const free = planBekend && accountPlan === 'free';
+        const free = FREE_SIMULATIES_PER_DAG > 0 && planBekend && accountPlan === 'free';
         detail.textContent = simulatieOp() ? 'Vandaag gedaan, morgen weer' : free ? `${detail.dataset.origineel}, ${FREE_SIMULATIES_PER_DAG} keer per dag` : detail.dataset.origineel;
       }
       if (!simulatieOp() && byId('sim-slot')) byId('sim-slot').hidden = true;
@@ -484,8 +485,9 @@
 
     function markeerPlus() {
       byId('niveau-keuzes')?.querySelector('[data-niveau="hard"]')?.classList.toggle('met-plus', !plusOk && data.hardVragen.length > 0);
-      byId('tijd-keuzes')?.querySelector('[data-tijd="met"]')?.classList.toggle('met-plus', !plusOk);
-      if (plusOk) { byId('plus-slot-niveau')?.remove(); byId('plus-slot-tijd')?.remove(); }
+      byId('tijd-keuzes')?.querySelector('[data-tijd="met"]')?.classList.remove('met-plus');
+      byId('plus-slot-tijd')?.remove();
+      if (plusOk) byId('plus-slot-niveau')?.remove();
     }
 
     // Korte vaste hash van een tekst (FNV-1a), als 8 hextekens.
@@ -581,7 +583,6 @@
     }
 
     function setTime(value, reveal = false) {
-      if (value === 'met' && !plusOk) { toonPlusSlot('tijd'); return; }
       timed = value === 'met';
       byId('tijd-keuzes').querySelectorAll('[data-tijd]').forEach(button => {
         const active = (button.dataset.tijd === 'met') === timed;
@@ -1701,7 +1702,7 @@
       if (!klaarScript) {
         klaarScript = new Promise((klaar, mislukt) => {
           const script = document.createElement('script');
-          script.src = new URL('klaarmeter.js?v=84', scriptBron).href;
+          script.src = new URL('klaarmeter.js?v=85', scriptBron).href;
           script.onload = () => (typeof BES.klaarMeter === 'function' ? klaar() : mislukt());
           script.onerror = () => { klaarScript = null; mislukt(); };
           document.head.append(script);

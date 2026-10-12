@@ -22,6 +22,8 @@ window.BES = window.BES || {};
       try {
         const { data, error } = await auth.client.rpc('mijn_abonnement');
         if (error || !data) return { ...leeg, ingelogd: true };
+        // Alles open (supabase/alles-open.sql): iedereen krijgt Pro; style.css verbergt dan alles over abonnementen.
+        if (data.alles_open) document.documentElement.classList.add('alles-open');
         return { ...leeg, ...data, ingelogd: true };
       } catch {
         return { ...leeg, ingelogd: true };
@@ -34,6 +36,16 @@ window.BES = window.BES || {};
   BES.heeftPlan = async (nodig) => (rang[(await BES.plan()).plan] || 0) >= (rang[nodig] || 0);
 
   BES.planNaam = (plan) => ({ free: 'Free', plus: 'Plus', pro: 'Pro' })[plan] || 'Free';
+
+  // Ook zonder account: staat alles open (supabase/alles-open.sql), dan krijgt de pagina .alles-open (abonnement, profiel).
+  document.addEventListener('DOMContentLoaded', async () => {
+    const client = BES.auth && BES.auth.client;
+    if (!client) return;
+    try {
+      const { data } = await client.rpc('alles_open');
+      if (data === true) document.documentElement.classList.add('alles-open');
+    } catch {}
+  });
 
   // Betalen met Mollie (supabase/mollie.sql): staat de schakelaar 'betalen' aan? Eén keer per pagina gevraagd.
   // Lukt het niet (functie nog niet uitgevoerd, geen verbinding), dan geldt false en werkt alles zoals vroeger.

@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <script src="assets/deur.js?v=84"></script>
+  <script src="assets/deur.js?v=85"></script>
   <link rel="apple-touch-icon" href="/assets/icoon-180.png">
   <link rel="manifest" href="/manifest.webmanifest">
   <meta property="og:type" content="website">
@@ -31,17 +31,17 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="assets/style.css?v=84">
-  <link rel="stylesheet" href="assets/kalender.css?v=84">
-  <script src="assets/app.js?v=84" defer></script>
-  <script src="assets/config.js?v=84" defer></script>
+  <link rel="stylesheet" href="assets/style.css?v=85">
+  <link rel="stylesheet" href="assets/kalender.css?v=85">
+  <script src="assets/app.js?v=85" defer></script>
+  <script src="assets/config.js?v=85" defer></script>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js" defer></script>
-  <script src="assets/auth.js?v=84" defer></script>
-  <script src="assets/over-jezelf.js?v=84" defer></script>
-  <script src="assets/plan.js?v=84" defer></script>
-  <script src="assets/activiteit.js?v=84" defer></script>
-  <script src="assets/vakken.js?v=84"></script>
-  <script src="assets/inzichten.js?v=84" defer></script>
+  <script src="assets/auth.js?v=85" defer></script>
+  <script src="assets/over-jezelf.js?v=85" defer></script>
+  <script src="assets/plan.js?v=85" defer></script>
+  <script src="assets/activiteit.js?v=85" defer></script>
+  <script src="assets/vakken.js?v=85"></script>
+  <script src="assets/inzichten.js?v=85" defer></script>
   <style>
     .profiel-wrap { max-width: 640px; }
     /* Bovenaan alleen foto, naam en e-mail met één knop Bewerken; de velden komen pas na die klik. */
@@ -289,13 +289,13 @@
         </div>
       </section>
 
-      <section id="abonnement" class="sectie" aria-labelledby="abonnement-kop">
+      <section id="abonnement" class="sectie" aria-labelledby="abonnement-kop" data-alleen-abonnement>
         <h2 id="abonnement-kop">Jouw abonnement</h2>
         <div class="kaart abo-kaart">
           <div>
             <p class="abo-label">Je plan</p>
             <p class="abo-naam"><span data-abo-plan>Free</span><span class="label" data-abo-status hidden></span></p>
-            <p class="abo-sub" data-abo-sub>Alle vragen van alle vakken. Met Plus krijg je er Hard mode, de tijdklok en je weekoverzicht bij.</p>
+            <p class="abo-sub" data-abo-sub>Alle vragen van alle vakken, ook simulaties met tijdklok. Met Plus krijg je er Hard mode, je foutenlijst en je weekoverzicht bij.</p>
             <p class="abo-melding" data-abo-melding role="status" aria-live="polite"></p>
           </div>
           <div class="abo-knoppen">
@@ -740,8 +740,8 @@
       if (!blok || !BES.plan) return;
       const $ = (naam) => blok.querySelector('[data-abo-' + naam + ']');
       const inhoud = {
-        free: 'Alle vragen van alle vakken. Met Plus krijg je er Hard mode, de tijdklok en je weekoverzicht bij.',
-        plus: 'Hard mode, de tijdklok, je weekoverzicht en je foutenlijst.',
+        free: 'Alle vragen van alle vakken, ook simulaties met tijdklok. Met Plus krijg je er Hard mode, je foutenlijst en je weekoverzicht bij.',
+        plus: 'Hard mode, je weekoverzicht en je foutenlijst.',
         pro: 'Alles van Plus, met Comit als persoonlijke examencoach.',
       };
 
