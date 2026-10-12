@@ -1316,7 +1316,7 @@
       }).then(() => {}, () => {});
     }
 
-    // Comit-basis zonder AI: sterke en zwakke hoofdstukken uit deze ronde, plus één tip met een knop.
+    // Comit-basis met vaste regels: sterke en zwakke hoofdstukken uit deze ronde, plus één tip met een knop.
     function renderComit(answers, correct) {
       const kaart = byId('comit');
       if (!kaart) return;

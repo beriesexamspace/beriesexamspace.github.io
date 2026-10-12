@@ -1,1 +1,2 @@
-.claude/
+# Lokale verborgen mappen niet meenemen
+/.*/
