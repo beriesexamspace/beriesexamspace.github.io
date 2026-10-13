@@ -204,9 +204,11 @@
     menu.addEventListener('focusout', event => { if (event.relatedTarget && !menu.contains(event.relatedTarget)) zetProfielMenu(menu, false); });
     menu.append(knop, lijst);
     if (typeof BES.plan === 'function') {
+      // Free of Plus; planNaam toont een oude 'pro' als Plus.
       BES.plan().then(gegeven => {
-        plan.textContent = BES.planNaam(gegeven.plan);
-        plan.dataset.plan = gegeven.plan;
+        const planNaam = BES.planNaam(gegeven.plan);
+        plan.textContent = planNaam;
+        plan.dataset.plan = planNaam.toLowerCase();
         plan.hidden = false;
       }).catch(() => {});
     }

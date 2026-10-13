@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <script src="assets/deur.js?v=84"></script>
+  <script src="assets/deur.js?v=85"></script>
   <link rel="apple-touch-icon" href="/assets/icoon-180.png">
   <link rel="manifest" href="/manifest.webmanifest">
   <meta name="robots" content="noindex">
@@ -21,15 +21,15 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="assets/style.css?v=84">
-  <script src="assets/app.js?v=84" defer></script>
-  <script src="assets/vakken.js?v=84"></script>
-  <script src="assets/config.js?v=84" defer></script>
+  <link rel="stylesheet" href="assets/style.css?v=85">
+  <script src="assets/app.js?v=85" defer></script>
+  <script src="assets/vakken.js?v=85"></script>
+  <script src="assets/config.js?v=85" defer></script>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js" defer></script>
-  <script src="assets/auth.js?v=84" defer></script>
-  <script src="assets/plan.js?v=84" defer></script>
-  <script src="assets/klaarmeter.js?v=84" defer></script>
-  <script src="assets/activiteit.js?v=84" defer></script>
+  <script src="assets/auth.js?v=85" defer></script>
+  <script src="assets/plan.js?v=85" defer></script>
+  <script src="assets/klaarmeter.js?v=85" defer></script>
+  <script src="assets/activiteit.js?v=85" defer></script>
   <style>
     .vg-wrap { max-width: 860px; }
     .vg-status { margin: 0 0 16px; color: var(--ink-soft); }
@@ -40,7 +40,7 @@
     .vg-tegel .uitleg { display: block; margin-top: 4px; color: var(--ink-soft); font-size: .875rem; }
     .vg-lijst { display: grid; gap: 14px; }
     .vg-sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
-    /* Weekoverzicht (Plus): staven per dag of per week, daaronder de cijfers van die periode en wat aandacht vraagt. */
+    /* Weekoverzicht: staven per dag of per week, daaronder de cijfers van die periode en wat aandacht vraagt. */
     .vg-week { margin: 0 0 28px; padding: 20px; border: 1px solid var(--line); border-radius: 16px; background: var(--card); }
     .vg-week h2, .vg-blok h2 { margin: 0 0 16px; font-size: 1.125rem; }
     .vg-week h3 { margin: 0 0 16px; font-size: 1rem; font-weight: 600; }
@@ -57,7 +57,7 @@
     .vg-blok .vg-samenvatting { margin-bottom: 12px; }
     .vg-verschil { margin: 0; color: var(--ink-soft); font-size: .875rem; }
     .vg-verschil.is-beter { color: var(--teal-tekst); }
-    /* Periode: 7 dagen en 4 weken (Plus), Sinds dag 1 (Pro). */
+    /* Periode: 7 dagen, 4 weken of Sinds dag 1. */
     .vg-overzicht-kop { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px; margin: 0 0 16px; }
     .vg-overzicht-kop h2 { margin: 0; }
     .vg-periode { display: inline-flex; gap: 4px; padding: 4px; border-radius: var(--pill); background: var(--surface); }
@@ -66,17 +66,7 @@
     .vg-periode button:focus-visible { outline-offset: 2px; }
     .vg-periode button:active { transform: scale(.97); }
     :where(html.has-hover) .vg-periode button:not([aria-pressed="true"]):hover { color: var(--ink); }
-    .vg-plus { display: flex; align-items: center; justify-content: space-between; gap: 20px; margin: 0 0 28px; padding: 24px; }
-    .vg-plus h2 { margin: 0 0 6px; font-size: 1.125rem; }
-    .vg-plus p { margin: 0; color: var(--ink-soft); font-size: .9375rem; line-height: 1.5; }
-    .vg-plus .knop-secundair { width: auto; min-width: 0; margin: 0; padding: 10px 20px; }
     .vg-regel a { display: inline-flex; align-items: center; min-height: 44px; }
-    .vg-verbeter-lijst { display: grid; gap: 12px; }
-    .vg-verbeter-kaart { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 20px; }
-    .vg-verbeter-kaart h3 { margin: 4px 0 8px; font-size: 1rem; }
-    .vg-verbeter-vak { margin: 0; color: var(--ink-soft); font-size: .8125rem; }
-    .vg-verbeter-score { margin: 0; color: var(--ink-soft); font-size: .875rem; }
-    .vg-verbeter-kaart .knop-secundair { min-height: 44px; width: auto; min-width: 0; margin: 0; padding: 10px 16px; white-space: normal; text-align: center; }
     .vg-chips { display: flex; flex-wrap: wrap; gap: 8px; margin: 0; padding: 0; list-style: none; }
     .vg-chips li { max-width: 100%; padding: 9px 13px; border-radius: var(--radius-pill); background: var(--teal-zacht); color: var(--teal-tekst); font-size: .8125rem; line-height: 1.6; overflow-wrap: anywhere; }
     .vg-vak { padding: 20px 22px; }
@@ -105,11 +95,10 @@
     .vg-jaar-kop:first-child { margin-top: 0; }
     .vg-leeg { padding: 28px; text-align: center; }
     .vg-leeg p { margin: 0 0 16px; color: var(--ink-soft); }
-    /* Geavanceerd overzicht (Pro): eigen sectie met een gouden Pro-label, elk onderdeel in een eigen kaart. */
-    .vg-pro { margin: 8px 0 40px; padding-top: 28px; border-top: 1px solid rgba(212,175,55,.45); }
+    /* Geavanceerd overzicht (voor elk account): eigen sectie, elk onderdeel in een eigen kaart. */
+    .vg-pro { margin: 8px 0 40px; padding-top: 28px; border-top: 1px solid var(--line); }
     .vg-pro-kop { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; margin: 0 0 6px; }
     .vg-pro-kop h2 { margin: 0; font-size: 1.375rem; line-height: 1.25; }
-    .vg-pro-label { display: inline-flex; align-items: center; padding: 4px 10px; border: 1px solid rgba(212,175,55,.45); border-radius: var(--pill); background: #0b0a08; color: #e6c872; font-size: .75rem; font-weight: 600; line-height: 1.2; letter-spacing: .02em; }
     .vg-pro-sub { margin: 0 0 20px; color: var(--ink-soft); font-size: .9375rem; line-height: 1.5; }
     .vg-pro-blokken { display: grid; gap: 20px; }
     .vg-pro-blok { padding: 24px; }
@@ -181,28 +170,14 @@
     .vg-type-rij { display: grid; grid-template-columns: 84px minmax(0, 1fr) auto; align-items: center; gap: 12px; margin-top: 10px; font-size: .875rem; }
     .vg-type-rij span:last-child { color: var(--ink-soft); font-variant-numeric: tabular-nums; text-align: right; white-space: nowrap; }
     .vg-type-verschil { margin: 10px 0 0; color: var(--ink-soft); font-size: .8125rem; line-height: 1.5; }
-    /* Free en Plus: wat er in het geavanceerde overzicht zit, zonder cijfers. */
-    .vg-slot { margin: 40px 0 0; padding: 28px; }
-    .vg-slot-sub { margin: 0 0 20px; color: var(--ink-soft); font-size: .9375rem; line-height: 1.5; }
-    .vg-slot-lijst { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px 28px; margin: 0 0 28px; padding: 0; list-style: none; }
-    .vg-slot-lijst li { display: grid; grid-template-columns: 26px minmax(0, 1fr); gap: 12px; align-items: start; color: var(--ink-soft); font-size: .875rem; line-height: 1.5; }
-    .vg-slot-lijst strong { display: block; color: var(--ink); font-size: .9375rem; font-weight: 600; }
-    .vg-slotje { display: inline-flex; align-items: center; justify-content: center; width: 26px; height: 26px; border-radius: 50%; background: #0b0a08; color: #e6c872; }
-    .vg-slotje svg { width: 13px; height: 13px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
-    .vg-slot .knop-secundair { width: auto; min-width: 0; margin: 0; padding: 10px 20px; border-color: rgba(212,175,55,.6); }
     @media (max-width: 640px) {
       .vg-samenvatting { grid-template-columns: minmax(0, 1fr); }
       .vg-week { padding: 16px; }
-      .vg-verbeter-kaart { flex-direction: column; align-items: stretch; }
-      .vg-plus { flex-direction: column; align-items: stretch; }
-      .vg-plus .knop-secundair, .vg-slot .knop-secundair { width: 100%; max-width: none; }
       .vg-hoofdstuk { grid-template-columns: minmax(0, 1fr) 80px; }
       .vg-hoofdstuk .vg-balk { grid-column: 1 / -1; }
       .vg-periode { display: flex; width: 100%; }
       .vg-periode button { flex: 1 1 0; padding: 0 8px; }
       .vg-pro-blok { padding: 18px; }
-      .vg-slot { padding: 22px; }
-      .vg-slot-lijst { grid-template-columns: minmax(0, 1fr); }
       .vg-groei-rij { grid-template-columns: minmax(0, 1fr) auto; }
       .vg-groei-rij .vg-baan { grid-column: 1 / -1; grid-row: 2; }
       .vg-type-rij { grid-template-columns: 72px minmax(0, 1fr) auto; gap: 10px; }
@@ -240,21 +215,13 @@
 
       <p class="vg-status" id="vg-status" role="status">Even laden.</p>
 
-      <section class="kaart vg-plus" id="vg-plus" aria-labelledby="vg-plus-kop" hidden>
-        <div>
-          <h2 id="vg-plus-kop">Je weekoverzicht</h2>
-          <p>Per dag of per week hoeveel je oefent, hoe je scoort tegenover de periode ervoor en welke hoofdstukken nog aandacht vragen. Dat zit in Plus.</p>
-        </div>
-        <a class="knop-secundair" href="abonnement.html" data-kies-plan="plus" data-reden="Je weekoverzicht zit in Plus en Pro.">Probeer Plus een maand</a>
-      </section>
-
       <section class="vg-blok" id="vg-overzicht" aria-labelledby="vg-overzicht-kop" hidden>
         <div class="vg-overzicht-kop">
           <h2 id="vg-overzicht-kop">Weekoverzicht</h2>
           <div class="vg-periode" id="vg-periode" role="group" aria-label="Kies een periode">
             <button type="button" data-periode="7" aria-pressed="true">7 dagen</button>
             <button type="button" data-periode="28" aria-pressed="false">4 weken</button>
-            <button type="button" data-periode="dag1" aria-pressed="false" hidden>Sinds dag 1</button>
+            <button type="button" data-periode="dag1" aria-pressed="false">Sinds dag 1</button>
           </div>
         </div>
         <figure class="vg-week" id="vg-week" aria-labelledby="vg-week-kop">
@@ -274,15 +241,9 @@
         <p class="vg-verschil" id="vg-verschil" hidden></p>
       </section>
 
-      <section class="vg-blok" id="vg-verbeter" aria-labelledby="vg-verbeter-kop" hidden>
-        <h2 id="vg-verbeter-kop">Verbeterpunten</h2>
-        <div class="vg-verbeter-lijst" id="vg-verbeter-lijst"></div>
-      </section>
-
       <section class="vg-pro" id="vg-pro" aria-labelledby="vg-pro-kop" hidden>
         <div class="vg-pro-kop">
           <h2 id="vg-pro-kop">Geavanceerd overzicht</h2>
-          <span class="vg-pro-label">Pro</span>
         </div>
         <p class="vg-pro-sub">Alles uit je rondes sinds dag 1, per vak en per hoofdstuk.</p>
         <div class="vg-pro-blokken">
@@ -334,25 +295,6 @@
         <div class="kaart vg-tegel"><span class="getal" id="vg-afgerond">0</span><span class="uitleg">hoofdstukken afgerond</span></div>
       </div>
       <div class="vg-lijst" id="vg-lijst"></div>
-
-      <section class="kaart vg-slot" id="vg-slot" aria-labelledby="vg-slot-kop" hidden>
-        <div class="vg-pro-kop">
-          <h2 id="vg-slot-kop">Geavanceerd overzicht</h2>
-          <span class="vg-pro-label">Pro</span>
-        </div>
-        <p class="vg-slot-sub">Met Pro zie je je voortgang tot in detail.</p>
-        <ul class="vg-slot-lijst">
-          <li><span class="vg-slotje" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg></span><span><strong>Sinds dag 1</strong>Je hele geschiedenis in één grafiek, per week of per maand.</span></li>
-          <li><span class="vg-slotje" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg></span><span><strong>Klaar-meter per vak</strong>Hoeveel stof je zag en hoe goed het ging, met de twee snelste stappen omhoog.</span></li>
-          <li><span class="vg-slotje" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg></span><span><strong>Groei per hoofdstuk</strong>Je eerste ronde naast je laatste, per hoofdstuk.</span></li>
-          <li><span class="vg-slotje" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg></span><span><strong>Score per vak door de tijd</strong>Elke ronde als punt op een lijn.</span></li>
-          <li><span class="vg-slotje" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg></span><span><strong>Leertijd</strong>Minuten per dag en de weekdag waarop je het best scoort.</span></li>
-          <li><span class="vg-slotje" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg></span><span><strong>Foutenanalyse</strong>Welke vragen je vaker fout had, per hoofdstuk.</span></li>
-          <li><span class="vg-slotje" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg></span><span><strong>Normaal tegenover Hard</strong>Je gemiddelde per niveau, en training tegenover simulatie.</span></li>
-          <li><span class="vg-slotje" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg></span><span><strong>Alle verbeterpunten</strong>Niet alleen de drie zwakste, maar elk hoofdstuk onder 80 procent.</span></li>
-        </ul>
-        <a class="knop-secundair" href="abonnement.html" data-kies-plan="pro" data-reden="Het geavanceerde overzicht zit in Pro.">Probeer Pro een maand</a>
-      </section>
     </div>
   </main>
 
@@ -379,7 +321,7 @@
       // Elk bestand één keer; de load-gebeurtenis komt meteen na het uitvoeren, dus window.BES_VAK is dan van dit vak.
       const laadVak = id => laden[id] || (laden[id] = new Promise(resolve => {
         const script = document.createElement('script');
-        script.src = `vak/${id}/data.js?v=84`;
+        script.src = `vak/${id}/data.js?v=85`;
         script.onload = () => { gegevens[id] = window.BES_VAK && window.BES_VAK.id === id ? window.BES_VAK : null; resolve(gegevens[id]); };
         script.onerror = () => { gegevens[id] = null; resolve(null); };
         document.head.append(script);
@@ -496,10 +438,7 @@
         });
       };
 
-      // Plan en gegevens van deze pagina.
-      let plan = 'free';
-      let plusOk = false;
-      let pro = false;
+      // Gegevens van deze pagina.
       let sessies = null;
       let activiteit = null;
       let periode = '7';
@@ -512,7 +451,7 @@
         return kandidaten.length ? Math.min(...kandidaten) : dagNr(new Date()) - 6;
       };
 
-      // Weekoverzicht (Plus en Pro): de grafiek, de tegels en de vergelijking met de periode ervoor.
+      // Weekoverzicht: de grafiek, de tegels en de vergelijking met de periode ervoor.
       const toonOverzicht = () => {
         if (!sessies) return;
         const vandaagNr = dagNr(new Date());
@@ -563,7 +502,7 @@
           goedVan: emmer => emmer.goed,
           titelVan: emmer => `${emmer.lang}: ${meervoud(emmer.totaal, 'vraag', 'vragen')}, ${emmer.goed} goed`
         });
-        if (pro && activiteit) toonLeertijd(emmers);
+        if (activiteit) toonLeertijd(emmers);
       };
 
       document.getElementById('vg-periode').addEventListener('click', event => {
@@ -574,21 +513,10 @@
         toonOverzicht();
       });
 
-      // De drie zwakste hoofdstukken met een knop (Plus; Pro ziet ze allemaal), en de sterke als chips. Alleen bij minstens drie vragen.
+      // De sterke hoofdstukken als chips; wat nog aandacht vraagt, staat bij Alle verbeterpunten. Alleen bij minstens drie vragen.
       const toonHoofdstukken = hoofdstukken => {
-        const verbeter = hoofdstukken.filter(item => item.verhouding < .8).sort((a, b) => a.verhouding - b.verhouding).slice(0, 3);
         const goed = hoofdstukken.filter(item => item.verhouding >= .8).sort((a, b) => b.verhouding - a.verhouding);
-        document.getElementById('vg-verbeter').hidden = !verbeter.length || !plusOk || pro;
         document.getElementById('vg-goed').hidden = !goed.length;
-        document.getElementById('vg-verbeter-lijst').replaceChildren(...verbeter.map(item => {
-          const kaart = el('article', 'kaart vg-verbeter-kaart');
-          const tekst = el('div');
-          tekst.append(el('p', 'vg-verbeter-vak', item.vak.naam), el('h3', '', item.naam), el('p', 'vg-verbeter-score', `${procent(item.goed, item.totaal)}% goed`));
-          const link = el('a', 'knop-secundair', 'Oefen dit hoofdstuk →');
-          link.href = `vak/${item.vak.id}/?hoofdstuk=${encodeURIComponent(item.id)}`;
-          kaart.append(tekst, link);
-          return kaart;
-        }));
         const chips = goed.slice(0, 6).map(item => el('li', '', `${item.vak.naam} · ${item.naam} · ${procent(item.goed, item.totaal)}%`));
         if (goed.length > 6) chips.push(el('li', '', `en ${goed.length - 6} meer`));
         document.getElementById('vg-chips').replaceChildren(...chips);
@@ -685,7 +613,7 @@
         return { geoefend, perVak, hoofdstukken };
       };
 
-      // ---------- Geavanceerd overzicht (Pro) ----------
+      // ---------- Geavanceerd overzicht ----------
 
       // Grafieken die uit een blok verdwijnen, hoeven niet meer mee te tekenen bij een andere breedte.
       const vulBlok = (id, ...inhoud) => {
@@ -1056,7 +984,7 @@
       // Elk onderdeel apart: als er één misloopt, blijven de andere staan.
       const veilig = (id, teken) => { try { teken(); } catch { nietGeladen(id); } };
 
-      const toonPro = async (context, foutenUitslag) => {
+      const toonGeavanceerd = async (context, foutenUitslag) => {
         const sessiesOk = Array.isArray(sessies);
         const extra = new Set();
         (sessies || []).forEach(sessie => { if (vakNamen[sessie.vak] && Array.isArray(sessie.hoofdstukken)) extra.add(sessie.vak); });
@@ -1099,7 +1027,7 @@
         }
       };
 
-      // Free: voortgang per vak. Plus: weekoverzicht en drie verbeterpunten (assets/plan.js). Pro: ook het geavanceerde overzicht.
+      // Voor elk account: voortgang per vak, het weekoverzicht en het geavanceerde overzicht.
       const laad = async () => {
         await auth.gereed;
         const user = await auth.gebruiker();
@@ -1108,27 +1036,13 @@
         status.textContent = 'Even laden.';
         const voortgangBelofte = Promise.resolve(client.from('voortgang').select('vak,hoofdstuk,beantwoord,goed,laatst_goed,laatst_totaal,bijgewerkt').eq('user_id', user.id))
           .catch(error => ({ data: null, error }));
-        plan = window.BES && window.BES.plan ? (await window.BES.plan()).plan : 'free';
-        pro = plan === 'pro';
-        plusOk = pro || plan === 'plus';
-        document.getElementById('vg-plus').hidden = plusOk;
-        document.querySelector('#vg-periode [data-periode="dag1"]').hidden = !pro;
-        if (periode === 'dag1' && !pro) periode = '7';
 
-        // Plus: acht weken (4 weken en de 4 ervoor). Pro: alles sinds de eerste ronde, met de score per hoofdstuk.
-        const vandaag = new Date();
-        const vanaf = new Date(vandaag.getFullYear(), vandaag.getMonth(), vandaag.getDate() - 55);
-        const vraagSessies = kolommen => alles(() => {
-          let vraag = client.from('sessies').select(kolommen).eq('user_id', user.id);
-          if (!pro) vraag = vraag.gte('gemaakt_op', vanaf.toISOString());
-          return vraag.order('gemaakt_op').order('id');
-        });
+        // Alles sinds de eerste ronde, met de score per hoofdstuk (ontbreekt die kolom, dan zonder).
+        const vraagSessies = kolommen => alles(() => client.from('sessies').select(kolommen).eq('user_id', user.id).order('gemaakt_op').order('id'));
         const basis = 'vak,niveau,modus,goed,totaal,gemaakt_op';
-        const sessiesBelofte = !plusOk ? Promise.resolve(null)
-          : pro ? vraagSessies(basis + ',hoofdstukken').then(uitslag => uitslag.error ? vraagSessies(basis) : uitslag)
-          : vraagSessies(basis);
-        const activiteitBelofte = pro ? alles(() => client.from('studieactiviteit').select('dag,leertijd_ms').eq('user_id', user.id).order('dag').order('apparaat')) : Promise.resolve(null);
-        const foutenBelofte = pro ? alles(() => client.from('fouten').select('vak,sleutel,hoofdstuk,keer_fout,laatst_fout').eq('user_id', user.id).eq('opgelost', false).gte('keer_fout', 2).order('vak').order('sleutel')) : Promise.resolve(null);
+        const sessiesBelofte = vraagSessies(basis + ',hoofdstukken').then(uitslag => uitslag.error ? vraagSessies(basis) : uitslag);
+        const activiteitBelofte = alles(() => client.from('studieactiviteit').select('dag,leertijd_ms').eq('user_id', user.id).order('dag').order('apparaat'));
+        const foutenBelofte = alles(() => client.from('fouten').select('vak,sleutel,hoofdstuk,keer_fout,laatst_fout').eq('user_id', user.id).eq('opgelost', false).gte('keer_fout', 2).order('vak').order('sleutel'));
 
         let context = null;
         let mislukt = false;
@@ -1138,7 +1052,6 @@
             context = await toon(uitslag.data || []);
           }),
           sessiesBelofte.then(uitslag => {
-            if (!uitslag) return;
             if (uitslag.error) { mislukt = true; return; }
             sessies = uitslag.data;
             toonOverzicht();
@@ -1147,23 +1060,19 @@
           foutenBelofte
         ]);
 
-        if (pro) {
-          if (activiteitUitslag && !activiteitUitslag.error) {
-            // Per dag opgeteld over alle apparaten.
-            const perDag = new Map();
-            for (const rij of activiteitUitslag.data) {
-              const deel = /^(\d{4})-(\d{2})-(\d{2})$/.exec(rij.dag || '');
-              if (!deel) continue;
-              const nr = Math.floor(Date.UTC(Number(deel[1]), Number(deel[2]) - 1, Number(deel[3])) / DAG);
-              perDag.set(nr, (perDag.get(nr) || 0) + (Number(rij.leertijd_ms) || 0));
-            }
-            activiteit = [...perDag.entries()].sort((a, b) => a[0] - b[0]).map(([nr, ms]) => ({ nr, ms }));
+        if (!activiteitUitslag.error) {
+          // Per dag opgeteld over alle apparaten.
+          const perDag = new Map();
+          for (const rij of activiteitUitslag.data) {
+            const deel = /^(\d{4})-(\d{2})-(\d{2})$/.exec(rij.dag || '');
+            if (!deel) continue;
+            const nr = Math.floor(Date.UTC(Number(deel[1]), Number(deel[2]) - 1, Number(deel[3])) / DAG);
+            perDag.set(nr, (perDag.get(nr) || 0) + (Number(rij.leertijd_ms) || 0));
           }
-          if ((activiteitUitslag && activiteitUitslag.error) || (foutenUitslag && foutenUitslag.error)) mislukt = true;
-          await toonPro(context, foutenUitslag);
-        } else {
-          document.getElementById('vg-slot').hidden = false;
+          activiteit = [...perDag.entries()].sort((a, b) => a[0] - b[0]).map(([nr, ms]) => ({ nr, ms }));
         }
+        if (activiteitUitslag.error || foutenUitslag.error) mislukt = true;
+        await toonGeavanceerd(context, foutenUitslag);
         status.textContent = mislukt ? 'Niet alle voortgang kon geladen worden. Probeer het later opnieuw.' : '';
       };
       laad().catch(() => { status.textContent = 'Laden is niet gelukt. Probeer het later opnieuw.'; });

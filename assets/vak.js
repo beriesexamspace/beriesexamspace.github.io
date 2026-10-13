@@ -95,7 +95,7 @@
     if (raw.vragen.some(invalidQuestion)) return null;
     const hardQuestions = Array.isArray(raw.hardVragen) && !raw.hardVragen.some(invalidQuestion) ? raw.hardVragen : [];
     // Hard mode-vragen staan in Supabase (supabase/hard-vragen.sql); data.js heeft alleen hardPerHoofdstuk.
-    // Tot ze voor Plus of Pro geladen zijn, staan er plaatshouders per hoofdstuk, zodat keuzes en aantallen kloppen.
+    // Tot ze voor Plus geladen zijn, staan er plaatshouders per hoofdstuk, zodat keuzes en aantallen kloppen.
     const placeholders = !hardQuestions.length && raw.hardPerHoofdstuk && typeof raw.hardPerHoofdstuk === 'object'
       ? Object.entries(raw.hardPerHoofdstuk)
         .filter(([chapter, count]) => chapters.has(chapter) && Number.isInteger(count) && count > 0 && count <= 500)
@@ -136,12 +136,13 @@
     let counts = countsFor(level);
     const chapterNames = Object.fromEntries(data.hoofdstukken.map(chapter => [chapter.id, chapter.naam]));
     let selected = selections.get(level);
-    // Hard mode en oefenen met tijd horen bij Plus (assets/plan.js). Tot het plan bekend is, staan ze op slot.
+    // Hard mode hoort bij Plus (assets/plan.js). Tot het plan bekend is, staat het op slot.
     let plusOk = false;
-    // Foutenlijst (Plus en Pro, supabase/fouten.sql): open fouten van dit vak, als sleutels. ?fouten=1 begint meteen met oefenen.
+    // Foutenlijst (supabase/fouten.sql): open fouten van dit vak, als sleutels. ?fouten=1 begint meteen met oefenen.
     let openFouten = new Set();
     let foutenUitUrl = new URLSearchParams(window.location.search).get('fouten') === '1';
-    // Plan van het account: 'free', 'plus' of 'pro'. Zolang het niet bekend is, geldt Free maar nog zonder simulatielimiet.
+    // Plan van het account: 'free' of 'plus' (een oud 'pro' telt als 'plus'). Zolang het niet bekend is, geldt Free maar nog zonder simulatielimiet.
+    const planVan = plan => plan && (plan.plan === 'plus' || plan.plan === 'pro') ? 'plus' : 'free';
     let accountPlan = 'free';
     let planBekend = false;
     // Free: twee examensimulaties per dag per vak (beslist 04-10-2026). Teller van vandaag voor dit account (tabel sessies plus dit toestel).
@@ -342,7 +343,7 @@
       revealStep(showLevelStep ? 'niveau' : 'tijd');
     }
 
-    // Free: twee examensimulaties per dag per vak; Plus en Pro onbeperkt, Training altijd.
+    // Free: twee examensimulaties per dag per vak; Plus onbeperkt, Training altijd.
     const vandaag = () => { const d = new Date(); return `${d.getFullYear()}-${d.getMonth() + 1}-${d.getDate()}`; };
     const eigenaarNu = () => context?.owner ?? null;
     const simVandaag = () => simTeller.dag === vandaag() && simTeller.eigenaar === eigenaarNu() ? simTeller.aantal : 0;
@@ -357,8 +358,8 @@
         melding.setAttribute('role', 'status');
         byId('modus-keuzes').after(melding);
       }
-      const reden = `Je ${FREE_SIMULATIES_PER_DAG} simulaties van vandaag voor dit vak heb je gedaan. Met Plus of Pro oefen je onbeperkt.`;
-      const link = create('a', '', 'oefen onbeperkt met Plus of Pro');
+      const reden = `Je ${FREE_SIMULATIES_PER_DAG} simulaties van vandaag voor dit vak heb je gedaan. Met Plus oefen je onbeperkt.`;
+      const link = create('a', '', 'oefen onbeperkt met Plus');
       link.href = '../../abonnement.html';
       link.dataset.kiesPlan = 'plus';
       link.dataset.reden = reden;
@@ -423,15 +424,15 @@
     }
 
     function planToepassen(plan) {
-      plusOk = Boolean(plan && (plan.plan === 'plus' || plan.plan === 'pro'));
-      accountPlan = plan && ['free', 'plus', 'pro'].includes(plan.plan) ? plan.plan : 'free';
+      accountPlan = planVan(plan);
+      plusOk = accountPlan === 'plus';
       planBekend = Boolean(plan);
       markeerPlus();
       markeerSimulatie();
       if (plusOk) laadHardVragen();
     }
 
-    // Hard mode-vragen uit Supabase (alleen Plus en Pro, de database controleert dat). Elke plaatshouder krijgt de
+    // Hard mode-vragen uit Supabase (alleen Plus, de database controleert dat). Elke plaatshouder krijgt de
     // vraag van hetzelfde hoofdstuk op dezelfde plek, zodat lijsten die al gemaakt zijn meteen de echte vragen tonen.
     let hardBelofte = null;
     const hardGeladen = () => !data.hardVragen.some(question => question.plaatshouder);
@@ -462,18 +463,18 @@
       return hardBelofte;
     }
 
-    // Melding onder de keuze als iemand zonder Plus Hard mode of Met tijd kiest, en de pop-up Kies je plan (app.js).
-    function toonPlusSlot(stap) {
-      const plek = byId(stap === 'niveau' ? 'niveau-uitleg' : 'tijd-keuzes');
+    // Melding onder de keuze als iemand zonder Plus Hard mode kiest, en de pop-up Kies je plan (app.js).
+    function toonPlusSlot() {
+      const plek = byId('niveau-uitleg');
       if (!plek) return;
-      let melding = byId('plus-slot-' + stap);
+      let melding = byId('plus-slot-niveau');
       if (!melding) {
         melding = create('p', 'vak-hint plus-slot');
-        melding.id = 'plus-slot-' + stap;
+        melding.id = 'plus-slot-niveau';
         melding.setAttribute('role', 'status');
         plek.after(melding);
       }
-      const reden = stap === 'niveau' ? 'Hard mode zit in Plus en Pro.' : 'Oefenen met tijd zit in Plus en Pro.';
+      const reden = 'Hard mode zit in Plus.';
       const link = create('a', '', 'Bekijk de abonnementen');
       link.href = '../../abonnement.html';
       link.dataset.kiesPlan = 'plus';
@@ -484,8 +485,7 @@
 
     function markeerPlus() {
       byId('niveau-keuzes')?.querySelector('[data-niveau="hard"]')?.classList.toggle('met-plus', !plusOk && data.hardVragen.length > 0);
-      byId('tijd-keuzes')?.querySelector('[data-tijd="met"]')?.classList.toggle('met-plus', !plusOk);
-      if (plusOk) { byId('plus-slot-niveau')?.remove(); byId('plus-slot-tijd')?.remove(); }
+      if (plusOk) byId('plus-slot-niveau')?.remove();
     }
 
     // Korte vaste hash van een tekst (FNV-1a), als 8 hextekens.
@@ -503,7 +503,7 @@
     const foutVragen = () => questionsFor(level).filter(question => openFouten.has(vraagSleutel(question)));
 
     function toonFoutenKnop() {
-      const vragen = plusOk ? foutVragen() : [];
+      const vragen = foutVragen();
       let blok = byId('fouten-blok');
       if (!vragen.length) { if (blok) blok.hidden = true; return; }
       if (!blok) {
@@ -536,7 +536,7 @@
       renderKlaarMeter();
       laadSimTeller();
       const owner = context?.owner;
-      if (!plusOk || !owner || !client) { openFouten = new Set(); toonFoutenKnop(); return; }
+      if (!owner || !client) { openFouten = new Set(); toonFoutenKnop(); return; }
       const { data: rijen, error } = await client.from('fouten').select('sleutel').eq('user_id', owner).eq('vak', data.id).eq('opgelost', false);
       if (error || context?.owner !== owner) return;
       openFouten = new Set((rijen || []).map(rij => rij.sleutel));
@@ -546,8 +546,8 @@
         const url = new URL(window.location.href);
         url.searchParams.delete('fouten');
         window.history.replaceState(window.history.state, '', url);
-        // Fouten in Hard mode herken je pas aan de echte vraagtekst.
-        await laadHardVragen();
+        // Fouten in Hard mode herken je pas aan de echte vraagtekst (alleen Plus).
+        if (plusOk) await laadHardVragen();
         if (screen !== 'keuzes' || context?.owner !== owner) return;
         if (!foutVragen().length && hasLevels && data.hardVragen.some(question => openFouten.has(vraagSleutel(question)))) setLevel(level === 'hard' ? 'normaal' : 'hard');
         const lijst = foutVragen();
@@ -555,10 +555,10 @@
       }
     }
 
-    // Na een ronde: foute antwoorden op de lijst, goede eraf. Alleen met Plus of Pro; de database controleert dat ook.
+    // Na een ronde: foute antwoorden op de lijst, goede eraf. Voor elk account dat ingelogd is.
     function bewaarFouten(answers, correct) {
       const client = BES.auth?.client;
-      if (!plusOk || !context.owner || !client) return;
+      if (!context.owner || !client) return;
       const fout = new Map();
       const goed = new Set();
       answers.forEach(entry => {
@@ -575,13 +575,12 @@
     }
 
     function chooseLevel(value) {
-      if (value === 'hard' && !plusOk) { toonPlusSlot('niveau'); return; }
+      if (value === 'hard' && !plusOk) { toonPlusSlot(); return; }
       setLevel(value);
       revealStep('tijd');
     }
 
     function setTime(value, reveal = false) {
-      if (value === 'met' && !plusOk) { toonPlusSlot('tijd'); return; }
       timed = value === 'met';
       byId('tijd-keuzes').querySelectorAll('[data-tijd]').forEach(button => {
         const active = (button.dataset.tijd === 'met') === timed;
@@ -959,7 +958,7 @@
 
     function start(questions, runMode = mode, runLevel = level, runSeconds = timed ? secondsPerQuestion : 0) {
       if (!questions.length || !context.authReady || runLevel !== level) return;
-      // Hard mode: eerst de echte vragen uit Supabase; lukt dat niet (geen Plus of Pro, of geen verbinding), dan niet starten.
+      // Hard mode: eerst de echte vragen uit Supabase; lukt dat niet (geen Plus, of geen verbinding), dan niet starten.
       if (questions.some(question => question.plaatshouder)) {
         const knop = byId('start-oefening');
         const hint = byId('start-hint');
@@ -971,7 +970,7 @@
           updateStart();
           const echte = questions.filter(question => !question.plaatshouder);
           if (echte.length) { start(echte, runMode, runLevel, runSeconds); return; }
-          hint.textContent = plusOk ? 'Hard mode laden lukte niet. Probeer het zo opnieuw.' : 'Hard mode zit in Plus en Pro.';
+          hint.textContent = plusOk ? 'Hard mode laden lukte niet. Probeer het zo opnieuw.' : 'Hard mode zit in Plus.';
           hint.hidden = false;
         });
         return;
@@ -1337,20 +1336,18 @@
     }
 
     // Eén rij per afgeronde ronde in de tabel sessies (voor de inzichten op Profiel). Alleen de score, geen antwoorden.
-    // Pro: na een simulatie de vergelijking met je vorige simulatie van dit vak en niveau (tabel sessies).
+    // Na een simulatie de vergelijking met je vorige simulatie van dit vak en niveau (tabel sessies), voor elk account.
     async function toonVooruitgang(goed, totaal, sessie) {
-      let regel = byId('pro-vooruitgang');
+      let regel = byId('sim-vooruitgang');
       if (!regel) {
-        regel = create('p', 'vak-hint pro-vooruitgang');
-        regel.id = 'pro-vooruitgang';
+        regel = create('p', 'vak-hint sim-vooruitgang');
+        regel.id = 'sim-vooruitgang';
         byId('tijd-resultaat').after(regel);
       }
       regel.hidden = true;
       const client = BES.auth?.client;
       const owner = context.owner;
-      if (!sessie || sessie.mode !== 'simulatie' || !owner || !client || !BES.plan || !totaal) return;
-      const plan = await BES.plan();
-      if (plan.plan !== 'pro') return;
+      if (!sessie || sessie.mode !== 'simulatie' || !owner || !client || !totaal) return;
       const { data: rijen } = await client.from('sessies').select('goed,totaal')
         .eq('user_id', owner).eq('vak', data.id).eq('niveau', sessie.level || 'normaal').eq('modus', 'simulatie')
         .lt('gemaakt_op', new Date(sessie.startedAt).toISOString()).order('gemaakt_op', { ascending: false }).limit(1);
@@ -1474,9 +1471,8 @@
       });
     }
 
-    // Studie-hacks "Voor jou" (Pro): je zwakste hoofdstukken in dit vak (Normaal, minstens 3 vragen, onder 80 procent)
-    // met hun eigen hacks, of anders de eerste kernpunten uit de theorie, plus ezelsbruggetjes van Comit per hoofdstuk.
-    // De hack bij een fout antwoord in Training (toonHackBijFout) blijft Plus.
+    // Studie-hacks "Voor jou" (voor elk account): je zwakste hoofdstukken in dit vak (Normaal, minstens 3 vragen, onder 80 procent)
+    // met hun eigen hacks, of anders de eerste kernpunten uit de theorie. De ezelsbruggetjes van Comit per hoofdstuk zitten in Plus.
     function renderVoorJou() {
       const hacks = byId('hacks-inhoud');
       if (!hacks) return;
@@ -1484,21 +1480,10 @@
       const blok = create('section', 'hack-voorjou kaart');
       blok.id = 'hack-voorjou';
       const kop = create('div', 'hack-voorjou-kop');
-      kop.append(create('h2', '', 'Voor jou'), create('span', 'label label-pro', 'Pro'));
+      kop.append(create('h2', '', 'Voor jou'));
       blok.append(kop);
       const plek = hacks.querySelector('.hacks-algemeen');
       if (plek) plek.after(blok); else hacks.prepend(blok);
-      if (accountPlan !== 'pro') {
-        blok.classList.add('is-slot');
-        const tekst = create('p', 'kaart-sub', 'Met Pro zie je hier de hacks en kernpunten van je zwakste hoofdstukken in dit vak, zodat je weet waar je het meest wint. ');
-        const link = create('a', 'tekstlink', 'Probeer Pro een maand');
-        link.href = '../../abonnement.html';
-        link.dataset.kiesPlan = 'pro';
-        link.dataset.reden = 'De hacks voor je zwakste hoofdstukken zitten in Pro.';
-        tekst.append(link);
-        blok.append(tekst);
-        return;
-      }
       const voortgang = banks.get('normaal')?.get(context?.owner ?? null)?.chapters || {};
       const zwak = data.hoofdstukken
         .map(chapter => { const rij = voortgang[chapter.id]; return rij && rij.laatstTotaal >= 3 ? { chapter, score: rij.laatstGoed / rij.laatstTotaal } : null; })
@@ -1533,6 +1518,7 @@
         });
         const brug = create('button', 'knop-secundair', 'Ezelsbruggetjes van Comit');
         brug.type = 'button';
+        if (planBekend && !plusOk) brug.append(create('span', 'label', 'Plus'));
         const uitkomst = create('p', 'hack-brug');
         uitkomst.setAttribute('aria-live', 'polite');
         brug.addEventListener('click', () => maakEzelsbrug(chapter, brug, uitkomst));
@@ -1542,17 +1528,35 @@
       });
     }
 
-    async function maakEzelsbrug(chapter, knop, uitkomst) {
-      if (accountPlan !== 'pro') {
-        const reden = 'Ezelsbruggetjes van Comit zitten in Pro.';
-        const link = create('a', 'tekstlink', 'Probeer Pro een maand');
-        link.href = '../../abonnement.html';
-        link.dataset.kiesPlan = 'pro';
-        link.dataset.reden = reden;
-        uitkomst.replaceChildren(reden + ' ', link);
-        BES.kiesPlan?.({ nodig: 'pro', reden });
-        return;
+    // Comit-onderdelen die in Plus zitten (ezelsbruggetjes en "Waarom niet mijn antwoord?"): de reden met een link
+    // naar Abonnement, en de pop-up Kies je plan (app.js).
+    function toonComitSlot(uitkomst, reden) {
+      const link = create('a', 'tekstlink', 'Probeer Plus een maand');
+      link.href = '../../abonnement.html';
+      link.dataset.kiesPlan = 'plus';
+      link.dataset.reden = reden;
+      uitkomst.replaceChildren(reden + ' ', link);
+      BES.kiesPlan?.({ nodig: 'plus', reden });
+    }
+
+    // Vraag aan de Edge Function comit. Geeft { tekst, limiet, plus } terug: plus is true als de functie zegt dat dit
+    // in Plus zit (status 403 met fout 'plus', of het oude 'pro'); tekst is dan de uitleg van de functie.
+    // Bij een andere fout is tekst leeg. Zonder verbinding gooit de aanroep.
+    async function vraagComit(client, body) {
+      const { data: antwoord, error } = await client.functions.invoke('comit', { body });
+      let inhoud = error ? null : antwoord;
+      // Bij status 4xx of 5xx zit het antwoord van de functie in error.context (een Response).
+      if (error) {
+        try { inhoud = typeof error.context?.json === 'function' ? await error.context.json() : null; } catch { inhoud = null; }
       }
+      const plus = inhoud?.fout === 'plus' || inhoud?.fout === 'pro';
+      const tekst = typeof inhoud?.tekst === 'string' && (plus || (!error && !inhoud.fout)) ? inhoud.tekst.trim() : '';
+      return { tekst, limiet: Boolean(!error && inhoud?.limiet), plus };
+    }
+
+    async function maakEzelsbrug(chapter, knop, uitkomst) {
+      const reden = 'Ezelsbruggetjes van Comit zitten in Plus.';
+      if (planBekend && !plusOk) { toonComitSlot(uitkomst, reden); return; }
       const client = BES.auth?.client;
       if (!client) return;
       knop.disabled = true;
@@ -1564,15 +1568,16 @@
         if (achtergrond.length + stuk.length <= 1500) achtergrond += stuk;
       });
       try {
-        const { data: antwoord, error } = await client.functions.invoke('comit', { body: { soort: 'ezelsbrug', vraag: `Ezelsbruggetjes voor het hoofdstuk ${chapter.naam} van ${data.naam}.`, context: achtergrond } });
-        uitkomst.textContent = !error && antwoord && antwoord.tekst ? antwoord.tekst : 'Comit kan nu even niet nadenken. Probeer het zo opnieuw.';
+        const antwoord = await vraagComit(client, { soort: 'ezelsbrug', vraag: `Ezelsbruggetjes voor het hoofdstuk ${chapter.naam} van ${data.naam}.`, context: achtergrond });
+        if (antwoord.plus) toonComitSlot(uitkomst, antwoord.tekst || reden);
+        else uitkomst.textContent = antwoord.tekst || 'Comit kan nu even niet nadenken. Probeer het zo opnieuw.';
       } catch {
         uitkomst.textContent = 'Comit kan nu even niet nadenken. Probeer het zo opnieuw.';
       }
       knop.disabled = false;
     }
 
-    // Plus: bij een fout antwoord in Training meteen de hack van dat hoofdstuk, als die bestaat.
+    // Bij een fout antwoord in Training meteen de hack van dat hoofdstuk, als die bestaat (voor elk account).
     function toonHackBijFout(entry) {
       let regel = byId('uitleg-hack');
       if (!regel) {
@@ -1580,12 +1585,12 @@
         regel.id = 'uitleg-hack';
         byId('uitleg-tekst').after(regel);
       }
-      const hack = plusOk && !correctAnswer(entry) ? data.hacks.find(item => item.h === entry.question.h) : null;
+      const hack = !correctAnswer(entry) ? data.hacks.find(item => item.h === entry.question.h) : null;
       regel.hidden = !hack;
       if (hack) regel.textContent = `Hack: ${hack.kop ? hack.kop.trim() + '. ' : ''}${hack.t}`;
     }
 
-    // "Waarom niet mijn antwoord?" (Pro): bij een fout antwoord op een vraag met één juist antwoord legt Comit uit waarom
+    // "Waarom niet mijn antwoord?" (Plus): bij een fout antwoord op een vraag met één juist antwoord legt Comit uit waarom
     // jouw keuze niet klopt. Antwoorden blijven op dit toestel bewaard per vak, vraag en gekozen optie, dus een herhaling kost niets.
     // Het ene juiste antwoord van een vraag (ook "Kies 1 antwoord" als lijst), of null bij meerdere juiste antwoorden.
     const enigJuist = question => Array.isArray(question.a) ? (question.a.length === 1 ? question.a[0] : null) : question.a;
@@ -1603,7 +1608,7 @@
       const blok = create('div', 'waarom-blok');
       const knop = create('button', 'knop-secundair waarom-knop', 'Waarom niet mijn antwoord?');
       knop.type = 'button';
-      if (planBekend && accountPlan !== 'pro') knop.append(create('span', 'label label-pro', 'Pro'));
+      if (planBekend && !plusOk) knop.append(create('span', 'label', 'Plus'));
       const uitkomst = create('p', 'waarom-antwoord');
       // In Training staat dit in de uitleg, die zelf al wordt voorgelezen; in het overzicht van de simulatie niet.
       if (!inLiveRegio) uitkomst.setAttribute('aria-live', 'polite');
@@ -1651,16 +1656,11 @@
       if (knop.getAttribute('aria-busy') === 'true') return;
       knop.setAttribute('aria-busy', 'true');
       try {
+        const reden = 'Met Plus legt Comit uit waarom jouw antwoord niet klopt.';
         const plan = BES.plan ? await BES.plan().catch(() => null) : null;
-        if (plan?.plan !== 'pro') {
-          const reden = 'Met Pro legt Comit uit waarom jouw antwoord niet klopt.';
-          const link = create('a', 'tekstlink', 'Probeer Pro een maand');
-          link.href = '../../abonnement.html';
-          link.dataset.kiesPlan = 'pro';
-          link.dataset.reden = reden;
+        if (planVan(plan) !== 'plus') {
           uitkomst.classList.add('is-slot');
-          uitkomst.replaceChildren(reden + ' ', link);
-          BES.kiesPlan?.({ nodig: 'pro', reden });
+          toonComitSlot(uitkomst, reden);
           return;
         }
         uitkomst.classList.remove('is-slot');
@@ -1677,10 +1677,12 @@
         uitkomst.textContent = 'Comit denkt even na.';
         const vraag = 'Leg in hooguit 4 zinnen uit waarom het gekozen antwoord van de student niet klopt bij deze oefenvraag, en wat het juiste antwoord anders maakt. Baseer je alleen op de oefenvraag, de opties en de uitleg die je meekrijgt.';
         try {
-          const { data: antwoord, error } = await client.functions.invoke('comit', { body: { vraag, context: waaromContext(entry.question, gekozen) } });
-          const tekst = !error && typeof antwoord?.tekst === 'string' ? antwoord.tekst.trim() : '';
+          const antwoord = await vraagComit(client, { vraag, context: waaromContext(entry.question, gekozen) });
+          const tekst = antwoord.tekst;
+          // Zit dit volgens Comit in Plus: de uitleg met de link naar Abonnement, niet bewaren.
+          if (antwoord.plus) { uitkomst.classList.add('is-slot'); toonComitSlot(uitkomst, tekst || reden); }
           // Daglimiet van Comit: de melding tonen, maar niet bewaren.
-          if (tekst && antwoord.limiet) uitkomst.textContent = tekst;
+          else if (tekst && antwoord.limiet) uitkomst.textContent = tekst;
           else if (tekst) { uitkomst.textContent = tekst; bewaarWaarom(sleutel, tekst); }
           else uitkomst.textContent = fout;
         } catch {
@@ -1693,15 +1695,15 @@
       }
     }
 
-    // Klaar-meter (Pro): bovenaan Oefenen hoe klaar je bent voor dit vak op Normaal, van 0 tot 100 (assets/klaarmeter.js),
-    // met de twee snelste stappen omhoog. Zonder Pro een korte regel met slot; zonder account niets.
+    // Klaar-meter (voor elk account): bovenaan Oefenen hoe klaar je bent voor dit vak op Normaal, van 0 tot 100
+    // (assets/klaarmeter.js), met de twee snelste stappen omhoog. Zonder account niets.
     let klaarScript = null;
     function laadKlaarMeterScript() {
       if (typeof BES.klaarMeter === 'function') return Promise.resolve();
       if (!klaarScript) {
         klaarScript = new Promise((klaar, mislukt) => {
           const script = document.createElement('script');
-          script.src = new URL('klaarmeter.js?v=84', scriptBron).href;
+          script.src = new URL('klaarmeter.js?v=85', scriptBron).href;
           script.onload = () => (typeof BES.klaarMeter === 'function' ? klaar() : mislukt());
           script.onerror = () => { klaarScript = null; mislukt(); };
           document.head.append(script);
@@ -1715,9 +1717,8 @@
       if (!plek) return;
       const owner = context?.owner;
       let kaart = byId('klaar-meter');
-      if (!owner || !planBekend || !data.vragen.length || !context.authReady) { if (kaart) kaart.hidden = true; return; }
-      const pro = accountPlan === 'pro';
-      if (pro && typeof BES.klaarMeter !== 'function') {
+      if (!owner || !data.vragen.length || !context.authReady) { if (kaart) kaart.hidden = true; return; }
+      if (typeof BES.klaarMeter !== 'function') {
         if (kaart) kaart.hidden = true;
         laadKlaarMeterScript().then(renderKlaarMeter, () => {});
         return;
@@ -1729,21 +1730,10 @@
         plek.prepend(kaart);
       }
       kaart.hidden = false;
-      kaart.classList.toggle('is-slot', !pro);
       const kop = create('div', 'klaar-kop');
       const titel = create('h2', '', 'Klaar-meter');
       titel.id = 'klaar-kop';
-      kop.append(titel, create('span', 'label label-pro', 'Pro'));
-      if (!pro) {
-        const tekst = create('p', 'klaar-slot-tekst', 'Zie hoe klaar je bent voor dit vak, van 0 tot 100. ');
-        const link = create('a', 'tekstlink', 'Probeer Pro een maand');
-        link.href = '../../abonnement.html';
-        link.dataset.kiesPlan = 'pro';
-        link.dataset.reden = 'De Klaar-meter zit in Pro: zie hoe klaar je bent voor dit vak, van 0 tot 100.';
-        tekst.append(link);
-        kaart.replaceChildren(kop, tekst);
-        return;
-      }
+      kop.append(titel);
       const hoofdstukken = banks.get('normaal')?.get(owner)?.chapters || {};
       const rijen = Object.entries(hoofdstukken).map(([hoofdstuk, rij]) => ({
         hoofdstuk, beantwoord: rij.beantwoord, goed: rij.goed, laatst_goed: rij.laatstGoed, laatst_totaal: rij.laatstTotaal, bijgewerkt: rij.bijgewerkt

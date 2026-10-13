@@ -1,4 +1,4 @@
-// Klaar-meter (Pro): hoe klaar ben je voor een vak, van 0 tot 100, met de twee snelste stappen omhoog.
+// Klaar-meter (voor elk account): hoe klaar ben je voor een vak, van 0 tot 100, met de twee snelste stappen omhoog.
 // Geen voorspelling van een examencijfer: alleen hoeveel van de stof je zag, hoe goed het ging en hoe recent.
 // Gebruik: BES.klaarMeter(data, rijen, nu) met data = window.BES_VAK van het vak (hoofdstukken en vragen),
 // rijen = rijen uit de tabel voortgang voor dit vak op Normaal (hoofdstuk, beantwoord, goed, laatst_goed, laatst_totaal, bijgewerkt).

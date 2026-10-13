@@ -320,7 +320,6 @@ button.profiel-knop { font: inherit; font-size: .875rem; font-weight: 500; curso
 .profiel-menu-kop strong { min-width: 0; overflow: hidden; font-size: .9375rem; text-overflow: ellipsis; white-space: nowrap; }
 .profiel-menu-plan { flex-shrink: 0; padding: 3px 9px; border-radius: var(--pill); background: var(--surface); color: var(--ink-soft); font-size: .75rem; font-weight: 600; }
 .profiel-menu-plan[data-plan="plus"] { background: var(--teal-zacht); color: var(--teal-tekst); }
-.profiel-menu-plan[data-plan="pro"] { background: #0b0a08; color: #e6c872; }
 .profiel-menu-lijst a, .profiel-menu-uitloggen { display: flex; align-items: center; min-height: 44px; padding: 8px 10px; border: 0; border-radius: 10px; background: none; color: var(--ink); font: inherit; font-size: .9375rem; text-align: left; text-decoration: none; cursor: pointer; }
 .profiel-menu-lijst a:first-of-type { margin-top: 6px; }
 .profiel-menu-lijst a[aria-current="page"] { color: var(--accent); font-weight: 600; }
@@ -639,9 +638,10 @@ h1 span { display: block; }
   color: var(--ink-soft);
 }
 
-/* Kies je plan (pop-up uit app.js) */
+/* Kies je plan (pop-up uit app.js): één Plus-kaart over de hele breedte. Met de vergelijking (hub) is het venster
+   breder en staan de Plus-punten in twee kolommen. */
 .kies-plan {
-  width: min(660px, calc(100% - 32px));
+  width: min(520px, calc(100% - 32px));
   max-height: calc(100dvh - 32px);
   margin: auto;
   padding: clamp(20px, 4vw, 32px);
@@ -653,31 +653,29 @@ h1 span { display: block; }
   box-shadow: var(--shadow-card-hover);
   font-family: var(--font);
 }
+.kies-plan:has(.kies-plan-vergelijking:not([hidden])) { width: min(660px, calc(100% - 32px)); }
 .kies-plan[open] { animation: kies-plan-in 260ms var(--ease) both; }
 .kies-plan::backdrop { background: var(--nav-bg); -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px); }
 @keyframes kies-plan-in { from { opacity: 0; transform: translateY(12px) scale(.98); } to { opacity: 1; transform: none; } }
 .kies-plan h2 { margin: 0 0 8px; font-size: 1.5rem; text-wrap: balance; }
 .kies-plan-reden { margin: 0 0 20px; color: var(--ink-soft); line-height: 1.5; }
-.kies-plan-keuzes { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 12px; }
+.kies-plan-keuzes { display: grid; gap: 12px; }
 .kies-plan-kaart {
   display: flex;
   flex-direction: column;
   gap: 12px;
   padding: 20px;
-  border: 1px solid var(--line);
+  border: 1px solid var(--accent);
   border-radius: 18px;
   background: var(--surface);
+  box-shadow: inset 0 0 0 1px var(--accent);
 }
-.kies-plan-kaart.is-pro { border-color: var(--accent); box-shadow: inset 0 0 0 1px var(--accent); }
-.kies-plan-kaart.is-zonder { opacity: .72; }
-.kies-plan-kaart-kop { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
 .kies-plan-naam { margin: 0; font-size: 1.25rem; }
 .kies-plan-prijs { margin: -6px 0 0; color: var(--ink-soft); font-size: .9375rem; }
-.kies-plan-lijst { display: grid; gap: 8px; margin: 0; padding: 0; list-style: none; font-size: .9375rem; line-height: 1.4; }
+.kies-plan-lijst { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 8px 16px; margin: 0; padding: 0; list-style: none; font-size: .9375rem; line-height: 1.4; }
 .kies-plan-lijst li { position: relative; padding-left: 22px; }
 .kies-plan-lijst li::before { content: ""; position: absolute; top: .3em; left: 2px; width: 10px; height: 6px; border-left: 2px solid var(--accent); border-bottom: 2px solid var(--accent); transform: rotate(-45deg); }
-.kies-plan-zonder { margin: 0; color: var(--ink-soft); font-size: .8125rem; }
-.kies-plan-kaart :is(.knop, .knop-secundair) { justify-content: center; width: 100%; min-height: 44px; margin-top: auto; }
+.kies-plan-kaart .knop { justify-content: center; width: 100%; min-height: 44px; margin-top: 4px; }
 .kies-plan-voet { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px; margin-top: 20px; }
 .kies-plan-proef { margin: 0; color: var(--ink-soft); font-size: .875rem; }
 .kies-plan-later { min-height: 44px; padding: 10px 4px; border: 0; background: none; color: var(--ink-soft); font: inherit; font-weight: 500; cursor: pointer; }
@@ -688,6 +686,7 @@ h1 span { display: block; }
 .kies-plan-vergelijking th, .kies-plan-vergelijking td { padding: 10px 8px; border-bottom: 1px solid var(--line); text-align: center; vertical-align: middle; }
 .kies-plan-vergelijking tbody th { font-weight: 400; text-align: left; padding-left: 0; }
 .kies-plan-vergelijking thead th { font-weight: 600; }
+.kies-plan-vergelijking thead th + th { width: 22%; }
 .kies-plan-vergelijking thead th:last-child { color: var(--accent); }
 .kies-plan-vergelijking td { color: var(--ink-soft); font-variant-numeric: tabular-nums; white-space: nowrap; }
 .kies-plan-vergelijking td.is-ja::before { content: ""; display: inline-block; width: 10px; height: 6px; border-left: 2px solid var(--accent); border-bottom: 2px solid var(--accent); transform: translateY(-2px) rotate(-45deg); }
