@@ -1676,7 +1676,7 @@
       if (!klaarScript) {
         klaarScript = new Promise((klaar, mislukt) => {
           const script = document.createElement('script');
-          script.src = new URL('klaarmeter.js?v=86', scriptBron).href;
+          script.src = new URL('klaarmeter.js?v=87', scriptBron).href;
           script.onload = () => (typeof BES.klaarMeter === 'function' ? klaar() : mislukt());
           script.onerror = () => { klaarScript = null; mislukt(); };
           document.head.append(script);
@@ -1871,6 +1871,9 @@
     renderContent();
     setMode('training');
     setTime('zonder');
+    // Training, Normaal en Zonder tijd staan al klaar: meteen alle stappen tonen, zodat je direct per hoofdstuk kan kiezen.
+    steps.slice(1).forEach(name => revealStep(name, false));
+    revealStep('start', false);
     let authEvents = 0;
     window.addEventListener('bes:auth', event => { authEvents += 1; setAccount(event.detail?.user); });
     const initialEvents = authEvents;
