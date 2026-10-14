@@ -204,6 +204,10 @@
       .ab-v-naam { font-size: .8125rem; }
       .ab-v-uitleg { font-size: .6875rem; }
     }
+    /* Klein knopje onder de kop naar de uitleg over Free en Plus (plannen.html). */
+    .ab-waarom { display: inline-flex; align-items: center; gap: 6px; min-height: 36px; margin-top: 16px; padding: 6px 14px; border: 1px solid var(--line); border-radius: var(--pill); background: var(--card); color: var(--accent); font-size: .875rem; font-weight: 500; line-height: 1.4; transition: border-color 180ms var(--ease), background-color 180ms var(--ease); }
+    :where(html.has-hover) .ab-waarom:hover { border-color: var(--accent); background: var(--accent-zacht); }
+    .ab-waarom:active { transform: scale(.97); }
   </style>
 </head>
 <body data-nav="vast">
@@ -233,6 +237,7 @@
       <header class="pagina-kop">
         <h1 id="ab-titel">Kies je plan</h1>
         <p class="pagina-sub">Met Free oefen je alle vakken en volg je je voortgang. Plus geeft je Hard mode, onbeperkt simulaties en extra hulp van Comit.</p>
+        <a class="ab-waarom" href="plannen.html">Waarom is dit veranderd? <span aria-hidden="true">→</span></a>
       </header>
       <p class="ab-melding ab-betaling" id="ab-betaling" role="status" aria-live="polite"></p>
 
