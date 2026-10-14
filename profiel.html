@@ -286,7 +286,7 @@
           <div>
             <p class="abo-label">Je plan</p>
             <p class="abo-naam"><span data-abo-plan>Free</span><span class="label" data-abo-status hidden></span></p>
-            <p class="abo-sub" data-abo-sub>Alle vakken, je foutenlijst, je overzicht en je examenplan. Met Plus krijg je er Hard mode, onbeperkt simulaties en extra hulp van Comit bij.</p>
+            <p class="abo-sub" data-abo-sub>Alle vakken, Hard mode, je foutenlijst, je overzicht en je examenplan. Met Plus krijg je er onbeperkt simulaties en extra hulp van Comit bij. Nieuwe onderdelen krijg je met Plus een week eerder.</p>
             <p class="abo-melding" data-abo-melding role="status" aria-live="polite"></p>
           </div>
           <div class="abo-knoppen">
@@ -731,8 +731,8 @@
       if (!blok || !BES.plan) return;
       const $ = (naam) => blok.querySelector('[data-abo-' + naam + ']');
       const inhoud = {
-        free: 'Alle vakken, je foutenlijst, je overzicht en je examenplan. Met Plus krijg je er Hard mode, onbeperkt simulaties en extra hulp van Comit bij.',
-        plus: 'Alles van Free, plus Hard mode, onbeperkt simulaties en 60 vragen per dag aan Comit, met uitleg bij je fouten en ezelsbruggetjes.',
+        free: 'Alle vakken, Hard mode, je foutenlijst, je overzicht en je examenplan. Met Plus krijg je er onbeperkt simulaties en extra hulp van Comit bij. Nieuwe onderdelen krijg je met Plus een week eerder.',
+        plus: 'Alles van Free, plus onbeperkt simulaties, 60 vragen per dag aan Comit, uitleg bij je foute antwoorden, ezelsbruggetjes voor je zwakke hoofdstukken en nieuwe onderdelen een week eerder.',
       };
       // Een oud plan Pro telt als Plus (plan.js zet dat normaal al om).
       const alsPlus = (plan) => (plan === 'pro' ? 'plus' : plan);

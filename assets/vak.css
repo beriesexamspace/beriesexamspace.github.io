@@ -150,15 +150,12 @@ html.ball-cursor .vraag-melding textarea { cursor: text !important; }
 .vak-pagina[data-niveaus] .modus[aria-checked="true"] .modus-vink { background: var(--accent); border-color: var(--accent); color: var(--white); }
 .vak-pagina[data-niveaus] .modus[aria-checked="true"] .modus-vink::after { content: '✓'; }
 .vak-pagina[data-niveaus] .modus-detail { color: var(--ink-soft); font-size: .8125rem; font-weight: 500; }
-.vak-pagina[data-niveaus] .niveau-keuzes { display: inline-flex; max-width: 100%; gap: 4px; padding: 4px; border: 1px solid var(--line); border-radius: var(--radius-pill); background: var(--surface); }
+.vak-pagina[data-niveaus] .niveau-keuzes { display: inline-flex; max-width: 100%; gap: 12px; padding: 4px; border: 1px solid var(--line); border-radius: var(--radius-pill); background: var(--surface); }
 .vak-pagina[data-niveaus] .niveau-keuze { min-height: 44px; padding: 10px 24px; border: 1px solid var(--transparent); border-radius: var(--radius-pill); background: var(--transparent); color: var(--ink-soft); font-size: .9375rem; font-weight: 500; cursor: pointer; transition: background-color 150ms var(--ease), color 150ms var(--ease), box-shadow 150ms var(--ease), transform 150ms var(--ease); }
 .vak-pagina[data-niveaus] .niveau-keuze[aria-checked="true"] { background: var(--card); color: var(--ink); border-color: var(--line); box-shadow: var(--shadow-soft); }
 .vak-pagina[data-niveaus] .niveau-keuze:disabled { opacity: .5; cursor: default; }
 .vak-pagina[data-niveaus] .niveau-keuze.komt-binnenkort { display: inline-flex; flex-direction: column; align-items: center; gap: 2px; padding-top: 6px; padding-bottom: 6px; line-height: 1.2; }
 .vak-pagina[data-niveaus] .niveau-keuze.komt-binnenkort::after { content: 'Komt binnenkort'; font-size: .6875rem; font-weight: 500; color: var(--ink-soft); }
-/* Hard mode zonder Plus: klein label onder de knop, klikken toont een melding met link naar Abonnement. */
-.vak-pagina .niveau-keuze.met-plus { display: inline-flex; flex-direction: column; align-items: center; gap: 2px; padding-top: 6px; padding-bottom: 6px; line-height: 1.2; }
-.vak-pagina .niveau-keuze.met-plus::after { content: 'Met Plus'; font-size: .6875rem; font-weight: 500; color: var(--ink-soft); }
 .vak-pagina .plus-slot a { color: var(--accent); font-weight: 500; }
 :where(html.has-hover) .vak-pagina[data-niveaus] .niveau-keuze:not(:disabled):hover { color: var(--ink); background: var(--card); }
 :where(html.has-hover) .vak-pagina[data-niveaus] .niveau-keuze:not(:disabled):hover:not(:active) { transform: translateY(-1px); }

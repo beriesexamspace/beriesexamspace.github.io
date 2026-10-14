@@ -62,7 +62,7 @@
     try { return new URL('../abonnement.html', document.currentScript.src).href; } catch { return 'abonnement.html'; }
   })();
   const PLANNEN = [
-    { id: 'plus', naam: 'Plus', prijs: '2,99 euro per maand', punten: ['Hard mode op examenniveau', 'Onbeperkt simulaties', '60 vragen per dag aan Comit', 'Comit legt uit waarom jouw antwoord fout is', 'Ezelsbruggetjes voor je zwakke hoofdstukken', 'Nieuwe onderdelen als eerste'] }
+    { id: 'plus', naam: 'Plus', prijs: '2,99 euro per maand', punten: ['Onbeperkt simulaties', '60 vragen per dag aan Comit', 'Comit legt uit waarom jouw antwoord fout is', 'Ezelsbruggetjes voor je zwakke hoofdstukken', 'Nieuwe onderdelen een week eerder'] }
   ];
   // Rijen: onderdeel, Free, Plus (true = inbegrepen, false = niet, tekst = hoeveel). Gelijk houden met abonnement.html.
   const VERGELIJKING = [
@@ -70,7 +70,7 @@
     ['Theorie, studie-hacks en handige tools', true, true],
     ['Simulaties per vak', '2 per dag', 'Onbeperkt'],
     ['Tijdklok bij simulaties', true, true],
-    ['Hard mode', false, true],
+    ['Hard mode', true, true],
     ['Foutenlijst en fouten opnieuw oefenen', true, true],
     ['Hack bij een fout', true, true],
     ['Je voortgang en studiekalender', true, true],
@@ -83,7 +83,7 @@
     ['Ezelsbruggetjes van Comit', false, true],
     ['Examenplan in je agenda', true, true],
     ['Hacks voor je zwakste hoofdstukken', true, true],
-    ['Nieuwe onderdelen als eerste', false, true]
+    ['Nieuwe onderdelen een week eerder', false, true]
   ];
   let kiesPlanVenster = null;
   const maak = (tag, klasse, tekst) => {
@@ -175,7 +175,7 @@
     } catch { return; }
     try { window.localStorage.setItem(sleutel, String(Date.now())); } catch {}
     const reden = proefGebruikt
-      ? 'Haal meer uit je studietijd met Hard mode, onbeperkt simulaties en extra hulp van Comit.'
+      ? 'Haal meer uit je studietijd met onbeperkt simulaties en extra hulp van Comit.'
       : 'Haal meer uit je studietijd. Probeer Plus een maand en kijk wat het je oplevert.';
     window.BES.kiesPlan({ titel: 'Probeer Plus', reden, vergelijking: true });
   };
