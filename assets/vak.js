@@ -95,7 +95,7 @@
     if (raw.vragen.some(invalidQuestion)) return null;
     const hardQuestions = Array.isArray(raw.hardVragen) && !raw.hardVragen.some(invalidQuestion) ? raw.hardVragen : [];
     // Hard mode-vragen staan in Supabase (supabase/hard-vragen.sql); data.js heeft alleen hardPerHoofdstuk.
-    // Tot ze voor Plus geladen zijn, staan er plaatshouders per hoofdstuk, zodat keuzes en aantallen kloppen.
+    // Tot ze voor het ingelogde account geladen zijn, staan er plaatshouders per hoofdstuk, zodat keuzes en aantallen kloppen.
     const placeholders = !hardQuestions.length && raw.hardPerHoofdstuk && typeof raw.hardPerHoofdstuk === 'object'
       ? Object.entries(raw.hardPerHoofdstuk)
         .filter(([chapter, count]) => chapters.has(chapter) && Number.isInteger(count) && count > 0 && count <= 500)
@@ -136,7 +136,7 @@
     let counts = countsFor(level);
     const chapterNames = Object.fromEntries(data.hoofdstukken.map(chapter => [chapter.id, chapter.naam]));
     let selected = selections.get(level);
-    // Hard mode hoort bij Plus (assets/plan.js). Tot het plan bekend is, staat het op slot.
+    // Comit-onderdelen die bij Plus horen (assets/plan.js).
     let plusOk = false;
     // Foutenlijst (supabase/fouten.sql): open fouten van dit vak, als sleutels. ?fouten=1 begint meteen met oefenen.
     let openFouten = new Set();
@@ -427,20 +427,18 @@
       accountPlan = planVan(plan);
       plusOk = accountPlan === 'plus';
       planBekend = Boolean(plan);
-      markeerPlus();
       markeerSimulatie();
-      if (plusOk) laadHardVragen();
     }
 
-    // Hard mode-vragen uit Supabase (alleen Plus, de database controleert dat). Elke plaatshouder krijgt de
+    // Hard mode-vragen uit Supabase voor elk ingelogd account. Elke plaatshouder krijgt de
     // vraag van hetzelfde hoofdstuk op dezelfde plek, zodat lijsten die al gemaakt zijn meteen de echte vragen tonen.
     let hardBelofte = null;
     const hardGeladen = () => !data.hardVragen.some(question => question.plaatshouder);
     function laadHardVragen() {
+      const client = BES.auth?.client;
+      if (!context?.authReady || !context.owner || !client) return Promise.resolve(false);
       if (hardGeladen()) return Promise.resolve(true);
       if (hardBelofte) return hardBelofte;
-      const client = BES.auth?.client;
-      if (!client) return Promise.resolve(false);
       hardBelofte = Promise.resolve(client.rpc('hard_vragen_voor', { p_vak: data.id })).then(({ data: lijst, error }) => {
         if (error || !Array.isArray(lijst) || lijst.some(data.vraagOngeldig)) return false;
         const perHoofdstuk = new Map();
@@ -461,31 +459,6 @@
         return gelukt;
       });
       return hardBelofte;
-    }
-
-    // Melding onder de keuze als iemand zonder Plus Hard mode kiest, en de pop-up Kies je plan (app.js).
-    function toonPlusSlot() {
-      const plek = byId('niveau-uitleg');
-      if (!plek) return;
-      let melding = byId('plus-slot-niveau');
-      if (!melding) {
-        melding = create('p', 'vak-hint plus-slot');
-        melding.id = 'plus-slot-niveau';
-        melding.setAttribute('role', 'status');
-        plek.after(melding);
-      }
-      const reden = 'Hard mode zit in Plus.';
-      const link = create('a', '', 'Bekijk de abonnementen');
-      link.href = '../../abonnement.html';
-      link.dataset.kiesPlan = 'plus';
-      link.dataset.reden = reden;
-      melding.replaceChildren(reden + ' ', link, '.');
-      BES.kiesPlan?.({ nodig: 'plus', reden });
-    }
-
-    function markeerPlus() {
-      byId('niveau-keuzes')?.querySelector('[data-niveau="hard"]')?.classList.toggle('met-plus', !plusOk && data.hardVragen.length > 0);
-      if (plusOk) byId('plus-slot-niveau')?.remove();
     }
 
     // Korte vaste hash van een tekst (FNV-1a), als 8 hextekens.
@@ -546,8 +519,8 @@
         const url = new URL(window.location.href);
         url.searchParams.delete('fouten');
         window.history.replaceState(window.history.state, '', url);
-        // Fouten in Hard mode herken je pas aan de echte vraagtekst (alleen Plus).
-        if (plusOk) await laadHardVragen();
+        // Fouten in Hard mode herken je pas aan de echte vraagtekst.
+        await laadHardVragen();
         if (screen !== 'keuzes' || context?.owner !== owner) return;
         if (!foutVragen().length && hasLevels && data.hardVragen.some(question => openFouten.has(vraagSleutel(question)))) setLevel(level === 'hard' ? 'normaal' : 'hard');
         const lijst = foutVragen();
@@ -575,7 +548,6 @@
     }
 
     function chooseLevel(value) {
-      if (value === 'hard' && !plusOk) { toonPlusSlot(); return; }
       setLevel(value);
       revealStep('tijd');
     }
@@ -782,6 +754,7 @@
         save(target);
       });
       context = banks.get(level).get(owner);
+      if (owner) laadHardVragen();
       if (previous !== context) {
         stopClock();
         session = null;
@@ -957,8 +930,8 @@
     }
 
     function start(questions, runMode = mode, runLevel = level, runSeconds = timed ? secondsPerQuestion : 0) {
-      if (!questions.length || !context.authReady || runLevel !== level) return;
-      // Hard mode: eerst de echte vragen uit Supabase; lukt dat niet (geen Plus, of geen verbinding), dan niet starten.
+      if (!questions.length || !context.authReady || runLevel !== level || (runLevel === 'hard' && !context.owner)) return;
+      // Hard mode: eerst de echte vragen uit Supabase; lukt dat niet, dan niet starten.
       if (questions.some(question => question.plaatshouder)) {
         const knop = byId('start-oefening');
         const hint = byId('start-hint');
@@ -970,7 +943,7 @@
           updateStart();
           const echte = questions.filter(question => !question.plaatshouder);
           if (echte.length) { start(echte, runMode, runLevel, runSeconds); return; }
-          hint.textContent = plusOk ? 'Hard mode laden lukte niet. Probeer het zo opnieuw.' : 'Hard mode zit in Plus.';
+          hint.textContent = 'Hard mode laden lukte niet. Probeer het zo opnieuw.';
           hint.hidden = false;
         });
         return;
@@ -1845,7 +1818,6 @@
       });
       setLevel('normaal');
     }
-    markeerPlus();
     if (BES.plan) BES.plan().then(planToepassen, () => {});
     const timeButtons = [...byId('tijd-keuzes').querySelectorAll('[data-tijd]')];
     timeButtons.forEach(button => button.addEventListener('click', () => setTime(button.dataset.tijd, true)));
