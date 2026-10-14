@@ -68,7 +68,7 @@
   const VERGELIJKING = [
     ['Alle vakken, training en uitleg bij elke vraag', true, true],
     ['Theorie, studie-hacks en handige tools', true, true],
-    ['Simulaties per vak', '2 per dag', 'Onbeperkt'],
+    ['Simulaties per vak', '5 per dag', 'Onbeperkt'],
     ['Tijdklok bij simulaties', true, true],
     ['Hard mode', true, true],
     ['Foutenlijst en fouten opnieuw oefenen', true, true],

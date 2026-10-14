@@ -146,7 +146,7 @@
     let accountPlan = 'free';
     let planBekend = false;
     // Free: twee examensimulaties per dag per vak (beslist 04-10-2026). Teller van vandaag voor dit account (tabel sessies plus dit toestel).
-    const FREE_SIMULATIES_PER_DAG = 2;
+    const FREE_SIMULATIES_PER_DAG = 5;
     let simTeller = { dag: '', eigenaar: null, aantal: 0 };
     let context = null;
     let authGeneration = 0;
@@ -1676,7 +1676,7 @@
       if (!klaarScript) {
         klaarScript = new Promise((klaar, mislukt) => {
           const script = document.createElement('script');
-          script.src = new URL('klaarmeter.js?v=85', scriptBron).href;
+          script.src = new URL('klaarmeter.js?v=86', scriptBron).href;
           script.onload = () => (typeof BES.klaarMeter === 'function' ? klaar() : mislukt());
           script.onerror = () => { klaarScript = null; mislukt(); };
           document.head.append(script);
