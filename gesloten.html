@@ -30,12 +30,12 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="/assets/style.css?v=81">
-  <script src="/assets/app.js?v=81" defer></script>
-  <script src="/assets/config.js?v=81" defer></script>
+  <link rel="stylesheet" href="/assets/style.css?v=85">
+  <script src="/assets/app.js?v=85" defer></script>
+  <script src="/assets/config.js?v=85" defer></script>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js" defer></script>
-  <script src="/assets/auth.js?v=81" defer></script>
-  <script src="/assets/plan.js?v=81" defer></script>
+  <script src="/assets/auth.js?v=85" defer></script>
+  <script src="/assets/plan.js?v=85" defer></script>
   <style>
     .niet-gevonden { display: flex; flex: 1 0 auto; align-items: center; justify-content: center; width: 100%; box-sizing: border-box; padding: 88px 16px 48px; }
     .niet-gevonden-kaart { width: 100%; max-width: 36rem; min-width: 0; box-sizing: border-box; padding: clamp(28px, 6vw, 48px) clamp(20px, 5vw, 44px); text-align: center; }
@@ -74,15 +74,20 @@
     </div>
   </main>
   <script>
-    // Is de site intussen open, dan meteen naar de hub. Zo blijft niemand op deze pagina hangen.
+    // Is de site intussen open, of mag dit account wel binnen (toegang gekregen), dan meteen naar de hub.
+    // Zo blijft niemand op deze pagina hangen.
     document.addEventListener('DOMContentLoaded', async () => {
       const auth = window.BES && window.BES.auth;
       if (!auth) return;
       try { await auth.gereed; } catch {}
       if (!auth.client) return;
       try {
-        const { data, error } = await auth.client.rpc('site_open');
-        if (!error && data === true) window.location.replace('/hub.html');
+        const open = await auth.client.rpc('site_open');
+        if (!open.error && open.data === true) { window.location.replace('/hub.html'); return; }
+        const gebruiker = await auth.gebruiker();
+        if (!gebruiker) return;
+        const toegang = await auth.client.rpc('heeft_toegang');
+        if (!toegang.error && toegang.data === true) window.location.replace('/hub.html');
       } catch {}
     });
   </script>

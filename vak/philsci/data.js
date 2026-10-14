@@ -1044,128 +1044,18 @@ window.BES_VAK = {
    "u": "Technological mediation is the idea that technologies actively help constitute what counts as scientific knowledge and practice, not just serve as neutral instruments used after the fact."
   }
  ],
- "hardVragen": [
-  {
-   "h": "h1",
-   "q": "A belief happens to be true, but rests on a mistaken observation; how does this case clarify the role of empirical testing and peer review in scientific knowledge?",
-   "o": [
-    "They establish truth by agreement, so a mistaken observation no longer matters after publication.",
-    "They establish belief by repetition, so a claim becomes knowledge when enough people accept it.",
-    "They strengthen justification, which accidental truth and sincere belief do not supply by themselves.",
-    "They replace justification with deduction, so conclusions no longer depend on observational premises."
-   ],
-   "a": 2,
-   "u": "The JTB account requires justification as well as truth and belief, so a lucky conclusion based on a mistaken observation is insufficient. Empirical testing and peer review help check the reasons supporting a scientific claim."
-  },
-  {
-   "h": "h2",
-   "q": "One theory fits every possible observation, while another rules out specific outcomes but has survived testing so far; which judgement follows from Popper's criticism of confirmationism?",
-   "o": [
-    "The second meets the falsifiability criterion, but surviving tests does not prove that it is true.",
-    "The first meets the falsifiability criterion, because every possible observation can confirm it.",
-    "The second becomes verified through testing, because no disconfirming case has yet been observed.",
-    "The first is better justified by induction, because its flexibility resolves the problem of circularity."
-   ],
-   "a": 0,
-   "u": "A theory that fits every possible outcome excludes nothing and cannot be falsified. Popper favours risky predictions, while treating a theory that survives testing as not yet disproven rather than proven true."
-  },
-  {
-   "h": "h4",
-   "q": "A theory predicts observed phenomena successfully, as Ptolemy's model did; which interpretation connects this case with the anti-realist view of scientific theories?",
-   "o": [
-    "Predictive success establishes approximate truth, because a useful model describes reality literally.",
-    "Predictive success establishes a natural kind, because phenomena fitting a model share a real essence.",
-    "Predictive success establishes entity realism, because predicting an entity amounts to manipulating it.",
-    "Predictive success establishes usefulness, without requiring the model to describe reality literally."
-   ],
-   "a": 3,
-   "u": "The Ptolemy case illustrates that successful prediction does not guarantee truth. Anti-realism treats theories as useful tools for organising and predicting experience without requiring literal truth about unobservable reality."
-  },
-  {
-   "h": "h6",
-   "q": "A community solves puzzles inside an accepted paradigm and rarely challenges its basic assumptions; how can Kuhn's description and Popper's criticism both apply?",
-   "o": [
-    "Kuhn prescribes permanent acceptance of the paradigm, while Popper describes why such acceptance occurs.",
-    "Kuhn describes normal science, while Popper judges its limited criticism against a normative ideal.",
-    "Kuhn describes continuous falsification, while Popper judges puzzle-solving as the proper scientific ideal.",
-    "Kuhn prescribes a universal testing method, while Popper describes standards as relative to each paradigm."
-   ],
-   "a": 1,
-   "u": "Kuhn describes normal science as puzzle-solving within a shared paradigm. Popper worries that this can become dogmatic; describing what scientists do does not settle what they ought to do."
-  },
-  {
-   "h": "h7",
-   "q": "Two research programmes preserve their hard cores by adjusting auxiliary hypotheses, but only one produces new predictions that are confirmed; what distinguishes them for Lakatos?",
-   "o": [
-    "Both revise their protective belts, but the one with new confirmed predictions is progressive.",
-    "Both revise their hard cores, but the one with new confirmed predictions has a protective belt.",
-    "Both use positive heuristics successfully, but the one without new predictions is progressive.",
-    "Both abandon their research programmes, but the one without new predictions is corroborated."
-   ],
-   "a": 0,
-   "u": "Auxiliary hypotheses belong to the protective belt, which can change while the hard core is preserved. A progressive programme produces novel confirmed predictions, whereas merely patching anomalies characterises a degenerating programme."
-  },
-  {
-   "h": "h8",
-   "q": "A community allows conflicting theories to compete but still demands reasoned criticism; how does this practice relate to Feyerabend's pluralism and \"anything goes\"?",
-   "o": [
-    "It conflicts with pluralism, because reasoned criticism requires selecting one theory before research.",
-    "It fits pluralism only if criticism follows one fixed method that applies throughout scientific history.",
-    "It fits pluralism, because rival approaches can be useful without one universal methodological rulebook.",
-    "It conflicts with anything goes, because that position treats rational criticism as an obstacle to science."
-   ],
-   "a": 2,
-   "u": "Scientific pluralism allows competing theories to contribute to science. Feyerabend rejects a single fixed method for all scientific rationality, not the value of reasoning itself."
-  },
-  {
-   "h": "h9",
-   "q": "A submitted proof is known to exist but receives no serious engagement because it uses unfamiliar formalisms and is not embedded in the literature; which analysis fits the lecture?",
-   "o": [
-    "The proof has passed attention and trust, and the operative criteria establish its mathematical correctness.",
-    "Exposure has occurred, but attention and trust may fail through operative criteria before content is assessed.",
-    "Engagement has occurred, and the manifest concept establishes that the author is mathematically mistaken.",
-    "Exposure has failed, because the manifest criteria require a proof to be accepted before anyone can know of it."
-   ],
-   "a": 1,
-   "u": "Exposure does not guarantee attention, trust or engagement with the argument. Non-standard formalism and lack of embedding in the literature are operative criteria for exclusion, rather than an assessment of the proof's content."
-  },
-  {
-   "h": "h10",
-   "q": "Researchers from marginalised standpoints identify assumptions others missed, but the community refuses to respond; which combination of strong objectivity and Longino's criteria explains the problem?",
-   "o": [
-    "Their social location prevents objectivity, so the community meets the criteria by setting their criticism aside.",
-    "Their social location guarantees objectivity, so the community can dispense with shared critical standards.",
-    "Their criticism reduces objectivity, so the community should concentrate authority among its senior members.",
-    "Their criticism can improve objectivity, but the community must also take up criticism as part of its process."
-   ],
-   "a": 3,
-   "u": "Strong objectivity highlights how marginalised standpoints can expose assumptions invisible to dominant groups. Longino treats objectivity as a social process and requires the community to respond to criticism."
-  },
-  {
-   "h": "h12",
-   "q": "Suppose the same mental state can occur in very different physical systems; which view accommodates this possibility while still facing the question of subjective experience?",
-   "o": [
-    "Type identity theory, because a mental state is one brain-state type and that identity explains felt experience.",
-    "Logical behaviourism, because displaying the same behaviour establishes that the same experience is present.",
-    "Functionalism, because causal roles can be shared across materials while consciousness remains a further issue.",
-    "Mind-body dualism, because different physical systems remove the problem of interaction with an immaterial mind."
-   ],
-   "a": 2,
-   "u": "Functionalism defines mental states by their causal roles rather than by a specific physical material, accommodating multiple realizability. The philosophical zombie and the hard problem still question whether physical or functional description explains subjective experience."
-  },
-  {
-   "h": "h13",
-   "q": "A new research technology changes what scientists measure, while its design favours some outcomes over others; which interpretation connects technological mediation with the critique of neutrality?",
-   "o": [
-    "Technology helps shape scientific methods and embeds values in what its design measures or prioritises.",
-    "Technology applies already fixed scientific methods and receives its values only from how people use it.",
-    "Technology shapes scientific methods only after a theory is complete and leaves research priorities unchanged.",
-    "Technology remains neutral when it changes measurement, because design choices concern artifacts rather than values."
-   ],
-   "a": 0,
-   "u": "Technological mediation means that technology helps constitute scientific methods and knowledge. The critique of neutrality adds that design choices embed values in what is measured, optimised or ignored."
-  }
- ],
+ "hardPerHoofdstuk": {
+  "h1": 1,
+  "h2": 1,
+  "h4": 1,
+  "h6": 1,
+  "h7": 1,
+  "h8": 1,
+  "h9": 1,
+  "h10": 1,
+  "h12": 1,
+  "h13": 1
+ },
  "hacks": [
   {
    "h": "algemeen",

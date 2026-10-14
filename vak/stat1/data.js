@@ -1124,128 +1124,17 @@ window.BES_VAK = {
    "u": "Bij sterkte kijk je naar de absolute waarde, en |-0,60| is gelijk aan |+0,60|, dus de samenhang is even sterk, alleen loopt ze bij de eerste de andere kant op. Het teken zegt alleen iets over de richting, niet over hoe sterk het verband is."
   }
  ],
- "hardVragen": [
-  {
-   "h": "h1",
-   "q": "Je codeert kledingmaten S, M en L als 1, 2 en 3 en berekent verschillen tussen die codes. Welke interpretatie is verantwoord?",
-   "o": [
-    "De gelijke stappen tussen de codes tonen dat de verschillen tussen de kledingmaten even groot zijn.",
-    "De codes bewaren de volgorde van de maten, maar bewijzen niet dat de verschillen even groot zijn.",
-    "De numerieke codes geven de maten een vaste meeteenheid, maar laten hun volgorde verloren gaan.",
-    "De numerieke codes maken verhoudingen mogelijk, zodat maat 3 driemaal zo groot is als maat 1."
-   ],
-   "a": 1,
-   "u": "Kledingmaten zijn ordinaal: je kent de volgorde, maar niet de grootte van de afstanden. Cijfers als codes toevoegen levert geen vaste meeteenheid of absoluut nulpunt op."
-  },
-  {
-   "h": "h2",
-   "q": "Je vergelijkt de verdelingen van reactietijden in twee ongelijk grote groepen en zoekt ook hun medianen. Welke combinatie van grafieken en aflezing past daarbij?",
-   "o": [
-    "Histogrammen met absolute frequenties voor de vergelijking en het hoogste punt van elke curve voor de mediaan.",
-    "Histogrammen met relatieve frequenties voor de vergelijking en de hoogste balk van elk histogram voor de mediaan.",
-    "Histogrammen met relatieve frequenties voor de vergelijking en de cumulatieve curves bij 50 procent voor de medianen.",
-    "Histogrammen met absolute frequenties voor de vergelijking en de cumulatieve curves bij 100 procent voor de medianen."
-   ],
-   "a": 2,
-   "u": "Relatieve frequenties maken groepen van ongelijke grootte vergelijkbaar. De mediaan ligt waar de cumulatieve frequentie de helft bereikt, niet bij de hoogste balk of het eindpunt van de curve."
-  },
-  {
-   "h": "h3",
-   "q": "Bij Q1 = 12 en Q3 = 24 ligt een waarneming twee interkwartielafstanden boven Q3. Hoe classificeer je die waarneming en welk duo blijft robuust voor uitschieters?",
-   "o": [
-    "Een gewone, niet extreme uitschieter; kies de mediaan en de interkwartielafstand als robuust duo.",
-    "Een extreme uitschieter; kies de mediaan en de interkwartielafstand als robuust duo.",
-    "Een gewone, niet extreme uitschieter; kies het gemiddelde en de standaardafwijking als robuust duo.",
-    "Een extreme uitschieter; kies het gemiddelde en de standaardafwijking als robuust duo."
-   ],
-   "a": 0,
-   "u": "De IKA is 24 min 12 = 12, zodat de waarneming op 48 ligt, voorbij Q3 plus 1,5 keer de IKA maar niet voorbij Q3 plus 3 keer de IKA. De mediaan en de IKA zijn robuust, terwijl gemiddelde en standaardafwijking gevoelig zijn voor uitschieters."
-  },
-  {
-   "h": "h4",
-   "q": "Je gebruikt dezelfde steekproef eerst om de waargenomen spreiding te beschrijven en daarna om de populatiespreiding te schatten. Welke noemers voor de variantie en welke stap naar de standaardafwijking passen daarbij?",
-   "o": [
-    "Beschrijven: delen door n - 1; schatten: delen door n; de vierkantswortel herstelt de oorspronkelijke meeteenheid.",
-    "Beschrijven: delen door n; schatten: delen door n; de vierkantswortel herstelt de oorspronkelijke meeteenheid.",
-    "Beschrijven: delen door n; schatten: delen door n - 1; kwadrateren herstelt de oorspronkelijke meeteenheid.",
-    "Beschrijven: delen door n; schatten: delen door n - 1; de vierkantswortel herstelt de oorspronkelijke meeteenheid."
-   ],
-   "a": 3,
-   "u": "Voor het beschrijven van de aanwezige gegevens deel je door n, voor het schatten van de populatievariantie door de n - 1 vrijheidsgraden. De standaardafwijking is de vierkantswortel van de variantie en staat weer in de meeteenheid van de data."
-  },
-  {
-   "h": "h5",
-   "q": "Een score ligt twee standaarddeviaties boven het gemiddelde van een normaalverdeling. Welk aandeel ligt volgens de 68-95-99,7-regel ongeveer boven die score?",
-   "o": [
-    "Ongeveer 5 procent, want al het aandeel buiten twee standaarddeviaties ligt boven deze score.",
-    "Ongeveer 2,5 procent, want het aandeel buiten twee standaarddeviaties is gelijk over beide staarten verdeeld.",
-    "Ongeveer 47,5 procent, want de helft van het centrale aandeel ligt boven deze score.",
-    "Ongeveer 95 procent, want het aandeel binnen twee standaarddeviaties ligt boven deze score."
-   ],
-   "a": 1,
-   "u": "Ongeveer 95 procent ligt tussen twee standaarddeviaties onder en boven het gemiddelde, zodat samen ongeveer 5 procent in de staarten ligt. Door de symmetrie ligt de helft daarvan, ongeveer 2,5 procent, boven de score met z = 2."
-  },
-  {
-   "h": "h6",
-   "q": "Twee studies vinden respectievelijk r = -0,60 en r = 0,60. Welke vergelijking van de verklaarde variantie en de causale betekenis klopt?",
-   "o": [
-    "Beide verklaren 60 procent van de variantie; het verschil in richting bewijst geen oorzakelijk verband.",
-    "De eerste verklaart -36 procent en de tweede 36 procent; alleen de positieve waarde ondersteunt causaliteit.",
-    "Beide verklaren 36 procent van de variantie; de richting verschilt, maar geen van beide bewijst causaliteit.",
-    "Beide verklaren 36 procent van de variantie; de gelijke sterkte bewijst bij beide een oorzakelijk verband."
-   ],
-   "a": 2,
-   "u": "De determinatiecoëfficiënt is r in het kwadraat, dus beide waarden leveren 0,36 op. Het teken van r geeft de richting aan, terwijl correlatie ook bij gelijke sterkte geen bewijs van causaliteit vormt."
-  },
-  {
-   "h": "h7",
-   "q": "Bij r = 0,40 ligt x één standaarddeviatie boven zijn gemiddelde en de waargenomen y één standaarddeviatie boven het zijne. Wat voorspelt de regressie in z-scores en welk residu volgt daaruit?",
-   "o": [
-    "Voorspelde z-score van y: 0,40; residu: +0,60, dus de waarneming ligt boven de rechte.",
-    "Voorspelde z-score van y: 0,16; residu: +0,84, dus de waarneming ligt boven de rechte.",
-    "Voorspelde z-score van y: 0,40; residu: -0,60, dus de waarneming ligt onder de rechte.",
-    "Voorspelde z-score van y: 1,00; residu: 0,00, dus de waarneming ligt op de rechte."
-   ],
-   "a": 0,
-   "u": "De voorspelde z-score is r maal de z-score van x, dus 0,40 maal 1 = 0,40. Het residu is waargenomen min voorspeld, hier 1 min 0,40 = +0,60, zodat het punt boven de rechte ligt."
-  },
-  {
-   "h": "h7",
-   "q": "Een regressiemodel voor deelnemers van 18 tot 25 jaar heeft residuen zonder herkenbaar patroon rond nul. Wat betekent dat voor een voorspelling voor een zestigjarige?",
-   "o": [
-    "Het residuendiagram ondersteunt de lineaire fit, waardoor de voorspelling buiten het bereik even betrouwbaar wordt.",
-    "Het residuendiagram bewijst een oorzakelijk verband, waardoor de leeftijd buiten het bereik geen bezwaar vormt.",
-    "Het residuendiagram ondersteunt de lineaire fit, waardoor de voorspelling voor de zestigjarige interpolatie heet.",
-    "Het residuendiagram ondersteunt de lineaire fit, maar de voorspelling blijft extrapolatie met grotere onzekerheid."
-   ],
-   "a": 3,
-   "u": "Residuen zonder patroon passen bij een geschikte lineaire vorm voor de geobserveerde gegevens. Een zestigjarige valt buiten het bereik van 18 tot 25 jaar, zodat de voorspelling extrapolatie blijft en onzekerder is."
-  },
-  {
-   "h": "h8",
-   "q": "Je vergelijkt in een contingentietabel groepen van ongelijke grootte die elk in een rij staan. Het verband keert om wanneer subgroepen worden samengenomen; welke aanpak en interpretatie passen daarbij?",
-   "o": [
-    "Vergelijk percentages binnen de rijen; het omkeren bij samenvoegen past bij de paradox van Simpson.",
-    "Vergelijk percentages van het algemene totaal; het omkeren bij samenvoegen past bij de paradox van Simpson.",
-    "Vergelijk percentages binnen de rijen; het omkeren bij samenvoegen bewijst dat een derde variabele medieert.",
-    "Vergelijk de absolute celaantallen; het omkeren bij samenvoegen bewijst dat een derde variabele medieert."
-   ],
-   "a": 0,
-   "u": "Voorwaardelijke verdelingen binnen de rijen maken groepen van ongelijke grootte vergelijkbaar. Een omkering van het verband door samenvoegen past bij de paradox van Simpson en bewijst op zichzelf geen tussenstap in een causale keten."
-  },
-  {
-   "h": "h9",
-   "q": "Je onderzoekt een stijgend maar krom verband met Spearman. Twee gelijke meetwaarden nemen de plaatsen 2 en 3 in; welke rangtoekenning en controle van de rangverschillen Di passen daarbij?",
-   "o": [
-    "Geef beide waarden rang 2 en de volgende rang 3; controleer dat de som van de rangverschillen Di nul is.",
-    "Geef de waarden rang 2 en 3 op volgorde van invoer; controleer dat de som van de rangverschillen Di nul is.",
-    "Geef beide waarden rang 2,5 en de volgende rang 4; controleer dat de som van de rangverschillen Di nul is.",
-    "Geef beide waarden rang 2,5 en de volgende rang 4; controleer dat de som van de gekwadrateerde Di nul is."
-   ],
-   "a": 2,
-   "u": "Spearman past bij het monotone verband en gelijke meetwaarden krijgen hun gemiddelde rang, hier 2,5, waarna de volgende waarneming rang 4 krijgt. De gewone rangverschillen Di moeten samen nul geven; na kwadrateren heffen positieve en negatieve verschillen elkaar niet meer op."
-  }
- ],
+ "hardPerHoofdstuk": {
+  "h1": 1,
+  "h2": 1,
+  "h3": 1,
+  "h4": 1,
+  "h5": 1,
+  "h6": 1,
+  "h7": 2,
+  "h8": 1,
+  "h9": 1
+ },
  "hacks": [
   {
    "h": "algemeen",

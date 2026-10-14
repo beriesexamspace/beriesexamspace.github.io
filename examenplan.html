@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <script src="assets/deur.js?v=81"></script>
+  <script src="assets/deur.js?v=85"></script>
   <link rel="apple-touch-icon" href="/assets/icoon-180.png">
   <link rel="manifest" href="/manifest.webmanifest">
   <meta name="robots" content="noindex">
@@ -21,14 +21,14 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="assets/style.css?v=81">
-  <script src="assets/app.js?v=81" defer></script>
-  <script src="assets/vakken.js?v=81"></script>
-  <script src="assets/config.js?v=81" defer></script>
+  <link rel="stylesheet" href="assets/style.css?v=85">
+  <script src="assets/app.js?v=85" defer></script>
+  <script src="assets/vakken.js?v=85"></script>
+  <script src="assets/config.js?v=85" defer></script>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js" defer></script>
-  <script src="assets/auth.js?v=81" defer></script>
-  <script src="assets/plan.js?v=81" defer></script>
-  <script src="assets/activiteit.js?v=81" defer></script>
+  <script src="assets/auth.js?v=85" defer></script>
+  <script src="assets/plan.js?v=85" defer></script>
+  <script src="assets/activiteit.js?v=85" defer></script>
   <style>
     .ep-wrap { max-width: 760px; }
     .ep-status { margin: 0 0 16px; color: var(--ink-soft); }
@@ -36,10 +36,6 @@
     .ep-sectie + .ep-sectie { margin-top: 44px; }
     .ep-sectie .sectie-kop { margin-bottom: 16px; }
     .ep-kaart { padding: clamp(20px, 4vw, 28px); }
-    .ep-pro { display: flex; align-items: center; justify-content: space-between; gap: 20px; padding: 24px; }
-    .ep-pro h2 { margin: 0 0 6px; font-size: 1.125rem; }
-    .ep-pro p { margin: 0; color: var(--ink-soft); font-size: .9375rem; line-height: 1.5; }
-    .ep-pro .knop-secundair { flex-shrink: 0; width: auto; min-width: 0; margin: 0; padding: 10px 20px; }
     .ep-examens { display: grid; gap: 12px; margin: 0; padding: 0; list-style: none; }
     .ep-examen { display: grid; grid-template-columns: minmax(0, 1fr) auto auto; align-items: center; gap: 12px; padding-bottom: 12px; border-bottom: 1px solid var(--line); }
     .ep-examen-naam { font-weight: 600; font-size: .9375rem; line-height: 1.4; }
@@ -85,20 +81,19 @@
     .ep-dag-taak { font-size: .9375rem; line-height: 1.45; }
     .ep-dag-taak small { display: block; color: var(--ink-soft); font-size: .8125rem; }
     .ep-dag-examen { display: flex; width: fit-content; margin-bottom: 6px; border-radius: 10px; }
-    .ep-dag .knop-secundair, .ep-punt .knop-secundair { width: auto; min-width: 0; margin: 0; padding: 8px 16px; font-size: .9375rem; }
+    .ep-dag .knop-secundair, .ep-punt .knop-secundair { gap: 8px; width: auto; min-width: 0; margin: 0; padding: 8px 16px; font-size: .9375rem; }
     .ep-week-cijfers { margin: 0 0 16px; font-size: .9375rem; line-height: 1.6; }
     .ep-punten { display: grid; gap: 12px; }
     .ep-punt { padding: 16px 0 0; border-top: 1px solid var(--line); }
     .ep-punt-boven { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
     .ep-punt h3 { margin: 0; font-size: 1rem; }
     .ep-punt p { margin: 2px 0 0; color: var(--ink-soft); font-size: .8125rem; }
-    .ep-punt-knoppen { display: flex; flex-wrap: wrap; gap: 8px; }
+    .ep-punt-knoppen { display: flex; flex-wrap: wrap; gap: 12px; }
     .ep-brug { margin: 12px 0 0; padding: 14px 16px; border-radius: 12px; background: var(--surface); font-size: .9375rem; line-height: 1.55; white-space: pre-line; }
     .ep-brug:empty { display: none; }
     .ep-brug:not(:empty) { animation: appear 200ms var(--ease); }
     @media (max-width: 560px) {
-      .ep-pro, .ep-punt-boven { flex-direction: column; align-items: stretch; }
-      .ep-pro .knop-secundair { width: 100%; max-width: none; }
+      .ep-punt-boven { flex-direction: column; align-items: stretch; }
       .ep-examen { grid-template-columns: minmax(0, 1fr) auto; }
       .ep-examen input[type="date"] { grid-column: 1 / -1; grid-row: 2; }
       .ep-nieuw { grid-template-columns: minmax(0, 1fr); }
@@ -140,14 +135,6 @@
       </header>
 
       <p class="ep-status" id="ep-status" role="status">Even laden.</p>
-
-      <section class="kaart ep-pro" id="ep-pro" aria-labelledby="ep-pro-kop" hidden>
-        <div>
-          <h2 id="ep-pro-kop">Je examenplan zit in Pro</h2>
-          <p>Met Pro krijg je een plan per dag tot je examen, dat je met één knop in je agenda zet. Je krijgt ook ezelsbruggetjes van Comit voor je zwakke hoofdstukken en per vak een Klaar-meter.</p>
-        </div>
-        <a class="knop-secundair" href="abonnement.html">Probeer Pro een maand</a>
-      </section>
 
       <div id="ep-inhoud" hidden>
         <section class="ep-sectie" aria-labelledby="ep-examens-kop">
@@ -201,7 +188,7 @@
   </footer>
 
   <script>
-    // Examenplan (Pro): examendata (supabase/examendata.sql), voortgang per hoofdstuk en sessies van de laatste twee weken.
+    // Examenplan (voor elk account): examendata (supabase/examendata.sql), voortgang per hoofdstuk en sessies van de laatste twee weken.
     // Het plan zet per dag twee hoofdstukken klaar: eerst wat je nog niet oefende, dan je laagste scores. De dag voor een examen: een simulatie.
     // Het loopt tot je laatste komende examen (hoogstens 120 dagen), per week gegroepeerd, en kan als .ics-bestand in je agenda.
     document.addEventListener('DOMContentLoaded', () => {
@@ -245,6 +232,8 @@
 
       let client = null;
       let gebruiker = null;
+      // Ezelsbruggetjes van Comit zitten in Plus (een oud 'pro' telt als Plus).
+      let plusOk = false;
       let examens = [];
       let scores = new Map();
       let planDagen = [];
@@ -502,8 +491,21 @@
         $('ep-agenda-melding').textContent = 'Je agenda-bestand is gedownload. Open het om ' + (planDagen.length === 1 ? 'je plandag' : 'de ' + planDagen.length + ' plandagen') + ' in je agenda te zetten. Verschuift je plan, zet het dan gewoon opnieuw in je agenda.';
       });
 
-      // Ezelsbruggetjes van Comit (Pro) voor een zwak hoofdstuk, op basis van een paar vragen met het juiste antwoord.
+      // Zonder Plus: de reden met een link naar Abonnement, en de pop-up Kies je plan (app.js).
+      const brugReden = 'Ezelsbruggetjes van Comit zitten in Plus.';
+      const toonPlusSlot = (doel, reden) => {
+        const link = el('a', 'tekstlink', 'Probeer Plus een maand');
+        link.href = 'abonnement.html';
+        link.dataset.kiesPlan = 'plus';
+        link.dataset.reden = reden;
+        doel.replaceChildren(reden + ' ', link);
+        if (BES.kiesPlan) BES.kiesPlan({ nodig: 'plus', reden });
+      };
+
+      // Ezelsbruggetjes van Comit (Plus) voor een zwak hoofdstuk, op basis van een paar vragen met het juiste antwoord.
+      // Zegt Comit dat dit in Plus zit (status 403 met fout 'plus', of het oude 'pro'), dan de uitleg van Comit met de link.
       async function ezelsbrug(vak, hoofdstuk, doel, knop) {
+        if (!plusOk) { toonPlusSlot(doel, brugReden); return; }
         knop.disabled = true;
         doel.textContent = 'Comit denkt even na.';
         try {
@@ -516,7 +518,11 @@
             if (context.length + stuk.length <= 1500) context += stuk;
           });
           const { data: antwoord, error } = await client.functions.invoke('comit', { body: { soort: 'ezelsbrug', vraag: 'Ezelsbruggetjes voor het hoofdstuk ' + hoofdstuk.naam + ' van ' + (vakNaam.get(vak) || vak) + '.', context } });
-          doel.textContent = !error && antwoord && antwoord.tekst ? antwoord.tekst : 'Comit kan nu even niet nadenken. Probeer het zo opnieuw.';
+          let inhoud = error ? null : antwoord;
+          // Bij status 4xx of 5xx zit het antwoord van de functie in error.context (een Response).
+          if (error) { try { inhoud = error.context && typeof error.context.json === 'function' ? await error.context.json() : null; } catch { inhoud = null; } }
+          if (inhoud && (inhoud.fout === 'plus' || inhoud.fout === 'pro')) toonPlusSlot(doel, typeof inhoud.tekst === 'string' && inhoud.tekst.trim() ? inhoud.tekst.trim() : brugReden);
+          else doel.textContent = !error && inhoud && !inhoud.fout && inhoud.tekst ? inhoud.tekst : 'Comit kan nu even niet nadenken. Probeer het zo opnieuw.';
         } catch {
           doel.textContent = 'Comit kan nu even niet nadenken. Probeer het zo opnieuw.';
         }
@@ -554,6 +560,7 @@
           oefen.href = 'vak/' + encodeURIComponent(vak) + '/?hoofdstuk=' + encodeURIComponent(hoofdstuk.id);
           const brugKnop = el('button', 'knop-secundair', 'Ezelsbruggetjes');
           brugKnop.type = 'button';
+          if (!plusOk) brugKnop.append(el('span', 'label', 'Plus'));
           const brug = el('p', 'ep-brug');
           brug.setAttribute('aria-live', 'polite');
           brugKnop.addEventListener('click', () => ezelsbrug(vak, hoofdstuk, brug, brugKnop));
@@ -579,8 +586,8 @@
         gebruiker = auth ? await auth.gebruiker() : null;
         client = auth && auth.client;
         if (!gebruiker || !client) { status.textContent = 'Log in om je examenplan te zien.'; return; }
-        const plan = BES.plan ? await BES.plan() : { plan: 'free' };
-        if (plan.plan !== 'pro') { status.textContent = ''; $('ep-pro').hidden = false; return; }
+        const plan = BES.plan ? await BES.plan().catch(() => null) : null;
+        plusOk = Boolean(plan && (plan.plan === 'plus' || plan.plan === 'pro'));
         const { data: voortgang } = await client.from('voortgang').select('vak,hoofdstuk,laatst_goed,laatst_totaal').eq('user_id', gebruiker.id);
         scores = new Map((voortgang || []).filter((rij) => !rij.vak.endsWith('__hard') && rij.laatst_totaal >= 3).map((rij) => [rij.vak + '|' + rij.hoofdstuk, rij.laatst_goed / rij.laatst_totaal]));
         status.textContent = '';

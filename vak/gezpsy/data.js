@@ -1081,119 +1081,12 @@ window.BES_VAK = {
    ]
   }
  ],
- "hardVragen": [
-  {
-   "h": "h1",
-   "q": "Welke stelling over sociale verschillen in gezondheid is FOUT?",
-   "o": [
-    "Volgens de omgekeerde preventiewet heeft wie er het slechtst aan toe is de minste toegang tot zorg",
-    "De Whitehall-studie toonde dat lager betaalde ambtenaren eerder sterven, mede door psychosociale factoren",
-    "SES beïnvloedt de gezondheid via macht, geld en middelen, onder meer via zeggenschap, zekerheid en stress",
-    "Volgens het sociale driftmodel is een lage SES de oorzaak van gezondheidsproblemen, en niet andersom"
-   ],
-   "a": 3,
-   "u": "Het sociale driftmodel stelt net dat gezondheidsproblemen tot een lage SES leiden; dat een lage SES gezondheidsproblemen veroorzaakt, is het sociale causaliteitsmodel. De andere stellingen geven de omgekeerde preventiewet, de Whitehall-studie en de werking van SES correct weer."
-  },
-  {
-   "h": "h1",
-   "q": "Freud beschreef conversiehysterie: lichamelijke klachten waarvoor geen medische verklaring gevonden wordt. Welk model sluit het best aan bij dit verschijnsel, en waarom?",
-   "o": [
-    "Het biomedische model, omdat de klachten lichamelijk zijn en dus tot een fysisch probleem te herleiden zijn",
-    "Het bio-psychosociaal model, omdat het ook niet-waarneembare, geestelijke factoren als verklaring meeneemt",
-    "Het biomedische model, omdat het zich baseert op een causale relatie A naar B tussen geest en lichaam",
-    "Het bio-psychosociaal model, omdat het klachten zonder medische verklaring als louter ingebeeld afdoet"
-   ],
-   "a": 1,
-   "u": "Conversiehysterie gaat over lichamelijke klachten zonder medische verklaring en illustreert zo het belang van geestelijke factoren. Het bio-psychosociaal model neemt zulke niet-waarneembare zaken mee, terwijl het biomedische model zich reductionistisch richt op waarneembare zaken."
-  },
-  {
-   "h": "h2",
-   "q": "Een ziekenhuis start een programma voor patiënten die al diabetes hebben, met als doel verdere invalidering te voorkomen. Welke combinatie van preventieniveau en doelgroepbenadering past hierbij?",
-   "o": [
-    "Secundaire preventie met een geïndiceerde benadering",
-    "Tertiaire preventie met een universele benadering",
-    "Tertiaire preventie met een zorg-gerelateerde benadering",
-    "Secundaire preventie met een zorg-gerelateerde benadering"
-   ],
-   "a": 2,
-   "u": "Verdere invalidering voorkomen wanneer de ziekte er al is, is tertiaire preventie. Omdat de ziekte al aanwezig is, gaat het om een zorg-gerelateerde benadering; geïndiceerde preventie richt zich op mensen net voor de ziekte en universele preventie op iedereen."
-  },
-  {
-   "h": "h3",
-   "q": "Een overheid wil rijden onder invloed terugdringen met strengere controles en hogere boetes. Welk basismodel van de overheid is dit, en welke kritiek hoort erbij?",
-   "o": [
-    "Het Goliath model, met als kritiek dat gedragsverandering eigenlijk intern zou moeten komen",
-    "Het tijdsbom model, met als kritiek dat angst eerder afkeer dan gedragsverandering oproept",
-    "Het Goliath model, met als kritiek dat de verstrekte informatie vaak niet geactiveerd wordt",
-    "Het lege vaten model, met als kritiek dat gedragsverandering eigenlijk intern zou moeten komen"
-   ],
-   "a": 0,
-   "u": "Het Goliath model stuurt gedrag via macht en straf, zoals controles en boetes, met als kritiek dat verandering intern zou moeten komen. Afkeer door angst is de kritiek op het tijdsbom model en niet-geactiveerde informatie die op het lege vaten model."
-  },
-  {
-   "h": "h3",
-   "q": "Welke stellingen over modellen voor gezondheidsgedrag zijn FOUT? Duid de twee FOUTE antwoorden.",
-   "o": [
-    "Het TTM beschrijft vijf fasen, van precontemplatie tot onderhoud, over een periode van zes maanden",
-    "Het PAPM is een herwerking van het TTM die de tijdslimiet behoudt en de precontemplatiefase weglaat",
-    "De HAPA onderscheidt een motivatiefase en een volitiefase, met een pre-intentioneel en post-intentioneel deel",
-    "De TPB breidt de TRA uit met perceived behavioral control, de vermeende controle over een situatie",
-    "Het Health Belief Model is een dynamisch model dat vooral de sociale invloeden op gedrag benadrukt"
-   ],
-   "a": [
-    1,
-    4
-   ],
-   "kies": "fout",
-   "u": "Het PAPM laat de tijdslimiet van het TTM net vallen en geeft extra aandacht aan de precontemplatiefase. Het Health Belief Model is statisch en houdt geen rekening met sociale invloeden; de andere drie stellingen kloppen."
-  },
-  {
-   "h": "h4",
-   "q": "Uit erfelijkheidsonderzoek blijkt dat iemand een hoog risico heeft. Alle testen werden via one-stop testing op één dag afgenomen. Welke uitspraak klopt volgens de les?",
-   "o": [
-    "Er wordt een jaarlijkse opvolging voorzien; one-stop testing vermindert stress maar laat weinig ruimte voor een weloverwogen keuze",
-    "Er wordt een preventieve ingreep overwogen; one-stop testing geeft extra bedenktijd maar verhoogt de stress bij de deelnemer",
-    "Er wordt een jaarlijkse opvolging voorzien; one-stop testing geeft extra bedenktijd maar verhoogt de stress bij de deelnemer",
-    "Er wordt een preventieve ingreep overwogen; one-stop testing vermindert stress maar laat weinig ruimte voor een weloverwogen keuze"
-   ],
-   "a": 3,
-   "u": "Bij een hoog risico komt een preventieve ingreep in beeld, bij een matig risico een jaarlijkse opvolging en bij een laag risico een terugverwijzing naar de huisarts. One-stop testing vermindert de stress, maar laat weinig ruimte voor een weloverwogen keuze over een ingreep."
-  },
-  {
-   "h": "h6",
-   "q": "Een fervente marathonloper krijgt een chronische ziekte waardoor lopen niet meer lukt. Hij besluit dat lopen eigenlijk minder belangrijk is dan hij dacht en haalt nu voldoening uit wandelen. Welk begrip past hier het best?",
-   "o": [
-    "Consolidering van het gezin",
-    "Verstoring als crisisfase",
-    "Neerwaartse vergelijking",
-    "Aangeleerde hulpeloosheid"
-   ],
-   "a": 2,
-   "u": "Wanneer een doel door ziekte niet meer haalbaar is, kan men het belang ervan naar beneden bijstellen: dat is neerwaartse vergelijking. Verstoring is de crisisfase in het emotionele ziekteproces, consolidering is de laatste fase in de aanpassing van het gezinssysteem aan ziekte en aangeleerde hulpeloosheid gaat over afhankelijkheid van anderen die de coping vermindert."
-  },
-  {
-   "h": "h7",
-   "q": "Een man met chronische rugpijn merkt dat hij, telkens als hij over pijn klaagt, een vervelende huishoudtaak niet hoeft te doen. Welk begrip past hierbij, en wat zou het behandelingsmodel van Fordyce voorstellen?",
-   "o": [
-    "Secundaire ziektewinst; niet-pijngedrag belonen zodat het waarneembare pijngedrag afneemt",
-    "Primaire ziektewinst; via biofeedback de spierspanning leren beïnvloeden zodat de pijn afneemt",
-    "Secundaire ziektewinst; via biofeedback de spierspanning leren beïnvloeden zodat de pijn afneemt",
-    "Primaire ziektewinst; niet-pijngedrag belonen zodat het waarneembare pijngedrag afneemt"
-   ],
-   "a": 3,
-   "u": "Pijnuitingen die een vervelende consequentie doen stoppen, leveren primaire, intrapersoonlijke ziektewinst op; secundaire ziektewinst gaat over zorg en sympathie van anderen. Fordyce maakt via operante conditionering het waarneembare pijngedrag tot doelwit en beloont niet-pijngedrag. Biofeedback is een aparte registratietechniek en hoort niet bij het model van Fordyce."
-  },
-  {
-   "h": "h7",
-   "q": "Iemand stoot zijn knie hard tegen de tafel. Hij voelt een scherpe, kortdurende pijn en ook een doffe, trage pijn, en door over de knie te wrijven wordt het draaglijker. Welke koppeling van zenuwvezels klopt?",
-   "o": [
-    "Scherp via C-vezels, dof via A-deltavezels, wrijven via A-bètacellen",
-    "Scherp via A-deltavezels, dof via C-vezels, wrijven via A-bètacellen",
-    "Scherp via A-bètacellen, dof via C-vezels, wrijven via A-deltavezels",
-    "Scherp via A-deltavezels, dof via A-bètacellen, wrijven via C-vezels"
-   ],
-   "a": 1,
-   "u": "A-deltavezels geven scherpe, kortdurende pijn en C-vezels doffe, trage pijn. A-bètacellen zorgen voor een zacht, prettig gevoel, waardoor wrijven de pijn kan dempen."
-  }
- ]
+ "hardPerHoofdstuk": {
+  "h1": 2,
+  "h2": 1,
+  "h3": 2,
+  "h4": 1,
+  "h6": 1,
+  "h7": 2
+ }
 };

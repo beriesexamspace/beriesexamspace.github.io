@@ -1390,131 +1390,15 @@ window.BES_VAK = {
    ]
   }
  ],
- "hardVragen": [
-  {
-   "h": "h1",
-   "q": "Welke stellingen over de basisbegrippen van de ontwikkelingspsychopathologie zijn FOUT?",
-   "o": [
-    "Classificerende diagnostiek clustert symptomen tot syndromen, maar geeft geen inzicht in de pathologie.",
-    "Equifinaliteit betekent dat uit één risicofactor, zoals trauma, veel verschillende problemen voortkomen.",
-    "Een protectieve factor gaat samen met een lagere kans op een stoornis in aanwezigheid van een risicofactor.",
-    "Angst en depressie zijn voorbeelden van externaliserend probleemgedrag, dat vaker bij jongens voorkomt.",
-    "Bij heel jonge kinderen gebruikt men de DC 0-3, omdat de DSM voor die leeftijd niet geschikt is."
-   ],
-   "a": [
-    1,
-    3
-   ],
-   "kies": "fout",
-   "u": "Dat uit één risicofactor zoals trauma veel verschillende problemen voortkomen, is multifinaliteit; equifinaliteit betekent dat eenzelfde resultaat uit verschillende beginpunten kan voortkomen. Angst en depressie zijn internaliserend probleemgedrag, dat vaker bij meisjes voorkomt. De drie andere stellingen geven de leerstof correct weer."
-  },
-  {
-   "h": "h2",
-   "q": "Een 17-jarige heeft een significant te laag gewicht met een BMI onder 18, een intense angst om aan te komen en een verstoord lichaamsbeeld. Daarnaast heeft ze geregeld eetbuien, waarna ze zelf braakt. Welke classificatie en redenering passen het best bij de leerstof?",
-   "o": [
-    "Boulimia Nervosa, omdat eetbuien gevolgd door braken hier het doorslaggevende kenmerk vormen",
-    "Eetbuistoornis, omdat de herhaalde eetbuien met controleverlies het klinische beeld domineren",
-    "Purgerende type AN, omdat de lage BMI op AN wijst en er eetbuien met zelfopgewekt braken zijn",
-    "Restrictieve type AN, omdat de lage BMI en de angst om aan te komen het klinische beeld bepalen"
-   ],
-   "a": 2,
-   "u": "Een significant te laag gewicht (volgens de vuistregel een BMI onder 18) wijst op Anorexia Nervosa en niet op Boulimia Nervosa, en ook de intense angst om aan te komen en het verstoorde lichaamsbeeld passen bij AN. Omdat er eetbuien met zelfopgewekt braken voorkomen, gaat het om het purgerende type; het restrictieve type kent geen eetbuien en de eetbuistoornis geen compensatiegedrag."
-  },
-  {
-   "h": "h3",
-   "q": "Een 15-jarige snijdt zich sinds acht maanden, in totaal op ongeveer twaalf dagen. Ze zegt dat het de spanning doet zakken en dat ze niet dood wil. Welke conclusie sluit het best aan bij de leerstof?",
-   "o": [
-    "Het gaat om een suicidepoging, omdat ze zichzelf opzettelijk en direct fysiek letsel toebrengt",
-    "ZVG is niet te classificeren, want daarvoor is letsel op minstens dertig dagen per jaar vereist",
-    "Er kan sprake zijn van ZVG, maar zonder doodswens is er geen verhoogd risico op later suicidaal gedrag",
-    "Er kan sprake zijn van ZVG, en ze heeft drie tot vijf keer meer kans op suicidaal gedrag in de tijd"
-   ],
-   "a": 3,
-   "u": "Twaalf dagen in het afgelopen jaar voldoet aan het criterium van vijf of meer dagen, en door het ontbreken van een doodswens gaat het om ZVG en niet om een suicidepoging. Jongeren die zichzelf verwonden hebben volgens de leerstof wel drie tot vijf maal meer kans op suicidaal gedrag in de tijd."
-  },
-  {
-   "h": "h4",
-   "q": "Een 14-jarige krijgt al acht maanden een paniekaanval telkens wanneer ze een hond ziet, en nooit in andere situaties. Ze vermijdt daarom parken. Welke combinatie van type paniekaanval en classificatie past het best?",
-   "o": [
-    "Onverwachte paniekaanvallen, passend bij een paniekstoornis omdat de aanvallen herhaald optreden",
-    "Situationeel gebonden aanvallen, passend bij een specifieke fobie eerder dan bij een paniekstoornis",
-    "Situationeel gepredisponeerde aanvallen, passend bij een gegeneraliseerde angststoornis met piekeren",
-    "Situationeel gebonden aanvallen, maar de duur is bij jongeren nog te kort voor een specifieke fobie"
-   ],
-   "a": 1,
-   "u": "De drie typen paniekaanval verschillen in de mate waarin blootstelling de aanval uitlokt; een aanval die telkens bij het zien van de hond optreedt en nooit in andere situaties, is situationeel gebonden en dus niet onverwacht. Een paniekstoornis vereist net herhaalde onverwachte aanvallen. Overmatige angst voor een specifiek voorwerp die bij jongeren minstens 6 maanden aanhoudt, past bij een specifieke fobie, en acht maanden voldoet daaraan."
-  },
-  {
-   "h": "h5",
-   "q": "Een jongen is ervan overtuigd dat zijn moeder een ongeluk zal krijgen, alleen omdat hij daaraan gedacht heeft. Een meisje controleert tientallen keren het fornuis, omdat het haar schuld zou zijn als er brand uitbreekt. Welke koppeling met de cognitieve modellen van OCD is juist?",
-   "o": [
-    "Bij de jongen thought-action fusion (Rachman), bij het meisje een opgeblazen verantwoordelijkheidsgevoel (Salkovskis)",
-    "Bij de jongen een opgeblazen verantwoordelijkheidsgevoel (Salkovskis), bij het meisje thought-action fusion (Rachman)",
-    "Bij de jongen thought-action fusion (Rachman), bij het meisje een interpretatiebias voor ambigue situaties",
-    "Bij de jongen een opgeblazen verantwoordelijkheidsgevoel (Salkovskis), bij het meisje een interpretatiebias voor ambigue situaties"
-   ],
-   "a": 0,
-   "u": "Thought-action fusion (Rachman) is de overtuiging dat eigen gedachten gebeurtenissen in de wereld kunnen beïnvloeden, zoals bij de jongen. Het meisje interpreteert haar gedachten alsof zij zelf verantwoordelijk is voor mogelijke schade, wat het opgeblazen verantwoordelijkheidsgevoel van Salkovskis is; het controleren werkt dan als compulsie die de spanning vermindert."
-  },
-  {
-   "h": "h6",
-   "q": "Een 13-jarige toont sinds acht maanden zeven symptomen van onoplettendheid, maar enkel op school. Volgens ouders en leerkrachten was er voor zijn twaalfde niets van te merken. Welke beoordeling volgens de ADHD-criteria A tot E is juist?",
-   "o": [
-    "Enkel criterium A faalt, want voor het onoplettende beeld zijn meer dan zeven symptomen nodig",
-    "Enkel criterium C faalt, want criterium B vraagt slechts een begin voor de volwassenheid",
-    "Criteria B en C falen, terwijl het aantal symptomen en de duur van zes maanden wel volstaan",
-    "De duur faalt, want de symptomen moeten minstens twaalf maanden bestaan, en ook C faalt"
-   ],
-   "a": 2,
-   "u": "Criterium B vereist een begin voor het twaalfde jaar en criterium C dat de symptomen op meer dan twee terreinen voorkomen, en aan beide is hier niet voldaan. Het vereiste aantal van zes symptomen (criterium A) en de duur van minstens zes maanden zijn met zeven symptomen over acht maanden wel gehaald."
-  },
-  {
-   "h": "h7",
-   "q": "Een jongen met ASS beschrijft een schilderij tot in het kleinste detail, maar kan niet zeggen waar het over gaat. Op een feest merkt hij niet in één oogopslag dat iedereen stil wordt omdat de taart binnenkomt. Welke koppeling met de cognitieve verklaringsmodellen is het meest passend?",
-   "o": [
-    "Bij het schilderij contextblindheid, bij het feest een zwakke centrale coherentie",
-    "Bij het schilderij executieve disfuncties in planning, bij het feest contextblindheid",
-    "Bij het schilderij sterk systematiseren, bij het feest een zwakke centrale coherentie",
-    "Bij het schilderij een zwakke centrale coherentie, bij het feest contextblindheid"
-   ],
-   "a": 3,
-   "u": "Zwakke centrale coherentie bemoeilijkt door een lokale bias het afleiden van de algemene betekenis uit veel details, zoals bij het schilderij. Contextblindheid is de moeite om een sociale situatie in één oogopslag te begrijpen aan de hand van de context, wat op het feest speelt."
-  },
-  {
-   "h": "h8",
-   "q": "Telkens wanneer een moeder dreigt de tablet af te nemen, begint haar zoon te schreeuwen en te schoppen, waarna zij de straf laat vallen. Het opstandige gedrag neemt de volgende weken toe. Welk verklaringsmodel beschrijft dit patroon het best?",
-   "o": [
-    "Het coercief proces, omdat de zoon door zijn verzet aan de straf ontkomt en dat gedrag zo blijft bestaan",
-    "De sociale informatieverwerkingstheorie van Dodge, omdat de zoon neutrale cues vijandig interpreteert",
-    "Het sociaal leermodel via modeling, omdat de zoon agressief gedrag van een voorbeeldfiguur overneemt",
-    "Proactieve agressie, omdat de zoon zijn uitbarstingen vooraf plant om bewust schade toe te brengen"
-   ],
-   "a": 0,
-   "u": "In het coercief proces ontkomt het kind door verzet aan straf, waardoor het opstandige gedrag in stand gehouden wordt. Er is hier geen vijandig geïnterpreteerde neutrale cue, geen model dat nagebootst wordt en geen plangerichte, instrumentele agressie."
-  },
-  {
-   "h": "h9",
-   "q": "Een 17-jarige voldoet in het afgelopen jaar aan vijf kenmerken van een middelgerelateerde stoornis. Hij merkt dat hetzelfde middel hem steeds minder plezier geeft. Welke combinatie van ernsttaxatie en verklaring volgens de opponent-process theorie is juist?",
-   "o": [
-    "Ernstige stoornis; het A-proces van positieve bekrachtiging wordt bij elk nieuw gebruik kleiner",
-    "Matig-ernstige stoornis; het A-proces blijft gelijk, maar het tegengestelde B-proces vermindert de beleving",
-    "Milde stoornis; het A-proces blijft gelijk, maar het tegengestelde B-proces vermindert de beleving",
-    "Matig-ernstige stoornis; het A-proces van positieve bekrachtiging wordt bij elk nieuw gebruik kleiner"
-   ],
-   "a": 1,
-   "u": "Met 4 tot 5 kenmerken binnen een jaar spreekt men van een matig-ernstige stoornis (2 tot 3 is mild, 6 of meer ernstig). Volgens de opponent-process theorie blijft het A-proces van positieve bekrachtiging gelijk, maar vermindert de beleving door het tegengestelde B-proces van negatieve bekrachtiging."
-  },
-  {
-   "h": "h9",
-   "q": "Een 10-jarige heeft na een ernstig verkeersongeval last van intrusies, vermijding, negatieve gedachten en schrikreacties. Welke classificatie past twee weken na het ongeval, en welke als dezelfde klachten na zeven weken nog steeds aanwezig zijn?",
-   "o": [
-    "Na twee weken al PTSS, en na zeven weken een acute stressstoornis omdat de klachten aanhouden",
-    "Na twee weken nog geen classificatie, want er is minstens een maand nodig, en na zeven weken PTSS",
-    "Na twee weken een acute stressstoornis, en na zeven weken PTSS, want de duur is langer dan een maand",
-    "Na twee weken een acute stressstoornis, en na zeven weken nog steeds, want PTSS vereist zes maanden"
-   ],
-   "a": 2,
-   "u": "Volgens de leerstof spreekt men bij klachten die 3 dagen tot 1 maand duren van een acute stressstoornis. Duren de symptomen van intrusie, vermijding, negatieve cognities en stemming en verhoogde arousal langer dan een maand, dan is de classificatie PTSS."
-  }
- ]
+ "hardPerHoofdstuk": {
+  "h1": 1,
+  "h2": 1,
+  "h3": 1,
+  "h4": 1,
+  "h5": 1,
+  "h6": 1,
+  "h7": 1,
+  "h8": 1,
+  "h9": 2
+ }
 };

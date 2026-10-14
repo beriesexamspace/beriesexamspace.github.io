@@ -1377,136 +1377,15 @@ window.BES_VAK = {
    ]
   }
  ],
- "hardVragen": [
-  {
-   "h": "h1",
-   "q": "Een vrouw met een genetische kwetsbaarheid voor depressie wordt somber na een pijnlijke scheiding. Doordat ze zich daarna sociaal terugtrekt, blijven de klachten bestaan. Hoe deel je deze drie factoren in volgens de structuurdiagnose?",
-   "o": [
-    "Kwetsbaarheid precipiterend, scheiding predisponerend, sociaal terugtrekken perpetuerend",
-    "Kwetsbaarheid predisponerend, scheiding precipiterend, sociaal terugtrekken perpetuerend",
-    "Kwetsbaarheid predisponerend, scheiding perpetuerend, sociaal terugtrekken precipiterend",
-    "Kwetsbaarheid perpetuerend, scheiding precipiterend, sociaal terugtrekken predisponerend"
-   ],
-   "a": 1,
-   "u": "Predisponerende factoren maken vooraf kwetsbaar (de genetische aanleg), precipiterende factoren lokken de stoornis uit (de scheiding als trigger) en perpetuerende factoren houden ze in stand (het sociaal terugtrekken). Dat is de volgorde voorbeschikt, uitgelokt, onderhouden."
-  },
-  {
-   "h": "h2",
-   "q": "Een vrouw van 82 die in het ziekenhuis ligt, wordt in de loop van één dag verward. 's Ochtends is ze helder, 's avonds herkent ze haar kamer niet en is ze nauwelijks aanspreekbaar. Welk beeld en welke redenering passen het best?",
-   "o": [
-    "Dementie, omdat desoriëntatie bij een 65-plusser samen met geheugenverlies een alarmsignaal is",
-    "Amnestische stoornis, omdat het beeld zich beperkt tot een anterograde geheugenstoornis",
-    "Depressie, omdat geheugenklachten en verminderde interesse sterk overlappen met dementie",
-    "Delirium, omdat het beeld acuut ontstaat, over het etmaal fluctueert en het bewustzijn verstoord is"
-   ],
-   "a": 3,
-   "u": "Een delirium ontwikkelt zich in uren tot dagen, fluctueert over 24 uur en gaat gepaard met een verstoord bewustzijn, waardoor snelle interventie nodig is. Dementie is net een degeneratief proces waarbij het psychisch functioneren geleidelijk over de tijd achteruitgaat."
-  },
-  {
-   "h": "h3",
-   "q": "Welke twee stellingen over middelengebonden stoornissen zijn FOUT?",
-   "o": [
-    "Intoxicatie en onthouding vallen onder de stoornissen door het gebruik, niet onder die in het gebruik",
-    "Misbruik vereist dat binnen een jaar minstens drie verschijnselen optreden, verspreid over drie clusters",
-    "Intoxicatie is een reversibel, middel-specifiek syndroom dat kort na recent gebruik van het middel optreedt",
-    "Craving is een hevig, dringend verlangen naar het middel en geldt als kernsymptoom van afhankelijkheid",
-    "Onthouding treedt al op na kortdurend, beperkt gebruik zodra men het middel een dag niet meer neemt"
-   ],
-   "a": [
-    1,
-    4
-   ],
-   "kies": "fout",
-   "u": "Minstens drie verschijnselen binnen een jaar, verdeeld over een lichamelijke, psychische en controlecluster, is het criterium voor afhankelijkheid, niet voor misbruik. Onthouding ontstaat door het staken of verminderen van langdurig en aanzienlijk gebruik, niet na kortdurend beperkt gebruik."
-  },
-  {
-   "h": "h4",
-   "q": "Een student hoort sinds drie maanden stemmen, is ervan overtuigd dat hij gevolgd wordt en praat soms onsamenhangend. Daarvoor functioneerde hij zonder opvallende klachten en er is geen stemmingsstoornis. Welke classificatie past op dit moment het best?",
-   "o": [
-    "Schizofreniforme stoornis, want het beeld duurt minstens een maand maar nog geen zes maanden",
-    "Schizofrenie, want wanen, hallucinaties en onsamenhangende spraak zijn tegelijk aanwezig",
-    "Waanstoornis, want de overtuiging dat hij overal gevolgd wordt is een typisch niet-bizarre waan",
-    "Schizoaffectieve stoornis, want er zijn al langer dan twee weken wanen of hallucinaties"
-   ],
-   "a": 0,
-   "u": "De schizofreniforme stoornis toont hetzelfde beeld als schizofrenie, maar met een episode van minstens een maand en korter dan zes maanden; bij schizofrenie duurt het beeld zes maanden of langer. Een waanstoornis verloopt zonder denkstoornis (hier is er incoherentie) en een schizoaffectieve stoornis vereist een stemmingsepisode."
-  },
-  {
-   "h": "h5",
-   "q": "Een vrouw had meermaals periodes van vijf dagen met een verhoogde stemming en weinig slaapbehoefte, zonder dat haar werk eronder leed en zonder psychotische verschijnselen. Daarnaast maakte ze twee depressieve episodes door met telkens vijf of meer symptomen gedurende meer dan twee weken. Welke diagnose past het best?",
-   "o": [
-    "Bipolaire stoornis type 1, want periodes van verhoogde stemming wisselen af met depressieve episodes",
-    "Cyclothyme stoornis, want hypomane en depressieve symptomen wisselen elkaar chronisch af",
-    "Bipolaire stoornis type 2, want hypomane episodes wisselen af met volledige depressieve episodes",
-    "Dysthyme stoornis, want het gaat om mildere stemmingsklachten die al geruime tijd aanhouden"
-   ],
-   "a": 2,
-   "u": "Periodes van minstens vier dagen verhoogde stemming zonder duidelijke beperkingen en zonder psychose zijn hypomane episodes; samen met volledige depressieve episodes is dat bipolaire stoornis type 2. Type 1 vraagt manische episodes, en bij cyclothymie voldoen de symptomen niet aan de volledige criteria."
-  },
-  {
-   "h": "h6",
-   "q": "Een man kreeg enkele keren plots hartkloppingen, zweten, trillen en benauwdheid die binnen enkele minuten piekten. Sindsdien vraagt hij zich voortdurend af of er weer zo'n aanval aankomt; over andere zaken maakt hij zich nauwelijks zorgen. Welk begrip beschrijft die zorgen het best?",
-   "o": [
-    "Gegeneraliseerde angststoornis, want hij piekert aanhoudend en kan zijn zorgen moeilijk beheersen",
-    "Specifieke fobie, want zijn angst is afgelijnd en hij erkent zelf dat die ongegrond is",
-    "Sociale fobie, want hij vreest zich tijdens een aanval beschamend te gedragen bij anderen",
-    "Anticipatieangst, want zijn bezorgdheid draait specifiek om het krijgen van nieuwe aanvallen"
-   ],
-   "a": 3,
-   "u": "Na paniekaanvallen (vier of meer symptomen die plots ontstaan en binnen ongeveer 10 minuten pieken) maakt men zich vaak voortdurend zorgen over nieuwe aanvallen: dat is anticipatieangst. Bij GAS gaat de bezorgdheid juist over meerdere gebeurtenissen, gedurende zes maanden vaker wel dan niet."
-  },
-  {
-   "h": "h7",
-   "q": "Een jongen is sinds zijn vijfde agressief tegenover leeftijdsgenoten en dieren en schendt geregeld de rechten van anderen. Ook in de adolescentie houdt dit gedrag aan. Welke combinatie van stoornis en taxonomie van Moffitt past het best?",
-   "o": [
-    "CD, life-course persistent: vroege start met agressie als kern en een blijvend verloop",
-    "CD, adolescent limited: agressie als kernsymptoom met een tijdelijk, later startend verloop",
-    "ODD, life-course persistent: prikkelbaarheid en wraakzucht staan centraal, met een blijvend verloop",
-    "ODD, adolescent limited: gedrags- en emotionele criteria die in de adolescentie vanzelf uitdoven"
-   ],
-   "a": 0,
-   "u": "Agressie als kernsymptoom met schending van de rechten van anderen past bij CD, dat enkel gedragscriteria kent. Omdat het gedrag vroeg start en blijft aanhouden, gaat het volgens Moffitt om life-course persistent en niet om adolescent limited, dat later start en tijdelijk is."
-  },
-  {
-   "h": "h8",
-   "q": "Een kind schrikt in het eerste deel van de nacht gillend wakker, is verward en gedesoriënteerd, en weet er 's ochtends niets meer van. Hoe classificeer je dit het best?",
-   "o": [
-    "Als dyssomnia, namelijk pavor nocturnus, omdat het slaapproces zelf kwalitatief verstoord is",
-    "Als parasomnia, namelijk een nachtmerrie, omdat er een angstige droom aan voorafgaat",
-    "Als parasomnia, namelijk pavor nocturnus, bij een op zich normaal verlopend slaapproces",
-    "Als dyssomnia, namelijk primaire insomnia, omdat het kind 's nachts niet goed kan doorslapen"
-   ],
-   "a": 2,
-   "u": "Pavor nocturnus is een nachtelijke paniekepisode in het eerste deel van de nacht met verwardheid en amnesie, zonder gedetailleerde droomherinnering. Het is een parasomnia: het slaapproces verloopt op zich normaal, maar er treden ongewone verschijnselen op."
-  },
-  {
-   "h": "h8",
-   "q": "Welke twee stellingen over seksuele stoornissen zijn FOUT?",
-   "o": [
-    "Bij vaginisme staat een grote fysische component op de voorgrond, bij dyspareunie een grote psychische",
-    "Een seksuele disfunctie is een verstoring of remming van een of meer fasen van de seksuele responscyclus",
-    "Voor een parafilie moeten de fantasieën, impulsen of gedragingen minstens zes maanden aanwezig zijn",
-    "Bij een parafilie komt de behandelmotivatie meestal van binnenuit, omdat het gedrag egodistoon is",
-    "Vaginisme is een onwillekeurige spasme van de vaginamusculatuur die geslachtsgemeenschap belemmert"
-   ],
-   "a": [
-    0,
-    3
-   ],
-   "kies": "fout",
-   "u": "Het is omgekeerd: dyspareunie heeft een grote fysische component en vaginisme een grote psychische. Een parafilie is een drangstoornis: drang hoort bij de identiteit en de motivatie komt vaak van buitenaf (via justitie), terwijl egodistone beleving en interne motivatie bij dwang horen."
-  },
-  {
-   "h": "h9",
-   "q": "Welke stelling over persoonlijkheidsstoornissen is FOUT?",
-   "o": [
-    "De afwijking toont zich op minstens twee terreinen: cognities, affecten, impulsbeheersing of relaties",
-    "Klachten die beter verklaard worden door middelengebruik, tellen mee omdat comorbiditeit met middelen vaak voorkomt",
-    "De diagnose wordt bij consensus vaak pas vanaf 18 jaar gesteld, omdat het patroon stabiel moet zijn",
-    "Schema-focused therapie geeft goede resultaten bij cluster B, dat vroeger als zeer statisch werd gezien"
-   ],
-   "a": 1,
-   "u": "Volgens het exclusiecriterium mogen de klachten niet beter verklaard worden door somatische aandoeningen, middelengebruik of een andere psychische stoornis. Comorbiditeit met middelengebonden stoornissen komt wel vaak voor, maar dan mag het middelengebruik de klachten niet zelf verklaren."
-  }
- ]
+ "hardPerHoofdstuk": {
+  "h1": 1,
+  "h2": 1,
+  "h3": 1,
+  "h4": 1,
+  "h5": 1,
+  "h6": 1,
+  "h7": 1,
+  "h8": 2,
+  "h9": 1
+ }
 };

@@ -1050,119 +1050,12 @@ window.BES_VAK = {
    ]
   }
  ],
- "hardVragen": [
-  {
-   "h": "h1",
-   "q": "Een cliënt zegt met luide, geïrriteerde stem tegen de therapeut: 'Het is hier ijskoud, kan dat raam dicht?' Welke koppeling tussen boodschapdeel en onderdeel van de uitspraak is correct?",
-   "o": [
-    "De geïrriteerde toon is de letterlijke inhoud, het verzoek om het raam te sluiten is informatie over de relatie",
-    "De vaststelling dat het koud is, is het appelerende deel, de geïrriteerde toon is de letterlijke inhoud",
-    "De geïrriteerde toon is het expressieve deel, het verzoek om het raam te sluiten is het appelerende deel",
-    "Het verzoek om het raam te sluiten is het expressieve deel, de vaststelling dat het koud is, geeft de relatie weer"
-   ],
-   "a": 2,
-   "u": "Het expressieve deel is de manier waarop de boodschap gebracht wordt, zoals roepend of fluisterend, hier dus de luide, geïrriteerde toon. Het appelerende deel is wat de zender wil dat de ander met de boodschap doet, hier het raam sluiten; de vaststelling dat het koud is, vormt de letterlijke inhoud."
-  },
-  {
-   "h": "h1",
-   "q": "Een psycholoog verwacht dat een nieuwe cliënt vijandig zal zijn. Hij stelt daarom kortaf en wantrouwig zijn vragen, waarna de cliënt inderdaad geprikkeld reageert. Welk begrip beschrijft dit het best?",
-   "o": [
-    "Confirmatorische strategie, omdat hij enkel informatie opzoekt die zijn verwachting bevestigt",
-    "Gedragsconfirmatie, omdat hij met zijn houding zelf de reactie uitlokt die hem bevestigt",
-    "Beschikbaarheidsheuristiek, omdat hij interpreteert op basis van wat vlot in zijn geheugen opkomt",
-    "Actor-observator attributieneiging, omdat hij de geprikkelde reactie uit de situatie verklaart"
-   ],
-   "a": 1,
-   "u": "Gedragsconfirmatie is het uitlokken van responsen die de eigen vooronderstelling bevestigen: de kortaffe vragen veroorzaken zelf de geprikkelde reactie. Bij de confirmatorische strategie zoekt men enkel informatie die de veronderstelling bevestigt, zonder de reactie van de ander zelf uit te lokken."
-  },
-  {
-   "h": "h2",
-   "q": "Welke stellingen over gesprekstechnieken zijn FOUT?",
-   "o": [
-    "Parafraseren is een korte herhaling in eigen woorden van wat de ander zei, met onder meer een controlerende en sturende functie.",
-    "Een gevoelsreflectie wordt best stellig gebracht, omdat een vragende toon de cliënt onzeker maakt over wat hij voelt.",
-    "Concretiseren gebeurt via wat- en hoe-vragen, zodat de cliënt zo nauwkeurig mogelijk vertelt wat hij bedoelt.",
-    "Respect betekent luisteren zonder vooroordeel of kritiek, met een onvoorwaardelijke aanvaarding die niet gelijk is aan goedkeuring.",
-    "Waarom-vragen zijn aangewezen om te concretiseren, omdat ze de cliënt uitnodigen zijn beleving in woorden te brengen."
-   ],
-   "a": [
-    1,
-    4
-   ],
-   "kies": "fout",
-   "u": "Een gevoelsreflectie wordt net tentatief, in vragende toon, gegeven zodat de cliënt kan toetsen en bijsturen, want foute reflecties ondermijnen de relatie. Waarom-vragen worden vermeden omdat ze louter rationele verklaringen uitlokken en een beschuldigend, verantwoordend karakter hebben; concretiseren gebeurt met wat- en hoe-vragen."
-  },
-  {
-   "h": "h2",
-   "q": "Een student schrijft in zijn persoonlijk ontwikkelingsplan: 'Ik wil een betere gesprekspartner worden.' Welke herformulering voldoet het best aan het SMART-principe?",
-   "o": [
-    "Ik wil een veel betere gesprekspartner worden, omdat dit voor mijn latere beroep echt belangrijk is.",
-    "Vanaf morgen voer ik elk gesprek foutloos en maak ik nooit meer een onhandige of verkeerde reflectie.",
-    "Ik probeer de komende tijd bewust meer aandacht te geven aan hoe ik in gesprekken overkom bij anderen.",
-    "Tegen het einde van het semester gebruik ik in elk oefengesprek minstens drie tentatieve gevoelsreflecties."
-   ],
-   "a": 3,
-   "u": "Een SMART-doel is Specifiek, Meetbaar, Acceptabel of Ambitieus, Realistisch en Tijdgebonden. Alleen de laatste formulering noemt een concreet gedrag, een telbaar criterium en een termijn; de andere zijn vaag, niet meetbaar of onrealistisch."
-  },
-  {
-   "h": "h3",
-   "q": "Een cliënt ziet tijdens een sessie het ene beladen beeld uit zijn verleden na het andere opduiken en praat steeds sneller, waardoor het gesprek zijn veiligheid dreigt te verliezen. Welke interventie past volgens de leerstof het best?",
-   "o": [
-    "Doorexploreren: elk nieuw beeld meteen uitdiepen zodat er niets onbesproken blijft",
-    "Ventileren: de beelden vrij laten stromen zodat de ruwe brok emoties eruit kan",
-    "Couperen: de toevloed van nieuwe beelden afremmen zodat de veilige ruimte bewaard blijft",
-    "Attunement: stemvolume en tempo opdrijven zodat de therapeut de cliënt kan bijhouden"
-   ],
-   "a": 2,
-   "u": "Couperen betekent een te overweldigende emotie of een stroom van nieuwe beelden afremmen om de veilige ruimte te bewaren. Attunement brengt net rust via stemvolume en tempo, ventileren hoort bij de eerste stap in het omgaan met kwaadheid en elk beeld verder uitdiepen zou de stroom alleen versterken."
-  },
-  {
-   "h": "h3",
-   "q": "Welke stelling over het omgaan met emoties in therapie is FOUT?",
-   "o": [
-    "Bij alexithymie bouwt de therapeut eerst verbondenheid op, omdat de cliënt geen woorden vindt voor gevoelens.",
-    "Bij kwaadheid zoekt de therapeut eerst de onderliggende kwetsuur en laat hij de cliënt pas daarna ventileren.",
-    "Bij overspoeling door verdriet bakent de therapeut af en werkt hij in behapbare porties in plaats van te exploreren.",
-    "Bij het imaginaire kind wekt de therapeut zelfcompassie op, zonder zelf de rol van goede moeder op te nemen."
-   ],
-   "a": 1,
-   "u": "Bij kwaadheid is de volgorde net omgekeerd: eerst laten ventileren, dan de gevoelens erkennen en pas daarna de onderliggende kwetsuur zoeken. De andere stellingen geven de aanpak bij alexithymie, overspoeling door verdriet en het imaginaire kind correct weer."
-  },
-  {
-   "h": "h4",
-   "q": "Een cliënt vertelt over drie jobs die hij telkens zelf opzegde. Bij elke job vermeldt hij terloops een kritische opmerking van zijn chef, zonder er zelf een verband tussen te leggen. De therapeut zegt: 'Ik vraag me af of die kritiek en jouw beslissing om te vertrekken met elkaar te maken hebben.' Welke techniek gebruikt de therapeut?",
-   "o": [
-    "Parafrasering, omdat hij in eigen woorden weergeeft wat de cliënt letterlijk heeft verteld",
-    "Reflectie, omdat hij expliciet verwijst naar de gevoelens en het non-verbale van de cliënt",
-    "Taxeren in rondes, omdat hij het levensgebied werk afsluit met een controlerende samenvatting",
-    "Interpretatie, omdat hij verder gaat dan wat letterlijk gezegd is en een mogelijk verband aanreikt"
-   ],
-   "a": 3,
-   "u": "Een interpretatie gaat verder dan wat de cliënt letterlijk zegt en heeft aandacht voor verbanden, thema's en patronen. De cliënt legde het verband zelf niet, dus het is geen parafrasering, en een reflectie zou expliciet naar gevoelens of het non-verbale verwijzen."
-  },
-  {
-   "h": "h5",
-   "q": "Welke stelling over het focusingproces is FOUT?",
-   "o": [
-    "Resoneren gaat in het focusingproces vooraf aan het vinden van een handvat, omdat men eerst moet toetsen wat er lichamelijk aanwezig is.",
-    "Een verschuiving of shift gaat gepaard met lichamelijke ontspanning en wijst erop dat de gevoelde betekenis zich volledig heeft geuit.",
-    "Dis-identificatie houdt in dat de cliënt een interfererend deel herkent als iets waarmee hij niet samenvalt en er zeggenschap over krijgt.",
-    "Bij de afronding van een focusingsessie horen onder meer het markeren van een betekenisvolle uitdrukking en het uitspreken van appreciatie."
-   ],
-   "a": 0,
-   "u": "Volgens Gendlin is de volgorde: ruimte maken, gevoelde betekenis laten komen, handvat vinden, resoneren, vragen of exploreren en ontvangen; resoneren volgt dus op het handvat. De stellingen over de shift, dis-identificatie en de afronding kloppen met de leerstof."
-  },
-  {
-   "h": "h6",
-   "q": "Tijdens een sessie roept het verhaal van een cliënt bij de therapeut een beeld op uit zijn eigen leven. Hij merkt dit op, vraagt zich af wat het zegt over wat er in de sessie gebeurt en vormt een hypothese. Hoe worden deze elementen verdeeld volgens het innerlijk gesprek van Rober?",
-   "o": [
-    "Het opgeroepen beeld hoort bij het ervarende zelf, het opmerken ervan en de hypothese bij het professionele zelf",
-    "Het opgeroepen beeld hoort bij het professionele zelf, het vormen van de hypothese bij het ervarende zelf",
-    "Zowel het beeld als de hypothese horen bij het ervarende zelf, omdat beide spontaan in de therapeut opkomen",
-    "Zowel het beeld als de hypothese horen bij het professionele zelf, omdat ze in functie van de sessie staan"
-   ],
-   "a": 0,
-   "u": "Het ervarende zelf is de therapeut als mens, met herinneringen, emoties, beelden en fantasieën die door de sessie geactiveerd worden. Het professionele zelf vormt hypothesen en neemt het ervarende zelf waar, dus ook het opmerken van het beeld hoort daarbij."
-  }
- ]
+ "hardPerHoofdstuk": {
+  "h1": 2,
+  "h2": 2,
+  "h3": 2,
+  "h4": 1,
+  "h5": 1,
+  "h6": 1
+ }
 };

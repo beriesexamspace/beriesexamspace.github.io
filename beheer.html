@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <script src="assets/deur.js?v=81"></script>
+  <script src="assets/deur.js?v=85"></script>
   <link rel="apple-touch-icon" href="/assets/icoon-180.png">
   <link rel="manifest" href="/manifest.webmanifest">
   <meta name="robots" content="noindex">
@@ -21,13 +21,13 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="assets/style.css?v=81">
-  <script src="assets/app.js?v=81" defer></script>
-  <script src="assets/vakken.js?v=81"></script>
-  <script src="assets/config.js?v=81" defer></script>
+  <link rel="stylesheet" href="assets/style.css?v=85">
+  <script src="assets/app.js?v=85" defer></script>
+  <script src="assets/vakken.js?v=85"></script>
+  <script src="assets/config.js?v=85" defer></script>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js" defer></script>
-  <script src="assets/auth.js?v=81" defer></script>
-  <script src="assets/plan.js?v=81" defer></script>
+  <script src="assets/auth.js?v=85" defer></script>
+  <script src="assets/plan.js?v=85" defer></script>
   <style>
     .beheer-wrap { max-width: 760px; }
     .beheer-tegels { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
@@ -46,7 +46,7 @@
     .beheer-status { margin: 0; color: var(--ink-soft); }
     .beheer-sectie { margin-top: 40px; }
     .beheer-sectie .sectie-kop { margin-bottom: 14px; }
-    .beheer-tegels.is-vijf { grid-template-columns: repeat(5, minmax(0, 1fr)); }
+    .beheer-tegels.is-vier { grid-template-columns: repeat(4, minmax(0, 1fr)); }
     .beheer-cijfers { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 12px; }
     .beheer-cijfer { padding: 14px 16px; }
     .beheer-cijfer .getal { display: block; font-size: 1.375rem; font-weight: 700; font-variant-numeric: tabular-nums; }
@@ -57,7 +57,6 @@
     .beheer-rijen small { color: var(--ink-soft); font-size: .8125rem; }
     .beheer-plan { padding: 2px 8px; border-radius: var(--pill); background: var(--surface); color: var(--ink-soft); font-size: .75rem; font-weight: 600; }
     .beheer-plan[data-plan="plus"] { background: var(--teal-zacht); color: var(--teal-tekst); }
-    .beheer-plan[data-plan="pro"] { background: #0b0a08; color: #e6c872; }
     .beheer-feedback li { display: block; }
     .beheer-feedback p { margin: 4px 0 0; color: var(--ink); font-size: .9375rem; line-height: 1.5; overflow-wrap: anywhere; }
     .beheer-boeken-kaart { margin-top: 12px; }
@@ -87,7 +86,6 @@
     .beheer-account-kop { display: flex; align-items: center; gap: 12px; }
     .beheer-account-letter { display: grid; flex: 0 0 44px; place-items: center; width: 44px; height: 44px; border-radius: 50%; background: var(--surface); color: var(--ink-soft); font-size: 1.125rem; font-weight: 700; }
     .beheer-account[data-plan="plus"] .beheer-account-letter { background: var(--teal-zacht); color: var(--teal-tekst); }
-    .beheer-account[data-plan="pro"] .beheer-account-letter { background: #0b0a08; color: #e6c872; }
     .beheer-account-wie { display: grid; flex: 1 1 auto; gap: 2px; min-width: 0; }
     .beheer-account-naam { font-size: 1.0625rem; font-weight: 600; line-height: 1.3; overflow-wrap: anywhere; }
     .beheer-account-labels { display: flex; flex-wrap: wrap; align-self: flex-start; justify-content: flex-end; gap: 6px; }
@@ -105,7 +103,7 @@
     .beheer-over-regel { font-size: .875rem; font-weight: 600; overflow-wrap: anywhere; }
     .beheer-over-tekst { font-size: .9375rem; line-height: 1.55; white-space: pre-line; overflow-wrap: anywhere; }
     @media (max-width: 600px) {
-      .beheer-tegels, .beheer-tegels.is-vijf { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .beheer-tegels, .beheer-tegels.is-vier { grid-template-columns: repeat(2, minmax(0, 1fr)); }
       .beheer-lijst li { grid-template-columns: 72px minmax(0, 1fr) 56px; }
     }
   </style>
@@ -141,12 +139,11 @@
       <p class="beheer-status" id="beheer-status" role="status">Even laden.</p>
 
       <div id="beheer-inhoud" hidden>
-        <div class="beheer-tegels is-vijf">
+        <div class="beheer-tegels is-vier">
           <div class="kaart beheer-tegel"><span class="getal" id="tegel-accounts">0</span><span class="uitleg">accounts</span></div>
           <div class="kaart beheer-tegel"><span class="getal" id="tegel-nieuw">0</span><span class="uitleg">nieuw deze week</span></div>
           <div class="kaart beheer-tegel"><span class="getal" id="tegel-week">0</span><span class="uitleg">oefenden de laatste 7 dagen</span></div>
           <div class="kaart beheer-tegel"><span class="getal" id="tegel-plus">0</span><span class="uitleg">met Plus</span></div>
-          <div class="kaart beheer-tegel"><span class="getal" id="tegel-pro">0</span><span class="uitleg">met Pro</span></div>
         </div>
 
         <section class="beheer-sectie" aria-labelledby="abo-kop">
@@ -379,30 +376,29 @@
         $('tegel-accounts').textContent = o.accounts.totaal;
         $('tegel-nieuw').textContent = o.accounts.week;
         $('tegel-week').textContent = o.accounts.actief_week;
-        $('tegel-plus').textContent = o.plannen.plus;
-        $('tegel-pro').textContent = o.plannen.pro;
+        // Pro bestaat niet meer: 'plus' telt Plus en oud Pro samen, 'pro' is 0 (een oudere SQL telde Pro nog apart).
+        $('tegel-plus').textContent = (o.plannen.plus || 0) + (o.plannen.pro || 0);
 
         cijfers('beheer-abo', [
           [o.plannen.in_proef, 'in een proefmaand'],
           [o.plannen.betaald, 'betalend'],
           [o.plannen.opgezegd, 'opgezegd, loopt nog'],
-          [o.plannen.proeven_plus, 'proefmaanden Plus ooit'],
-          [o.plannen.proeven_pro, 'proefmaanden Pro ooit']
+          [(o.plannen.proeven_plus || 0) + (o.plannen.proeven_pro || 0), 'proefmaanden ooit']
         ]);
 
-        // Elk account met naam, e-mail en gegevens; zoeken op naam of e-mail.
+        // Elk account met naam, e-mail en gegevens; zoeken op naam of e-mail. Een oude rij met 'pro' toont als Plus.
         const wanneer = (moment) => moment ? lang.format(new Date(moment)) : 'Nog nooit';
-        const planNaam = (plan) => plan === 'pro' ? 'Pro' : plan === 'plus' ? 'Plus' : 'Free';
+        const planId = (plan) => plan === 'plus' || plan === 'pro' ? 'plus' : 'free';
         const planTekst = (rij) => {
-          if (rij.plan !== 'plus' && rij.plan !== 'pro') return 'Free';
+          if (planId(rij.plan) !== 'plus') return 'Free';
           const soort = rij.plan_status === 'proef' ? 'proefmaand' : rij.plan_status === 'opgezegd' ? 'opgezegd' : 'betaald';
-          return planNaam(rij.plan) + ', ' + soort + (rij.plan_tot ? ' tot ' + kort.format(new Date(rij.plan_tot)) : '');
+          return 'Plus, ' + soort + (rij.plan_tot ? ' tot ' + kort.format(new Date(rij.plan_tot)) : '');
         };
         const inlogNamen = { google: 'Google', email: 'E-mail en wachtwoord' };
         const jaarNamen = { '1ba': '1ste bachelor', '2ba': '2de bachelor', '3ba': '3de bachelor', master: 'Master', anders: 'Anders' };
         accounts = (o.accounts.nieuwste || []).map((rij) => {
           const li = el('li', 'kaart beheer-account');
-          li.dataset.plan = rij.plan;
+          li.dataset.plan = planId(rij.plan);
           li.dataset.zoek = [rij.naam, rij.bijnaam, rij.email].filter(Boolean).join(' ').toLowerCase();
           const naam = (rij.naam || 'Geen naam') + (rij.bijnaam ? ' (' + rij.bijnaam + ')' : '');
           const kop = el('div', 'beheer-account-kop');
@@ -416,8 +412,8 @@
             wie.append(mail);
           }
           const labels = el('div', 'beheer-account-labels');
-          const plan = el('span', 'beheer-plan', planNaam(rij.plan));
-          plan.dataset.plan = rij.plan;
+          const plan = el('span', 'beheer-plan', planId(rij.plan) === 'plus' ? 'Plus' : 'Free');
+          plan.dataset.plan = planId(rij.plan);
           labels.append(plan);
           const benJij = Boolean(rij.email && user.email && rij.email.toLowerCase() === user.email.toLowerCase());
           if (benJij || rij.beheerder) labels.append(el('span', 'beheer-plan is-beheerder', benJij ? 'Jij' : 'Beheerder'));
@@ -462,8 +458,8 @@
           [o.oefenen.sessies_week, 'rondes deze week'],
           [o.oefenen.vragen_week, 'vragen deze week'],
           [o.oefenen.score_week === null ? '-' : o.oefenen.score_week + '%', 'goed deze week'],
-          [o.oefenen.open_fouten, 'open fouten (Plus)'],
-          [o.oefenen.examens, 'examens ingevuld (Pro)']
+          [o.oefenen.open_fouten, 'open fouten'],
+          [o.oefenen.examens, 'examens ingevuld']
         ]);
         rijen('beheer-vakken', (o.oefenen.top_vakken || []).map((rij) => {
           const li = el('li');

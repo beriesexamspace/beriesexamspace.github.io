@@ -1,5 +1,6 @@
-// Plan van het account: Free, Plus of Pro (supabase/abonnementen.sql). Eén keer per pagina opgehaald.
-// Gebruik: const p = await BES.plan();  p.plan is 'free', 'plus' of 'pro'. Na een wijziging: BES.plan(true).
+// Plan van het account: Free of Plus (supabase/abonnementen.sql). Eén keer per pagina opgehaald.
+// Gebruik: const p = await BES.plan();  p.plan is 'free' of 'plus'. Na een wijziging: BES.plan(true).
+// Pro bestaat niet meer: een oude 'pro' van de server telt hier als 'plus'.
 // Laden na auth.js. Zonder account of zonder verbinding geldt Free.
 // Betalen: await BES.betalen() is true als Mollie aanstaat; BES.mollie({ actie }) roept de Edge Function mollie aan.
 window.BES = window.BES || {};
@@ -9,7 +10,16 @@ window.BES = window.BES || {};
 
   const BES = window.BES;
   const leeg = { plan: 'free', status: null, geldig_tot: null, proef_plus: false, proef_pro: false, ingelogd: false };
-  const rang = { free: 0, plus: 1, pro: 2 };
+  const rang = { free: 0, plus: 1 };
+  // Oud Pro wordt Plus; een proefmaand van Pro telt als gebruikte proefmaand van Plus.
+  const alsPlus = (plan) => plan === 'pro' ? 'plus' : plan;
+  const gelijkTrekken = (data) => ({
+    ...data,
+    plan: alsPlus(data.plan),
+    daarna: alsPlus(data.daarna),
+    proef_plus: Boolean(data.proef_plus || data.proef_pro),
+    proef_pro: false
+  });
   let belofte = null;
 
   BES.plan = (opnieuw) => {
@@ -22,7 +32,7 @@ window.BES = window.BES || {};
       try {
         const { data, error } = await auth.client.rpc('mijn_abonnement');
         if (error || !data) return { ...leeg, ingelogd: true };
-        return { ...leeg, ...data, ingelogd: true };
+        return gelijkTrekken({ ...leeg, ...data, ingelogd: true });
       } catch {
         return { ...leeg, ingelogd: true };
       }
@@ -30,10 +40,11 @@ window.BES = window.BES || {};
     return belofte;
   };
 
-  // Heeft dit account minstens dit plan? BES.heeftPlan('plus') is ook waar bij Pro.
-  BES.heeftPlan = async (nodig) => (rang[(await BES.plan()).plan] || 0) >= (rang[nodig] || 0);
+  // Heeft dit account minstens dit plan? BES.heeftPlan('plus'); een oude vraag naar 'pro' telt als 'plus'.
+  BES.heeftPlan = async (nodig) => (rang[alsPlus((await BES.plan()).plan)] || 0) >= (rang[alsPlus(nodig)] || 0);
 
-  BES.planNaam = (plan) => ({ free: 'Free', plus: 'Plus', pro: 'Pro' })[plan] || 'Free';
+  // Naam voor op het scherm: Free of Plus (een losse 'pro' toont als Plus).
+  BES.planNaam = (plan) => alsPlus(plan) === 'plus' ? 'Plus' : 'Free';
 
   // Betalen met Mollie (supabase/mollie.sql): staat de schakelaar 'betalen' aan? Eén keer per pagina gevraagd.
   // Lukt het niet (functie nog niet uitgevoerd, geen verbinding), dan geldt false en werkt alles zoals vroeger.

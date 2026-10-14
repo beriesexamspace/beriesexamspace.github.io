@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <script src="assets/deur.js?v=81"></script>
+  <script src="assets/deur.js?v=85"></script>
   <link rel="apple-touch-icon" href="/assets/icoon-180.png">
   <link rel="manifest" href="/manifest.webmanifest">
   <meta property="og:type" content="website">
@@ -31,17 +31,17 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="assets/style.css?v=81">
-  <link rel="stylesheet" href="assets/kalender.css?v=81">
-  <script src="assets/app.js?v=81" defer></script>
-  <script src="assets/config.js?v=81" defer></script>
+  <link rel="stylesheet" href="assets/style.css?v=85">
+  <link rel="stylesheet" href="assets/kalender.css?v=85">
+  <script src="assets/app.js?v=85" defer></script>
+  <script src="assets/config.js?v=85" defer></script>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js" defer></script>
-  <script src="assets/auth.js?v=81" defer></script>
-  <script src="assets/over-jezelf.js?v=81" defer></script>
-  <script src="assets/plan.js?v=81" defer></script>
-  <script src="assets/activiteit.js?v=81" defer></script>
-  <script src="assets/vakken.js?v=81"></script>
-  <script src="assets/inzichten.js?v=81" defer></script>
+  <script src="assets/auth.js?v=85" defer></script>
+  <script src="assets/over-jezelf.js?v=85" defer></script>
+  <script src="assets/plan.js?v=85" defer></script>
+  <script src="assets/activiteit.js?v=85" defer></script>
+  <script src="assets/vakken.js?v=85"></script>
+  <script src="assets/inzichten.js?v=85" defer></script>
   <style>
     .profiel-wrap { max-width: 640px; }
     /* Bovenaan alleen foto, naam en e-mail met één knop Bewerken; de velden komen pas na die klik. */
@@ -69,28 +69,19 @@
     .abo-sub { margin: 6px 0 0; color: var(--ink-soft); font-size: .9375rem; line-height: 1.5; }
     .abo-kaart .knop-secundair { width: auto; min-width: 0; margin: 0; padding: 10px 20px; }
     .abo-naam .label { margin-left: 8px; vertical-align: 3px; }
-    /* Knop Beheer abonnement: rustig bij Free, in de kleur van het plan bij Plus (teal) en Pro (zwart met goud). */
+    /* Knop Beheer abonnement: rustig bij Free, teal bij Plus. */
     .abo-kaart .abo-knop { gap: 8px; font-weight: 600; }
-    /* Het hele blok in de kleur van je plan: Plus donker met teal, Pro zwart met goud (zoals de kaarten op Abonnement). */
+    /* Het hele blok in de kleur van je plan: Plus donker met teal (zoals de kaart op Abonnement). */
     .abo-kaart { transition: background 300ms var(--ease), border-color 300ms var(--ease); }
     .abo-kaart[data-plan="plus"] {
       --card: #161c24; --line: #262e39; --ink: #e7ecf1; --ink-soft: #9aa6b2; --surface: rgba(255,255,255,.07);
       --accent: #3fb9b2; --teal-tekst: #7fd6d0; --teal-zacht: #15302e;
       border-color: #3fb9b2; background: radial-gradient(120% 90% at 100% 0%, rgba(63,185,178,.2), transparent 60%), var(--card); color: var(--ink);
     }
-    .abo-kaart[data-plan="pro"] {
-      --card: #0b0a08; --line: rgba(212,175,55,.34); --ink: #f4efe3; --ink-soft: #b3a88f; --surface: rgba(212,175,55,.12);
-      --accent: #d4af37; --teal-tekst: #e6c872; --teal-zacht: rgba(212,175,55,.14);
-      border-color: rgba(212,175,55,.5); background: radial-gradient(120% 90% at 100% 0%, rgba(212,175,55,.18), transparent 60%), var(--card); color: var(--ink);
-    }
-    .abo-kaart[data-plan="pro"] [data-abo-plan] { background: linear-gradient(135deg, #f7e7a1 0%, #d4af37 45%, #a8801f 100%); -webkit-background-clip: text; background-clip: text; color: transparent; }
-    .abo-kaart[data-plan="pro"] .abo-knop[data-plan="pro"] { border-color: #d4af37; }
     .abo-knop-pijl { transition: transform 180ms var(--ease); }
     :where(html.has-hover) .abo-knop:hover .abo-knop-pijl { transform: translateX(2px); }
     .abo-kaart .abo-knop[data-plan="plus"] { border-color: #3fb9b2; background: #3fb9b2; color: #0d1117; box-shadow: 0 8px 20px rgba(63,185,178,.25); }
     :where(html.has-hover) .abo-kaart .abo-knop[data-plan="plus"]:hover { border-color: #36a8a1; background: #36a8a1; }
-    .abo-kaart .abo-knop[data-plan="pro"] { border-color: rgba(212,175,55,.6); background: radial-gradient(120% 140% at 100% 0%, rgba(212,175,55,.22), transparent 60%), #0b0a08; color: #e6c872; box-shadow: 0 8px 20px rgba(0,0,0,.25); }
-    :where(html.has-hover) .abo-kaart .abo-knop[data-plan="pro"]:hover { border-color: #d4af37; background: radial-gradient(120% 140% at 100% 0%, rgba(212,175,55,.3), transparent 60%), #0b0a08; }
     .abo-knoppen { display: flex; flex-direction: column; align-items: center; gap: 2px; }
     .abo-opzeggen, .abo-herroepen { min-height: 44px; padding: 10px 0; border: 0; background: none; color: var(--ink-soft); font: inherit; font-size: .875rem; text-decoration: underline; text-underline-offset: 3px; cursor: pointer; }
     :where(html.has-hover) .abo-opzeggen:hover, :where(html.has-hover) .abo-herroepen:hover { color: var(--fout); }
@@ -295,7 +286,7 @@
           <div>
             <p class="abo-label">Je plan</p>
             <p class="abo-naam"><span data-abo-plan>Free</span><span class="label" data-abo-status hidden></span></p>
-            <p class="abo-sub" data-abo-sub>Alle vragen van alle vakken. Met Plus krijg je er Hard mode, de tijdklok en je weekoverzicht bij.</p>
+            <p class="abo-sub" data-abo-sub>Alle vakken, je foutenlijst, je overzicht en je examenplan. Met Plus krijg je er Hard mode, onbeperkt simulaties en extra hulp van Comit bij.</p>
             <p class="abo-melding" data-abo-melding role="status" aria-live="polite"></p>
           </div>
           <div class="abo-knoppen">
@@ -740,9 +731,14 @@
       if (!blok || !BES.plan) return;
       const $ = (naam) => blok.querySelector('[data-abo-' + naam + ']');
       const inhoud = {
-        free: 'Alle vragen van alle vakken. Met Plus krijg je er Hard mode, de tijdklok en je weekoverzicht bij.',
-        plus: 'Hard mode, de tijdklok, je weekoverzicht en je foutenlijst.',
-        pro: 'Alles van Plus, met Comit als persoonlijke examencoach.',
+        free: 'Alle vakken, je foutenlijst, je overzicht en je examenplan. Met Plus krijg je er Hard mode, onbeperkt simulaties en extra hulp van Comit bij.',
+        plus: 'Alles van Free, plus Hard mode, onbeperkt simulaties en 60 vragen per dag aan Comit, met uitleg bij je fouten en ezelsbruggetjes.',
+      };
+      // Een oud plan Pro telt als Plus (plan.js zet dat normaal al om).
+      const alsPlus = (plan) => (plan === 'pro' ? 'plus' : plan);
+      const laad = async (opnieuw) => {
+        const p = await BES.plan(opnieuw);
+        return { ...p, plan: alsPlus(p.plan), daarna: alsPlus(p.daarna) };
       };
 
       const toon = (p) => {
@@ -805,7 +801,7 @@
             let wanneer = '';
             try { wanneer = new Intl.DateTimeFormat('nl-BE', { day: 'numeric', month: 'long', year: 'numeric', hour: '2-digit', minute: '2-digit' }).format(new Date(data.herroepen_op || Date.now())); } catch {}
             const terug = Number(data.terug) || 0;
-            huidig = await BES.plan(true);
+            huidig = await laad(true);
             toon(huidig);
             $('melding').textContent = 'Herroepen op ' + wanneer + '. Je plan is gestopt.'
               + (terug > 0 ? ' Je krijgt ' + BES.planBedrag(terug) + ' terug op dezelfde manier als je betaalde.' : '')
@@ -815,7 +811,7 @@
           } catch (fout) {
             if (fout && fout.fout) {
               $('herroep-zeker').hidden = true;
-              huidig = await BES.plan(true);
+              huidig = await laad(true);
               toon(huidig);
             }
             $('melding').textContent = (fout && fout.fout) || 'Herroepen lukte niet. Probeer het zo opnieuw, of mail naar berie007yldrm@gmail.com.';
@@ -831,7 +827,7 @@
             $('melding').textContent = data.reden === 'bedenktijd_voorbij'
               ? 'Je bedenktijd is voorbij. Opzeggen kan nog wel.'
               : 'Er is geen bedenktijd meer voor je abonnement. Opzeggen kan nog wel.';
-            huidig = await BES.plan(true);
+            huidig = await laad(true);
             toon(huidig);
             knop.disabled = false;
             return;
@@ -839,7 +835,7 @@
           const op = new Date(data.herroepen_op);
           let wanneer = '';
           try { wanneer = new Intl.DateTimeFormat('nl-BE', { day: 'numeric', month: 'long', year: 'numeric', hour: '2-digit', minute: '2-digit' }).format(op); } catch {}
-          huidig = await BES.plan(true);
+          huidig = await laad(true);
           toon(huidig);
           $('melding').textContent = 'Herroepen op ' + wanneer + '. Je plan is gestopt. Bewaar dit bericht als bevestiging.';
         } catch {
@@ -859,7 +855,7 @@
             const { data, error } = await BES.auth.client.rpc('zeg_op');
             if (error || !data || !data.ok) throw error || new Error('niet gelukt');
           }
-          huidig = await BES.plan(true);
+          huidig = await laad(true);
           toon(huidig);
           $('melding').textContent = 'Opgezegd. Je betaalt niets meer.';
         } catch (fout) {
@@ -868,7 +864,7 @@
         knop.disabled = false;
       });
 
-      BES.plan().then((p) => {
+      laad().then((p) => {
         huidig = p;
         toon(p);
         let proef = '';

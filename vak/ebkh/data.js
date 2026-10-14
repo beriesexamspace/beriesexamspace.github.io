@@ -1192,131 +1192,14 @@ window.BES_VAK = {
    ]
   }
  ],
- "hardVragen": [
-  {
-   "h": "h1",
-   "q": "Tijdens het eerste gesprek vertelt een moeder zeer emotioneel over de woedeaanvallen van haar zoon. De diagnosticus laat dit verhaal zwaarder doorwegen dan de latere schoolrapporten en zoekt daarna vooral naar gegevens die dit beeld bevestigen. Welke combinatie van oordeelsfouten is hier aan de orde?",
-   "o": [
-    "Search for the exotic, gevolgd door excessive data collection",
-    "Illusory correlation, gevolgd door belief perseverance",
-    "Primacy effect, gevolgd door confirmation bias",
-    "Overconfidence in own capability, gevolgd door primacy effect"
-   ],
-   "a": 2,
-   "u": "Informatie die het eerst, levendig, emotioneel of mondeling verkregen is, weegt zwaarder door: dat is het primacy effect. Daarna vooral zoeken naar informatie die consistent is met de eigen visie is confirmation bias."
-  },
-  {
-   "h": "h2",
-   "q": "Een school meldt een leerling aan met twee vragen: waarom verstoort hij zo vaak de les, en welke begeleiding past het best? Welke analyses horen bij deze twee vragen, en wat leveren ze op?",
-   "o": [
-    "Klachtenanalyse die verheldering oplevert en probleemanalyse die classificatie oplevert",
-    "Verklaringsanalyse die een verklaring oplevert en indicatieanalyse die een aanbeveling oplevert",
-    "Probleemanalyse die een verklaring oplevert en klachtenanalyse die een aanbeveling oplevert",
-    "Verklaringsanalyse die classificatie oplevert en indicatieanalyse die verheldering oplevert"
-   ],
-   "a": 1,
-   "u": "De waarom-vraag is verklarend en hoort bij de verklaringsanalyse, die een verklaring oplevert. De vraag naar passende begeleiding hoort bij de indicatieanalyse, die uitmondt in een aanbeveling."
-  },
-  {
-   "h": "h3",
-   "q": "Een diagnosticus formuleert: 'De faalangst van de leerling houdt haar leesproblemen in stand.' Welke typering van deze diagnostische hypothese is correct?",
-   "o": [
-    "Een onderkennende hypothese, met faalangst als probleem en een veroorzakende invloed",
-    "Een verklarende hypothese, met leesproblemen als beïnvloedende factor en een versterkende invloed",
-    "Een onderkennende hypothese die de leesproblemen enkel beschrijft, zonder aard van de invloed",
-    "Een verklarende hypothese, met faalangst als beïnvloedende factor en een in stand houdende invloed"
-   ],
-   "a": 3,
-   "u": "De uitspraak legt een verband tussen een probleem (leesproblemen) en een beïnvloedende factor (faalangst) en is dus verklarend, niet louter beschrijvend. Een diagnostische hypothese benoemt ook de aard van de invloed, hier in stand houdend."
-  },
-  {
-   "h": "h3",
-   "q": "Welke stellingen over de fasen van handelingsgerichte diagnostiek zijn FOUT?",
-   "o": [
-    "In de intakefase worden onder meer de diagnostische vraagstelling bepaald en werkafspraken gemaakt",
-    "Categoriaal clusteren gebeurt bijvoorbeeld met de CBCL, dimensioneel clusteren met de DSM-5",
-    "De strategiefase is reflectief: men weegt de verzamelde informatie en plant het traject via als-dan-redeneringen",
-    "De 5 B's dienen in de onderzoeksfase om de psychometrische kwaliteit van een testinstrument af te wegen",
-    "Differentiaaldiagnostisch denken betekent openstaan voor alternatieve verklaringen van eenzelfde symptoom"
-   ],
-   "a": [
-    1,
-    3
-   ],
-   "kies": "fout",
-   "u": "Bij het clusteren is het net omgekeerd: de DSM-5 clustert categoriaal (aanwezig of afwezig), de CBCL dimensioneel (in gradaties). De 5 B's (beschikbaarheid, bereikbaarheid, bruikbaarheid, betaalbaarheid en begrijpbaarheid) vormen een afwegingskader in de indiceringsfase; de psychometrische kwaliteit van een instrument beoordeel je met objectiviteit, betrouwbaarheid, validiteit en normen."
-  },
-  {
-   "h": "h4",
-   "q": "Bij een test-hertestonderzoek blijken de scores van dezelfde kinderen sterk te verschillen tussen beide afnames. Wat kan men op basis van de leerstof besluiten over de validiteit van deze test?",
-   "o": [
-    "De test kan dus niet valide zijn, want een valide test moet ook betrouwbaar zijn",
-    "De test kan toch valide zijn, want validiteit en betrouwbaarheid staan los van elkaar",
-    "De test is valide zolang de normen recent, representatief en groot genoeg zijn",
-    "De test is net valide, want wisselende scores tonen dat hij gevoelig is voor verandering"
-   ],
-   "a": 0,
-   "u": "Sterk wisselende scores bij test-hertest wijzen op een lage betrouwbaarheid. Een test kan alleen valide zijn als hij ook betrouwbaar is, dus deze test kan niet valide zijn; goede normen veranderen daar niets aan."
-  },
-  {
-   "h": "h5",
-   "q": "Een team toont met een voor- en nameting, zonder normgroep, aan dat cliënten na een interventie vooruitgaan. Op welk niveau van de effectladder staat de interventie, en wat is nodig om een trede hoger te komen?",
-   "o": [
-    "Niveau 4; voor niveau 5 volstaat het een theoretische onderbouwing van de interventie toe te voegen",
-    "Niveau 2; voor niveau 3 moeten de cliënten at random over twee groepen verdeeld worden",
-    "Niveau 3; voor niveau 4 zijn normgerelateerde instrumenten en een normgroep als controle nodig",
-    "Niveau 3; voor niveau 4 moeten de deelnemers at random over experiment- en controlegroep verdeeld worden"
-   ],
-   "a": 2,
-   "u": "Een veranderingsonderzoek met voor- en/of nameting zonder normgroep hoort op niveau 3. Op niveau 4 gebruikt men normgerelateerde instrumenten en een normgroep als controle; randomisatie hoort pas bij de meer-experimentele designs van niveau 5, zoals RCTs."
-  },
-  {
-   "h": "h5",
-   "q": "Een onderzoeker vergelijkt een behandelgroep met een wachtlijstgroep, maar cliënten kiezen zelf in welke groep ze terechtkomen. Wie voortijdig stopt, laat hij weg uit de analyse. Welke beoordeling is correct?",
-   "o": [
-    "Het is een RCT, want er is een controlegroep; het weglaten van uitvallers volgt het intention-to-treat-principe",
-    "Het is een veranderingsonderzoek, want er is geen randomisatie; uitvallers weglaten is daar gebruikelijk en correct",
-    "Het is een gecontroleerde studie; het weglaten van uitvallers is precies wat intention-to-treat voorschrijft",
-    "Het is een gecontroleerde studie en geen RCT; door uitvallers weg te laten negeert hij het intention-to-treat-principe"
-   ],
-   "a": 3,
-   "u": "Er is een controlegroep maar geen aselecte toewijzing, dus het is een gecontroleerde studie en geen RCT. Volgens het intention-to-treat-principe worden uitvallers net mee opgenomen in de analyse, omdat zij een ander resultaat kunnen geven."
-  },
-  {
-   "h": "h6",
-   "q": "Een cliënt knapt op, volgens hemzelf vooral omdat hij hoopt en verwacht dat de therapie helpt en omdat hij een warme, betrouwbare band met zijn therapeut ervaart. Onder welke categorieën vallen deze twee elementen volgens de verdeling van de werkzaamheid van therapie?",
-   "o": [
-    "Hoop en verwachting vallen onder de extra-therapeutische factoren (40%), de band onder de methode (15%)",
-    "Hoop en verwachting vallen onder het placeboeffect (15%), de band onder de algemeen werkzame factoren (30%)",
-    "Hoop en verwachting vallen onder de algemeen werkzame factoren (30%), de band onder het placeboeffect (15%)",
-    "Hoop en verwachting vallen onder het placeboeffect (15%), de band onder de extra-therapeutische factoren (40%)"
-   ],
-   "a": 1,
-   "u": "Het placeboeffect, ongeveer 15% van de werkzaamheid, wordt verklaard door hoop en verwachting van de cliënt. De therapeutische relatie is een algemeen werkzame factor, en die factoren zijn samen goed voor 30%."
-  },
-  {
-   "h": "h7",
-   "q": "Welke uitspraak vergelijkt HITOP en RDoC correct?",
-   "o": [
-    "HITOP is data-driven en dimensioneel maar atheoretisch; RDoC vertrekt van een biopsychosociaal model met een matrix van constructen en eenheden van analyse",
-    "HITOP vertrekt van een biopsychosociaal model met genen en hersencircuits als eenheden van analyse; RDoC verklaart comorbiditeit via hogere orde dimensies",
-    "HITOP en RDoC behouden allebei de categoriale DSM-indeling en voegen er enkel een dimensionele ernstschaal per stoornis aan toe",
-    "HITOP is theoriegedreven en vertrekt van vaste biologische markers; RDoC is een atheoretische, zuiver data-driven taxonomie van symptomen"
-   ],
-   "a": 0,
-   "u": "HITOP is een data-driven, dimensionele taxonomie die comorbiditeit via hogere orde dimensies probeert te verklaren, maar atheoretisch is. RDoC is gebaseerd op het biopsychosociaal model en gebruikt een onderzoeksmatrix met constructen en eenheden van analyse zoals genen, cellen, hersencircuits en gedrag."
-  },
-  {
-   "h": "h8",
-   "q": "Na behandeling valt de eindscore van een cliënt onder de cutoff van de gezonde groep, maar de reliable change index (RCI) bedraagt slechts 1.20. Hoe interpreteer je dit resultaat?",
-   "o": [
-    "De verandering is betrouwbaar en klinisch significant, want wie criterium B haalt, hoeft de RCI niet te halen",
-    "De verandering is betrouwbaar, want een RCI boven 1 volstaat, maar criterium B is niet gehaald",
-    "Criterium B is gehaald, maar de verandering kan nog aan de onbetrouwbaarheid van het instrument te wijten zijn",
-    "Criterium A is niet gehaald, want een RCI onder 1.96 betekent dat de cliënt in de disfunctionerende groep blijft"
-   ],
-   "a": 2,
-   "u": "Een eindscore onder de cutoff van de gezonde groep voldoet aan criterium B. De RCI toetst apart of de verandering betrouwbaar is: pas boven 1.96 is ze niet toe te schrijven aan meetonbetrouwbaarheid, dus bij 1.20 is dat niet aangetoond."
-  }
- ]
+ "hardPerHoofdstuk": {
+  "h1": 1,
+  "h2": 1,
+  "h3": 2,
+  "h4": 1,
+  "h5": 2,
+  "h6": 1,
+  "h7": 1,
+  "h8": 1
+ }
 };

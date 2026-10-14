@@ -29,13 +29,13 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="assets/style.css?v=81">
-  <script src="assets/app.js?v=81" defer></script>
-  <script src="assets/config.js?v=81" defer></script>
+  <link rel="stylesheet" href="assets/style.css?v=85">
+  <script src="assets/app.js?v=85" defer></script>
+  <script src="assets/config.js?v=85" defer></script>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js" defer></script>
-  <script src="assets/auth.js?v=81" defer></script>
-  <script src="assets/plan.js?v=81" defer></script>
-  <script src="assets/activiteit.js?v=81" defer></script>
+  <script src="assets/auth.js?v=85" defer></script>
+  <script src="assets/plan.js?v=85" defer></script>
+  <script src="assets/activiteit.js?v=85" defer></script>
   <style>
     .vw-wrap { max-width: 760px; }
     .vw-sectie + .vw-sectie { margin-top: 40px; }
@@ -85,8 +85,8 @@
         <h2 class="sectie-kop" id="kort-kop">In het kort</h2>
         <div class="kaart vw-kaart">
           <ul class="vw-lijst">
-            <li><div><strong>Free blijft zonder kosten.</strong> Plus kost 2,99 euro en Pro 9,99 euro per maand, inclusief btw.</div></li>
-            <li><div><strong>Eén proefmaand per plan.</strong> Die kost niets, start meteen en vraagt geen betaalgegevens.</div></li>
+            <li><div><strong>Free blijft zonder kosten.</strong> Plus kost 2,99 euro per maand, inclusief btw.</div></li>
+            <li><div><strong>Eén proefmaand per account.</strong> De eerste maand van Plus kost niets. Je geeft wel je betaalgegevens op, met een betaling van 2 cent om je betaalmethode te bevestigen.</div></li>
             <li><div><strong>Opzeggen kan altijd</strong>, met één knop op je profiel. Je houdt je plan tot het einde van de periode die al liep.</div></li>
             <li><div><strong>14 dagen bedenktijd</strong> bij elk nieuw betaald abonnement. Herroepen kan met één knop op je profiel. Je betaalt dan alleen de dagen tot je herroeping.</div></li>
           </ul>
@@ -105,7 +105,7 @@
       <section class="vw-sectie" aria-labelledby="plannen-kop">
         <h2 class="sectie-kop" id="plannen-kop">De plannen</h2>
         <div class="kaart vw-kaart">
-          <p>Er zijn drie plannen: <strong>Free</strong>, <strong>Plus</strong> (2,99 euro per maand) en <strong>Pro</strong> (9,99 euro per maand). Alle prijzen zijn in euro en inclusief btw. Wat bij elk plan hoort, staat op de pagina <a href="abonnement.html">Abonnement</a>.</p>
+          <p>Er zijn twee plannen: <strong>Free</strong> en <strong>Plus</strong> (2,99 euro per maand). Alle prijzen zijn in euro en inclusief btw. Wat bij elk plan hoort, staat op de pagina <a href="abonnement.html">Abonnement</a>.</p>
           <p>We verbeteren de site voortdurend, dus onderdelen kunnen veranderen. Wordt je betaalde plan daardoor duidelijk minder, bijvoorbeeld omdat een onderdeel verdwijnt of Comit minder vragen per dag toelaat, dan laten we het vooraf per e-mail weten. Je kan dan tot 30 dagen na de verandering opzeggen. Voor de dagen na de verandering krijg je je geld terug.</p>
         </div>
       </section>
@@ -114,11 +114,9 @@
         <h2 class="sectie-kop" id="proef-kop">De proefmaand</h2>
         <div class="kaart vw-kaart">
           <ul class="vw-lijst">
-            <li><div><strong>Eén keer per plan.</strong> Elk account kan één proefmaand Plus en één proefmaand Pro gebruiken.</div></li>
-            <li><div><strong>Kost niets.</strong> De proefmaand start meteen en vraagt geen betaalgegevens.</div></li>
-            <li><div><strong>Van Plus naar Pro.</strong> Start je de proefmaand van Pro terwijl je proefmaand van Plus nog loopt, dan stopt je proefmaand van Plus meteen. Zolang je Pro hebt, kan je geen proefmaand van Plus starten, want Plus zit al in Pro.</div></li>
-            <li><div><strong>Betaalde Plus blijft.</strong> Betaal je al voor Plus en start je de proefmaand van Pro, dan heb je na die proefmaand gewoon weer Plus.</div></li>
-            <li><div><strong>Daarna terug naar Free.</strong> Na de proefmaand ga je vanzelf terug naar Free. Er wordt niets afgeschreven.</div></li>
+            <li><div><strong>Eén keer.</strong> Elk account kan één proefmaand gebruiken. Had je eerder al een proefmaand, dan telt die mee.</div></li>
+            <li><div><strong>Kost niets.</strong> De proefmaand start meteen. Je geeft wel je betaalgegevens op bij de betaaldienst, met een betaling van 2 cent om je betaalmethode te bevestigen.</div></li>
+            <li><div><strong>Daarna loopt Plus door.</strong> Na je proefmaand loopt je plan vanzelf door en betaal je 2,99 euro per maand. Zeg je op tijdens je proefmaand, dan betaal je niets.</div></li>
           </ul>
         </div>
       </section>
@@ -126,9 +124,9 @@
       <section class="vw-sectie" aria-labelledby="betalen-kop">
         <h2 class="sectie-kop" id="betalen-kop">Betalen</h2>
         <div class="kaart vw-kaart">
-          <p>Plus of Pro neem je op de pagina <a href="abonnement.html">Abonnement</a>. Daarvoor geldt het volgende.</p>
+          <p>Plus neem je op de pagina <a href="abonnement.html">Abonnement</a>. Daarvoor geldt het volgende.</p>
           <ul class="vw-lijst">
-            <li><div><strong>Per maand, vooraf.</strong> Kies je om verder te gaan met Plus of Pro, dan betaal je per maand vooraf met Bancontact, iDEAL of kaart, via een erkende betaaldienst.</div></li>
+            <li><div><strong>Per maand, vooraf.</strong> Kies je om verder te gaan met Plus, dan betaal je per maand vooraf met Bancontact, iDEAL of kaart, via een erkende betaaldienst.</div></li>
             <li><div><strong>Loopt door tot je opzegt.</strong> Je abonnement wordt elke maand verlengd en het maandbedrag wordt dan afgeschreven, tot je opzegt.</div></li>
             <li><div><strong>Geen kaartgegevens bij ons.</strong> Je betaalgegevens blijven bij de betaaldienst. Wij bewaren alleen of en tot wanneer je betaald hebt.</div></li>
             <li><div><strong>Lukt een betaling niet</strong>, dan krijg je bericht. Blijft de betaling uit, dan ga je terug naar Free. Je voortgang blijft bewaard.</div></li>
@@ -147,7 +145,7 @@
       <section class="vw-sectie" aria-labelledby="bedenktijd-kop">
         <h2 class="sectie-kop" id="bedenktijd-kop">Bedenktijd</h2>
         <div class="kaart vw-kaart">
-          <p>Neem je een betaald abonnement op Plus of Pro, dan heb je 14 dagen bedenktijd. Die tellen vanaf de dag na je aanmelding. Neem je later opnieuw een abonnement, dan krijg je opnieuw 14 dagen. Een maandelijkse verlenging geeft geen nieuwe bedenktijd.</p>
+          <p>Neem je een betaald abonnement op Plus, dan heb je 14 dagen bedenktijd. Die tellen vanaf de dag na je aanmelding. Neem je later opnieuw een abonnement, dan krijg je opnieuw 14 dagen. Een maandelijkse verlenging geeft geen nieuwe bedenktijd.</p>
           <p>Herroepen doe je met de knop <strong>Hier de overeenkomst herroepen</strong> op je profiel, bij Jouw abonnement. Die knop staat er zolang je bedenktijd loopt. Je krijgt meteen per e-mail een bevestiging met datum en tijd. Je kan ook mailen naar <a href="mailto:berie007yldrm@gmail.com">berie007yldrm@gmail.com</a> of het modelformulier hieronder sturen. Je hoeft geen reden te geven.</p>
           <p>Bij het afsluiten vraag je zelf om je plan meteen te laten starten. Herroep je, dan stopt je plan meteen en betaal je alleen voor de dagen tot je herroeping. De rest krijg je binnen 14 dagen terug, op dezelfde manier als je betaalde.</p>
         </div>
@@ -159,7 +157,7 @@
           <p>Vul dit formulier alleen in als je je abonnement wil herroepen. Mail het naar <a href="mailto:berie007yldrm@gmail.com">berie007yldrm@gmail.com</a>.</p>
           <ul class="vw-lijst vw-formulier">
             <li><div><strong>Aan</strong> Berie's Exam Space, <a href="mailto:berie007yldrm@gmail.com">berie007yldrm@gmail.com</a>. Berat Yildirim, Koningin Regentesselaan 116, 6043 CP Roermond, Nederland. KvK-nummer 42183092.</div></li>
-            <li><div><strong>Ik herroep hierbij</strong> mijn overeenkomst voor de volgende dienst: abonnement [Plus of Pro] op Berie's Exam Space.</div></li>
+            <li><div><strong>Ik herroep hierbij</strong> mijn overeenkomst voor de volgende dienst: abonnement Plus op Berie's Exam Space.</div></li>
             <li><div><strong>Afgesloten op</strong> [datum]</div></li>
             <li><div><strong>Naam</strong> [je naam]</div></li>
             <li><div><strong>Adres</strong> [je adres]</div></li>
@@ -200,14 +198,14 @@
       <section class="vw-sectie" aria-labelledby="comit-kop">
         <h2 class="sectie-kop" id="comit-kop">Comit</h2>
         <div class="kaart vw-kaart">
-          <p>Vaste vragen over de site beantwoordt Comit zelf. Andere vragen beantwoordt hij met hulp van AI. Comit is nog een demo en kan zich vergissen. Controleer belangrijke dingen dus altijd in je cursus. Vragen met AI zijn per dag beperkt: 10 met Free, 30 met Plus en 60 met Pro. Ezelsbruggetjes van Comit zitten alleen in Pro en tellen ook mee.</p>
+          <p>Vaste vragen over de site beantwoordt Comit zelf. Andere vragen beantwoordt hij met hulp van AI. Comit is nog een demo en kan zich vergissen. Controleer belangrijke dingen dus altijd in je cursus. Vragen met AI zijn per dag beperkt: 10 met Free en 60 met Plus. Ezelsbruggetjes van Comit en <strong>Waarom niet mijn antwoord?</strong> zitten alleen in Plus en tellen ook mee.</p>
         </div>
       </section>
 
       <section class="vw-sectie" aria-labelledby="beschikbaar-kop">
         <h2 class="sectie-kop" id="beschikbaar-kop">Beschikbaarheid en aansprakelijkheid</h2>
         <div class="kaart vw-kaart">
-          <p>We doen ons best om de site altijd bereikbaar te houden, maar door onderhoud of storingen kan hij soms even niet werken. Voor Plus en Pro geldt de wettelijke garantie: wat je betaalt, moet werken zoals afgesproken. Werkt een betaald onderdeel niet, laat het ons dan weten. Dan lossen we het op, of je krijgt de dagen erbij of het bedrag voor die dagen terug. Je andere rechten uit de wet blijven gelden.</p>
+          <p>We doen ons best om de site altijd bereikbaar te houden, maar door onderhoud of storingen kan hij soms even niet werken. Voor Plus geldt de wettelijke garantie: wat je betaalt, moet werken zoals afgesproken. Werkt een betaald onderdeel niet, laat het ons dan weten. Dan lossen we het op, of je krijgt de dagen erbij of het bedrag voor die dagen terug. Je andere rechten uit de wet blijven gelden.</p>
           <p>Zijn wij aansprakelijk voor schade, dan vergoeden we alleen de schade die rechtstreeks door onze fout komt. Dat is hoogstens het bedrag dat je in de 12 maanden daarvoor betaalde, met een minimum van 50 euro. Die grens geldt niet bij opzet of grove nalatigheid, niet bij overlijden of letsel, en niet als de wet van je land meer vergoeding verplicht.</p>
         </div>
       </section>
@@ -238,7 +236,7 @@
         <div class="kaart vw-kaart">
           <p>Ben je ergens niet tevreden over, mail dan naar <a href="mailto:berie007yldrm@gmail.com">berie007yldrm@gmail.com</a>. We zoeken samen een oplossing.</p>
           <p>Op deze voorwaarden is het Nederlandse recht van toepassing. Woon je in België of een ander land van de Europese Unie, dan houd je de bescherming die het consumentenrecht van dat land je geeft.</p>
-          <p class="vw-datum">Laatst bijgewerkt: 3 oktober 2026.</p>
+          <p class="vw-datum">Laatst bijgewerkt: 12 oktober 2026.</p>
         </div>
       </section>
     </div>
