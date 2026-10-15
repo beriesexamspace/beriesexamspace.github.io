@@ -73,7 +73,7 @@ window.BES_VAK = {
     },
     {
       "id": "h19",
-      "naam": "Examen tweede zit 2025-2026"
+      "naam": "Extra examenoefening"
     }
   ],
   "vragen": [
@@ -2671,8 +2671,8 @@ window.BES_VAK = {
     },
     {
       "h": "algemeen",
-      "kop": "Oefen met oude examenvragen",
-      "t": "De vragen hier zijn de echte examenpool. Herhaal de foute tot je ze allemaal beheerst."
+      "kop": "Herhaal je fouten",
+      "t": "Herhaal de foute vragen tot je ze allemaal beheerst."
     }
   ],
   "theorie": [

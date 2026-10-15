@@ -35,7 +35,7 @@ window.BES_VAK = {
   },
   {
    "id": "h8",
-   "naam": "Echte examenvragen"
+   "naam": "Examenoefening"
   }
  ],
  "vragen": [
@@ -1950,11 +1950,8 @@ window.BES_VAK = {
    "h": "h8",
    "kop": "Kernpunten",
    "items": [
-    "Bron: een examenreconstructie van de eerste zit 2023-2024, samen gemaakt door studenten, en een uitgetypt examen uit 2021.",
     "De vragen zijn herschreven tot volledige zinnen en elk antwoord is gecontroleerd tegen de cursustekst.",
-    "Waar de meerderheid van de studenten een ander antwoord koos dan de cursus voorschrijft, is de cursus gevolgd. Dat staat dan in de uitleg.",
-    "Twee onderwerpen (advance organizer en multimediatheorie) staan niet in de cursusvoorbereiding en zijn enkel tegen de reconstructie en de standaardtheorie gecheckt.",
-    "Let op: een reconstructie is door studenten uit het geheugen opgesteld, dus de formulering kan afwijken van het echte examen."
+    "Twee onderwerpen (advance organizer en multimediatheorie) staan niet in de cursusvoorbereiding en zijn gecheckt tegen de standaardtheorie."
    ]
   },
   {
