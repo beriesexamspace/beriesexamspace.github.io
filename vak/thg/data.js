@@ -1383,7 +1383,7 @@ window.BES_VAK = {
   },
   {
    "h": "h5",
-   "q": "Welke uitspraak sluit het best aan bij Penrose en Hameroff zoals in de reconstructies bevraagd?",
+   "q": "Welke uitspraak sluit het best aan bij Penrose en Hameroff zoals in de cursus besproken?",
    "o": [
     "Bewustzijn is uitsluitend een gevolg van klassieke software.",
     "Bewustzijn kan samenhangen met fundamentele fysische processen die niet pas met menselijke cognitie zijn ontstaan.",
@@ -1409,7 +1409,7 @@ window.BES_VAK = {
   },
   {
    "h": "h5",
-   "q": "Wat wordt in de reconstructies als huidig niveau van veel AI-systemen aangeduid?",
+   "q": "Wat wordt in de cursus als huidig niveau van veel AI-systemen aangeduid?",
    "o": [
     "Volledig counterfactual redeneren.",
     "Voornamelijk associatief of correlationeel niveau.",

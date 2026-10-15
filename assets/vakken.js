@@ -15,14 +15,14 @@
 
   window.BES_VAKKEN = [
     // 1ste bachelor
-    { id: 'inlped', jaar: '1ba', naam: 'Inleiding tot de pedagogische wetenschappen', tekst: '145 vragen, waarvan 50 uit echte examens.', v2: true },
+    { id: 'inlped', jaar: '1ba', naam: 'Inleiding tot de pedagogische wetenschappen', tekst: '145 vragen, met uitleg.', v2: true },
     { id: 'stat2', jaar: '1ba', naam: 'Statistiek II: kansrekening en inductieve statistiek', tekst: '155 oefenvragen over 9 hoofdstukken, met uitleg.', v2: true },
     { id: 'stat1', jaar: '1ba', naam: 'Statistiek I: meetschalen en beschrijvende statistiek', tekst: '90 oefenvragen per hoofdstuk, met uitleg.', v2: true },
     { id: 'ontwikkeling', jaar: '1ba', naam: 'Ontwikkelingspsychologie', tekst: '84 oefenvragen over de levensloop, met uitleg.', v2: true },
     { id: 'philsci', jaar: '1ba', naam: 'Philosophy of Science', tekst: '82 oefenvragen per hoofdstuk, met uitleg.', v2: true },
     { id: 'logica', jaar: '1ba', naam: 'Logica & Wetenschapsfilosofie', tekst: '50 oefenvragen per hoofdstuk, met uitleg.', v2: true },
     { id: 'mbg', jaar: '1ba', naam: 'Menselijke biologie en genetica', tekst: '1.296 meerkeuzevragen met uitleg, plus een samenvatting per hoofdstuk.', v2: true },
-    { id: 'sociologie', jaar: '1ba', naam: 'Sociologie I', tekst: '153 vragen, waarvan 41 uit echte examens, met uitleg.', v2: true },
+    { id: 'sociologie', jaar: '1ba', naam: 'Sociologie I', tekst: '153 vragen, met uitleg.', v2: true },
     { id: 'omt1', jaar: '1ba', naam: 'Onderzoeksmethoden en -technieken I: psychometrie', tekst: '42 oefenvragen per hoofdstuk, met uitleg.', v2: true },
     { id: 'socpsy', jaar: '1ba', naam: 'Sociale psychologie I: sociale cognitie', tekst: '70 oefenvragen, hoofdstuk 1 tot 7, met uitleg.', v2: true },
     { id: 'algpsy', jaar: '1ba', naam: 'Algemene psychologie', tekst: '82 oefenvragen per hoofdstuk, met uitleg.', v2: true },
