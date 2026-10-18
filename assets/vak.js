@@ -819,6 +819,15 @@
       updateStart();
     }
 
+    // Voortgang van een hoofdstuk: dezelfde balk en tekst bij Oefenen (stap 4) en in de tab Hoofdstukken.
+    function progressBlock(record) {
+      const complete = Boolean(record?.laatstTotaal && record.laatstGoed === record.laatstTotaal);
+      const bottom = create('span', 'hoofdstuk-voortgang');
+      const progressText = !record ? 'Nog niet geoefend' : `${record.laatstGoed} van ${record.laatstTotaal} goed${complete ? ' · Afgerond ✓' : ''}`;
+      bottom.append(progressBar(record?.laatstGoed || 0, record?.laatstTotaal || 0), create('span', 'voortgang-tekst', progressText));
+      return { bottom, complete };
+    }
+
     function renderChapters() {
       const list = byId('hoofdstukken');
       const focused = document.activeElement?.dataset.hoofdstuk;
@@ -842,10 +851,7 @@
         const body = create('span', 'hoofdstuk-inhoud');
         const top = create('span', 'hoofdstuk-boven');
         top.append(create('span', 'hoofdstuk-kop', chapter.naam), create('span', 'hoofdstuk-aantal', total ? countText(total) : level === 'hard' ? 'Nog geen Hard mode-vragen' : 'Nog geen vragen'));
-        const bottom = create('span', 'hoofdstuk-voortgang');
-        const progressText = !record ? 'Nog niet geoefend' : `${record.laatstGoed} van ${record.laatstTotaal} goed${complete ? ' · Afgerond ✓' : ''}`;
-        bottom.append(progressBar(record?.laatstGoed || 0, record?.laatstTotaal || 0), create('span', 'voortgang-tekst', progressText));
-        body.append(top, bottom);
+        body.append(top, progressBlock(record).bottom);
         row.append(checkbox, body);
         row.addEventListener('click', () => {
           const aangevinkt = !selected.has(chapter.id);
@@ -857,6 +863,117 @@
         list.append(row);
       });
       if (focused) [...list.children].find(row => row.dataset.hoofdstuk === focused)?.focus({ preventScroll: true });
+      renderHoofdstukken();
+    }
+
+    // Tab Hoofdstukken: overzicht van alle hoofdstukken (Normaal) en per hoofdstuk kernpunten, hacks en oefenen.
+    let openHoofdstuk = null;
+    function renderHoofdstukken() {
+      const root = byId('hoofdstukken-inhoud');
+      if (!root) return;
+      // Tijdens een bezoek aan de tab niet opnieuw tekenen als het een detailweergave is: de focus blijft dan staan.
+      if (openHoofdstuk && root.childElementCount && currentTab === 'paneel-hoofdstukken') return;
+      if (openHoofdstuk && !data.hoofdstukken.some(chapter => chapter.id === openHoofdstuk)) openHoofdstuk = null;
+      root.replaceChildren();
+      if (openHoofdstuk) { renderHoofdstukDetail(root, data.hoofdstukken.find(chapter => chapter.id === openHoofdstuk)); return; }
+      const normaal = countsFor('normaal');
+      const owner = context?.owner ?? null;
+      const bank = banks.get('normaal')?.get(owner);
+      const list = create('div', 'kaart-rij hoofdstuk-lijst');
+      data.hoofdstukken.forEach(chapter => {
+        const total = normaal[chapter.id];
+        const record = bank && (bank.authReady || !owner) ? bank.chapters[chapter.id] : null;
+        const { bottom, complete } = progressBlock(record);
+        const card = create('button', 'hoofdstuk hoofdstuk-open kaart');
+        card.type = 'button';
+        card.dataset.kaart = chapter.id;
+        card.classList.toggle('is-afgerond', complete);
+        const body = create('span', 'hoofdstuk-inhoud');
+        const top = create('span', 'hoofdstuk-boven');
+        top.append(create('span', 'hoofdstuk-kop', chapter.naam), create('span', 'hoofdstuk-aantal', total ? countText(total) : 'Nog geen vragen'));
+        body.append(top, bottom);
+        const pijl = create('span', 'hoofdstuk-pijl', '→');
+        pijl.setAttribute('aria-hidden', 'true');
+        card.append(body, pijl);
+        card.addEventListener('click', () => {
+          openHoofdstuk = chapter.id;
+          root.replaceChildren();
+          renderHoofdstukDetail(root, chapter);
+          const kop = byId('hoofdstuk-detail-kop');
+          kop.focus({ preventScroll: true });
+          scrollNaar(kop);
+        });
+        list.append(card);
+      });
+      root.append(list);
+    }
+
+    function renderHoofdstukDetail(root, chapter) {
+      const back = create('button', 'terug vak-tekstknop', '← Alle hoofdstukken');
+      back.type = 'button';
+      back.addEventListener('click', () => {
+        const id = chapter.id;
+        openHoofdstuk = null;
+        renderHoofdstukken();
+        const card = [...root.querySelectorAll('[data-kaart]')].find(item => item.dataset.kaart === id);
+        if (card) { card.focus({ preventScroll: true }); scrollNaar(card); }
+      });
+      const heading = create('h2', 'hoofdstuk-detail-kop', chapter.naam);
+      heading.id = 'hoofdstuk-detail-kop';
+      heading.tabIndex = -1;
+      root.append(back, heading);
+      const blocks = data.theorie.filter(item => item.h === chapter.id);
+      const tips = data.hacks.filter(item => item.h === chapter.id);
+      const points = create('section', 'theorie-groep');
+      points.append(create('h3', 'hoofdstuk-subkop', 'Kernpunten'));
+      if (!blocks.length) points.append(create('p', 'gedimde-tekst', 'Voor dit hoofdstuk staat nog geen theorie klaar.'));
+      blocks.forEach(item => {
+        const card = create('article', 'theorie-kaart kaart');
+        const ul = create('ul');
+        item.items.forEach(point => ul.append(create('li', '', point)));
+        card.append(create('h3', '', item.kop), ul);
+        points.append(card);
+      });
+      root.append(points);
+      if (tips.length) {
+        const group = create('section', 'hack-groep');
+        group.append(create('h3', 'hoofdstuk-subkop', 'Studie-hacks'));
+        tips.forEach(item => {
+          const row = create('div', 'hack-regel kaart');
+          const tick = create('span', 'hack-vink', '✓');
+          tick.setAttribute('aria-hidden', 'true');
+          const tekst = create('div', 'hack-tekst');
+          if (typeof item.kop === 'string' && item.kop.trim()) tekst.append(create('strong', '', item.kop.trim()));
+          tekst.append(create('p', '', item.t));
+          row.append(tick, tekst);
+          group.append(row);
+        });
+        root.append(group);
+      }
+      const oefen = create('button', 'knop hoofdstuk-oefen', 'Oefen dit hoofdstuk →');
+      oefen.type = 'button';
+      oefen.disabled = !data.vragen.some(question => question.h === chapter.id);
+      oefen.addEventListener('click', () => oefenHoofdstuk(chapter.id));
+      root.append(oefen);
+    }
+
+    // Oefenen starten voor één hoofdstuk: Examen Training, Normaal, zonder tijd, alleen dit hoofdstuk.
+    function oefenHoofdstuk(id) {
+      const vragen = data.vragen.filter(question => question.h === id);
+      if (!vragen.length || screen !== 'keuzes') return;
+      selectTab(byId('tab-oefenen'));
+      if (level !== 'normaal') setLevel('normaal');
+      setMode('training');
+      setTime('zonder');
+      selected.clear();
+      selected.add(id);
+      renderChapters();
+      updateStart();
+      start(vragen, 'training', 'normaal', 0);
+      if (screen === 'keuzes') {
+        [...(showLevelStep ? ['niveau'] : []), 'tijd', 'hoofdstukken', 'start'].forEach(name => revealStep(name, false));
+        scrollNaar(byId('stap-start'));
+      }
     }
 
     function renderSimulation() {
@@ -1676,7 +1793,7 @@
       if (!klaarScript) {
         klaarScript = new Promise((klaar, mislukt) => {
           const script = document.createElement('script');
-          script.src = new URL('klaarmeter.js?v=88', scriptBron).href;
+          script.src = new URL('klaarmeter.js?v=89', scriptBron).href;
           script.onload = () => (typeof BES.klaarMeter === 'function' ? klaar() : mislukt());
           script.onerror = () => { klaarScript = null; mislukt(); };
           document.head.append(script);
@@ -1751,6 +1868,7 @@
     function selectTab(tab, focus = false) {
       currentTab = tab.getAttribute('aria-controls');
       if (currentTab === 'paneel-hacks') renderVoorJou();
+      if (currentTab === 'paneel-hoofdstukken') renderHoofdstukken();
       byId('vak-tabs').querySelectorAll('[role="tab"]').forEach(button => {
         const active = button === tab;
         button.setAttribute('aria-selected', String(active));
@@ -1761,6 +1879,7 @@
         if (active) fade(panel);
       });
       if (focus) tab.focus();
+      try { tab.scrollIntoView({ block: 'nearest', inline: 'nearest', behavior: reducedMotion.matches ? 'auto' : 'smooth' }); } catch {}
     }
 
     document.title = `${data.naam} | Berie's Exam Space`;
