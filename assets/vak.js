@@ -931,7 +931,9 @@
         const card = create('article', 'theorie-kaart kaart');
         const ul = create('ul');
         item.items.forEach(point => ul.append(create('li', '', point)));
-        card.append(create('h3', '', item.kop), ul);
+        // De subkop zegt al "Kernpunten"; alleen een andere kop tonen we nog in de kaart.
+        if (typeof item.kop === 'string' && item.kop.trim() && item.kop.trim() !== 'Kernpunten') card.append(create('h3', '', item.kop.trim()));
+        card.append(ul);
         points.append(card);
       });
       root.append(points);
