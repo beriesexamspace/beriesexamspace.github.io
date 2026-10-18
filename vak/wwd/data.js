@@ -39,10 +39,10 @@ window.BES_VAK = {
    "h": "h1",
    "q": "Een medestudent beweert dat filosofie zich alleen bezighoudt met wereldvreemde vragen die niets met het dagelijks leven te maken hebben. Wat zegt de les daarover?",
    "o": [
-    "Filosofie beschouwt juist alledaagse dingen, zoals verschijnselen, gedrag en kennis, met bijzondere technieken.",
+    "Filosofie bekijkt juist alledaagse dingen, zoals gedrag en kennis, met bijzondere technieken.",
     "Filosofie bestudeert vooral abstracte begrippen die los staan van verschijnselen en menselijk gedrag.",
-    "Filosofie beschouwt alledaagse dingen, maar gaat daarbij precies te werk zoals de natuurwetenschappen.",
-    "Filosofie bekijkt alledaagse dingen pas als de wetenschappen er al een sluitend antwoord op hebben."
+    "Filosofie bekijkt alledaagse dingen, maar gaat daarbij precies te werk zoals de natuurwetenschappen.",
+    "Filosofie bekijkt alledaagse dingen pas als de wetenschappen ermee klaar zijn."
    ],
    "a": 0,
    "u": "Volgens de les beschouwt filosofie alledaagse dingen: verschijnselen, gedrag en kennis daarvan, met eigen, bijzondere technieken. Ze werkt dus niet zoals de natuurwetenschappen."
@@ -52,8 +52,8 @@ window.BES_VAK = {
    "q": "Iemand zegt: 'Ik volg filosofie, geen wijsbegeerte; dat zijn twee verschillende vakken.' Waarom klopt dat niet?",
    "o": [
     "Wijsbegeerte is enkel het onderdeel van de filosofie dat over ethiek en het goede leven gaat.",
-    "Wijsbegeerte is de oudere, middeleeuwse vorm van filosofie die vandaag niet meer bestaat.",
-    "Wijsbegeerte is de Nederlandse vertaling van het Griekse philosophos: wijsheid of kennis begeren.",
+    "Wijsbegeerte is de middeleeuwse vorm van filosofie, die niet meer bestaat.",
+    "Wijsbegeerte is het Nederlandse woord voor philosophos: wijsheid of kennis begeren.",
     "Wijsbegeerte is de wetenschappelijke tak van filosofie, die werkt met experimenten en metingen."
    ],
    "a": 2,
@@ -87,7 +87,7 @@ window.BES_VAK = {
    "h": "h1",
    "q": "Welke vraag is een typisch voorbeeld van de kernvraag 'Wat is werkelijk?'",
    "o": [
-    "Heeft het zin te spreken van een lege ruimte?",
+    "Wat is tijd, en heeft het zin te spreken van een lege ruimte?",
     "Welke redenen heb je om je kennis te vertrouwen?",
     "Volgt het besluit logisch uit de argumenten?",
     "Mag je liegen om iemand anders te beschermen?"
@@ -111,13 +111,13 @@ window.BES_VAK = {
    "h": "h1",
    "q": "Sociaal-psychologen gebruiken begrippen als 'vrijheid' en 'individu' om gedrag te duiden. Filosofen vragen zich af wat vrijheid is en of een mens wel vrij kan zijn. Hoe beschrijft de les die verhouding?",
    "o": [
-    "Filosofie komt via een andere weg tot dezelfde besluiten als de psychologie.",
-    "Filosofie is complementair: ze vult aan wat de wetenschappen vanuit hun discipline bedenken.",
+    "Filosofie komt langs een andere weg tot dezelfde besluiten als de psychologie.",
+    "Filosofie is complementair: ze vult aan wat de wetenschappen bedenken.",
     "Filosofie vervangt de psychologie, omdat ze de gebruikte begrippen grondiger onderzoekt.",
     "Filosofie staat los van de psychologie en zegt niets over wat werkelijk bestaat."
    ],
    "a": 1,
-   "u": "Filosofie is complementair aan de wetenschappen: haar antwoorden vullen aan wat psychologen of natuurkundigen bedenken. 'Dezelfde besluiten als psychologen' en 'zegt niets over wat bestaat' worden in de les net als foute uitspraken genoemd."
+   "u": "Filosofie is complementair aan de wetenschappen: haar antwoorden vullen aan wat psychologen of natuurkundigen vanuit hun discipline bedenken. 'Dezelfde besluiten als psychologen' en 'zegt niets over wat bestaat' staan in de les juist als foute uitspraken."
   },
   {
    "h": "h1",
@@ -125,8 +125,8 @@ window.BES_VAK = {
    "o": [
     "Omdat filosofie hen vertelt welke straffen juist zijn, zodat ze daar niet meer over hoeven te twijfelen.",
     "Omdat filosofie de onderzoeksmethoden van de criminologie vervangt door zuivere denkexperimenten.",
-    "Omdat filosofie vooral de geschiedenis van het strafrecht en de rechtbanken in Europa behandelt.",
-    "Omdat filosofie doet nadenken over rechten, plichten en rechtvaardigheid, en aangeeft hoe je moet denken."
+    "Omdat filosofie vooral de geschiedenis van het strafrecht behandelt.",
+    "Omdat filosofie doet nadenken over rechten en plichten, en aangeeft hoe je moet denken."
    ],
    "a": 3,
    "u": "Filosofie doet nadenken over rechten en plichten, vrijheid en rechtvaardigheid, en over wat juist of fout en waar of onwaar is. Ze zegt niet wat je moet denken, maar hoe je moet denken."
@@ -136,24 +136,12 @@ window.BES_VAK = {
    "q": "Een student wil een AI-chatbot de slides van dit vak laten samenvatten om sneller te studeren. Wat zegt de les hierover?",
    "o": [
     "Dat is een goed idee, zolang je de samenvatting achteraf nog eens goed naleest.",
-    "Dat mag, want een AI-samenvatting bevat minder fouten dan zelfgemaakte notities.",
-    "Dat mag niet wegens auteursrecht, en een synthese maak je beter zelf omdat je al doende leert.",
+    "Dat mag, want een AI-samenvatting bevat altijd minder fouten dan zelfgemaakte notities.",
+    "Dat mag niet wegens auteursrecht, en een synthese maak je beter zelf omdat je zo leert.",
     "Dat mag enkel als je de samenvatting daarna deelt met de medestudenten in je groep."
    ],
    "a": 2,
    "u": "Lesmateriaal prompten is wettelijk niet toegelaten wegens auteursrecht. Bovendien leer je juist door zelf te synthetiseren, en AI-antwoorden bevatten vaak gehallucineerde stukken."
-  },
-  {
-   "h": "h1",
-   "q": "Waarom raadt de les aan om notities met de hand te nemen in plaats van te typen?",
-   "o": [
-    "Handschrift activeert het hele brein en dwingt je te luisteren en te kiezen wat je opschrijft.",
-    "Met de hand schrijven gaat sneller, waardoor je letterlijk alles kunt noteren wat gezegd wordt.",
-    "Typen activeert meer hersengebieden, maar leidt te veel af door meldingen en sociale media.",
-    "Met de hand schrijven geeft mooiere notities, en het medium bepaalt het meest je resultaat."
-   ],
-   "a": 0,
-   "u": "Een EEG-studie toonde bij handschrift een veel bredere hersenconnectiviteit dan bij typen. Typen is herhaalde, repetitieve beweging en gaat te snel; bij handschrift moet je luisteren en kiezen wat je opschrijft."
   },
   {
    "h": "h2",
@@ -171,7 +159,7 @@ window.BES_VAK = {
    "h": "h2",
    "q": "Iemand beweert dat liefde 'niets anders is dan' een chemische reactie in de hersenen. Hoe benoem je dit met de begrippen uit de les?",
    "o": [
-    "Een analogie, met het risico dat gelijkenis voor oorzaak wordt gehouden",
+    "Een analogie, met het risico dat gelijkenis voor oorzaak doorgaat",
     "Een taxonomie, met het risico dat ze een hiërarchie suggereert",
     "Een antilogie, met het risico dat ze tot demagogie leidt",
     "Een radicale reductie of fysicalisme, met het risico op demystificatie"
@@ -183,10 +171,10 @@ window.BES_VAK = {
    "h": "h2",
    "q": "Hoe kwam Anaximander tot het besluit dat de aarde onbeweeglijk is?",
    "o": [
-    "De aarde drijft op water, dat haar stevig op haar plaats houdt",
+    "De aarde drijft op water, dat haar stevig en onbeweeglijk op haar plaats houdt",
     "Alle richtingen zijn gelijk, dus is er geen reden om ergens heen te bewegen",
-    "Beweging is een illusie die onze zintuigen ons voorspiegelen",
-    "Lucht omringt de aarde zoals een tulband het hoofd omringt"
+    "Beweging is een illusie die onze zintuigen ons voortdurend voorspiegelen",
+    "Lucht omringt de aarde zoals een tulband het hoofd en houdt haar vast"
    ],
    "a": 1,
    "u": "Volgens Anaximander zou beweging in welke richting ook geen verschil maken. Er is dus geen voldoende reden om te bewegen: dat is het principe van voldoende reden."
@@ -197,7 +185,7 @@ window.BES_VAK = {
    "o": [
     "Hij had zwaar gedronken en was dronken op het moment zelf",
     "Hij werd in het gedrang geduwd en verloor zijn evenwicht",
-    "Hij wilde zich wreken voor iets wat de commissaris had gedaan",
+    "Hij wilde wraak nemen voor iets wat de commissaris had gedaan",
     "Een hersenletsel had zijn zelfbeheersing sterk verminderd"
    ],
    "a": 2,
@@ -208,9 +196,9 @@ window.BES_VAK = {
    "q": "Wat is de kritiek van David Hume op het principe van voldoende reden?",
    "o": [
     "Het principe is onwaar, want veel dingen gebeuren zonder enige reden",
-    "Het valt niet te bewijzen: je neemt het aan of niet, met goede redenen",
+    "Het valt niet te bewijzen: je neemt het aan of niet",
     "Het principe geldt voor de natuur, maar niet voor menselijk gedrag",
-    "Het principe is een tautologie en daarom noodzakelijk waar"
+    "Het principe is een tautologie en dus altijd waar"
    ],
    "a": 1,
    "u": "Hume stelt dat het principe, hoe sterk ook, niet te bewijzen valt: je neemt het aan of niet, al heb je er een goede reden voor. Hij zegt dus niet dat het onwaar is."
@@ -244,9 +232,9 @@ window.BES_VAK = {
    "q": "Welke conclusie trok Parmenides uit 'alles wat is, is en kan nooit niet zijn'?",
    "o": [
     "Verandering is reëel, maar eenheid ontstaat op een hoger niveau",
-    "Verandering is een illusie, want dan zou iets tegelijk zijn en niet zijn",
+    "Verandering is een illusie: iets zou dan zijn en tegelijk niet zijn",
     "Verandering ontstaat doordat liefde en strijd de elementen bewegen",
-    "Verandering bestaat, maar alleen in het verleden en de toekomst"
+    "Verandering bestaat echt, maar alleen in het verleden en in de toekomst"
    ],
    "a": 1,
    "u": "Verandering veronderstelt dat iets van bestaan naar niet-bestaan gaat of omgekeerd, en dat is uitgesloten. Daarom ontkende Parmenides tijd en verandering; de eerste optie is het standpunt van Herakleitos."
@@ -255,10 +243,10 @@ window.BES_VAK = {
    "h": "h2",
    "q": "Hoe komt men met de wet van Leibniz tot het besluit dat er eigenlijk 'twee rivieren' zijn?",
    "o": [
-    "Elke rivier splitst zich vroeg of laat in twee armen met een eigen naam",
+    "Elke rivier splitst zich ooit in twee armen met een eigen naam",
     "Een rivier verandert nooit, dus haar eigenschappen blijven altijd gelijk",
     "Een rivier heeft geen vaste vorm en kan dus geen eigenschappen hebben",
-    "Ze heeft op twee tijdstippen andere eigenschappen, dus is ze niet dezelfde"
+    "Ze heeft op t1 en t2 andere eigenschappen, dus is ze niet dezelfde"
    ],
    "a": 3,
    "u": "Volgens de wet van Leibniz zijn x en y alleen identiek als ze alle eigenschappen delen. Als plaats en tijd eigenschappen zijn, verschilt de rivier op t1 van die op t2, en moet je besluiten tot twee objecten."
@@ -269,8 +257,8 @@ window.BES_VAK = {
    "o": [
     "Dat ruimte en tijd oneindig deelbaar zijn en de wereld dus voortdurend verandert",
     "Dat beweging bestaat, maar alleen met wiskunde volledig begrepen kan worden",
-    "Dat deelbare ruimte en tijd onhoudbaar zijn, dus de wereld één en onveranderlijk is",
-    "Dat taal te vaag is om op een nauwkeurige manier over beweging te spreken"
+    "Dat ruimte en tijd ondeelbaar zijn en de wereld één en onveranderlijk is",
+    "Dat taal te vaag is om nauwkeurig over beweging te spreken"
    ],
    "a": 2,
    "u": "Zeno nam aan dat ruimte en tijd deelbaar zijn en toonde dat dit tot contra-intuïtieve gevolgen leidt. Zijn besluit: ruimte en tijd zijn ondeelbaar en de wereld is één en onveranderlijk."
@@ -294,7 +282,7 @@ window.BES_VAK = {
     "Maieutiek: de waarheid uit de gesprekspartner halen",
     "Antilogie: van een zwak argument een sterk argument maken",
     "Reductio ad absurdum: de premisse een beetje bijsturen",
-    "Ad hoc redeneren: een oplapmiddel dat een zware fout maskeert"
+    "Ad hoc redeneren: een zware fout maskeren met een oplapmiddel"
    ],
    "a": 3,
    "u": "Bij een tegenstrijdigheid moet je de redenering herzien of het uitgangspunt bijstellen. Het besluit aanpassen om de tegenstrijdigheid weg te werken is ad hoc redeneren: de rotte appel tast dan vroeg of laat de hele mand aan."
@@ -315,9 +303,9 @@ window.BES_VAK = {
    "h": "h2",
    "q": "Waarom leidt 'de verzameling van alle verzamelingen die zichzelf niet bevatten' tot een paradox?",
    "o": [
-    "Bevat ze zichzelf niet, dan hoort ze bij zichzelf, maar dat sluit ze zelf uit",
+    "Bevat ze zichzelf niet, dan moet ze juist wel tot zichzelf behoren",
     "Ze heeft geen enkel element en kan daarom eigenlijk geen verzameling zijn",
-    "Ze kan alleen extensioneel en nooit intensioneel gedefinieerd worden",
+    "Ze kan alleen extensioneel gedefinieerd worden",
     "Tussen elke twee elementen past een derde, dus is haar aantal onbepaald"
    ],
    "a": 0,
@@ -328,12 +316,12 @@ window.BES_VAK = {
    "q": "Wat houdt de antilogie van Protagoras in?",
    "o": [
     "Iedereen draagt de waarheid al in zich en moet ze alleen nog herinneren",
-    "Over elk onderwerp bestaat maar één ware mening, die je met de rede vindt",
-    "Elke mening heeft een tegenmening, en de kunst is een zwak argument sterk te maken",
+    "Over elk onderwerp bestaat maar één ware mening, die je met de rede kan vinden",
+    "Elke mening heeft een tegenmening, en een zwak argument kan je sterk maken",
     "Tegenstrijdige uitspraken moet je altijd opsporen en zorgvuldig vermijden"
    ],
    "a": 2,
-   "u": "Protagoras leert argumenteren: voor elke mening is er een argument, en het is de kunst om van een zwak argument een sterk te maken. Zijn aanpak werkt om uitspraken van politici te analyseren en om zelf te argumenteren."
+   "u": "Protagoras leert argumenteren: over alles bestaan tegengestelde meningen, voor elke mening is er een argument, en het is de kunst om van een zwak argument een sterk te maken. Zijn aanpak werkt om uitspraken van politici te analyseren en om zelf te argumenteren."
   },
   {
    "h": "h2",
@@ -342,7 +330,7 @@ window.BES_VAK = {
     "De goden zijn almachtig en bepalen dus terecht wat goed en slecht is",
     "Moraliteit bestaat niet, omdat de goden het onderling nooit eens zijn",
     "Wat goed is, hangt uiteindelijk af van de mening van elke mens apart",
-    "Ofwel is moraliteit willekeurig, ofwel zijn de goden overbodig voor de moraal"
+    "Ofwel is moraal willekeurig, ofwel zijn de goden overbodig voor de moraal"
    ],
    "a": 3,
    "u": "Beide hoornen van het dilemma leiden tot iets onwenselijks: leggen de goden het op, dan is moraal willekeurig; is iets goed om andere redenen, dan zijn de goden overbodig. Formeel: p∨¬p, p⊃q, ¬p⊃r ⊢ q∨r."
@@ -352,7 +340,7 @@ window.BES_VAK = {
    "q": "Waarom wordt de werkwijze van Socrates 'maieutiek' genoemd?",
    "o": [
     "Hij legde zijn leerlingen alle kennis zelf uit, zoals een leraar dat doet",
-    "Hij zag zich als vroedvrouw die de waarheid uit de ander helpt geboren worden",
+    "Hij zag zich als vroedvrouw die de waarheid uit de ander helpt halen",
     "Hij liet telkens twee tegengestelde meningen met elkaar in debat gaan",
     "Hij verpakte elke moeilijke kwestie in een verhaal uit het dagelijks leven"
    ],
@@ -363,10 +351,10 @@ window.BES_VAK = {
    "h": "h2",
    "q": "Waarin verschilt een allegorie volgens de les van een analogie?",
    "o": [
-    "Een allegorie dient vooral om iets te verduidelijken of een taboe aan te kaarten",
-    "Een allegorie vergelijkt nooit met iets uit een ander domein dan het onderwerp",
+    "Een allegorie dient vooral om te verduidelijken of een taboe aan te kaarten",
+    "Een allegorie vergelijkt nooit met iets uit een ander domein",
     "Een allegorie levert hard bewijs, terwijl een analogie alleen illustreert",
-    "Een allegorie verwijst niet naar een gelijkaardige situatie, een analogie wel"
+    "Een allegorie verwijst niet naar een gelijkaardige situatie"
    ],
    "a": 0,
    "u": "Net als de analogie verwijst de allegorie naar een gelijkaardige situatie, maar ze dient vooral om te verduidelijken of een taboe aan te kaarten; dat ze overtuigt, is mooi meegenomen. Het is juist de allegorie die met iets uit een ander domein vergelijkt."
@@ -375,9 +363,9 @@ window.BES_VAK = {
    "h": "h2",
    "q": "Een stoel wordt blauw geverfd en blijft gewoon een stoel. Hoe noemt Aristoteles de kleur van die stoel?",
    "o": [
-    "De essentie, omdat ze bepaalt wat het object is",
+    "De essentie, omdat ze bepaalt wat het object precies is",
     "De substantie, omdat ze blijft onder verandering",
-    "Een accident, een bijkomstige en niet-essentiële eigenschap",
+    "Een accident, omdat ze niet essentieel is voor de stoel",
     "De doeloorzaak, omdat ze aangeeft waarvoor iets bestaat"
    ],
    "a": 2,
@@ -411,10 +399,10 @@ window.BES_VAK = {
    "h": "h2",
    "q": "Een criminoloog brengt verschillende gedragingen onder één noemer. Waarvoor waarschuwt de les bij zo'n taxonomische aanpak?",
    "o": [
-    "Gedragingen in dezelfde categorie hebben daarom nog niet dezelfde oorzaak",
-    "Een indeling in categorieën brengt nooit enig inzicht in gedrag",
+    "Gedrag in één categorie heeft daarom nog niet dezelfde oorzaak",
+    "Een indeling in categorieën brengt nooit inzicht",
     "Je mag gedrag alleen indelen volgens de vorm, nooit volgens thema",
-    "Een taxonomie toont meteen de echte oorzaak van het gedrag"
+    "Een taxonomie toont meteen wat de echte oorzaak van het gedrag is"
    ],
    "a": 0,
    "u": "Taxonomie ordent en zet je op weg, maar wat in één categorie zit hoeft geen verband te houden behalve de gedeelde eigenschap. Ze kan je zelfs op het verkeerde spoor zetten qua oorzaak."
@@ -424,7 +412,7 @@ window.BES_VAK = {
    "q": "Wat moet je volgens Pyrrho doen bij vragen over zaken die buiten het zintuiglijke liggen, en wat levert dat op?",
    "o": [
     "Een voorlopig oordeel vellen, wat na verloop van tijd tot zekere kennis leidt.",
-    "Op dogma's vertrouwen, wat tot innerlijke vrijheid en zekerheid leidt.",
+    "Op dogma's vertrouwen, wat na verloop van tijd tot innerlijke zekerheid leidt.",
     "Het oordeel opschorten, wat bevrijdend werkt en tot ataraxia (zielsrust) leidt.",
     "Blijven redeneren tot je de Waarheid vindt, wat tot het hoogste genot leidt."
    ],
@@ -438,7 +426,7 @@ window.BES_VAK = {
     "Epicurus: genot is het hoogste goed, en goed doen geeft bevrediging.",
     "Pyrrho: over goed en kwaad moet je je oordeel altijd opschorten.",
     "Zeno van Kition: de hartstochten tonen ons wat goed is om te doen.",
-    "Sextus Empiricus: goed doen is een dogma dat simpelweg waar is."
+    "Sextus Empiricus: goed doen is een dogma dat je gewoon als waar aanneemt."
    ],
    "a": 0,
    "u": "Voor Epicurus draait gedrag om genot als hoogste goed (hedonisme): je handelt goed omdat goed doen bevrediging geeft. Zeno zag de hartstochten net als iets dat het oordeel vertroebelt."
@@ -448,9 +436,9 @@ window.BES_VAK = {
    "q": "Welke uitspraak past bij het denken van Zeno van Kition zoals de les het voorstelt?",
    "o": [
     "Een samenleving heeft strenge wetten nodig, omdat de hartstochten het oordeel scherper maken.",
-    "Wijsheid is een vaste regel die in elke situatie dezelfde handeling voorschrijft.",
+    "Wijsheid is een vaste regel die in elke situatie precies dezelfde handeling voorschrijft.",
     "Totale vrijheid is onmogelijk zolang geld en religie de samenleving niet ordenen.",
-    "Een samenleving kan zonder wetten, geld en religie, als men de waardigheid van de ander respecteert."
+    "Een samenleving kan zonder wetten, geld en religie, mits respect voor elkaars waardigheid."
    ],
    "a": 3,
    "u": "Zeno stelde dat de mensheid in principe geen instituten nodig heeft en dat respect voor de waardigheid en integriteit van de ander volstaat. Wijsheid is voor hem net contextafhankelijk, en hartstochten vertroebelen het oordeel."
@@ -459,7 +447,7 @@ window.BES_VAK = {
    "h": "h3",
    "q": "Waarvoor dient natuurfilosofie (wetenschap) volgens Sextus Empiricus?",
    "o": [
-    "Om stap voor stap de waarheid over de natuur te ontdekken en vast te leggen.",
+    "Om stap voor stap de waarheid over de natuur te ontdekken.",
     "Om argumenten te vinden waarmee je dogmatische stellingen kan ontkrachten.",
     "Om alle kennis af te leiden uit een klein aantal evidente axioma's.",
     "Om via het bereiken van genot tot zielsrust en geluk te komen."
@@ -471,22 +459,22 @@ window.BES_VAK = {
    "h": "h3",
    "q": "Iemand verdedigt een stelling met argument A, verdedigt A met argument B, B met argument C, en zo verder zonder ooit te stoppen. In welke hoorn van het trilemma zit hij?",
    "o": [
-    "Een petitio principii: hij gebruikt zijn conclusie als bewijs.",
-    "Een dogma: hij neemt een basispremisse gewoon als waar aan.",
-    "Een epochè: hij schort zijn oordeel over de stelling op.",
-    "Een regressus ad infinitum: elke premisse vraagt weer een nieuwe premisse."
+    "Een petitio principii: hij gebruikt zijn eigen conclusie als bewijs.",
+    "Een dogma: hij neemt een basispremisse zonder verder bewijs als waar aan.",
+    "Een epochè: hij schort zijn oordeel over de stelling voorlopig op.",
+    "Een regressus ad infinitum: elke premisse vraagt een nieuwe."
    ],
    "a": 3,
-   "u": "Bij een regressus ad infinitum hangt elke premisse af van een andere premisse, tot in het oneindige. Bij een petitio principii draai je in een cirkel, bij een dogma stop je bij een aangenomen premisse."
+   "u": "Bij een regressus ad infinitum hangt elke premisse af van een andere premisse, tot in het oneindige. Bij een petitio principii draai je in een cirkel, bij een dogma stop je bij een aangenomen premisse. Een epochè hoort niet bij het trilemma."
   },
   {
    "h": "h3",
    "q": "Iemand zegt: 'Deze bron is betrouwbaar, want de bron zegt zelf dat ze betrouwbaar is.' Hoe noem je deze manier om een premisse te rechtvaardigen?",
    "o": [
     "Een regressus ad infinitum: elke premisse hangt af van een andere, tot in het oneindige.",
-    "Een petitio principii: de premisse wordt aangetoond met een redenering die op die premisse zelf steunt.",
-    "Een hypothese: een basispremisse die men met voldoende reden als waar aanneemt.",
-    "Coherentisme: de overtuiging steunt op andere, al gelegitimeerde overtuigingen."
+    "Een petitio principii: de redenering steunt op de premisse die ze moet bewijzen.",
+    "Een hypothese: een basispremisse die men met een voldoende reden als waar aanneemt.",
+    "Coherentisme: de overtuiging steunt op andere overtuigingen die al gelegitimeerd zijn."
    ],
    "a": 1,
    "u": "Dit is een cirkelredenering of petitio principii, en dat is een drogreden. Er wordt niet verder teruggegaan (geen regressus) en er is geen aparte reden om de premisse aan te nemen."
@@ -508,7 +496,7 @@ window.BES_VAK = {
    "q": "Welk probleem koppelt de les aan het coherentisme?",
    "o": [
     "Het kan gesloten systemen met een interne logica legitimeren, zoals complottheorieën.",
-    "Wie wil aantonen dat iets evident is, belandt opnieuw in een regressus.",
+    "Wie wil aantonen dat bepaalde uitspraken evident zijn, belandt opnieuw in een regressus.",
     "Zelfs met oneindig veel redenen ben je nooit zeker, dus keert het scepticisme terug.",
     "Het schuift het probleem enkel door, omdat het twee andere uitwegen combineert."
    ],
@@ -519,9 +507,9 @@ window.BES_VAK = {
    "h": "h3",
    "q": "Wat is de kern van de axiomatische methode van Euklides?",
    "o": [
-    "Kennis verzamelen door zoveel mogelijk zintuiglijke waarnemingen te ordenen.",
-    "Alle bestaande kennis zo ordenen dat alles afleidbaar is uit een beperkt aantal gekozen zekerheden.",
-    "Wiskundige kennis ordenen, want voor andere soorten kennis werkt de methode niet.",
+    "Kennis verzamelen door zoveel mogelijk zintuiglijke waarnemingen zorgvuldig te ordenen.",
+    "Kennis zo ordenen dat alles volgt uit een beperkt aantal gekozen zekerheden.",
+    "Wiskundige kennis ordenen, want voor andere kennis werkt ze niet.",
     "Elke premisse rechtvaardigen met een nieuwe premisse, tot alle kennis bewezen is."
    ],
    "a": 1,
@@ -534,7 +522,7 @@ window.BES_VAK = {
     "Een evident element is altijd waar, ook buiten het systeem; een tautologisch element alleen binnen het systeem.",
     "Een tautologisch element is een afgeleide stelling; een evident element is een definitie van het systeem.",
     "Een tautologisch element mag afhangen van andere basiselementen; een evident element moet onafhankelijk zijn.",
-    "Een tautologisch element is altijd waar, ook buiten het systeem; een evident element is waar binnen de context van het systeem."
+    "Een tautologisch element is altijd waar, ook buiten het systeem; een evident element alleen binnen het systeem."
    ],
    "a": 3,
    "u": "Tautologische basiselementen zijn steeds waar, ook buiten het systeem (de ontkenning is onmogelijk). Evidente zijn waar in de context van het systeem, een contingente waarheid; beide soorten moeten onafhankelijk zijn."
@@ -543,8 +531,8 @@ window.BES_VAK = {
    "h": "h3",
    "q": "Waarom hield het vijfde postulaat van Euklides wiskundigen meer dan twee millennia bezig?",
    "o": [
-    "Men vroeg zich af of het echt een postulaat is, of een theorema dat uit de andere uitgangspunten volgt.",
-    "Men ontdekte dat het in strijd was met de eerste 28 theorema's van Euklides.",
+    "Men wist niet of het echt een postulaat is, of een theorema dat je kan afleiden.",
+    "Men ontdekte dat het in strijd was met de eerste 28 theorema's.",
     "Men kon zonder dat postulaat geen enkel theorema van Euklides bewijzen.",
     "Men twijfelde eraan of alle rechte hoeken wel aan elkaar gelijk zijn."
    ],
@@ -567,10 +555,10 @@ window.BES_VAK = {
    "h": "h3",
    "q": "Wat toonde Gödel aan over axiomatische systemen die de rekenkunde insluiten, zoals dat van Russell en Whitehead?",
    "o": [
-    "Ze zijn altijd inconsistent, waardoor de wiskunde in de praktijk onbruikbaar wordt.",
-    "Ze kunnen niet tegelijk volledig en consistent zijn: er is altijd een ware uitdrukking die niet bewijsbaar is.",
+    "Ze zijn altijd inconsistent, waardoor de wiskunde in de praktijk eigenlijk onbruikbaar wordt.",
+    "Ze zijn niet tegelijk volledig en consistent: een ware uitdrukking blijft onbewijsbaar.",
     "Hun consistentie kan wel bewezen worden binnen een overkoepelend systeem zoals de verzamelingenleer.",
-    "Elke ware uitdrukking binnen zo'n systeem kan uiteindelijk ook bewezen worden."
+    "Elke ware uitdrukking binnen zo'n systeem kan uiteindelijk ook formeel bewezen worden."
    ],
    "a": 1,
    "u": "Volgens Gödel is er steeds een uitdrukking die waar is binnen het systeem maar niet bewezen kan worden. Ook de verzamelingenleer lijdt hieronder; de les noemt dit een filosofisch schoonheidsfoutje en geen ramp voor de wiskunde."
@@ -579,7 +567,7 @@ window.BES_VAK = {
    "h": "h3",
    "q": "Spinoza nam als axioma: 'als er geen oorzaak is, dan is het onmogelijk dat er een effect volgt'. Wat leert de kritiek van Locke en Hume hierop?",
    "o": [
-    "Axioma's die heel dwingend lijken, zijn niet noodzakelijk voor elk rationeel denkend mens.",
+    "Hoe dwingend een axioma ook lijkt, niet elk rationeel mens moet het aannemen.",
     "Een axioma is pas geldig als het in een wiskundig systeem wordt opgenomen.",
     "Omdat elk effect een oorzaak heeft, heeft ook elke gebeurtenis een noodzakelijke oorzaak.",
     "Een axioma is pas legitiem als het uit een eerdere premisse kan worden afgeleid."
@@ -592,8 +580,8 @@ window.BES_VAK = {
    "q": "Augustinus schrijft ‘Si fallor, sum’. Wat bedoelt hij daarmee?",
    "o": [
     "Omdat de zintuigen ons kunnen bedriegen, is geen enkele kennis echt zeker.",
-    "Wie zich vergist over zijn eigen bestaan, toont daarmee net aan dat hij bestaat.",
-    "Ik besta enkel zolang ik me over niets vergis en alles zeker weet.",
+    "Wie zich vergist over zijn bestaan, bewijst daarmee dat hij bestaat.",
+    "Ik besta enkel zolang ik me nergens over vergis en alles zeker weet.",
     "Vergissingen bewijzen dat de mens niet kan weten of hij werkelijk bestaat."
    ],
    "a": 1,
@@ -603,37 +591,37 @@ window.BES_VAK = {
    "h": "h4",
    "q": "In de oorspronkelijke tekst schrijft Descartes ‘cogito, sum’ (ik denk, ik ben). Hoe moet je dat volgens de les begrijpen?",
    "o": [
-    "Als een implicatie: uit het feit dat ik denk, volgt als gevolg dat ik besta.",
+    "Als een implicatie: uit het feit dat ik denk, volgt als gevolg dat ik ook besta.",
     "Als een twijfel: of ik werkelijk besta, kan ik nooit met zekerheid weten.",
     "Als een geloofswaarheid: God garandeert dat mijn denken over mezelf klopt.",
-    "Als een uitspraak die noodzakelijk waar is telkens ik ze denk, omdat denken en zijn samenvallen."
+    "Als een uitspraak die waar is telkens ik ze denk: denken en zijn vallen samen."
    ],
    "a": 3,
-   "u": "De les benadrukt dat ‘ik denk, ik ben’ geen implicatie is (‘als ik denk, dan besta ik’). Denken veronderstelt al een ‘ik’ dat is: voor Descartes zijn denken en zijn hetzelfde."
+   "u": "De les benadrukt dat ‘ik denk, ik ben’ geen implicatie is (‘als ik denk, dan besta ik’). De uitspraak is noodzakelijk waar telkens je ze denkt, want denken veronderstelt al een ‘ik’ dat is: voor Descartes zijn denken en zijn hetzelfde."
   },
   {
    "h": "h4",
    "q": "Hoe bereik je volgens Pseudo-Dionysos de Areopagiet (De Mystica Theologia) vereniging met het mystieke?",
    "o": [
-    "Door alle zintuiglijke en rationele kennis los te laten en het zijnde en niet-zijnde te overstijgen.",
+    "Door alle zintuiglijke en rationele kennis te verlaten en het zijnde te overstijgen.",
     "Door je zintuigen zo te verfijnen dat je het hogere rechtstreeks kunt waarnemen.",
     "Door het hogere stap voor stap af te leiden met demonstratieve redeneringen.",
     "Door klassieke teksten zin per zin te verklaren tot hun diepere betekenis blijkt."
    ],
    "a": 0,
-   "u": "Mystiek is het opgaan van alles in het ene, dat het aardse overstijgt. Volgens Pseudo-Dionysos moet je daarvoor zowel empirische als rationele kennis verlaten, dus waarnemen of redeneren brengt je er niet."
+   "u": "Mystiek is het opgaan van alles in het ene, dat het aardse overstijgt. Volgens Pseudo-Dionysos moet je daarvoor zowel empirische als rationele kennis verlaten en het zijnde en niet-zijnde overstijgen, dus waarnemen of redeneren brengt je er niet."
   },
   {
    "h": "h4",
    "q": "In een debat zegt iemand: ‘Ik heb een mystieke ervaring gehad, dus ik weet dat mijn standpunt klopt.’ Hoe beoordeel je dat volgens de les?",
    "o": [
     "Als een sterk bewijs, omdat heel veel mensen zulke ervaringen zeggen te hebben.",
-    "Als bewijs zodra hersenonderzoek toont dat er bepaalde regio's actief waren.",
-    "Als mogelijke inspiratie, maar niet als kennis: de ervaring is onuitdrukbaar en onbetrouwbaar.",
+    "Als bewijs, zodra hersenonderzoek toont dat er bij de ervaring bepaalde regio's actief waren.",
+    "Als mogelijke inspiratie, maar niet als betrouwbare bron van kennis.",
     "Als onzin, omdat de neurowetenschap heeft aangetoond dat zulke ervaringen niet bestaan."
    ],
    "a": 2,
-   "u": "De mystieke ervaring is geen betrouwbare bron van kennis; je kunt ze hooguit vrijblijvend als inspiratie aanhalen. Neurowetenschappers zoeken een biologische verklaring, maar dat maakt de ervaring nog geen bewijs voor een standpunt."
+   "u": "De mystieke ervaring is onuitdrukbaar, onbetrouwbaar en geen bron van kennis; je kunt ze hooguit vrijblijvend als inspiratie aanhalen. Neurowetenschappers zoeken een biologische verklaring, maar dat maakt de ervaring nog geen bewijs voor een standpunt."
   },
   {
    "h": "h4",
@@ -663,10 +651,10 @@ window.BES_VAK = {
    "h": "h4",
    "q": "Welke uitspraak past bij Spinoza's ‘deus sive natura’?",
    "o": [
-    "Kennis van de natuur doet de kennis over god toenemen, maar theologie leert niets over de natuur.",
+    "Wie de natuur kent, kent god beter, maar theologie leert niets over de natuur.",
     "Theologie is de beste weg om de natuur te leren kennen, want god heeft haar geschapen.",
     "Er bestaan twee substanties, god en natuur, die elkaar voortdurend wederzijds veroorzaken.",
-    "God staat volledig buiten de natuur en grijpt er alleen af en toe van buitenaf in."
+    "God staat buiten de natuur en grijpt er af en toe van buitenaf in."
    ],
    "a": 0,
    "u": "Voor Spinoza is de natuur god en god de natuur: er is één substantie die haar eigen oorzaak is. Wie de natuur bestudeert, leert dus over god, maar niet omgekeerd."
@@ -676,8 +664,8 @@ window.BES_VAK = {
    "q": "Een geloofstekst lijkt in strijd met wat door demonstratieve redenering is vastgesteld. Wat moet je dan doen volgens Averroës' leer van de dubbele weg?",
    "o": [
     "Het geloof de bovenhand geven, want de filosofie is de dienstmaagd van de theologie.",
-    "Beide als aparte waarheden laten bestaan, want er zijn twee soorten waarheid.",
-    "De geloofswaarheid herinterpreteren in functie van de natuurfilosofische vaststelling.",
+    "Beide laten bestaan, want er zijn twee soorten waarheid.",
+    "De geloofswaarheid herinterpreteren in functie van de natuurfilosofie.",
     "De natuurfilosofie opzijschuiven, omdat ze maar één van de mogelijke wegen is."
    ],
    "a": 2,
@@ -699,9 +687,9 @@ window.BES_VAK = {
    "h": "h4",
    "q": "Een criminologe vat haar stelling samen in een mooie kruisstelling (chiasme). Wat is volgens de les de waarde daarvan?",
    "o": [
-    "Het klinkt overtuigend en kan toevallig tot nieuwe inzichten leiden, maar het bewijst niets.",
+    "Het klinkt overtuigend en kan inspireren, maar het heeft geen bewijskracht.",
     "Een goed gekozen taalstructuur geeft de stelling extra bewijskracht in een betoog.",
-    "Het heeft geen enkele waarde, want stijlfiguren horen niet thuis in wetenschap.",
+    "Het heeft geen waarde, want stijlfiguren horen niet in wetenschap.",
     "Het maakt de stelling zeker, omdat taal de structuur van de werkelijkheid volgt."
    ],
    "a": 0,
@@ -714,7 +702,7 @@ window.BES_VAK = {
     "Zwakte: ze gaat tegenargumenten uit de weg. Sterkte: ze aanvaardt kennis op grond van gezag.",
     "Zwakte: ze heeft geen vaste opbouw. Sterkte: ze steunt volledig op zintuiglijke waarneming.",
     "Zwakte: ze negeert de klassieke teksten. Sterkte: de discussie levert altijd volledige zekerheid op.",
-    "Zwakte: ze aanvaardt kennis op grond van gezag. Sterkte: de opbouw met hypothese, tegenwerpingen en weerlegging."
+    "Zwakte: ze aanvaardt kennis op gezag. Sterkte: de opbouw met tegenwerpingen en weerlegging."
    ],
    "a": 3,
    "u": "De methode is dogmatisch, en het gezagsargument is een drogreden. De structuur (hypothese, tegenwerpingen, discussie, weerlegging, bevestiging of aanpassing) is wel sterk overtuigend, al geeft discussie op zich geen zekerheid."
@@ -723,9 +711,9 @@ window.BES_VAK = {
    "h": "h4",
    "q": "Hoe verschilt de visie van Thomas van Aquino op ‘philosophia ancilla theologiae’ van die van Petrus Damiani?",
    "o": [
-    "Damiani geeft de filosofie autonomie, Aquino maakt haar volledig ondergeschikt aan de theologie.",
+    "Damiani geeft de filosofie autonomie, Aquino maakt haar ondergeschikt.",
     "Damiani maakt de filosofie ondergeschikt, Aquino geeft haar autonomie en een adviserende taak.",
-    "Beiden vinden dat de natuurfilosofie boven de theologie staat en haar conclusies moet bepalen.",
+    "Beiden vinden dat de natuurfilosofie boven de theologie staat.",
     "Aquino vindt dat filosofie en theologie volledig los van elkaar staan en niets delen."
    ],
    "a": 1,
@@ -735,10 +723,10 @@ window.BES_VAK = {
    "h": "h4",
    "q": "Theorie A verklaart alle gekende feiten met drie aannames. Theorie B gebruikt maar één aanname, maar verklaart een deel van de feiten niet. Wat zegt het scheermes?",
    "o": [
-    "Kies B, want het scheermes vraagt altijd de theorie met de minste aannames.",
+    "Kies B, want het scheermes vraagt altijd de minste aannames.",
     "Kies B, want eenvoud bewijst dat een theorie de werkelijkheid juist beschrijft.",
-    "Verwerp A, want het scheermes laat nooit meer dan één aanname toe.",
-    "Het scheermes pleit niet voor B, want de eenvoudigere theorie moet even volledig verklaren."
+    "Verwerp A, want het scheermes laat in een goede theorie nooit meer dan één aanname toe.",
+    "Kies niet B, want een eenvoudigere theorie moet even volledig verklaren."
    ],
    "a": 3,
    "u": "Het scheermes zegt niet dat je louter om de eenvoud moet kiezen: de eenvoudigere theorie moet net zoveel verklaren als het complexere alternatief. Bovendien is het een vuistregel en geen metafysische uitspraak over hoe de wereld in elkaar zit."
@@ -747,9 +735,9 @@ window.BES_VAK = {
    "h": "h4",
    "q": "Ockham erkent drie legitieme kennisbronnen: zelfevidente zaken, de empirie en de openbaring. Wat besluit de les over de openbaring?",
    "o": [
-    "Ze is de belangrijkste bron, omdat ze de andere twee bronnen bevestigt.",
+    "Ze is de belangrijkste bron, omdat ze de andere bronnen bevestigt.",
     "Ze levert kennis over de natuur die de empirie zelf niet kan geven.",
-    "Ze dient enkel om het bestaan van God te onderbouwen en levert verder niets aan.",
+    "Ze dient enkel om Gods bestaan te onderbouwen, verder levert ze niets.",
     "Ze is overbodig, omdat Ockham het bestaan van God volledig verwerpt."
    ],
    "a": 2,
@@ -771,10 +759,10 @@ window.BES_VAK = {
    "h": "h5",
    "q": "Wat was volgens de les de bedoeling van More met zijn boek Utopia?",
    "o": [
-    "Een concreet programma voorstellen dat Engeland meteen moest invoeren",
-    "Een verslag geven van een eiland dat hij zelf had bezocht",
-    "Een richtsnoer bieden, met satirische kritiek op het Engeland van zijn tijd",
-    "Bewijzen dat de Engelse maatschappij al bijna ideaal was ingericht"
+    "Een concreet programma voorstellen dat Engeland zo snel mogelijk moest invoeren",
+    "Een eerlijk verslag geven van een bestaand eiland dat hij zelf had bezocht",
+    "Een richtsnoer bieden en satirisch kritiek leveren op het Engeland van toen",
+    "Bewijzen dat de Engelse maatschappij van zijn tijd al bijna ideaal was ingericht"
    ],
    "a": 2,
    "u": "More wou zijn nieuwe wereld niet echt verwezenlijkt zien: het was louter een richtsnoer. Het boek bekritiseert scherp en satirisch de toenmalige Engelse maatschappij."
@@ -783,10 +771,10 @@ window.BES_VAK = {
    "h": "h5",
    "q": "Een politicus zegt: “Als we zo blijven doorgaan, is een onleefbare wereld onvermijdelijk. We moeten nu handelen, anders gaan we de hel tegemoet.” Wat maakt dit volgens de les zo overtuigend?",
    "o": [
-    "Een utopie die op een positieve manier aanzet tot handelen",
-    "Een dystopie, gecombineerd met een argumentum ad baculum en een hellend vlak",
-    "Een argumentum ad ignorantiam, omdat het tegendeel niet bewezen is",
-    "Een tu quoque, omdat de spreker de kritiek terugkaatst naar de luisteraar"
+    "Een utopie die de luisteraars op een positieve manier aanzet om te handelen",
+    "Een dystopie, samen met een argumentum ad baculum en een hellend vlak",
+    "Een argumentum ad ignorantiam, omdat het tegendeel nog door niemand bewezen is",
+    "Een tu quoque, omdat de spreker de kritiek terugkaatst naar zijn luisteraars"
    ],
    "a": 1,
    "u": "Het negatieve toekomstbeeld werkt als dreiging (de stok, ad baculum) en ‘als we zo doorgaan, is het onvermijdelijk’ is een retorisch hellend vlak. Een utopie zou net positief aanzetten tot handelen."
@@ -795,10 +783,10 @@ window.BES_VAK = {
    "h": "h5",
    "q": "Welke houding past bij de sceptische levenswijsheden van Montaigne?",
    "o": [
-    "Kennis is macht: wie de natuur kent, kan haar ook beheersen",
-    "Mensen zijn voor elkaar wolven, dus is er een sterke vorst nodig",
-    "Alles heeft een mechanistische oorzaak, ook het menselijke gedrag",
-    "Que sais-je: zich afvragen wat men eigenlijk weet en het oordeel opschorten"
+    "Kennis is macht: wie de natuur goed kent, kan haar ook beheersen en benutten",
+    "Mensen zijn voor elkaar wolven, dus is er een sterke vorst nodig die orde houdt",
+    "Alles heeft een mechanistische oorzaak, ook het gedrag en het denken van de mens",
+    "Que sais-je: zich afvragen wat men echt weet en het oordeel opschorten"
    ],
    "a": 3,
    "u": "Montaigne vatte zijn scepsis samen in ‘que sais-je?’ (wat weet ik eigenlijk?) en ‘epecho’ (ik onthoud me van het oordelen). De andere uitspraken horen bij Bacon, Hobbes en de mechanisering."
@@ -808,9 +796,9 @@ window.BES_VAK = {
    "q": "Wat onderscheidt een essay volgens de les van een gewone scriptie?",
    "o": [
     "Een essay bevat altijd een uitgebreide methodesectie en een volledige literatuurlijst",
-    "Een essay is per definitie langer en grondiger uitgewerkt dan een traktaat",
-    "Een essay is een persoonlijke, associatieve beschouwing zonder expliciete wetenschappelijke verantwoording",
-    "Een essay mag geen eigen visie bevatten, alleen feiten die iedereen kan controleren"
+    "Een essay is per definitie langer en grondiger uitgewerkt dan een traktaat of verhandeling",
+    "Een essay is persoonlijk en associatief, zonder expliciete wetenschappelijke verantwoording",
+    "Een essay mag geen eigen visie bevatten, alleen feiten die iedereen zelf kan nagaan"
    ],
    "a": 2,
    "u": "Het essay is een persoonlijke visie in verzorgde taal die via snelle analogieën van gedachte naar gedachte springt. De boodschap is ernstig, maar er is geen expliciete wetenschappelijke verantwoording zoals in een scriptie."
@@ -819,10 +807,10 @@ window.BES_VAK = {
    "h": "h5",
    "q": "Een criminologiestudent wil haar hypothese scherper en krachtiger formuleren. Welke tip uit de les past daar het best bij?",
    "o": [
-    "Probeer van de hypothese een tweet te maken, want kernachtig formuleren inspireert",
-    "Schrijf er een dystopie rond, zodat de lezer schrikt van de mogelijke gevolgen",
-    "Maak er een tautologie van, want die is altijd noodzakelijk waar",
-    "Schrap alle voorbehouden, want algemene uitspraken overtuigen het meest"
+    "Probeer er een tweet van te maken, want kernachtig formuleren werkt inspirerend",
+    "Schrijf er een dystopie rond, zodat de lezer schrikt van alle mogelijke gevolgen",
+    "Maak er een tautologie van, want zo'n uitspraak is altijd noodzakelijk waar",
+    "Schrap alle voorbehouden, want algemene uitspraken zonder uitzondering overtuigen het meest"
    ],
    "a": 0,
    "u": "Bij het aforisme geeft de les als tip voor criminologie: maak van een hypothese of statement een tweet. Algemene uitspraken zonder voorbehoud zijn volgens de les juist een makkelijke prooi."
@@ -833,32 +821,32 @@ window.BES_VAK = {
    "o": [
     "Het idool van de stam",
     "Het idool van de grot",
-    "Het idool van de markt",
+    "Het idool van de marktplaats",
     "Het idool van het theater"
    ],
    "a": 3,
-   "u": "Het theater staat voor de invloed van bestaande theorieën. De stam is de menselijke natuur, de grot de invloed van opvoeding en maatschappij, de markt de invloed van taal."
+   "u": "Het theater staat voor de invloed van bestaande theorieën. De stam is de menselijke natuur, de grot de invloed van opvoeding en maatschappij, de markt(plaats) de invloed van taal op ons denken."
   },
   {
    "h": "h5",
    "q": "Wat is inductie, en waarom is ze volgens de les niet sluitend?",
    "o": [
-    "Uit algemene principes in het denken bijzondere gevallen afleiden, wat altijd noodzakelijk waar is",
-    "Een regelmaat uit het verleden doortrekken naar de toekomst, zonder garantie dat die wet echt universeel is",
-    "Een begrip ontleden in zijn kenmerken, waardoor er geen nieuwe kennis bijkomt",
-    "Overbodige begrippen uit een theorie schrappen, waardoor ze eenvoudiger en dus waar wordt"
+    "Uit algemene principes in het denken bijzondere gevallen afleiden, zodat het besluit zeker is",
+    "Een regelmaat uit het verleden doortrekken naar de toekomst, zonder garantie dat ze universeel is",
+    "Een begrip ontleden in zijn kenmerken, waardoor er bij het oordeel geen nieuwe kennis bijkomt",
+    "Overbodige begrippen uit een theorie schrappen, zodat ze eenvoudiger en daardoor ook waar wordt"
    ],
    "a": 1,
-   "u": "Inductie voorspelt een regelmaat in de toekomst vanuit regelmaat in het verleden. Niets garandeert dat de zo gevonden natuurwetten echt universeel zijn; het eerste antwoord beschrijft deductie."
+   "u": "Inductie voorspelt een regelmaat in de toekomst vanuit regelmaat in het verleden. Niets garandeert dat de zo gevonden natuurwetten echt universeel zijn: de logica van de inductie is niet sluitend. Afleiden uit algemene principes is deductie, geen inductie."
   },
   {
    "h": "h5",
    "q": "Wat was het Huis van Salomo in Bacons Nova Atlantis?",
    "o": [
-    "Een tempel waar de wijsheid van God werd bestudeerd zonder experimenten",
-    "Een onderzoeksinstituut waar laboranten de hypothesen van wetenschappers experimenteel toetsen",
-    "Een school waar uitsluitend de werken van Aristoteles werden onderwezen",
-    "Een rechtbank die besliste welke ontdekkingen gepubliceerd mochten worden"
+    "Een tempel waar geleerden de wijsheid van God bestudeerden, zonder ooit experimenten te doen",
+    "Een onderzoeksinstituut waar laboranten de hypothesen van wetenschappers toetsen",
+    "Een school waar uitsluitend de werken van Aristoteles werden gelezen en onderwezen",
+    "Een rechtbank die besliste welke ontdekkingen wel of niet gepubliceerd mochten worden"
    ],
    "a": 1,
    "u": "In het Huis van Salomo voeren laboranten experimenten uit om de hypothesen van de wetenschappers na te gaan. Iedereen werkt er samen zonder naijver, voor het welzijn van de mensheid."
@@ -867,10 +855,10 @@ window.BES_VAK = {
    "h": "h5",
    "q": "Wat zegt de les over de bekende uitspraak ‘kennis is macht’ van Bacon?",
    "o": [
-    "Het is een letterlijk citaat uit het Novum Organum over de macht van de vorst",
-    "Bacon bedoelde dat wie veel kennis heeft, politieke macht over anderen verdient",
+    "Het is een letterlijk citaat uit zijn Novum Organum, over de macht van de vorst",
+    "Bacon bedoelde dat wie veel kennis heeft, ook politieke macht over anderen verdient",
     "Bacon meende dat de mens met kennis alles kan maken, ook wat niet in de natuur zit",
-    "Hij zei het nergens letterlijk, wel dat experimentele kennis helpt de natuur te begrijpen en te benutten"
+    "Hij zei het nooit letterlijk, wel dat experimentele kennis helpt de natuur te benutten"
    ],
    "a": 3,
    "u": "Bacon zei het nooit letterlijk zo. Wel dat experimenteel bekomen kennis ons de natuur beter laat begrijpen en exploiteren, maar dat de mens niets kan maken wat niet al in de natuur aanwezig is."
@@ -879,10 +867,10 @@ window.BES_VAK = {
    "h": "h5",
    "q": "Waarom is het volgens de les ‘helemaal niet onlogisch’ om te stellen dat de zon morgen niet opkomt?",
    "o": [
-    "Omdat ons geloof in de uniformiteit van de natuur zelf alleen op vroegere waarnemingen steunt",
-    "Omdat astronomen al hebben aangetoond dat de zon binnenkort zal doven",
-    "Omdat Bacon bewees dat de natuur niet uniform is in ruimte en tijd",
-    "Omdat een uitspraak over de zon een tautologie is en dus niets zegt"
+    "Omdat ons geloof in een uniforme natuur zelf alleen op eerdere waarnemingen steunt",
+    "Omdat astronomen al hebben aangetoond dat de zon binnen afzienbare tijd zal doven",
+    "Omdat Bacon met experimenten bewees dat de natuur niet uniform is in ruimte en tijd",
+    "Omdat een uitspraak over de zon een tautologie is en dus niets over de wereld zegt"
    ],
    "a": 0,
    "u": "Om iets over de toekomst te besluiten, moeten we uniformiteit van de natuur aannemen, en de enige reden daarvoor zijn opnieuw waarnemingen uit verleden en heden. Dat is niet logisch dwingend."
@@ -891,10 +879,10 @@ window.BES_VAK = {
    "h": "h5",
    "q": "Galileo stelde dat het boek van de natuur geschreven is in de taal van de wiskunde. Wat houdt het correspondentieprincipe dat hierbij hoort in?",
    "o": [
-    "Wetenschappers moeten via briefwisseling elkaars werk controleren",
-    "Alle kennis komt voort uit ideeën die we al bij de geboorte hebben",
-    "Er is een formele structuurgelijkheid tussen wiskundige theorie en realiteit",
-    "Overbodige begrippen moeten uit elke verklarende theorie verdwijnen"
+    "Wetenschappers moeten via briefwisseling en publicaties elkaars werk controleren",
+    "Alle kennis komt voort uit ideeën die we al bij onze geboorte in ons meedragen",
+    "Men gelooft in een structuurgelijkheid tussen wiskundige theorie en realiteit",
+    "Overbodige begrippen moeten zo snel mogelijk uit elke verklarende theorie verdwijnen"
    ],
    "a": 2,
    "u": "Het correspondentieprincipe is een geloof in isomorfie tussen theorie en werkelijkheid. Het zou het sterkste argument zijn als het aan te tonen viel, maar dat kan niet; wel is het een succesvol uitgangspunt."
@@ -903,10 +891,10 @@ window.BES_VAK = {
    "h": "h5",
    "q": "Welke koppeling van denker en mensbeeld klopt?",
    "o": [
-    "Hobbes: dualisme van lichaam en geest; Descartes: alleen de materie bestaat",
+    "Hobbes: dualisme van lichaam en geest; Descartes: alleen de materie bestaat echt",
     "Hobbes: aangeboren ideeën; Descartes: de mens is bij de geboorte een tabula rasa",
     "Hobbes: het bewustzijn is vrij; Descartes: zelfs het menselijke leven is gedetermineerd",
-    "Hobbes: alleen materie bestaat en de ziel is een fictie; Descartes: res extensa en res cogitans"
+    "Hobbes: monisme, de ziel is een fictie; Descartes: dualisme van res extensa en res cogitans"
    ],
    "a": 3,
    "u": "Hobbes is monist: er is geen werkelijkheid buiten de materiële. Descartes is dualist: lichaam (res extensa) en geest (res cogitans) zijn twee aparte substanties, en het bewustzijn is bij hem niet gedetermineerd."
@@ -915,10 +903,10 @@ window.BES_VAK = {
    "h": "h5",
    "q": "Descartes redeneert: klare en duidelijke ideeën zijn betrouwbaar omdat een goede God ze garandeert, en we weten dat God bestaat omdat we dat klaar en duidelijk inzien. Welke kritiek gaf Gassendi?",
    "o": [
-    "Het is een tu quoque, want Descartes verwijt anderen wat hij zelf doet",
-    "Het is een cirkelredenering, zoals een heilige tekst die zichzelf als bewijs gebruikt",
-    "Het is een argumentum ad baculum, want Descartes dreigt met de straf van God",
-    "Het is een zwakke inductie, want Descartes besluit uit te weinig waarnemingen"
+    "Het is een tu quoque, want Descartes verwijt anderen precies wat hij zelf ook doet",
+    "Het is een cirkelredenering, zoals een heilige tekst die zichzelf als bewijs neemt",
+    "Het is een argumentum ad baculum, want Descartes dreigt twijfelaars met Gods straf",
+    "Het is een zwakke inductie, want Descartes besluit uit veel te weinig waarnemingen"
    ],
    "a": 1,
    "u": "Gassendi wees op de cirkel: God garandeert de klare ideeën, en een klaar idee bewijst dat God bestaat. Vergelijk met ‘God bestaat omdat de heilige tekst het zegt, en de tekst klopt omdat het Gods woord is’."
@@ -939,10 +927,10 @@ window.BES_VAK = {
    "h": "h5",
    "q": "Een beleidsmaker redeneert: “Elk crimineel gedrag heeft één duidelijke oorzaak. Neem die weg en het gedrag verdwijnt.” Wat zegt de les hierover?",
    "o": [
-    "Een mechanisme veronderstellen is zinvol, maar de oorzaak wegnemen als oplossing zien is een denkfout",
+    "Van een oorzaak vertrekken mag, maar denken dat het gedrag dan verdwijnt is een denkfout",
     "Dit klopt, want volgens Descartes is alles gedetermineerd, ook het menselijke bewustzijn",
-    "Dit is een analytisch oordeel en daarom noodzakelijk waar, los van elke ervaring",
-    "Dit is fout, omdat gedrag volgens de mechanisering helemaal geen oorzaak heeft"
+    "Dit is een analytisch oordeel en is daarom noodzakelijk waar, los van elke ervaring",
+    "Dit is fout, omdat menselijk gedrag volgens de mechanisering helemaal geen oorzaak heeft"
    ],
    "a": 0,
    "u": "Vertrekken van een onderliggend mechanisme is een goed uitgangspunt, maar denken dat gedrag verdwijnt als je de oorzaak wegneemt is een denkfout: gedrag kan op allerlei manieren ontstaan."
@@ -951,7 +939,7 @@ window.BES_VAK = {
    "h": "h5",
    "q": "Waarom heet Newtons gravitatiewet universeel, en wat betekent dat voor het wereldbeeld van Aristoteles?",
    "o": [
-    "Ze geldt voor elke massa, op aarde en in de hemel, dus het onderscheid tussen bovenmaans en ondermaans is fout",
+    "Ze geldt voor elke massa, ook in de hemel, dus het onderscheid tussen bovenmaans en ondermaans valt weg",
     "Ze geldt alleen voor vallende voorwerpen op aarde, dus het onderscheid tussen vorm en materie valt weg",
     "Ze geldt voor alle planeten behalve de maan, dus de hemelse sferen van Aristoteles blijven bestaan",
     "Ze wordt door iedereen aanvaard, dus de fysica hoeft niet meer met experimenten getoetst te worden"
@@ -977,8 +965,8 @@ window.BES_VAK = {
    "o": [
     "Redundantie bewijst definitief dat iets niet bestaat, terwijl weerlegging alleen onwaarschijnlijkheid toont",
     "Wie iets niet kan weerleggen, mag volgens Berkeley besluiten dat het omgekeerde waar is",
-    "Redundantie steunt op een cirkelredenering, en zo'n redenering overtuigt altijd",
-    "Niet bestaan bewijzen lukt zelden, maar tonen dat iets overbodig is neemt elke reden weg om erin te geloven"
+    "Redundantie steunt op een cirkelredenering, en zo’n redenering overtuigt in een debat altijd",
+    "Niet bestaan bewijzen lukt zelden, maar overbodigheid tonen neemt elke reden weg om erin te geloven"
    ],
    "a": 3,
    "u": "Je kan bijvoorbeeld het niet bestaan van een eenhoorn niet aantonen. Als je wel toont dat er verklaringen bestaan zonder dat begrip, valt elke motivatie weg om erin te geloven; besluiten dat iets bestaat omdat het niet weerlegd is, is een argumentum ad ignorantiam."
@@ -987,13 +975,13 @@ window.BES_VAK = {
    "h": "h5",
    "q": "Laplace zei over God: “Sire, je n'ai pas eu besoin de cette hypothèse.” Wat bedoelde hij volgens de les?",
    "o": [
-    "Hij had wiskundig bewezen dat God niet bestaat",
-    "De mechanica van Newton was door Einstein overbodig geworden",
-    "Hij verklaarde de hemelbewegingen zonder het begrip God, wat niet bewijst dat God niet bestaat",
-    "God had volgens hem geen enkele macht over de bewegingen aan de hemel"
+    "Hij had met de mechanica van Newton wiskundig bewezen dat God niet kan bestaan",
+    "Wie God niet kan weerleggen, mag volgens hem besluiten dat God wel bestaat",
+    "Hij verklaarde de hemelbewegingen zonder God, maar bewees niet dat God niet bestaat",
+    "God had volgens hem geen enkele macht over de bewegingen van de planeten"
    ],
    "a": 2,
-   "u": "God was voor Laplace redundant: niet omdat hij aantoonde dat God niet bestaat of geen macht heeft, maar omdat hij de bewegingen aan het uitspansel kon verklaren zonder dat concept."
+   "u": "God was voor Laplace redundant: niet omdat hij aantoonde dat God niet bestaat of geen macht heeft, maar omdat hij de bewegingen aan het uitspansel kon verklaren zonder dat concept. Besluiten dat iets bestaat omdat je het niet kan weerleggen, is een argumentum ad ignorantiam."
   },
   {
    "h": "h5",
@@ -1036,9 +1024,9 @@ window.BES_VAK = {
    "q": "Je verdedigt in een debat een algemene stelling. Wat raadt de les aan om je te wapenen tegen anomalieën?",
    "o": [
     "Zelf mogelijke anomalieën bedenken en ze opvangen met een clausule zoals ‘tenzij’",
-    "Anomalieën negeren, want het zijn toch maar onbeduidende outliers",
-    "Je stelling zo algemeen mogelijk formuleren, zodat ze sterker klinkt",
-    "Alleen de kwantiteit van de anomalieën tellen, niet hun kwaliteit"
+    "Anomalieën gewoon negeren, want het zijn toch maar onbeduidende outliers in de data",
+    "Je stelling zo algemeen mogelijk formuleren, zodat ze sterker en overtuigender klinkt",
+    "Alleen het aantal anomalieën laten meetellen en hun kwaliteit buiten beschouwing laten"
    ],
    "a": 0,
    "u": "Algemene uitspraken zijn een makkelijke prooi. Bedenk zelf de mogelijke anomalieën en vang ze op met een ‘tenzij’; negeren mag niet, en zowel kwaliteit als kwantiteit van anomalieën tellen."
@@ -1059,9 +1047,9 @@ window.BES_VAK = {
    "h": "h5",
    "q": "Kant maakt twee onderscheidingen: a priori tegenover a posteriori, en analytisch tegenover synthetisch. Welke vraag beantwoordt het onderscheid tussen analytisch en synthetisch?",
    "o": [
-    "Of je voor het oordeel beroep moet doen op ervaring",
-    "Of het oordeel door een groep peers werd gecontroleerd",
-    "Of er bij het oordeel kennis aan het begrip wordt toegevoegd",
+    "Of je voor het oordeel een beroep moet doen op de ervaring",
+    "Of het oordeel vooraf door een groep peers werd nagekeken",
+    "Of het oordeel nieuwe kennis toevoegt aan het begrip",
     "Of de handeling waarover het oordeel gaat juist of fout is"
    ],
    "a": 2,
@@ -1071,10 +1059,10 @@ window.BES_VAK = {
    "h": "h5",
    "q": "In het trolleyprobleem kiest iemand ervoor één onschuldige op te offeren om negen mensen te redden. Bij welke ethiek past die keuze, en welk bezwaar heeft een deontoloog?",
    "o": [
-    "Consequentialisme; de deontoloog stelt dat die ene persoon zo als middel wordt gebruikt",
-    "Plichtsethiek; de consequentialist stelt dat doden altijd onaanvaardbaar is",
-    "Deontologie; de utilitarist stelt dat alleen de gevolgen tellen",
-    "Utilitarisme; de deontoloog stelt dat het grootste goed voor het grootste aantal telt"
+    "Consequentialisme; de deontoloog vindt dat die ene zo als middel wordt gebruikt",
+    "Plichtsethiek; de consequentialist vindt dat doden altijd en overal onaanvaardbaar is",
+    "Deontologie; de utilitarist vindt dat alleen de gevolgen van een daad tellen",
+    "Utilitarisme; de deontoloog vindt dat het grootste goed voor het grootste aantal telt"
    ],
    "a": 0,
    "u": "Consequentialisten en utilitaristen kijken naar het gevolg en offeren één persoon op. Deontologen weigeren, omdat Kants imperatief verbiedt een mens als middel te gebruiken in plaats van als doel op zich."
@@ -1083,13 +1071,13 @@ window.BES_VAK = {
    "h": "h5",
    "q": "“Ja, ik heb gelogen. Maar jij deed dat vorige week ook.” Wat klopt er volgens de les over deze reactie?",
    "o": [
-    "Ze bewijst dat de oorspronkelijke kritiek ongegrond was en dus vervalt",
-    "Ze verzwakt de criticus, maar wie besluit zelf vrijuit te gaan, maakt de tu-quoquedrogreden",
-    "Ze toont aan dat de kritiek redundant is en daarom kan vervallen",
-    "Ze is een analytisch argument, omdat ze niets nieuws aanbrengt"
+    "Ze bewijst dat de oorspronkelijke kritiek ongegrond was en dus mag vervallen",
+    "Ze verzwakt de criticus, maar wie besluit zelf vrijuit te gaan, maakt een drogreden",
+    "Ze toont aan dat de kritiek redundant is en daarom zonder meer kan vervallen",
+    "Ze is een analytisch argument, omdat ze niets nieuws aan de discussie toevoegt"
    ],
    "a": 1,
-   "u": "Met een tu quoque verzwak je de tegenstander, maar je geeft ook toe dat de kritiek klopt. Besluiten dat je zelf vrijuit gaat omdat de criticus hetzelfde doet, is een drogreden."
+   "u": "Met een tu quoque verzwak je de tegenstander, maar je geeft ook toe dat de kritiek klopt. Besluiten dat je zelf vrijuit gaat omdat de criticus hetzelfde doet, is een drogreden: de tu-quoquedrogreden."
   },
   {
    "h": "h6",
@@ -1108,7 +1096,7 @@ window.BES_VAK = {
    "q": "Hoe reageert Hegel op de kijk van Kant op dialectiek?",
    "o": [
     "Hij geeft Kant gelijk: dialectiek leidt slechts tot illusies over de werkelijkheid.",
-    "Hij stelt dat dialectiek de absolute waarheid kan vatten, want de hele werkelijkheid is dialectisch.",
+    "Hij stelt dat dialectiek de absolute waarheid vat, want de hele werkelijkheid is dialectisch.",
     "Hij stelt dat dialectiek alleen dient om discussies te winnen, net zoals bij de sofisten.",
     "Hij stelt dat dialectiek pas zin heeft als ze vertrekt van de strijd tussen klassen."
    ],
@@ -1143,10 +1131,10 @@ window.BES_VAK = {
    "h": "h6",
    "q": "Waarom vindt Kierkegaard het zinloos om religieus geloof met redelijke argumenten aan te vallen?",
    "o": [
-    "Omdat de rede volgens hem uiteindelijk het bestaan van God kan bewijzen.",
-    "Omdat geloof juist absurd is: wie redelijke gronden heeft, gelooft niet maar weet.",
-    "Omdat de incarnatie volgens hem met logica perfect te verklaren is.",
-    "Omdat de dialectiek van Hegel geloof en rede al met elkaar verzoend heeft."
+    "Omdat de rede volgens hem uiteindelijk wel het bestaan van God kan bewijzen.",
+    "Omdat geloof juist absurd is: met redelijke gronden is het weten, geen geloof.",
+    "Omdat de incarnatie volgens hem met logica perfect en volledig te verklaren is.",
+    "Omdat de dialectiek van Hegel geloof en rede al definitief met elkaar verzoend heeft."
    ],
    "a": 1,
    "u": "Voor Kierkegaard is er geen redelijkheid gemoeid met geloof: je gelooft iets omdat het absurd is (quia absurdum est). Komt er redelijkheid bij, dan is het geen geloof meer maar weten."
@@ -1155,10 +1143,10 @@ window.BES_VAK = {
    "h": "h6",
    "q": "Waarom is homeopathie volgens de les een voorbeeld van pseudowetenschap?",
    "o": [
-    "Ze noemt zich wetenschappelijk, maar mist onderbouw, coherentie met andere wetenschappen en empirisch bewijs.",
+    "Ze noemt zich wetenschappelijk, maar heeft geen onderbouw, coherentie of empirisch bewijs.",
     "Er is wetenschappelijk aangetoond dat ze niet werkt, en toch blijven veel mensen ze gebruiken.",
     "Haar aanhangers erkennen openlijk dat het om een geloof gaat en willen geen bewijs leveren.",
-    "Ze is technologisch nog niet haalbaar, net zoals vliegen dat lange tijd niet was."
+    "Ze is vandaag technologisch nog niet haalbaar, net zoals vliegen dat lange tijd niet was."
    ],
    "a": 0,
    "u": "Homeopathie heeft geen wetenschappelijke onderbouw, past niet bij bijvoorbeeld de scheikunde en heeft geen empirisch bewijs. Let op: volgens de les is niet aangetoond dat ze niet werkt, er is alleen geen bewijs dat ze wel werkt."
@@ -1167,10 +1155,10 @@ window.BES_VAK = {
    "h": "h6",
    "q": "Vliegen werd lange tijd als niet te verwezenlijken gezien. Waarom was het volgens de les toch nooit absurd?",
    "o": [
-    "Omdat alles wat mensen zich kunnen inbeelden vroeg of laat werkelijkheid wordt.",
-    "Omdat de wetenschap absurde zaken ook gewoon met haar methoden kan onderzoeken.",
-    "Omdat vliegen eerst een fictie was, net zoals het sociaal contract van Rousseau.",
-    "Omdat technologisch onmogelijk iets anders is dan absurd: het was alleen nog niet haalbaar."
+    "Omdat alles wat mensen zich kunnen inbeelden vroeg of laat ook echt werkelijkheid wordt.",
+    "Omdat de wetenschap ook absurde zaken gewoon met haar eigen methoden kan onderzoeken.",
+    "Omdat vliegen eerst een nuttige fictie was, net zoals het sociaal contract van Rousseau.",
+    "Omdat technologisch onmogelijk iets anders is dan absurd: het kon alleen nog niet."
    ],
    "a": 3,
    "u": "De les maakt een onderscheid tussen technologisch onmogelijk en absurd. Wat absurd is, is niet met wetenschappelijke methoden te benaderen; vliegen was gewoon lange tijd nog niet te verwezenlijken."
@@ -1180,9 +1168,9 @@ window.BES_VAK = {
    "q": "Wat is volgens Ernst Mach het enige doel van de wetenschap?",
    "o": [
     "De ware werkelijkheid blootleggen die achter onze zintuiglijke gewaarwordingen verborgen zit.",
-    "Theorieën vinden die absoluut zeker zijn en voor altijd waar blijven.",
+    "Theorieën vinden die absoluut zeker zijn, zodat ze voor altijd en overal waar blijven.",
     "De feiten begrijpen met de kleinst mogelijke inspanning, via de eenvoudigste beschrijving.",
-    "Via metafysica de algemene vragen over de werkelijkheid zelf beantwoorden."
+    "Via metafysica de algemene vragen over de werkelijkheid zelf definitief beantwoorden."
    ],
    "a": 2,
    "u": "Volgens de denkeconomie van Mach is wetenschap de eenvoudigst mogelijke beschrijving van de relaties tussen sensaties, met als doel begrip met de kleinste inspanning. Iets veronderstellen achter die 'elementen' heeft voor hem geen betekenis."
@@ -1191,9 +1179,9 @@ window.BES_VAK = {
    "h": "h6",
    "q": "Twee natuurkundigen hebben elk een andere theorie die even goed voorspelt. Hoe kijkt een instrumentalist als Mach daarnaar?",
    "o": [
-    "Theorieën zijn niet waar of vals maar instrumenten; de fysicus mag kiezen, liefst de eenvoudigste.",
+    "Theorieën zijn niet waar of vals maar instrumenten; kies dus gerust de eenvoudigste.",
     "Eén van beide moet waar zijn, dus verder onderzoek moet uitwijzen welke de juiste is.",
-    "Beide theorieën zijn waardeloos zolang ze niet door metafysica onderbouwd zijn.",
+    "Beide theorieën zijn waardeloos zolang ze niet stevig door metafysica onderbouwd zijn.",
     "De theorie met de meeste abstracte begrippen is de beste, want die verklaart het diepst."
    ],
    "a": 0,
@@ -1203,10 +1191,10 @@ window.BES_VAK = {
    "h": "h6",
    "q": "Welke stelling hoort bij het positivisme zoals de les het beschrijft?",
    "o": [
-    "De filosofie heeft een eigen methode om kennis te bekomen, los van de wetenschap.",
+    "De filosofie heeft een eigen methode om kennis te bekomen, helemaal los van de wetenschap.",
     "Metafysica geeft ons via intuïtie rechtstreeks toegang tot de naakte werkelijkheid.",
-    "De taak van de filosofie is bewijzen welke afzonderlijke theorie de ware is.",
-    "Wetenschap is de enige geldige kennis en feiten zijn de enige mogelijke objecten daarvan."
+    "De taak van de filosofie is bewijzen welke afzonderlijke theorie de enige ware is.",
+    "Wetenschap is de enige geldige kennis, en feiten zijn de enige objecten ervan."
    ],
    "a": 3,
    "u": "Het positivisme (onder invloed van Comte) stelt dat wetenschap de enige geldige kennis is, dat de filosofie geen eigen methode heeft en dat ze algemene beginselen moet zoeken die alle wetenschappen gemeen hebben."
@@ -1215,10 +1203,10 @@ window.BES_VAK = {
    "h": "h6",
    "q": "Waarom noemt Nietzsche de denkers van de platoons-christelijke traditie nihilisten?",
    "o": [
-    "Omdat ze het bestaan van God ontkennen en daardoor alle waarden verwerpen.",
-    "Omdat ze de wereldse waarden afleiden uit iets transcendents, waardoor dit leven geen eigen waarde heeft.",
-    "Omdat ze het aardse leven, de lust en de competitie boven alles stellen.",
-    "Omdat ze stellen dat er geen unieke waarheid is, maar alleen verschillende visies."
+    "Omdat ze het bestaan van God ontkennen en daardoor ook alle morele waarden verwerpen.",
+    "Omdat ze alle wereldse waarden laten afhangen van iets transcendents, zoals God of de ideeën.",
+    "Omdat ze het aardse leven, de lust en de competitie boven alle andere zaken stellen.",
+    "Omdat ze stellen dat er geen unieke waarheid bestaat, maar alleen verschillende visies."
    ],
    "a": 1,
    "u": "Die traditie maakt de wereldse waarden ondergeschikt aan iets transcendents (God, de hemel, de ideeën), waardoor er eigenlijk geen echte waarden meer zijn. Het idee van verschillende visies is net het perspectivisme van Nietzsche zelf."
@@ -1251,9 +1239,9 @@ window.BES_VAK = {
    "h": "h6",
    "q": "Waarom is het krachtconcept van Newton volgens de les geen fictie, terwijl de Übermensch van Nietzsche dat wel is?",
    "o": [
-    "Met kracht stemt binnen het Newtoniaanse systeem iets in de werkelijkheid overeen, met de Übermensch niet.",
-    "Kracht is zichtbaar en tastbaar, terwijl de Übermensch onzichtbaar en ontastbaar is.",
-    "Kracht werd door een wetenschapper bedacht, de Übermensch alleen door een filosoof.",
+    "Binnen Newtons systeem stemt er iets reëels overeen met kracht, met de Übermensch niet.",
+    "Kracht is zichtbaar en tastbaar, terwijl de Übermensch onzichtbaar en volledig ontastbaar is.",
+    "Kracht werd door een natuurkundige bedacht, de Übermensch alleen door een filosoof.",
     "Kracht is een metafysisch begrip, terwijl de Übermensch een louter politiek begrip is."
    ],
    "a": 0,
@@ -1265,8 +1253,8 @@ window.BES_VAK = {
    "o": [
     "Dat mensen die hun eigen positie niet kennen, altijd voor het utilitarisme zullen kiezen.",
     "Dat natuurlijke verschillen tussen mensen met goed beleid volledig weg te werken zijn.",
-    "Dat wie zijn eigen positie niet kent, waarschijnlijk een maatschappij kiest waar iedereen gelijk is.",
-    "Dat het sociaal contract echt door alle burgers op een blad papier werd ondertekend."
+    "Dat wie zijn positie niet kent, wellicht een maatschappij kiest waar iedereen gelijk is.",
+    "Dat het sociaal contract ooit echt door alle burgers op een blad papier werd ondertekend."
    ],
    "a": 2,
    "u": "Wie niet weet of hij rijk of arm, ziek of gezond zal zijn, kiest hoogstwaarschijnlijk voor gelijkheid; nu kies je eerder voor een utilitarisme. Rawls kaart zo de ongelijke kansen aan: de verschillen zelf kan je niet wegwerken, wel de middelen herverdelen."
@@ -1275,10 +1263,10 @@ window.BES_VAK = {
    "h": "h6",
    "q": "Wat is kenmerkend voor de fenomenologische 'wezenschouw' van Husserl?",
    "o": [
-    "Een object wordt pas onderzocht nadat bewezen is dat het buiten het bewustzijn bestaat.",
-    "De bewustzijnsinhoud over een object wordt geanalyseerd, ongeacht of het object uitwendig bestaat.",
+    "Een object wordt pas onderzocht nadat bewezen is dat het echt buiten het bewustzijn bestaat.",
+    "De bewustzijnsinhoud over een object wordt ontleed, los van of het object echt bestaat.",
     "Kennis komt uitsluitend uit metingen en experimenten, zonder enige intuïtieve beschouwing.",
-    "De wereld wordt strikt opgesplitst in een denkend deel en een uitgebreid deel."
+    "De wereld wordt strikt opgesplitst in een denkend deel en een uitgebreid, stoffelijk deel."
    ],
    "a": 1,
    "u": "Husserl analyseert wat men 'in gedachten heeft' via directe waarneming en intuïtieve beschouwing; of het object werkelijk bestaat, doet er niet toe. Het cartesiaanse dualisme wil hij net overbruggen via de intentionaliteit."
@@ -1299,10 +1287,10 @@ window.BES_VAK = {
    "h": "h7",
    "q": "Welk probleem stelde Heidegger in Bauen, Wohnen, Denken (1951) vast over het wonen na 1950?",
    "o": [
-    "Er waren genoeg woningen, maar men had de essentie van het wonen uit het oog verloren, wat tot vervreemding leidde.",
+    "Er waren genoeg woningen, maar men had de essentie van het wonen uit het oog verloren.",
     "Er waren nog altijd te weinig woningen, waardoor mensen zich nergens meer konden verwortelen.",
     "De wederopbouw verliep zo traag dat mensen zich vervreemd begonnen te voelen van hun stad.",
-    "Mensen verhuisden zo vaak dat het begrip Heimat volledig zijn betekenis had verloren."
+    "Mensen verhuisden zo vaak dat het begrip Heimat voor hen volledig zijn betekenis verloor."
    ],
    "a": 0,
    "u": "Vanaf 1950 was er geen gebrek aan woningen meer, wel een tekort aan inzicht in het wonen. Omdat men de essentie van het wonen vergeten was, ontstond vervreemding."
@@ -1312,9 +1300,9 @@ window.BES_VAK = {
    "q": "Een studente verhuist van haar geboortedorp naar een grote stad om te studeren. Wat zou Heidegger daarover zeggen, volgens de les?",
    "o": [
     "Haar wortels verhuizen vanzelf mee, zodat de nieuwe stad meteen even belangrijk wordt als haar dorp.",
-    "De plek waar je woont is bijkomstig; alleen het nadenken over het Zijn doet ertoe.",
-    "Ze verliest haar wortels voorgoed, omdat een mens zich maar op één plek kan verwortelen.",
-    "Ze moet beseffen dat haar wortels in de nieuwe grond moeten pakken, al gaat er niets boven haar Heimat."
+    "De plek waar je woont is bijkomstig; alleen het nadenken over het Zijn doet er echt toe.",
+    "Ze verliest haar wortels voorgoed, omdat een mens zich maar op één enkele plek kan verwortelen.",
+    "Haar wortels moeten bewust in de nieuwe grond pakken, al gaat er niets boven haar Heimat."
    ],
    "a": 3,
    "u": "Volgens Heidegger moet wie verhuist zich bewust zijn dat de wortels opnieuw moeten pakken in de nieuwe grond. Toch blijft de geboortegrond, de Heimat, het belangrijkst."
@@ -1335,8 +1323,8 @@ window.BES_VAK = {
    "h": "h7",
    "q": "Wat bedoelt Arendt met ‘de banaliteit van het kwaad’?",
    "o": [
-    "Gewone mensen die niet nadenken kunnen gruweldaden stellen; je hoeft er geen sociopaat voor te zijn.",
-    "Het kwaad was niet zo ernstig, omdat daders als Eichmann maar een lage functie hadden.",
+    "Gewone mensen die niet nadenken, kunnen meedoen aan gruweldaden, ook zonder sociopaat te zijn.",
+    "Het kwaad viel eigenlijk mee, omdat daders als Eichmann maar een vrij lage functie hadden.",
     "Grote misdaden worden alleen door monsters gepleegd die zich voordoen als gewone mensen.",
     "Alleen mensen met te weinig verstand om te denken zijn in staat om mee te doen aan het kwaad."
    ],
