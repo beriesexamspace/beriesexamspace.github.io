@@ -348,3 +348,22 @@ html.is-examen .thema-knop.is-los { display: none; }
   .vak-pagina .score-deeltje { display: none; }
   .vak-pagina .klaar-stap:active { transform: none; }
 }
+
+/* Tab Hoofdstukken: overzicht met kaarten en een detailweergave per hoofdstuk. */
+.hoofdstuk-lijst { display: grid; gap: 16px; }
+.hoofdstuk-open { align-items: center; }
+.hoofdstuk-pijl { flex: 0 0 auto; color: var(--accent); font-size: 1.25rem; line-height: 1; }
+#hoofdstukken-inhoud > .terug { margin-bottom: 12px; }
+.hoofdstuk-detail-kop:focus { outline: none; }
+.hoofdstuk-detail-kop { margin: 0 0 28px; font-size: 1.5rem; font-weight: 600; line-height: 1.3; overflow-wrap: anywhere; }
+.hoofdstuk-subkop { margin: 0 0 16px; font-size: 1.125rem; font-weight: 600; }
+#hoofdstukken-inhoud .theorie-groep, #hoofdstukken-inhoud .hack-groep { margin-top: 0; }
+#hoofdstukken-inhoud .theorie-groep + .hack-groep { margin-top: 32px; }
+.hoofdstuk-oefen { display: block; margin-top: 36px; width: 100%; max-width: 420px; }
+@media (max-width: 767px) {
+  .vak-tabs { flex-wrap: nowrap; overflow-x: auto; overscroll-behavior-x: contain; -webkit-overflow-scrolling: touch; scrollbar-width: none; -ms-overflow-style: none; padding: 3px; margin-inline: -3px; max-width: calc(100% + 6px); }
+  .vak-tabs::-webkit-scrollbar { display: none; }
+  .vak-tab { flex: 0 0 auto; white-space: nowrap; }
+  .hoofdstuk-detail-kop { font-size: 1.3125rem; }
+  .hoofdstuk-oefen { max-width: none; }
+}
