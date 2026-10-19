@@ -78,6 +78,12 @@
     .beheer-zoek input { flex: 1 1 auto; min-width: 0; min-height: 52px; padding: 12px 16px 12px 46px; border: 1px solid var(--line); border-radius: var(--pill); background: var(--input-bg); color: var(--ink); font: inherit; font-size: 1.0625rem; transition: border-color 150ms var(--ease), box-shadow 150ms var(--ease); }
     .beheer-zoek input:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-zacht); }
     .beheer-zoek small { color: var(--ink-soft); font-size: .8125rem; font-variant-numeric: tabular-nums; }
+    .beheer-sorteer { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; flex: 1 1 100%; }
+    .beheer-sorteer label { color: var(--ink-soft); font-size: .875rem; }
+    .beheer-sorteer select { min-height: 44px; padding: 8px 40px 8px 16px; border: 1px solid var(--line); border-radius: var(--pill); background: var(--input-bg) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%238e8e93' stroke-width='2' stroke-linecap='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E") no-repeat right 14px center / 18px; color: var(--ink); font: inherit; font-size: .9375rem; appearance: none; cursor: pointer; }
+    .beheer-sorteer select:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-zacht); }
+    .beheer-sorteer-richting { min-height: 44px; padding: 8px 18px; border: 1px solid var(--line); border-radius: var(--pill); background: var(--surface); color: var(--ink); font: inherit; font-size: .9375rem; font-weight: 600; cursor: pointer; white-space: nowrap; }
+    .beheer-sorteer-richting:hover { border-color: var(--accent); }
     .beheer-accounts { display: grid; gap: 12px; margin: 0; padding: 0; list-style: none; }
     .beheer-accounts .beheer-leeg { padding: 8px 0; }
     .beheer-geen { margin: 8px 0 0; color: var(--ink-soft); font-size: .9375rem; }
@@ -152,12 +158,30 @@
         </section>
 
         <section class="beheer-sectie" aria-labelledby="nieuwste-kop">
-          <h2 class="sectie-kop" id="nieuwste-kop">Accounts, nieuwste eerst</h2>
+          <h2 class="sectie-kop" id="nieuwste-kop">Accounts</h2>
           <div class="beheer-zoek" role="search">
             <label class="beheer-verborgen" for="beheer-zoek">Zoek een account</label>
             <div class="beheer-zoek-veld">
               <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
               <input id="beheer-zoek" type="search" placeholder="Zoek op naam of e-mail" autocomplete="off" spellcheck="false">
+            </div>
+            <div class="beheer-sorteer">
+              <label for="beheer-sorteer-op">Sorteer op</label>
+              <select id="beheer-sorteer-op">
+                <option value="gemaakt">Account gemaakt</option>
+                <option value="ingelogd">Laatst ingelogd</option>
+                <option value="naam">Naam</option>
+                <option value="via">Inloggen via</option>
+                <option value="bevestigd">E-mail bevestigd</option>
+                <option value="plan">Plan</option>
+                <option value="rondes">Rondes geoefend</option>
+                <option value="vragen">Vragen geoefend</option>
+                <option value="score">Score</option>
+                <option value="geoefend">Laatst geoefend</option>
+                <option value="comit">Vragen aan Comit</option>
+                <option value="fouten">Open fouten</option>
+              </select>
+              <button class="beheer-sorteer-richting" type="button" id="beheer-sorteer-richting" aria-describedby="beheer-sorteer-op"></button>
             </div>
             <small id="beheer-zoek-aantal" aria-live="polite"></small>
           </div>
@@ -358,6 +382,42 @@
       };
       zoek.addEventListener('input', telAccounts);
 
+      // Sorteren op elk gegeven van een account. Lege waarden (nog nooit, geen score) staan altijd onderaan.
+      const sorteerOp = $('beheer-sorteer-op');
+      const sorteerRichting = $('beheer-sorteer-richting');
+      const sorteerSoort = { gemaakt: 'datum', ingelogd: 'datum', geoefend: 'datum', naam: 'tekst', via: 'tekst', bevestigd: 'ja', plan: 'plan' };
+      const richtingTekst = (veld, af) => {
+        const soort = sorteerSoort[veld] || 'getal';
+        if (soort === 'datum') return af ? '↓ Nieuwste eerst' : '↑ Oudste eerst';
+        if (soort === 'tekst') return af ? '↓ Z tot A' : '↑ A tot Z';
+        if (soort === 'ja') return af ? '↓ Ja eerst' : '↑ Nee eerst';
+        if (soort === 'plan') return af ? '↓ Plus eerst' : '↑ Free eerst';
+        return af ? '↓ Meeste eerst' : '↑ Minste eerst';
+      };
+      let sorteerAf = true;
+      try {
+        const bewaard = JSON.parse(window.localStorage.getItem('bes_beheer_sorteer') || 'null');
+        if (bewaard && [...sorteerOp.options].some((optie) => optie.value === bewaard.op)) { sorteerOp.value = bewaard.op; sorteerAf = bewaard.af !== false; }
+      } catch {}
+      const sorteer = () => {
+        const veld = sorteerOp.value;
+        sorteerRichting.textContent = richtingTekst(veld, sorteerAf);
+        sorteerRichting.setAttribute('aria-label', 'Volgorde: ' + richtingTekst(veld, sorteerAf).slice(2) + '. Klik om om te draaien.');
+        try { window.localStorage.setItem('bes_beheer_sorteer', JSON.stringify({ op: veld, af: sorteerAf })); } catch {}
+        if (!accounts.length) return;
+        accounts.sort((a, b) => {
+          const x = a.sorteer?.[veld], y = b.sorteer?.[veld];
+          const xLeeg = x === null || x === undefined || x === '', yLeeg = y === null || y === undefined || y === '';
+          if (xLeeg || yLeeg) return xLeeg === yLeeg ? 0 : xLeeg ? 1 : -1;
+          const verschil = typeof x === 'string' ? x.localeCompare(y, 'nl') : x - y;
+          return sorteerAf ? -verschil : verschil;
+        });
+        $('beheer-nieuwste').append(...accounts);
+      };
+      sorteerOp.addEventListener('change', () => { sorteerAf = !['naam', 'via'].includes(sorteerOp.value); sorteer(); });
+      sorteerRichting.addEventListener('click', () => { sorteerAf = !sorteerAf; sorteer(); });
+      sorteer();
+
       const laad = async (versie) => {
         await auth.gereed;
         const user = await auth.gebruiker();
@@ -399,6 +459,18 @@
         accounts = (o.accounts.nieuwste || []).map((rij) => {
           const li = el('li', 'kaart beheer-account');
           li.dataset.plan = planId(rij.plan);
+          // Waarden om op te sorteren; null betekent leeg (komt onderaan).
+          const tijd = (moment) => moment ? new Date(moment).getTime() : null;
+          const planRang = planId(rij.plan) !== 'plus' ? 0 : rij.plan_status === 'opgezegd' ? 1 : rij.plan_status === 'proef' ? 2 : 3;
+          li.sorteer = {
+            gemaakt: tijd(rij.gemaakt), ingelogd: tijd(rij.laatst_ingelogd), geoefend: tijd(rij.laatst_geoefend),
+            naam: (rij.naam || rij.email || '').trim().toLowerCase() || null,
+            via: (Array.isArray(rij.via) ? rij.via : [rij.via || 'email']).map((p) => inlogNamen[p] || p).join(', ').toLowerCase(),
+            bevestigd: rij.bevestigd ? 1 : 0, plan: planRang,
+            rondes: Number(rij.rondes) || 0, vragen: Number(rij.vragen) || 0,
+            score: rij.score === null || rij.score === undefined ? null : Number(rij.score),
+            comit: Number(rij.comit_vragen) || 0, fouten: Number(rij.open_fouten) || 0
+          };
           li.dataset.zoek = [rij.naam, rij.bijnaam, rij.email].filter(Boolean).join(' ').toLowerCase();
           const naam = (rij.naam || 'Geen naam') + (rij.bijnaam ? ' (' + rij.bijnaam + ')' : '');
           const kop = el('div', 'beheer-account-kop');
@@ -452,6 +524,7 @@
         });
         totaalAccounts = o.accounts.totaal || accounts.length;
         rijen('beheer-nieuwste', accounts, 'Nog geen accounts.');
+        sorteer();
         telAccounts();
 
         cijfers('beheer-oefenen', [
