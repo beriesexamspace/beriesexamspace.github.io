@@ -88,6 +88,14 @@
   .cta .knop{min-height:56px;padding-inline:36px;font-size:1.125rem}
   .cta .tekstlink{font-size:1.0625rem}
   .account-session{max-width:34rem;margin:0 auto}
+  .insturen-link{
+    margin-top:clamp(18px,3vh,28px);
+    opacity:0;
+    animation:rise .7s cubic-bezier(.2,.8,.2,1) .35s forwards;
+  }
+  .insturen-link .tekstlink{color:var(--ink-soft);font-size:.9375rem}
+  .insturen-link .tekstlink:hover{color:var(--accent)}
+  .insturen-link .heel{white-space:nowrap}
 
   @media (max-width:768px){
     .hero{padding:clamp(16px,3vh,28px) 20px clamp(12px,2.5vh,20px)}
@@ -96,7 +104,7 @@
     .cta .knop{min-height:52px;font-size:1.0625rem}
   }
   @media (prefers-reduced-motion:reduce){
-    .hero-in,.cta{animation:none;opacity:1}
+    .hero-in,.cta,.insturen-link{animation:none;opacity:1}
     html{scroll-behavior:auto}
   }
 </style>
@@ -159,6 +167,7 @@
         <a class="tekstlink" data-account-uitloggen href="index.html">Uitloggen</a>
       </div>
     </div>
+    <p class="insturen-link"><a class="tekstlink" href="insturen/">Staat jouw richting er nog niet op? <span class="heel">Help ons groeien →</span></a></p>
   </div>
 </main>
 
