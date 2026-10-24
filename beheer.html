@@ -64,10 +64,10 @@
     .beheer-boek-meldingen strong, .beheer-boek-meldingen p { overflow-wrap: anywhere; }
     .beheer-boek-meldingen strong { display: block; margin-bottom: 4px; }
     .beheer-boek-meldingen p { margin: 6px 0 10px; line-height: 1.5; }
-    .beheer-boek-acties { display: flex; flex-wrap: wrap; gap: 8px; }
-    .beheer-boek-acties button { min-height: 44px; max-width: 100%; white-space: normal; }
-    .beheer-boek-bevestiging { margin-top: 10px; padding: 12px; border: 1px solid var(--line); border-radius: 12px; background: var(--surface); }
-    .beheer-boek-bevestiging:not([hidden]) { animation: menu-open 200ms var(--ease); }
+    .beheer-boek-acties, .beheer-inst-acties { display: flex; flex-wrap: wrap; gap: 8px; }
+    .beheer-boek-acties button, .beheer-inst-acties button { min-height: 44px; max-width: 100%; white-space: normal; }
+    .beheer-boek-bevestiging, .beheer-inst-bevestiging { margin-top: 10px; padding: 12px; border: 1px solid var(--line); border-radius: 12px; background: var(--surface); }
+    .beheer-boek-bevestiging:not([hidden]), .beheer-inst-bevestiging:not([hidden]) { animation: menu-open 200ms var(--ease); }
     .beheer-boek-status { margin: 10px 0 0; color: var(--ink-soft); font-size: .9375rem; overflow-wrap: anywhere; }
     .beheer-boek-status:empty { margin: 0; }
     .beheer-leeg { margin: 0; color: var(--ink-soft); font-size: .9375rem; }
@@ -80,8 +80,8 @@
     .beheer-zoek small { color: var(--ink-soft); font-size: .8125rem; font-variant-numeric: tabular-nums; }
     .beheer-sorteer { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; flex: 1 1 100%; }
     .beheer-sorteer label { color: var(--ink-soft); font-size: .875rem; }
-    .beheer-sorteer select { min-height: 44px; padding: 8px 40px 8px 16px; border: 1px solid var(--line); border-radius: var(--pill); background: var(--input-bg) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%238e8e93' stroke-width='2' stroke-linecap='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E") no-repeat right 14px center / 18px; color: var(--ink); font: inherit; font-size: .9375rem; appearance: none; cursor: pointer; }
-    .beheer-sorteer select:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-zacht); }
+    .beheer-sorteer select, .beheer-inst-filter select { min-height: 44px; padding: 8px 40px 8px 16px; border: 1px solid var(--line); border-radius: var(--pill); background: var(--input-bg) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%238e8e93' stroke-width='2' stroke-linecap='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E") no-repeat right 14px center / 18px; color: var(--ink); font: inherit; font-size: .9375rem; appearance: none; cursor: pointer; }
+    .beheer-sorteer select:focus, .beheer-inst-filter select:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-zacht); }
     .beheer-sorteer-richting { min-height: 44px; padding: 8px 18px; border: 1px solid var(--line); border-radius: var(--pill); background: var(--surface); color: var(--ink); font: inherit; font-size: .9375rem; font-weight: 600; cursor: pointer; white-space: nowrap; }
     .beheer-sorteer-richting:hover { border-color: var(--accent); }
     .beheer-accounts { display: grid; gap: 12px; margin: 0; padding: 0; list-style: none; }
@@ -108,9 +108,70 @@
     .beheer-over-kop { color: var(--ink-soft); font-size: .75rem; }
     .beheer-over-regel { font-size: .875rem; font-weight: 600; overflow-wrap: anywhere; }
     .beheer-over-tekst { font-size: .9375rem; line-height: 1.55; white-space: pre-line; overflow-wrap: anywhere; }
+    /* Ingestuurd materiaal */
+    .beheer-inst-teller { display: inline-block; margin-left: 10px; color: var(--ink-soft); font-size: .9375rem; font-weight: 500; letter-spacing: 0; font-variant-numeric: tabular-nums; }
+    .beheer-inst-intro { max-width: 36rem; margin: -6px 0 16px; color: var(--ink-soft); font-size: .9375rem; line-height: 1.5; }
+    .beheer-inst-balk { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px 16px; margin-bottom: 12px; }
+    .beheer-inst-balk[hidden], .beheer-inst-losse[hidden], .beheer-inst[hidden] { display: none; }
+    .beheer-inst-balk small { color: var(--ink-soft); font-size: .8125rem; }
+    .beheer-inst-filter { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 12px; min-width: 0; max-width: 100%; }
+    .beheer-inst-filter label { color: var(--ink-soft); font-size: .875rem; }
+    .beheer-inst-filter select { min-width: 0; max-width: 22rem; text-overflow: ellipsis; }
+    .beheer-inst-status { margin: 0 0 12px; color: var(--ink-soft); font-size: .9375rem; overflow-wrap: anywhere; }
+    .beheer-inst-status:empty { margin: 0; }
+    .beheer-inst-lijst { display: grid; gap: 12px; margin: 0; padding: 0; list-style: none; }
+    .beheer-inst { padding: 18px 20px; }
+    .beheer-inst-kop { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 4px 16px; }
+    .beheer-inst-richting { min-width: 0; font-size: 1.0625rem; font-weight: 600; line-height: 1.3; overflow-wrap: anywhere; }
+    .beheer-inst-datum { color: var(--ink-soft); font-size: .8125rem; font-variant-numeric: tabular-nums; white-space: nowrap; }
+    .beheer-inst-gegevens { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px 16px; margin: 12px 0 0; }
+    .beheer-inst-gegevens div { display: grid; min-width: 0; }
+    .beheer-inst-gegevens dt { color: var(--ink-soft); font-size: .75rem; }
+    .beheer-inst-gegevens dd { margin: 2px 0 0; font-size: .875rem; font-variant-numeric: tabular-nums; overflow-wrap: anywhere; }
+    .beheer-inst-gegevens .beheer-account-mail { font-size: .875rem; }
+    .beheer-inst-geen { color: var(--ink-soft); }
+    .beheer-inst-let { margin: 12px 0 0; padding: 8px 12px; border-radius: 10px; background: var(--surface); color: var(--ink-soft); font-size: .875rem; line-height: 1.45; }
+    .beheer-inst-bestanden { display: grid; margin: 14px 0 0; padding: 0; list-style: none; border-top: 1px solid var(--line); }
+    .beheer-inst-bestand { display: grid; grid-template-columns: 34px minmax(0, 1fr) auto; align-items: center; gap: 8px 14px; padding: 12px 0; border-bottom: 1px solid var(--line); }
+    .beheer-inst-bestand:last-child { border-bottom: 0; padding-bottom: 2px; }
+    .beheer-inst-bestand.is-leeg { display: block; color: var(--ink-soft); font-size: .9375rem; }
+    /* Elk bestand als klein vel papier met een omgeslagen hoek; het type komt uit het opslagpad, niet uit de naam die iemand intypte. */
+    .beheer-inst-type { position: relative; display: flex; align-items: flex-end; justify-content: center; box-sizing: border-box; width: 34px; height: 42px; padding-bottom: 7px; border-radius: 6px; background: var(--teal-zacht); color: var(--teal-tekst); font-size: .5625rem; font-weight: 700; line-height: 1; letter-spacing: .06em; clip-path: polygon(0 0, calc(100% - 11px) 0, 100% 11px, 100% 100%, 0 100%); }
+    .beheer-inst-type::after { content: ''; position: absolute; top: 0; right: 0; width: 11px; height: 11px; border-bottom-left-radius: 3px; background: var(--teal); opacity: .5; }
+    .beheer-inst-bestand-wat { display: grid; gap: 2px; min-width: 0; }
+    .beheer-inst-bestand-naam { font-size: .9375rem; font-weight: 500; line-height: 1.35; overflow-wrap: anywhere; }
+    .beheer-inst-bestand-wat small { color: var(--ink-soft); font-size: .8125rem; font-variant-numeric: tabular-nums; }
+    .beheer-inst-bestand.is-gewist .beheer-inst-type { opacity: .45; }
+    .beheer-inst-bestand.is-gewist .beheer-inst-bestand-naam { color: var(--ink-soft); text-decoration: line-through; }
+    .beheer-inst-download { display: inline-flex; align-items: center; justify-content: center; gap: 6px; min-height: 44px; padding: 0 16px; border: 1px solid var(--line); border-radius: var(--pill); background: var(--card); color: var(--accent); font: inherit; font-size: .875rem; font-weight: 600; white-space: nowrap; cursor: pointer; touch-action: manipulation; transition: border-color 150ms var(--ease), background-color 150ms var(--ease), transform 150ms var(--ease); }
+    .beheer-inst-download svg { width: 16px; height: 16px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+    :where(html.has-hover) .beheer-inst-download:not([aria-busy="true"]):not(:disabled):hover { border-color: var(--accent); background: var(--surface); }
+    .beheer-inst-download:not([aria-busy="true"]):not(:disabled):active { transform: scale(.97); }
+    .beheer-inst-download[aria-busy="true"] { opacity: .55; cursor: progress; }
+    .beheer-inst-download:disabled { opacity: .45; cursor: default; }
+    /* Wissen is bijzaak naast downloaden: een kleine knop in de foutkleur; de bevestiging houdt de grote knoppen. */
+    .beheer-inst-wis { display: inline-flex; align-items: center; justify-content: center; min-height: 44px; padding: 0 16px; border: 1px solid var(--line); border-radius: var(--pill); background: var(--card); color: var(--fout); font: inherit; font-size: .875rem; font-weight: 600; cursor: pointer; touch-action: manipulation; transition: border-color 150ms var(--ease), background-color 150ms var(--ease), transform 150ms var(--ease); }
+    :where(html.has-hover) .beheer-inst-wis:not(:disabled):hover, .beheer-inst-wis[aria-expanded="true"] { border-color: var(--fout); background: var(--fout-zacht); }
+    .beheer-inst-wis:not(:disabled):active { transform: scale(.97); }
+    .beheer-inst-wis:disabled, .beheer-boek-acties .knop-secundair:disabled, .beheer-inst-acties .knop-secundair:disabled { opacity: .45; transform: none; cursor: default; }
+    .beheer-inst-acties { margin-top: 14px; }
+    .beheer-inst-bevestiging .beheer-inst-acties { margin-top: 0; }
+    .beheer-inst-bevestiging p { margin: 0 0 10px; font-size: .9375rem; line-height: 1.5; overflow-wrap: anywhere; }
+    .beheer-inst-melding { margin: 10px 0 0; color: var(--fout); font-size: .9375rem; line-height: 1.5; overflow-wrap: anywhere; }
+    .beheer-inst-melding:empty { margin: 0; }
+    .beheer-inst-losse { margin-top: 28px; }
+    .beheer-inst-subkop { margin: 0 0 12px; font-size: 1.0625rem; font-weight: 600; line-height: 1.3; }
     @media (max-width: 600px) {
       .beheer-tegels, .beheer-tegels.is-vier { grid-template-columns: repeat(2, minmax(0, 1fr)); }
       .beheer-lijst li { grid-template-columns: 72px minmax(0, 1fr) 56px; }
+      .beheer-inst-teller { display: block; margin: 6px 0 0; }
+      .beheer-inst-filter select { max-width: 100%; }
+      .beheer-inst { padding: 16px; }
+    }
+    @media (max-width: 480px) {
+      .beheer-inst-bestand { grid-template-columns: 34px minmax(0, 1fr); }
+      .beheer-inst-type { align-self: start; }
+      .beheer-inst-download { grid-column: 2; justify-self: start; }
     }
   </style>
 </head>
@@ -155,6 +216,27 @@
         <section class="beheer-sectie" aria-labelledby="abo-kop">
           <h2 class="sectie-kop" id="abo-kop">Abonnementen</h2>
           <div class="beheer-cijfers" id="beheer-abo"></div>
+        </section>
+
+        <section class="beheer-sectie" id="beheer-inst" aria-labelledby="inst-kop">
+          <h2 class="sectie-kop" id="inst-kop" tabindex="-1">Ingestuurd materiaal <span class="beheer-inst-teller" id="inst-teller"></span></h2>
+          <p class="beheer-inst-intro">Samenvattingen, notities en cursussen die studenten instuurden. Office-bestanden open je altijd in Beveiligde weergave; zet nooit macro's aan.</p>
+          <div class="beheer-inst-balk" id="inst-balk" hidden>
+            <div class="beheer-inst-filter">
+              <label for="inst-filter">Richting</label>
+              <select id="inst-filter"></select>
+            </div>
+            <small>Nieuwste eerst</small>
+          </div>
+          <p class="beheer-inst-status" id="inst-status" role="status"></p>
+          <ul class="beheer-inst-lijst" id="inst-lijst" aria-label="Inzendingen"></ul>
+          <p class="beheer-leeg" id="inst-leeg">Even laden.</p>
+          <div class="beheer-inst-losse" id="inst-losse" hidden>
+            <h3 class="beheer-inst-subkop" id="inst-losse-kop" tabindex="-1">Losse bestanden</h3>
+            <p class="beheer-inst-intro">Mappen in de opslag die bij geen inzending horen, meestal van een poging die halverwege stopte.</p>
+            <p class="beheer-inst-status" id="inst-losse-status" role="status"></p>
+            <ul class="beheer-inst-lijst" id="inst-losse-lijst" aria-label="Mappen zonder inzending"></ul>
+          </div>
         </section>
 
         <section class="beheer-sectie" aria-labelledby="nieuwste-kop">
@@ -418,6 +500,567 @@
       sorteerRichting.addEventListener('click', () => { sorteerAf = !sorteerAf; sorteer(); });
       sorteer();
 
+      // Ingestuurd materiaal (supabase/insturingen.sql): tabel insturingen en de privé bucket 'insturingen'.
+      // Lezen en wissen mag alleen de beheerder (RLS met public.is_beheerder()). Alles wat studenten intypten gaat via textContent.
+      const INST_EMMER = 'insturingen';
+      const INST_MAX = 500;
+      const instUuid = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/;
+      // Zelfde vorm als de upload-policy: <map>/<nr>-<naam>.<ext>
+      const instPadVorm = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}\/[0-9]{1,2}-[A-Za-z0-9_-]{1,60}\.(pdf|docx|pptx|jpg|jpeg|png|txt)$/;
+      const instMailVorm = /^[^\s@?&#%<>"'\\/:;,()[\]]+@[^\s@?&#%<>"'\\/:;,()[\]]+\.[^\s@?&#%<>"'\\/:;,()[\]]+$/;
+      const instDatum = new Intl.DateTimeFormat('nl-BE', { day: 'numeric', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' });
+      const instFilter = $('inst-filter');
+      const instStatus = $('inst-status');
+      const instLosseStatus = $('inst-losse-status');
+      let instRijen = [];
+      let instAfgekapt = false;
+      let instBezig = false;
+      let sluitInstBevestiging = null;
+      let instVolgnummer = 0;
+
+      const instAantal = (aantal, een, meer) => aantal + ' ' + (aantal === 1 ? een : meer);
+      // Tekst om te tonen: zonder stuurtekens en zonder tekens die de leesrichting omdraaien.
+      const instToon = (waarde) => typeof waarde === 'string' ? waarde.replace(/[\u0000-\u001f\u007f\u061c\u200e\u200f\u202a-\u202e\u2066-\u2069]/g, '').trim().replace(/\s+/g, ' ') : '';
+      const instSleutel = (waarde) => instToon(waarde).toLocaleLowerCase('nl');
+      const instGrootte = (bytes) => {
+        const getal = bytes === null || bytes === undefined || bytes === '' ? NaN : Number(bytes);
+        if (!Number.isFinite(getal) || getal < 0) return 'grootte onbekend';
+        const opmaak = (waarde, cijfers) => new Intl.NumberFormat('nl-BE', { maximumFractionDigits: cijfers }).format(waarde);
+        if (getal < 1024 * 1024) { const kb = getal ? Math.max(getal / 1024, .1) : 0; return opmaak(kb, kb < 10 ? 1 : 0) + ' kB'; }
+        return opmaak(getal / 1024 / 1024, 1) + ' MB';
+      };
+      const instExt = (pad) => /\.([a-z]+)$/.exec(pad)?.[1] || '';
+      // Naam voor de download: veilige tekens, en altijd de extensie uit het opslagpad (een getypte naam als 'x.bat' wordt dus 'x.txt').
+      const instDownloadNaam = (naam, pad) => {
+        const basis = instToon(naam).normalize('NFC').replace(/\.[^.]*$/, '').replace(/[()[\]{}]+/g, '').replace(/[^\p{L}\p{N} ._-]+/gu, '_').replace(/^[ ._-]+|[ ._-]+$/g, '').slice(0, 120);
+        return (basis || pad.split('/').pop().replace(/\.[^.]*$/, '')) + '.' + instExt(pad);
+      };
+      const instNietGevonden = (fout) => /not.?found/i.test(String(fout?.message || '')) || [fout?.status, fout?.statusCode].some((code) => Number(code) === 404);
+      const instIcoon = () => {
+        const ns = 'http://www.w3.org/2000/svg';
+        const svg = document.createElementNS(ns, 'svg');
+        svg.setAttribute('viewBox', '0 0 24 24');
+        svg.setAttribute('aria-hidden', 'true');
+        const lijn = document.createElementNS(ns, 'path');
+        lijn.setAttribute('d', 'M12 4v11m0 0-4.5-4.5M12 15l4.5-4.5M5 19.5h14');
+        svg.append(lijn);
+        return svg;
+      };
+
+      // Download via een tijdelijke link (5 minuten) die het bestand als bijlage geeft: de pagina blijft staan, geen pop-upblokkering.
+      const instDownload = async (knop, pad, naam, melding) => {
+        if (knop.getAttribute('aria-busy') === 'true' || !beheerderId) return;
+        melding.textContent = '';
+        knop.setAttribute('aria-busy', 'true');
+        try {
+          const { data, error } = await auth.client.storage.from(INST_EMMER).createSignedUrl(pad, 300, { download: instDownloadNaam(naam, pad) });
+          if (error || !/^https?:\/\//i.test(data?.signedUrl || '')) throw error || new Error('Geen downloadlink.');
+          window.location.assign(data.signedUrl);
+        } catch (fout) {
+          if (knop.isConnected) melding.textContent = instNietGevonden(fout) ? 'Dit bestand staat niet meer in de opslag.' : 'Downloaden is niet gelukt. Probeer het opnieuw.';
+        } finally {
+          window.setTimeout(() => knop.removeAttribute('aria-busy'), 1000);
+        }
+      };
+
+      // Eén bestand: vel met het type, naam, grootte en een downloadknop. Een pad buiten de eigen map krijgt geen knop.
+      // opgegeven: de grootte komt uit wat de student meestuurde; echt() zet daarna de grootte uit de opslag zelf.
+      const instBestand = (pad, naam, grootte, melding, opgegeven = false) => {
+        const geldig = typeof pad === 'string' && instPadVorm.test(pad);
+        const li = el('li', 'beheer-inst-bestand');
+        const ext = geldig ? instExt(pad) : '';
+        const typeNaam = ext ? (ext === 'jpeg' ? 'JPG' : ext.toUpperCase()) : '';
+        const type = el('span', 'beheer-inst-type', typeNaam || '?');
+        type.setAttribute('aria-hidden', 'true');
+        const toonNaam = instToon(naam) || (geldig ? pad.split('/').pop() : 'Naamloos bestand');
+        const wat = el('div', 'beheer-inst-bestand-wat');
+        const metType = (tekst) => tekst + (typeNaam ? ', ' + typeNaam : '');
+        const gegeven = instGrootte(grootte);
+        const gegevenOk = gegeven !== instGrootte(NaN);
+        const maat = el('small', '', geldig ? metType(gegeven + (opgegeven && gegevenOk ? ' opgegeven' : '')) : 'Ongeldig opslagpad, niet te downloaden');
+        wat.append(el('span', 'beheer-inst-bestand-naam', toonNaam), maat);
+        li.append(type, wat);
+        let knop = null;
+        if (geldig) {
+          knop = el('button', 'beheer-inst-download');
+          knop.type = 'button';
+          knop.setAttribute('aria-label', 'Download ' + toonNaam);
+          knop.append(instIcoon(), el('span', '', 'Download'));
+          knop.addEventListener('click', () => instDownload(knop, pad, naam, melding));
+          li.append(knop);
+        }
+        const markeer = () => {
+          li.classList.add('is-gewist');
+          maat.textContent = 'Gewist uit de opslag';
+          knop?.remove();
+        };
+        // bytes: de echte grootte, of null als het bestand niet in de opslag staat. Een groot verschil met wat er opgegeven was, staat erbij.
+        const echt = (bytes) => {
+          if (!geldig || li.classList.contains('is-gewist')) return;
+          if (bytes === null) { maat.textContent = metType('Niet gevonden in de opslag'); return; }
+          const verschil = gegevenOk && Math.abs(Number(grootte) - bytes) > Math.max(1024, bytes * .01);
+          maat.textContent = metType(instGrootte(bytes)) + (verschil ? ' (opgegeven ' + gegeven + ')' : '');
+        };
+        return { li, pad: geldig ? pad : null, markeer, echt };
+      };
+
+      // Tijdens het wissen: alle wisknoppen uit, en ook de downloads van de kaart die gewist wordt.
+      const instKnoppen = (bezig, kaart) => {
+        $('beheer-inst').setAttribute('aria-busy', String(bezig));
+        $('beheer-inst').querySelectorAll('button[data-wis]').forEach((knop) => { knop.disabled = bezig; });
+        kaart?.querySelectorAll('.beheer-inst-download').forEach((knop) => { knop.disabled = bezig; });
+      };
+      // Wisknop met een eigen bevestiging, zoals bij Boeken. opWissen geeft true als alles weg is.
+      const instBevestiging = ({ knopTekst, vraagTekst, jaTekst, opWissen }) => {
+        const id = 'beheer-inst-bevestiging-' + (++instVolgnummer);
+        const acties = el('div', 'beheer-inst-acties');
+        const wis = el('button', 'beheer-inst-wis', knopTekst);
+        const bevestiging = el('div', 'beheer-inst-bevestiging');
+        bevestiging.id = id;
+        bevestiging.hidden = true;
+        bevestiging.setAttribute('role', 'group');
+        const vraag = el('p', '', vraagTekst);
+        vraag.id = id + '-vraag';
+        bevestiging.setAttribute('aria-labelledby', vraag.id);
+        wis.setAttribute('aria-controls', id);
+        wis.setAttribute('aria-expanded', 'false');
+        const keuze = el('div', 'beheer-inst-acties');
+        const ja = el('button', 'knop', jaTekst);
+        const nee = el('button', 'knop-secundair', 'Annuleren');
+        [wis, ja, nee].forEach((knop) => { knop.type = 'button'; knop.dataset.wis = ''; knop.disabled = instBezig; });
+        const sluit = (focus = true) => {
+          bevestiging.hidden = true;
+          wis.setAttribute('aria-expanded', 'false');
+          if (sluitInstBevestiging === sluit) sluitInstBevestiging = null;
+          if (focus && wis.isConnected) wis.focus();
+        };
+        wis.addEventListener('click', () => {
+          if (instBezig || !beheerderId) return;
+          if (!bevestiging.hidden) { sluit(); return; }
+          if (sluitInstBevestiging) sluitInstBevestiging(false);
+          sluitInstBevestiging = sluit;
+          instStatus.textContent = '';
+          instLosseStatus.textContent = '';
+          bevestiging.hidden = false;
+          wis.setAttribute('aria-expanded', 'true');
+          nee.focus();
+        });
+        nee.addEventListener('click', () => { if (!instBezig) sluit(); });
+        bevestiging.addEventListener('keydown', (event) => {
+          if (event.key === 'Escape' && !instBezig) { event.preventDefault(); sluit(); }
+        });
+        ja.addEventListener('click', async () => {
+          if (instBezig || !beheerderId || bevestiging.hidden) return;
+          const kaart = wis.closest('.beheer-inst');
+          instBezig = true;
+          instKnoppen(true, kaart);
+          ja.textContent = 'Bezig met wissen.';
+          let gelukt = false;
+          try { gelukt = await opWissen(); } catch { gelukt = false; }
+          finally {
+            instBezig = false;
+            instKnoppen(false, kaart);
+            ja.textContent = jaTekst;
+            if (!gelukt && wis.isConnected) { sluit(false); if (!inhoud.hidden) wis.focus(); }
+          }
+        });
+        acties.append(wis);
+        keuze.append(ja, nee);
+        bevestiging.append(vraag, keuze);
+        return [acties, bevestiging];
+      };
+
+      // Wat er nu in een map van de bucket ligt (alleen bestanden, geen submappen).
+      const instInMap = async (map) => {
+        const { data, error } = await auth.client.storage.from(INST_EMMER).list(map, { limit: 100 });
+        if (error) throw error;
+        return (data || []).filter((bestand) => bestand && bestand.id).map((bestand) => map + '/' + bestand.name);
+      };
+      // Vraagt de server zelf of dit account nog beheerder is. Zonder rechten geeft RLS geen fout, alleen lege antwoorden,
+      // dus een lege lijst na het wissen bewijst niets zonder deze controle.
+      const INST_GEEN_RECHT = 'Wissen is niet gelukt: dit account heeft geen beheerrechten meer. Er is niets gewist.';
+      const instIsBeheerder = async () => {
+        const { data, error } = await auth.client.rpc('is_beheerder');
+        if (error) throw error;
+        return data === true;
+      };
+      // Wist de paden en controleert daarna of de map echt leeg is (zonder wisrecht geeft Supabase geen fout, maar wist het niets).
+      const instMapLegen = async (map, paden, regels) => {
+        if (!paden.length) return { over: 0 };
+        const weg = await auth.client.storage.from(INST_EMMER).remove(paden);
+        if (weg.error) return { fout: true };
+        // Niets gewist volgens de server: of alles was al weg, of de rechten zijn intussen ingetrokken.
+        if (!(weg.data || []).length && !(await instIsBeheerder())) return { geenRecht: true };
+        const gewist = new Set((weg.data || []).map((bestand) => bestand.name));
+        regels.forEach((regel) => { if (regel.pad && gewist.has(regel.pad)) regel.markeer(); });
+        const over = (await instInMap(map)).length;
+        if (!over) regels.forEach((regel) => { if (regel.pad) regel.markeer(); });
+        return { over, gewist: gewist.size };
+      };
+      const instNietMeerBeheerder = async (eigenaar, versie) => {
+        const user = await auth.gebruiker();
+        if (user && user.id === eigenaar && beheerderId === eigenaar && versie === laadVersie) return false;
+        laadOverzicht();
+        return true;
+      };
+
+      const instWisInzending = async (item) => {
+        const eigenaar = beheerderId;
+        const versie = laadVersie;
+        item.melding.textContent = '';
+        let stap = 'controle';
+        try {
+          if (await instNietMeerBeheerder(eigenaar, versie)) return false;
+          if (!(await instIsBeheerder())) { item.melding.textContent = INST_GEEN_RECHT; return false; }
+          // Alle bestanden: die uit de inzending plus alles wat verder nog in dezelfde map ligt.
+          const paden = [...new Set([...item.paden, ...(instUuid.test(item.map) ? await instInMap(item.map) : [])])];
+          stap = 'bestanden';
+          if (paden.length) {
+            const leeg = await instMapLegen(item.map, paden, item.regels);
+            if (leeg.geenRecht) { item.melding.textContent = INST_GEEN_RECHT; return false; }
+            if (leeg.fout) { item.melding.textContent = 'Wissen is niet gelukt. De inzending staat er nog; probeer het opnieuw.'; return false; }
+            if (leeg.over) {
+              item.melding.textContent = (leeg.gewist ? 'Niet alle bestanden konden gewist worden: ' + instAantal(leeg.over, 'bestand staat', 'bestanden staan') + ' er nog.' : 'Er is niets gewist.') + ' De inzending zelf staat er ook nog; probeer het opnieuw.';
+              return false;
+            }
+          }
+          stap = 'rij';
+          const rij = await auth.client.from('insturingen').delete().eq('id', item.rij.id).select('id');
+          if (rij.error) throw rij.error;
+          const rijWeg = (rij.data || []).length > 0;
+          // Geen rij gewist: al weg, of geen rechten meer (dan staat de inzending er nog).
+          if (!rijWeg && !(await instIsBeheerder())) throw new Error('Geen beheerrechten meer.');
+          if (versie !== laadVersie || !item.li.isConnected) return true;
+          instKijker?.unobserve(item.li);
+          instRijen = instRijen.filter((ander) => ander !== item);
+          item.li.remove();
+          instFilterVullen();
+          instTellen();
+          instStatus.textContent = rijWeg ? 'De inzending is gewist, met al haar bestanden.' : 'Deze inzending was al gewist. Het overzicht is bijgewerkt.';
+          $('inst-kop').focus();
+          return true;
+        } catch {
+          if (!item.li.isConnected) return false;
+          if (stap === 'controle') item.melding.textContent = 'Wissen is niet gelukt. Er is niets gewist; probeer het opnieuw.';
+          else if (stap === 'rij') {
+            item.regels.forEach((regel) => { if (regel.pad) regel.markeer(); });
+            item.melding.textContent = 'De bestanden zijn gewist, maar de inzending zelf niet. Probeer het opnieuw om ook de inzending te wissen.';
+          } else item.melding.textContent = 'Het is niet zeker of alles gewist is. Vernieuw de pagina om te zien wat er nog staat.';
+          return false;
+        } finally {
+          // Half gelukt: de teller telt de doorgestreepte bestanden niet meer mee.
+          if (versie === laadVersie && item.li.isConnected) instTellen();
+        }
+      };
+
+      // Eén inzending als kaart.
+      const instKaart = (rij) => {
+        const map = typeof rij.map === 'string' ? rij.map.toLowerCase() : '';
+        const richting = instToon(rij.richting) || 'Onbekende richting';
+        const li = el('li', 'kaart beheer-inst');
+        const melding = el('p', 'beheer-inst-melding');
+        melding.setAttribute('role', 'status');
+        const item = { rij, li, map, richting, sleutel: instSleutel(richting), melding, regels: [], paden: [] };
+
+        const kop = el('div', 'beheer-inst-kop');
+        const moment = rij.gemaakt ? new Date(rij.gemaakt) : null;
+        const tijd = el('time', 'beheer-inst-datum', moment && !Number.isNaN(moment.getTime()) ? instDatum.format(moment) : 'Datum onbekend');
+        if (moment && !Number.isNaN(moment.getTime())) tijd.dateTime = moment.toISOString();
+        kop.append(el('span', 'beheer-inst-richting', richting), tijd);
+
+        const lijst = Array.isArray(rij.bestanden) ? rij.bestanden.filter((bestand) => bestand && typeof bestand === 'object') : [];
+        const samen = lijst.reduce((som, bestand) => som + (Number.isFinite(Number(bestand.grootte)) && bestand.grootte !== null ? Math.max(0, Number(bestand.grootte)) : 0), 0);
+        const gegevens = el('dl', 'beheer-inst-gegevens');
+        const paar = (term, waarde) => {
+          const blok = el('div');
+          const dd = el('dd');
+          dd.append(waarde);
+          blok.append(el('dt', '', term), dd);
+          gegevens.append(blok);
+        };
+        const vak = instToon(rij.vak);
+        paar('Vak', vak ? el('span', '', vak) : el('span', 'beheer-inst-geen', 'geen vak opgegeven'));
+        const email = instToon(rij.email);
+        if (email && instMailVorm.test(email)) {
+          const mail = el('a', 'beheer-account-mail', email);
+          mail.href = 'mailto:' + email;
+          paar('E-mail', mail);
+        } else paar('E-mail', el('span', email ? '' : 'beheer-inst-geen', email || 'geen'));
+        // Eerst de grootte die de student opgaf; instControleer zet er de echte grootte uit de opslag voor in de plaats.
+        const totaal = el('span', '', instAantal(lijst.length, 'bestand', 'bestanden') + (lijst.length ? ', samen ' + instGrootte(samen) + ' opgegeven' : ''));
+        item.zetSamen = (bytes) => { totaal.textContent = instAantal(lijst.length, 'bestand', 'bestanden') + (bytes === null ? ', niet gevonden in de opslag' : ', samen ' + instGrootte(bytes)); };
+        paar('Bestanden', totaal);
+
+        const bestanden = el('ul', 'beheer-inst-bestanden');
+        bestanden.setAttribute('aria-label', 'Bestanden');
+        lijst.forEach((bestand) => {
+          // Alleen paden in de eigen map tellen; de rest wordt getoond maar niet gedownload.
+          const pad = typeof bestand.pad === 'string' && map && bestand.pad.startsWith(map + '/') ? bestand.pad : null;
+          const regel = instBestand(pad, bestand.naam, bestand.grootte, melding, true);
+          item.regels.push(regel);
+          if (regel.pad) item.paden.push(regel.pad);
+          bestanden.append(regel.li);
+        });
+        if (!lijst.length) bestanden.append(el('li', 'beheer-inst-bestand is-leeg', 'Geen bestanden in deze inzending.'));
+
+        const [acties, bevestiging] = instBevestiging({
+          knopTekst: 'Wis deze inzending',
+          vraagTekst: 'Wil je de inzending voor "' + richting + '" wissen? ' + (lijst.length ? 'De ' + instAantal(lijst.length, 'bestand', 'bestanden') + ' en de inzending zelf verdwijnen voorgoed.' : 'De inzending verdwijnt voorgoed.'),
+          jaTekst: 'Ja, wis deze inzending',
+          opWissen: () => instWisInzending(item)
+        });
+        li.append(kop, gegevens, bestanden, acties, bevestiging, melding);
+        return item;
+      };
+
+      // Echte grootte uit de opslag. Per kaart pas als die in beeld komt, met hoogstens 4 verzoeken tegelijk.
+      const instControleer = async (item, versie) => {
+        if (!instUuid.test(item.map) || !item.paden.length) return;
+        try {
+          const { data, error } = await auth.client.storage.from(INST_EMMER).list(item.map, { limit: 100 });
+          if (error || versie !== laadVersie || !item.li.isConnected) return;
+          const maten = new Map((data || []).filter((bestand) => bestand && bestand.id).map((bestand) => [item.map + '/' + bestand.name, Number(bestand.metadata?.size)]));
+          let som = 0;
+          let gevonden = 0;
+          item.regels.forEach((regel) => {
+            if (!regel.pad) return;
+            const bytes = maten.has(regel.pad) ? maten.get(regel.pad) : null;
+            regel.echt(bytes);
+            if (bytes !== null) gevonden += 1;
+            if (Number.isFinite(bytes)) som += bytes;
+          });
+          item.zetSamen(gevonden ? som : null);
+        } catch {}
+      };
+      const instWachtrij = [];
+      let instActief = 0;
+      const instVolgende = () => {
+        while (instActief < 4 && instWachtrij.length) {
+          const [item, versie] = instWachtrij.shift();
+          if (versie !== laadVersie || !item.li.isConnected) continue;
+          instActief += 1;
+          instControleer(item, versie).finally(() => { instActief -= 1; instVolgende(); });
+        }
+      };
+      const instItemVan = new WeakMap();
+      const instKijker = 'IntersectionObserver' in window ? new IntersectionObserver((waarnemingen) => {
+        waarnemingen.forEach((waarneming) => {
+          if (!waarneming.isIntersecting) return;
+          instKijker.unobserve(waarneming.target);
+          const item = instItemVan.get(waarneming.target);
+          if (item) instWachtrij.push([item, laadVersie]);
+        });
+        instVolgende();
+      }, { rootMargin: '400px 0px' }) : null;
+
+      // Keuzelijst per richting: hoofdletters en spaties aan de randen tellen niet mee.
+      const instFilterVullen = () => {
+        const groepen = new Map();
+        instRijen.forEach(({ sleutel, richting }) => {
+          const groep = groepen.get(sleutel) || { aantal: 0, namen: new Map() };
+          groep.aantal += 1;
+          groep.namen.set(richting, (groep.namen.get(richting) || 0) + 1);
+          groepen.set(sleutel, groep);
+        });
+        const opties = [...groepen].map(([sleutel, groep]) => {
+          // De schrijfwijze die het vaakst voorkomt; bij gelijke stand de nieuwste.
+          let naam = '';
+          let meeste = 0;
+          groep.namen.forEach((aantal, variant) => { if (aantal > meeste) { meeste = aantal; naam = variant; } });
+          return { sleutel, naam, aantal: groep.aantal };
+        }).sort((a, b) => a.naam.localeCompare(b.naam, 'nl', { sensitivity: 'base' }));
+        const vorige = instFilter.value;
+        instFilter.replaceChildren(new Option('Alle richtingen (' + instRijen.length + ')', ''), ...opties.map((optie) => new Option(optie.naam + ' (' + optie.aantal + ')', optie.sleutel)));
+        instFilter.value = opties.some((optie) => optie.sleutel === vorige) ? vorige : '';
+      };
+      const instTellen = () => {
+        const filter = instFilter.value;
+        let zichtbaar = 0;
+        let bestanden = 0;
+        instRijen.forEach((item) => {
+          item.li.hidden = Boolean(filter) && item.sleutel !== filter;
+          // Bestanden die bij een half gelukte wis al weg zijn, tellen niet meer mee.
+          if (!item.li.hidden) { zichtbaar += 1; bestanden += item.regels.filter((regel) => !regel.li.classList.contains('is-gewist')).length; }
+        });
+        const leeg = !instRijen.length;
+        $('inst-balk').hidden = leeg;
+        $('inst-leeg').hidden = !leeg;
+        if (leeg) $('inst-leeg').textContent = 'Nog niets ingestuurd.';
+        $('inst-teller').textContent = leeg ? '' : (filter ? zichtbaar + ' van ' : '') + instAantal(filter ? instRijen.length : zichtbaar, 'inzending', 'inzendingen') + ' · ' + instAantal(bestanden, 'bestand', 'bestanden') + (instAfgekapt ? ' (de ' + instRijen.length + ' nieuwste)' : '');
+      };
+      instFilter.addEventListener('change', () => {
+        if (sluitInstBevestiging && !instBezig) sluitInstBevestiging(false);
+        instTellen();
+      });
+
+      // Losse bestanden: mappen in de bucket zonder inzending (bv. een upload die halverwege stopte).
+      const instWisLosse = async (map, regels, li, melding) => {
+        const eigenaar = beheerderId;
+        const versie = laadVersie;
+        melding.textContent = '';
+        let stap = 'controle';
+        try {
+          if (await instNietMeerBeheerder(eigenaar, versie)) return false;
+          if (!instUuid.test(map)) return false;
+          if (!(await instIsBeheerder())) { melding.textContent = INST_GEEN_RECHT; return false; }
+          // Intussen toch een inzending voor deze map? Dan niet wissen.
+          const check = await auth.client.from('insturingen').select('id').eq('map', map).limit(1);
+          if (check.error) throw check.error;
+          if ((check.data || []).length) { melding.textContent = 'Deze map hoort intussen bij een inzending en is niet gewist. Vernieuw de pagina.'; return false; }
+          const paden = [...new Set([...(await instInMap(map)), ...regels.map((regel) => regel.pad).filter(Boolean)])];
+          stap = 'bestanden';
+          const leeg = await instMapLegen(map, paden, regels);
+          if (leeg.geenRecht) { melding.textContent = INST_GEEN_RECHT; return false; }
+          if (leeg.fout) { melding.textContent = 'Wissen is niet gelukt. De bestanden staan er nog; probeer het opnieuw.'; return false; }
+          if (leeg.over) {
+            melding.textContent = (leeg.gewist ? 'Niet alle bestanden konden gewist worden: ' + instAantal(leeg.over, 'bestand staat', 'bestanden staan') + ' er nog.' : 'Er is niets gewist.') + ' Probeer het opnieuw.';
+            return false;
+          }
+          if (versie !== laadVersie || !li.isConnected) return true;
+          li.remove();
+          if ($('inst-losse-lijst').children.length) {
+            instLosseStatus.textContent = 'De map is gewist.';
+            $('inst-losse-kop').focus();
+          } else {
+            $('inst-losse').hidden = true;
+            instStatus.textContent = 'De losse map is gewist. Er zijn geen losse bestanden meer.';
+            $('inst-kop').focus();
+          }
+          return true;
+        } catch {
+          if (!li.isConnected) return false;
+          melding.textContent = stap === 'controle' ? 'Wissen is niet gelukt. Er is niets gewist; probeer het opnieuw.' : 'Het is niet zeker of alles gewist is. Vernieuw de pagina om te zien wat er nog staat.';
+          return false;
+        }
+      };
+      const instLosseKaart = (map, bestanden) => {
+        const li = el('li', 'kaart beheer-inst');
+        const melding = el('p', 'beheer-inst-melding');
+        melding.setAttribute('role', 'status');
+        const nieuwste = Math.max(0, ...bestanden.map((bestand) => new Date(bestand.created_at || bestand.updated_at || 0).getTime() || 0));
+        const kop = el('div', 'beheer-inst-kop');
+        const tijd = el('time', 'beheer-inst-datum', nieuwste ? instDatum.format(new Date(nieuwste)) : 'Datum onbekend');
+        if (nieuwste) tijd.dateTime = new Date(nieuwste).toISOString();
+        kop.append(el('span', 'beheer-inst-richting', 'Map ' + map.slice(0, 8)), tijd);
+        const samen = bestanden.reduce((som, bestand) => som + (Number(bestand.metadata?.size) || 0), 0);
+        const gegevens = el('dl', 'beheer-inst-gegevens');
+        [['Bestanden', instAantal(bestanden.length, 'bestand', 'bestanden') + ', samen ' + instGrootte(samen)], ['Volledige map', map]].forEach(([term, waarde]) => {
+          const blok = el('div');
+          blok.append(el('dt', '', term), el('dd', '', waarde));
+          gegevens.append(blok);
+        });
+        li.append(kop, gegevens);
+        if (nieuwste && Date.now() - nieuwste < 60 * 60 * 1000) li.append(el('p', 'beheer-inst-let', 'Minder dan een uur oud: misschien is iemand nog aan het insturen. Wacht liever even voor je deze map wist.'));
+        const lijst = el('ul', 'beheer-inst-bestanden');
+        lijst.setAttribute('aria-label', 'Bestanden');
+        const regels = bestanden.map((bestand) => instBestand(map + '/' + bestand.name, bestand.name, bestand.metadata?.size, melding));
+        lijst.append(...regels.map((regel) => regel.li));
+        const [acties, bevestiging] = instBevestiging({
+          knopTekst: 'Wis deze map',
+          vraagTekst: 'Wil je map ' + map.slice(0, 8) + ' met ' + instAantal(bestanden.length, 'bestand', 'bestanden') + ' wissen? Ze horen bij geen inzending en verdwijnen voorgoed.',
+          jaTekst: 'Ja, wis deze map',
+          opWissen: () => instWisLosse(map, regels, li, melding)
+        });
+        li.append(lijst, acties, bevestiging, melding);
+        li.nieuwste = nieuwste;
+        return li;
+      };
+      const laadLosse = async (versie, bekend) => {
+        try {
+          const opslag = auth.client.storage.from(INST_EMMER);
+          // De hoofdmap pagina per pagina (1000 per keer, op naam), zodat ook bij veel inzendingen geen map ontbreekt.
+          const PAGINA = 1000;
+          const wortel = [];
+          let teVeel = false;
+          for (let offset = 0; ; offset += PAGINA) {
+            const pagina = await opslag.list('', { limit: PAGINA, offset });
+            if (versie !== laadVersie) return;
+            if (pagina.error) throw pagina.error;
+            const items = pagina.data || [];
+            wortel.push(...items);
+            if (items.length < PAGINA) break;
+            if (offset + PAGINA >= 50 * PAGINA) { teVeel = true; break; }
+          }
+          // Mappen hebben geen id; alleen mapnamen in de vorm van een uuid tellen.
+          let mappen = wortel.filter((item) => item && !item.id && instUuid.test(item.name) && !bekend.has(item.name)).map((item) => item.name);
+          // Meer dan 500 inzendingen: oudere mappen eerst nog in de tabel opzoeken.
+          if (instAfgekapt && mappen.length) {
+            const gevonden = new Set();
+            for (let i = 0; i < mappen.length; i += 100) {
+              const { data, error } = await auth.client.from('insturingen').select('map').in('map', mappen.slice(i, i + 100));
+              if (error) throw error;
+              (data || []).forEach((rij) => gevonden.add(String(rij.map).toLowerCase()));
+            }
+            if (versie !== laadVersie) return;
+            mappen = mappen.filter((map) => !gevonden.has(map));
+          }
+          const inhoudMappen = await Promise.all(mappen.slice(0, 50).map(async (map) => {
+            const { data, error } = await opslag.list(map, { limit: 100 });
+            if (error) throw error;
+            return [map, (data || []).filter((bestand) => bestand && bestand.id)];
+          }));
+          if (versie !== laadVersie) return;
+          const kaarten = inhoudMappen.filter(([, bestanden]) => bestanden.length).map(([map, bestanden]) => instLosseKaart(map, bestanden)).sort((a, b) => b.nieuwste - a.nieuwste);
+          $('inst-losse-lijst').replaceChildren(...kaarten);
+          instLosseStatus.textContent = mappen.length > 50 ? 'Hier staan 50 van de ' + mappen.length + ' mappen. Wis er een paar en vernieuw de pagina voor de rest.'
+            : teVeel ? 'Alleen de eerste ' + new Intl.NumberFormat('nl-BE').format(wortel.length) + ' mappen in de opslag zijn nagekeken; er staan er nog meer.' : '';
+          $('inst-losse').hidden = !kaarten.length && !teVeel;
+        } catch {
+          if (versie !== laadVersie) return;
+          $('inst-losse-lijst').replaceChildren();
+          instLosseStatus.textContent = 'Controleren op losse bestanden is niet gelukt. Vernieuw de pagina om het opnieuw te proberen.';
+          $('inst-losse').hidden = false;
+        }
+      };
+
+      const laadInsturingen = async (versie) => {
+        try {
+          const { data, error } = await auth.client.from('insturingen')
+            .select('id,map,richting,vak,email,bestanden,gemaakt')
+            .order('gemaakt', { ascending: false })
+            .limit(INST_MAX);
+          if (versie !== laadVersie) return;
+          if (error) throw error;
+          const rijen = Array.isArray(data) ? data : [];
+          instAfgekapt = rijen.length >= INST_MAX;
+          instRijen = rijen.map(instKaart);
+          $('inst-lijst').replaceChildren(...instRijen.map((item) => item.li));
+          instFilterVullen();
+          instTellen();
+          instRijen.forEach((item) => {
+            instItemVan.set(item.li, item);
+            if (instKijker) instKijker.observe(item.li); else instWachtrij.push([item, versie]);
+          });
+          instVolgende();
+        } catch {
+          if (versie !== laadVersie) return;
+          instRijen = [];
+          $('inst-lijst').replaceChildren();
+          $('inst-balk').hidden = true;
+          $('inst-teller').textContent = '';
+          $('inst-leeg').hidden = false;
+          $('inst-leeg').textContent = 'Ingestuurd materiaal laden is niet gelukt. Staat de SQL voor insturingen al in het project? Vernieuw anders de pagina om het opnieuw te proberen.';
+          return;
+        }
+        await laadLosse(versie, new Set(instRijen.map((item) => item.map)));
+      };
+      const instLeegmaken = () => {
+        instKijker?.disconnect();
+        instWachtrij.length = 0;
+        instRijen = [];
+        instAfgekapt = false;
+        sluitInstBevestiging = null;
+        $('inst-lijst').replaceChildren();
+        $('inst-losse-lijst').replaceChildren();
+        $('inst-losse').hidden = true;
+        $('inst-balk').hidden = true;
+        $('inst-teller').textContent = '';
+        instStatus.textContent = '';
+        instLosseStatus.textContent = '';
+        $('inst-leeg').hidden = false;
+        $('inst-leeg').textContent = 'Even laden.';
+      };
+
       const laad = async (versie) => {
         await auth.gereed;
         const user = await auth.gebruiker();
@@ -576,6 +1219,8 @@
         status.textContent = '';
         beheerderId = user.id;
         inhoud.hidden = false;
+        // Pas nu de beheerder bevestigd is; laadt los van de rest, met een eigen melding als het mislukt.
+        laadInsturingen(versie).catch(() => {});
         return true;
       };
 
@@ -586,6 +1231,7 @@
         sluitBoekBevestiging = null;
         boekStatus.textContent = '';
         $('beheer-boek-meldingen').replaceChildren();
+        instLeegmaken();
         return laad(versie).catch(() => {
           if (versie !== laadVersie) return null;
           status.textContent = 'Laden is niet gelukt. Probeer het later opnieuw.';
