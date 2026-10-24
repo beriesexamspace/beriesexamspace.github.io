@@ -2,7 +2,7 @@
 <html lang="nl">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="apple-touch-icon" href="/assets/icoon-180.png">
   <link rel="manifest" href="/manifest.webmanifest">
   <meta property="og:type" content="website">
@@ -30,155 +30,91 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="/assets/style.css?v=89">
-  <script src="/assets/app.js?v=89" defer></script>
-  <script src="/assets/config.js?v=89" defer></script>
+  <link rel="stylesheet" href="../assets/style.css?v=89">
+  <script src="../assets/app.js?v=89" defer></script>
+  <script src="../assets/config.js?v=89" defer></script>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js" defer></script>
-  <script src="/assets/auth.js?v=89" defer></script>
+  <script src="../assets/auth.js?v=89" defer></script>
+  <script src="../assets/plan.js?v=89" defer></script>
   <style>
-    /* Insturen: eerst voor de telefoon (375 px), daarna de laptop. Alle kleuren komen uit de tokens van style.css. */
+    /* Insturen: zelfde opbouw als de andere binnenpagina's (WhatsApp, Feedback); alle kleuren komen uit de tokens van style.css. */
     html { scroll-padding-top: 76px; }
     @media (prefers-reduced-motion: no-preference) { html { scroll-behavior: smooth; } }
     body:has(.ins-dialoog[open]) { overflow: hidden; }
-
-    /* Kopbalk: merknaam blijft ook op de telefoon zichtbaar. */
-    .naar-site { position: relative; margin-left: auto; min-height: 40px; padding: 10px 18px; font-size: .875rem; line-height: 20px; }
-    .naar-site::after { content: ''; position: absolute; inset: -4px -2px; }
-    @media (max-width: 767px) { .naar-site { padding: 10px 14px; font-size: .8125rem; } }
-    @media (max-width: 430px) { .navigation:has(.thema-knop) .brand-name { display: block; } }
-    @media (max-width: 350px) { .naar-site { padding-inline: 11px; } }
-
-    .ins { flex: 1 0 auto; width: 100%; padding: 88px 0 56px; }
-    .ins .wrap { padding-left: max(20px, env(safe-area-inset-left)); padding-right: max(20px, env(safe-area-inset-right)); }
+    .ins-wrap { max-width: 860px; }
     .ins-sr { position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
 
     /* Alleen op deze pagina: knoppen met witte tekst halen 4,5:1 ook in donker, veldranden halen 3:1. */
     :root { --ins-knop: var(--accent); --ins-knop-hover: var(--accent-dark); --ins-rand: #8E8E93; --ins-link: var(--accent); }
     html[data-theme="dark"] { --ins-knop: #0A6ED1; --ins-knop-hover: #0A62BA; --ins-rand: #6E6E73; --ins-link: var(--accent-dark); }
-    :is(.ins, .ins-dialoog) .knop:not(.ins-wa), .naar-site { background: var(--ins-knop); }
-    :where(html.has-hover) :is(.ins, .ins-dialoog) .knop:not(.ins-wa):not(:disabled):hover,
-    :where(html.has-hover) .naar-site:not(:disabled):hover { background: var(--ins-knop-hover); }
-    :is(.ins, .ins-dialoog) .tekstlink { color: var(--ins-link); }
+    :is(.ins-wrap, .ins-dialoog) .knop:not(.ins-wa) { background: var(--ins-knop); }
+    :where(html.has-hover) :is(.ins-wrap, .ins-dialoog) .knop:not(.ins-wa):not(:disabled):hover { background: var(--ins-knop-hover); }
+    :is(.ins-wrap, .ins-dialoog) .tekstlink { color: var(--ins-link); }
     /* WhatsApp-knop in het groen van whatsapp.html; donkere tekst zoals WhatsApp zelf, want wit haalt op dit groen maar 2:1. */
-    .ins-wa.knop { background: var(--whatsapp); color: #111B21; box-shadow: none; }
+    .ins-wa.knop { gap: 10px; background: var(--whatsapp); color: #111B21; font-weight: 600; box-shadow: none; }
+    .ins-wa svg { width: 18px; height: 18px; flex: none; }
     :where(html.has-hover) .ins-wa.knop:not(:disabled):hover { background: var(--whatsapp-hover); box-shadow: var(--shadow-soft); }
 
-    /* Bovenste scherm */
-    .ins-held { display: grid; grid-template-columns: minmax(0, 1fr); gap: 32px; }
-    .ins-held-tekst { min-width: 0; animation: rise 600ms var(--ease) both; }
-    .ins-boventitel { display: flex; align-items: center; gap: 10px; margin: 0 0 14px; color: var(--teal-tekst); font-size: .875rem; font-weight: 600; line-height: 1.4; }
-    .ins-boventitel::before { content: ''; flex: none; width: 20px; height: 2px; border-radius: 1px; background: var(--teal); }
-    .ins-held h1 { font-size: clamp(2.375rem, 11vw, 4.5rem); line-height: 1.04; letter-spacing: -.02em; text-wrap: balance; }
-    .ins-held h1 span { color: var(--teal-tekst); }
-    .ins-intro { max-width: 31rem; margin: 16px 0 0; color: var(--muted); font-size: 1.0625rem; line-height: 1.55; text-wrap: pretty; }
-    .ins-held-knop { gap: 10px; min-height: 56px; margin-top: 26px; padding: 0 28px; font-size: 1.0625rem; }
-    .ins-held-knop svg { width: 18px; height: 18px; flex: none; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
-    .ins-bewijs { display: flex; align-items: flex-start; gap: 10px; margin: 18px 0 0; color: var(--muted); font-size: .9375rem; line-height: 1.45; }
-    .ins-bewijs svg { flex: none; width: 20px; height: 20px; margin-top: 1px; }
-    .ins-bewijs strong { display: block; color: var(--ink); font-weight: 600; }
+    /* Kop */
+    .ins-bewijs { display: flex; align-items: flex-start; gap: 10px; margin: -12px 0 32px; color: var(--ink); font-size: 1rem; line-height: 1.5; }
+    .ins-bewijs svg { flex: none; width: 22px; height: 22px; margin-top: 1px; }
+    .ins-bewijs strong { font-weight: 600; }
 
-    /* Het eigen detail: een samenvatting die een oefenvraag wordt. */
-    .ins-omzet { position: relative; width: 100%; max-width: 420px; height: 292px; margin: 0; }
-    .ins-blad {
-      position: absolute; top: 0; left: 0; width: 70%; height: 214px; padding: 20px 18px 18px 36px;
-      border: 1px solid var(--line); border-radius: 16px; background: var(--card); box-shadow: var(--shadow-soft);
-      transform: rotate(-3deg); animation: blad-in 700ms var(--ease) 120ms both;
-    }
-    .ins-blad::before { content: ''; position: absolute; top: 0; bottom: 0; left: 24px; width: 1.5px; background: var(--teal); opacity: .55; }
-    .ins-blad-kop { margin: 0 0 6px; color: var(--muted); font-size: .75rem; font-weight: 600; line-height: 1.3; white-space: nowrap; }
-    .ins-regel { position: relative; display: block; width: var(--w); height: 7px; margin-top: 14px; border-radius: 4px; background: var(--line); background: color-mix(in srgb, var(--ink) 12%, transparent); }
-    .ins-regel-markeer::after {
-      content: ''; position: absolute; inset: -5px -6px; border-radius: 5px;
-      background: var(--teal-zacht); background: color-mix(in srgb, var(--teal) 34%, transparent);
-      transform-origin: left center; animation: markeer 650ms var(--ease) 650ms both;
-    }
-    .ins-vraag {
-      position: absolute; right: 0; bottom: 0; width: 78%; padding: 16px;
-      border: 1px solid var(--line); border-radius: 18px; background: var(--card);
-      box-shadow: 0 2px 6px var(--shadow-near-color), 0 18px 40px var(--shadow-far-color);
-      transform: rotate(1.5deg); animation: vraag-in 700ms var(--ease) 1050ms both;
-    }
-    .ins-vraag-label { margin: 0; color: var(--teal-tekst); font-size: .6875rem; font-weight: 600; line-height: 1.3; letter-spacing: .02em; }
-    .ins-vraag-tekst { margin: 6px 0 12px; font-size: .9375rem; font-weight: 600; line-height: 1.3; }
-    .ins-vraag ul { display: grid; gap: 6px; margin: 0; padding: 0; list-style: none; }
-    .ins-vraag li { display: flex; align-items: center; justify-content: space-between; gap: 8px; min-height: 32px; padding: 5px 10px; border: 1px solid var(--line); border-radius: 10px; font-size: .8125rem; line-height: 1.25; }
-    .ins-vraag li.is-goed { border-color: var(--teal); background: var(--teal-zacht); font-weight: 500; }
-    .ins-vraag li svg { flex: none; width: 16px; height: 16px; fill: none; stroke: var(--teal-tekst); stroke-width: 2.4; stroke-linecap: round; stroke-linejoin: round; }
-    .ins-vraag li svg path { stroke-dasharray: 1; animation: teken 380ms var(--ease) 1650ms both; }
-    @keyframes blad-in { from { opacity: 0; transform: translateY(10px) rotate(-3deg); } }
-    @keyframes vraag-in { from { opacity: 0; transform: translateY(16px) rotate(1.5deg); } }
-    @keyframes markeer { from { transform: scaleX(0); } }
-    @keyframes teken { from { stroke-dashoffset: 1; } }
+    /* Secties */
+    .ins-sectie { margin-top: 48px; }
+    .ins-sectie:first-of-type { margin-top: 0; }
+    .ins-sub { margin: -8px 0 20px; color: var(--muted); font-size: 1rem; line-height: 1.55; }
+    :is(.sectie-kop, .ins-bedankt h3, .ins-dialoog h2):focus { outline: none; box-shadow: none; }
 
-    /* Formulier: de genummerde groepen zijn de echte stappen, de knop is de laatste. */
-    .ins-sectie { margin-top: 52px; }
-    .ins-h2 { margin: 0 0 24px; font-size: clamp(1.75rem, 7vw, 2.375rem); font-weight: 700; line-height: 1.12; letter-spacing: -.01em; text-wrap: balance; }
-    :is(.ins-h2, .ins-bedankt h3, .ins-dialoog h2):focus { outline: none; box-shadow: none; }
-    .ins-nr {
-      display: inline-grid; place-items: center; flex: none; width: 36px; height: 36px;
-      border: 1px solid var(--line); border-radius: 50%; background: var(--card);
-      color: var(--teal-tekst); font-size: .9375rem; font-weight: 600; font-variant-numeric: tabular-nums;
-    }
-    .ins-mag { margin: -8px 0 0; color: var(--muted); font-size: .9375rem; line-height: 1.55; }
-    .ins-mag strong { color: var(--ink); font-weight: 600; }
-    .ins-mag .tekstlink { font-size: inherit; line-height: inherit; text-decoration: underline; text-decoration-color: color-mix(in srgb, var(--accent) 40%, transparent); }
-
-    /* Formulier */
-    .ins-formulier-kop p { margin: -12px 0 0; color: var(--muted); font-size: 1rem; line-height: 1.55; }
-    .ins-form { display: grid; grid-template-columns: minmax(0, 1fr); gap: 36px; margin-top: 28px; }
+    /* Formulier: één kaart met de genummerde stappen; de knop is de laatste. */
+    .ins-form { display: grid; grid-template-columns: minmax(0, 1fr); gap: 32px; max-width: none; margin-inline: 0; }
     .ins-groep { display: grid; grid-template-columns: minmax(0, 1fr); gap: 16px; min-width: 0; }
     .ins-groep-kop { display: flex; align-items: center; gap: 12px; margin: 0; font-size: 1.125rem; font-weight: 600; line-height: 1.3; }
-    .ins-groep-kop .ins-nr { width: 30px; height: 30px; font-size: .8125rem; }
-
-    /* Gelinieerd papier met kantlijn: elke tekstregel is 32 px hoog en staat net boven een lijn. */
-    .ins-zone {
-      position: relative; display: grid; justify-items: center; align-content: start; gap: 0;
-      padding: 20px 20px 20px 40px; text-align: center;
-      border: 1px solid var(--line); border-radius: 20px;
-      background-color: var(--card);
-      background-image: linear-gradient(var(--card), var(--card)), repeating-linear-gradient(to bottom, transparent 0 31px, var(--line) 31px 32px);
-      background-size: 100% 20px, auto;
-      background-repeat: no-repeat, repeat;
-      background-position: 0 0, 0 14px;
-      cursor: pointer; touch-action: manipulation; -webkit-tap-highlight-color: transparent;
-      transition: border-color 160ms var(--ease), background-color 160ms var(--ease), transform 160ms var(--ease), box-shadow 160ms var(--ease);
+    .ins-nr {
+      display: inline-grid; place-items: center; flex: none; width: 32px; height: 32px;
+      border-radius: 50%; background: var(--teal-zacht);
+      color: var(--teal-tekst); font-size: .9375rem; font-weight: 700; font-variant-numeric: tabular-nums;
     }
-    .ins-zone::before { content: ''; position: absolute; top: 0; bottom: 0; left: 26px; width: 1.5px; background: var(--teal); opacity: .5; }
+
+    /* Vak om bestanden te kiezen: rustig grijs vlak met een stippellijn, tekst in gewone leeskleur. */
+    .ins-zone {
+      position: relative; display: grid; justify-items: center; align-content: start; gap: 6px;
+      padding: 24px 20px; text-align: center;
+      border: 1.5px dashed var(--ins-rand); border-radius: 16px; background: var(--surface);
+      cursor: pointer; touch-action: manipulation; -webkit-tap-highlight-color: transparent;
+      transition: border-color 160ms var(--ease), background-color 160ms var(--ease), transform 160ms var(--ease);
+    }
     .ins-zone-knop {
-      display: grid; place-items: center; width: 56px; height: 56px; margin: 4px 0;
-      border-radius: 50%; background: var(--ins-knop); color: var(--white); box-shadow: 0 0 0 7px var(--card), var(--shadow-primary);
+      display: grid; place-items: center; width: 52px; height: 52px; margin-bottom: 6px;
+      border-radius: 50%; background: var(--ins-knop); color: var(--white);
       transition: transform 180ms var(--ease);
     }
     .ins-zone-knop svg { width: 24px; height: 24px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; }
-    .ins-zone-titel { font-size: 1.0625rem; font-weight: 600; line-height: 32px; }
-    .ins-zone-hint { color: var(--ink); font-size: .9375rem; line-height: 32px; }
-    .ins-zone-tips { max-width: 24rem; color: var(--muted); font-size: .8125rem; line-height: 32px; }
-    .ins-zone-hint, .ins-zone-tips span { text-wrap: balance; }
-    .ins-zone-tips span { display: block; }
+    .ins-zone-titel { color: var(--ink); font-size: 1.125rem; font-weight: 600; line-height: 1.35; }
+    .ins-zone-hint { color: var(--ink); font-size: 1rem; line-height: 1.5; }
+    .ins-zone-tips { display: grid; gap: 2px; max-width: 26rem; margin-top: 6px; color: var(--muted); font-size: .9375rem; line-height: 1.5; }
+    .ins-zone-tips span { display: block; text-wrap: pretty; }
     .ins-zone input { position: absolute; width: 1px; height: 1px; opacity: 0; pointer-events: none; }
     .ins-hint-sleep { display: none; }
     @media (hover: hover) and (pointer: fine) {
       .ins-hint-tik { display: none; }
       .ins-hint-sleep { display: inline; }
     }
-    :where(html.has-hover) .ins-zone:hover { border-color: var(--accent); box-shadow: var(--shadow-soft); }
+    :where(html.has-hover) .ins-zone:hover { border-color: var(--accent); }
     :where(html.has-hover) .ins-zone:hover .ins-zone-knop { transform: translateY(-2px); }
     .ins-zone:active { transform: scale(.99); }
     .ins-zone:has(input:focus-visible) { outline: 2px solid var(--accent); outline-offset: 3px; }
-    .ins-zone.is-over { border-color: var(--teal); background-color: var(--teal-zacht); background-image: none; }
+    .ins-zone.is-over { border-color: var(--teal); background-color: var(--teal-zacht); }
     .ins-zone.is-fout { border-color: var(--fout); }
     .ins-zone.is-compact {
       grid-template-columns: auto minmax(0, 1fr); justify-items: start; align-items: center; column-gap: 14px; row-gap: 2px;
-      min-height: 72px; padding: 12px 16px; text-align: left; background-image: none;
+      min-height: 72px; padding: 12px 16px; text-align: left;
     }
-    .ins-zone.is-compact::before { display: none; }
-    .ins-zone.is-compact .ins-zone-knop { grid-row: span 2; width: 44px; height: 44px; margin: 0; box-shadow: none; }
-    .ins-zone.is-compact .ins-zone-titel { line-height: 1.35; }
-    .ins-zone.is-compact .ins-zone-tips { line-height: 1.45; }
-    .ins-form.is-bezig .ins-zone { opacity: .5; }
+    .ins-zone.is-compact .ins-zone-knop { grid-row: span 2; width: 44px; height: 44px; margin: 0; }
     .ins-zone.is-compact .ins-zone-knop svg { width: 20px; height: 20px; }
     .ins-zone.is-compact :is(.ins-zone-hint, .ins-tip-welkom) { display: none; }
     .ins-zone.is-compact .ins-zone-tips { margin: 0; }
+    .ins-form.is-bezig .ins-zone { opacity: .5; }
 
     .ins-lijst { display: grid; grid-template-columns: minmax(0, 1fr); gap: 8px; margin: 0; padding: 0; list-style: none; }
     .ins-lijst:empty { display: none; }
@@ -191,13 +127,14 @@
     @keyframes bestand-in { from { opacity: 0; transform: translateY(6px); } }
     .ins-bestand-icoon {
       position: relative; display: grid; place-items: center; width: 36px; height: 44px; border-radius: 6px;
-      background: var(--teal-zacht); color: var(--teal-tekst); font-size: .5625rem; font-weight: 700; letter-spacing: .04em;
+      background: var(--teal-zacht); color: var(--teal-tekst); font-size: .6875rem; font-weight: 700; letter-spacing: .02em;
       clip-path: polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 0 100%);
     }
     .ins-bestand-icoon::after { content: ''; position: absolute; top: 0; right: 0; width: 10px; height: 10px; border-bottom-left-radius: 3px; background: var(--teal); opacity: .45; }
     .ins-bestand-tekst { display: grid; gap: 3px; min-width: 0; }
-    .ins-bestand-naam { overflow: hidden; font-size: .9375rem; font-weight: 500; line-height: 1.35; text-overflow: ellipsis; white-space: nowrap; }
-    .ins-bestand-meta { display: flex; align-items: center; min-width: 0; color: var(--muted); font-size: .8125rem; line-height: 1.35; font-variant-numeric: tabular-nums; }
+    .ins-bestand-naam { font-size: 1rem; font-weight: 500; line-height: 1.35; overflow-wrap: anywhere; }
+    .ins-bestand-meta { display: flex; flex-wrap: wrap; align-items: center; min-width: 0; color: var(--muted); font-size: .9375rem; line-height: 1.35; font-variant-numeric: tabular-nums; }
+    .ins-bestand-meta > span { white-space: nowrap; }
     .ins-bestand-stand:not(:empty)::before { content: '·'; margin: 0 6px; color: var(--muted); font-weight: 400; }
     .ins-bestand[data-stand="bezig"] .ins-bestand-stand { color: var(--ink); font-weight: 500; }
     .ins-bestand[data-stand="klaar"] .ins-bestand-stand { color: var(--teal-tekst); font-weight: 600; }
@@ -222,12 +159,12 @@
 
     .ins-veld { display: grid; grid-template-columns: minmax(0, 1fr); gap: 8px; min-width: 0; }
     .ins-veld + .ins-veld { margin-top: 4px; }
-    .ins-veld label { font-size: .9375rem; font-weight: 600; line-height: 1.4; }
-    .ins-optioneel { margin-left: 6px; color: var(--muted); font-size: .875rem; font-weight: 400; }
+    .ins-veld label { color: var(--ink); font-size: 1rem; font-weight: 600; line-height: 1.4; }
+    .ins-optioneel { margin-left: 6px; color: var(--muted); font-size: .9375rem; font-weight: 400; }
     .ins-veld .auth-input { width: 100%; max-width: none; border-color: var(--ins-rand); scroll-margin: 16px 0 32px; }
     .ins-veld .auth-input:focus { border-color: var(--accent); }
     .ins-veld .auth-input[aria-invalid="true"] { border-color: var(--fout); }
-    .ins-help { margin: 0; color: var(--muted); font-size: .875rem; line-height: 1.5; }
+    .ins-help { margin: 0; color: var(--muted); font-size: .9375rem; line-height: 1.5; }
     .ins-fout { display: flex; align-items: flex-start; gap: 8px; margin: 0; color: var(--fout); font-size: .9375rem; font-weight: 500; line-height: 1.45; overflow-wrap: anywhere; }
     .ins-fout::before {
       content: ''; flex: none; width: 16px; height: 16px; margin-top: 2px; background: currentColor;
@@ -239,43 +176,40 @@
     .ins-fout-algemeen { padding: 12px 14px; border-radius: 14px; background: var(--fout-zacht); }
     .ins-val { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
 
+    .ins-mag { margin: 0; color: var(--muted); font-size: .9375rem; line-height: 1.55; }
+    .ins-mag strong { color: var(--ink); font-weight: 600; }
+    .ins-mag .tekstlink { font-size: inherit; line-height: inherit; text-decoration: underline; text-decoration-color: color-mix(in srgb, var(--accent) 40%, transparent); }
+
     .ins-balk { display: grid; grid-template-columns: minmax(0, 1fr); }
     .ins-balk .ins-fout-algemeen { margin-bottom: 12px; }
-    .ins-bewaard { margin: 8px 0 0; color: var(--muted); font-size: .875rem; line-height: 1.4; }
+    .ins-bewaard { margin: 10px 0 0; color: var(--muted); font-size: .9375rem; line-height: 1.45; }
     .ins-voortgang { display: grid; gap: 8px; margin-bottom: 12px; }
-    .ins-voortgang-tekst { margin: 0; font-size: .875rem; font-weight: 600; line-height: 1.3; font-variant-numeric: tabular-nums; }
+    .ins-voortgang-tekst { margin: 0; font-size: .9375rem; font-weight: 600; line-height: 1.3; font-variant-numeric: tabular-nums; }
     .ins-voortgang-delen { display: grid; grid-auto-flow: column; grid-auto-columns: minmax(0, 1fr); gap: 4px; }
     .ins-voortgang-delen span { position: relative; height: 4px; overflow: hidden; border-radius: 2px; background: var(--line); }
     .ins-voortgang-delen span[data-stand="klaar"] { background: var(--teal); }
     .ins-voortgang-delen span[data-stand="mislukt"] { background: var(--fout); }
     .ins-voortgang-delen span[data-stand="bezig"] { background: var(--teal-zacht); }
     .ins-voortgang-delen span[data-stand="bezig"]::after { content: ''; position: absolute; inset: 0 auto 0 0; width: 45%; background: var(--teal); animation: schuif 1.2s cubic-bezier(.45, 0, .55, 1) infinite; }
-    .ins-verstuur { width: 100%; min-height: 56px; }
+    .ins-verstuur.knop { width: 100%; max-width: none; min-height: 56px; margin-inline: 0; font-weight: 600; }
     .ins-form.is-bezig .ins-verstuur { opacity: .72; box-shadow: none; }
 
-    @media (max-width: 767px) {
-      html { scroll-padding-bottom: 104px; }
-      .ins-held-knop, .ins-verstuur { width: 100%; max-width: none; margin-inline: 0; }
-      /* Vast onderaan zolang het formulier in beeld is, met hetzelfde glas als de kopbalk. */
-      .ins-balk {
-        position: sticky; bottom: 0; z-index: 5;
-        margin: -12px -20px 0; padding: 12px 20px calc(12px + env(safe-area-inset-bottom));
-        border-top: 1px solid var(--line);
-        background: var(--bg);
-        background: color-mix(in srgb, var(--bg) 84%, transparent);
-        -webkit-backdrop-filter: saturate(180%) blur(20px);
-        backdrop-filter: saturate(180%) blur(20px);
-      }
-    }
-
     /* Bedankkaart op de plek van het formulier */
-    .ins-bedankt { display: grid; justify-items: start; gap: 10px; margin-top: 28px; padding: 26px 22px; border: 1px solid var(--line); border-radius: 24px; background: var(--card); box-shadow: var(--shadow-soft); }
+    .ins-bedankt { display: grid; justify-items: start; gap: 10px; max-width: none; margin-inline: 0; }
     .ins-bedankt h3 { margin: 6px 0 0; font-size: 1.375rem; font-weight: 700; line-height: 1.2; text-wrap: balance; }
-    .ins-bedankt p { margin: 0; color: var(--muted); line-height: 1.55; }
+    .ins-bedankt p { margin: 0; color: var(--muted); font-size: 1rem; line-height: 1.55; }
     .ins-knoppen { display: grid; grid-template-columns: minmax(0, 1fr); gap: 10px; width: 100%; margin-top: 10px; }
     .ins-knoppen :is(.knop, .knop-secundair) { gap: 10px; width: 100%; max-width: none; min-height: 52px; margin: 0; padding: 0 22px; }
-    .ins-knoppen svg { width: 18px; height: 18px; flex: none; }
     .ins-nogiets { min-height: 44px; margin-top: 2px; padding: 10px 0; border: 0; background: none; cursor: pointer; }
+
+    /* WhatsApp-groep: zelfde blok als op whatsapp.html */
+    .ins-wa-kaart { display: flex; align-items: center; gap: 24px; max-width: none; margin: 0 0 12px; }
+    .ins-wa-groep { display: grid; gap: 6px; min-width: 0; line-height: 1.5; }
+    .ins-wa-groep strong { font-size: 1rem; font-weight: 600; }
+    .ins-wa-groep span { color: var(--muted); font-size: .9375rem; }
+    .ins-wa-qr { flex: 0 0 auto; margin-left: auto; width: 184px; height: 184px; padding: 10px; box-sizing: border-box; border-radius: 16px; background: #fff; }
+    .ins-wa-qr img { display: block; width: 100%; height: 100%; }
+    .ins-wa-privacy { margin: 0; color: var(--muted); font-size: .9375rem; line-height: 1.5; }
 
     /* Pop-up: op de telefoon een paneel van onder, op de laptop in het midden. */
     .ins-dialoog:not([open]) { display: none; }
@@ -313,14 +247,19 @@
     .ins-dialoog[open] .ins-vink .haak { animation: teken 380ms var(--ease) 720ms both; }
     .ins-bedankt .ins-vink { width: 48px; height: 48px; }
     @keyframes bol { from { opacity: 0; transform: scale(.6); } }
+    @keyframes teken { from { stroke-dashoffset: 1; } }
+
+    @media (max-width: 767px) {
+      .ins-sectie { margin-top: 40px; }
+      .ins-form.kaart, .ins-bedankt.kaart { padding: 20px; }
+      .ins-wa-kaart { flex-direction: column; align-items: flex-start; gap: 20px; }
+      .ins-wa.knop { width: auto; margin-inline: 0; }
+      .ins-wa-qr { display: none; }
+    }
 
     @media (min-width: 768px) {
-      .ins { padding: 124px 0 72px; }
-      .ins .wrap { padding-left: max(24px, env(safe-area-inset-left)); padding-right: max(24px, env(safe-area-inset-right)); }
-      .ins-held-knop { min-width: 0; }
-      .ins-sectie { margin-top: 96px; }
-      .ins-form { padding: 32px; border: 1px solid var(--line); border-radius: 24px; background: var(--card); box-shadow: var(--shadow-soft); }
-      .ins-verstuur { justify-self: start; width: auto; min-width: 260px; }
+      .ins-form.kaart, .ins-bedankt.kaart { padding: 32px; }
+      .ins-verstuur.knop { justify-self: start; width: auto; min-width: 260px; }
       .ins-knoppen { grid-template-columns: repeat(2, max-content); }
       .ins-knoppen :is(.knop, .knop-secundair) { width: auto; min-width: 0; }
       .ins-dialoog { inset: 0; width: min(460px, calc(100% - 48px)); max-height: calc(100dvh - 48px); margin: auto; border: 1px solid var(--line); border-radius: 28px; box-shadow: var(--shadow-card-hover); }
@@ -333,31 +272,8 @@
       @keyframes midden-uit { to { opacity: 0; transform: translateY(8px) scale(.98); } }
     }
 
-    @media (min-width: 960px) {
-      .ins-held { grid-template-columns: minmax(0, 1.1fr) minmax(0, .9fr); align-items: center; gap: 56px; }
-      .ins-omzet { height: 340px; max-width: 460px; justify-self: end; }
-      .ins-blad { height: 248px; padding: 24px 22px 22px 42px; }
-      .ins-blad::before { left: 28px; }
-      .ins-regel { margin-top: 17px; }
-      .ins-vraag { padding: 20px; }
-      .ins-vraag-tekst { font-size: 1rem; }
-      .ins-formulier { display: grid; grid-template-columns: minmax(0, 4fr) minmax(0, 7fr); gap: 56px; align-items: start; }
-      .ins-formulier-kop { position: sticky; top: 104px; }
-      .ins-form, .ins-bedankt { margin-top: 0; }
-      .ins-bedankt { padding: 32px; }
-    }
-
-    @media (max-width: 360px) {
-      .ins-zone { padding-inline: 34px 14px; }
-      .ins-zone::before { left: 22px; }
-      .ins-vraag { width: 86%; padding: 14px; }
-      .ins-vraag-tekst { font-size: .875rem; }
-      .ins-vraag li { font-size: .75rem; }
-    }
-
     @media (prefers-reduced-motion: reduce) {
       html { scroll-behavior: auto; }
-      .ins-held-tekst, .ins-blad, .ins-vraag, .ins-regel-markeer::after, .ins-vraag li svg path,
       .ins-bestand.is-nieuw, .ins-dialoog, .ins-dialoog::backdrop, .ins-vink .bol, .ins-vink .ring, .ins-vink .haak { animation: none !important; }
       .ins-bestand[data-stand="bezig"] .ins-bestand-balk::after,
       .ins-voortgang-delen span[data-stand="bezig"]::after { width: 100%; opacity: .5; animation: none !important; transform: none; }
@@ -369,129 +285,130 @@
   <a class="skip-link" href="#inhoud">Ga naar inhoud</a>
   <header class="site-header">
     <nav class="navigation" aria-label="Hoofdnavigatie">
-      <a class="brand" href="/" aria-label="Berie's Exam Space, startpagina">
+      <a class="brand" href="../index.html" aria-label="Berie's Exam Space, startpagina">
         <span class="brand-symbol" aria-hidden="true">B</span>
         <span class="brand-name"><span>Berie's</span> <span>Exam Space</span></span>
       </a>
-      <a class="pill naar-site" href="/">Naar de site →</a>
+      <a class="home-knop" href="../hub.html" aria-label="Home" title="Home">
+        <svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 10.5 12 3l9 7.5M5 9v12h5v-7h4v7h5V9"/></svg>
+      </a>
+      <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="site-menu">Menu</button>
+      <ul class="navigation-links" id="site-menu">
+        <li><a href="../hub.html#hoe-werkt-het">Hoe werkt het</a></li>
+        <li><a href="../over-mij.html" data-over-mij>Over mij</a></li>
+        <li><a href="../whatsapp.html">WhatsApp-groep</a></li>
+        <li><a href="./" aria-current="page">Insturen</a></li>
+      </ul>
+      <a class="pill login-button" href="../inloggen.html">Inloggen&nbsp; →</a>
     </nav>
   </header>
 
-  <main id="inhoud" class="ins" aria-labelledby="ins-titel">
-    <section class="wrap ins-held">
-      <div class="ins-held-tekst">
-        <p class="ins-boventitel">Van samenvatting naar oefenvragen</p>
-        <h1 id="ins-titel">Help ons <span>groeien.</span></h1>
-        <p class="ins-intro">Stuur je samenvatting of notities in. Wij maken er op Berie's Exam Space oefenvragen en een samenvatting per hoofdstuk van, voor iedereen in jouw richting.</p>
-        <a class="knop ins-held-knop" href="#formulier">
-          Upload je samenvatting
-          <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 5v14m0 0-6-6m6 6 6-6"/></svg>
-        </a>
-        <p class="ins-bewijs">
-          <svg viewBox="0 0 20 20" aria-hidden="true" focusable="false"><circle cx="10" cy="10" r="10" fill="var(--teal-zacht)"/><path d="m6 10.4 2.6 2.6L14 7.6" fill="none" stroke="var(--teal-tekst)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-          <span><strong>Psychologie is af.</strong> 34 vakken, 340 studenten. Nu de andere richtingen.</span>
-        </p>
-      </div>
+  <main id="inhoud" class="pagina" aria-labelledby="ins-titel">
+    <div class="wrap ins-wrap">
+      <a class="terug" href="../index.html" data-terug="../index.html" data-terug-tekst="Terug">← Terug</a>
 
-      <div class="ins-omzet" aria-hidden="true">
-        <div class="ins-blad">
-          <p class="ins-blad-kop">Jouw samenvatting · H3</p>
-          <span class="ins-regel" style="--w: 88%"></span>
-          <span class="ins-regel" style="--w: 64%"></span>
-          <span class="ins-regel ins-regel-markeer" style="--w: 80%"></span>
-          <span class="ins-regel" style="--w: 92%"></span>
-          <span class="ins-regel" style="--w: 56%"></span>
-          <span class="ins-regel" style="--w: 74%"></span>
-        </div>
-        <div class="ins-vraag">
-          <p class="ins-vraag-label">Hoofdstuk 3 · vraag 4</p>
-          <p class="ins-vraag-tekst">Wat toont een longitudinaal onderzoek?</p>
-          <ul>
-            <li>Verschillen tussen groepen</li>
-            <li class="is-goed">Verandering doorheen de tijd <svg viewBox="0 0 16 16"><path pathLength="1" d="m3.5 8.4 2.9 2.9 6-6.3"/></svg></li>
-            <li>Eén meting bij veel mensen</li>
-          </ul>
-        </div>
-      </div>
-    </section>
+      <header class="pagina-kop">
+        <h1 id="ins-titel">Help ons groeien</h1>
+        <p>Stuur je samenvatting of notities in. Wij maken er op Berie's Exam Space oefenvragen en een samenvatting per hoofdstuk van, voor iedereen in jouw richting.</p>
+      </header>
+      <p class="ins-bewijs">
+        <svg viewBox="0 0 20 20" aria-hidden="true" focusable="false"><circle cx="10" cy="10" r="10" fill="var(--teal-zacht)"/><path d="m6 10.4 2.6 2.6L14 7.6" fill="none" stroke="var(--teal-tekst)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <span><strong>Psychologie is af.</strong> 34 vakken, 340 studenten. Nu de andere richtingen.</span>
+      </p>
 
-    <section class="wrap ins-sectie ins-formulier" id="formulier" aria-labelledby="formulier-titel">
-      <div class="ins-formulier-kop">
-        <h2 class="ins-h2" id="formulier-titel" tabindex="-1">Stuur je materiaal in</h2>
-        <p>Zonder account. Alleen je richting is verplicht.</p>
-      </div>
+      <section class="ins-sectie" id="formulier" aria-labelledby="formulier-titel">
+        <h2 class="sectie-kop" id="formulier-titel" tabindex="-1">Stuur je materiaal in</h2>
+        <p class="ins-sub">Zonder account. Alleen je richting en je bestanden zijn nodig.</p>
 
-      <form class="ins-form" id="insturen-form" novalidate>
-        <div class="ins-groep">
-          <h3 class="ins-groep-kop"><span class="ins-nr" aria-hidden="true">1</span>Kies je bestanden</h3>
-          <ul class="ins-lijst" id="insturen-lijst" aria-label="Gekozen bestanden"></ul>
-          <label class="ins-zone" id="insturen-zone">
-            <span class="ins-zone-knop" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><path d="M12 5v14M5 12h14"/></svg></span>
-            <strong class="ins-zone-titel" id="zone-titel">Kies bestanden</strong>
-            <span class="ins-zone-hint ins-hint-tik">Tik hier of neem een foto</span>
-            <span class="ins-zone-hint ins-hint-sleep">Klik om te kiezen of sleep ze hierheen</span>
-            <span class="ins-zone-tips" id="bestanden-tips"><span class="ins-tip-welkom">Je eigen samenvattingen, notities of cursussen.</span> <span>PDF, Word, PowerPoint, foto's of tekst.</span> <span>Tot 50 MB per bestand, maximaal 10.</span></span>
-            <input type="file" id="insturen-bestanden" multiple accept=".pdf,.docx,.pptx,.jpg,.jpeg,.png,.txt,image/jpeg,image/png" aria-labelledby="zone-titel" aria-describedby="bestanden-tips bestanden-fout">
-          </label>
-          <div class="ins-fouten" id="bestanden-fout" role="alert" hidden></div>
-        </div>
-
-        <div class="ins-groep">
-          <h3 class="ins-groep-kop"><span class="ins-nr" aria-hidden="true">2</span>Zeg voor welk vak</h3>
-          <div class="ins-veld">
-            <label for="insturen-richting">Je richting</label>
-            <input class="auth-input" id="insturen-richting" type="text" maxlength="120" autocomplete="off" placeholder="Bv. Criminologie 1BA" aria-required="true" aria-describedby="richting-fout">
-            <p class="ins-fout" id="richting-fout" hidden></p>
+        <form class="kaart ins-form" id="insturen-form" novalidate>
+          <div class="ins-groep">
+            <h3 class="ins-groep-kop"><span class="ins-nr" aria-hidden="true">1</span>Zeg voor welk vak</h3>
+            <div class="ins-veld">
+              <label for="insturen-richting">Je richting</label>
+              <input class="auth-input" id="insturen-richting" type="text" maxlength="120" autocomplete="off" placeholder="Bv. Criminologie 1BA" aria-required="true" aria-describedby="richting-fout">
+              <p class="ins-fout" id="richting-fout" hidden></p>
+            </div>
+            <div class="ins-veld">
+              <label for="insturen-vak">Vak <span class="ins-optioneel">optioneel</span></label>
+              <input class="auth-input" id="insturen-vak" type="text" maxlength="160" autocomplete="off" placeholder="Bv. Strafrecht">
+            </div>
+            <div class="ins-veld">
+              <label for="insturen-email">Je e-mailadres <span class="ins-optioneel">optioneel</span></label>
+              <input class="auth-input" id="insturen-email" type="email" maxlength="254" autocomplete="email" inputmode="email" placeholder="naam@voorbeeld.be" aria-describedby="email-uitleg email-fout">
+              <p class="ins-help" id="email-uitleg">Dan krijg je een mail als het klaar is.</p>
+              <p class="ins-fout" id="email-fout" hidden></p>
+            </div>
+            <div class="ins-val" aria-hidden="true">
+              <label for="ins-x7">Niet invullen</label>
+              <input id="ins-x7" name="ins-x7" type="text" tabindex="-1" autocomplete="off" data-1p-ignore data-lpignore="true" data-form-type="other">
+            </div>
           </div>
-          <div class="ins-veld">
-            <label for="insturen-vak">Vak <span class="ins-optioneel">optioneel</span></label>
-            <input class="auth-input" id="insturen-vak" type="text" maxlength="160" autocomplete="off" placeholder="Bv. Strafrecht">
+
+          <div class="ins-groep">
+            <h3 class="ins-groep-kop"><span class="ins-nr" aria-hidden="true">2</span>Kies je bestanden</h3>
+            <ul class="ins-lijst" id="insturen-lijst" aria-label="Gekozen bestanden"></ul>
+            <label class="ins-zone" id="insturen-zone">
+              <span class="ins-zone-knop" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><path d="M12 5v14M5 12h14"/></svg></span>
+              <strong class="ins-zone-titel" id="zone-titel">Kies bestanden</strong>
+              <span class="ins-zone-hint ins-hint-tik">Tik hier of neem een foto</span>
+              <span class="ins-zone-hint ins-hint-sleep">Klik om te kiezen of sleep ze hierheen</span>
+              <span class="ins-zone-tips" id="bestanden-tips"><span class="ins-tip-welkom">Je eigen samenvattingen, notities of cursussen.</span> <span>PDF, Word, PowerPoint, foto's of tekst.</span> <span>Tot 50 MB per bestand, maximaal 10.</span></span>
+              <input type="file" id="insturen-bestanden" multiple accept=".pdf,.docx,.pptx,.jpg,.jpeg,.png,.txt,image/jpeg,image/png" aria-labelledby="zone-titel" aria-describedby="bestanden-tips bestanden-fout">
+            </label>
+            <div class="ins-fouten" id="bestanden-fout" role="alert" hidden></div>
           </div>
-          <div class="ins-veld">
-            <label for="insturen-email">Je e-mailadres <span class="ins-optioneel">optioneel</span></label>
-            <input class="auth-input" id="insturen-email" type="email" maxlength="254" autocomplete="email" inputmode="email" placeholder="naam@voorbeeld.be" aria-describedby="email-uitleg email-fout">
-            <p class="ins-help" id="email-uitleg">Dan krijg je een mail als het klaar is.</p>
-            <p class="ins-fout" id="email-fout" hidden></p>
+
+          <p class="ins-mag"><strong>Stuur alleen materiaal dat je mag delen.</strong> Meer in onze <a class="tekstlink" href="../privacy.html">privacyverklaring</a>.</p>
+
+          <div class="ins-balk" id="insturen-balk">
+            <p class="ins-fout ins-fout-algemeen" id="insturen-fout" role="alert" hidden></p>
+            <div class="ins-voortgang" id="voortgang" aria-hidden="true" hidden>
+              <p class="ins-voortgang-tekst" id="voortgang-tekst"></p>
+              <div class="ins-voortgang-delen" id="voortgang-delen"></div>
+            </div>
+            <button class="knop ins-verstuur" id="insturen-volgende" type="submit">Verstuur</button>
+            <p class="ins-bewaard" id="insturen-bewaard" hidden>Wat al verstuurd is, blijft bewaard.</p>
           </div>
-          <div class="ins-val" aria-hidden="true">
-            <label for="ins-x7">Niet invullen</label>
-            <input id="ins-x7" name="ins-x7" type="text" tabindex="-1" autocomplete="off" data-1p-ignore data-lpignore="true" data-form-type="other">
+        </form>
+
+        <div class="kaart ins-bedankt" id="insturen-bedankt" hidden>
+          <svg class="ins-vink" viewBox="0 0 64 64" aria-hidden="true" focusable="false">
+            <circle class="bol" cx="32" cy="32" r="29"/>
+            <path class="ring" pathLength="1" d="M32 3a29 29 0 1 1 0 58a29 29 0 1 1 0-58"/>
+            <path class="haak" pathLength="1" d="m20.5 33 8 8 15-16"/>
+          </svg>
+          <h3 id="insturen-bedankt-kop" tabindex="-1">Je inzending is binnen.</h3>
+          <p>Bedankt om mee te bouwen aan jouw richting.</p>
+          <div class="ins-knoppen">
+            <a class="knop ins-wa" href="https://chat.whatsapp.com/Ci1d1PQzvWr6VPcq10l7bK" target="_blank" rel="noopener">
+              <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false"><path d="M20.52 3.48A11.87 11.87 0 0 0 12.06 0C5.5 0 .16 5.34.16 11.9c0 2.1.55 4.15 1.6 5.95L.07 24l6.3-1.65a11.9 11.9 0 0 0 5.69 1.45h.01c6.55 0 11.89-5.34 11.89-11.9a11.82 11.82 0 0 0-3.44-8.42ZM12.07 21.8a9.85 9.85 0 0 1-5.03-1.38l-.36-.22-3.74.98 1-3.64-.24-.38a9.86 9.86 0 0 1-1.52-5.26c0-5.45 4.44-9.89 9.89-9.89 2.64 0 5.12 1.03 6.99 2.9a9.81 9.81 0 0 1 2.89 6.99c0 5.46-4.43 9.9-9.88 9.9Zm5.42-7.41c-.3-.15-1.76-.87-2.04-.97-.27-.1-.47-.15-.67.15-.2.3-.77.97-.94 1.17-.18.2-.35.22-.65.07-.3-.15-1.26-.46-2.4-1.48-.88-.78-1.48-1.75-1.65-2.05-.18-.3-.02-.46.13-.61.13-.13.3-.35.45-.52.15-.17.2-.3.3-.5.1-.19.05-.36-.03-.51-.07-.15-.67-1.61-.92-2.2-.24-.59-.48-.51-.67-.52H7.8c-.2 0-.52.07-.8.37-.27.3-1.04 1.01-1.04 2.47s1.06 2.87 1.21 3.07c.15.2 2.1 3.21 5.08 4.5.71.31 1.26.49 1.69.63.71.22 1.36.19 1.87.11.57-.08 1.76-.72 2.01-1.42.25-.69.25-1.29.18-1.41-.08-.13-.28-.2-.58-.35Z"/></svg>
+              Kom in de WhatsApp-groep
+            </a>
+            <a class="knop-secundair" href="../index.html">Naar Berie's Exam Space</a>
           </div>
+          <button class="tekstlink ins-nogiets" id="nog-iets" type="button">Nog iets insturen</button>
         </div>
+      </section>
 
-        <p class="ins-mag"><strong>Stuur alleen materiaal dat je mag delen.</strong> Meer in onze <a class="tekstlink" href="/privacy.html">privacyverklaring</a>.</p>
-
-        <div class="ins-balk" id="insturen-balk">
-          <p class="ins-fout ins-fout-algemeen" id="insturen-fout" role="alert" hidden></p>
-          <div class="ins-voortgang" id="voortgang" aria-hidden="true" hidden>
-            <p class="ins-voortgang-tekst" id="voortgang-tekst"></p>
-            <div class="ins-voortgang-delen" id="voortgang-delen"></div>
-          </div>
-          <button class="knop ins-verstuur" id="insturen-volgende" type="submit">Verstuur</button>
-          <p class="ins-bewaard" id="insturen-bewaard" hidden>Wat al verstuurd is, blijft bewaard.</p>
-        </div>
-      </form>
-
-      <div class="ins-bedankt" id="insturen-bedankt" hidden>
-        <svg class="ins-vink" viewBox="0 0 64 64" aria-hidden="true" focusable="false">
-          <circle class="bol" cx="32" cy="32" r="29"/>
-          <path class="ring" pathLength="1" d="M32 3a29 29 0 1 1 0 58a29 29 0 1 1 0-58"/>
-          <path class="haak" pathLength="1" d="m20.5 33 8 8 15-16"/>
-        </svg>
-        <h3 id="insturen-bedankt-kop" tabindex="-1">Je inzending is binnen.</h3>
-        <p>Bedankt om mee te bouwen aan jouw richting.</p>
-        <div class="ins-knoppen">
+      <section class="ins-sectie" aria-labelledby="wa-titel">
+        <h2 class="sectie-kop" id="wa-titel">Kom in de WhatsApp-groep</h2>
+        <p class="ins-sub">Hier hoor je als eerste wanneer er nieuwe vakken en richtingen bijkomen.</p>
+        <div class="kaart ins-wa-kaart">
           <a class="knop ins-wa" href="https://chat.whatsapp.com/Ci1d1PQzvWr6VPcq10l7bK" target="_blank" rel="noopener">
             <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false"><path d="M20.52 3.48A11.87 11.87 0 0 0 12.06 0C5.5 0 .16 5.34.16 11.9c0 2.1.55 4.15 1.6 5.95L.07 24l6.3-1.65a11.9 11.9 0 0 0 5.69 1.45h.01c6.55 0 11.89-5.34 11.89-11.9a11.82 11.82 0 0 0-3.44-8.42ZM12.07 21.8a9.85 9.85 0 0 1-5.03-1.38l-.36-.22-3.74.98 1-3.64-.24-.38a9.86 9.86 0 0 1-1.52-5.26c0-5.45 4.44-9.89 9.89-9.89 2.64 0 5.12 1.03 6.99 2.9a9.81 9.81 0 0 1 2.89 6.99c0 5.46-4.43 9.9-9.88 9.9Zm5.42-7.41c-.3-.15-1.76-.87-2.04-.97-.27-.1-.47-.15-.67.15-.2.3-.77.97-.94 1.17-.18.2-.35.22-.65.07-.3-.15-1.26-.46-2.4-1.48-.88-.78-1.48-1.75-1.65-2.05-.18-.3-.02-.46.13-.61.13-.13.3-.35.45-.52.15-.17.2-.3.3-.5.1-.19.05-.36-.03-.51-.07-.15-.67-1.61-.92-2.2-.24-.59-.48-.51-.67-.52H7.8c-.2 0-.52.07-.8.37-.27.3-1.04 1.01-1.04 2.47s1.06 2.87 1.21 3.07c.15.2 2.1 3.21 5.08 4.5.71.31 1.26.49 1.69.63.71.22 1.36.19 1.87.11.57-.08 1.76-.72 2.01-1.42.25-.69.25-1.29.18-1.41-.08-.13-.28-.2-.58-.35Z"/></svg>
-            Kom in de WhatsApp-groep
+            <span>Word lid →</span>
           </a>
-          <a class="knop-secundair" href="/">Naar Berie's Exam Space</a>
+          <div class="ins-wa-groep">
+            <strong>Berie's Exam Space</strong>
+            <span>WhatsApp-groep, alleen updates</span>
+          </div>
+          <div class="ins-wa-qr"><img src="../assets/whatsapp-qr.svg?v=89" width="164" height="164" alt="QR-code die de WhatsApp-groep opent" title="Scan met je telefoon"></div>
         </div>
-        <button class="tekstlink ins-nogiets" id="nog-iets" type="button">Nog iets insturen</button>
-      </div>
-    </section>
+        <p class="ins-wa-privacy">Zoals in elke WhatsApp-groep is je nummer zichtbaar voor de andere leden.</p>
+      </section>
 
-    <p class="ins-sr" id="insturen-status" role="status" aria-live="polite"></p>
+      <p class="ins-sr" id="insturen-status" role="status" aria-live="polite"></p>
+    </div>
   </main>
 
   <dialog class="ins-dialoog" id="bedank-dialoog" aria-labelledby="dialoog-kop" aria-describedby="dialoog-tekst">
@@ -511,7 +428,7 @@
           <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false"><path d="M20.52 3.48A11.87 11.87 0 0 0 12.06 0C5.5 0 .16 5.34.16 11.9c0 2.1.55 4.15 1.6 5.95L.07 24l6.3-1.65a11.9 11.9 0 0 0 5.69 1.45h.01c6.55 0 11.89-5.34 11.89-11.9a11.82 11.82 0 0 0-3.44-8.42ZM12.07 21.8a9.85 9.85 0 0 1-5.03-1.38l-.36-.22-3.74.98 1-3.64-.24-.38a9.86 9.86 0 0 1-1.52-5.26c0-5.45 4.44-9.89 9.89-9.89 2.64 0 5.12 1.03 6.99 2.9a9.81 9.81 0 0 1 2.89 6.99c0 5.46-4.43 9.9-9.88 9.9Zm5.42-7.41c-.3-.15-1.76-.87-2.04-.97-.27-.1-.47-.15-.67.15-.2.3-.77.97-.94 1.17-.18.2-.35.22-.65.07-.3-.15-1.26-.46-2.4-1.48-.88-.78-1.48-1.75-1.65-2.05-.18-.3-.02-.46.13-.61.13-.13.3-.35.45-.52.15-.17.2-.3.3-.5.1-.19.05-.36-.03-.51-.07-.15-.67-1.61-.92-2.2-.24-.59-.48-.51-.67-.52H7.8c-.2 0-.52.07-.8.37-.27.3-1.04 1.01-1.04 2.47s1.06 2.87 1.21 3.07c.15.2 2.1 3.21 5.08 4.5.71.31 1.26.49 1.69.63.71.22 1.36.19 1.87.11.57-.08 1.76-.72 2.01-1.42.25-.69.25-1.29.18-1.41-.08-.13-.28-.2-.58-.35Z"/></svg>
           Kom in de WhatsApp-groep
         </a>
-        <a class="knop-secundair" href="/">Naar Berie's Exam Space</a>
+        <a class="knop-secundair" href="../index.html">Naar Berie's Exam Space</a>
       </div>
     </div>
   </dialog>
@@ -881,11 +798,11 @@
         wisFouten();
         // Bots vullen het verborgen veld in: niets versturen, wel dezelfde pop-up. De console zegt het, voor wie zoekt.
         if (val.value) { console.info('Niet verstuurd: het verborgen veld was ingevuld.'); klaar(); return; }
-        if (!bestanden.length) { toonVeldFout('bestanden', 'Kies eerst minstens één bestand.'); input.focus(); return; }
         const richtingTekst = richting.value.trim();
         if (Array.from(richtingTekst).length < 2) { toonVeldFout('richting', 'Vul je richting in, zodat we weten voor wie het is.'); richting.focus(); return; }
         const emailTekst = email.value.trim();
         if (emailTekst && !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(emailTekst)) { toonVeldFout('email', 'Dit e-mailadres klopt niet. Laat het leeg of vul het juist in.'); email.focus(); return; }
+        if (!bestanden.length) { toonVeldFout('bestanden', 'Kies eerst minstens één bestand.'); input.focus(); return; }
         const auth = window.BES?.auth;
         const client = auth?.client;
         if (!client) {
