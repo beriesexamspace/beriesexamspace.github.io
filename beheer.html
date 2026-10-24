@@ -72,18 +72,40 @@
     .beheer-boek-status:empty { margin: 0; }
     .beheer-leeg { margin: 0; color: var(--ink-soft); font-size: .9375rem; }
     .beheer-verborgen { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
-    .beheer-zoek { position: sticky; z-index: 5; top: 68px; display: flex; flex-wrap: wrap; align-items: center; gap: 6px 14px; margin: 0 -4px 12px; padding: 8px 4px; background: var(--bg); }
-    .beheer-zoek-veld { position: relative; flex: 1 1 100%; display: flex; }
+    /* Accounts: de hele lijst zit in één vak dat open- en dichtklapt; de keuze blijft bewaard. */
+    .beheer-vouw { display: flex; align-items: center; gap: 10px; width: 100%; padding: 0; border: 0; background: none; color: inherit; font: inherit; letter-spacing: inherit; text-align: left; cursor: pointer; }
+    .beheer-vouw-teller { color: var(--ink-soft); font-size: .9375rem; font-weight: 500; letter-spacing: 0; font-variant-numeric: tabular-nums; }
+    .beheer-vouw-actie { display: inline-flex; align-items: center; gap: 6px; margin-left: auto; min-height: 40px; padding: 6px 12px 6px 16px; border: 1px solid var(--line); border-radius: var(--pill); background: var(--surface); font-size: .9375rem; font-weight: 600; letter-spacing: 0; white-space: nowrap; transition: border-color 150ms var(--ease); }
+    :where(html.has-hover) .beheer-vouw:hover .beheer-vouw-actie { border-color: var(--accent); }
+    .beheer-pijltje { flex: 0 0 18px; width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; transition: transform 200ms var(--ease); }
+    [aria-expanded="true"] .beheer-pijltje { transform: rotate(180deg); }
+    .beheer-vouw:active { transform: none; }
+    /* De menubalk is op deze pagina vast 56px hoog: de zoekbalk plakt er direct onder, zonder kier waar de kaarten doorheen schijnen. */
+    .beheer-zoek { position: sticky; z-index: 5; top: 56px; display: flex; flex-wrap: wrap; align-items: center; gap: 8px 12px; margin: 0 -4px 12px; padding: 12px 4px 8px; background: var(--bg); }
+    .beheer-zoek.is-vast::before, .beheer-zoek.is-vast::after { content: ''; position: absolute; left: 0; right: 0; pointer-events: none; }
+    .beheer-zoek.is-vast::before { bottom: 100%; height: 56px; background: var(--bg); }
+    .beheer-zoek.is-vast::after { top: 100%; height: 16px; background: linear-gradient(var(--bg), transparent); }
+    .beheer-zoek-veld { position: relative; flex: 1 1 260px; display: flex; min-width: 0; }
     .beheer-zoek-veld svg { position: absolute; top: 50%; left: 16px; width: 20px; height: 20px; translate: 0 -50%; fill: none; stroke: var(--ink-soft); stroke-width: 2; stroke-linecap: round; pointer-events: none; }
-    .beheer-zoek input { flex: 1 1 auto; min-width: 0; min-height: 52px; padding: 12px 16px 12px 46px; border: 1px solid var(--line); border-radius: var(--pill); background: var(--input-bg); color: var(--ink); font: inherit; font-size: 1.0625rem; transition: border-color 150ms var(--ease), box-shadow 150ms var(--ease); }
+    .beheer-zoek input { flex: 1 1 auto; min-width: 0; min-height: 48px; padding: 10px 16px 10px 44px; border: 1px solid var(--line); border-radius: var(--pill); background: var(--input-bg); color: var(--ink); font: inherit; font-size: 1rem; transition: border-color 150ms var(--ease), box-shadow 150ms var(--ease); }
     .beheer-zoek input:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-zacht); }
-    .beheer-zoek small { color: var(--ink-soft); font-size: .8125rem; font-variant-numeric: tabular-nums; }
-    .beheer-sorteer { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; flex: 1 1 100%; }
+    .beheer-zoek small { flex: 1 1 100%; color: var(--ink-soft); font-size: .8125rem; font-variant-numeric: tabular-nums; }
+    .beheer-sorteer { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; flex: 0 1 auto; }
     .beheer-sorteer label { color: var(--ink-soft); font-size: .875rem; }
     .beheer-sorteer select, .beheer-inst-filter select { min-height: 44px; padding: 8px 40px 8px 16px; border: 1px solid var(--line); border-radius: var(--pill); background: var(--input-bg) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%238e8e93' stroke-width='2' stroke-linecap='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E") no-repeat right 14px center / 18px; color: var(--ink); font: inherit; font-size: .9375rem; appearance: none; cursor: pointer; }
-    .beheer-sorteer select:focus, .beheer-inst-filter select:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-zacht); }
+    .beheer-zoek :is(select, .beheer-sorteer-richting) { min-height: 48px; }
+    /* Even breed bij elke volgorde, zodat het zoekveld niet verspringt. */
+    .beheer-zoek .beheer-sorteer-richting { min-width: 164px; }
+    /* Alleen bij toetsenbord een blauwe rand. Chrome rekent een keuzelijst ook na een muisklik tot :focus-visible, dus het script zet data-muis. */
+    .beheer-sorteer select:focus-visible, .beheer-inst-filter select:focus-visible { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-zacht); }
+    .beheer-sorteer select[data-muis]:focus-visible, .beheer-inst-filter select[data-muis]:focus-visible { border-color: var(--line); box-shadow: none; }
     .beheer-sorteer-richting { min-height: 44px; padding: 8px 18px; border: 1px solid var(--line); border-radius: var(--pill); background: var(--surface); color: var(--ink); font: inherit; font-size: .9375rem; font-weight: 600; cursor: pointer; white-space: nowrap; }
     .beheer-sorteer-richting:hover { border-color: var(--accent); }
+    /* Op de telefoon zou een vaste balk het halve scherm vullen: daar scrolt hij gewoon mee. */
+    @media (max-width: 639px) {
+      .beheer-zoek { position: static; padding-top: 0; }
+      .beheer-zoek-veld { flex-basis: 100%; }
+    }
     .beheer-accounts { display: grid; gap: 12px; margin: 0; padding: 0; list-style: none; }
     .beheer-accounts .beheer-leeg { padding: 8px 0; }
     .beheer-geen { margin: 8px 0 0; color: var(--ink-soft); font-size: .9375rem; }
@@ -241,7 +263,10 @@
         </section>
 
         <section class="beheer-sectie" aria-labelledby="nieuwste-kop">
-          <h2 class="sectie-kop" id="nieuwste-kop">Accounts</h2>
+          <h2 class="sectie-kop" id="nieuwste-kop">
+            <button class="beheer-vouw" type="button" id="accounts-vouw" aria-expanded="false" aria-controls="accounts-blok">Accounts <span class="beheer-vouw-teller" id="accounts-teller"></span> <span class="beheer-vouw-actie"><span id="accounts-actie">Toon</span><svg class="beheer-pijltje" viewBox="0 0 24 24" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></span></button>
+          </h2>
+          <div id="accounts-blok" hidden>
           <div class="beheer-zoek" role="search">
             <label class="beheer-verborgen" for="beheer-zoek">Zoek een account</label>
             <div class="beheer-zoek-veld">
@@ -270,6 +295,7 @@
           </div>
           <ul class="beheer-accounts" id="beheer-nieuwste"></ul>
           <p class="beheer-geen" id="beheer-geen" hidden>Niemand gevonden met die naam of dat e-mailadres.</p>
+          </div>
         </section>
 
         <section class="beheer-sectie" aria-labelledby="oefenen-kop">
@@ -454,6 +480,12 @@
         li.append(acties, bevestiging);
         return li;
       };
+      // Keuzelijsten: na een muisklik geen blauwe rand laten staan, bij het toetsenbord wel.
+      document.querySelectorAll('.beheer-sorteer select, .beheer-inst-filter select').forEach((keuze) => {
+        keuze.addEventListener('pointerdown', () => { keuze.dataset.muis = ''; });
+        keuze.addEventListener('keydown', () => { delete keuze.dataset.muis; });
+        keuze.addEventListener('blur', () => { delete keuze.dataset.muis; });
+      });
       const zoek = $('beheer-zoek');
       const telAccounts = () => {
         const term = zoek.value.trim().toLowerCase();
@@ -500,6 +532,33 @@
       sorteerOp.addEventListener('change', () => { sorteerAf = !['naam', 'via'].includes(sorteerOp.value); sorteer(); });
       sorteerRichting.addEventListener('click', () => { sorteerAf = !sorteerAf; sorteer(); });
       sorteer();
+
+      // De hele accountlijst klapt dicht, zodat je niet langs alle accounts hoeft te scrollen. De keuze blijft bewaard.
+      const accountsVouw = $('accounts-vouw');
+      const accountsBlok = $('accounts-blok');
+      const zoekBalk = accountsBlok.querySelector('.beheer-zoek');
+      // Plakt de zoekbalk onder het menu? Dan dekt hij de ruimte erboven af en vervagen de kaarten eronder.
+      const balkVast = () => {
+        const stijl = window.getComputedStyle(zoekBalk);
+        // Zolang de pagina nog laadt is de balk onzichtbaar (geen vakjes): dan telt hij niet als vast.
+        const plakt = !accountsBlok.hidden && zoekBalk.getClientRects().length > 0 && stijl.position === 'sticky' && zoekBalk.getBoundingClientRect().top <= parseFloat(stijl.top) + 0.5;
+        zoekBalk.classList.toggle('is-vast', plakt);
+      };
+      let balkFrame = 0;
+      const balkLater = () => { if (!balkFrame) balkFrame = window.requestAnimationFrame(() => { balkFrame = 0; balkVast(); }); };
+      window.addEventListener('scroll', balkLater, { passive: true });
+      window.addEventListener('resize', balkLater);
+      const zetAccounts = (open, bewaar) => {
+        accountsBlok.hidden = !open;
+        accountsVouw.setAttribute('aria-expanded', String(open));
+        $('accounts-actie').textContent = open ? 'Verberg' : 'Toon';
+        if (bewaar) { try { window.localStorage.setItem('bes_beheer_accounts', open ? 'open' : 'dicht'); } catch {} }
+        balkVast();
+      };
+      let accountsOpen = false;
+      try { accountsOpen = window.localStorage.getItem('bes_beheer_accounts') === 'open'; } catch {}
+      zetAccounts(accountsOpen, false);
+      accountsVouw.addEventListener('click', () => zetAccounts(accountsBlok.hidden, true));
 
       // Ingestuurd materiaal (supabase/insturingen.sql): tabel insturingen en de privé bucket 'insturingen'.
       // Lezen en wissen mag alleen de beheerder (RLS met public.is_beheerder()). Alles wat studenten intypten gaat via textContent.
@@ -1167,6 +1226,7 @@
           return li;
         });
         totaalAccounts = o.accounts.totaal || accounts.length;
+        $('accounts-teller').textContent = totaalAccounts;
         rijen('beheer-nieuwste', accounts, 'Nog geen accounts.');
         sorteer();
         telAccounts();
@@ -1220,6 +1280,7 @@
         status.textContent = '';
         beheerderId = user.id;
         inhoud.hidden = false;
+        balkVast();
         // Pas nu de beheerder bevestigd is; laadt los van de rest, met een eigen melding als het mislukt.
         laadInsturingen(versie).catch(() => {});
         return true;
