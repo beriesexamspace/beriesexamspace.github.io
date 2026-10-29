@@ -245,7 +245,10 @@
       display: flex; align-items: flex-end; gap: 3px; height: 58px; padding: 0 10px;
       border-bottom: 4px solid var(--ins-rand); border-radius: 0 0 3px 3px;
     }
-    .ins-boeken i { display: block; flex: none; width: 14px; height: var(--h, 80%); border-radius: 3px 3px 1px 1px; background: var(--kleur, var(--teal)); transform-origin: bottom; }
+    /* Alle boeken even hoog, in drie tinten teal die steeds in dezelfde volgorde terugkomen. */
+    .ins-boeken i { display: block; flex: none; width: 14px; height: 80%; border-radius: 3px 3px 1px 1px; background: var(--teal); transform-origin: bottom; }
+    .ins-boeken i:nth-child(3n+2) { background: #2E8F89; }
+    .ins-boeken i:nth-child(3n) { background: var(--sig); }
     .ins-plank-naam { display: flex; align-items: center; gap: 6px; padding: 0 10px; color: var(--muted); font-size: .875rem; font-weight: 600; }
     .ins-plank-naam svg { width: 15px; height: 15px; fill: none; stroke: currentColor; stroke-width: 2.6; stroke-linecap: round; stroke-linejoin: round; }
     .ins-plank-naam small { color: var(--teal-tekst); font-size: .75rem; font-weight: 600; }
@@ -526,13 +529,13 @@
             <div class="ins-kast">
               <div class="ins-plank is-vol">
                 <div class="ins-boeken">
-                  <i style="--h:86%;--kleur:var(--teal);--k:0"></i><i style="--h:72%;--kleur:#2E8F89;--k:1"></i><i style="--h:94%;--kleur:var(--sig);--k:2"></i><i style="--h:78%;--kleur:var(--teal);--k:3"></i><i style="--h:66%;--kleur:#5E6E7A;--k:4"></i><i style="--h:90%;--kleur:#2E8F89;--k:5"></i><i style="--h:80%;--kleur:var(--teal);--k:6"></i><i style="--h:70%;--kleur:var(--sig);--k:7"></i><i style="--h:88%;--kleur:#5E6E7A;--k:8"></i><i style="--h:76%;--kleur:var(--teal);--k:9"></i><i style="--h:92%;--kleur:#2E8F89;--k:10"></i><i style="--h:68%;--kleur:var(--sig);--k:11"></i>
+                  <i style="--k:0"></i><i style="--k:1"></i><i style="--k:2"></i><i style="--k:3"></i><i style="--k:4"></i><i style="--k:5"></i><i style="--k:6"></i><i style="--k:7"></i><i style="--k:8"></i><i style="--k:9"></i><i style="--k:10"></i><i style="--k:11"></i>
                 </div>
                 <span class="ins-plank-naam"><svg viewBox="0 0 16 16"><path d="m3.5 8.5 3 3 6-7"/></svg>Psychologie</span>
               </div>
               <div class="ins-plank is-half">
                 <div class="ins-boeken">
-                  <i style="--h:84%;--kleur:var(--teal);--k:12"></i><i style="--h:70%;--kleur:#2E8F89;--k:13"></i><i style="--h:90%;--kleur:var(--sig);--k:14"></i>
+                  <i style="--k:12"></i><i style="--k:13"></i><i style="--k:14"></i>
                 </div>
                 <span class="ins-plank-naam">Criminologie <small>binnenkort</small></span>
               </div>
