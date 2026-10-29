@@ -14,6 +14,20 @@
 
   if (needsPageFade && !motion.matches) root.classList.add('page-fade');
 
+  // Elke pagina begint bovenaan, ook na herladen of terug-gaan: de browser zet de oude scrollplek niet meer terug.
+  // Alleen een link naar een plek op de pagina (#...) begint daar.
+  if ('scrollRestoration' in window.history) window.history.scrollRestoration = 'manual';
+  window.addEventListener('pageshow', event => {
+    if (!event.persisted) return;
+    let doel = null;
+    try { doel = window.location.hash.length > 1 && document.getElementById(decodeURIComponent(window.location.hash.slice(1))); } catch {}
+    if (doel) return;
+    const gedrag = root.style.scrollBehavior;
+    root.style.scrollBehavior = 'auto';
+    window.scrollTo(0, 0);
+    root.style.scrollBehavior = gedrag;
+  });
+
   window.naamOpslaan = naam => {
     try {
       window.localStorage.setItem('bes_naam', naam);

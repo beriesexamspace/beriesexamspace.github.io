@@ -618,9 +618,12 @@
         document.querySelectorAll('a[href="formulier.html"]').forEach(link => { link.href = 'formulier.html' + window.location.search; });
       }
 
-      // Lees wie we zijn: de pagina schuift naar het verhaal (scroll-behavior) en het pijltje veert even mee.
+      // Lees wie we zijn: de pagina schuift naar het verhaal en het pijltje veert even mee.
+      // Zonder #verhaal in het adres, zodat de pagina na herladen weer bovenaan begint.
       const leesKnop = element('lees-knop');
-      leesKnop.addEventListener('click', () => {
+      leesKnop.addEventListener('click', event => {
+        event.preventDefault();
+        element('verhaal').scrollIntoView({ behavior: minderBeweging.matches ? 'auto' : 'smooth', block: 'start' });
         leesKnop.classList.remove('is-tik');
         void leesKnop.offsetWidth;
         leesKnop.classList.add('is-tik');
