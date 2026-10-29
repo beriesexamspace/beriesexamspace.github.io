@@ -236,7 +236,7 @@
       #ins-dias .tel { margin-bottom: -48px; }
     }
 
-    /* Beeld 4: een boekenkast. De plank van Psychologie staat vol, Criminologie krijgt de eerste boeken, de rest is nog leeg. */
+    /* Beeld 4: een boekenkast. De plank van Psychologie staat vol, Criminologie krijgt de eerste boeken, en de lege plank wacht op jouw richting. */
     .ins-kast { display: grid; gap: 16px; width: 100%; max-width: 360px; }
     .ins-plank { display: grid; gap: 6px; }
     .ins-boeken {
@@ -324,9 +324,8 @@
       .is-zichtbaar .ins-boeken i { animation: boek-in 440ms cubic-bezier(.34, 1.56, .64, 1) both; animation-delay: calc(250ms + var(--k, 0) * 70ms); }
       .is-zichtbaar .ins-plank-naam { animation: appear 400ms var(--ease) 300ms both; }
       .is-zichtbaar .ins-plank.is-half .ins-plank-naam { animation-delay: 1150ms; }
-      .is-zichtbaar .ins-plank:nth-child(3) .ins-plank-naam { animation-delay: 1350ms; }
-      .is-zichtbaar .ins-plank.is-jij .ins-plank-naam { animation-delay: 1550ms; }
-      .is-zichtbaar .ins-boek-plus { animation: fig-pop 420ms cubic-bezier(.34, 1.56, .64, 1) 1600ms both, jij-puls 1400ms var(--ease) 2100ms 2; }
+      .is-zichtbaar .ins-plank.is-jij .ins-plank-naam { animation-delay: 1350ms; }
+      .is-zichtbaar .ins-boek-plus { animation: fig-pop 420ms cubic-bezier(.34, 1.56, .64, 1) 1400ms both, jij-puls 1400ms var(--ease) 1900ms 2; }
       .is-zichtbaar .ins-kring-b { animation: fig-pop 600ms cubic-bezier(.34, 1.56, .64, 1) 200ms both; }
       .is-zichtbaar .ins-kring i { animation: stip-in 380ms cubic-bezier(.34, 1.56, .64, 1) both; animation-delay: calc(550ms + var(--k, 0) * 65ms); }
       .is-zichtbaar .ins-kring-jij { animation: fig-pop 420ms cubic-bezier(.34, 1.56, .64, 1) 2250ms both, jij-puls 1400ms var(--ease) 2700ms 3; }
@@ -546,10 +545,6 @@
                   <i style="--h:84%;--kleur:var(--teal);--k:12"></i><i style="--h:70%;--kleur:#2E8F89;--k:13"></i><i style="--h:90%;--kleur:var(--sig);--k:14"></i>
                 </div>
                 <span class="ins-plank-naam">Criminologie <small>binnenkort</small></span>
-              </div>
-              <div class="ins-plank">
-                <div class="ins-boeken"></div>
-                <span class="ins-plank-naam">Rechten</span>
               </div>
               <div class="ins-plank is-jij">
                 <div class="ins-boeken"><span class="ins-boek-plus">+</span></div>
