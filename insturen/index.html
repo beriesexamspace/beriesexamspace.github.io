@@ -71,10 +71,11 @@
     .ins-held h1 .ins-punt { display: inline; color: var(--teal); }
     .ins-held-uitleg { max-width: 30rem; margin: 0; color: var(--muted); font-size: clamp(1.0625rem, 4.6vw, 1.25rem); line-height: 1.5; text-wrap: pretty; }
     .ins-held-uitleg strong { color: var(--ink); font-weight: 600; }
-    .ins-held-knoppen { display: grid; justify-items: start; gap: 10px; margin-top: 6px; }
-    .ins-held-knoppen .knop { gap: 10px; width: 100%; max-width: none; min-height: 56px; margin: 0; font-weight: 600; }
+    /* Twee knoppen: op de telefoon onder elkaar over de hele breedte, op de laptop naast elkaar. */
+    .ins-held-knoppen { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 6px; }
+    .ins-held-knoppen :is(.knop, .knop-secundair) { flex: 1 1 100%; gap: 10px; width: auto; max-width: none; min-height: 56px; margin: 0; font-weight: 600; }
+    .ins-held-knoppen .knop-secundair { border-color: var(--ins-lijn); }
     .ins-held-knoppen .knop svg { width: 18px; height: 18px; flex: none; fill: none; stroke: currentColor; stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round; }
-    .ins-held-knoppen .tekstlink { min-height: 44px; padding: 10px 0; font-size: 1rem; white-space: nowrap; }
     /* Twee cijfertegels. Tik erop: de tegel draait om en vertelt meer; terugdraaien telt het cijfer opnieuw op. */
     .ins-cijfers { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; max-width: 26rem; margin: 18px 0 0; padding: 0; list-style: none; }
     .ins-cijfers li { display: grid; min-width: 0; }
@@ -106,48 +107,69 @@
       :where(html.has-hover) .ins-cijfer:hover .ins-cijfer-voor { border-color: var(--accent); }
     }
 
-    /* Voorbeeld: een samenvatting wordt een oefenvraag. Twee kaartjes die elkaar overlappen, zoals papier op een bureau. */
+    /* Voorbeeld: het ingestuurde bestand, een lijn naar beneden, en de oefenvraag zoals ze op de site staat (zelfde opties en uitleg als vak.css). */
     .ins-demo { margin: 0; }
-    .ins-demo-buhne { position: relative; height: 300px; max-width: 420px; margin-inline: auto; }
-    .ins-demo-doc, .ins-demo-vraag {
-      position: absolute; display: grid; align-content: start; gap: 8px; box-sizing: border-box; padding: 16px;
-      border: 1px solid var(--ins-lijn); border-radius: 18px; background: var(--card); box-shadow: var(--shadow-card-hover);
+    .ins-demo-stroom { display: grid; max-width: 400px; margin-inline: auto; }
+    .ins-demo-bestand {
+      display: flex; align-items: center; gap: 12px; padding: 12px 14px;
+      border: 1px solid var(--ins-lijn); border-radius: 16px; background: var(--card); box-shadow: var(--shadow-soft);
     }
-    .ins-demo-doc { top: 0; left: 0; width: 62%; height: 196px; transform: rotate(-4deg); transform-origin: 30% 60%; }
-    .ins-demo-vraag { right: 0; bottom: 0; width: 78%; gap: 7px; transform: rotate(1.5deg); }
-    .ins-demo-soort {
-      justify-self: start; padding: 2px 8px; border-radius: 6px; background: var(--surface);
-      color: var(--muted); font-size: .6875rem; font-weight: 700; letter-spacing: .04em;
+    .ins-demo-bestand .ins-bestand-icoon { flex: none; }
+    .ins-demo-bestand-tekst { display: grid; flex: 1; gap: 2px; min-width: 0; }
+    .ins-demo-bestand-tekst strong { font-size: .9375rem; font-weight: 600; line-height: 1.3; overflow-wrap: anywhere; }
+    .ins-demo-bestand-tekst span { color: var(--muted); font-size: .8125rem; line-height: 1.3; }
+    .ins-demo-bestand > svg { flex: none; width: 20px; height: 20px; fill: none; stroke: var(--teal-tekst); stroke-width: 2.4; stroke-linecap: round; stroke-linejoin: round; }
+    .ins-demo-pijl { position: relative; display: grid; place-items: center; height: 52px; }
+    .ins-demo-pijl::before { content: ''; position: absolute; top: 0; bottom: 0; left: 50%; border-left: 2px dashed var(--ins-lijn); transform-origin: top; }
+    .ins-demo-pijl span {
+      position: relative; display: grid; place-items: center; width: 30px; height: 30px; border: 1px solid var(--teal); border-radius: 50%;
+      background: var(--card); color: var(--teal-tekst);
     }
-    .ins-demo-doc strong { font-size: .9375rem; font-weight: 600; line-height: 1.3; }
-    .ins-demo-hfd { color: var(--muted); font-size: .8125rem; line-height: 1.3; }
-    .ins-demo-lijn { display: block; width: var(--b, 100%); height: 7px; border-radius: 4px; background: var(--surface); }
-    .ins-demo-teller { color: var(--teal-tekst); font-size: .75rem; font-weight: 700; letter-spacing: .03em; }
-    .ins-demo-vraag strong { margin-bottom: 2px; font-size: .9375rem; font-weight: 600; line-height: 1.3; }
+    .ins-demo-pijl svg { width: 16px; height: 16px; fill: none; stroke: currentColor; stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round; }
+    .ins-demo-vraag {
+      display: grid; gap: 14px; padding: 18px;
+      border: 1px solid var(--ins-lijn); border-radius: 20px; background: var(--card); box-shadow: var(--shadow-card-hover);
+    }
+    .ins-demo-meta { color: var(--muted); font-size: .8125rem; font-weight: 600; line-height: 1.3; }
+    .ins-demo-q { margin-top: -6px; font-size: 1.0625rem; font-weight: 600; line-height: 1.35; }
+    .ins-demo-opties { display: grid; gap: 8px; }
     .ins-demo-optie {
-      display: flex; align-items: center; justify-content: space-between; gap: 8px; min-height: 34px; padding: 6px 12px;
-      border: 1px solid var(--ins-lijn); border-radius: 10px; color: var(--ink); font-size: .8125rem; line-height: 1.3;
+      display: flex; align-items: center; gap: 12px; min-height: 50px; padding: 8px 12px;
+      border: 1px solid var(--ins-lijn); border-radius: 14px; color: var(--ink); font-size: .9375rem; line-height: 1.35;
     }
-    .ins-demo-optie svg { flex: none; width: 16px; height: 16px; fill: none; stroke: currentColor; stroke-width: 2.6; stroke-linecap: round; stroke-linejoin: round; opacity: 0; }
+    .ins-demo-letter {
+      display: grid; place-items: center; flex: none; width: 28px; height: 28px; border-radius: 50%;
+      background: var(--surface); color: var(--muted); font-size: .8125rem; font-weight: 600;
+    }
+    .ins-demo-optie svg { flex: none; width: 18px; height: 18px; margin-left: auto; fill: none; stroke: currentColor; stroke-width: 2.6; stroke-linecap: round; stroke-linejoin: round; opacity: 0; }
     .ins-demo-optie.is-goed { border-color: var(--teal); background: var(--teal-zacht); color: var(--teal-tekst); font-weight: 600; }
+    .ins-demo-optie.is-goed .ins-demo-letter { background: transparent; color: var(--teal-tekst); }
     .ins-demo-optie.is-goed svg { opacity: 1; }
+    .ins-demo-uitleg { display: grid; gap: 4px; padding: 12px 14px; border-radius: 12px; background: var(--surface); font-size: .875rem; line-height: 1.5; }
+    .ins-demo-uitleg strong { font-weight: 600; }
+    .ins-demo-uitleg span { color: var(--muted); }
     .ins-demo figcaption { max-width: 22rem; margin: 28px auto 0; color: var(--muted); font-size: .9375rem; line-height: 1.45; text-align: center; text-wrap: balance; }
 
-    /* Eén keer bij het openen: de tekst komt op, dan het papier, dan de vraag, dan kleurt het juiste antwoord. */
+    /* Eén keer bij het openen: de tekst komt op, dan het bestand, de lijn, de vraag; dan kleurt het juiste antwoord en volgt de uitleg. */
     @media (prefers-reduced-motion: no-preference) {
       .ins-held-tekst > * { animation: rise 600ms var(--ease) both; }
       .ins-held-tekst > :nth-child(2) { animation-delay: 60ms; }
       .ins-held-tekst > :nth-child(3) { animation-delay: 120ms; }
       .ins-held-tekst > :nth-child(4) { animation-delay: 180ms; }
       .ins-held-tekst > :nth-child(5) { animation-delay: 240ms; }
-      .ins-demo-doc { animation: papier-in 700ms var(--ease) 250ms both; }
-      .ins-demo-vraag { animation: vraag-in 700ms var(--ease) 650ms both; }
-      .ins-demo-optie.is-goed { animation: goed 420ms var(--ease) 1500ms both; }
-      .ins-demo-optie.is-goed svg { animation: vink-in 300ms var(--ease) 1650ms both; }
-      .ins-demo figcaption { animation: rise 600ms var(--ease) 900ms both; }
-      @keyframes papier-in { from { opacity: 0; transform: translateY(16px) rotate(-9deg); } }
-      @keyframes vraag-in { from { opacity: 0; transform: translateY(28px) rotate(5deg); } }
-      @keyframes goed { from { border-color: var(--ins-lijn); background: transparent; color: var(--ink); } }
+      .ins-demo-bestand { animation: rise 600ms var(--ease) 250ms both; }
+      .ins-demo-pijl::before { animation: lijn-in 450ms var(--ease) 650ms both; }
+      .ins-demo-pijl span { animation: pop-in 380ms var(--ease) 900ms both; }
+      .ins-demo-vraag { animation: rise 700ms var(--ease) 1000ms both; }
+      .ins-demo-optie.is-goed { animation: goed 420ms var(--ease) 1900ms both; }
+      .ins-demo-optie.is-goed .ins-demo-letter { animation: goed-letter 420ms var(--ease) 1900ms both; }
+      .ins-demo-optie.is-goed svg { animation: vink-in 300ms var(--ease) 2050ms both; }
+      .ins-demo-uitleg { animation: rise 500ms var(--ease) 2250ms both; }
+      .ins-demo figcaption { animation: rise 600ms var(--ease) 1200ms both; }
+      @keyframes lijn-in { from { transform: scaleY(0); } }
+      @keyframes pop-in { from { opacity: 0; transform: scale(.6); } }
+      @keyframes goed { from { border-color: var(--ins-lijn); background: transparent; color: var(--ink); font-weight: 400; } }
+      @keyframes goed-letter { from { background: var(--surface); color: var(--muted); } }
       @keyframes vink-in { from { opacity: 0; transform: scale(.4); } }
     }
 
@@ -177,8 +199,7 @@
 
     @media (min-width: 860px) {
       .ins-held { grid-template-columns: minmax(0, 1.05fr) minmax(0, .95fr); gap: 40px; }
-      .ins-held-knoppen { grid-template-columns: auto auto; align-items: center; column-gap: 24px; }
-      .ins-held-knoppen .knop { width: auto; }
+      .ins-held-knoppen :is(.knop, .knop-secundair) { flex: 0 1 auto; }
     }
 
     /* Secties */
@@ -313,6 +334,44 @@
     :where(html.has-hover) .ins-wijzig:hover { background: var(--card); }
     .ins-wijzig:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; }
     .ins-veld select.auth-input option { color: var(--ink); background: var(--input-bg); }
+    /* De open lijst in de stijl van de site (Chrome en Edge). Andere browsers houden hun eigen lijst; op de iPhone is dat het vertrouwde draaiwiel. */
+    @supports (appearance: base-select) {
+      .ins-veld select.auth-input, .ins-veld select.auth-input::picker(select) { appearance: base-select; }
+      .ins-veld select.auth-input { display: flex; align-items: center; gap: 12px; background-image: none; padding-right: 18px; }
+      .ins-veld select.auth-input::picker-icon {
+        content: ''; width: 16px; height: 16px; margin-left: auto;
+        background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='m4 6 4 4 4-4' fill='none' stroke='%238E8E93' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center / contain no-repeat;
+        transition: rotate 200ms var(--ease);
+      }
+      .ins-veld select.auth-input:open::picker-icon { rotate: 180deg; }
+      .ins-veld select.auth-input:open { border-color: var(--accent); }
+      .ins-veld select.auth-input::picker(select) {
+        box-sizing: border-box; width: anchor-size(width); min-width: 0; max-height: min(380px, 55dvh);
+        margin: 8px 0; padding: 8px; overflow-x: hidden; overflow-y: auto; overscroll-behavior: contain;
+        border: 1px solid var(--ins-lijn); border-radius: 18px; background: var(--card); color: var(--ink);
+        box-shadow: var(--shadow-card-hover); font-family: var(--font-family);
+        opacity: 1; translate: 0 0;
+        transition: opacity 180ms var(--ease), translate 180ms var(--ease), overlay 180ms allow-discrete, display 180ms allow-discrete;
+      }
+      @starting-style { .ins-veld select.auth-input:open::picker(select) { opacity: 0; translate: 0 -6px; } }
+      .ins-veld select.auth-input option {
+        display: flex; align-items: center; gap: 10px; min-height: 44px; padding: 10px 14px; border-radius: 12px;
+        background: none; color: var(--ink); font-size: 1rem; font-weight: 400; line-height: 1.35; cursor: pointer;
+        white-space: normal; overflow-wrap: anywhere;
+      }
+      .ins-veld select.auth-input option[value=""] { display: none; }
+      .ins-veld select.auth-input option:is(:hover, :focus-visible) { background: var(--surface); outline: none; }
+      .ins-veld select.auth-input option:checked { background: var(--accent-zacht); color: var(--ins-link); font-weight: 600; }
+      .ins-veld select.auth-input option::checkmark { order: 1; margin-left: auto; color: var(--ins-link); }
+      .ins-veld select.auth-input optgroup { padding: 0; color: var(--muted); font-size: .8125rem; font-weight: 600; letter-spacing: .02em; }
+      .ins-veld select.auth-input optgroup + optgroup, .ins-veld select.auth-input optgroup + option { margin-top: 6px; padding-top: 6px; border-top: 1px solid var(--ins-lijn); }
+      .ins-veld select.auth-input optgroup::label {
+        display: block; padding: 10px 14px 6px; color: var(--muted); font-size: .8125rem; font-weight: 600; letter-spacing: .02em;
+      }
+      @media (prefers-reduced-motion: reduce) {
+        .ins-veld select.auth-input::picker(select), .ins-veld select.auth-input::picker-icon { transition: none; }
+      }
+    }
     .ins-help { margin: 0; color: var(--muted); font-size: .9375rem; line-height: 1.5; }
     .ins-fout { display: flex; align-items: flex-start; gap: 8px; margin: 0; color: var(--fout); font-size: .9375rem; font-weight: 500; line-height: 1.45; overflow-wrap: anywhere; }
     .ins-fout::before {
@@ -468,7 +527,7 @@
               Stuur je samenvatting in
               <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 5v14M6 13l6 6 6-6"/></svg>
             </a>
-            <a class="tekstlink" href="#stappen">Hoe werkt het?</a>
+            <a class="knop-secundair" href="#stappen">Hoe werkt het?</a>
           </div>
           <ul class="ins-cijfers" aria-label="Berie's Exam Space nu">
             <li>
@@ -499,22 +558,22 @@
         </div>
 
         <figure class="ins-demo">
-          <div class="ins-demo-buhne" aria-hidden="true">
-            <div class="ins-demo-doc">
-              <span class="ins-demo-soort">PDF</span>
-              <strong>Jouw samenvatting</strong>
-              <span class="ins-demo-hfd">Hoofdstuk 1: meetschalen</span>
-              <span class="ins-demo-lijn" style="--b: 94%"></span>
-              <span class="ins-demo-lijn" style="--b: 80%"></span>
-              <span class="ins-demo-lijn" style="--b: 88%"></span>
-              <span class="ins-demo-lijn" style="--b: 56%"></span>
+          <div class="ins-demo-stroom" aria-hidden="true">
+            <div class="ins-demo-bestand">
+              <span class="ins-bestand-icoon">PDF</span>
+              <span class="ins-demo-bestand-tekst"><strong>meetschalen.pdf</strong><span>Jouw samenvatting</span></span>
+              <svg viewBox="0 0 20 20" focusable="false"><path d="m5.5 10.5 3 3 6-7"/></svg>
             </div>
+            <div class="ins-demo-pijl"><span><svg viewBox="0 0 16 16" focusable="false"><path d="M8 3v10M4 9l4 4 4-4"/></svg></span></div>
             <div class="ins-demo-vraag">
-              <span class="ins-demo-teller">OEFENVRAAG</span>
-              <strong>Wat meet een nominale schaal?</strong>
-              <span class="ins-demo-optie">Een rangorde</span>
-              <span class="ins-demo-optie is-goed">Categorieën zonder volgorde <svg viewBox="0 0 16 16" focusable="false"><path d="m3.5 8.5 3 3 6-7"/></svg></span>
-              <span class="ins-demo-optie">Gelijke afstanden</span>
+              <span class="ins-demo-meta">Statistiek I · Meetschalen</span>
+              <strong class="ins-demo-q">Wat meet een nominale schaal?</strong>
+              <div class="ins-demo-opties">
+                <span class="ins-demo-optie"><span class="ins-demo-letter">A</span>Een rangorde</span>
+                <span class="ins-demo-optie is-goed"><span class="ins-demo-letter">B</span>Categorieën zonder volgorde<svg viewBox="0 0 16 16" focusable="false"><path d="m3.5 8.5 3 3 6-7"/></svg></span>
+                <span class="ins-demo-optie"><span class="ins-demo-letter">C</span>Gelijke afstanden</span>
+              </div>
+              <div class="ins-demo-uitleg"><strong>Uitleg</strong><span>Een nominale schaal deelt in groepen in, zonder volgorde. Denk aan geslacht of oogkleur.</span></div>
             </div>
           </div>
           <figcaption>Zo wordt een samenvatting een oefenvraag, met uitleg erbij.</figcaption>
