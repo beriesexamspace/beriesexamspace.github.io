@@ -117,6 +117,26 @@
       const q = plat(tekst).trim();
       if (!q) return scholen.slice();
       return scholen.filter((s) => [s.naam, s.stad, ...s.kort].some((v) => plat(v).includes(q)));
+    },
+    // Herkent school en richting in vrije tekst, zoals "Psychologie aan de VUB" uit Over jezelf.
+    // Alleen een eenduidige school telt; de richting alleen als er binnen die school precies één past.
+    herken: (tekst) => {
+      const ruw = String(tekst || '');
+      const woorden = (t) => plat(t).replace(/[^a-z0-9/]+/g, ' ').trim();
+      const zin = ' ' + woorden(ruw) + ' ';
+      const heeftWoord = (w) => zin.includes(' ' + woorden(w) + ' ');
+      // Korte afkortingen (UA, VU, UM) alleen in hoofdletters en als los woord, anders vindt "vu" ook "vub".
+      const heeftKort = (k) => (k.length <= 2 ? new RegExp('(^|[^A-Za-z])' + k + '([^A-Za-z]|$)').test(ruw) : heeftWoord(k));
+      const gevonden = scholen.filter((s) => heeftWoord(s.naam) || s.kort.some(heeftKort));
+      if (gevonden.length !== 1) return null;
+      const school = gevonden[0];
+      const vlak = plat(ruw);
+      // Eerst de volledige naam ("Toegepaste Economische Wetenschappen"), anders het begin van het eerste woord ("criminol").
+      const stam = (naam) => plat(naam).split(/[\s(]/)[0].slice(0, 8);
+      const vanSchool = richtingen.filter((x) => x.school === school.id);
+      const volledig = vanSchool.filter((x) => vlak.includes(plat(x.naam)));
+      const passend = volledig.length ? volledig : vanSchool.filter((x) => vlak.includes(stam(x.naam)));
+      return { school, richting: passend.length === 1 ? passend[0] : null };
     }
   };
 })();

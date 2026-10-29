@@ -265,6 +265,21 @@
       background-repeat: no-repeat; background-position: right 18px center; background-size: 16px 16px;
     }
     .ins-veld select.auth-input.is-leeg { color: var(--muted); }
+    /* School die al bekend is (QR-code van de school of het account): vast getoond, met Wijzig. */
+    .ins-vast {
+      display: flex; align-items: center; gap: 12px; min-height: 56px; padding: 8px 6px 8px 16px;
+      border: 1px solid var(--teal); border-radius: 16px; background: var(--teal-zacht);
+    }
+    .ins-vast > svg { flex: none; width: 20px; height: 20px; fill: none; stroke: var(--teal-tekst); stroke-width: 2.4; stroke-linecap: round; stroke-linejoin: round; }
+    .ins-vast-tekst { display: grid; flex: 1; gap: 2px; min-width: 0; }
+    .ins-vast-tekst strong { font-size: 1.0625rem; font-weight: 600; line-height: 1.35; overflow-wrap: anywhere; }
+    .ins-vast-tekst span { color: var(--muted); font-size: .875rem; line-height: 1.4; }
+    .ins-wijzig {
+      flex: none; min-height: 44px; padding: 10px 14px; border: 0; border-radius: 12px; background: none;
+      color: var(--ins-link); font: 600 .9375rem/1.2 var(--font-family); cursor: pointer;
+    }
+    :where(html.has-hover) .ins-wijzig:hover { background: var(--card); }
+    .ins-wijzig:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; }
     .ins-veld select.auth-input option { color: var(--ink); background: var(--input-bg); }
     .ins-help { margin: 0; color: var(--muted); font-size: .9375rem; line-height: 1.5; }
     .ins-fout { display: flex; align-items: flex-start; gap: 8px; margin: 0; color: var(--fout); font-size: .9375rem; font-weight: 500; line-height: 1.45; overflow-wrap: anywhere; }
@@ -470,6 +485,11 @@
             <h3 class="ins-groep-kop"><span class="ins-nr" aria-hidden="true">1</span>Zeg voor wie het is</h3>
             <div class="ins-veld">
               <label for="ins-school">Je school</label>
+              <div class="ins-vast" id="school-vast" hidden>
+                <svg viewBox="0 0 20 20" aria-hidden="true" focusable="false"><path d="m5.5 10.5 3 3 6-7"/></svg>
+                <span class="ins-vast-tekst"><strong id="school-vast-naam"></strong><span id="school-vast-bron"></span></span>
+                <button class="ins-wijzig" id="school-wijzig" type="button">Wijzig<span class="ins-sr"> je school</span></button>
+              </div>
               <select class="auth-input is-leeg" id="ins-school" aria-required="true" aria-describedby="school-fout">
                 <option value="">Kies je school</option>
               </select>
@@ -912,25 +932,66 @@
         toon(veldSchoolAnders, id === ANDERS);
         const lijstRichtingen = id && id !== ANDERS ? CATALOGUS.richtingenVan(id).slice().sort((a, b) => a.naam.localeCompare(b.naam, 'nl')) : [];
         richting.replaceChildren(optie('', 'Kies je richting'),
-          ...lijstRichtingen.map(r => optie(r.id, r.status === 'live' ? r.naam + ' (staat al online)' : r.naam)),
+          ...lijstRichtingen.map(r => optie(r.id, r.status === 'live' ? r.naam + ' (al online)' : r.naam)),
           optie(ANDERS, 'Mijn richting staat er niet tussen'));
         toon(veldRichting, lijstRichtingen.length > 0);
         werkRichtingBij();
         ['schoolAnders', 'richting', 'richtingAnders'].forEach(naam => toonVeldFout(naam, ''));
       };
+      // Waar de school vandaan komt: de QR-code van de school (?school=vub), anders het account, anders kiest de student zelf.
+      // Een bekende school staat vast in beeld, met Wijzig.
+      const BRONNEN = { qr: 'Ingevuld via de QR-code van je school.', account: 'Ingevuld vanuit je account.' };
+      const schoolVast = element('school-vast');
+      let vast = null;
+      let schoolGekozen = false;
+      let richtingGekozen = false;
+      const toonVast = () => {
+        const gekozen = vast && CATALOGUS ? CATALOGUS.school(vast.id) : null;
+        schoolVast.hidden = !gekozen;
+        school.hidden = Boolean(gekozen);
+        if (gekozen) {
+          element('school-vast-naam').textContent = gekozen.naam;
+          element('school-vast-bron').textContent = BRONNEN[vast.bron];
+        }
+      };
+      const zetSchool = (id, bron) => {
+        vast = { id, bron };
+        school.value = id;
+        werkSchoolBij();
+        toonVast();
+      };
       if (CATALOGUS) {
         vulScholen();
-        // Een link als /insturen/?school=vub zet de school al klaar.
         const gevraagd = new URLSearchParams(window.location.search).get('school');
-        if (gevraagd && CATALOGUS.school(gevraagd)) school.value = gevraagd;
+        if (gevraagd && CATALOGUS.school(gevraagd)) zetSchool(gevraagd, 'qr');
+        else werkSchoolBij();
       } else {
         // Zonder catalogus: alleen de tekstvelden.
         school.append(optie(ANDERS, 'Typ je school hieronder'));
         school.value = ANDERS;
+        werkSchoolBij();
       }
-      werkSchoolBij();
-      school.addEventListener('change', () => { toonVeldFout('school', ''); werkSchoolBij(); });
-      richting.addEventListener('change', () => { toonVeldFout('richting', ''); werkRichtingBij(); });
+      element('school-wijzig').addEventListener('click', () => {
+        vast = null;
+        toonVast();
+        school.focus();
+      });
+      // Ingelogd: school en richting uit Over jezelf ("Psychologie aan de VUB"), zolang de student zelf nog niets koos.
+      window.addEventListener('bes:auth', event => {
+        const user = event.detail?.user;
+        if (!user || !CATALOGUS?.herken) return;
+        const herkend = CATALOGUS.herken(window.BES?.auth?.overGegevens?.(user)?.studie);
+        if (!herkend) return;
+        if (!vast && !schoolGekozen && !school.value) zetSchool(herkend.school.id, 'account');
+        if (herkend.richting && school.value === herkend.school.id && !richtingGekozen && !richting.value && !veldRichting.hidden) {
+          richting.value = herkend.richting.id;
+          werkRichtingBij();
+        }
+      });
+      school.addEventListener('change', () => { schoolGekozen = true; toonVeldFout('school', ''); werkSchoolBij(); });
+      richting.addEventListener('change', () => { richtingGekozen = true; toonVeldFout('richting', ''); werkRichtingBij(); });
+      // Het eerste veld dat nog leeg is en in beeld staat.
+      const eersteVeld = () => [school, schoolAnders, richting, richtingAnders].find(veld => veld.offsetParent !== null && !veld.value) || vak;
       [['schoolAnders', schoolAnders], ['richtingAnders', richtingAnders], ['email', email]].forEach(([naam, veld]) => {
         veld.addEventListener('input', () => { if (veld.hasAttribute('aria-invalid')) toonVeldFout(naam, ''); });
       });
@@ -953,9 +1014,9 @@
       window.addEventListener('scroll', planPlak, { passive: true });
       window.addEventListener('resize', planPlak);
       planPlak();
-      // Na de sprong naar het formulier staat de focus meteen op de eerste keuze.
+      // Na de sprong naar het formulier staat de focus meteen op het eerste lege veld.
       document.querySelectorAll('[data-naar-formulier]').forEach(link => link.addEventListener('click', () => {
-        window.setTimeout(() => school.focus({ preventScroll: true }), minderBeweging.matches ? 0 : 500);
+        window.setTimeout(() => eersteVeld().focus({ preventScroll: true }), minderBeweging.matches ? 0 : 500);
       }));
 
       // Stand per bestand (wacht, bezig, klaar, mislukt) en het totaal onderaan. Geen bytes: die geeft de opslag niet door.
@@ -1026,7 +1087,10 @@
         bestanden = [];
         poging = null;
         form.reset();
+        // Een vaste school (QR-code of account) blijft staan voor de volgende inzending.
+        if (vast) school.value = vast.id;
         werkSchoolBij();
+        toonVast();
         tekenLijst();
         wisFouten();
         toonStatus('');
