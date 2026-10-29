@@ -64,6 +64,23 @@
     .ins-form-kop h1:focus { outline: none; }
     .ins-form-kop p { margin-inline: auto; }
     .ins-sectie.ins-formulier { margin-top: 0; }
+
+    /* Zo werkt het: drie korte stappen tussen de kop en het formulier. Op de telefoon onder elkaar, vanaf tabletbreedte naast elkaar. */
+    .ins-zo { display: grid; gap: 14px; margin: 0 auto 32px; padding: 20px; border: 1px solid var(--ins-lijn); border-radius: 20px; background: linear-gradient(var(--teal-zacht), var(--teal-zacht)), var(--card); }
+    .ins-zo-kop { margin: 0; color: var(--teal-tekst); font-size: .875rem; font-weight: 600; }
+    .ins-zo-lijst { display: grid; gap: 12px; margin: 0; padding: 0; list-style: none; }
+    .ins-zo-lijst li { display: flex; align-items: center; gap: 12px; font-size: 1rem; font-weight: 500; line-height: 1.4; }
+    .ins-zo-icoon { display: grid; place-items: center; flex: none; width: 40px; height: 40px; border-radius: 50%; background: var(--card); color: var(--teal-tekst); box-shadow: var(--shadow-soft); }
+    .ins-zo-icoon svg { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+    @media (min-width: 640px) {
+      .ins-zo { padding: 22px 24px; }
+      .ins-zo-kop { text-align: center; }
+      .ins-zo-lijst { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px; }
+      .ins-zo-lijst li { flex-direction: column; font-size: .9375rem; text-align: center; }
+    }
+    @media (prefers-reduced-motion: no-preference) {
+      .ins-zo-lijst li { animation: rise 500ms var(--ease) both; animation-delay: calc(380ms + var(--n, 0) * 120ms); }
+    }
     @media (prefers-reduced-motion: no-preference) {
       ::view-transition-old(root) { animation: ins-uit-links 360ms cubic-bezier(.4, 0, .2, 1) both; }
       ::view-transition-new(root) { animation: ins-in-rechts 360ms cubic-bezier(.4, 0, .2, 1) both; }
@@ -390,6 +407,15 @@
         <h1 id="formulier-titel" tabindex="-1">Stuur je samenvatting in</h1>
         <p>Zonder account. Alleen je school, je richting en je bestanden zijn nodig.</p>
       </header>
+
+      <section class="ins-zo ins-smal" aria-labelledby="zo-titel">
+        <p class="ins-zo-kop" id="zo-titel">Zo werkt het</p>
+        <ol class="ins-zo-lijst">
+          <li style="--n:0"><span class="ins-zo-icoon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 3v9m-4-4 4 4 4-4"/><path d="M4 14v4a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-4"/></svg></span>Ik krijg je samenvatting binnen.</li>
+          <li style="--n:1"><span class="ins-zo-icoon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="m12 3 9 5-9 5-9-5 9-5Z"/><path d="m3 13 9 5 9-5"/></svg></span>Ik verzamel alles per vak.</li>
+          <li style="--n:2"><span class="ins-zo-icoon" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="m8 12.5 2.7 2.7L16 9.8"/></svg></span>Is er genoeg materiaal van een vak, dan komt het vak online.</li>
+        </ol>
+      </section>
 
       <section class="ins-sectie ins-smal ins-formulier" id="formulier" aria-labelledby="formulier-titel">
         <form class="kaart ins-form" id="insturen-form" novalidate>
