@@ -70,6 +70,11 @@
     .ins-label::before { content: ''; flex: none; width: 8px; height: 8px; border-radius: 50%; background: var(--teal); box-shadow: 0 0 0 4px var(--teal-zacht); }
     .ins-held h1 { margin: 0; font-size: clamp(3.25rem, 16.5vw, 7.25rem); font-weight: 700; line-height: .92; letter-spacing: -.045em; }
     .ins-held h1 > span { display: block; }
+    /* Vanaf tabletbreedte op één regel, en net zo groot dat "Help ons groeien." altijd past. */
+    @media (min-width: 768px) {
+      .ins-held h1 { font-size: min(7.25rem, calc((100vw - 64px) / 7.6)); white-space: nowrap; }
+      .ins-held h1 > span { display: inline; }
+    }
     .ins-held h1 .ins-punt { display: inline; color: var(--teal); }
     .ins-held-uitleg { max-width: 36rem; margin: 0; color: var(--muted); font-size: clamp(1.0625rem, 4.6vw, 1.3125rem); line-height: 1.5; text-wrap: balance; }
     .ins-held-uitleg strong { color: var(--ink); font-weight: 600; }
@@ -162,14 +167,35 @@
       .ins-held > :nth-child(4) { animation-delay: 210ms; }
     }
 
-    /* Zo werkt het: drie stappen onder elkaar, verbonden door een dunne lijn. */
-    .ins-stappen { display: grid; gap: 0; margin: 0; padding: 0; list-style: none; }
-    .ins-stappen li { position: relative; display: grid; grid-template-columns: 32px minmax(0, 1fr); gap: 18px; padding-bottom: 40px; }
-    .ins-stappen li:last-child { padding-bottom: 0; }
-    .ins-stappen li:not(:last-child)::before { content: ''; position: absolute; top: 38px; bottom: 6px; left: 15.5px; width: 1px; background: var(--ins-lijn); }
-    .ins-stappen div { display: grid; gap: 4px; padding-top: 4px; }
-    .ins-stappen strong { font-size: 1.0625rem; font-weight: 600; line-height: 1.35; }
-    .ins-stappen span:not(.ins-nr) { color: var(--muted); font-size: 1rem; line-height: 1.5; }
+    /* Zo werkt het: een balk zoals bij het volgen van een pakje. Insturen, verwerken, mail.
+       Komt hij in beeld, dan loopt de lijn groen vol en licht elke stap op (klasse is-gestart via het script). */
+    .ins-volg { display: grid; grid-template-columns: minmax(0, 1fr); gap: 36px; margin: 0; padding: 0; list-style: none; }
+    .ins-volg-stap { position: relative; display: grid; grid-template-columns: 48px minmax(0, 1fr); gap: 18px; align-items: start; }
+    /* De lijn naar de volgende stap: grijs, met daarover de groene vulling. Op de telefoon naar beneden. */
+    .ins-volg-stap:not(:last-child)::before, .ins-volg-stap:not(:last-child)::after {
+      content: ''; position: absolute; top: 56px; bottom: -28px; left: 23px; width: 2px; border-radius: 1px; background: var(--ins-lijn);
+    }
+    .ins-volg-stap:not(:last-child)::after { background: var(--teal); transform: scaleY(0); transform-origin: top; }
+    .ins-volg-bol {
+      position: relative; z-index: 1; display: grid; place-items: center; width: 48px; height: 48px;
+      border: 2px solid var(--ins-lijn); border-radius: 50%; background: var(--bg); color: var(--muted);
+    }
+    .ins-volg-bol svg { width: 22px; height: 22px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+    .ins-volg-tekst { display: grid; gap: 4px; padding-top: 10px; }
+    .ins-volg-tekst strong { font-size: 1.125rem; font-weight: 600; line-height: 1.35; }
+    .ins-volg-tekst span { color: var(--muted); font-size: 1rem; line-height: 1.55; }
+    .ins-volg.is-gestart .ins-volg-stap:nth-child(1) .ins-volg-bol { animation: volg-aan 420ms var(--ease) 0ms both; }
+    .ins-volg.is-gestart .ins-volg-stap:nth-child(1)::after { animation: volg-vul 800ms cubic-bezier(.45, 0, .55, 1) 350ms both; }
+    .ins-volg.is-gestart .ins-volg-stap:nth-child(2) .ins-volg-bol { animation: volg-aan 420ms var(--ease) 1150ms both; }
+    .ins-volg.is-gestart .ins-volg-stap:nth-child(2)::after { animation: volg-vul 800ms cubic-bezier(.45, 0, .55, 1) 1500ms both; }
+    .ins-volg.is-gestart .ins-volg-stap:nth-child(3) .ins-volg-bol { animation: volg-aan 420ms var(--ease) 2300ms both, volg-pop 520ms var(--ease) 2300ms; }
+    @keyframes volg-aan { to { border-color: var(--teal); background: linear-gradient(var(--teal-zacht), var(--teal-zacht)), var(--bg); color: var(--teal-tekst); } }
+    @keyframes volg-vul { to { transform: none; } }
+    @keyframes volg-pop { 50% { scale: 1.14; } }
+    @media (prefers-reduced-motion: reduce) {
+      .ins-volg .ins-volg-bol { border-color: var(--teal); background: linear-gradient(var(--teal-zacht), var(--teal-zacht)), var(--bg); color: var(--teal-tekst); animation: none !important; }
+      .ins-volg .ins-volg-stap:not(:last-child)::after { transform: none; animation: none !important; }
+    }
 
     /* Knop onderaan op de telefoon: alleen tussen de kop en het formulier. */
     .ins-plak { display: none; }
@@ -191,11 +217,14 @@
       .ins-cijfers { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 18px; }
       .ins-cijfer-voor, .ins-cijfer-achter { padding: 22px 22px 18px; }
       .ins-cijfer-voor strong { font-size: 2.75rem; }
-      /* Zo werkt het: de drie stappen naast elkaar, met de lijn horizontaal tussen de nummers. */
-      .ins-stappen { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 32px; }
-      .ins-stappen li { grid-template-columns: minmax(0, 1fr); gap: 14px; padding-bottom: 0; }
-      .ins-stappen li:not(:last-child)::before { top: 16px; bottom: auto; left: 48px; right: -16px; width: auto; height: 1px; }
-      .ins-stappen div { padding-top: 0; }
+      /* Zo werkt het: de balk ligt horizontaal, de stappen staan naast elkaar met de tekst gecentreerd eronder. */
+      .ins-volg { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 32px; }
+      .ins-volg-stap { grid-template-columns: minmax(0, 1fr); justify-items: center; gap: 16px; text-align: center; }
+      .ins-volg-stap:not(:last-child)::before, .ins-volg-stap:not(:last-child)::after {
+        top: 23px; bottom: auto; left: calc(50% + 32px); width: calc(100% - 32px); height: 2px;
+      }
+      .ins-volg-stap:not(:last-child)::after { transform: scaleX(0); transform-origin: left; }
+      .ins-volg-tekst { max-width: 18rem; padding-top: 0; }
     }
 
     /* Secties */
@@ -590,10 +619,20 @@
 
       <section class="ins-sectie" id="stappen" aria-labelledby="stappen-titel">
         <h2 class="sectie-kop" id="stappen-titel">Zo werkt het</h2>
-        <ol class="ins-stappen">
-          <li><span class="ins-nr" aria-hidden="true">1</span><div><strong>Stuur je samenvatting in</strong><span>Een PDF, Word-bestand, PowerPoint of foto's van je notities. Zonder account.</span></div></li>
-          <li><span class="ins-nr" aria-hidden="true">2</span><div><strong>Wij maken er oefenvragen van</strong><span>Per hoofdstuk, met uitleg bij elke vraag. We kijken alles na voordat het online komt.</span></div></li>
-          <li><span class="ins-nr" aria-hidden="true">3</span><div><strong>Jouw richting oefent mee</strong><span>Iedereen van jouw richting kan ermee oefenen op Berie's Exam Space.</span></div></li>
+        <p class="ins-sub">Van jouw samenvatting tot een mail dat het klaar is.</p>
+        <ol class="ins-volg" id="ins-volg">
+          <li class="ins-volg-stap">
+            <span class="ins-volg-bol" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><path d="M12 16V4M7 9l5-5 5 5M5 20h14"/></svg></span>
+            <div class="ins-volg-tekst"><strong>Insturen</strong><span>Je stuurt je samenvatting in, zonder account. Een PDF, Word-bestand, PowerPoint of foto's van je notities.</span></div>
+          </li>
+          <li class="ins-volg-stap">
+            <span class="ins-volg-bol" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><path d="M9 4h6M10 4v5l-5 9a2 2 0 0 0 1.7 3h10.6a2 2 0 0 0 1.7-3l-5-9V4M7.5 15h9"/></svg></span>
+            <div class="ins-volg-tekst"><strong>Verwerken</strong><span>Wij maken er oefenvragen van, per hoofdstuk en met uitleg. We kijken alles na voordat het online komt.</span></div>
+          </li>
+          <li class="ins-volg-stap">
+            <span class="ins-volg-bol" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m4 7 8 6 8-6"/></svg></span>
+            <div class="ins-volg-tekst"><strong>Je krijgt een mail</strong><span>Zodra het online staat, krijg je een mail. Vul daarvoor je e-mailadres in. Daarna oefent iedereen van jouw richting mee.</span></div>
+          </li>
         </ol>
       </section>
 
@@ -1169,6 +1208,19 @@
         };
         window.requestAnimationFrame(stap);
       };
+      // Zo werkt het: de balk loopt vol zodra hij in beeld komt.
+      const volg = element('ins-volg');
+      if ('IntersectionObserver' in window) {
+        const volgKijker = new IntersectionObserver(entries => {
+          if (!entries.some(entry => entry.isIntersecting)) return;
+          volgKijker.disconnect();
+          volg.classList.add('is-gestart');
+        }, { threshold: .5 });
+        volgKijker.observe(volg);
+      } else {
+        volg.classList.add('is-gestart');
+      }
+
       const tegels = Array.from(document.querySelectorAll('.ins-cijfer'));
       if ('IntersectionObserver' in window) {
         const kijker = new IntersectionObserver(entries => {
