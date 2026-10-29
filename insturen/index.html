@@ -45,8 +45,10 @@
     .ins-sr { position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
 
     /* Alleen op deze pagina: knoppen met witte tekst halen 4,5:1 ook in donker, veldranden halen 3:1. */
-    :root { --ins-knop: var(--accent); --ins-knop-hover: var(--accent-dark); --ins-rand: #8E8E93; --ins-link: var(--accent); }
-    html[data-theme="dark"] { --ins-knop: #0A6ED1; --ins-knop-hover: #0A62BA; --ins-rand: #6E6E73; --ins-link: var(--accent-dark); }
+    :root { --ins-knop: var(--accent); --ins-knop-hover: var(--accent-dark); --ins-rand: #8E8E93; --ins-link: var(--accent); --ins-lijn: #D2D2D7; }
+    html[data-theme="dark"] { --ins-knop: #0A6ED1; --ins-knop-hover: #0A62BA; --ins-rand: #6E6E73; --ins-link: var(--accent-dark); --ins-lijn: #48484A; }
+    /* Randen van kaarten en blokken: overal dezelfde, duidelijke lijn, ook in donker (de gewone lijn is daar bijna onzichtbaar). */
+    .ins-wrap .kaart { border-color: var(--ins-lijn); }
     :is(.ins-wrap, .ins-dialoog) .knop:not(.ins-wa) { background: var(--ins-knop); }
     :where(html.has-hover) :is(.ins-wrap, .ins-dialoog) .knop:not(.ins-wa):not(:disabled):hover { background: var(--ins-knop-hover); }
     :is(.ins-wrap, .ins-dialoog) .tekstlink { color: var(--ins-link); }
@@ -59,7 +61,8 @@
     .ins-held { display: grid; grid-template-columns: minmax(0, 1fr); gap: 36px; align-items: center; margin-bottom: 8px; }
     .ins-held-tekst { display: grid; gap: 20px; min-width: 0; }
     .ins-label {
-      justify-self: start; display: inline-flex; align-items: center; gap: 10px; min-height: 32px; padding: 5px 14px 5px 12px;
+      justify-self: start; display: inline-flex; align-items: center; gap: 10px; min-height: 32px; padding: 4px 14px 4px 12px;
+      border: 1px solid color-mix(in srgb, var(--teal) 45%, transparent);
       border-radius: var(--radius-pill); background: var(--teal-zacht); color: var(--teal-tekst); font-size: .875rem; font-weight: 600; line-height: 1.35;
     }
     .ins-label::before { content: ''; flex: none; width: 8px; height: 8px; border-radius: 50%; background: var(--teal); box-shadow: 0 0 0 4px var(--teal-zacht); }
@@ -72,17 +75,43 @@
     .ins-held-knoppen .knop { gap: 10px; width: 100%; max-width: none; min-height: 56px; margin: 0; font-weight: 600; }
     .ins-held-knoppen .knop svg { width: 18px; height: 18px; flex: none; fill: none; stroke: currentColor; stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round; }
     .ins-held-knoppen .tekstlink { min-height: 44px; padding: 10px 0; font-size: 1rem; white-space: nowrap; }
-    .ins-cijfers { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px 20px; max-width: 26rem; margin: 4px 0 0; padding: 18px 0 0; border-top: 1px solid var(--line); list-style: none; }
-    .ins-cijfers li { display: grid; gap: 2px; }
-    .ins-cijfers strong { font-size: 1.75rem; font-weight: 700; line-height: 1.1; letter-spacing: -.02em; font-variant-numeric: tabular-nums; }
-    .ins-cijfers span { color: var(--muted); font-size: .9375rem; line-height: 1.35; }
+    /* Twee cijfertegels. Tik erop: de tegel draait om en vertelt meer; terugdraaien telt het cijfer opnieuw op. */
+    .ins-cijfers { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; max-width: 26rem; margin: 4px 0 0; padding: 0; list-style: none; }
+    .ins-cijfers li { display: grid; min-width: 0; }
+    .ins-cijfer {
+      display: grid; width: 100%; padding: 0; border: 0; border-radius: 16px; background: none; color: var(--ink);
+      font: inherit; text-align: left; cursor: pointer; perspective: 900px; -webkit-tap-highlight-color: transparent;
+    }
+    .ins-cijfer:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+    .ins-cijfer-binnen { display: grid; transform-style: preserve-3d; transition: transform 640ms cubic-bezier(.2, .8, .2, 1); }
+    .ins-cijfer[aria-pressed="true"] .ins-cijfer-binnen { transform: rotateY(180deg); }
+    .ins-cijfer-voor, .ins-cijfer-achter {
+      grid-area: 1 / 1; display: grid; align-content: start; gap: 4px; min-width: 0; padding: 14px 16px 12px;
+      border: 1px solid var(--ins-lijn); border-radius: 16px; background: var(--card); box-shadow: var(--shadow-soft);
+      -webkit-backface-visibility: hidden; backface-visibility: hidden;
+    }
+    .ins-cijfer-achter {
+      align-content: center; transform: rotateY(180deg);
+      border-color: var(--teal); background: linear-gradient(var(--teal-zacht), var(--teal-zacht)), var(--card);
+      font-size: .9375rem; line-height: 1.4;
+    }
+    .ins-cijfer-voor strong { font-size: 2rem; font-weight: 700; line-height: 1.05; letter-spacing: -.03em; font-variant-numeric: tabular-nums; }
+    .ins-cijfer-voor > span:not(.ins-cijfer-tik) { color: var(--muted); font-size: .9375rem; line-height: 1.35; }
+    .ins-cijfer-tik { display: inline-flex; align-items: center; gap: 5px; margin-top: 6px; color: var(--ins-link); font-size: .8125rem; font-weight: 600; }
+    .ins-cijfer-tik svg { width: 14px; height: 14px; fill: none; stroke: currentColor; stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round; }
+    .ins-cijfer-tik .ins-klik { display: none; }
+    @media (hover: hover) and (pointer: fine) {
+      .ins-cijfer-tik .ins-tik { display: none; }
+      .ins-cijfer-tik .ins-klik { display: inline; }
+      :where(html.has-hover) .ins-cijfer:hover .ins-cijfer-voor { border-color: var(--accent); }
+    }
 
     /* Voorbeeld: een samenvatting wordt een oefenvraag. Twee kaartjes die elkaar overlappen, zoals papier op een bureau. */
     .ins-demo { margin: 0; }
     .ins-demo-buhne { position: relative; height: 300px; max-width: 420px; margin-inline: auto; }
     .ins-demo-doc, .ins-demo-vraag {
       position: absolute; display: grid; align-content: start; gap: 8px; box-sizing: border-box; padding: 16px;
-      border: 1px solid var(--line); border-radius: 18px; background: var(--card); box-shadow: var(--shadow-card-hover);
+      border: 1px solid var(--ins-lijn); border-radius: 18px; background: var(--card); box-shadow: var(--shadow-card-hover);
     }
     .ins-demo-doc { top: 0; left: 0; width: 62%; height: 196px; transform: rotate(-4deg); transform-origin: 30% 60%; }
     .ins-demo-vraag { right: 0; bottom: 0; width: 78%; gap: 7px; transform: rotate(1.5deg); }
@@ -97,7 +126,7 @@
     .ins-demo-vraag strong { margin-bottom: 2px; font-size: .9375rem; font-weight: 600; line-height: 1.3; }
     .ins-demo-optie {
       display: flex; align-items: center; justify-content: space-between; gap: 8px; min-height: 34px; padding: 6px 12px;
-      border: 1px solid var(--line); border-radius: 10px; color: var(--ink); font-size: .8125rem; line-height: 1.3;
+      border: 1px solid var(--ins-lijn); border-radius: 10px; color: var(--ink); font-size: .8125rem; line-height: 1.3;
     }
     .ins-demo-optie svg { flex: none; width: 16px; height: 16px; fill: none; stroke: currentColor; stroke-width: 2.6; stroke-linecap: round; stroke-linejoin: round; opacity: 0; }
     .ins-demo-optie.is-goed { border-color: var(--teal); background: var(--teal-zacht); color: var(--teal-tekst); font-weight: 600; }
@@ -118,7 +147,7 @@
       .ins-demo figcaption { animation: rise 600ms var(--ease) 900ms both; }
       @keyframes papier-in { from { opacity: 0; transform: translateY(16px) rotate(-9deg); } }
       @keyframes vraag-in { from { opacity: 0; transform: translateY(28px) rotate(5deg); } }
-      @keyframes goed { from { border-color: var(--line); background: transparent; color: var(--ink); } }
+      @keyframes goed { from { border-color: var(--ins-lijn); background: transparent; color: var(--ink); } }
       @keyframes vink-in { from { opacity: 0; transform: scale(.4); } }
     }
 
@@ -126,7 +155,7 @@
     .ins-stappen { display: grid; gap: 0; margin: 0; padding: 0; list-style: none; }
     .ins-stappen li { position: relative; display: grid; grid-template-columns: 32px minmax(0, 1fr); gap: 16px; padding-bottom: 24px; }
     .ins-stappen li:last-child { padding-bottom: 0; }
-    .ins-stappen li:not(:last-child)::before { content: ''; position: absolute; top: 38px; bottom: 6px; left: 15.5px; width: 1px; background: var(--line); }
+    .ins-stappen li:not(:last-child)::before { content: ''; position: absolute; top: 38px; bottom: 6px; left: 15.5px; width: 1px; background: var(--ins-lijn); }
     .ins-stappen div { display: grid; gap: 4px; padding-top: 4px; }
     .ins-stappen strong { font-size: 1.0625rem; font-weight: 600; line-height: 1.35; }
     .ins-stappen span:not(.ins-nr) { color: var(--muted); font-size: 1rem; line-height: 1.5; }
@@ -137,7 +166,7 @@
       .ins-plak {
         position: fixed; z-index: 40; left: 0; right: 0; bottom: 0; display: block;
         padding: 12px 16px calc(12px + env(safe-area-inset-bottom));
-        border-top: 1px solid var(--line); background: var(--nav-bg);
+        border-top: 1px solid var(--ins-lijn); background: var(--nav-bg);
         -webkit-backdrop-filter: saturate(180%) blur(20px); backdrop-filter: saturate(180%) blur(20px);
         transform: translateY(110%); visibility: hidden;
         transition: transform 280ms var(--ease), visibility 0s linear 280ms;
@@ -164,7 +193,7 @@
     .ins-groep-kop { display: flex; align-items: center; gap: 12px; margin: 0; font-size: 1.125rem; font-weight: 600; line-height: 1.3; }
     .ins-nr {
       display: inline-grid; place-items: center; flex: none; width: 32px; height: 32px;
-      border-radius: 50%; background: var(--teal-zacht);
+      border-radius: 50%; background: var(--teal-zacht); box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--teal) 45%, transparent);
       color: var(--teal-tekst); font-size: .9375rem; font-weight: 700; font-variant-numeric: tabular-nums;
     }
 
@@ -213,7 +242,7 @@
     .ins-bestand {
       position: relative; display: grid; grid-template-columns: 36px minmax(0, 1fr) 44px; align-items: center; gap: 12px;
       min-height: 68px; padding: 10px 6px 10px 14px; overflow: hidden;
-      border: 1px solid var(--line); border-radius: 16px; background: var(--card);
+      border: 1px solid var(--ins-lijn); border-radius: 16px; background: var(--card);
     }
     .ins-bestand.is-nieuw { animation: bestand-in 280ms var(--ease) both; }
     @keyframes bestand-in { from { opacity: 0; transform: translateY(6px); } }
@@ -333,7 +362,7 @@
     .ins-dialoog {
       box-sizing: border-box; position: fixed; inset: auto 0 0 0; width: 100%; max-width: 100%; max-height: calc(100dvh - 16px);
       margin: 0; padding: 0; overflow: auto; overscroll-behavior: contain;
-      border: 0; border-radius: 28px 28px 0 0; background: var(--card); color: var(--ink);
+      border: 1px solid var(--ins-lijn); border-bottom: 0; border-radius: 28px 28px 0 0; background: var(--card); color: var(--ink);
       box-shadow: 0 -12px 40px rgba(0, 0, 0, .18); font-family: var(--font);
     }
     .ins-dialoog[open] { animation: paneel-op 460ms cubic-bezier(.22, 1, .36, 1) both; }
@@ -379,7 +408,7 @@
       .ins-verstuur.knop { justify-self: start; width: auto; min-width: 260px; }
       .ins-knoppen { grid-template-columns: repeat(2, max-content); }
       .ins-knoppen :is(.knop, .knop-secundair) { width: auto; min-width: 0; }
-      .ins-dialoog { inset: 0; width: min(460px, calc(100% - 48px)); max-height: calc(100dvh - 48px); margin: auto; border: 1px solid var(--line); border-radius: 28px; box-shadow: var(--shadow-card-hover); }
+      .ins-dialoog { inset: 0; width: min(460px, calc(100% - 48px)); max-height: calc(100dvh - 48px); margin: auto; border: 1px solid var(--ins-lijn); border-radius: 28px; box-shadow: var(--shadow-card-hover); }
       .ins-dialoog[open] { animation: midden-in 320ms var(--ease) both; }
       .ins-dialoog.is-dicht { animation: midden-uit 180ms cubic-bezier(.4, 0, 1, 1) both; }
       .ins-dialoog-binnen { padding: 36px; }
@@ -396,7 +425,7 @@
       .ins-voortgang-delen span[data-stand="bezig"]::after { width: 100%; opacity: .5; animation: none !important; transform: none; }
       .ins-zone, .ins-zone-knop { transition: none; }
       .ins-veld:not([hidden]).is-nieuw { animation: none; }
-      .ins-plak, .ins-plak.is-zichtbaar { transition: none; }
+      .ins-plak, .ins-plak.is-zichtbaar, .ins-cijfer-binnen { transition: none; }
     }
   </style>
 </head>
@@ -439,8 +468,30 @@
             <a class="tekstlink" href="#stappen">Hoe werkt het?</a>
           </div>
           <ul class="ins-cijfers" aria-label="Berie's Exam Space nu">
-            <li><strong>34</strong><span>vakken Psychologie</span></li>
-            <li><strong>340</strong><span>studenten oefenen mee</span></li>
+            <li>
+              <button class="ins-cijfer" type="button" aria-pressed="false">
+                <span class="ins-cijfer-binnen">
+                  <span class="ins-cijfer-voor">
+                    <strong data-tel="34">34</strong>
+                    <span>vakken Psychologie</span>
+                    <span class="ins-cijfer-tik" aria-hidden="true"><svg viewBox="0 0 16 16" focusable="false"><path d="M13 8a5 5 0 1 1-1.5-3.6M13 2.5v2.5h-2.5"/></svg><span class="ins-tik">Tik voor meer</span><span class="ins-klik">Klik voor meer</span></span>
+                  </span>
+                  <span class="ins-cijfer-achter" aria-hidden="true">Van de 1ste tot de 3de bachelor, met uitleg bij elke vraag.</span>
+                </span>
+              </button>
+            </li>
+            <li>
+              <button class="ins-cijfer" type="button" aria-pressed="false">
+                <span class="ins-cijfer-binnen">
+                  <span class="ins-cijfer-voor">
+                    <strong data-tel="340">340</strong>
+                    <span>studenten doen mee</span>
+                    <span class="ins-cijfer-tik" aria-hidden="true"><svg viewBox="0 0 16 16" focusable="false"><path d="M13 8a5 5 0 1 1-1.5-3.6M13 2.5v2.5h-2.5"/></svg><span class="ins-tik">Tik voor meer</span><span class="ins-klik">Klik voor meer</span></span>
+                  </span>
+                  <span class="ins-cijfer-achter" aria-hidden="true">Ze zitten in onze WhatsApp-groep en horen als eerste wat er nieuw is.</span>
+                </span>
+              </button>
+            </li>
           </ul>
         </div>
 
@@ -994,6 +1045,30 @@
       const eersteVeld = () => [school, schoolAnders, richting, richtingAnders].find(veld => veld.offsetParent !== null && !veld.value) || vak;
       [['schoolAnders', schoolAnders], ['richtingAnders', richtingAnders], ['email', email]].forEach(([naam, veld]) => {
         veld.addEventListener('input', () => { if (veld.hasAttribute('aria-invalid')) toonVeldFout(naam, ''); });
+      });
+
+      // Cijfertegels: bij het openen tellen de cijfers op; een tik draait de tegel om, terugdraaien telt opnieuw op.
+      const telOp = getal => {
+        const doel = Number(getal.dataset.tel);
+        if (minderBeweging.matches || !doel) { getal.textContent = String(doel); return; }
+        const start = performance.now();
+        const stap = nu => {
+          const deel = Math.min(1, (nu - start) / 900);
+          getal.textContent = String(Math.round(doel * (1 - Math.pow(1 - deel, 3))));
+          if (deel < 1) window.requestAnimationFrame(stap);
+        };
+        window.requestAnimationFrame(stap);
+      };
+      document.querySelectorAll('.ins-cijfer').forEach(tegel => {
+        const getal = tegel.querySelector('[data-tel]');
+        window.setTimeout(() => telOp(getal), 350);
+        tegel.addEventListener('click', () => {
+          const om = tegel.getAttribute('aria-pressed') !== 'true';
+          tegel.setAttribute('aria-pressed', String(om));
+          tegel.querySelector('.ins-cijfer-voor').setAttribute('aria-hidden', String(om));
+          tegel.querySelector('.ins-cijfer-achter').setAttribute('aria-hidden', String(!om));
+          if (!om) telOp(getal);
+        });
       });
 
       // Knop onderaan op de telefoon: zichtbaar tussen de kop en het formulier, nooit over het formulier heen.
