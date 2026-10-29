@@ -52,9 +52,11 @@
     .ins-wrap :is(.kaart, .stap-kaart) { border-color: var(--ins-lijn); }
     :is(.ins-wrap, .ins-plak) .knop { background: var(--ins-knop); }
     :where(html.has-hover) :is(.ins-wrap, .ins-plak) .knop:not(:disabled):hover { background: var(--ins-knop-hover); }
+    /* Bovenaan alleen het merk en Inloggen: wie hier via de QR-code komt, heeft nog geen account en blijft in Insturen. */
+    .ins-nav .brand { margin-right: auto; }
 
     /* Kop voor wie de QR-code scant: in het midden, zoals de startpagina, met dezelfde zin als op de poster. */
-    .ins-held { display: grid; justify-items: center; gap: 28px; max-width: 920px; margin: 16px auto 0; text-align: center; }
+    .ins-held { display: grid; justify-items: center; gap: 28px; max-width: 920px; margin: 56px auto 0; text-align: center; }
     .ins-label {
       display: inline-flex; align-items: center; gap: 10px; min-height: 32px; padding: 4px 14px 4px 12px;
       border: 1px solid color-mix(in srgb, var(--teal) 45%, transparent);
@@ -379,29 +381,17 @@
 <body data-nav="vast">
   <a class="skip-link" href="#inhoud">Ga naar inhoud</a>
   <header class="site-header">
-    <nav class="navigation" aria-label="Hoofdnavigatie">
-      <a class="brand" href="../index.html" aria-label="Berie's Exam Space, startpagina">
+    <nav class="navigation ins-nav" aria-label="Berie's Exam Space">
+      <a class="brand" href="./" aria-label="Berie's Exam Space, Help ons groeien">
         <span class="brand-symbol" aria-hidden="true">B</span>
         <span class="brand-name"><span>Berie's</span> <span>Exam Space</span></span>
       </a>
-      <a class="home-knop" href="../hub.html" aria-label="Home" title="Home">
-        <svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 10.5 12 3l9 7.5M5 9v12h5v-7h4v7h5V9"/></svg>
-      </a>
-      <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="site-menu">Menu</button>
-      <ul class="navigation-links" id="site-menu">
-        <li><a href="../hub.html#hoe-werkt-het">Hoe werkt het</a></li>
-        <li><a href="../over-mij.html" data-over-mij>Over mij</a></li>
-        <li><a href="../whatsapp.html">WhatsApp-groep</a></li>
-        <li><a href="./" aria-current="page">Insturen</a></li>
-      </ul>
       <a class="pill login-button" href="../inloggen.html">Inloggen&nbsp; →</a>
     </nav>
   </header>
 
   <main id="inhoud" class="pagina" aria-labelledby="ins-titel">
     <div class="wrap ins-wrap">
-      <a class="terug" href="../index.html" data-terug="../index.html" data-terug-tekst="Terug">← Terug</a>
-
       <section class="ins-held" aria-labelledby="ins-titel">
         <span class="ins-label">Psychologie is af. Nu jouw richting.</span>
         <h1 id="ins-titel"><span>Help ons</span> <span>groeien<span class="ins-punt">.</span></span></h1>
