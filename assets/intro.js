@@ -389,13 +389,14 @@ window.BES = window.BES || {};
   };
 
   // Carrousel zoals bij Apple: schuift vanzelf door, balkjes die zich vullen, pauzeknop, swipen. Voor Hoe werkt het op de hub.
-  // Gebruik: BES.carrousel(element, { soorten, kopniveau })
+  // Gebruik: BES.carrousel(element, { soorten, kopniveau, stappen })
+  //   stappen      eigen dia's (zelfde vorm als STAPPEN) in plaats van de vaste; zo gebruikt /insturen/ dezelfde carrousel
   const PAUZE_ICOON = '<svg class="carrousel-ico-pauze" viewBox="0 0 14 14" aria-hidden="true"><rect x="2" y="1" width="3.5" height="12" rx="1"/><rect x="8.5" y="1" width="3.5" height="12" rx="1"/></svg>'
     + '<svg class="carrousel-ico-speel" viewBox="0 0 14 14" aria-hidden="true"><path d="M3 1.5v11a.8.8 0 0 0 1.2.7l9-5.5a.8.8 0 0 0 0-1.4l-9-5.5A.8.8 0 0 0 3 1.5z"/></svg>';
 
   window.BES.carrousel = (root, opties = {}) => {
     const soorten = opties.soorten || ['uitleg'];
-    const stappen = STAPPEN.filter(stap => soorten.includes(stap.soort));
+    const stappen = opties.stappen || STAPPEN.filter(stap => soorten.includes(stap.soort));
     const kop = opties.kopniveau || 'h3';
     const naam = root.id || 'carrousel';
     const rustig = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -428,7 +429,8 @@ window.BES = window.BES || {};
     const pauzeKnop = root.querySelector('.carrousel-pauze');
     let actief = 0;
     let gepauzeerd = rustig;
-    let inBeeld = true;
+    // Pas doorschuiven als de carrousel in beeld is; zonder IntersectionObserver meteen.
+    let inBeeld = !('IntersectionObserver' in window);
     let timer = 0;
     let settleTimer = 0;
 
@@ -522,7 +524,11 @@ window.BES = window.BES || {};
         if (zichtbaar === inBeeld) return;
         inBeeld = zichtbaar;
         if (!zichtbaar) window.clearTimeout(timer);
-        else if (!gepauzeerd) { herstartVul(); planVolgende(); }
+        else {
+          // Komt de carrousel (weer) in beeld, dan speelt de dia opnieuw, zodat niemand een afgelopen animatie ziet.
+          speelAnimaties(kaarten[actief]);
+          if (!gepauzeerd) { herstartVul(); planVolgende(); }
+        }
       }, { threshold: .4 }).observe(root);
     }
     window.addEventListener('resize', () => {

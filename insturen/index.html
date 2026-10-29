@@ -31,7 +31,9 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../assets/style.css?v=89">
+  <link rel="stylesheet" href="../assets/intro.css?v=89">
   <script src="../assets/app.js?v=89" defer></script>
+  <script src="../assets/intro.js?v=90" defer></script>
   <script src="../assets/config.js?v=89" defer></script>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js" defer></script>
   <script src="../assets/auth.js?v=89" defer></script>
@@ -41,14 +43,15 @@
     html { scroll-padding-top: 76px; }
     @media (prefers-reduced-motion: no-preference) { html { scroll-behavior: smooth; } }
     body:has(.ins-dialoog[open]) { overflow: hidden; }
-    .ins-wrap { max-width: 860px; }
+    /* De pagina is even breed als de startpagina en de hub; het formulier en de WhatsApp-groep blijven smaller, dat leest rustiger. */
+    .ins-smal { max-width: 760px; margin-inline: auto; }
     .ins-sr { position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
 
     /* Alleen op deze pagina: knoppen met witte tekst halen 4,5:1 ook in donker, veldranden halen 3:1. */
     :root { --ins-knop: var(--accent); --ins-knop-hover: var(--accent-dark); --ins-rand: #8E8E93; --ins-link: var(--accent); --ins-lijn: #D2D2D7; }
     html[data-theme="dark"] { --ins-knop: #0A6ED1; --ins-knop-hover: #0A62BA; --ins-rand: #6E6E73; --ins-link: var(--accent-dark); --ins-lijn: #48484A; }
     /* Randen van kaarten en blokken: overal dezelfde, duidelijke lijn, ook in donker (de gewone lijn is daar bijna onzichtbaar). */
-    .ins-wrap .kaart { border-color: var(--ins-lijn); }
+    .ins-wrap :is(.kaart, .stap-kaart) { border-color: var(--ins-lijn); }
     :is(.ins-wrap, .ins-dialoog) .knop:not(.ins-wa) { background: var(--ins-knop); }
     :where(html.has-hover) :is(.ins-wrap, .ins-dialoog) .knop:not(.ins-wa):not(:disabled):hover { background: var(--ins-knop-hover); }
     :is(.ins-wrap, .ins-dialoog) .tekstlink { color: var(--ins-link); }
@@ -57,27 +60,28 @@
     .ins-wa svg { width: 18px; height: 18px; flex: none; }
     :where(html.has-hover) .ins-wa.knop:not(:disabled):hover { background: var(--whatsapp-hover); box-shadow: var(--shadow-soft); }
 
-    /* Kop voor wie de QR-code scant: dezelfde zin als op de poster, groot, met één knop naar het formulier. */
-    .ins-held { display: grid; grid-template-columns: minmax(0, 1fr); gap: 72px; align-items: center; margin: 8px 0 0; }
-    .ins-held-tekst { display: grid; gap: 26px; min-width: 0; }
+    /* Kop voor wie de QR-code scant: in het midden, zoals de startpagina, met dezelfde zin als op de poster. */
+    .ins-held { display: grid; justify-items: center; gap: 28px; max-width: 920px; margin: 16px auto 0; text-align: center; }
     .ins-label {
-      justify-self: start; display: inline-flex; align-items: center; gap: 10px; min-height: 32px; padding: 4px 14px 4px 12px;
+      display: inline-flex; align-items: center; gap: 10px; min-height: 32px; padding: 4px 14px 4px 12px;
       border: 1px solid color-mix(in srgb, var(--teal) 45%, transparent);
       border-radius: var(--radius-pill); background: var(--teal-zacht); color: var(--teal-tekst); font-size: .875rem; font-weight: 600; line-height: 1.35;
     }
     .ins-label::before { content: ''; flex: none; width: 8px; height: 8px; border-radius: 50%; background: var(--teal); box-shadow: 0 0 0 4px var(--teal-zacht); }
-    .ins-held h1 { margin: 0; font-size: clamp(3.25rem, 16.5vw, 5.75rem); font-weight: 700; line-height: .92; letter-spacing: -.045em; }
+    .ins-held h1 { margin: 0; font-size: clamp(3.25rem, 16.5vw, 7.25rem); font-weight: 700; line-height: .92; letter-spacing: -.045em; }
     .ins-held h1 > span { display: block; }
     .ins-held h1 .ins-punt { display: inline; color: var(--teal); }
-    .ins-held-uitleg { max-width: 30rem; margin: 0; color: var(--muted); font-size: clamp(1.0625rem, 4.6vw, 1.25rem); line-height: 1.5; text-wrap: pretty; }
+    .ins-held-uitleg { max-width: 36rem; margin: 0; color: var(--muted); font-size: clamp(1.0625rem, 4.6vw, 1.3125rem); line-height: 1.5; text-wrap: balance; }
     .ins-held-uitleg strong { color: var(--ink); font-weight: 600; }
-    /* Twee knoppen: op de telefoon onder elkaar over de hele breedte, op de laptop naast elkaar. */
-    .ins-held-knoppen { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 6px; }
+    /* Twee knoppen: op de telefoon onder elkaar over de hele breedte, op de laptop naast elkaar in het midden. */
+    .ins-held-knoppen { display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; width: 100%; margin-top: 4px; }
     .ins-held-knoppen :is(.knop, .knop-secundair) { flex: 1 1 100%; gap: 10px; width: auto; max-width: none; min-height: 56px; margin: 0; font-weight: 600; }
     .ins-held-knoppen .knop-secundair { border-color: var(--ins-lijn); }
     .ins-held-knoppen .knop svg { width: 18px; height: 18px; flex: none; fill: none; stroke: currentColor; stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round; }
-    /* Twee cijfertegels. Tik erop: de tegel draait om en vertelt meer; terugdraaien telt het cijfer opnieuw op. */
-    .ins-cijfers { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; max-width: 26rem; margin: 18px 0 0; padding: 0; list-style: none; }
+    /* Cijfertegels: 2 per rij op de telefoon, 4 op de laptop. Tik erop: de tegel draait om en vertelt meer; terugdraaien telt opnieuw op. */
+    .ins-cijfers { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; margin: 0; padding: 0; list-style: none; }
+    .ins-cijfers-noot { max-width: 34rem; margin: 28px auto 0; color: var(--muted); font-size: 1.0625rem; line-height: 1.5; text-align: center; text-wrap: balance; }
+    .ins-cijfers-noot strong { color: var(--ink); font-weight: 600; }
     .ins-cijfers li { display: grid; min-width: 0; }
     .ins-cijfer {
       display: grid; width: 100%; padding: 0; border: 0; border-radius: 16px; background: none; color: var(--ink);
@@ -107,70 +111,55 @@
       :where(html.has-hover) .ins-cijfer:hover .ins-cijfer-voor { border-color: var(--accent); }
     }
 
-    /* Voorbeeld: het ingestuurde bestand, een lijn naar beneden, en de oefenvraag zoals ze op de site staat (zelfde opties en uitleg als vak.css). */
-    .ins-demo { margin: 0; }
-    .ins-demo-stroom { display: grid; max-width: 400px; margin-inline: auto; }
-    .ins-demo-bestand {
-      display: flex; align-items: center; gap: 12px; padding: 12px 14px;
-      border: 1px solid var(--ins-lijn); border-radius: 16px; background: var(--card); box-shadow: var(--shadow-soft);
+    /* Dia 2: je samenvatting wordt een oefenvraag, in de getekende iPhone van de hub (intro.css).
+       De volgorde zit in --i (zoals op de hub): het bestand, de groene scanlijn, de vraag, A B C, een tik op B, groen, de uitleg. */
+    .ins-dia-bestand { position: relative; overflow: hidden; font-weight: 600; }
+    .ins-dia-pdf {
+      display: grid; place-items: center; flex: none; width: 24px; height: 30px; border-radius: 4px;
+      background: var(--teal-zacht); color: var(--teal-tekst); font-size: 8px; font-weight: 700;
     }
-    .ins-demo-bestand .ins-bestand-icoon { flex: none; }
-    .ins-demo-bestand-tekst { display: grid; flex: 1; gap: 2px; min-width: 0; }
-    .ins-demo-bestand-tekst strong { font-size: .9375rem; font-weight: 600; line-height: 1.3; overflow-wrap: anywhere; }
-    .ins-demo-bestand-tekst span { color: var(--muted); font-size: .8125rem; line-height: 1.3; }
-    .ins-demo-bestand > svg { flex: none; width: 20px; height: 20px; fill: none; stroke: var(--teal-tekst); stroke-width: 2.4; stroke-linecap: round; stroke-linejoin: round; }
-    .ins-demo-pijl { position: relative; display: grid; place-items: center; height: 52px; }
-    .ins-demo-pijl::before { content: ''; position: absolute; top: 0; bottom: 0; left: 50%; border-left: 2px dashed var(--ins-lijn); transform-origin: top; }
-    .ins-demo-pijl span {
-      position: relative; display: grid; place-items: center; width: 30px; height: 30px; border: 1px solid var(--teal); border-radius: 50%;
-      background: var(--card); color: var(--teal-tekst);
+    .ins-dia-bestand-tekst { display: grid; gap: 1px; min-width: 0; }
+    .ins-dia-bestand-tekst span { color: var(--ink-soft); font-size: 10px; font-weight: 400; }
+    .ins-dia-scan { position: absolute; top: 0; bottom: 0; left: 0; width: 2px; background: var(--teal); box-shadow: 0 0 10px 2px rgba(63, 185, 178, .45); opacity: 0; }
+    .ins-dia-wordt { display: flex; align-items: center; justify-content: center; gap: 6px; color: var(--teal-tekst); font-size: 10.5px; font-weight: 600; }
+    .ins-dia-wordt svg { width: 12px; height: 12px; fill: none; stroke: currentColor; stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round; }
+    .ins-dia-optie { position: relative; display: flex; align-items: center; gap: 8px; }
+    .ins-dia-letter {
+      display: grid; place-items: center; flex: none; width: 18px; height: 18px; border-radius: 50%;
+      background: var(--surface); color: var(--ink-soft); font-size: 9.5px; font-weight: 600;
     }
-    .ins-demo-pijl svg { width: 16px; height: 16px; fill: none; stroke: currentColor; stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round; }
-    .ins-demo-vraag {
-      display: grid; gap: 14px; padding: 18px;
-      border: 1px solid var(--ins-lijn); border-radius: 20px; background: var(--card); box-shadow: var(--shadow-card-hover);
+    .ins-dia-vink { flex: none; width: 13px; height: 13px; margin-left: auto; fill: none; stroke: var(--teal-tekst); stroke-width: 2.6; stroke-linecap: round; stroke-linejoin: round; opacity: 0; }
+    /* De vinger: een zachte stip met witte rand, zoals een tik op een iPhone-opname. */
+    .ins-dia-vinger {
+      position: absolute; top: 50%; left: 64%; width: 24px; height: 24px; margin: -12px 0 0 -12px; border-radius: 50%;
+      background: rgba(29, 29, 31, .3); box-shadow: 0 0 0 2px rgba(255, 255, 255, .95), 0 4px 10px rgba(0, 0, 0, .2); opacity: 0; pointer-events: none;
     }
-    .ins-demo-meta { color: var(--muted); font-size: .8125rem; font-weight: 600; line-height: 1.3; }
-    .ins-demo-q { margin-top: -6px; font-size: 1.0625rem; font-weight: 600; line-height: 1.35; }
-    .ins-demo-opties { display: grid; gap: 8px; }
-    .ins-demo-optie {
-      display: flex; align-items: center; gap: 12px; min-height: 50px; padding: 8px 12px;
-      border: 1px solid var(--ins-lijn); border-radius: 14px; color: var(--ink); font-size: .9375rem; line-height: 1.35;
+    .stap-kaart .ins-dia-scan.anim { animation: ins-scan 1100ms cubic-bezier(.45, 0, .55, 1) 450ms both; }
+    .stap-kaart .ins-dia-vinger.anim { animation: ins-tik 900ms var(--ease) 2650ms both; }
+    .stap-kaart .ins-dia-goed.anim { animation: stap-op 250ms var(--ease) both, ins-goed 320ms var(--ease) 3050ms both; animation-delay: calc(var(--i, 0) * 110ms + 180ms), 3050ms; }
+    .stap-kaart .ins-dia-goed .ins-dia-letter.anim { animation: ins-goed-letter 320ms var(--ease) 3050ms both; }
+    .stap-kaart .ins-dia-goed .ins-dia-vink.anim { animation: ins-vink 300ms var(--ease) 3150ms both; }
+    @keyframes ins-scan { 0% { left: 0; opacity: 1; } 88% { left: calc(100% - 2px); opacity: 1; } 100% { left: calc(100% - 2px); opacity: 0; } }
+    @keyframes ins-tik { 0% { opacity: 0; transform: scale(1.6); } 30% { opacity: 1; transform: scale(1); } 50% { transform: scale(.8); } 70% { opacity: 1; transform: scale(1); } 100% { opacity: 0; transform: scale(1); } }
+    @keyframes ins-goed { to { border-color: var(--teal); background: var(--teal-zacht); color: var(--teal-tekst); font-weight: 600; } }
+    @keyframes ins-goed-letter { to { background: transparent; color: var(--teal-tekst); } }
+    @keyframes ins-vink { from { opacity: 0; transform: scale(.4); } to { opacity: 1; transform: none; } }
+    /* Op de telefoon toont de hub maar de bovenkant van de iPhone; hier moet ook het groene antwoord en de uitleg in beeld. */
+    @media (max-width: 767px) {
+      #ins-dias .tel { margin-bottom: -48px; }
     }
-    .ins-demo-letter {
-      display: grid; place-items: center; flex: none; width: 28px; height: 28px; border-radius: 50%;
-      background: var(--surface); color: var(--muted); font-size: .8125rem; font-weight: 600;
+    @media (prefers-reduced-motion: reduce) {
+      .ins-dia-goed { border-color: var(--teal); background: var(--teal-zacht); color: var(--teal-tekst); font-weight: 600; }
+      .ins-dia-goed .ins-dia-letter { background: transparent; color: var(--teal-tekst); }
+      .ins-dia-goed .ins-dia-vink { opacity: 1; }
     }
-    .ins-demo-optie svg { flex: none; width: 18px; height: 18px; margin-left: auto; fill: none; stroke: currentColor; stroke-width: 2.6; stroke-linecap: round; stroke-linejoin: round; opacity: 0; }
-    .ins-demo-optie.is-goed { border-color: var(--teal); background: var(--teal-zacht); color: var(--teal-tekst); font-weight: 600; }
-    .ins-demo-optie.is-goed .ins-demo-letter { background: transparent; color: var(--teal-tekst); }
-    .ins-demo-optie.is-goed svg { opacity: 1; }
-    .ins-demo-uitleg { display: grid; gap: 4px; padding: 12px 14px; border-radius: 12px; background: var(--surface); font-size: .875rem; line-height: 1.5; }
-    .ins-demo-uitleg strong { font-weight: 600; }
-    .ins-demo-uitleg span { color: var(--muted); }
-    .ins-demo figcaption { max-width: 22rem; margin: 28px auto 0; color: var(--muted); font-size: .9375rem; line-height: 1.45; text-align: center; text-wrap: balance; }
 
-    /* Eén keer bij het openen: de tekst komt op, dan het bestand, de lijn, de vraag; dan kleurt het juiste antwoord en volgt de uitleg. */
+    /* Bij het openen komt de kop rustig op, regel na regel. */
     @media (prefers-reduced-motion: no-preference) {
-      .ins-held-tekst > * { animation: rise 600ms var(--ease) both; }
-      .ins-held-tekst > :nth-child(2) { animation-delay: 60ms; }
-      .ins-held-tekst > :nth-child(3) { animation-delay: 120ms; }
-      .ins-held-tekst > :nth-child(4) { animation-delay: 180ms; }
-      .ins-held-tekst > :nth-child(5) { animation-delay: 240ms; }
-      .ins-demo-bestand { animation: rise 600ms var(--ease) 250ms both; }
-      .ins-demo-pijl::before { animation: lijn-in 450ms var(--ease) 650ms both; }
-      .ins-demo-pijl span { animation: pop-in 380ms var(--ease) 900ms both; }
-      .ins-demo-vraag { animation: rise 700ms var(--ease) 1000ms both; }
-      .ins-demo-optie.is-goed { animation: goed 420ms var(--ease) 1900ms both; }
-      .ins-demo-optie.is-goed .ins-demo-letter { animation: goed-letter 420ms var(--ease) 1900ms both; }
-      .ins-demo-optie.is-goed svg { animation: vink-in 300ms var(--ease) 2050ms both; }
-      .ins-demo-uitleg { animation: rise 500ms var(--ease) 2250ms both; }
-      .ins-demo figcaption { animation: rise 600ms var(--ease) 1200ms both; }
-      @keyframes lijn-in { from { transform: scaleY(0); } }
-      @keyframes pop-in { from { opacity: 0; transform: scale(.6); } }
-      @keyframes goed { from { border-color: var(--ins-lijn); background: transparent; color: var(--ink); font-weight: 400; } }
-      @keyframes goed-letter { from { background: var(--surface); color: var(--muted); } }
-      @keyframes vink-in { from { opacity: 0; transform: scale(.4); } }
+      .ins-held > * { animation: rise 600ms var(--ease) both; }
+      .ins-held > :nth-child(2) { animation-delay: 70ms; }
+      .ins-held > :nth-child(3) { animation-delay: 140ms; }
+      .ins-held > :nth-child(4) { animation-delay: 210ms; }
     }
 
     /* Zo werkt het: drie stappen onder elkaar, verbonden door een dunne lijn. */
@@ -198,16 +187,25 @@
     }
 
     @media (min-width: 860px) {
-      .ins-held { grid-template-columns: minmax(0, 1.05fr) minmax(0, .95fr); gap: 40px; }
       .ins-held-knoppen :is(.knop, .knop-secundair) { flex: 0 1 auto; }
+      .ins-cijfers { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 18px; }
+      .ins-cijfer-voor, .ins-cijfer-achter { padding: 22px 22px 18px; }
+      .ins-cijfer-voor strong { font-size: 2.75rem; }
+      /* Zo werkt het: de drie stappen naast elkaar, met de lijn horizontaal tussen de nummers. */
+      .ins-stappen { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 32px; }
+      .ins-stappen li { grid-template-columns: minmax(0, 1fr); gap: 14px; padding-bottom: 0; }
+      .ins-stappen li:not(:last-child)::before { top: 16px; bottom: auto; left: 48px; right: -16px; width: auto; height: 1px; }
+      .ins-stappen div { padding-top: 0; }
     }
 
     /* Secties */
     /* Veel lucht tussen de secties: elk deel krijgt zijn eigen moment op het scherm. */
     .ins-sectie { margin-top: 104px; }
     .ins-sectie:first-of-type { margin-top: 0; }
-    .ins-sectie > .sectie-kop { margin-bottom: 14px; }
-    .ins-sub { margin: 0 0 32px; color: var(--muted); font-size: 1rem; line-height: 1.55; }
+    .ins-sectie > .sectie-kop { margin-bottom: 14px; text-align: center; text-wrap: balance; }
+    .ins-sub { max-width: 36rem; margin: 0 auto 32px; color: var(--muted); font-size: 1rem; line-height: 1.55; text-align: center; text-wrap: balance; }
+    /* De dia's zitten dichter onder de kop; de carrousel zelf geeft al ruimte. */
+    .ins-sectie.ins-dias-sectie { margin-top: 72px; }
     .ins-sectie > .sectie-kop:has(+ :not(.ins-sub)) { margin-bottom: 28px; }
     :is(.sectie-kop, .ins-bedankt h3, .ins-dialoog h2):focus { outline: none; box-shadow: none; }
 
@@ -518,66 +516,76 @@
       <a class="terug" href="../index.html" data-terug="../index.html" data-terug-tekst="Terug">← Terug</a>
 
       <section class="ins-held" aria-labelledby="ins-titel">
-        <div class="ins-held-tekst">
-          <span class="ins-label">Psychologie is af. Nu jouw richting.</span>
-          <h1 id="ins-titel"><span>Help ons</span> <span>groeien<span class="ins-punt">.</span></span></h1>
-          <p class="ins-held-uitleg"><strong>Stuur je samenvatting in.</strong> Wij maken er oefenvragen van, per hoofdstuk en met uitleg, voor iedereen in jouw richting.</p>
-          <div class="ins-held-knoppen">
-            <a class="knop" id="held-knop" href="#formulier" data-naar-formulier>
-              Stuur je samenvatting in
-              <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 5v14M6 13l6 6 6-6"/></svg>
-            </a>
-            <a class="knop-secundair" href="#stappen">Hoe werkt het?</a>
-          </div>
-          <ul class="ins-cijfers" aria-label="Berie's Exam Space nu">
-            <li>
-              <button class="ins-cijfer" type="button" aria-pressed="false">
-                <span class="ins-cijfer-binnen">
-                  <span class="ins-cijfer-voor">
-                    <strong data-tel="34">34</strong>
-                    <span>vakken Psychologie</span>
-                    <span class="ins-cijfer-tik" aria-hidden="true"><svg viewBox="0 0 16 16" focusable="false"><path d="M13 8a5 5 0 1 1-1.5-3.6M13 2.5v2.5h-2.5"/></svg><span class="ins-tik">Tik voor meer</span><span class="ins-klik">Klik voor meer</span></span>
-                  </span>
-                  <span class="ins-cijfer-achter" aria-hidden="true">Van de 1ste tot de 3de bachelor, met uitleg bij elke vraag.</span>
-                </span>
-              </button>
-            </li>
-            <li>
-              <button class="ins-cijfer" type="button" aria-pressed="false">
-                <span class="ins-cijfer-binnen">
-                  <span class="ins-cijfer-voor">
-                    <strong data-tel="340">340</strong>
-                    <span>studenten doen mee</span>
-                    <span class="ins-cijfer-tik" aria-hidden="true"><svg viewBox="0 0 16 16" focusable="false"><path d="M13 8a5 5 0 1 1-1.5-3.6M13 2.5v2.5h-2.5"/></svg><span class="ins-tik">Tik voor meer</span><span class="ins-klik">Klik voor meer</span></span>
-                  </span>
-                  <span class="ins-cijfer-achter" aria-hidden="true">Ze zitten in onze WhatsApp-groep en horen als eerste wat er nieuw is.</span>
-                </span>
-              </button>
-            </li>
-          </ul>
+        <span class="ins-label">Psychologie is af. Nu jouw richting.</span>
+        <h1 id="ins-titel"><span>Help ons</span> <span>groeien<span class="ins-punt">.</span></span></h1>
+        <p class="ins-held-uitleg"><strong>Stuur je samenvatting in.</strong> Wij maken er oefenvragen van, per hoofdstuk en met uitleg, voor iedereen in jouw richting.</p>
+        <div class="ins-held-knoppen">
+          <a class="knop" id="held-knop" href="#formulier" data-naar-formulier>
+            Stuur je samenvatting in
+            <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 5v14M6 13l6 6 6-6"/></svg>
+          </a>
+          <a class="knop-secundair" href="#stappen">Hoe werkt het?</a>
         </div>
+      </section>
 
-        <figure class="ins-demo">
-          <div class="ins-demo-stroom" aria-hidden="true">
-            <div class="ins-demo-bestand">
-              <span class="ins-bestand-icoon">PDF</span>
-              <span class="ins-demo-bestand-tekst"><strong>meetschalen.pdf</strong><span>Jouw samenvatting</span></span>
-              <svg viewBox="0 0 20 20" focusable="false"><path d="m5.5 10.5 3 3 6-7"/></svg>
-            </div>
-            <div class="ins-demo-pijl"><span><svg viewBox="0 0 16 16" focusable="false"><path d="M8 3v10M4 9l4 4 4-4"/></svg></span></div>
-            <div class="ins-demo-vraag">
-              <span class="ins-demo-meta">Statistiek I · Meetschalen</span>
-              <strong class="ins-demo-q">Wat meet een nominale schaal?</strong>
-              <div class="ins-demo-opties">
-                <span class="ins-demo-optie"><span class="ins-demo-letter">A</span>Een rangorde</span>
-                <span class="ins-demo-optie is-goed"><span class="ins-demo-letter">B</span>Categorieën zonder volgorde<svg viewBox="0 0 16 16" focusable="false"><path d="m3.5 8.5 3 3 6-7"/></svg></span>
-                <span class="ins-demo-optie"><span class="ins-demo-letter">C</span>Gelijke afstanden</span>
-              </div>
-              <div class="ins-demo-uitleg"><strong>Uitleg</strong><span>Een nominale schaal deelt in groepen in, zonder volgorde. Denk aan geslacht of oogkleur.</span></div>
-            </div>
-          </div>
-          <figcaption>Zo wordt een samenvatting een oefenvraag, met uitleg erbij.</figcaption>
-        </figure>
+      <!-- Twee dia's in de carrousel van de hub (assets/intro.js): wat het is, en wat er met je samenvatting gebeurt. -->
+      <section class="ins-sectie ins-dias-sectie" aria-label="Wat Berie's Exam Space is">
+        <div class="ins-dias" id="ins-dias" aria-roledescription="carrousel" aria-label="Wat het is en wat er met je samenvatting gebeurt"></div>
+      </section>
+
+      <section class="ins-sectie" id="cijfers" aria-labelledby="cijfers-titel">
+        <h2 class="sectie-kop" id="cijfers-titel">Berie's Exam Space in cijfers</h2>
+        <ul class="ins-cijfers">
+          <li>
+            <button class="ins-cijfer" type="button" aria-pressed="false">
+              <span class="ins-cijfer-binnen">
+                <span class="ins-cijfer-voor">
+                  <strong data-tel="340">340</strong>
+                  <span>studenten doen mee</span>
+                  <span class="ins-cijfer-tik" aria-hidden="true"><svg viewBox="0 0 16 16" focusable="false"><path d="M13 8a5 5 0 1 1-1.5-3.6M13 2.5v2.5h-2.5"/></svg><span class="ins-tik">Tik voor meer</span><span class="ins-klik">Klik voor meer</span></span>
+                </span>
+                <span class="ins-cijfer-achter" aria-hidden="true">Ze zitten in onze WhatsApp-groep en horen als eerste wat er nieuw is.</span>
+              </span>
+            </button>
+          </li>
+          <li>
+            <button class="ins-cijfer" type="button" aria-pressed="false">
+              <span class="ins-cijfer-binnen">
+                <span class="ins-cijfer-voor">
+                  <strong data-tel="34">34</strong>
+                  <span>vakken Psychologie</span>
+                  <span class="ins-cijfer-tik" aria-hidden="true"><svg viewBox="0 0 16 16" focusable="false"><path d="M13 8a5 5 0 1 1-1.5-3.6M13 2.5v2.5h-2.5"/></svg><span class="ins-tik">Tik voor meer</span><span class="ins-klik">Klik voor meer</span></span>
+                </span>
+                <span class="ins-cijfer-achter" aria-hidden="true">Van de 1ste tot de 3de bachelor.</span>
+              </span>
+            </button>
+          </li>
+          <li>
+            <button class="ins-cijfer" type="button" aria-pressed="false">
+              <span class="ins-cijfer-binnen">
+                <span class="ins-cijfer-voor">
+                  <strong data-tel="4348">4.348</strong>
+                  <span>oefenvragen</span>
+                  <span class="ins-cijfer-tik" aria-hidden="true"><svg viewBox="0 0 16 16" focusable="false"><path d="M13 8a5 5 0 1 1-1.5-3.6M13 2.5v2.5h-2.5"/></svg><span class="ins-tik">Tik voor meer</span><span class="ins-klik">Klik voor meer</span></span>
+                </span>
+                <span class="ins-cijfer-achter" aria-hidden="true">Met uitleg bij elke vraag.</span>
+              </span>
+            </button>
+          </li>
+          <li>
+            <button class="ins-cijfer" type="button" aria-pressed="false">
+              <span class="ins-cijfer-binnen">
+                <span class="ins-cijfer-voor">
+                  <strong data-tel="285">285</strong>
+                  <span>hoofdstukken</span>
+                  <span class="ins-cijfer-tik" aria-hidden="true"><svg viewBox="0 0 16 16" focusable="false"><path d="M13 8a5 5 0 1 1-1.5-3.6M13 2.5v2.5h-2.5"/></svg><span class="ins-tik">Tik voor meer</span><span class="ins-klik">Klik voor meer</span></span>
+                </span>
+                <span class="ins-cijfer-achter" aria-hidden="true">Oefen per hoofdstuk, of alles in één keer.</span>
+              </span>
+            </button>
+          </li>
+        </ul>
+        <p class="ins-cijfers-noot">En dit is nog maar <strong>één richting</strong>, Psychologie. Met jouw richting erbij wordt het veel meer.</p>
       </section>
 
       <section class="ins-sectie" id="stappen" aria-labelledby="stappen-titel">
@@ -589,7 +597,7 @@
         </ol>
       </section>
 
-      <section class="ins-sectie" id="formulier" aria-labelledby="formulier-titel">
+      <section class="ins-sectie ins-smal" id="formulier" aria-labelledby="formulier-titel">
         <h2 class="sectie-kop" id="formulier-titel" tabindex="-1">Stuur je materiaal in</h2>
         <p class="ins-sub">Zonder account. Alleen je school, je richting en je bestanden zijn nodig.</p>
 
@@ -685,7 +693,7 @@
         </div>
       </section>
 
-      <section class="ins-sectie" aria-labelledby="wa-titel">
+      <section class="ins-sectie ins-smal" aria-labelledby="wa-titel">
         <h2 class="sectie-kop" id="wa-titel">Kom in de WhatsApp-groep</h2>
         <p class="ins-sub">Hier hoor je als eerste wanneer er nieuwe vakken en richtingen bijkomen.</p>
         <div class="kaart ins-wa-kaart">
@@ -1109,21 +1117,69 @@
         veld.addEventListener('input', () => { if (veld.hasAttribute('aria-invalid')) toonVeldFout(naam, ''); });
       });
 
-      // Cijfertegels: bij het openen tellen de cijfers op; een tik draait de tegel om, terugdraaien telt opnieuw op.
+      // Twee dia's in de carrousel van de hub: wat het is, en wat er met je samenvatting gebeurt (stijl en animaties in intro.css).
+      const DIAS = [
+        {
+          soort: 'insturen',
+          naam: 'Wat het is',
+          label: 'Wat het is',
+          titel: 'Oefenen voor je examens.',
+          tekst: "Berie's Exam Space is een oefensite voor studenten. Per vak en per hoofdstuk oefen je met vragen, met <strong>uitleg bij elke vraag</strong>. Je speelt examens na op tijd en ziet hoe je groeit.",
+          telefoon: true,
+          scherm: `
+            <p class="tel-kop anim" style="--i:1">Psychologie</p>
+            <p class="tel-sub anim" style="--i:1">1ste bachelor</p>
+            <div class="tel-kaart is-los anim" style="--i:2"><div class="tel-kaart-kop">Statistiek I<span class="tel-pijl">→</span></div><div class="tel-balk"><i class="anim-vul" style="--doel:80%;--i:0"></i></div></div>
+            <div class="tel-kaart is-los anim" style="--i:3"><div class="tel-kaart-kop">Ontwikkelingspsychologie<span class="tel-pijl">→</span></div><div class="tel-balk"><i class="anim-vul" style="--doel:45%;--i:1"></i></div></div>
+            <div class="tel-kaart is-los anim" style="--i:4"><div class="tel-kaart-kop">Philosophy of Science<span class="tel-pijl">→</span></div><div class="tel-balk"><i class="anim-vul" style="--doel:20%;--i:2"></i></div></div>
+            <div class="tel-knop anim anim-puls" style="--i:5">Oefen verder →</div>`
+        },
+        {
+          soort: 'insturen',
+          naam: 'Jouw samenvatting',
+          label: 'Jouw samenvatting',
+          titel: 'Van samenvatting naar oefenvragen.',
+          tekst: 'Je stuurt je samenvatting in. Wij maken er oefenvragen van, per hoofdstuk en <strong>met uitleg</strong>. Daarna oefent iedereen van jouw richting mee.',
+          telefoon: true,
+          scherm: `
+            <div class="tel-kaart ins-dia-bestand anim" style="--i:0"><span class="ins-dia-pdf">PDF</span><span class="ins-dia-bestand-tekst">meetschalen.pdf<span>Jouw samenvatting</span></span><span class="ins-dia-scan anim"></span></div>
+            <div class="ins-dia-wordt anim" style="--i:12"><svg viewBox="0 0 12 12"><path d="M6 2v8M3 7l3 3 3-3"/></svg>wordt een oefenvraag</div>
+            <div class="tel-rij anim" style="--i:14"><span>Vraag 1 van 12</span><span>Training</span></div>
+            <p class="tel-vraag anim" style="--i:15">Wat meet een nominale schaal?</p>
+            <div class="tel-optie ins-dia-optie anim" style="--i:16"><span class="ins-dia-letter">A</span>Een rangorde</div>
+            <div class="tel-optie ins-dia-optie ins-dia-goed anim" style="--i:17"><span class="ins-dia-letter anim">B</span>Categorieën zonder volgorde<svg class="ins-dia-vink anim" viewBox="0 0 16 16"><path d="m3.5 8.5 3 3 6-7"/></svg><span class="ins-dia-vinger anim"></span></div>
+            <div class="tel-optie ins-dia-optie anim" style="--i:18"><span class="ins-dia-letter">C</span>Gelijke afstanden</div>
+            <div class="mini-uitleg anim" style="--i:32">Een nominale schaal deelt in groepen in, zonder volgorde. Denk aan geslacht of oogkleur.</div>`
+        }
+      ];
+      const startDias = () => window.BES?.carrousel?.(element('ins-dias'), { stappen: DIAS, kopniveau: 'h2' });
+      if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', startDias, { once: true });
+      else startDias();
+
+      // Cijfertegels: zodra de rij in beeld komt tellen de cijfers op; een tik draait de tegel om, terugdraaien telt opnieuw op.
+      const getalTekst = waarde => waarde.toLocaleString('nl-BE');
       const telOp = getal => {
         const doel = Number(getal.dataset.tel);
-        if (minderBeweging.matches || !doel) { getal.textContent = String(doel); return; }
+        if (minderBeweging.matches || !doel) { getal.textContent = getalTekst(doel); return; }
         const start = performance.now();
         const stap = nu => {
-          const deel = Math.min(1, (nu - start) / 900);
-          getal.textContent = String(Math.round(doel * (1 - Math.pow(1 - deel, 3))));
+          const deel = Math.min(1, (nu - start) / 1100);
+          getal.textContent = getalTekst(Math.round(doel * (1 - Math.pow(1 - deel, 3))));
           if (deel < 1) window.requestAnimationFrame(stap);
         };
         window.requestAnimationFrame(stap);
       };
-      document.querySelectorAll('.ins-cijfer').forEach(tegel => {
+      const tegels = Array.from(document.querySelectorAll('.ins-cijfer'));
+      if ('IntersectionObserver' in window) {
+        const kijker = new IntersectionObserver(entries => {
+          if (!entries.some(entry => entry.isIntersecting)) return;
+          kijker.disconnect();
+          tegels.forEach(tegel => telOp(tegel.querySelector('[data-tel]')));
+        }, { threshold: .5 });
+        kijker.observe(element('cijfers'));
+      }
+      tegels.forEach(tegel => {
         const getal = tegel.querySelector('[data-tel]');
-        window.setTimeout(() => telOp(getal), 350);
         tegel.addEventListener('click', () => {
           const om = tegel.getAttribute('aria-pressed') !== 'true';
           tegel.setAttribute('aria-pressed', String(om));
