@@ -73,7 +73,7 @@
     .ins-held-knoppen { display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; width: 100%; margin-top: 8px; }
     .ins-held-knoppen :is(.knop, .knop-secundair) { flex: 1 1 100%; gap: 10px; width: auto; max-width: none; min-height: 56px; margin: 0; font-weight: 600; }
     .ins-held-knoppen .knop-secundair { border-color: var(--ins-lijn); }
-    :is(.ins-held-knoppen, .ins-slot, .ins-plak) :is(.knop, .knop-secundair) svg {
+    :is(.ins-held-knoppen, .ins-slot, .ins-plak) :is(.knop, .knop-secundair) svg, .ins-meer svg {
       width: 18px; height: 18px; flex: none; fill: none; stroke: currentColor; stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round;
     }
     /* Lees wie we zijn: het pijltje veert even naar beneden terwijl de pagina naar het verhaal schuift. */
@@ -120,22 +120,28 @@
     .ins-fig-chips { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; margin: 0; padding: 0; list-style: none; }
     .ins-fig-chips li { padding: 7px 14px; border: 1px solid var(--ins-lijn); border-radius: var(--radius-pill); background: var(--surface); font-size: .875rem; font-weight: 500; }
 
-    /* Beeld 2: van één vak voor mijn zus naar haar vrienden en daarna honderden studenten. */
-    .ins-fig-groei { display: grid; justify-items: center; gap: 28px; width: 100%; }
-    .ins-fig-vak {
-      display: flex; align-items: center; gap: 10px; padding: 10px 16px 10px 10px;
-      border: 1px solid var(--ins-lijn); border-radius: 14px; background: var(--bg); box-shadow: var(--shadow-soft); font-size: .9375rem; font-weight: 600;
-    }
-    .ins-fig-vak-b { display: grid; place-items: center; width: 30px; height: 30px; border-radius: 50%; background: var(--teal); color: #FFFFFF; font-size: .875rem; font-weight: 700; }
-    .ins-fig-rij { display: grid; grid-template-columns: repeat(5, auto); align-items: start; justify-content: center; gap: 10px; width: 100%; }
-    .ins-fig-groep { display: grid; justify-items: center; gap: 8px; max-width: 96px; color: var(--muted); font-size: .8125rem; font-weight: 600; line-height: 1.25; text-align: center; }
-    .ins-fig-stippen { display: flex; align-items: center; justify-content: center; gap: 5px; min-height: 56px; }
-    .ins-fig-stippen i { display: block; width: 14px; height: 14px; border-radius: 50%; background: var(--teal); }
-    .ins-fig-groep.is-1 .ins-fig-stippen i { width: 24px; height: 24px; }
-    .ins-fig-groep.is-veel .ins-fig-stippen { display: grid; grid-template-columns: repeat(4, 12px); gap: 5px; }
-    .ins-fig-groep.is-veel .ins-fig-stippen i { width: 12px; height: 12px; }
-    .ins-fig-pijl { display: grid; place-items: center; min-height: 56px; color: var(--ins-rand); }
-    .ins-fig-pijl svg { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+    /* Hoofdstuk 1: Lees meer gaat naar Over mij. De knop staat links onder de tekst, ook op de telefoon. */
+    .ins-hs-tekst .ins-meer { justify-self: start; gap: 10px; width: auto; max-width: none; min-height: 48px; margin: 6px 0 0; padding: 0 22px; border-color: var(--ins-lijn); font-size: 1rem; font-weight: 600; }
+    .ins-meer svg { transition: transform 180ms var(--ease); }
+    :where(html.has-hover) .ins-meer:hover svg { transform: translateX(3px); }
+
+    /* Beeld 2: de WhatsApp-groep. Eerst alleen Berie, dan komen er studenten bij en loopt de teller op tot het aantal leden. */
+    .ins-chat { width: min(100%, 330px); border: 1px solid var(--ins-lijn); border-radius: 20px; background: var(--bg); box-shadow: var(--shadow-soft); overflow: hidden; }
+    .ins-chat-kop { display: flex; align-items: center; gap: 12px; padding: 12px 14px; border-bottom: 1px solid var(--ins-lijn); }
+    .ins-chat-foto { display: grid; place-items: center; flex: none; width: 40px; height: 40px; border-radius: 50%; background: var(--teal); color: #FFFFFF; font-size: 1.125rem; font-weight: 700; }
+    .ins-chat-naam { display: grid; gap: 2px; font-size: .9375rem; font-weight: 600; line-height: 1.25; }
+    .ins-chat-naam small { color: var(--muted); font-size: .8125rem; font-weight: 500; font-variant-numeric: tabular-nums; }
+    .ins-chat-inhoud { display: grid; justify-items: center; gap: 14px; padding: 16px 14px 18px; background: var(--surface); }
+    .ins-chat-melding { margin: 0; padding: 4px 12px; border-radius: 8px; background: var(--card); color: var(--muted); font-size: .75rem; font-weight: 500; }
+    .ins-chat-erbij { display: flex; align-items: center; gap: 8px; }
+    .ins-chat-stapel { display: flex; }
+    .ins-chat-stapel i { width: 30px; height: 30px; margin-left: -9px; border: 2px solid var(--surface); border-radius: 50%; background: var(--teal); }
+    .ins-chat-stapel i:first-child { margin-left: 0; }
+    .ins-chat-stapel i:nth-child(even) { background: var(--sig); }
+    .ins-chat-meer { padding: 4px 10px; border-radius: var(--radius-pill); background: var(--teal-zacht); color: var(--teal-tekst); font-size: .8125rem; font-weight: 700; }
+    .ins-chat-bericht { justify-self: start; display: grid; gap: 2px; max-width: 88%; margin: 0; padding: 7px 10px 6px; border-radius: 4px 12px 12px 12px; background: var(--card); font-size: .875rem; line-height: 1.35; }
+    .ins-chat-bericht b { color: var(--teal-tekst); font-size: .8125rem; font-weight: 600; }
+    .ins-chat-bericht small { justify-self: end; color: var(--muted); font-size: .6875rem; }
 
     /* Beeld 3: de cijfertegels. Tik erop: de tegel draait om en vertelt meer; terugdraaien telt opnieuw op. */
     .ins-cijfers { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; width: 100%; margin: 0; padding: 0; list-style: none; }
@@ -289,22 +295,28 @@
     .ins-kring-teller { margin: 0; color: var(--muted); font-size: 1rem; line-height: 1.4; text-align: center; }
     .ins-kring-teller strong { display: block; color: var(--ink); font-size: 2.25rem; font-weight: 700; line-height: 1.1; letter-spacing: -.03em; font-variant-numeric: tabular-nums; }
 
+    /* Hoofdstuk 6: "Voor betere ..." met een laatste woord dat wisselt. Het woord staat op een eigen regel, zodat de tekst eronder
+       niet verspringt. In een smalle kolom wordt de hele kop iets kleiner, zodat ook "examensimulaties" past. */
+    #voor-jullie .ins-hs-tekst { container-type: inline-size; }
+    #voor-jullie .ins-hs-tekst h2 { font-size: min(clamp(2rem, 8.5vw, 3.25rem), 10.5cqi); }
+    .ins-wissel { display: block; color: var(--teal-tekst); }
+    .ins-wissel-woord { display: inline-block; }
+    .ins-wissel-woord.is-uit { animation: wissel-uit 260ms var(--ease) both; }
+    .ins-wissel-woord.is-in { animation: wissel-in 420ms var(--ease) both; }
+    @keyframes wissel-uit { to { opacity: 0; transform: translateY(-.3em); filter: blur(4px); } }
+    @keyframes wissel-in { from { opacity: 0; transform: translateY(.3em); filter: blur(4px); } }
+    .ins-sr { position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
+
     /* De beelden spelen pas als hun hoofdstuk in beeld komt (klasse is-zichtbaar). */
     @media (prefers-reduced-motion: no-preference) {
       .is-zichtbaar .ins-fig-b { animation: fig-pop 650ms cubic-bezier(.34, 1.56, .64, 1) 200ms both; }
       .is-zichtbaar .ins-fig-hoi { animation: fig-pop 500ms cubic-bezier(.34, 1.56, .64, 1) 750ms both; }
       .is-zichtbaar .ins-fig-chips li { animation: rise 500ms var(--ease) both; animation-delay: calc(1000ms + var(--n, 0) * 110ms); }
-      .is-zichtbaar .ins-fig-vak { animation: rise 550ms var(--ease) 200ms both; }
-      .is-zichtbaar .ins-fig-groep.is-1 { animation: fig-pop 450ms cubic-bezier(.34, 1.56, .64, 1) 650ms both; }
-      .is-zichtbaar .ins-fig-pijl { animation: appear 350ms var(--ease) both; }
-      .is-zichtbaar .ins-fig-pijl.is-1 { animation-delay: 950ms; }
-      .is-zichtbaar .ins-fig-pijl.is-2 { animation-delay: 1650ms; }
-      .is-zichtbaar .ins-fig-groep.is-3 > span:last-child, .is-zichtbaar .ins-fig-groep.is-veel > span:last-child { animation: appear 400ms var(--ease) both; }
-      .is-zichtbaar .ins-fig-groep.is-3 > span:last-child { animation-delay: 1250ms; }
-      .is-zichtbaar .ins-fig-groep.is-veel > span:last-child { animation-delay: 2100ms; }
-      .is-zichtbaar .ins-fig-groep:is(.is-3, .is-veel) i { animation: fig-pop 380ms cubic-bezier(.34, 1.56, .64, 1) both; }
-      .is-zichtbaar .ins-fig-groep.is-3 i { animation-delay: calc(1100ms + var(--n, 0) * 90ms); }
-      .is-zichtbaar .ins-fig-groep.is-veel i { animation-delay: calc(1800ms + var(--n, 0) * 45ms); }
+      .is-zichtbaar .ins-chat { animation: rise 550ms var(--ease) 150ms both; }
+      .is-zichtbaar .ins-chat-melding { animation: appear 400ms var(--ease) 600ms both; }
+      .is-zichtbaar .ins-chat-stapel i { animation: fig-pop 380ms cubic-bezier(.34, 1.56, .64, 1) both; animation-delay: calc(850ms + var(--n, 0) * 90ms); }
+      .is-zichtbaar .ins-chat-meer { animation: fig-pop 420ms cubic-bezier(.34, 1.56, .64, 1) 1600ms both; }
+      .is-zichtbaar .ins-chat-bericht { animation: rise 500ms var(--ease) 2000ms both; }
       .is-zichtbaar .ins-boeken i { animation: boek-in 440ms cubic-bezier(.34, 1.56, .64, 1) both; animation-delay: calc(250ms + var(--k, 0) * 70ms); }
       .is-zichtbaar .ins-plank-naam { animation: appear 400ms var(--ease) 300ms both; }
       .is-zichtbaar .ins-plank.is-half .ins-plank-naam { animation-delay: 1150ms; }
@@ -407,6 +419,11 @@
           <div class="ins-hs-tekst">
             <h2 id="hs-1">Hoi, ik ben Berie.</h2>
             <p>Ik studeer Electrical Engineering en werk vaak in de bouw. Ernaast bouw ik Berie's Exam Space.</p>
+            <p>Van cursussen en samenvattingen maak ik oefenvragen, met uitleg bij elke vraag. Dat doe ik naast mijn studie en mijn werk.</p>
+            <a class="knop-secundair ins-meer" href="../over-mij.html">
+              Lees meer over mij
+              <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+            </a>
           </div>
           <div class="ins-hs-beeld" aria-hidden="true">
             <div class="ins-fig-berie">
@@ -421,20 +438,24 @@
           </div>
         </article>
 
-        <article class="ins-hoofdstuk" aria-labelledby="hs-2">
+        <article class="ins-hoofdstuk" aria-labelledby="hs-2" id="begin">
           <div class="ins-hs-tekst">
-            <h2 id="hs-2">Het begon met mijn zus.</h2>
-            <p>Ze moest Menselijke biologie en genetica leren. Ik maakte iets om mee te oefenen. Ze deelde het met haar vrienden, en die vroegen om meer vakken.</p>
+            <h2 id="hs-2">Van één naar 300+.</h2>
+            <p>Eén vak, gemaakt voor mijn zus. Het ging rond via WhatsApp. Nu zitten er meer dan 300 studenten in onze groep.</p>
           </div>
           <div class="ins-hs-beeld" aria-hidden="true">
-            <div class="ins-fig-groei">
-              <div class="ins-fig-vak"><span class="ins-fig-vak-b">B</span><span>Menselijke biologie en genetica</span></div>
-              <div class="ins-fig-rij">
-                <div class="ins-fig-groep is-1"><span class="ins-fig-stippen"><i></i></span><span>Mijn zus</span></div>
-                <span class="ins-fig-pijl is-1"><svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
-                <div class="ins-fig-groep is-3"><span class="ins-fig-stippen"><i style="--n:0"></i><i style="--n:1"></i><i style="--n:2"></i></span><span>Haar vrienden</span></div>
-                <span class="ins-fig-pijl is-2"><svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
-                <div class="ins-fig-groep is-veel"><span class="ins-fig-stippen"><i style="--n:0"></i><i style="--n:1"></i><i style="--n:2"></i><i style="--n:3"></i><i style="--n:4"></i><i style="--n:5"></i><i style="--n:6"></i><i style="--n:7"></i><i style="--n:8"></i><i style="--n:9"></i><i style="--n:10"></i><i style="--n:11"></i></span><span>Honderden studenten</span></div>
+            <div class="ins-chat">
+              <div class="ins-chat-kop">
+                <span class="ins-chat-foto">B</span>
+                <span class="ins-chat-naam">Berie's Exam Space<small><span id="chat-teller" data-tel="340" data-van="1">340</span> <span id="chat-leden">leden</span></small></span>
+              </div>
+              <div class="ins-chat-inhoud">
+                <p class="ins-chat-melding">Berie heeft de groep gemaakt</p>
+                <div class="ins-chat-erbij">
+                  <span class="ins-chat-stapel"><i style="--n:0"></i><i style="--n:1"></i><i style="--n:2"></i><i style="--n:3"></i><i style="--n:4"></i><i style="--n:5"></i><i style="--n:6"></i><i style="--n:7"></i></span>
+                  <span class="ins-chat-meer">300+</span>
+                </div>
+                <p class="ins-chat-bericht"><b>Berie</b>Nieuw vak online. Veel succes met oefenen!<small>20:15</small></p>
               </div>
             </div>
           </div>
@@ -559,8 +580,8 @@
 
         <article class="ins-hoofdstuk" aria-labelledby="hs-6" id="voor-jullie">
           <div class="ins-hs-tekst">
-            <h2 id="hs-6">Ik doe het voor jullie.</h2>
-            <p>Zodat iedereen beter en rustiger kan studeren. Jij ook.</p>
+            <h2 id="hs-6"><span class="ins-sr">Voor betere punten, resultaten, concentratie, examensimulaties en voorbereiding.</span><span aria-hidden="true">Voor betere</span> <span class="ins-wissel" aria-hidden="true"><span class="ins-wissel-woord" id="wissel-woord">punten</span>.</span></h2>
+            <p>Ik doe het voor jullie, zodat iedereen beter en rustiger kan studeren. Jij ook.</p>
           </div>
           <div class="ins-hs-beeld" aria-hidden="true">
             <div class="ins-kring">
@@ -618,16 +639,28 @@
 
       // Cijfertegels: tellen op zodra hoofdstuk 3 in beeld komt; een tik draait de tegel om, terugdraaien telt opnieuw op.
       const getalTekst = waarde => waarde.toLocaleString('nl-BE');
-      const telOp = getal => {
+      // Een teller loopt van data-van (anders 0) naar data-tel; bijWaarde past bij elke stap nog iets mee aan.
+      const telOp = (getal, bijWaarde) => {
         const doel = Number(getal.dataset.tel);
-        if (minderBeweging.matches || !doel) { getal.textContent = getalTekst(doel); return; }
+        const van = Number(getal.dataset.van || 0);
+        const zet = waarde => { getal.textContent = getalTekst(waarde); bijWaarde?.(waarde); };
+        if (minderBeweging.matches || !doel) { zet(doel); return; }
         const start = performance.now();
         const stap = nu => {
           const deel = Math.min(1, (nu - start) / 1100);
-          getal.textContent = getalTekst(Math.round(doel * (1 - Math.pow(1 - deel, 3))));
+          zet(Math.round(van + (doel - van) * (1 - Math.pow(1 - deel, 3))));
           if (deel < 1) window.requestAnimationFrame(stap);
         };
         window.requestAnimationFrame(stap);
+      };
+      // Een teller die pas na even wachten loopt, staat meteen op zijn beginwaarde. Zo zie je niet eerst het eindgetal.
+      const telLater = (getal, wacht, bijWaarde) => {
+        if (!minderBeweging.matches) {
+          const van = Number(getal.dataset.van || 0);
+          getal.textContent = getalTekst(van);
+          bijWaarde?.(van);
+        }
+        window.setTimeout(() => telOp(getal, bijWaarde), wacht);
       };
       const tegels = Array.from(document.querySelectorAll('.ins-cijfer'));
       tegels.forEach(tegel => {
@@ -645,7 +678,8 @@
       const bijZichtbaar = hoofdstuk => {
         if (hoofdstuk.id === 'cijfers') tegels.forEach(tegel => telOp(tegel.querySelector('[data-tel]')));
         if (hoofdstuk.id === 'stappen') window.setTimeout(() => element('ins-volg').classList.add('is-gestart'), 350);
-        if (hoofdstuk.id === 'voor-jullie') window.setTimeout(() => telOp(element('kring-teller')), 500);
+        if (hoofdstuk.id === 'begin') telLater(element('chat-teller'), 850, waarde => { element('chat-leden').textContent = waarde === 1 ? 'lid' : 'leden'; });
+        if (hoofdstuk.id === 'voor-jullie') telLater(element('kring-teller'), 500);
       };
       const hoofdstukken = Array.from(document.querySelectorAll('.ins-hoofdstuk'));
       if ('IntersectionObserver' in window) {
@@ -660,6 +694,30 @@
         hoofdstukken.forEach(hoofdstuk => kijker.observe(hoofdstuk));
       } else {
         hoofdstukken.forEach(hoofdstuk => { hoofdstuk.classList.add('is-zichtbaar'); bijZichtbaar(hoofdstuk); });
+      }
+
+      // Hoofdstuk 6: het laatste woord van de kop wisselt, alleen als het hoofdstuk in beeld is. Na drie rondes blijft "punten" staan.
+      const WOORDEN = ['punten', 'resultaten', 'concentratie', 'examensimulaties', 'voorbereiding'];
+      const wisselWoord = element('wissel-woord');
+      let wisselBeurt = 0;
+      let wisselKlok = null;
+      const stopWissel = () => { window.clearInterval(wisselKlok); wisselKlok = null; };
+      const startWissel = () => {
+        if (wisselKlok || minderBeweging.matches || wisselBeurt >= WOORDEN.length * 3) return;
+        wisselKlok = window.setInterval(() => {
+          wisselBeurt++;
+          if (wisselBeurt >= WOORDEN.length * 3) stopWissel();
+          wisselWoord.classList.remove('is-in');
+          wisselWoord.classList.add('is-uit');
+        }, 2200);
+      };
+      wisselWoord.addEventListener('animationend', event => {
+        if (event.animationName !== 'wissel-uit') return;
+        wisselWoord.textContent = WOORDEN[wisselBeurt % WOORDEN.length];
+        wisselWoord.classList.replace('is-uit', 'is-in');
+      });
+      if ('IntersectionObserver' in window) {
+        new IntersectionObserver(([entry]) => { if (entry.isIntersecting) startWissel(); else stopWissel(); }, { threshold: .2 }).observe(element('voor-jullie'));
       }
 
       // Twee dia's in de carrousel van de hub: wat het is, en wat er met je samenvatting gebeurt (stijl en animaties in intro.css).
