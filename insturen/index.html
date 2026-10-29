@@ -55,10 +55,102 @@
     .ins-wa svg { width: 18px; height: 18px; flex: none; }
     :where(html.has-hover) .ins-wa.knop:not(:disabled):hover { background: var(--whatsapp-hover); box-shadow: var(--shadow-soft); }
 
-    /* Kop */
-    .ins-bewijs { display: flex; align-items: flex-start; gap: 10px; margin: -12px 0 32px; color: var(--ink); font-size: 1rem; line-height: 1.5; }
-    .ins-bewijs svg { flex: none; width: 22px; height: 22px; margin-top: 1px; }
-    .ins-bewijs strong { font-weight: 600; }
+    /* Kop voor wie de QR-code scant: dezelfde zin als op de poster, groot, met één knop naar het formulier. */
+    .ins-held { display: grid; grid-template-columns: minmax(0, 1fr); gap: 36px; align-items: center; margin-bottom: 8px; }
+    .ins-held-tekst { display: grid; gap: 20px; min-width: 0; }
+    .ins-label {
+      justify-self: start; display: inline-flex; align-items: center; gap: 10px; min-height: 32px; padding: 5px 14px 5px 12px;
+      border-radius: var(--radius-pill); background: var(--teal-zacht); color: var(--teal-tekst); font-size: .875rem; font-weight: 600; line-height: 1.35;
+    }
+    .ins-label::before { content: ''; flex: none; width: 8px; height: 8px; border-radius: 50%; background: var(--teal); box-shadow: 0 0 0 4px var(--teal-zacht); }
+    .ins-held h1 { margin: 0; font-size: clamp(3.25rem, 16.5vw, 5.75rem); font-weight: 700; line-height: .92; letter-spacing: -.045em; }
+    .ins-held h1 > span { display: block; }
+    .ins-held h1 .ins-punt { display: inline; color: var(--teal); }
+    .ins-held-uitleg { max-width: 30rem; margin: 0; color: var(--muted); font-size: clamp(1.0625rem, 4.6vw, 1.25rem); line-height: 1.5; text-wrap: pretty; }
+    .ins-held-uitleg strong { color: var(--ink); font-weight: 600; }
+    .ins-held-knoppen { display: grid; justify-items: start; gap: 6px; margin-top: 4px; }
+    .ins-held-knoppen .knop { gap: 10px; width: 100%; max-width: none; min-height: 56px; margin: 0; font-weight: 600; }
+    .ins-held-knoppen .knop svg { width: 18px; height: 18px; flex: none; fill: none; stroke: currentColor; stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round; }
+    .ins-held-knoppen .tekstlink { min-height: 44px; padding: 10px 0; font-size: 1rem; white-space: nowrap; }
+    .ins-cijfers { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px 20px; max-width: 26rem; margin: 4px 0 0; padding: 18px 0 0; border-top: 1px solid var(--line); list-style: none; }
+    .ins-cijfers li { display: grid; gap: 2px; }
+    .ins-cijfers strong { font-size: 1.75rem; font-weight: 700; line-height: 1.1; letter-spacing: -.02em; font-variant-numeric: tabular-nums; }
+    .ins-cijfers span { color: var(--muted); font-size: .9375rem; line-height: 1.35; }
+
+    /* Voorbeeld: een samenvatting wordt een oefenvraag. Twee kaartjes die elkaar overlappen, zoals papier op een bureau. */
+    .ins-demo { margin: 0; }
+    .ins-demo-buhne { position: relative; height: 300px; max-width: 420px; margin-inline: auto; }
+    .ins-demo-doc, .ins-demo-vraag {
+      position: absolute; display: grid; align-content: start; gap: 8px; box-sizing: border-box; padding: 16px;
+      border: 1px solid var(--line); border-radius: 18px; background: var(--card); box-shadow: var(--shadow-card-hover);
+    }
+    .ins-demo-doc { top: 0; left: 0; width: 62%; height: 196px; transform: rotate(-4deg); transform-origin: 30% 60%; }
+    .ins-demo-vraag { right: 0; bottom: 0; width: 78%; gap: 7px; transform: rotate(1.5deg); }
+    .ins-demo-soort {
+      justify-self: start; padding: 2px 8px; border-radius: 6px; background: var(--surface);
+      color: var(--muted); font-size: .6875rem; font-weight: 700; letter-spacing: .04em;
+    }
+    .ins-demo-doc strong { font-size: .9375rem; font-weight: 600; line-height: 1.3; }
+    .ins-demo-hfd { color: var(--muted); font-size: .8125rem; line-height: 1.3; }
+    .ins-demo-lijn { display: block; width: var(--b, 100%); height: 7px; border-radius: 4px; background: var(--surface); }
+    .ins-demo-teller { color: var(--teal-tekst); font-size: .75rem; font-weight: 700; letter-spacing: .03em; }
+    .ins-demo-vraag strong { margin-bottom: 2px; font-size: .9375rem; font-weight: 600; line-height: 1.3; }
+    .ins-demo-optie {
+      display: flex; align-items: center; justify-content: space-between; gap: 8px; min-height: 34px; padding: 6px 12px;
+      border: 1px solid var(--line); border-radius: 10px; color: var(--ink); font-size: .8125rem; line-height: 1.3;
+    }
+    .ins-demo-optie svg { flex: none; width: 16px; height: 16px; fill: none; stroke: currentColor; stroke-width: 2.6; stroke-linecap: round; stroke-linejoin: round; opacity: 0; }
+    .ins-demo-optie.is-goed { border-color: var(--teal); background: var(--teal-zacht); color: var(--teal-tekst); font-weight: 600; }
+    .ins-demo-optie.is-goed svg { opacity: 1; }
+    .ins-demo figcaption { max-width: 22rem; margin: 18px auto 0; color: var(--muted); font-size: .9375rem; line-height: 1.45; text-align: center; text-wrap: balance; }
+
+    /* Eén keer bij het openen: de tekst komt op, dan het papier, dan de vraag, dan kleurt het juiste antwoord. */
+    @media (prefers-reduced-motion: no-preference) {
+      .ins-held-tekst > * { animation: rise 600ms var(--ease) both; }
+      .ins-held-tekst > :nth-child(2) { animation-delay: 60ms; }
+      .ins-held-tekst > :nth-child(3) { animation-delay: 120ms; }
+      .ins-held-tekst > :nth-child(4) { animation-delay: 180ms; }
+      .ins-held-tekst > :nth-child(5) { animation-delay: 240ms; }
+      .ins-demo-doc { animation: papier-in 700ms var(--ease) 250ms both; }
+      .ins-demo-vraag { animation: vraag-in 700ms var(--ease) 650ms both; }
+      .ins-demo-optie.is-goed { animation: goed 420ms var(--ease) 1500ms both; }
+      .ins-demo-optie.is-goed svg { animation: vink-in 300ms var(--ease) 1650ms both; }
+      .ins-demo figcaption { animation: rise 600ms var(--ease) 900ms both; }
+      @keyframes papier-in { from { opacity: 0; transform: translateY(16px) rotate(-9deg); } }
+      @keyframes vraag-in { from { opacity: 0; transform: translateY(28px) rotate(5deg); } }
+      @keyframes goed { from { border-color: var(--line); background: transparent; color: var(--ink); } }
+      @keyframes vink-in { from { opacity: 0; transform: scale(.4); } }
+    }
+
+    /* Zo werkt het: drie stappen onder elkaar, verbonden door een dunne lijn. */
+    .ins-stappen { display: grid; gap: 0; margin: 0; padding: 0; list-style: none; }
+    .ins-stappen li { position: relative; display: grid; grid-template-columns: 32px minmax(0, 1fr); gap: 16px; padding-bottom: 24px; }
+    .ins-stappen li:last-child { padding-bottom: 0; }
+    .ins-stappen li:not(:last-child)::before { content: ''; position: absolute; top: 38px; bottom: 6px; left: 15.5px; width: 1px; background: var(--line); }
+    .ins-stappen div { display: grid; gap: 4px; padding-top: 4px; }
+    .ins-stappen strong { font-size: 1.0625rem; font-weight: 600; line-height: 1.35; }
+    .ins-stappen span:not(.ins-nr) { color: var(--muted); font-size: 1rem; line-height: 1.5; }
+
+    /* Knop onderaan op de telefoon: alleen tussen de kop en het formulier. */
+    .ins-plak { display: none; }
+    @media (max-width: 767px) {
+      .ins-plak {
+        position: fixed; z-index: 40; left: 0; right: 0; bottom: 0; display: block;
+        padding: 12px 16px calc(12px + env(safe-area-inset-bottom));
+        border-top: 1px solid var(--line); background: var(--nav-bg);
+        -webkit-backdrop-filter: saturate(180%) blur(20px); backdrop-filter: saturate(180%) blur(20px);
+        transform: translateY(110%); visibility: hidden;
+        transition: transform 280ms var(--ease), visibility 0s linear 280ms;
+      }
+      .ins-plak.is-zichtbaar { transform: none; visibility: visible; transition: transform 320ms var(--ease), visibility 0s; }
+      .ins-plak .knop { width: 100%; max-width: none; min-height: 52px; margin: 0; font-weight: 600; }
+    }
+
+    @media (min-width: 860px) {
+      .ins-held { grid-template-columns: minmax(0, 1.05fr) minmax(0, .95fr); gap: 40px; }
+      .ins-held-knoppen { grid-template-columns: auto auto; align-items: center; column-gap: 24px; }
+      .ins-held-knoppen .knop { width: auto; }
+    }
 
     /* Secties */
     .ins-sectie { margin-top: 48px; }
@@ -164,6 +256,16 @@
     .ins-veld .auth-input { width: 100%; max-width: none; border-color: var(--ins-rand); scroll-margin: 16px 0 32px; }
     .ins-veld .auth-input:focus { border-color: var(--accent); }
     .ins-veld .auth-input[aria-invalid="true"] { border-color: var(--fout); }
+    .ins-veld[hidden] { display: none; }
+    .ins-veld:not([hidden]).is-nieuw { animation: rise 360ms var(--ease) both; }
+    /* Keuzelijsten zien eruit als de tekstvelden, met een eigen pijltje. */
+    .ins-veld select.auth-input {
+      -webkit-appearance: none; appearance: none; padding-right: 48px; cursor: pointer; text-overflow: ellipsis;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='m4 6 4 4 4-4' fill='none' stroke='%238E8E93' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+      background-repeat: no-repeat; background-position: right 18px center; background-size: 16px 16px;
+    }
+    .ins-veld select.auth-input.is-leeg { color: var(--muted); }
+    .ins-veld select.auth-input option { color: var(--ink); background: var(--input-bg); }
     .ins-help { margin: 0; color: var(--muted); font-size: .9375rem; line-height: 1.5; }
     .ins-fout { display: flex; align-items: flex-start; gap: 8px; margin: 0; color: var(--fout); font-size: .9375rem; font-weight: 500; line-height: 1.45; overflow-wrap: anywhere; }
     .ins-fout::before {
@@ -278,6 +380,8 @@
       .ins-bestand[data-stand="bezig"] .ins-bestand-balk::after,
       .ins-voortgang-delen span[data-stand="bezig"]::after { width: 100%; opacity: .5; animation: none !important; transform: none; }
       .ins-zone, .ins-zone-knop { transition: none; }
+      .ins-veld:not([hidden]).is-nieuw { animation: none; }
+      .ins-plak, .ins-plak.is-zichtbaar { transition: none; }
     }
   </style>
 </head>
@@ -307,35 +411,93 @@
     <div class="wrap ins-wrap">
       <a class="terug" href="../index.html" data-terug="../index.html" data-terug-tekst="Terug">← Terug</a>
 
-      <header class="pagina-kop">
-        <h1 id="ins-titel">Help ons groeien</h1>
-        <p>Stuur je samenvatting of notities in. Wij maken er op Berie's Exam Space oefenvragen en een samenvatting per hoofdstuk van, voor iedereen in jouw richting.</p>
-      </header>
-      <p class="ins-bewijs">
-        <svg viewBox="0 0 20 20" aria-hidden="true" focusable="false"><circle cx="10" cy="10" r="10" fill="var(--teal-zacht)"/><path d="m6 10.4 2.6 2.6L14 7.6" fill="none" stroke="var(--teal-tekst)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        <span><strong>Psychologie is af.</strong> 34 vakken, 340 studenten. Nu de andere richtingen.</span>
-      </p>
+      <section class="ins-held" aria-labelledby="ins-titel">
+        <div class="ins-held-tekst">
+          <span class="ins-label">Psychologie is af. Nu jouw richting.</span>
+          <h1 id="ins-titel"><span>Help ons</span> <span>groeien<span class="ins-punt">.</span></span></h1>
+          <p class="ins-held-uitleg"><strong>Stuur je samenvatting in.</strong> Wij maken er oefenvragen van, per hoofdstuk en met uitleg, voor iedereen in jouw richting.</p>
+          <div class="ins-held-knoppen">
+            <a class="knop" id="held-knop" href="#formulier" data-naar-formulier>
+              Stuur je samenvatting in
+              <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 5v14M6 13l6 6 6-6"/></svg>
+            </a>
+            <a class="tekstlink" href="#stappen">Hoe werkt het?</a>
+          </div>
+          <ul class="ins-cijfers" aria-label="Berie's Exam Space nu">
+            <li><strong>34</strong><span>vakken Psychologie</span></li>
+            <li><strong>340</strong><span>studenten oefenen mee</span></li>
+          </ul>
+        </div>
+
+        <figure class="ins-demo">
+          <div class="ins-demo-buhne" aria-hidden="true">
+            <div class="ins-demo-doc">
+              <span class="ins-demo-soort">PDF</span>
+              <strong>Jouw samenvatting</strong>
+              <span class="ins-demo-hfd">Hoofdstuk 1: meetschalen</span>
+              <span class="ins-demo-lijn" style="--b: 94%"></span>
+              <span class="ins-demo-lijn" style="--b: 80%"></span>
+              <span class="ins-demo-lijn" style="--b: 88%"></span>
+              <span class="ins-demo-lijn" style="--b: 56%"></span>
+            </div>
+            <div class="ins-demo-vraag">
+              <span class="ins-demo-teller">OEFENVRAAG</span>
+              <strong>Wat meet een nominale schaal?</strong>
+              <span class="ins-demo-optie">Een rangorde</span>
+              <span class="ins-demo-optie is-goed">Categorieën zonder volgorde <svg viewBox="0 0 16 16" focusable="false"><path d="m3.5 8.5 3 3 6-7"/></svg></span>
+              <span class="ins-demo-optie">Gelijke afstanden</span>
+            </div>
+          </div>
+          <figcaption>Zo wordt een samenvatting een oefenvraag, met uitleg erbij.</figcaption>
+        </figure>
+      </section>
+
+      <section class="ins-sectie" id="stappen" aria-labelledby="stappen-titel">
+        <h2 class="sectie-kop" id="stappen-titel">Zo werkt het</h2>
+        <ol class="ins-stappen">
+          <li><span class="ins-nr" aria-hidden="true">1</span><div><strong>Stuur je samenvatting in</strong><span>Een PDF, Word-bestand, PowerPoint of foto's van je notities. Zonder account.</span></div></li>
+          <li><span class="ins-nr" aria-hidden="true">2</span><div><strong>Wij maken er oefenvragen van</strong><span>Per hoofdstuk, met uitleg bij elke vraag. We kijken alles na voordat het online komt.</span></div></li>
+          <li><span class="ins-nr" aria-hidden="true">3</span><div><strong>Jouw richting oefent mee</strong><span>Iedereen van jouw richting kan ermee oefenen op Berie's Exam Space.</span></div></li>
+        </ol>
+      </section>
 
       <section class="ins-sectie" id="formulier" aria-labelledby="formulier-titel">
         <h2 class="sectie-kop" id="formulier-titel" tabindex="-1">Stuur je materiaal in</h2>
-        <p class="ins-sub">Zonder account. Alleen je richting en je bestanden zijn nodig.</p>
+        <p class="ins-sub">Zonder account. Alleen je school, je richting en je bestanden zijn nodig.</p>
 
         <form class="kaart ins-form" id="insturen-form" novalidate>
           <div class="ins-groep">
-            <h3 class="ins-groep-kop"><span class="ins-nr" aria-hidden="true">1</span>Zeg voor welk vak</h3>
+            <h3 class="ins-groep-kop"><span class="ins-nr" aria-hidden="true">1</span>Zeg voor wie het is</h3>
             <div class="ins-veld">
-              <label for="insturen-richting">Je richting</label>
-              <input class="auth-input" id="insturen-richting" type="text" maxlength="120" autocomplete="off" placeholder="Bv. Criminologie 1BA" aria-required="true" aria-describedby="richting-fout">
+              <label for="ins-school">Je school</label>
+              <select class="auth-input is-leeg" id="ins-school" aria-required="true" aria-describedby="school-fout">
+                <option value="">Kies je school</option>
+              </select>
+              <p class="ins-fout" id="school-fout" hidden></p>
+            </div>
+            <div class="ins-veld" id="veld-school-anders" hidden>
+              <label for="ins-school-anders">Naam van je school</label>
+              <input class="auth-input" id="ins-school-anders" type="text" maxlength="80" autocomplete="off" placeholder="Bv. Hogeschool Gent" aria-required="true" aria-describedby="school-anders-fout">
+              <p class="ins-fout" id="school-anders-fout" hidden></p>
+            </div>
+            <div class="ins-veld" id="veld-richting" hidden>
+              <label for="ins-richting">Je richting</label>
+              <select class="auth-input is-leeg" id="ins-richting" aria-required="true" aria-describedby="richting-fout"></select>
               <p class="ins-fout" id="richting-fout" hidden></p>
+            </div>
+            <div class="ins-veld" id="veld-richting-anders" hidden>
+              <label for="ins-richting-anders" id="richting-anders-label">Je richting</label>
+              <input class="auth-input" id="ins-richting-anders" type="text" maxlength="80" autocomplete="off" placeholder="Bv. Criminologie" aria-required="true" aria-describedby="richting-anders-fout">
+              <p class="ins-fout" id="richting-anders-fout" hidden></p>
             </div>
             <div class="ins-veld">
               <label for="insturen-vak">Vak <span class="ins-optioneel">optioneel</span></label>
-              <input class="auth-input" id="insturen-vak" type="text" maxlength="160" autocomplete="off" placeholder="Bv. Strafrecht">
+              <input class="auth-input" id="insturen-vak" type="text" maxlength="160" autocomplete="off" placeholder="Bv. Strafrecht, 1BA">
             </div>
             <div class="ins-veld">
               <label for="insturen-email">Je e-mailadres <span class="ins-optioneel">optioneel</span></label>
               <input class="auth-input" id="insturen-email" type="email" maxlength="254" autocomplete="email" inputmode="email" placeholder="naam@voorbeeld.be" aria-describedby="email-uitleg email-fout">
-              <p class="ins-help" id="email-uitleg">Dan krijg je een mail als het klaar is.</p>
+              <p class="ins-help" id="email-uitleg">Dan laten we je weten wanneer het klaar is.</p>
               <p class="ins-fout" id="email-fout" hidden></p>
             </div>
             <div class="ins-val" aria-hidden="true">
@@ -411,6 +573,10 @@
     </div>
   </main>
 
+  <div class="ins-plak" id="ins-plak" aria-hidden="true" inert>
+    <a class="knop" href="#formulier" data-naar-formulier>Stuur je samenvatting in</a>
+  </div>
+
   <dialog class="ins-dialoog" id="bedank-dialoog" aria-labelledby="dialoog-kop" aria-describedby="dialoog-tekst">
     <div class="ins-dialoog-binnen">
       <button class="ins-dialoog-sluit" id="dialoog-sluit" type="button" aria-label="Sluiten">
@@ -441,6 +607,7 @@
     </div>
   </footer>
 
+  <script src="../assets/catalogus.js?v=89"></script>
   <script>
     (() => {
       const MAX_BESTANDEN = 10;
@@ -470,7 +637,13 @@
       const zoneTitel = element('zone-titel');
       const input = element('insturen-bestanden');
       const lijst = element('insturen-lijst');
-      const richting = element('insturen-richting');
+      const school = element('ins-school');
+      const schoolAnders = element('ins-school-anders');
+      const richting = element('ins-richting');
+      const richtingAnders = element('ins-richting-anders');
+      const veldSchoolAnders = element('veld-school-anders');
+      const veldRichting = element('veld-richting');
+      const veldRichtingAnders = element('veld-richting-anders');
       const vak = element('insturen-vak');
       const email = element('insturen-email');
       const val = element('ins-x7');
@@ -493,7 +666,10 @@
       const minderBeweging = window.matchMedia('(prefers-reduced-motion: reduce)');
       // Elke fout staat bij het veld waar ze over gaat.
       const velden = {
+        school: [school, element('school-fout')],
+        schoolAnders: [schoolAnders, element('school-anders-fout')],
         richting: [richting, element('richting-fout')],
+        richtingAnders: [richtingAnders, element('richting-anders-fout')],
         email: [email, element('email-fout')]
       };
       let bestanden = [];
@@ -700,8 +876,87 @@
       // Een bestand net naast de zone loslaten mag de pagina niet vervangen.
       ['dragover', 'drop'].forEach(soort => window.addEventListener(soort, event => event.preventDefault()));
 
-      richting.addEventListener('input', () => { if (richting.hasAttribute('aria-invalid')) toonVeldFout('richting', ''); });
-      email.addEventListener('input', () => { if (email.hasAttribute('aria-invalid')) toonVeldFout('email', ''); });
+      // School en richting komen uit de catalogus. "Staat er niet tussen" opent een tekstveld.
+      const CATALOGUS = window.BES_CATALOGUS;
+      const ANDERS = 'anders';
+      const optie = (waarde, tekst) => { const o = document.createElement('option'); o.value = waarde; o.textContent = tekst; return o; };
+      const vulScholen = () => {
+        const groepen = [['BE', 'België'], ['NL', 'Nederland']];
+        const opNaam = (a, b) => a.naam.localeCompare(b.naam, 'nl');
+        groepen.forEach(([land, naam]) => {
+          const groep = document.createElement('optgroup');
+          groep.label = naam;
+          CATALOGUS.scholen.filter(s => s.land === land && s.type !== 'bijzonder').sort(opNaam)
+            .forEach(s => groep.append(optie(s.id, s.kort[0] && !s.naam.includes(s.kort[0]) ? s.naam + ' (' + s.kort[0] + ')' : s.naam)));
+          school.append(groep);
+        });
+        const bijzonder = document.createElement('optgroup');
+        bijzonder.label = 'Andere instellingen';
+        CATALOGUS.scholen.filter(s => s.type === 'bijzonder').sort(opNaam).forEach(s => bijzonder.append(optie(s.id, s.naam)));
+        school.append(bijzonder, optie(ANDERS, 'Mijn school staat er niet tussen'));
+      };
+      const toon = (veld, aan) => {
+        if (veld.hidden === !aan) return;
+        veld.hidden = !aan;
+        veld.classList.toggle('is-nieuw', aan);
+      };
+      const werkRichtingBij = () => {
+        richting.classList.toggle('is-leeg', !richting.value);
+        const anders = !veldRichting.hidden ? richting.value === ANDERS : school.value !== '';
+        toon(veldRichtingAnders, anders);
+        element('richting-anders-label').textContent = veldRichting.hidden ? 'Je richting' : 'Welke richting?';
+      };
+      const werkSchoolBij = () => {
+        const id = school.value;
+        school.classList.toggle('is-leeg', !id);
+        toon(veldSchoolAnders, id === ANDERS);
+        const lijstRichtingen = id && id !== ANDERS ? CATALOGUS.richtingenVan(id).slice().sort((a, b) => a.naam.localeCompare(b.naam, 'nl')) : [];
+        richting.replaceChildren(optie('', 'Kies je richting'),
+          ...lijstRichtingen.map(r => optie(r.id, r.status === 'live' ? r.naam + ' (staat al online)' : r.naam)),
+          optie(ANDERS, 'Mijn richting staat er niet tussen'));
+        toon(veldRichting, lijstRichtingen.length > 0);
+        werkRichtingBij();
+        ['schoolAnders', 'richting', 'richtingAnders'].forEach(naam => toonVeldFout(naam, ''));
+      };
+      if (CATALOGUS) {
+        vulScholen();
+        // Een link als /insturen/?school=vub zet de school al klaar.
+        const gevraagd = new URLSearchParams(window.location.search).get('school');
+        if (gevraagd && CATALOGUS.school(gevraagd)) school.value = gevraagd;
+      } else {
+        // Zonder catalogus: alleen de tekstvelden.
+        school.append(optie(ANDERS, 'Typ je school hieronder'));
+        school.value = ANDERS;
+      }
+      werkSchoolBij();
+      school.addEventListener('change', () => { toonVeldFout('school', ''); werkSchoolBij(); });
+      richting.addEventListener('change', () => { toonVeldFout('richting', ''); werkRichtingBij(); });
+      [['schoolAnders', schoolAnders], ['richtingAnders', richtingAnders], ['email', email]].forEach(([naam, veld]) => {
+        veld.addEventListener('input', () => { if (veld.hasAttribute('aria-invalid')) toonVeldFout(naam, ''); });
+      });
+
+      // Knop onderaan op de telefoon: zichtbaar tussen de kop en het formulier, nooit over het formulier heen.
+      const plak = element('ins-plak');
+      const heldKnop = element('held-knop');
+      const formulierSectie = element('formulier');
+      let plakGepland = false;
+      const werkPlakBij = () => {
+        plakGepland = false;
+        const voorbijKop = heldKnop.getBoundingClientRect().bottom < 0;
+        const voorFormulier = formulierSectie.getBoundingClientRect().top > window.innerHeight * 0.8;
+        const aan = voorbijKop && voorFormulier && !dialoog.open;
+        plak.classList.toggle('is-zichtbaar', aan);
+        plak.inert = !aan;
+        plak.setAttribute('aria-hidden', String(!aan));
+      };
+      const planPlak = () => { if (!plakGepland) { plakGepland = true; window.requestAnimationFrame(werkPlakBij); } };
+      window.addEventListener('scroll', planPlak, { passive: true });
+      window.addEventListener('resize', planPlak);
+      planPlak();
+      // Na de sprong naar het formulier staat de focus meteen op de eerste keuze.
+      document.querySelectorAll('[data-naar-formulier]').forEach(link => link.addEventListener('click', () => {
+        window.setTimeout(() => school.focus({ preventScroll: true }), minderBeweging.matches ? 0 : 500);
+      }));
 
       // Stand per bestand (wacht, bezig, klaar, mislukt) en het totaal onderaan. Geen bytes: die geeft de opslag niet door.
       const zetStand = (index, stand) => {
@@ -771,6 +1026,7 @@
         bestanden = [];
         poging = null;
         form.reset();
+        werkSchoolBij();
         tekenLijst();
         wisFouten();
         toonStatus('');
@@ -798,8 +1054,16 @@
         wisFouten();
         // Bots vullen het verborgen veld in: niets versturen, wel dezelfde pop-up. De console zegt het, voor wie zoekt.
         if (val.value) { console.info('Niet verstuurd: het verborgen veld was ingevuld.'); klaar(); return; }
-        const richtingTekst = richting.value.trim();
-        if (Array.from(richtingTekst).length < 2) { toonVeldFout('richting', 'Vul je richting in, zodat we weten voor wie het is.'); richting.focus(); return; }
+        // School en richting gaan samen als tekst mee, bv. "Rechten, Vrije Universiteit Brussel".
+        const gekozenSchool = school.value && school.value !== ANDERS ? CATALOGUS.school(school.value) : null;
+        if (!school.value) { toonVeldFout('school', 'Kies je school. Staat ze er niet tussen, kies dan de laatste keuze.'); school.focus(); return; }
+        const schoolTekst = gekozenSchool ? gekozenSchool.naam : schoolAnders.value.trim();
+        if (Array.from(schoolTekst).length < 2) { toonVeldFout('schoolAnders', 'Vul de naam van je school in.'); schoolAnders.focus(); return; }
+        if (!veldRichting.hidden && !richting.value) { toonVeldFout('richting', 'Kies je richting. Staat ze er niet tussen, kies dan de laatste keuze.'); richting.focus(); return; }
+        const gekozenRichting = !veldRichting.hidden && richting.value !== ANDERS ? CATALOGUS.richting(richting.value) : null;
+        const richtingNaam = gekozenRichting ? gekozenRichting.naam : richtingAnders.value.trim();
+        if (Array.from(richtingNaam).length < 2) { toonVeldFout('richtingAnders', 'Vul je richting in, zodat we weten voor wie het is.'); richtingAnders.focus(); return; }
+        const richtingTekst = richtingNaam + ', ' + schoolTekst;
         const emailTekst = email.value.trim();
         if (emailTekst && !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(emailTekst)) { toonVeldFout('email', 'Dit e-mailadres klopt niet. Laat het leeg of vul het juist in.'); email.focus(); return; }
         if (!bestanden.length) { toonVeldFout('bestanden', 'Kies eerst minstens één bestand.'); input.focus(); return; }
