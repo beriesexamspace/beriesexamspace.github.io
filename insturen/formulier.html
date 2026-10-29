@@ -233,8 +233,10 @@
       .ins-veld select.auth-input:open::picker-icon { rotate: 180deg; }
       .ins-veld select.auth-input:open { border-color: var(--accent); }
       .ins-veld select.auth-input::picker(select) {
-        box-sizing: border-box; width: anchor-size(width); min-width: 0; max-height: min(380px, 55dvh);
+        box-sizing: border-box; width: anchor-size(width); min-width: 0; max-height: min(320px, 45dvh);
         margin: 8px 0; padding: 8px; overflow-x: hidden; overflow-y: auto; overscroll-behavior: contain;
+        /* Een dunne, rustige schuifbalk zoals elders op de site, in plaats van de zwarte balk met pijltjes van Windows. */
+        scrollbar-width: thin; scrollbar-color: color-mix(in srgb, var(--ink) 22%, transparent) transparent;
         border: 1px solid var(--ins-lijn); border-radius: 18px; background: var(--card); color: var(--ink);
         box-shadow: var(--shadow-card-hover); font-family: var(--font-family);
         opacity: 1; translate: 0 0;
