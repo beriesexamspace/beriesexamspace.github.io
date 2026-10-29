@@ -125,6 +125,10 @@
     .ins-meer svg { transition: transform 180ms var(--ease); }
     :where(html.has-hover) .ins-meer:hover svg { transform: translateX(3px); }
 
+    /* Links in de verhaaltekst, zoals WhatsApp in hoofdstuk 2: blauw, zoals de andere links op de site. */
+    .ins-hs-tekst p a { color: var(--ins-link); font-weight: 500; text-underline-offset: 4px; }
+    :where(html.has-hover) .ins-hs-tekst p a:hover { text-decoration: underline; }
+
     /* Beeld 2: de WhatsApp-groep. Eerst alleen Berie, dan komen er studenten bij en loopt de teller op tot het aantal leden. */
     .ins-chat { width: min(100%, 330px); border: 1px solid var(--ins-lijn); border-radius: 20px; background: var(--bg); box-shadow: var(--shadow-soft); overflow: hidden; }
     .ins-chat-kop { display: flex; align-items: center; gap: 12px; padding: 12px 14px; border-bottom: 1px solid var(--ins-lijn); }
@@ -441,7 +445,7 @@
         <article class="ins-hoofdstuk" aria-labelledby="hs-2" id="begin">
           <div class="ins-hs-tekst">
             <h2 id="hs-2">Van één naar 300+.</h2>
-            <p>Eén vak, gemaakt voor mijn zus. Het ging rond via WhatsApp. Nu zitten er meer dan 300 studenten in onze groep.</p>
+            <p>Eén vak, gemaakt voor mijn zus. Het ging rond via <a href="../whatsapp.html">WhatsApp</a>. Nu zitten er meer dan 300 studenten in onze groep.</p>
           </div>
           <div class="ins-hs-beeld" aria-hidden="true">
             <div class="ins-chat">
