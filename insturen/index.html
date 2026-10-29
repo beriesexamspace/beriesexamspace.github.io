@@ -89,9 +89,8 @@
     .ins-verhaal { display: grid; gap: 112px; margin-top: 128px; }
     .ins-hoofdstuk { display: grid; grid-template-columns: minmax(0, 1fr); gap: 28px; align-items: center; }
     .ins-hs-tekst { display: grid; gap: 14px; }
-    .ins-hs-nr { margin: 0; color: var(--teal-tekst); font-size: .875rem; font-weight: 600; letter-spacing: .01em; font-variant-numeric: tabular-nums; }
     .ins-hs-tekst h2 { margin: 0; font-size: clamp(2rem, 8.5vw, 3.25rem); font-weight: 700; line-height: 1.04; letter-spacing: -.035em; text-wrap: balance; }
-    .ins-hs-tekst p:not(.ins-hs-nr) { max-width: 30rem; margin: 0; color: var(--muted); font-size: clamp(1.0625rem, 4.4vw, 1.25rem); line-height: 1.5; text-wrap: pretty; }
+    .ins-hs-tekst p { max-width: 30rem; margin: 0; color: var(--muted); font-size: clamp(1.0625rem, 4.4vw, 1.25rem); line-height: 1.5; text-wrap: pretty; }
     .ins-hs-beeld {
       position: relative; display: grid; place-items: center; align-content: center; gap: 22px; min-height: 280px; padding: 32px 24px;
       border: 1px solid var(--ins-lijn); border-radius: 28px; background: var(--card); box-shadow: var(--shadow-soft); overflow: hidden;
@@ -206,27 +205,45 @@
     @keyframes ins-goed { to { border-color: var(--teal); background: var(--teal-zacht); color: var(--teal-tekst); font-weight: 600; } }
     @keyframes ins-goed-letter { to { background: transparent; color: var(--teal-tekst); } }
     @keyframes ins-vink { from { opacity: 0; transform: scale(.4); } to { opacity: 1; transform: none; } }
+    /* Dia Examensimulatie: een ring die tot 100 procent volloopt, daarna Geslaagd. */
+    .ins-dia-ring { position: relative; display: grid; place-items: center; width: 132px; height: 132px; margin: 6px auto 2px; }
+    .ins-dia-ring svg { position: absolute; inset: 0; width: 100%; height: 100%; transform: rotate(-90deg); }
+    .ins-dia-ring circle { fill: none; stroke-width: 10; }
+    .ins-dia-ring .achter { stroke: var(--surface); }
+    .ins-dia-ring .voor { stroke: var(--teal); stroke-linecap: round; stroke-dasharray: 100; stroke-dashoffset: 0; }
+    .ins-dia-ring span { position: relative; display: grid; justify-items: center; line-height: 1.15; }
+    .ins-dia-ring strong { font-size: 26px; font-weight: 700; letter-spacing: -.02em; }
+    .ins-dia-ring small { color: var(--ink-soft); font-size: 10px; }
+    .ins-dia-geslaagd {
+      justify-self: center; display: inline-flex; align-items: center; gap: 6px; padding: 6px 14px;
+      border-radius: var(--radius-pill); background: var(--teal-zacht); color: var(--teal-tekst); font-size: 13px; font-weight: 700;
+    }
+    .ins-dia-geslaagd svg { width: 14px; height: 14px; fill: none; stroke: currentColor; stroke-width: 2.6; stroke-linecap: round; stroke-linejoin: round; }
+    .stap-kaart .ins-dia-ring .voor.anim { animation: ins-ring 1200ms cubic-bezier(.45, 0, .55, 1) 450ms both; }
+    @keyframes ins-ring { from { stroke-dashoffset: 100; } }
     /* Op de telefoon toont de hub maar de bovenkant van de iPhone; hier moet ook het groene antwoord en de uitleg in beeld. */
     @media (max-width: 767px) {
       #ins-dias .tel { margin-bottom: -48px; }
     }
 
-    /* Beeld 4: de richtingen. Psychologie staat online, Criminologie komt eraan, de rest wacht nog op lesmateriaal. */
-    .ins-fig-richtingen { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; max-width: 440px; margin: 0; padding: 0; list-style: none; }
-    .ins-fig-richtingen li {
-      display: inline-flex; align-items: center; gap: 6px; min-height: 40px; padding: 7px 16px;
-      border: 1.5px dashed var(--ins-lijn); border-radius: var(--radius-pill); color: var(--muted); font-size: .9375rem; font-weight: 500;
+    /* Beeld 4: een boekenkast. De plank van Psychologie staat vol, Criminologie krijgt de eerste boeken, de rest is nog leeg. */
+    .ins-kast { display: grid; gap: 16px; width: 100%; max-width: 360px; }
+    .ins-plank { display: grid; gap: 6px; }
+    .ins-boeken {
+      display: flex; align-items: flex-end; gap: 3px; height: 58px; padding: 0 10px;
+      border-bottom: 4px solid var(--ins-rand); border-radius: 0 0 3px 3px;
     }
-    .ins-fig-richtingen li svg { width: 16px; height: 16px; fill: none; stroke: currentColor; stroke-width: 2.6; stroke-linecap: round; stroke-linejoin: round; }
-    .ins-fig-richtingen li.is-live { border-style: solid; border-color: var(--teal); background: var(--teal-zacht); color: var(--teal-tekst); font-weight: 600; }
-    .ins-fig-richtingen li.is-binnenkort { border-color: var(--teal); color: var(--ink); }
-    .ins-fig-richtingen li.is-binnenkort small { color: var(--teal-tekst); font-size: .75rem; font-weight: 600; }
-    .ins-fig-richtingen li.is-jij { border-color: var(--accent); color: var(--ins-link); font-weight: 600; }
-    .ins-fig-legende { display: flex; flex-wrap: wrap; justify-content: center; gap: 6px 18px; margin: 0; color: var(--muted); font-size: .8125rem; line-height: 1.4; }
-    .ins-fig-legende span { display: inline-flex; align-items: center; gap: 6px; }
-    .ins-fig-legende i { display: inline-block; width: 14px; height: 14px; border-radius: 50%; }
-    .ins-fig-legende .is-vol { background: var(--teal-zacht); box-shadow: inset 0 0 0 1.5px var(--teal); }
-    .ins-fig-legende .is-leeg { box-shadow: inset 0 0 0 1.5px var(--ins-rand); }
+    .ins-boeken i { display: block; flex: none; width: 14px; height: var(--h, 80%); border-radius: 3px 3px 1px 1px; background: var(--kleur, var(--teal)); transform-origin: bottom; }
+    .ins-plank-naam { display: flex; align-items: center; gap: 6px; padding: 0 10px; color: var(--muted); font-size: .875rem; font-weight: 600; }
+    .ins-plank-naam svg { width: 15px; height: 15px; fill: none; stroke: currentColor; stroke-width: 2.6; stroke-linecap: round; stroke-linejoin: round; }
+    .ins-plank-naam small { color: var(--teal-tekst); font-size: .75rem; font-weight: 600; }
+    .ins-plank.is-vol .ins-plank-naam { color: var(--teal-tekst); }
+    .ins-plank.is-jij .ins-boeken { border-bottom-style: dashed; border-bottom-color: var(--accent); }
+    .ins-plank.is-jij .ins-plank-naam { color: var(--ins-link); }
+    .ins-boek-plus {
+      display: grid; place-items: center; width: 36px; height: 46px;
+      border: 1.5px dashed var(--accent); border-radius: 4px; color: var(--ins-link); font-size: 1.25rem; font-weight: 600;
+    }
 
     /* Beeld 5: de balk zoals bij het volgen van een pakje. Insturen, verwerken, mail. Komt hij in beeld, dan loopt hij groen vol. */
     .ins-volg { display: grid; grid-template-columns: minmax(0, 1fr); gap: 30px; width: 100%; max-width: 420px; margin: 0; padding: 0; list-style: none; text-align: left; }
@@ -252,15 +269,25 @@
     @keyframes volg-vul { to { transform: none; } }
     @keyframes volg-pop { 50% { scale: 1.14; } }
 
-    /* Beeld 6: een ring die volloopt tot je klaar bent voor je examen. */
-    .ins-fig-ring { position: relative; width: 168px; height: 168px; }
-    .ins-fig-ring > svg { display: block; width: 100%; height: 100%; transform: rotate(-90deg); }
-    .ins-fig-ring circle { fill: none; stroke-width: 10; }
-    .ins-fig-ring .achter { stroke: var(--surface); }
-    .ins-fig-ring .voor { stroke: var(--teal); stroke-linecap: round; stroke-dasharray: 100; stroke-dashoffset: 0; }
-    .ins-fig-ring-vink { position: absolute; inset: 0; display: grid; place-items: center; color: var(--teal-tekst); }
-    .ins-fig-ring-vink svg { width: 56px; height: 56px; fill: none; stroke: currentColor; stroke-width: 2.6; stroke-linecap: round; stroke-linejoin: round; }
-    .ins-fig-ring-tekst { margin: 0; font-size: 1.125rem; font-weight: 600; }
+    /* Beeld 6: rond de B komen studenten erbij, de teller loopt tot 340, en onderaan wacht een lege plek: En jij?
+       Het middelpunt ligt op 130 px; de bolletjes staan op twee ringen (--r) onder een hoek (--a). */
+    .ins-kring { position: relative; width: 260px; height: 300px; }
+    .ins-kring-b {
+      position: absolute; left: 130px; top: 130px; display: grid; place-items: center; width: 72px; height: 72px; margin: -36px 0 0 -36px;
+      border-radius: 50%; background: var(--teal); color: #FFFFFF; font-size: 2rem; font-weight: 700; box-shadow: 0 10px 28px rgba(63, 185, 178, .35);
+    }
+    .ins-kring i {
+      position: absolute; left: 130px; top: 130px; width: 14px; height: 14px; margin: -7px 0 0 -7px; border-radius: 50%;
+      background: var(--teal); transform: rotate(var(--a)) translateY(calc(var(--r) * -1));
+    }
+    .ins-kring i.is-licht { background: var(--sig); }
+    .ins-kring-jij { position: absolute; left: 130px; top: 246px; width: 22px; height: 22px; margin: -11px 0 0 -11px; border: 2px dashed var(--accent); border-radius: 50%; }
+    .ins-kring-label {
+      position: absolute; left: 50%; top: 268px; padding: 3px 12px; border: 1px solid var(--accent); border-radius: var(--radius-pill);
+      background: var(--card); color: var(--ins-link); font-size: .8125rem; font-weight: 600; white-space: nowrap; transform: translateX(-50%);
+    }
+    .ins-kring-teller { margin: 0; color: var(--muted); font-size: 1rem; line-height: 1.4; text-align: center; }
+    .ins-kring-teller strong { display: block; color: var(--ink); font-size: 2.25rem; font-weight: 700; line-height: 1.1; letter-spacing: -.03em; font-variant-numeric: tabular-nums; }
 
     /* De beelden spelen pas als hun hoofdstuk in beeld komt (klasse is-zichtbaar). */
     @media (prefers-reduced-motion: no-preference) {
@@ -278,15 +305,20 @@
       .is-zichtbaar .ins-fig-groep:is(.is-3, .is-veel) i { animation: fig-pop 380ms cubic-bezier(.34, 1.56, .64, 1) both; }
       .is-zichtbaar .ins-fig-groep.is-3 i { animation-delay: calc(1100ms + var(--n, 0) * 90ms); }
       .is-zichtbaar .ins-fig-groep.is-veel i { animation-delay: calc(1800ms + var(--n, 0) * 45ms); }
-      .is-zichtbaar .ins-fig-richtingen li { animation: fig-pop 420ms cubic-bezier(.34, 1.56, .64, 1) both; animation-delay: calc(250ms + var(--n, 0) * 90ms); }
-      .is-zichtbaar .ins-fig-richtingen li.is-jij { animation: fig-pop 420ms cubic-bezier(.34, 1.56, .64, 1) both, jij-puls 1400ms var(--ease) 1400ms 2; animation-delay: calc(250ms + var(--n, 0) * 90ms), 1400ms; }
-      .is-zichtbaar .ins-fig-legende { animation: appear 500ms var(--ease) 1200ms both; }
-      .is-zichtbaar .ins-fig-ring .voor { animation: ring-vul 1400ms cubic-bezier(.45, 0, .55, 1) 300ms both; }
-      .is-zichtbaar .ins-fig-ring-vink { animation: fig-pop 500ms cubic-bezier(.34, 1.56, .64, 1) 1650ms both; }
-      .is-zichtbaar .ins-fig-ring-tekst { animation: rise 500ms var(--ease) 1850ms both; }
+      .is-zichtbaar .ins-boeken i { animation: boek-in 440ms cubic-bezier(.34, 1.56, .64, 1) both; animation-delay: calc(250ms + var(--k, 0) * 70ms); }
+      .is-zichtbaar .ins-plank-naam { animation: appear 400ms var(--ease) 300ms both; }
+      .is-zichtbaar .ins-plank.is-half .ins-plank-naam { animation-delay: 1150ms; }
+      .is-zichtbaar .ins-plank:nth-child(3) .ins-plank-naam { animation-delay: 1350ms; }
+      .is-zichtbaar .ins-plank.is-jij .ins-plank-naam { animation-delay: 1550ms; }
+      .is-zichtbaar .ins-boek-plus { animation: fig-pop 420ms cubic-bezier(.34, 1.56, .64, 1) 1600ms both, jij-puls 1400ms var(--ease) 2100ms 2; }
+      .is-zichtbaar .ins-kring-b { animation: fig-pop 600ms cubic-bezier(.34, 1.56, .64, 1) 200ms both; }
+      .is-zichtbaar .ins-kring i { animation: stip-in 380ms cubic-bezier(.34, 1.56, .64, 1) both; animation-delay: calc(550ms + var(--k, 0) * 65ms); }
+      .is-zichtbaar .ins-kring-jij { animation: fig-pop 420ms cubic-bezier(.34, 1.56, .64, 1) 2250ms both, jij-puls 1400ms var(--ease) 2700ms 3; }
+      .is-zichtbaar .ins-kring-label { animation: appear 400ms var(--ease) 2400ms both; }
       @keyframes fig-pop { from { opacity: 0; transform: scale(.5); } }
+      @keyframes boek-in { from { opacity: 0; transform: translateY(-16px) scaleY(.6); } }
+      @keyframes stip-in { from { opacity: 0; scale: 0; } }
       @keyframes jij-puls { 50% { box-shadow: 0 0 0 6px color-mix(in srgb, var(--accent) 22%, transparent); } }
-      @keyframes ring-vul { from { stroke-dashoffset: 100; } }
     }
 
     /* Slot: nog één keer de vraag, met de knop naar de instuurpagina. */
@@ -373,7 +405,6 @@
       <section class="ins-verhaal" id="verhaal" aria-label="Wie we zijn">
         <article class="ins-hoofdstuk" aria-labelledby="hs-1">
           <div class="ins-hs-tekst">
-            <p class="ins-hs-nr">1 van 6</p>
             <h2 id="hs-1">Hoi, ik ben Berie.</h2>
             <p>Ik studeer Electrical Engineering en werk vaak in de bouw. Ernaast bouw ik Berie's Exam Space.</p>
           </div>
@@ -392,7 +423,6 @@
 
         <article class="ins-hoofdstuk" aria-labelledby="hs-2">
           <div class="ins-hs-tekst">
-            <p class="ins-hs-nr">2 van 6</p>
             <h2 id="hs-2">Het begon met mijn zus.</h2>
             <p>Ze moest Menselijke biologie en genetica leren. Ik maakte iets om mee te oefenen. Ze deelde het met haar vrienden, en die vroegen om meer vakken.</p>
           </div>
@@ -412,7 +442,6 @@
 
         <article class="ins-hoofdstuk" aria-labelledby="hs-3" id="cijfers">
           <div class="ins-hs-tekst">
-            <p class="ins-hs-nr">3 van 6</p>
             <h2 id="hs-3">Nu oefenen honderden studenten mee.</h2>
             <p>Met oefenvragen per hoofdstuk, uitleg bij elke vraag en examens die je op tijd naspeelt. Voor alle vakken Psychologie aan de VUB.</p>
           </div>
@@ -476,29 +505,38 @@
 
         <article class="ins-hoofdstuk" aria-labelledby="hs-4">
           <div class="ins-hs-tekst">
-            <p class="ins-hs-nr">4 van 6</p>
             <h2 id="hs-4">Waarom nog geen andere richtingen?</h2>
             <p>Voor goede oefenvragen heb ik lesmateriaal nodig. Dat heb ik nu alleen van Psychologie.</p>
           </div>
           <div class="ins-hs-beeld" aria-hidden="true">
-            <ul class="ins-fig-richtingen">
-              <li class="is-live" style="--n:0"><svg viewBox="0 0 16 16"><path d="m3.5 8.5 3 3 6-7"/></svg>Psychologie</li>
-              <li class="is-binnenkort" style="--n:1">Criminologie <small>binnenkort</small></li>
-              <li style="--n:2">Rechten</li>
-              <li style="--n:3">Geneeskunde</li>
-              <li style="--n:4">Sociologie</li>
-              <li style="--n:5">Biologie</li>
-              <li style="--n:6">Communicatie</li>
-              <li class="is-jij" style="--n:7">Jouw richting?</li>
-            </ul>
-            <p class="ins-fig-legende"><span><i class="is-vol"></i>Staat online</span><span><i class="is-leeg"></i>Wacht op lesmateriaal</span></p>
+            <div class="ins-kast">
+              <div class="ins-plank is-vol">
+                <div class="ins-boeken">
+                  <i style="--h:86%;--kleur:var(--teal);--k:0"></i><i style="--h:72%;--kleur:#2E8F89;--k:1"></i><i style="--h:94%;--kleur:var(--sig);--k:2"></i><i style="--h:78%;--kleur:var(--teal);--k:3"></i><i style="--h:66%;--kleur:#5E6E7A;--k:4"></i><i style="--h:90%;--kleur:#2E8F89;--k:5"></i><i style="--h:80%;--kleur:var(--teal);--k:6"></i><i style="--h:70%;--kleur:var(--sig);--k:7"></i><i style="--h:88%;--kleur:#5E6E7A;--k:8"></i><i style="--h:76%;--kleur:var(--teal);--k:9"></i><i style="--h:92%;--kleur:#2E8F89;--k:10"></i><i style="--h:68%;--kleur:var(--sig);--k:11"></i>
+                </div>
+                <span class="ins-plank-naam"><svg viewBox="0 0 16 16"><path d="m3.5 8.5 3 3 6-7"/></svg>Psychologie</span>
+              </div>
+              <div class="ins-plank is-half">
+                <div class="ins-boeken">
+                  <i style="--h:84%;--kleur:var(--teal);--k:12"></i><i style="--h:70%;--kleur:#2E8F89;--k:13"></i><i style="--h:90%;--kleur:var(--sig);--k:14"></i>
+                </div>
+                <span class="ins-plank-naam">Criminologie <small>binnenkort</small></span>
+              </div>
+              <div class="ins-plank">
+                <div class="ins-boeken"></div>
+                <span class="ins-plank-naam">Rechten</span>
+              </div>
+              <div class="ins-plank is-jij">
+                <div class="ins-boeken"><span class="ins-boek-plus">+</span></div>
+                <span class="ins-plank-naam">Jouw richting?</span>
+              </div>
+            </div>
           </div>
         </article>
 
         <article class="ins-hoofdstuk" aria-labelledby="hs-5" id="stappen">
           <div class="ins-hs-tekst">
-            <p class="ins-hs-nr">5 van 6</p>
-            <h2 id="hs-5">Daarom heb ik jou nodig.</h2>
+            <h2 id="hs-5">Daarom heeft Berie jou nodig.</h2>
             <p>We krijgen geen lesmateriaal van de universiteit. Daarom bouwen we het samen, met wat studenten insturen.</p>
           </div>
           <div class="ins-hs-beeld">
@@ -519,18 +557,20 @@
           </div>
         </article>
 
-        <article class="ins-hoofdstuk" aria-labelledby="hs-6">
+        <article class="ins-hoofdstuk" aria-labelledby="hs-6" id="voor-jullie">
           <div class="ins-hs-tekst">
-            <p class="ins-hs-nr">6 van 6</p>
             <h2 id="hs-6">Ik doe het voor jullie.</h2>
             <p>Zodat iedereen beter en rustiger kan studeren. Jij ook.</p>
           </div>
           <div class="ins-hs-beeld" aria-hidden="true">
-            <div class="ins-fig-ring">
-              <svg viewBox="0 0 120 120"><circle class="achter" cx="60" cy="60" r="50"/><circle class="voor" cx="60" cy="60" r="50" pathLength="100"/></svg>
-              <span class="ins-fig-ring-vink"><svg viewBox="0 0 24 24"><path d="m6 12.5 4 4 8-9"/></svg></span>
+            <div class="ins-kring">
+              <span class="ins-kring-b">B</span>
+              <i style="--a:0deg;--r:72px;--k:0"></i><i style="--a:36deg;--r:72px;--k:1"></i><i style="--a:72deg;--r:72px;--k:2"></i><i style="--a:108deg;--r:72px;--k:3"></i><i style="--a:144deg;--r:72px;--k:4"></i><i style="--a:180deg;--r:72px;--k:5"></i><i style="--a:216deg;--r:72px;--k:6"></i><i style="--a:252deg;--r:72px;--k:7"></i><i style="--a:288deg;--r:72px;--k:8"></i><i style="--a:324deg;--r:72px;--k:9"></i>
+              <i class="is-licht" style="--a:0deg;--r:116px;--k:10"></i><i style="--a:22.5deg;--r:116px;--k:11"></i><i class="is-licht" style="--a:45deg;--r:116px;--k:12"></i><i style="--a:67.5deg;--r:116px;--k:13"></i><i class="is-licht" style="--a:90deg;--r:116px;--k:14"></i><i style="--a:112.5deg;--r:116px;--k:15"></i><i class="is-licht" style="--a:135deg;--r:116px;--k:16"></i><i style="--a:157.5deg;--r:116px;--k:17"></i><i style="--a:202.5deg;--r:116px;--k:18"></i><i class="is-licht" style="--a:225deg;--r:116px;--k:19"></i><i style="--a:247.5deg;--r:116px;--k:20"></i><i class="is-licht" style="--a:270deg;--r:116px;--k:21"></i><i style="--a:292.5deg;--r:116px;--k:22"></i><i class="is-licht" style="--a:315deg;--r:116px;--k:23"></i><i style="--a:337.5deg;--r:116px;--k:24"></i>
+              <span class="ins-kring-jij"></span>
+              <span class="ins-kring-label">En jij?</span>
             </div>
-            <p class="ins-fig-ring-tekst">Klaar voor je examen</p>
+            <p class="ins-kring-teller"><strong id="kring-teller" data-tel="340">340</strong>studenten oefenen al mee</p>
           </div>
         </article>
       </section>
@@ -605,6 +645,7 @@
       const bijZichtbaar = hoofdstuk => {
         if (hoofdstuk.id === 'cijfers') tegels.forEach(tegel => telOp(tegel.querySelector('[data-tel]')));
         if (hoofdstuk.id === 'stappen') window.setTimeout(() => element('ins-volg').classList.add('is-gestart'), 350);
+        if (hoofdstuk.id === 'voor-jullie') window.setTimeout(() => telOp(element('kring-teller')), 500);
       };
       const hoofdstukken = Array.from(document.querySelectorAll('.ins-hoofdstuk'));
       if ('IntersectionObserver' in window) {
@@ -637,6 +678,20 @@
             <div class="tel-kaart is-los anim" style="--i:3"><div class="tel-kaart-kop">Ontwikkelingspsychologie<span class="tel-pijl">→</span></div><div class="tel-balk"><i class="anim-vul" style="--doel:45%;--i:1"></i></div></div>
             <div class="tel-kaart is-los anim" style="--i:4"><div class="tel-kaart-kop">Philosophy of Science<span class="tel-pijl">→</span></div><div class="tel-balk"><i class="anim-vul" style="--doel:20%;--i:2"></i></div></div>
             <div class="tel-knop anim anim-puls" style="--i:5">Oefen verder →</div>`
+        },
+        {
+          soort: 'insturen',
+          naam: 'Klaar voor je examen',
+          label: 'Examensimulatie',
+          titel: 'Oefen tot je er klaar voor bent.',
+          tekst: 'Speel een examen na op tijd. Je ziet meteen je score, en welke hoofdstukken je nog moet herhalen.',
+          telefoon: true,
+          scherm: `
+            <div class="tel-rij anim" style="--i:1"><span>Examensimulatie</span><span>Uitslag</span></div>
+            <div class="ins-dia-ring anim" style="--i:2"><svg viewBox="0 0 120 120"><circle class="achter" cx="60" cy="60" r="50"/><circle class="voor anim" cx="60" cy="60" r="50" pathLength="100"/></svg><span><strong>100%</strong><small>20 van 20 goed</small></span></div>
+            <div class="ins-dia-geslaagd anim" style="--i:14"><svg viewBox="0 0 16 16"><path d="m3.5 8.5 3 3 6-7"/></svg>Geslaagd</div>
+            <div class="tel-kaart anim" style="--i:15"><span class="tel-vink is-teal">✓</span>Alle hoofdstukken goed<span class="tel-klein tel-pijl">20/20</span></div>
+            <div class="tel-knop anim anim-puls" style="--i:16">Nog een simulatie →</div>`
         },
         {
           soort: 'insturen',
