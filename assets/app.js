@@ -14,6 +14,42 @@
 
   if (needsPageFade && !motion.matches) root.classList.add('page-fade');
 
+  // Zonder account toont de navigatiebalk alleen Insturen (zie style.css). Eerst een snelle gok uit de opslag,
+  // zodat de balk meteen goed staat; auth.js zet het daarna zeker zodra het account bekend is.
+  let heeftSessie = false;
+  try {
+    heeftSessie = Object.keys(window.localStorage).some(key => key.startsWith('sb-') && key.endsWith('-auth-token'));
+  } catch {}
+  root.classList.toggle('zonder-account', !heeftSessie);
+
+  // Elke pagina begint bovenaan, ook na herladen of terug-gaan: de browser zet de oude scrollplek niet meer terug.
+  // Zet iets anders de pagina vlak na het openen toch lager (zoals de omgeving van een voorbeeld), dan gaat ze terug naar boven,
+  // zolang je zelf nog niets deed. Alleen een link naar een plek op de pagina (#...) begint daar.
+  if ('scrollRestoration' in window.history) window.history.scrollRestoration = 'manual';
+  let zelfBewogen = false;
+  let bewaakTot = performance.now() + 3000;
+  ['wheel', 'touchstart', 'pointerdown', 'keydown'].forEach(soort => {
+    window.addEventListener(soort, () => { zelfBewogen = true; }, { capture: true, passive: true });
+  });
+  const naarBoven = () => {
+    if (zelfBewogen || window.scrollY === 0 || performance.now() > bewaakTot) return;
+    let doel = null;
+    try { doel = window.location.hash.length > 1 && document.getElementById(decodeURIComponent(window.location.hash.slice(1))); } catch {}
+    if (doel) return;
+    const gedrag = root.style.scrollBehavior;
+    root.style.scrollBehavior = 'auto';
+    window.scrollTo(0, 0);
+    root.style.scrollBehavior = gedrag;
+  };
+  window.addEventListener('scroll', naarBoven, { passive: true });
+  window.addEventListener('pageshow', event => {
+    if (event.persisted) {
+      zelfBewogen = false;
+      bewaakTot = performance.now() + 3000;
+    }
+    naarBoven();
+  });
+
   window.naamOpslaan = naam => {
     try {
       window.localStorage.setItem('bes_naam', naam);
@@ -352,6 +388,19 @@
       element.querySelectorAll('a.terug').forEach(wrapBackArrow);
     };
 
+    // Terug naar de hub kan alleen met een account, want de hub zit achter de deur.
+    // Kom je van Insturen (?van=insturen), dan brengt Terug je daar terug, bij het verhaal.
+    // Op een open pagina zonder sessie gaat Terug naar de startpagina in plaats van naar het inlogscherm.
+    const terugDoel = doel => {
+      if (!/(^|\/)hub\.html$/.test(doel)) return doel;
+      const map = doel.slice(0, -'hub.html'.length);
+      let van = null;
+      try { van = new URLSearchParams(window.location.search).get('van'); } catch {}
+      if (van === 'insturen') return map + 'insturen/#verhaal';
+      if (window.BES_DEUR) return doel;
+      return heeftSessie ? doel : map + 'index.html';
+    };
+
     document.querySelectorAll('[data-terug]').forEach(element => {
       const link = element.tagName === 'A' ? element : document.createElement('a');
       if (link !== element) {
@@ -361,7 +410,7 @@
           }
         });
       }
-      link.href = element.dataset.terug;
+      link.href = terugDoel(element.dataset.terug);
       link.classList.add('terug');
       link.textContent = `\u2190 ${element.dataset.terugTekst || 'Terug'}`;
       wrapBackArrow(link);

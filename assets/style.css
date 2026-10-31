@@ -27,6 +27,8 @@
   --radius-pill: var(--pill);
   --nav-bg: rgba(255,255,255,.72);
   --glass-white: var(--nav-bg);
+  --nav-vlak: #FBFBFD;
+  --nav-rand: #DCDAE6;
   --transparent: transparent;
   --shadow-near-color: rgba(29,29,31,.04);
   --shadow-far-color: rgba(29,29,31,.06);
@@ -68,6 +70,8 @@ html[data-theme="dark"] {
   --teal-tekst: #5fd0c9;
   --sig: #5FBDB6;
   --nav-bg: rgba(28,28,30,.72);
+  --nav-vlak: #161618;
+  --nav-rand: rgba(255,255,255,.16);
   --shadow-near-color: rgba(0,0,0,.5);
   --shadow-far-color: rgba(0,0,0,.5);
   --shadow-primary-color: rgba(0,0,0,.5);
@@ -138,12 +142,13 @@ a:focus-visible, button:focus-visible {
   align-items: center;
   gap: 22px;
   padding: 0 8px 0 16px;
-  /* Randen altijd 1px; boven en opzij onzichtbaar. Zo verandert bij het zweven alleen de kleur en springt er niets aan de zijkanten. */
-  border: 1px solid var(--transparent);
-  border-bottom-color: var(--line);
-  /* Onderhoeken rond, zodat de lijn onder de balk niet hoekig afbreekt. */
+  /* Randen altijd 1px. De rand is links, rechts en onder zichtbaar, zodat je ziet dat het een balk is; boven sluit hij aan op het venster.
+     Zo verandert bij het zweven alleen de kleur en springt er niets aan de zijkanten. */
+  border: 1px solid var(--nav-rand);
+  border-top-color: var(--transparent);
+  /* Onderhoeken rond, zodat de rand onder de balk niet hoekig afbreekt. */
   border-radius: 0 0 20px 20px;
-  background: var(--bg);
+  background: var(--nav-vlak);
   box-shadow: none;
   -webkit-backdrop-filter: saturate(100%) blur(0);
   backdrop-filter: saturate(100%) blur(0);
@@ -157,7 +162,7 @@ a:focus-visible, button:focus-visible {
   top: 10px;
   width: calc(100% - 20px);
   max-width: 1100px;
-  border-color: var(--line);
+  border-color: var(--nav-rand);
   /* Halve hoogte (56px): ziet eruit als een pil, maar de hoeken lopen de hele animatie mee in plaats van op het eind recht te klappen. */
   border-radius: 28px;
   background: var(--glass-white);
@@ -167,6 +172,11 @@ a:focus-visible, button:focus-visible {
 }
 
 .menu-toggle { display: none; }
+
+/* Zonder account staat in de balk alleen Insturen: home, Hoe werkt het, Over mij en WhatsApp-groep zijn voor accounts.
+   De klasse zonder-account zetten app.js (meteen, uit de opslag) en auth.js (zodra het account bekend is). */
+html.zonder-account :is(.navigation, .nav-vol) .home-knop { display: none; }
+html.zonder-account .navigation-links > li:not(:has(> a[href*="insturen/"])) { display: none; }
 
 body[data-nav="vast"] .site-header { animation: none; }
 body[data-nav="vast"] :is(.navigation, .nav-vol) { transition: none; }
@@ -824,6 +834,9 @@ html.page-fade.page-ready body { animation: page-in 250ms var(--ease) both; }
     padding-bottom: calc(20px + env(safe-area-inset-bottom));
   }
   .footer-details { text-align: left; }
+  /* Zonder account is er maar één link. Die staat meteen in de balk, zonder Menu-knop. */
+  html.zonder-account .menu-toggle { display: none; }
+  html.zonder-account .navigation-links { display: flex; }
 }
 
 @media (max-width: 430px) {

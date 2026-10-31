@@ -1,0 +1,1077 @@
+<!doctype html>
+<html lang="nl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="apple-touch-icon" href="/assets/icoon-180.png">
+  <link rel="manifest" href="/manifest.webmanifest">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Berie's Exam Space">
+  <meta property="og:title" content="Stuur je samenvatting in | Berie's Exam Space">
+  <meta property="og:description" content="Stuur je samenvatting, notities of cursus in. Wij maken er oefenvragen en een samenvatting per hoofdstuk van, voor iedereen in jouw richting.">
+  <meta property="og:image" content="https://beriesexamspace.com/assets/deel.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:url" content="https://beriesexamspace.com/insturen/formulier.html">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="description" content="Stuur je samenvatting, notities of cursus in. Wij maken er oefenvragen en een samenvatting per hoofdstuk van, voor iedereen in jouw richting.">
+  <meta name="theme-color" content="#FFFFFF">
+  <script>
+    (() => {
+      let keuze;
+      try { keuze = window.localStorage.getItem('bes_thema'); } catch {}
+      const donker = keuze === 'donker' || (keuze !== 'licht' && window.matchMedia('(prefers-color-scheme: dark)').matches);
+      document.documentElement.dataset.theme = donker ? 'dark' : 'light';
+      document.querySelector('meta[name="theme-color"]').content = donker ? '#0B0B0C' : '#FFFFFF';
+    })();
+  </script>
+  <meta name="robots" content="noindex">
+  <title>Stuur je samenvatting in | Berie's Exam Space</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/style.css?v=90">
+  <script src="../assets/app.js?v=90" defer></script>
+  <script src="../assets/config.js?v=89" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js" defer></script>
+  <script src="../assets/auth.js?v=90" defer></script>
+  <script src="../assets/plan.js?v=89" defer></script>
+  <style>
+    /* Insturen: zelfde opbouw als de andere binnenpagina's (WhatsApp, Feedback); alle kleuren komen uit de tokens van style.css. */
+    html { scroll-padding-top: 76px; }
+    @media (prefers-reduced-motion: no-preference) { html { scroll-behavior: smooth; } }
+    body:has(.ins-dialoog[open]) { overflow: hidden; }
+    /* De pagina is even breed als de startpagina en de hub; de uitleg en het formulier blijven smaller, dat leest rustiger. */
+    .ins-smal { max-width: 760px; margin-inline: auto; }
+    .ins-sr { position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
+
+    /* Alleen op deze pagina: knoppen met witte tekst halen 4,5:1 ook in donker, veldranden halen 3:1. */
+    :root { --ins-knop: var(--accent); --ins-knop-hover: var(--accent-dark); --ins-rand: #8E8E93; --ins-link: var(--accent); --ins-lijn: #D2D2D7; }
+    html[data-theme="dark"] { --ins-knop: #0A6ED1; --ins-knop-hover: #0A62BA; --ins-rand: #6E6E73; --ins-link: var(--accent-dark); --ins-lijn: #48484A; }
+    /* Randen van kaarten en blokken: overal dezelfde, duidelijke lijn, ook in donker (de gewone lijn is daar bijna onzichtbaar). */
+    .ins-wrap :is(.kaart, .stap-kaart) { border-color: var(--ins-lijn); }
+    :is(.ins-wrap, .ins-dialoog) .knop { background: var(--ins-knop); }
+    :where(html.has-hover) :is(.ins-wrap, .ins-dialoog) .knop:not(:disabled):hover { background: var(--ins-knop-hover); }
+    :is(.ins-wrap, .ins-dialoog) .tekstlink { color: var(--ins-link); }
+    /* Bovenaan alleen het merk en Inloggen: wie hier via de QR-code komt, heeft nog geen account en blijft in Insturen. */
+    .ins-nav .brand { margin-right: auto; }
+
+    /* Instuurpagina: kop in het midden. Ze schuift van rechts in beeld als je van de verhaalpagina komt. */
+    .ins-form-kop { margin-bottom: 40px; text-align: center; }
+    .ins-form-kop h1 { text-wrap: balance; }
+    .ins-form-kop h1:focus { outline: none; }
+    .ins-form-kop p { margin-inline: auto; }
+    .ins-sectie.ins-formulier { margin-top: 0; }
+
+    /* Zo werkt het: drie korte stappen tussen de kop en het formulier. Op de telefoon onder elkaar, vanaf tabletbreedte naast elkaar. */
+    .ins-zo { display: grid; gap: 14px; margin: 0 auto 32px; padding: 20px; border: 1px solid var(--ins-lijn); border-radius: 20px; background: linear-gradient(var(--teal-zacht), var(--teal-zacht)), var(--card); }
+    .ins-zo-kop { margin: 0; color: var(--teal-tekst); font-size: .875rem; font-weight: 600; }
+    .ins-zo-lijst { display: grid; gap: 12px; margin: 0; padding: 0; list-style: none; }
+    .ins-zo-lijst li { display: flex; align-items: center; gap: 12px; font-size: 1rem; font-weight: 500; line-height: 1.4; }
+    .ins-zo-icoon { display: grid; place-items: center; flex: none; width: 40px; height: 40px; border-radius: 50%; background: var(--card); color: var(--teal-tekst); box-shadow: var(--shadow-soft); }
+    .ins-zo-icoon svg { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+    @media (min-width: 640px) {
+      .ins-zo { padding: 22px 24px; }
+      .ins-zo-kop { text-align: center; }
+      .ins-zo-lijst { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px; }
+      .ins-zo-lijst li { flex-direction: column; font-size: .9375rem; text-align: center; }
+    }
+    /* Na het versturen: dezelfde stappen onder elkaar in de bedankkaart. De eerste is al gedaan. */
+    .ins-zo-lijst.is-status { grid-template-columns: minmax(0, 1fr); width: 100%; margin-top: 6px; }
+    .ins-zo-lijst.is-status li { flex-direction: row; font-size: .9375rem; text-align: left; }
+    .ins-zo-lijst.is-status li.is-klaar .ins-zo-icoon { background: var(--teal); color: #FFFFFF; box-shadow: none; }
+    @media (prefers-reduced-motion: no-preference) {
+      .ins-zo-lijst li { animation: rise 500ms var(--ease) both; animation-delay: calc(380ms + var(--n, 0) * 120ms); }
+    }
+    @media (prefers-reduced-motion: no-preference) {
+      ::view-transition-old(root) { animation: ins-uit-links 360ms cubic-bezier(.4, 0, .2, 1) both; }
+      ::view-transition-new(root) { animation: ins-in-rechts 360ms cubic-bezier(.4, 0, .2, 1) both; }
+      html.page-fade.page-ready .pagina { animation: ins-in-rechts 360ms cubic-bezier(.4, 0, .2, 1) both; }
+      @keyframes ins-uit-links { to { opacity: 0; transform: translateX(-24%); } }
+      @keyframes ins-in-rechts { from { opacity: 0; transform: translateX(24%); } }
+    }
+
+    /* Secties */
+    /* Veel lucht tussen de secties: elk deel krijgt zijn eigen moment op het scherm. */
+    .ins-sectie { margin-top: 104px; }
+    .ins-sectie:first-of-type { margin-top: 0; }
+    .ins-sectie > .sectie-kop { margin-bottom: 14px; text-align: center; text-wrap: balance; }
+    :is(.sectie-kop, .ins-bedankt h3, .ins-dialoog h2):focus { outline: none; box-shadow: none; }
+
+    /* Formulier: één kaart met de genummerde stappen; de knop is de laatste. */
+    .ins-form { display: grid; grid-template-columns: minmax(0, 1fr); gap: 48px; max-width: none; margin-inline: 0; }
+    .ins-groep { display: grid; grid-template-columns: minmax(0, 1fr); gap: 22px; min-width: 0; }
+    .ins-groep-kop { display: flex; align-items: center; gap: 12px; margin: 0; font-size: 1.125rem; font-weight: 600; line-height: 1.3; }
+    .ins-nr {
+      display: inline-grid; place-items: center; flex: none; width: 32px; height: 32px;
+      border-radius: 50%; background: var(--teal-zacht); box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--teal) 45%, transparent);
+      color: var(--teal-tekst); font-size: .9375rem; font-weight: 700; font-variant-numeric: tabular-nums;
+    }
+
+    /* Vak om bestanden te kiezen: rustig grijs vlak met een stippellijn, tekst in gewone leeskleur. */
+    .ins-zone {
+      position: relative; display: grid; justify-items: center; align-content: start; gap: 6px;
+      padding: 24px 20px; text-align: center;
+      border: 1.5px dashed var(--ins-rand); border-radius: 16px; background: var(--surface);
+      cursor: pointer; touch-action: manipulation; -webkit-tap-highlight-color: transparent;
+      transition: border-color 160ms var(--ease), background-color 160ms var(--ease), transform 160ms var(--ease);
+    }
+    .ins-zone-knop {
+      display: grid; place-items: center; width: 52px; height: 52px; margin-bottom: 6px;
+      border-radius: 50%; background: var(--ins-knop); color: var(--white);
+      transition: transform 180ms var(--ease);
+    }
+    .ins-zone-knop svg { width: 24px; height: 24px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; }
+    .ins-zone-titel { color: var(--ink); font-size: 1.125rem; font-weight: 600; line-height: 1.35; }
+    .ins-zone-hint { color: var(--ink); font-size: 1rem; line-height: 1.5; }
+    .ins-zone-tips { display: grid; gap: 2px; max-width: 26rem; margin-top: 6px; color: var(--muted); font-size: .9375rem; line-height: 1.5; }
+    .ins-zone-tips span { display: block; text-wrap: pretty; }
+    .ins-zone input { position: absolute; width: 1px; height: 1px; opacity: 0; pointer-events: none; }
+    .ins-hint-sleep { display: none; }
+    @media (hover: hover) and (pointer: fine) {
+      .ins-hint-tik { display: none; }
+      .ins-hint-sleep { display: inline; }
+    }
+    :where(html.has-hover) .ins-zone:hover { border-color: var(--accent); }
+    :where(html.has-hover) .ins-zone:hover .ins-zone-knop { transform: translateY(-2px); }
+    .ins-zone:active { transform: scale(.99); }
+    .ins-zone:has(input:focus-visible) { outline: 2px solid var(--accent); outline-offset: 3px; }
+    .ins-zone.is-over { border-color: var(--teal); background-color: var(--teal-zacht); }
+    .ins-zone.is-fout { border-color: var(--fout); }
+    .ins-zone.is-compact {
+      grid-template-columns: auto minmax(0, 1fr); justify-items: start; align-items: center; column-gap: 14px; row-gap: 2px;
+      min-height: 72px; padding: 12px 16px; text-align: left;
+    }
+    .ins-zone.is-compact .ins-zone-knop { grid-row: span 2; width: 44px; height: 44px; margin: 0; }
+    .ins-zone.is-compact .ins-zone-knop svg { width: 20px; height: 20px; }
+    .ins-zone.is-compact :is(.ins-zone-hint, .ins-tip-welkom) { display: none; }
+    .ins-zone.is-compact .ins-zone-tips { margin: 0; }
+    .ins-form.is-bezig .ins-zone { opacity: .5; }
+
+    .ins-lijst { display: grid; grid-template-columns: minmax(0, 1fr); gap: 8px; margin: 0; padding: 0; list-style: none; }
+    .ins-lijst:empty { display: none; }
+    .ins-bestand {
+      position: relative; display: grid; grid-template-columns: 36px minmax(0, 1fr) 44px; align-items: center; gap: 12px;
+      min-height: 68px; padding: 10px 6px 10px 14px; overflow: hidden;
+      border: 1px solid var(--ins-lijn); border-radius: 16px; background: var(--card);
+    }
+    .ins-bestand.is-nieuw { animation: bestand-in 280ms var(--ease) both; }
+    @keyframes bestand-in { from { opacity: 0; transform: translateY(6px); } }
+    .ins-bestand-icoon {
+      position: relative; display: grid; place-items: center; width: 36px; height: 44px; border-radius: 6px;
+      background: var(--teal-zacht); color: var(--teal-tekst); font-size: .6875rem; font-weight: 700; letter-spacing: .02em;
+      clip-path: polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 0 100%);
+    }
+    .ins-bestand-icoon::after { content: ''; position: absolute; top: 0; right: 0; width: 10px; height: 10px; border-bottom-left-radius: 3px; background: var(--teal); opacity: .45; }
+    .ins-bestand-tekst { display: grid; gap: 3px; min-width: 0; }
+    .ins-bestand-naam { font-size: 1rem; font-weight: 500; line-height: 1.35; overflow-wrap: anywhere; }
+    .ins-bestand-meta { display: flex; flex-wrap: wrap; align-items: center; min-width: 0; color: var(--muted); font-size: .9375rem; line-height: 1.35; font-variant-numeric: tabular-nums; }
+    .ins-bestand-meta > span { white-space: nowrap; }
+    .ins-bestand-stand:not(:empty)::before { content: '·'; margin: 0 6px; color: var(--muted); font-weight: 400; }
+    .ins-bestand[data-stand="bezig"] .ins-bestand-stand { color: var(--ink); font-weight: 500; }
+    .ins-bestand[data-stand="klaar"] .ins-bestand-stand { color: var(--teal-tekst); font-weight: 600; }
+    .ins-bestand[data-stand="mislukt"] .ins-bestand-stand { color: var(--fout); font-weight: 600; }
+    .ins-bestand-weg, .ins-bestand-vink { grid-area: 1 / 3; display: grid; place-items: center; width: 44px; height: 44px; }
+    .ins-bestand-weg { padding: 0; border: 0; border-radius: 12px; background: none; color: var(--muted); cursor: pointer; touch-action: manipulation; }
+    :where(html.has-hover) .ins-bestand-weg:hover { background: var(--surface); color: var(--ink); }
+    .ins-bestand-weg:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; }
+    .ins-bestand-weg svg { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; }
+    .ins-bestand-vink { visibility: hidden; color: var(--teal-tekst); }
+    .ins-bestand-vink svg { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 2.4; stroke-linecap: round; stroke-linejoin: round; }
+    .ins-form.is-bezig .ins-bestand-weg { visibility: hidden; }
+    /* Wat al verstuurd is, kan niet meer weg: zo blijft opnieuw proberen in dezelfde map en ontstaan er geen losse bestanden. */
+    .ins-bestand[data-stand="klaar"] .ins-bestand-weg { visibility: hidden; }
+    .ins-bestand[data-stand="klaar"] .ins-bestand-vink { visibility: visible; }
+    .ins-bestand-balk { position: absolute; left: 0; right: 0; bottom: 0; height: 3px; overflow: hidden; opacity: 0; }
+    .ins-bestand-balk::after { content: ''; position: absolute; top: 0; bottom: 0; left: 0; width: 100%; background: var(--teal); }
+    .ins-bestand:is([data-stand="bezig"], [data-stand="klaar"]) .ins-bestand-balk { opacity: 1; }
+    .ins-bestand[data-stand="bezig"] .ins-bestand-balk { background: var(--teal-zacht); }
+    .ins-bestand[data-stand="bezig"] .ins-bestand-balk::after { width: 36%; animation: schuif 1.2s cubic-bezier(.45, 0, .55, 1) infinite; }
+    @keyframes schuif { from { transform: translateX(-100%); } to { transform: translateX(280%); } }
+
+    .ins-veld { display: grid; grid-template-columns: minmax(0, 1fr); gap: 8px; min-width: 0; }
+    .ins-veld + .ins-veld { margin-top: 8px; }
+    .ins-veld label { color: var(--ink); font-size: 1rem; font-weight: 600; line-height: 1.4; }
+    .ins-optioneel { margin-left: 6px; color: var(--muted); font-size: .9375rem; font-weight: 400; }
+    .ins-veld .auth-input { width: 100%; max-width: none; border-color: var(--ins-rand); scroll-margin: 16px 0 32px; }
+    .ins-veld .auth-input:focus { border-color: var(--accent); }
+    .ins-veld .auth-input[aria-invalid="true"] { border-color: var(--fout); }
+    .ins-veld[hidden] { display: none; }
+    .ins-veld:not([hidden]).is-nieuw { animation: rise 360ms var(--ease) both; }
+    /* Keuzelijsten zien eruit als de tekstvelden, met een eigen pijltje. */
+    .ins-veld select.auth-input {
+      -webkit-appearance: none; appearance: none; padding-right: 48px; cursor: pointer; text-overflow: ellipsis;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='m4 6 4 4 4-4' fill='none' stroke='%238E8E93' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+      background-repeat: no-repeat; background-position: right 18px center; background-size: 16px 16px;
+    }
+    .ins-veld select.auth-input.is-leeg { color: var(--muted); }
+    /* School die al bekend is (QR-code van de school of het account): vast getoond, met Wijzig. */
+    .ins-vast {
+      display: flex; align-items: center; gap: 12px; min-height: 56px; padding: 8px 6px 8px 16px;
+      border: 1px solid var(--teal); border-radius: 16px; background: var(--teal-zacht);
+    }
+    .ins-vast > svg { flex: none; width: 20px; height: 20px; fill: none; stroke: var(--teal-tekst); stroke-width: 2.4; stroke-linecap: round; stroke-linejoin: round; }
+    .ins-vast-tekst { display: grid; flex: 1; gap: 2px; min-width: 0; }
+    .ins-vast-tekst strong { font-size: 1.0625rem; font-weight: 600; line-height: 1.35; overflow-wrap: anywhere; }
+    .ins-vast-tekst span { color: var(--muted); font-size: .875rem; line-height: 1.4; }
+    .ins-wijzig {
+      flex: none; min-height: 44px; padding: 10px 14px; border: 0; border-radius: 12px; background: none;
+      color: var(--ins-link); font: 600 .9375rem/1.2 var(--font-family); cursor: pointer;
+    }
+    :where(html.has-hover) .ins-wijzig:hover { background: var(--card); }
+    .ins-wijzig:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; }
+    .ins-veld select.auth-input option { color: var(--ink); background: var(--input-bg); }
+    /* De open lijst in de stijl van de site (Chrome en Edge). Andere browsers houden hun eigen lijst; op de iPhone is dat het vertrouwde draaiwiel. */
+    @supports (appearance: base-select) {
+      .ins-veld select.auth-input, .ins-veld select.auth-input::picker(select) { appearance: base-select; }
+      .ins-veld select.auth-input { display: flex; align-items: center; gap: 12px; background-image: none; padding-right: 18px; }
+      .ins-veld select.auth-input::picker-icon {
+        content: ''; width: 16px; height: 16px; margin-left: auto;
+        background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='m4 6 4 4 4-4' fill='none' stroke='%238E8E93' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center / contain no-repeat;
+        transition: rotate 200ms var(--ease);
+      }
+      .ins-veld select.auth-input:open::picker-icon { rotate: 180deg; }
+      .ins-veld select.auth-input:open { border-color: var(--accent); }
+      .ins-veld select.auth-input::picker(select) {
+        box-sizing: border-box; width: anchor-size(width); min-width: 0; max-height: min(320px, 45dvh);
+        margin: 8px 0; padding: 8px; overflow-x: hidden; overflow-y: auto; overscroll-behavior: contain;
+        /* Een dunne, rustige schuifbalk zoals elders op de site, in plaats van de zwarte balk met pijltjes van Windows. */
+        scrollbar-width: thin; scrollbar-color: color-mix(in srgb, var(--ink) 22%, transparent) transparent;
+        border: 1px solid var(--ins-lijn); border-radius: 18px; background: var(--card); color: var(--ink);
+        box-shadow: var(--shadow-card-hover); font-family: var(--font-family);
+        opacity: 1; translate: 0 0;
+        transition: opacity 180ms var(--ease), translate 180ms var(--ease), overlay 180ms allow-discrete, display 180ms allow-discrete;
+      }
+      @starting-style { .ins-veld select.auth-input:open::picker(select) { opacity: 0; translate: 0 -6px; } }
+      .ins-veld select.auth-input option {
+        display: flex; align-items: center; gap: 10px; min-height: 44px; padding: 10px 14px; border-radius: 12px;
+        background: none; color: var(--ink); font-size: 1rem; font-weight: 400; line-height: 1.35; cursor: pointer;
+        white-space: normal; overflow-wrap: anywhere;
+      }
+      .ins-veld select.auth-input option[value=""] { display: none; }
+      .ins-veld select.auth-input option:is(:hover, :focus-visible) { background: var(--surface); outline: none; }
+      .ins-veld select.auth-input option:checked { background: var(--accent-zacht); color: var(--ins-link); font-weight: 600; }
+      .ins-veld select.auth-input option::checkmark { order: 1; margin-left: auto; color: var(--ins-link); }
+      .ins-veld select.auth-input optgroup { padding: 0; color: var(--muted); font-size: .8125rem; font-weight: 600; letter-spacing: .02em; }
+      .ins-veld select.auth-input optgroup + optgroup, .ins-veld select.auth-input optgroup + option { margin-top: 6px; padding-top: 6px; border-top: 1px solid var(--ins-lijn); }
+      .ins-veld select.auth-input optgroup::label {
+        display: block; padding: 10px 14px 6px; color: var(--muted); font-size: .8125rem; font-weight: 600; letter-spacing: .02em;
+      }
+      @media (prefers-reduced-motion: reduce) {
+        .ins-veld select.auth-input::picker(select), .ins-veld select.auth-input::picker-icon { transition: none; }
+      }
+    }
+    .ins-help { margin: 0; color: var(--muted); font-size: .9375rem; line-height: 1.5; }
+    .ins-fout { display: flex; align-items: flex-start; gap: 8px; margin: 0; color: var(--fout); font-size: .9375rem; font-weight: 500; line-height: 1.45; overflow-wrap: anywhere; }
+    .ins-fout::before {
+      content: ''; flex: none; width: 16px; height: 16px; margin-top: 2px; background: currentColor;
+      -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M8 0a8 8 0 1 0 0 16A8 8 0 0 0 8 0Zm-.9 3.8h1.8l-.2 5.6H7.3l-.2-5.6ZM8 12.6a1.05 1.05 0 1 1 0-2.1 1.05 1.05 0 0 1 0 2.1Z'/%3E%3C/svg%3E") center / contain no-repeat;
+      mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M8 0a8 8 0 1 0 0 16A8 8 0 0 0 8 0Zm-.9 3.8h1.8l-.2 5.6H7.3l-.2-5.6ZM8 12.6a1.05 1.05 0 1 1 0-2.1 1.05 1.05 0 0 1 0 2.1Z'/%3E%3C/svg%3E") center / contain no-repeat;
+    }
+    .ins-fouten { display: grid; gap: 6px; }
+    .ins-fout.is-info { color: var(--muted); font-weight: 400; }
+    .ins-fout-algemeen { padding: 12px 14px; border-radius: 14px; background: var(--fout-zacht); }
+    .ins-val { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
+
+    .ins-mag { margin: 0; color: var(--muted); font-size: .9375rem; line-height: 1.55; }
+    .ins-mag strong { color: var(--ink); font-weight: 600; }
+    .ins-mag .tekstlink { font-size: inherit; line-height: inherit; text-decoration: underline; text-decoration-color: color-mix(in srgb, var(--accent) 40%, transparent); }
+
+    .ins-balk { display: grid; grid-template-columns: minmax(0, 1fr); }
+    .ins-balk .ins-fout-algemeen { margin-bottom: 12px; }
+    .ins-bewaard { margin: 10px 0 0; color: var(--muted); font-size: .9375rem; line-height: 1.45; }
+    .ins-voortgang { display: grid; gap: 8px; margin-bottom: 12px; }
+    .ins-voortgang-tekst { margin: 0; font-size: .9375rem; font-weight: 600; line-height: 1.3; font-variant-numeric: tabular-nums; }
+    .ins-voortgang-delen { display: grid; grid-auto-flow: column; grid-auto-columns: minmax(0, 1fr); gap: 4px; }
+    .ins-voortgang-delen span { position: relative; height: 4px; overflow: hidden; border-radius: 2px; background: var(--line); }
+    .ins-voortgang-delen span[data-stand="klaar"] { background: var(--teal); }
+    .ins-voortgang-delen span[data-stand="mislukt"] { background: var(--fout); }
+    .ins-voortgang-delen span[data-stand="bezig"] { background: var(--teal-zacht); }
+    .ins-voortgang-delen span[data-stand="bezig"]::after { content: ''; position: absolute; inset: 0 auto 0 0; width: 45%; background: var(--teal); animation: schuif 1.2s cubic-bezier(.45, 0, .55, 1) infinite; }
+    .ins-verstuur.knop { width: 100%; max-width: none; min-height: 56px; margin-inline: 0; font-weight: 600; }
+    .ins-form.is-bezig .ins-verstuur { opacity: .72; box-shadow: none; }
+
+    /* Bedankkaart op de plek van het formulier */
+    .ins-bedankt { display: grid; justify-items: start; gap: 10px; max-width: none; margin-inline: 0; }
+    .ins-bedankt h3 { margin: 6px 0 0; font-size: 1.375rem; font-weight: 700; line-height: 1.2; text-wrap: balance; }
+    .ins-bedankt p { margin: 0; color: var(--muted); font-size: 1rem; line-height: 1.55; }
+    .ins-knoppen { display: grid; grid-template-columns: minmax(0, 1fr); gap: 10px; width: 100%; margin-top: 10px; }
+    .ins-knoppen :is(.knop, .knop-secundair) { gap: 10px; width: 100%; max-width: none; min-height: 52px; margin: 0; padding: 0 22px; }
+    .ins-nogiets { min-height: 44px; margin-top: 2px; padding: 10px 0; border: 0; background: none; cursor: pointer; }
+
+
+    /* Pop-up: op de telefoon een paneel van onder, op de laptop in het midden. */
+    .ins-dialoog:not([open]) { display: none; }
+    .ins-dialoog {
+      box-sizing: border-box; position: fixed; inset: auto 0 0 0; width: 100%; max-width: 100%; max-height: calc(100dvh - 16px);
+      margin: 0; padding: 0; overflow: auto; overscroll-behavior: contain;
+      border: 1px solid var(--ins-lijn); border-bottom: 0; border-radius: 28px 28px 0 0; background: var(--card); color: var(--ink);
+      box-shadow: 0 -12px 40px rgba(0, 0, 0, .18); font-family: var(--font);
+    }
+    .ins-dialoog[open] { animation: paneel-op 460ms cubic-bezier(.22, 1, .36, 1) both; }
+    .ins-dialoog.is-dicht { animation: paneel-neer 220ms cubic-bezier(.4, 0, 1, 1) both; }
+    .ins-dialoog::backdrop { background: rgba(0, 0, 0, .36); animation: appear 300ms var(--ease) both; }
+    html[data-theme="dark"] .ins-dialoog::backdrop { background: rgba(0, 0, 0, .62); }
+    .ins-dialoog.is-dicht::backdrop { animation: weg 220ms var(--ease) both; }
+    @keyframes paneel-op { from { transform: translateY(100%); } }
+    @keyframes paneel-neer { to { transform: translateY(100%); } }
+    @keyframes weg { to { opacity: 0; } }
+    .ins-dialoog-binnen { position: relative; display: grid; justify-items: start; padding: 30px 20px calc(20px + env(safe-area-inset-bottom)); }
+    .ins-dialoog-sluit {
+      position: absolute; top: 14px; right: 14px; display: grid; place-items: center; width: 44px; height: 44px; padding: 0;
+      border: 0; border-radius: 50%; background: var(--surface); color: var(--ink); cursor: pointer; touch-action: manipulation;
+    }
+    .ins-dialoog-sluit svg { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; }
+    :where(html.has-hover) .ins-dialoog-sluit:hover { background: var(--line); }
+    .ins-dialoog h2 { margin: 18px 0 8px; font-size: 1.625rem; font-weight: 700; line-height: 1.15; letter-spacing: -.01em; text-wrap: balance; }
+    .ins-dialoog p { margin: 0; color: var(--muted); font-size: 1rem; line-height: 1.55; }
+    .ins-dialoog .ins-knoppen { margin-top: 24px; }
+
+    .ins-vink { display: block; width: 64px; height: 64px; fill: none; stroke-linecap: round; stroke-linejoin: round; }
+    .ins-vink .bol { fill: var(--teal-zacht); stroke: none; transform-origin: 32px 32px; }
+    .ins-vink .ring { stroke: var(--teal); stroke-width: 2.5; stroke-dasharray: 1; }
+    .ins-vink .haak { stroke: var(--teal-tekst); stroke-width: 3.5; stroke-dasharray: 1; }
+    .ins-dialoog[open] .ins-vink .bol { animation: bol 420ms var(--ease) 180ms both; }
+    .ins-dialoog[open] .ins-vink .ring { animation: teken 620ms var(--ease) 220ms both; }
+    .ins-dialoog[open] .ins-vink .haak { animation: teken 380ms var(--ease) 720ms both; }
+    .ins-bedankt .ins-vink { width: 48px; height: 48px; }
+    @keyframes bol { from { opacity: 0; transform: scale(.6); } }
+    @keyframes teken { from { stroke-dashoffset: 1; } }
+
+    @media (max-width: 767px) {
+      .ins-sectie { margin-top: 88px; }
+      .ins-form.kaart, .ins-bedankt.kaart { padding: 24px 20px 28px; }
+    }
+
+    @media (min-width: 768px) {
+      .ins-form.kaart, .ins-bedankt.kaart { padding: 40px; }
+      .ins-verstuur.knop { justify-self: start; width: auto; min-width: 260px; }
+      .ins-knoppen { grid-template-columns: repeat(2, max-content); }
+      .ins-knoppen :is(.knop, .knop-secundair) { width: auto; min-width: 0; }
+      .ins-dialoog { inset: 0; width: min(460px, calc(100% - 48px)); max-height: calc(100dvh - 48px); margin: auto; border: 1px solid var(--ins-lijn); border-radius: 28px; box-shadow: var(--shadow-card-hover); }
+      .ins-dialoog[open] { animation: midden-in 320ms var(--ease) both; }
+      .ins-dialoog.is-dicht { animation: midden-uit 180ms cubic-bezier(.4, 0, 1, 1) both; }
+      .ins-dialoog-binnen { padding: 36px; }
+      .ins-dialoog .ins-knoppen { grid-template-columns: minmax(0, 1fr); }
+      .ins-dialoog .ins-knoppen :is(.knop, .knop-secundair) { width: 100%; }
+      @keyframes midden-in { from { opacity: 0; transform: translateY(14px) scale(.98); } }
+      @keyframes midden-uit { to { opacity: 0; transform: translateY(8px) scale(.98); } }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      .ins-bestand.is-nieuw, .ins-dialoog, .ins-dialoog::backdrop, .ins-vink .bol, .ins-vink .ring, .ins-vink .haak { animation: none !important; }
+      .ins-bestand[data-stand="bezig"] .ins-bestand-balk::after,
+      .ins-voortgang-delen span[data-stand="bezig"]::after { width: 100%; opacity: .5; animation: none !important; transform: none; }
+      .ins-zone, .ins-zone-knop { transition: none; }
+      .ins-veld:not([hidden]).is-nieuw { animation: none; }
+    }
+  </style>
+</head>
+<body data-nav="vast">
+  <a class="skip-link" href="#inhoud">Ga naar inhoud</a>
+  <header class="site-header">
+    <nav class="navigation ins-nav" aria-label="Berie's Exam Space">
+      <a class="brand" href="./" aria-label="Berie's Exam Space, Help ons groeien">
+        <span class="brand-symbol" aria-hidden="true">B</span>
+        <span class="brand-name"><span>Berie's</span> <span>Exam Space</span></span>
+      </a>
+      <a class="pill login-button" href="../inloggen.html">Inloggen&nbsp; →</a>
+    </nav>
+  </header>
+
+  <main id="inhoud" class="pagina" aria-labelledby="formulier-titel">
+    <div class="wrap ins-wrap">
+      <a class="terug" href="./" data-terug="./" data-terug-tekst="Terug">← Terug</a>
+
+      <header class="pagina-kop ins-smal ins-form-kop">
+        <h1 id="formulier-titel" tabindex="-1">Stuur je samenvatting in</h1>
+        <p>Zonder account. Alleen je school, je richting en je bestanden zijn nodig.</p>
+      </header>
+
+      <section class="ins-zo ins-smal" id="zo-werkt" aria-labelledby="zo-titel">
+        <p class="ins-zo-kop" id="zo-titel">Zo werkt het</p>
+        <ol class="ins-zo-lijst">
+          <li style="--n:0"><span class="ins-zo-icoon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 3v9m-4-4 4 4 4-4"/><path d="M4 14v4a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-4"/></svg></span>Ik krijg je samenvatting binnen.</li>
+          <li style="--n:1"><span class="ins-zo-icoon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="m12 3 9 5-9 5-9-5 9-5Z"/><path d="m3 13 9 5 9-5"/></svg></span>Ik verzamel alles per vak.</li>
+          <li style="--n:2"><span class="ins-zo-icoon" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/></svg></span>Is er genoeg materiaal van een vak, dan komt het vak online.</li>
+        </ol>
+      </section>
+
+      <section class="ins-sectie ins-smal ins-formulier" id="formulier" aria-labelledby="formulier-titel">
+        <form class="kaart ins-form" id="insturen-form" novalidate>
+          <div class="ins-groep">
+            <h3 class="ins-groep-kop"><span class="ins-nr" aria-hidden="true">1</span>Zeg voor wie het is</h3>
+            <div class="ins-veld">
+              <label for="ins-school">Je school</label>
+              <div class="ins-vast" id="school-vast" hidden>
+                <svg viewBox="0 0 20 20" aria-hidden="true" focusable="false"><path d="m5.5 10.5 3 3 6-7"/></svg>
+                <span class="ins-vast-tekst"><strong id="school-vast-naam"></strong><span id="school-vast-bron"></span></span>
+                <button class="ins-wijzig" id="school-wijzig" type="button">Wijzig<span class="ins-sr"> je school</span></button>
+              </div>
+              <select class="auth-input is-leeg" id="ins-school" aria-required="true" aria-describedby="school-fout">
+                <option value="">Kies je school</option>
+              </select>
+              <p class="ins-fout" id="school-fout" hidden></p>
+            </div>
+            <div class="ins-veld" id="veld-school-anders" hidden>
+              <label for="ins-school-anders">Naam van je school</label>
+              <input class="auth-input" id="ins-school-anders" type="text" maxlength="80" autocomplete="off" placeholder="Bv. Hogeschool Gent" aria-required="true" aria-describedby="school-anders-fout">
+              <p class="ins-fout" id="school-anders-fout" hidden></p>
+            </div>
+            <div class="ins-veld" id="veld-richting" hidden>
+              <label for="ins-richting">Je richting</label>
+              <select class="auth-input is-leeg" id="ins-richting" aria-required="true" aria-describedby="richting-fout"></select>
+              <p class="ins-fout" id="richting-fout" hidden></p>
+            </div>
+            <div class="ins-veld" id="veld-richting-anders" hidden>
+              <label for="ins-richting-anders" id="richting-anders-label">Je richting</label>
+              <input class="auth-input" id="ins-richting-anders" type="text" maxlength="80" autocomplete="off" placeholder="Bv. Criminologie" aria-required="true" aria-describedby="richting-anders-fout">
+              <p class="ins-fout" id="richting-anders-fout" hidden></p>
+            </div>
+            <div class="ins-veld">
+              <label for="insturen-vak">Vak <span class="ins-optioneel">optioneel</span></label>
+              <input class="auth-input" id="insturen-vak" type="text" maxlength="160" autocomplete="off" placeholder="Bv. Strafrecht, 1BA">
+            </div>
+            <div class="ins-veld">
+              <label for="insturen-email">Je e-mailadres <span class="ins-optioneel">optioneel</span></label>
+              <input class="auth-input" id="insturen-email" type="email" maxlength="254" autocomplete="email" inputmode="email" placeholder="naam@voorbeeld.be" aria-describedby="email-uitleg email-fout">
+              <p class="ins-help" id="email-uitleg">Dan laten we je weten wanneer het klaar is.</p>
+              <p class="ins-fout" id="email-fout" hidden></p>
+            </div>
+            <div class="ins-val" aria-hidden="true">
+              <label for="ins-x7">Niet invullen</label>
+              <input id="ins-x7" name="ins-x7" type="text" tabindex="-1" autocomplete="off" data-1p-ignore data-lpignore="true" data-form-type="other">
+            </div>
+          </div>
+
+          <div class="ins-groep">
+            <h3 class="ins-groep-kop"><span class="ins-nr" aria-hidden="true">2</span>Kies je bestanden</h3>
+            <ul class="ins-lijst" id="insturen-lijst" aria-label="Gekozen bestanden"></ul>
+            <label class="ins-zone" id="insturen-zone">
+              <span class="ins-zone-knop" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><path d="M12 5v14M5 12h14"/></svg></span>
+              <strong class="ins-zone-titel" id="zone-titel">Kies bestanden</strong>
+              <span class="ins-zone-hint ins-hint-tik">Tik hier of neem een foto</span>
+              <span class="ins-zone-hint ins-hint-sleep">Klik om te kiezen of sleep ze hierheen</span>
+              <span class="ins-zone-tips" id="bestanden-tips"><span class="ins-tip-welkom">Je eigen samenvattingen, notities of cursussen.</span> <span>PDF, Word, PowerPoint, foto's of tekst.</span> <span>Tot 50 MB per bestand, maximaal 10.</span></span>
+              <input type="file" id="insturen-bestanden" multiple accept=".pdf,.docx,.pptx,.jpg,.jpeg,.png,.txt,image/jpeg,image/png" aria-labelledby="zone-titel" aria-describedby="bestanden-tips bestanden-fout">
+            </label>
+            <div class="ins-fouten" id="bestanden-fout" role="alert" hidden></div>
+          </div>
+
+          <p class="ins-mag"><strong>Stuur alleen materiaal dat je mag delen.</strong> Meer in onze <a class="tekstlink" href="../privacy.html">privacyverklaring</a>.</p>
+
+          <div class="ins-balk" id="insturen-balk">
+            <p class="ins-fout ins-fout-algemeen" id="insturen-fout" role="alert" hidden></p>
+            <div class="ins-voortgang" id="voortgang" aria-hidden="true" hidden>
+              <p class="ins-voortgang-tekst" id="voortgang-tekst"></p>
+              <div class="ins-voortgang-delen" id="voortgang-delen"></div>
+            </div>
+            <button class="knop ins-verstuur" id="insturen-volgende" type="submit">Verstuur</button>
+            <p class="ins-bewaard" id="insturen-bewaard" hidden>Wat al verstuurd is, blijft bewaard.</p>
+          </div>
+        </form>
+
+        <div class="kaart ins-bedankt" id="insturen-bedankt" hidden>
+          <svg class="ins-vink" viewBox="0 0 64 64" aria-hidden="true" focusable="false">
+            <circle class="bol" cx="32" cy="32" r="29"/>
+            <path class="ring" pathLength="1" d="M32 3a29 29 0 1 1 0 58a29 29 0 1 1 0-58"/>
+            <path class="haak" pathLength="1" d="m20.5 33 8 8 15-16"/>
+          </svg>
+          <h3 id="insturen-bedankt-kop" tabindex="-1">Je inzending is binnen.</h3>
+          <p>Bedankt om mee te bouwen aan jouw richting.</p>
+          <ol class="ins-zo-lijst is-status" aria-label="Wat er nu gebeurt">
+            <li class="is-klaar" style="--n:0"><span class="ins-zo-icoon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="m6.5 12.5 3.8 3.8L17.5 9"/></svg></span>Je samenvatting is binnen.</li>
+            <li style="--n:1"><span class="ins-zo-icoon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="m12 3 9 5-9 5-9-5 9-5Z"/><path d="m3 13 9 5 9-5"/></svg></span>Ik verzamel alles per vak.</li>
+            <li style="--n:2"><span class="ins-zo-icoon" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/></svg></span>Is er genoeg materiaal van een vak, dan komt het vak online.</li>
+          </ol>
+          <div class="ins-knoppen">
+            <a class="knop" href="../inloggen.html">Log in of maak een account&nbsp; →</a>
+          </div>
+          <button class="tekstlink ins-nogiets" id="nog-iets" type="button">Nog iets insturen</button>
+        </div>
+      </section>
+
+      <p class="ins-sr" id="insturen-status" role="status" aria-live="polite"></p>
+    </div>
+  </main>
+
+  <dialog class="ins-dialoog" id="bedank-dialoog" aria-labelledby="dialoog-kop" aria-describedby="dialoog-tekst">
+    <div class="ins-dialoog-binnen">
+      <button class="ins-dialoog-sluit" id="dialoog-sluit" type="button" aria-label="Sluiten">
+        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M6 6l12 12M18 6 6 18"/></svg>
+      </button>
+      <svg class="ins-vink" viewBox="0 0 64 64" aria-hidden="true" focusable="false">
+        <circle class="bol" cx="32" cy="32" r="29"/>
+        <path class="ring" pathLength="1" d="M32 3a29 29 0 1 1 0 58a29 29 0 1 1 0-58"/>
+        <path class="haak" pathLength="1" d="m20.5 33 8 8 15-16"/>
+      </svg>
+      <h2 id="dialoog-kop" tabindex="-1">Je inzending is binnen.</h2>
+      <p id="dialoog-tekst">Ik verzamel alles per vak. Is er genoeg materiaal van een vak, dan komt het vak online. Met een account kan je dan oefenen.</p>
+      <div class="ins-knoppen">
+        <a class="knop" href="../inloggen.html">Log in of maak een account&nbsp; →</a>
+      </div>
+    </div>
+  </dialog>
+
+  <footer class="site-footer">
+    <p class="footer-brand">Berie's Exam Space</p>
+    <div class="footer-details">
+      <p>Duidelijk leren. Rustig groeien.</p>
+      <p class="project-label">Een project van The Berie Foundation</p>
+    </div>
+  </footer>
+
+  <script src="../assets/catalogus.js?v=90"></script>
+  <script>
+    (() => {
+      const MAX_BESTANDEN = 10;
+      const MAX_GROOTTE = 50 * 1024 * 1024;
+      const TYPES = {
+        pdf: 'application/pdf',
+        docx: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+        pptx: 'application/vnd.openxmlformats-officedocument.presentationml.presentation',
+        jpg: 'image/jpeg',
+        jpeg: 'image/jpeg',
+        png: 'image/png',
+        txt: 'text/plain'
+      };
+      // Sommige telefoons geven een naam zonder extensie ('image', 'document'); dan zegt het type wat het is.
+      const UIT_TYPE = {
+        'application/pdf': 'pdf',
+        [TYPES.docx]: 'docx',
+        [TYPES.pptx]: 'pptx',
+        'image/jpeg': 'jpg',
+        'image/png': 'png',
+        'text/plain': 'txt'
+      };
+      const STANDEN = { wacht: 'Wacht', bezig: 'Bezig…', klaar: 'Verstuurd', mislukt: 'Niet gelukt' };
+      const element = id => document.getElementById(id);
+      const form = element('insturen-form');
+      const zone = element('insturen-zone');
+      const zoneTitel = element('zone-titel');
+      const input = element('insturen-bestanden');
+      const lijst = element('insturen-lijst');
+      const school = element('ins-school');
+      const schoolAnders = element('ins-school-anders');
+      const richting = element('ins-richting');
+      const richtingAnders = element('ins-richting-anders');
+      const veldSchoolAnders = element('veld-school-anders');
+      const veldRichting = element('veld-richting');
+      const veldRichtingAnders = element('veld-richting-anders');
+      const vak = element('insturen-vak');
+      // Terug naar het verhaal, met dezelfde school uit de QR-code.
+      const terug = document.querySelector('.terug[data-terug]');
+      if (terug && window.location.search) terug.dataset.terug += window.location.search;
+      const email = element('insturen-email');
+      const val = element('ins-x7');
+      const bestandenFout = element('bestanden-fout');
+      const fout = element('insturen-fout');
+      const status = element('insturen-status');
+      const volgende = element('insturen-volgende');
+      const balk = element('insturen-balk');
+      const bewaard = element('insturen-bewaard');
+      const voortgang = element('voortgang');
+      const voortgangTekst = element('voortgang-tekst');
+      const voortgangDelen = element('voortgang-delen');
+      const formulierTitel = element('formulier-titel');
+      const bedankt = element('insturen-bedankt');
+      const bedanktKop = element('insturen-bedankt-kop');
+      const nogIets = element('nog-iets');
+      const dialoog = element('bedank-dialoog');
+      const dialoogKop = element('dialoog-kop');
+      const dialoogSluit = element('dialoog-sluit');
+      const minderBeweging = window.matchMedia('(prefers-reduced-motion: reduce)');
+      // Elke fout staat bij het veld waar ze over gaat.
+      const velden = {
+        school: [school, element('school-fout')],
+        schoolAnders: [schoolAnders, element('school-anders-fout')],
+        richting: [richting, element('richting-fout')],
+        richtingAnders: [richtingAnders, element('richting-anders-fout')],
+        email: [email, element('email-fout')]
+      };
+      let bestanden = [];
+      let bezig = false;
+      // Wat al binnen is bij een mislukte poging, zodat opnieuw proberen niets dubbel stuurt.
+      let poging = null;
+      const getekend = new WeakSet();
+
+      // hasOwnProperty in plaats van Object.hasOwn: dat laatste ontbreekt op iOS 15.0 tot 15.3.
+      const heeft = (object, sleutel) => Object.prototype.hasOwnProperty.call(object, sleutel);
+      const extensie = naam => (naam.includes('.') ? naam.split('.').pop() : '').toLowerCase();
+      // De soort volgt de extensie; ontbreekt die of is ze onbekend, dan het type dat het toestel meegeeft. Leeg = niet toegestaan.
+      const soort = bestand => {
+        const ext = extensie(bestand.name);
+        if (heeft(TYPES, ext)) return ext;
+        const type = String(bestand.type || '').toLowerCase();
+        return heeft(UIT_TYPE, type) ? UIT_TYPE[type] : '';
+      };
+      // Knippen op hele tekens, zodat een emoji nooit half in de inzending belandt.
+      const kap = (tekst, lengte) => Array.from(tekst).slice(0, lengte).join('');
+      const maat = bytes => bytes >= 1024 * 1024
+        ? (bytes / (1024 * 1024)).toFixed(1).replace('.', ',') + ' MB'
+        : Math.max(1, Math.round(bytes / 1024)) + ' kB';
+      // Veilige bestandsnaam voor de opslag; de echte naam gaat mee in de inzending.
+      // Altijd volgens de opslagregel: <map>/<nummer>-[A-Za-z0-9_-]{1,60}.<soort>.
+      const veiligeNaam = bestand => {
+        const naam = bestand.name;
+        const ext = soort(bestand);
+        const eigen = extensie(naam);
+        const basis = (eigen === ext ? naam.slice(0, naam.length - eigen.length - 1) : naam)
+          .normalize('NFD').replace(/[̀-ͯ]/g, '')
+          .replace(/[^A-Za-z0-9_-]+/g, '-').replace(/^-+|-+$/g, '').slice(0, 60) || 'bestand';
+        return basis + '.' + ext;
+      };
+      const padVoor = (bestand, index) => poging.map + '/' + (index + 1) + '-' + veiligeNaam(bestand);
+      const isVerstuurd = (bestand, index) => Boolean(poging?.verstuurd.some(item => item.pad === padVoor(bestand, index)));
+      const nieuweMap = () => window.crypto?.randomUUID
+        ? window.crypto.randomUUID()
+        : 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, teken => {
+            const r = window.crypto.getRandomValues(new Uint8Array(1))[0] % 16;
+            return (teken === 'x' ? r : (r & 0x3) | 0x8).toString(16);
+          });
+
+      // Bij de bestanden: één regel per bestand. Een melding met info (staat er al) is geen fout.
+      const toonBestandMeldingen = meldingen => {
+        bestandenFout.replaceChildren(...meldingen.map(({ tekst, info }) => {
+          const regel = document.createElement('p');
+          regel.className = info ? 'ins-fout is-info' : 'ins-fout';
+          regel.textContent = tekst;
+          return regel;
+        }));
+        bestandenFout.hidden = !meldingen.length;
+        const echt = meldingen.some(melding => !melding.info);
+        if (echt) input.setAttribute('aria-invalid', 'true');
+        else input.removeAttribute('aria-invalid');
+        zone.classList.toggle('is-fout', echt);
+      };
+      const toonVeldFout = (naam, bericht) => {
+        if (naam === 'bestanden') { toonBestandMeldingen(bericht ? [{ tekst: bericht }] : []); return; }
+        const [veld, plek] = velden[naam];
+        plek.textContent = bericht;
+        plek.hidden = !bericht;
+        if (bericht) veld.setAttribute('aria-invalid', 'true');
+        else veld.removeAttribute('aria-invalid');
+      };
+      const toonFout = bericht => {
+        fout.textContent = bericht;
+        fout.hidden = !bericht;
+      };
+      const wisFouten = () => {
+        toonFout('');
+        toonBestandMeldingen([]);
+        Object.keys(velden).forEach(naam => toonVeldFout(naam, ''));
+      };
+      const toonStatus = bericht => { status.textContent = bericht; };
+      // Na een mislukte poging gaat alleen de rest opnieuw; dat zegt de knop ook.
+      const verstuurTekst = () => {
+        if (poging) return 'Probeer opnieuw';
+        return bestanden.length
+          ? 'Verstuur ' + bestanden.length + (bestanden.length === 1 ? ' bestand' : ' bestanden')
+          : 'Verstuur';
+      };
+      const werkKnopBij = () => {
+        volgende.textContent = verstuurTekst();
+        const toon = Boolean(poging?.verstuurd.length);
+        bewaard.hidden = !toon;
+        if (toon) volgende.setAttribute('aria-describedby', 'insturen-bewaard');
+        else volgende.removeAttribute('aria-describedby');
+      };
+      // Een upload die blijft hangen (trein, lift, wifi die wegvalt) mag het formulier niet vasthouden.
+      const metLimiet = (belofte, ms) => new Promise((gelukt, mislukt) => {
+        if (navigator.onLine === false) { mislukt({ eigen: 'offline' }); return; }
+        let timer = 0;
+        const offline = () => stop({ eigen: 'offline' });
+        const opruimen = () => { window.clearTimeout(timer); window.removeEventListener('offline', offline); };
+        const stop = reden => { opruimen(); mislukt(reden); };
+        timer = window.setTimeout(() => stop({ eigen: 'traag' }), ms);
+        window.addEventListener('offline', offline);
+        belofte.then(waarde => { opruimen(); gelukt(waarde); }, reden => stop(reden));
+      });
+      // Minstens een minuut, en nooit trager dan ongeveer 50 kB per seconde.
+      const uploadLimiet = grootte => Math.max(60000, Math.ceil(grootte / 51.2));
+
+      const tekenLijst = () => {
+        lijst.replaceChildren(...bestanden.map((bestand, index) => {
+          const li = document.createElement('li');
+          li.className = 'ins-bestand';
+          if (!getekend.has(bestand)) {
+            li.classList.add('is-nieuw');
+            getekend.add(bestand);
+          }
+          const icoon = document.createElement('span');
+          icoon.className = 'ins-bestand-icoon';
+          icoon.setAttribute('aria-hidden', 'true');
+          icoon.textContent = soort(bestand).toUpperCase();
+          const tekst = document.createElement('span');
+          tekst.className = 'ins-bestand-tekst';
+          const naam = document.createElement('span');
+          naam.className = 'ins-bestand-naam';
+          naam.textContent = bestand.name;
+          const meta = document.createElement('span');
+          meta.className = 'ins-bestand-meta';
+          const grootte = document.createElement('span');
+          grootte.textContent = maat(bestand.size);
+          const stand = document.createElement('span');
+          stand.className = 'ins-bestand-stand';
+          meta.append(grootte, stand);
+          tekst.append(naam, meta);
+          const weg = document.createElement('button');
+          weg.type = 'button';
+          weg.className = 'ins-bestand-weg';
+          weg.setAttribute('aria-label', bestand.name + ' weghalen');
+          weg.innerHTML = '<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M6 6l12 12M18 6 6 18"/></svg>';
+          weg.addEventListener('click', () => {
+            // Verstuurde bestanden zijn altijd de eerste rijen; weghalen kan alleen bij wat nog niet binnen is,
+            // dus de paden van wat al binnen is blijven gelijk en de poging (dezelfde map) blijft geldig.
+            if (bezig || isVerstuurd(bestand, index)) return;
+            bestanden.splice(index, 1);
+            tekenLijst();
+            toonVeldFout('bestanden', '');
+            toonStatus(bestand.name + ' is weggehaald.');
+            input.focus();
+          });
+          const vink = document.createElement('span');
+          vink.className = 'ins-bestand-vink';
+          vink.setAttribute('aria-hidden', 'true');
+          vink.innerHTML = '<svg viewBox="0 0 24 24" focusable="false"><path d="m5 12.5 4.5 4.5L19 7.5"/></svg>';
+          const balk = document.createElement('span');
+          balk.className = 'ins-bestand-balk';
+          balk.setAttribute('aria-hidden', 'true');
+          li.append(icoon, tekst, weg, vink, balk);
+          // Na een mislukte poging blijft zichtbaar wat al binnen is.
+          if (isVerstuurd(bestand, index)) {
+            li.dataset.stand = 'klaar';
+            stand.textContent = STANDEN.klaar;
+          }
+          return li;
+        }));
+        zone.classList.toggle('is-compact', bestanden.length > 0);
+        zoneTitel.textContent = bestanden.length ? 'Nog een bestand toevoegen' : 'Kies bestanden';
+        werkKnopBij();
+      };
+
+      const voegToe = lijstBestanden => {
+        if (bezig) return;
+        const meldingen = [];
+        let teVeel = 0;
+        const eerder = bestanden.length;
+        // Toevoegen komt achteraan: de paden van wat al binnen is veranderen niet, dus een lopende poging blijft geldig.
+        Array.from(lijstBestanden).forEach(bestand => {
+          const naam = bestand.name || 'Dit bestand';
+          if (/\.(heic|heif)$/i.test(bestand.name) || /^image\/hei[cf]/i.test(bestand.type)) { meldingen.push({ tekst: naam + ' is een HEIC-foto. Zet hem om naar JPG of kies hem opnieuw via je foto\'s.' }); return; }
+          if (/\.(doc|ppt)$/i.test(bestand.name)) { meldingen.push({ tekst: naam + ' is een oud formaat. Sla het op als PDF en kies het opnieuw.' }); return; }
+          if (!soort(bestand)) { meldingen.push({ tekst: naam + ' kan niet. Kies een PDF, Word, PowerPoint, foto of tekstbestand.' }); return; }
+          if (bestand.size > MAX_GROOTTE) { meldingen.push({ tekst: naam + ' is groter dan 50 MB.' }); return; }
+          if (bestand.size === 0) { meldingen.push({ tekst: naam + ' is leeg.' }); return; }
+          if (bestanden.some(ander => ander.name === bestand.name && ander.size === bestand.size)) { meldingen.push({ tekst: naam + ' staat er al.', info: true }); return; }
+          if (bestanden.length >= MAX_BESTANDEN) { teVeel += 1; return; }
+          bestanden.push(bestand);
+        });
+        if (teVeel) meldingen.push({ tekst: 'Maximaal ' + MAX_BESTANDEN + ' bestanden per keer. ' + (teVeel === 1 ? '1 bestand past' : teVeel + ' bestanden passen') + ' er niet meer bij.' });
+        tekenLijst();
+        toonBestandMeldingen(meldingen);
+        const erbij = bestanden.length - eerder;
+        if (erbij > 0) toonStatus(erbij === 1 ? '1 bestand toegevoegd.' : erbij + ' bestanden toegevoegd.');
+      };
+
+      input.addEventListener('change', () => {
+        voegToe(input.files);
+        input.value = '';
+      });
+      ['dragenter', 'dragover'].forEach(soort => zone.addEventListener(soort, event => {
+        event.preventDefault();
+        if (!bezig) zone.classList.add('is-over');
+      }));
+      zone.addEventListener('dragleave', event => {
+        if (!zone.contains(event.relatedTarget)) zone.classList.remove('is-over');
+      });
+      zone.addEventListener('drop', event => {
+        event.preventDefault();
+        zone.classList.remove('is-over');
+        if (event.dataTransfer?.files?.length) voegToe(event.dataTransfer.files);
+      });
+      // Een bestand net naast de zone loslaten mag de pagina niet vervangen.
+      ['dragover', 'drop'].forEach(soort => window.addEventListener(soort, event => event.preventDefault()));
+
+      // School en richting komen uit de catalogus. "Staat er niet tussen" opent een tekstveld.
+      const CATALOGUS = window.BES_CATALOGUS;
+      const ANDERS = 'anders';
+      const optie = (waarde, tekst) => { const o = document.createElement('option'); o.value = waarde; o.textContent = tekst; return o; };
+      const vulScholen = () => {
+        const groepen = [['BE', 'België'], ['NL', 'Nederland']];
+        const opNaam = (a, b) => a.naam.localeCompare(b.naam, 'nl');
+        groepen.forEach(([land, naam]) => {
+          const groep = document.createElement('optgroup');
+          groep.label = naam;
+          CATALOGUS.scholen.filter(s => s.land === land && s.type !== 'bijzonder').sort(opNaam)
+            .forEach(s => groep.append(optie(s.id, s.kort[0] && !s.naam.includes(s.kort[0]) ? s.naam + ' (' + s.kort[0] + ')' : s.naam)));
+          school.append(groep);
+        });
+        const bijzonder = document.createElement('optgroup');
+        bijzonder.label = 'Andere instellingen';
+        CATALOGUS.scholen.filter(s => s.type === 'bijzonder').sort(opNaam).forEach(s => bijzonder.append(optie(s.id, s.naam)));
+        school.append(bijzonder, optie(ANDERS, 'Mijn school staat er niet tussen'));
+      };
+      const toon = (veld, aan) => {
+        if (veld.hidden === !aan) return;
+        veld.hidden = !aan;
+        veld.classList.toggle('is-nieuw', aan);
+      };
+      const werkRichtingBij = () => {
+        richting.classList.toggle('is-leeg', !richting.value);
+        const anders = !veldRichting.hidden ? richting.value === ANDERS : school.value !== '';
+        toon(veldRichtingAnders, anders);
+        element('richting-anders-label').textContent = veldRichting.hidden ? 'Je richting' : 'Welke richting?';
+      };
+      const werkSchoolBij = () => {
+        const id = school.value;
+        school.classList.toggle('is-leeg', !id);
+        toon(veldSchoolAnders, id === ANDERS);
+        const lijstRichtingen = id && id !== ANDERS ? CATALOGUS.richtingenVan(id).slice().sort((a, b) => a.naam.localeCompare(b.naam, 'nl')) : [];
+        richting.replaceChildren(optie('', 'Kies je richting'),
+          ...lijstRichtingen.map(r => optie(r.id, r.status === 'live' ? r.naam + ' (al online)' : r.naam)),
+          optie(ANDERS, 'Mijn richting staat er niet tussen'));
+        toon(veldRichting, lijstRichtingen.length > 0);
+        werkRichtingBij();
+        ['schoolAnders', 'richting', 'richtingAnders'].forEach(naam => toonVeldFout(naam, ''));
+      };
+      // Waar de school vandaan komt: de QR-code van de school (?school=vub), anders het account, anders kiest de student zelf.
+      // Een bekende school staat vast in beeld, met Wijzig.
+      const BRONNEN = { qr: 'Ingevuld via de QR-code van je school.', account: 'Ingevuld vanuit je account.' };
+      const schoolVast = element('school-vast');
+      let vast = null;
+      let schoolGekozen = false;
+      let richtingGekozen = false;
+      const toonVast = () => {
+        const gekozen = vast && CATALOGUS ? CATALOGUS.school(vast.id) : null;
+        schoolVast.hidden = !gekozen;
+        school.hidden = Boolean(gekozen);
+        if (gekozen) {
+          element('school-vast-naam').textContent = gekozen.naam;
+          element('school-vast-bron').textContent = BRONNEN[vast.bron];
+        }
+      };
+      const zetSchool = (id, bron) => {
+        vast = { id, bron };
+        school.value = id;
+        werkSchoolBij();
+        toonVast();
+      };
+      if (CATALOGUS) {
+        vulScholen();
+        const gevraagd = new URLSearchParams(window.location.search).get('school');
+        if (gevraagd && CATALOGUS.school(gevraagd)) zetSchool(gevraagd, 'qr');
+        else werkSchoolBij();
+      } else {
+        // Zonder catalogus: alleen de tekstvelden.
+        school.append(optie(ANDERS, 'Typ je school hieronder'));
+        school.value = ANDERS;
+        werkSchoolBij();
+      }
+      element('school-wijzig').addEventListener('click', () => {
+        vast = null;
+        toonVast();
+        school.focus();
+      });
+      // Ingelogd: school en richting uit Over jezelf ("Psychologie aan de VUB"), zolang de student zelf nog niets koos.
+      window.addEventListener('bes:auth', event => {
+        const user = event.detail?.user;
+        if (!user || !CATALOGUS?.herken) return;
+        const herkend = CATALOGUS.herken(window.BES?.auth?.overGegevens?.(user)?.studie);
+        if (!herkend) return;
+        if (!vast && !schoolGekozen && !school.value) zetSchool(herkend.school.id, 'account');
+        if (herkend.richting && school.value === herkend.school.id && !richtingGekozen && !richting.value && !veldRichting.hidden) {
+          richting.value = herkend.richting.id;
+          werkRichtingBij();
+        }
+      });
+      school.addEventListener('change', () => { schoolGekozen = true; toonVeldFout('school', ''); werkSchoolBij(); });
+      richting.addEventListener('change', () => { richtingGekozen = true; toonVeldFout('richting', ''); werkRichtingBij(); });
+      // Stand per bestand (wacht, bezig, klaar, mislukt) en het totaal onderaan. Geen bytes: die geeft de opslag niet door.
+      const zetStand = (index, stand) => {
+        const li = lijst.children[index];
+        if (!li) return;
+        if (stand) li.dataset.stand = stand;
+        else delete li.dataset.stand;
+        li.querySelector('.ins-bestand-stand').textContent = stand ? STANDEN[stand] : '';
+      };
+      const werkVoortgangBij = () => {
+        const standen = Array.from(lijst.children, li => li.dataset.stand || 'wacht');
+        const klaarAantal = standen.filter(stand => stand === 'klaar').length;
+        voortgang.hidden = false;
+        voortgangTekst.textContent = klaarAantal + ' van ' + standen.length + ' verstuurd';
+        if (voortgangDelen.children.length !== standen.length) {
+          voortgangDelen.replaceChildren(...standen.map(() => document.createElement('span')));
+        }
+        standen.forEach((stand, index) => { voortgangDelen.children[index].dataset.stand = stand; });
+      };
+
+      const zetBezig = aan => {
+        bezig = aan;
+        form.inert = aan;
+        form.classList.toggle('is-bezig', aan);
+        if (aan) {
+          volgende.textContent = 'Wordt verstuurd…';
+          bewaard.hidden = true;
+        } else {
+          werkKnopBij();
+          voortgang.hidden = true;
+        }
+      };
+
+      // Pop-up na het versturen; sluiten kan met de knop, Escape of naast het paneel tikken.
+      let sluitTimer = 0;
+      const sluitDialoog = () => {
+        if (!dialoog.open || dialoog.classList.contains('is-dicht')) return;
+        if (minderBeweging.matches) { dialoog.close(); return; }
+        dialoog.classList.add('is-dicht');
+        sluitTimer = window.setTimeout(() => dialoog.close(), 220);
+      };
+      dialoog.addEventListener('cancel', event => {
+        event.preventDefault();
+        sluitDialoog();
+      });
+      dialoog.addEventListener('click', event => { if (event.target === dialoog) sluitDialoog(); });
+      dialoogSluit.addEventListener('click', sluitDialoog);
+      dialoog.addEventListener('close', () => {
+        window.clearTimeout(sluitTimer);
+        dialoog.classList.remove('is-dicht');
+        bedanktKop.focus();
+      });
+
+      // Na het versturen staan de stappen in de bedankkaart; het blok Zo werkt het verdwijnt dan, anders staat alles twee keer in beeld.
+      const zoWerkt = element('zo-werkt');
+      const klaar = () => {
+        form.hidden = true;
+        zoWerkt.hidden = true;
+        bedankt.hidden = false;
+        if (typeof dialoog.showModal === 'function') {
+          dialoog.classList.remove('is-dicht');
+          dialoog.showModal();
+          dialoogKop.focus();
+        } else {
+          bedanktKop.focus();
+        }
+      };
+
+      nogIets.addEventListener('click', () => {
+        bestanden = [];
+        poging = null;
+        form.reset();
+        // Een vaste school (QR-code of account) blijft staan voor de volgende inzending.
+        if (vast) school.value = vast.id;
+        werkSchoolBij();
+        toonVast();
+        tekenLijst();
+        wisFouten();
+        toonStatus('');
+        bedankt.hidden = true;
+        zoWerkt.hidden = false;
+        form.hidden = false;
+        formulierTitel.focus();
+      });
+
+      const foutTekst = mislukt => {
+        if (mislukt?.eigen === 'offline') return 'Je verbinding is weg. Probeer het opnieuw zodra je weer online bent.';
+        if (mislukt?.eigen === 'traag') return 'Versturen duurt te lang. Probeer het opnieuw.';
+        const tekst = String(mislukt?.message || '') + ' ' + String(mislukt?.error || '');
+        const code = String(mislukt?.statusCode || mislukt?.status || mislukt?.code || '');
+        if (/bucket not found|PGRST205|42P01|could not find the table|does not exist/i.test(tekst + ' ' + code)) return 'Insturen staat nog niet aan. Probeer het later opnieuw.';
+        if (code === '413' || /payload too large|exceeded the maximum/i.test(tekst)) return 'Een bestand is te groot. Maximaal 50 MB per bestand.';
+        if (code === '415' || /mime type/i.test(tekst)) return 'Een bestand heeft een vorm die we niet aannemen. Sla het op als PDF en probeer opnieuw.';
+        if (code === '403' || code === '42501' || /row-level security|unauthorized/i.test(tekst)) return 'Insturen lukt nu even niet. Probeer het later opnieuw.';
+        if (code === '23514') return 'Iets in het formulier klopt niet. Controleer je richting en je e-mailadres.';
+        return 'Versturen is niet gelukt. Controleer je verbinding en probeer het opnieuw.';
+      };
+
+      form.addEventListener('submit', async event => {
+        event.preventDefault();
+        if (bezig) return;
+        wisFouten();
+        // Bots vullen het verborgen veld in: niets versturen, wel dezelfde pop-up. De console zegt het, voor wie zoekt.
+        if (val.value) { console.info('Niet verstuurd: het verborgen veld was ingevuld.'); klaar(); return; }
+        // School en richting gaan samen als tekst mee, bv. "Rechten, Vrije Universiteit Brussel".
+        const gekozenSchool = school.value && school.value !== ANDERS ? CATALOGUS.school(school.value) : null;
+        if (!school.value) { toonVeldFout('school', 'Kies je school. Staat ze er niet tussen, kies dan de laatste keuze.'); school.focus(); return; }
+        const schoolTekst = gekozenSchool ? gekozenSchool.naam : schoolAnders.value.trim();
+        if (Array.from(schoolTekst).length < 2) { toonVeldFout('schoolAnders', 'Vul de naam van je school in.'); schoolAnders.focus(); return; }
+        if (!veldRichting.hidden && !richting.value) { toonVeldFout('richting', 'Kies je richting. Staat ze er niet tussen, kies dan de laatste keuze.'); richting.focus(); return; }
+        const gekozenRichting = !veldRichting.hidden && richting.value !== ANDERS ? CATALOGUS.richting(richting.value) : null;
+        const richtingNaam = gekozenRichting ? gekozenRichting.naam : richtingAnders.value.trim();
+        if (Array.from(richtingNaam).length < 2) { toonVeldFout('richtingAnders', 'Vul je richting in, zodat we weten voor wie het is.'); richtingAnders.focus(); return; }
+        const richtingTekst = richtingNaam + ', ' + schoolTekst;
+        const emailTekst = email.value.trim();
+        if (emailTekst && !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(emailTekst)) { toonVeldFout('email', 'Dit e-mailadres klopt niet. Laat het leeg of vul het juist in.'); email.focus(); return; }
+        if (!bestanden.length) { toonVeldFout('bestanden', 'Kies eerst minstens één bestand.'); input.focus(); return; }
+        const auth = window.BES?.auth;
+        const client = auth?.client;
+        if (!client) {
+          // beschikbaar === false: auth.js liep wel, maar supabase-js laadde niet (bv. geblokkeerd op een schoolnetwerk).
+          toonFout(auth && auth.beschikbaar === false
+            ? 'Insturen lukt nu niet in deze browser. Probeer het later opnieuw of via mobiele data.'
+            : 'De pagina is nog aan het laden. Probeer het over een paar tellen opnieuw.');
+          balk.scrollIntoView({ block: 'nearest', behavior: minderBeweging.matches ? 'auto' : 'smooth' });
+          return;
+        }
+
+        const teSturen = bestanden.slice();
+        if (!poging) poging = { map: nieuweMap(), verstuurd: [] };
+        const paden = teSturen.map((bestand, index) => padVoor(bestand, index));
+        paden.forEach((pad, index) => zetStand(index, poging.verstuurd.some(item => item.pad === pad) ? 'klaar' : 'wacht'));
+        zetBezig(true);
+        werkVoortgangBij();
+        try {
+          for (const [index, bestand] of teSturen.entries()) {
+            const pad = paden[index];
+            if (poging.verstuurd.some(item => item.pad === pad)) continue;
+            zetStand(index, 'bezig');
+            werkVoortgangBij();
+            toonStatus('Bestand ' + (index + 1) + ' van ' + teSturen.length + ' wordt verstuurd.');
+            // Een Blob met het juiste type: sommige telefoons geven bestanden geen type mee.
+            const inhoud = bestand.slice(0, bestand.size, TYPES[soort(bestand)]);
+            // Loopt de tijd af terwijl het bestand toch aankomt, dan geeft de volgende poging 'already exists' en telt het als gelukt.
+            const { error } = await metLimiet(
+              client.storage.from('insturingen').upload(pad, inhoud, { upsert: false }),
+              uploadLimiet(bestand.size)
+            );
+            if (error && !/already exists|duplicate/i.test(String(error.message || ''))) throw error;
+            poging.verstuurd.push({ pad, naam: kap(bestand.name, 200), grootte: bestand.size });
+            zetStand(index, 'klaar');
+            werkVoortgangBij();
+          }
+          toonStatus('Bijna klaar.');
+          const { error } = await metLimiet(client.from('insturingen').insert({
+            map: poging.map,
+            richting: kap(richtingTekst, 120),
+            school_id: gekozenSchool ? gekozenSchool.id : null,
+            richting_id: gekozenRichting ? gekozenRichting.id : null,
+            school_tekst: kap(schoolTekst, 120),
+            richting_tekst: kap(richtingNaam, 120),
+            vak: kap(vak.value.trim(), 160) || null,
+            email: emailTekst || null,
+            bestanden: poging.verstuurd
+          }), 30000);
+          // De map is een willekeurige uuid: 23505 (bestaat al) betekent dat onze eigen vorige poging binnen is.
+          if (error && error.code !== '23505') throw error;
+          poging = null;
+          toonStatus('');
+          zetBezig(false);
+          klaar();
+        } catch (mislukt) {
+          Array.from(lijst.children).forEach((li, index) => {
+            if (li.dataset.stand === 'bezig') zetStand(index, 'mislukt');
+            else if (li.dataset.stand === 'wacht') zetStand(index, '');
+          });
+          toonStatus('');
+          zetBezig(false);
+          toonFout(foutTekst(mislukt));
+          // De melding staat net boven de knop; breng die twee samen in beeld.
+          balk.scrollIntoView({ block: 'nearest', behavior: minderBeweging.matches ? 'auto' : 'smooth' });
+          volgende.focus({ preventScroll: true });
+        }
+      });
+    })();
+  </script>
+</body>
+</html>
