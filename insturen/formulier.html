@@ -1044,12 +1044,18 @@
           const { error } = await metLimiet(client.from('insturingen').insert({
             map: poging.map,
             richting: kap(richtingTekst, 120),
+            school_id: gekozenSchool ? gekozenSchool.id : null,
+            richting_id: gekozenRichting ? gekozenRichting.id : null,
+            school_tekst: kap(schoolTekst, 120),
+            richting_tekst: kap(richtingNaam, 120),
             vak: kap(vak.value.trim(), 160) || null,
             email: emailTekst || null,
             bestanden: poging.verstuurd
           }), 30000);
           // De map is een willekeurige uuid: 23505 (bestaat al) betekent dat onze eigen vorige poging binnen is.
           if (error && error.code !== '23505') throw error;
+          // Met een e-mailadres gaat de ontvangstmail. Lukt die niet, dan is de inzending toch binnen.
+          if (emailTekst) client.functions?.invoke('insturen-mail', { body: { actie: 'ontvangen', map: poging.map } }).catch(() => {});
           poging = null;
           toonStatus('');
           zetBezig(false);
