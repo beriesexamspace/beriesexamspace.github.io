@@ -96,6 +96,25 @@ html {
   transition: background-color 200ms var(--ease), color 200ms var(--ease);
 }
 
+/* Scrollbalken in de huisstijl: dun, rond en zonder de pijltjes van Windows, in licht en donker.
+   Balken die bewust verborgen zijn (zoals de vaktabs) blijven verborgen, want die regels zijn specifieker. */
+::-webkit-scrollbar { width: 10px; height: 10px; }
+::-webkit-scrollbar-track, ::-webkit-scrollbar-corner { background: var(--transparent); }
+::-webkit-scrollbar-thumb {
+  border: 3px solid var(--transparent);
+  border-radius: var(--pill);
+  background: rgba(128, 128, 128, .45) padding-box;
+  background: color-mix(in srgb, var(--ink) 24%, transparent) padding-box;
+}
+::-webkit-scrollbar-thumb:hover { background-color: color-mix(in srgb, var(--ink) 40%, transparent); }
+::-webkit-scrollbar-button { display: none; }
+
+/* Firefox kent de balk hierboven niet: daar de dunne standaardbalk in dezelfde kleur. */
+@supports not selector(::-webkit-scrollbar) {
+  * { scrollbar-width: thin; }
+  html { scrollbar-color: color-mix(in srgb, var(--ink) 24%, transparent) var(--transparent); }
+}
+
 body {
   margin: 0;
   min-height: 100vh;
