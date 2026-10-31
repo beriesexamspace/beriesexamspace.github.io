@@ -297,6 +297,8 @@
     }
     window.clearTimeout(renderTimer);
     renderTimer = window.setTimeout(() => {
+      // Zonder account toont de balk alleen Insturen (zie style.css). Pas hier is zeker of er een account is.
+      document.documentElement.classList.toggle('zonder-account', !currentUser);
       renderAccount();
       window.dispatchEvent(new CustomEvent('bes:auth', { detail: { user: currentUser, uitloggen: logoutInProgress } }));
     }, 0);

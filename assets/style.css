@@ -173,6 +173,11 @@ a:focus-visible, button:focus-visible {
 
 .menu-toggle { display: none; }
 
+/* Zonder account staat in de balk alleen Insturen: home, Hoe werkt het, Over mij en WhatsApp-groep zijn voor accounts.
+   De klasse zonder-account zetten app.js (meteen, uit de opslag) en auth.js (zodra het account bekend is). */
+html.zonder-account :is(.navigation, .nav-vol) .home-knop { display: none; }
+html.zonder-account .navigation-links > li:not(:has(> a[href$="insturen/"])) { display: none; }
+
 body[data-nav="vast"] .site-header { animation: none; }
 body[data-nav="vast"] :is(.navigation, .nav-vol) { transition: none; }
 
@@ -829,6 +834,9 @@ html.page-fade.page-ready body { animation: page-in 250ms var(--ease) both; }
     padding-bottom: calc(20px + env(safe-area-inset-bottom));
   }
   .footer-details { text-align: left; }
+  /* Zonder account is er maar één link. Die staat meteen in de balk, zonder Menu-knop. */
+  html.zonder-account .menu-toggle { display: none; }
+  html.zonder-account .navigation-links { display: flex; }
 }
 
 @media (max-width: 430px) {

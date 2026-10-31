@@ -14,6 +14,14 @@
 
   if (needsPageFade && !motion.matches) root.classList.add('page-fade');
 
+  // Zonder account toont de navigatiebalk alleen Insturen (zie style.css). Eerst een snelle gok uit de opslag,
+  // zodat de balk meteen goed staat; auth.js zet het daarna zeker zodra het account bekend is.
+  let heeftSessie = false;
+  try {
+    heeftSessie = Object.keys(window.localStorage).some(key => key.startsWith('sb-') && key.endsWith('-auth-token'));
+  } catch {}
+  root.classList.toggle('zonder-account', !heeftSessie);
+
   // Elke pagina begint bovenaan, ook na herladen of terug-gaan: de browser zet de oude scrollplek niet meer terug.
   // Zet iets anders de pagina vlak na het openen toch lager (zoals de omgeving van een voorbeeld), dan gaat ze terug naar boven,
   // zolang je zelf nog niets deed. Alleen een link naar een plek op de pagina (#...) begint daar.
@@ -390,11 +398,7 @@
       try { van = new URLSearchParams(window.location.search).get('van'); } catch {}
       if (van === 'insturen') return map + 'insturen/#verhaal';
       if (window.BES_DEUR) return doel;
-      let sessie = false;
-      try {
-        sessie = Object.keys(window.localStorage).some(key => key.startsWith('sb-') && key.endsWith('-auth-token'));
-      } catch {}
-      return sessie ? doel : map + 'index.html';
+      return heeftSessie ? doel : map + 'index.html';
     };
 
     document.querySelectorAll('[data-terug]').forEach(element => {
