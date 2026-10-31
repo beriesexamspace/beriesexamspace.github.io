@@ -176,7 +176,7 @@ a:focus-visible, button:focus-visible {
 /* Zonder account staat in de balk alleen Insturen: home, Hoe werkt het, Over mij en WhatsApp-groep zijn voor accounts.
    De klasse zonder-account zetten app.js (meteen, uit de opslag) en auth.js (zodra het account bekend is). */
 html.zonder-account :is(.navigation, .nav-vol) .home-knop { display: none; }
-html.zonder-account .navigation-links > li:not(:has(> a[href$="insturen/"])) { display: none; }
+html.zonder-account .navigation-links > li:not(:has(> a[href*="insturen/"])) { display: none; }
 
 body[data-nav="vast"] .site-header { animation: none; }
 body[data-nav="vast"] :is(.navigation, .nav-vol) { transition: none; }
