@@ -380,6 +380,23 @@
       element.querySelectorAll('a.terug').forEach(wrapBackArrow);
     };
 
+    // Terug naar de hub kan alleen met een account, want de hub zit achter de deur.
+    // Kom je van Insturen (?van=insturen), dan brengt Terug je daar terug, bij het verhaal.
+    // Op een open pagina zonder sessie gaat Terug naar de startpagina in plaats van naar het inlogscherm.
+    const terugDoel = doel => {
+      if (!/(^|\/)hub\.html$/.test(doel)) return doel;
+      const map = doel.slice(0, -'hub.html'.length);
+      let van = null;
+      try { van = new URLSearchParams(window.location.search).get('van'); } catch {}
+      if (van === 'insturen') return map + 'insturen/#verhaal';
+      if (window.BES_DEUR) return doel;
+      let sessie = false;
+      try {
+        sessie = Object.keys(window.localStorage).some(key => key.startsWith('sb-') && key.endsWith('-auth-token'));
+      } catch {}
+      return sessie ? doel : map + 'index.html';
+    };
+
     document.querySelectorAll('[data-terug]').forEach(element => {
       const link = element.tagName === 'A' ? element : document.createElement('a');
       if (link !== element) {
@@ -389,7 +406,7 @@
           }
         });
       }
-      link.href = element.dataset.terug;
+      link.href = terugDoel(element.dataset.terug);
       link.classList.add('terug');
       link.textContent = `\u2190 ${element.dataset.terugTekst || 'Terug'}`;
       wrapBackArrow(link);

@@ -416,7 +416,7 @@
             <h2 id="hs-1">Hoi, ik ben Berie.</h2>
             <p>Ik studeer Electrical Engineering en werk vaak in de bouw. Ernaast bouw ik Berie's Exam Space.</p>
             <p>Van cursussen en samenvattingen maak ik oefenvragen, met uitleg bij elke vraag. Dat doe ik naast mijn studie en mijn werk.</p>
-            <a class="knop-secundair ins-meer" href="../over-mij.html">
+            <a class="knop-secundair ins-meer" href="../over-mij.html?van=insturen">
               Lees meer over mij
               <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
             </a>
@@ -631,6 +631,16 @@
         void leesKnop.offsetWidth;
         leesKnop.classList.add('is-tik');
       });
+
+      // Terug van Over mij komt binnen op #verhaal. Bij een overgang tussen pagina's springt de browser daar niet altijd zelf heen,
+      // dus begint de pagina hier meteen bij het verhaal, zonder schuifanimatie.
+      if (window.location.hash === '#verhaal') {
+        const html = document.documentElement;
+        const gedrag = html.style.scrollBehavior;
+        html.style.scrollBehavior = 'auto';
+        element('verhaal').scrollIntoView({ block: 'start' });
+        html.style.scrollBehavior = gedrag;
+      }
 
       // Cijfertegels: tellen op zodra hoofdstuk 3 in beeld komt; een tik draait de tegel om, terugdraaien telt opnieuw op.
       const getalTekst = waarde => waarde.toLocaleString('nl-BE');
