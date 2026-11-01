@@ -64,10 +64,39 @@
     const date = new Date(value);
     return Number.isFinite(date.getTime()) ? date.toLocaleDateString('nl-BE', { day: 'numeric', month: 'short' }) : '';
   };
+  // Een melding opent met de gedeelde beweging uit app.js (role="status") en sluit hier ook zacht.
+  // Een lopende sluitbeweging gaat eerst weg, zodat een nieuwe tekst niet alsnog verdwijnt.
   const showResult = (node, message, failure = false) => {
-    node.textContent = message;
-    node.hidden = !message;
-    node.classList.toggle('is-fout', failure);
+    node.getAnimations().forEach(animation => animation.cancel());
+    node.style.overflow = '';
+    if (message) {
+      node.textContent = message;
+      node.classList.toggle('is-fout', failure);
+      node.hidden = false;
+      return;
+    }
+    const leeg = () => { node.textContent = ''; node.classList.remove('is-fout'); };
+    if (node.hidden) leeg();
+    else if (window.BES?.verberg) window.BES.verberg(node, leeg);
+    else { node.hidden = true; leeg(); }
+  };
+  // Panelen (Meld dit boek, Prijs aanpassen) openen en sluiten in hoogte en opacity, net als de rest van de site.
+  const zetPaneel = (paneel, open) => {
+    paneel.getAnimations().forEach(animation => animation.cancel());
+    paneel.style.overflow = '';
+    if (open) { if (window.BES?.toon) window.BES.toon(paneel); else paneel.hidden = false; }
+    else if (window.BES?.verberg) window.BES.verberg(paneel);
+    else paneel.hidden = true;
+  };
+  // randomUUID bestaat niet op iOS 15.0 tot 15.3; dan komt het id uit getRandomValues.
+  const nieuwId = () => typeof crypto.randomUUID === 'function'
+    ? crypto.randomUUID()
+    : '10000000-1000-4000-8000-100000000000'.replace(/[018]/g, teken => (teken ^ crypto.getRandomValues(new Uint8Array(1))[0] & 15 >> teken / 4).toString(16));
+  // Een verzoek dat blijft hangen mag het formulier niet vasthouden: na een minuut gaat het door de gewone foutafhandeling.
+  const metLimiet = (belofte, ms = 60000) => {
+    let timer = 0;
+    return Promise.race([belofte, new Promise((resolve, afwijzen) => { timer = window.setTimeout(() => afwijzen(new Error('timeout')), ms); })])
+      .finally(() => window.clearTimeout(timer));
   };
 
   // Alleen een JPEG in de map van de eigenaar kan als boekfoto worden gebruikt.
@@ -115,7 +144,12 @@
 
   const addPhotos = (card, row) => {
     const sources = safePaths(row).map(path => photoUrl(row, path)).filter(Boolean);
-    if (!sources.length) { card.append(element('div', 'boek-geen-foto', 'Geen foto')); return; }
+    if (!sources.length) {
+      // Zolang de foto-links nog getekend worden: een rustig vlak zonder tekst, zodat "Geen foto" niet even opflitst.
+      const wacht = safePaths(row).length > 0 && (signing || !lastSignTry);
+      card.append(element('div', 'boek-geen-foto', wacht ? '' : 'Geen foto'));
+      return;
+    }
     const gallery = element('div', 'boek-fotos');
     sources.forEach((source, index) => {
       const image = element('img');
@@ -123,7 +157,9 @@
       image.loading = 'lazy';
       image.decoding = 'async';
       image.referrerPolicy = 'no-referrer';
+      image.addEventListener('load', () => image.classList.add('is-geladen'), { once: true });
       image.src = source;
+      if (image.complete && image.naturalWidth) image.classList.add('is-geladen');
       image.addEventListener('error', () => {
         image.remove();
         if (!gallery.children.length) gallery.replaceWith(element('div', 'boek-geen-foto', 'Foto niet beschikbaar'));
@@ -156,9 +192,10 @@
     panel.append(label, input, help, send, result);
     let busy = false;
     toggle.addEventListener('click', () => {
-      panel.hidden = !panel.hidden;
-      toggle.setAttribute('aria-expanded', String(!panel.hidden));
-      if (!panel.hidden) input.focus();
+      const open = toggle.getAttribute('aria-expanded') !== 'true';
+      zetPaneel(panel, open);
+      toggle.setAttribute('aria-expanded', String(open));
+      if (open) input.focus({ preventScroll: true });
     });
     input.addEventListener('input', () => input.setCustomValidity(''));
     panel.addEventListener('submit', async event => {
@@ -177,7 +214,7 @@
         if (response.error && response.error.code !== '23505') throw response.error;
         if (!current(ctx)) return;
         panel.replaceChildren(element('p', 'boeken-resultaat', 'Bedankt, we kijken ernaar.'));
-        toggle.hidden = true;
+        zetPaneel(toggle, false);
       } catch {
         if (current(ctx)) showResult(result, 'Melden is niet gelukt. Probeer het opnieuw.', true);
       } finally {
@@ -239,6 +276,8 @@
         mutations.delete(row.id);
         render();
         ownStatus.textContent = success;
+        // render() bouwt de kaart opnieuw op; het toetsenbord krijgt weer een plek in de nieuwe kaart.
+        ownList.querySelector('[data-boek-id="' + row.id + '"] button:not(:disabled)')?.focus();
       } catch (failure) {
         if (current(ctx)) {
           const message = failure.message === 'missing' ? 'Dit boek is al gewijzigd of gewist. Laad de pagina opnieuw.' : 'Dit is niet gelukt. Controleer je verbinding en probeer opnieuw.';
@@ -265,9 +304,10 @@
     sold.addEventListener('click', () => run(ctx => update(ctx, { verkocht: true }), 'Je boek staat als verkocht.'));
     extend.addEventListener('click', () => run(ctx => update(ctx, { verloopt: new Date(Date.now() + 60 * 24 * 60 * 60 * 1000).toISOString() }), 'Je boek is met 60 dagen vanaf vandaag verlengd.'));
     edit.addEventListener('click', () => {
-      priceForm.hidden = !priceForm.hidden;
-      edit.setAttribute('aria-expanded', String(!priceForm.hidden));
-      if (!priceForm.hidden) input.focus();
+      const open = edit.getAttribute('aria-expanded') !== 'true';
+      zetPaneel(priceForm, open);
+      edit.setAttribute('aria-expanded', String(open));
+      if (open) input.focus({ preventScroll: true });
     });
     priceForm.addEventListener('submit', event => {
       event.preventDefault();
@@ -326,20 +366,25 @@
     return card;
   };
 
-  const render = () => {
+  // Bij zoeken en filteren (alleenAanbod) blijft Mijn boeken staan, met zijn open panelen en getypte tekst.
+  const render = alleenAanbod => {
+    const eigenBlijft = alleenAanbod === true;
     window.clearTimeout(expiryTimer);
     list.replaceChildren();
-    ownList.replaceChildren();
+    if (!eigenBlijft) ownList.replaceChildren();
     if (!user || !loaded) return;
     const query = search.value.trim().toLocaleLowerCase('nl');
-    const matches = rows.filter(row => active(row) && (year === 'alle' || (subjectMap.get(row.vak)?.jaar || 'ander') === year) && (row.titel + ' ' + subjectName(row)).toLocaleLowerCase('nl').includes(query));
+    // Je eigen boeken staan onder Mijn boeken; onder Boeken te koop staan alleen die van anderen.
+    const matches = rows.filter(row => row.user_id !== user.id && active(row) && (year === 'alle' || (subjectMap.get(row.vak)?.jaar || 'ander') === year) && (row.titel + ' ' + subjectName(row)).toLocaleLowerCase('nl').includes(query));
     matches.forEach(row => list.append(bookCard(row, false)));
     empty.hidden = matches.length !== 0;
     byId('boeken-leeg-tekst').textContent = query || year !== 'alle' ? 'Geen boeken gevonden. Probeer een ander vak of een andere zoekterm.' : 'Er staan nog geen boeken te koop. Jouw boek kan het eerste zijn.';
     listStatus.textContent = matches.length + (matches.length === 1 ? ' boek gevonden' : ' boeken gevonden');
-    const own = rows.filter(row => row.user_id === user.id);
-    own.forEach(row => ownList.append(bookCard(row, true)));
-    ownStatus.textContent = own.length ? '' : 'Je hebt nog geen boeken geplaatst.';
+    if (!eigenBlijft) {
+      const own = rows.filter(row => row.user_id === user.id);
+      own.forEach(row => ownList.append(bookCard(row, true)));
+      ownStatus.textContent = own.length ? '' : 'Je hebt nog geen boeken geplaatst.';
+    }
     // Ook in een lang geopend tabblad verdwijnen verlopen contactlinks tijdig.
     const deadlines = rows.filter(active).map(row => Date.parse(row.verloopt));
     if (deadlines.length) expiryTimer = window.setTimeout(render, Math.min(2147483647, Math.max(50, Math.min(...deadlines) - Date.now() + 50)));
@@ -414,8 +459,9 @@
     const imageError = files.length > 3 ? 'Kies maximaal 3 foto’s.' : files.some(file => !allowedImages.has(file.type)) ? 'Kies foto’s in een ondersteund afbeeldingsformaat.' : '';
     photos.setCustomValidity(imageError);
     byId('boek-fotos-hint').textContent = imageError || 'We verkleinen je foto’s voor je ze plaatst.';
+    byId('boek-fotos-hint').classList.toggle('is-fout', Boolean(imageError));
     submit.disabled = placing || !user || (!pendingPlacement && (!validNumber || !consent.checked));
-    submit.textContent = pendingPlacement ? 'Controleer plaatsing' : 'Boek plaatsen →';
+    submit.textContent = pendingPlacement ? 'Controleer plaatsing' : placing ? 'Bezig…' : 'Boek plaatsen →';
     hint.textContent = pendingPlacement ? 'Controleer eerst of dit boek is geplaatst voordat je opnieuw probeert.' : placing ? 'Je boek wordt geplaatst…' : !validNumber && !consent.checked ? 'Vul een geldig nummer met +32 of +31 in en geef toestemming om je boek te plaatsen.' : !validNumber ? 'Vul een geldig nummer met +32 of +31 in.' : !consent.checked ? 'Vink aan dat je nummer zichtbaar mag zijn voor ingelogde studenten.' : 'Je nummer is alleen bij dit boek zichtbaar voor ingelogde studenten.';
   };
 
@@ -506,7 +552,7 @@
     if (!form.reportValidity() || submit.disabled) return;
     const ctx = context();
     const payload = {
-      id: crypto.randomUUID(),
+      id: nieuwId(),
       user_id: ctx.owner,
       vak: byId('boek-vak').value,
       titel: byId('boek-titel').value.trim(),
@@ -528,17 +574,19 @@
     try {
       const blobs = [];
       for (const file of files) { assertCurrent(ctx); blobs.push(await compressPhoto(file)); }
-      for (const blob of blobs) {
+      for (const [index, blob] of blobs.entries()) {
         assertCurrent(ctx);
-        const path = ctx.owner + '/' + crypto.randomUUID() + '.jpg';
+        hint.textContent = 'Foto ' + (index + 1) + ' van ' + blobs.length + ' wordt verstuurd…';
+        const path = ctx.owner + '/' + nieuwId() + '.jpg';
         attempted.push(path);
-        const response = await client.storage.from('boekfotos').upload(path, blob, { contentType: 'image/jpeg', upsert: false });
+        const response = await metLimiet(client.storage.from('boekfotos').upload(path, blob, { contentType: 'image/jpeg', upsert: false }));
         if (response.error) throw response.error;
         payload.fotos.push(path);
       }
       assertCurrent(ctx);
+      hint.textContent = 'Je boek wordt geplaatst…';
       insertStarted = true;
-      const response = await client.from('boeken').insert(payload);
+      const response = await metLimiet(client.from('boeken').insert(payload));
       if (response.error) throw response.error;
       inserted = true;
       if (!current(ctx)) return;
@@ -547,7 +595,7 @@
       // Een verloren antwoord bewijst niet dat de INSERT mislukte. Controleer het vaste id eerst.
       if (insertStarted && !inserted) {
         try {
-          if (await placementExists(ctx, payload.id)) {
+          if (await metLimiet(placementExists(ctx, payload.id), 20000)) {
             inserted = true;
             await placementDone();
             return;
@@ -564,7 +612,7 @@
       // Wacht elke upload af en ruim ook eerdere uploads op als een volgende mislukt.
       if (!inserted && attempted.length) {
         try {
-          const cleanup = await client.storage.from('boekfotos').remove(attempted);
+          const cleanup = await metLimiet(client.storage.from('boekfotos').remove(attempted), 20000);
           cleanupFailed = Boolean(cleanup.error);
         } catch { cleanupFailed = true; }
       }
@@ -599,9 +647,13 @@
   document.querySelectorAll('.boeken-filter').forEach(filter => filter.addEventListener('click', () => {
     year = filter.dataset.jaar;
     document.querySelectorAll('.boeken-filter').forEach(node => node.setAttribute('aria-pressed', String(node === filter)));
-    render();
+    render(true);
   }));
-  search.addEventListener('input', render);
+  let zoekTimer = 0;
+  search.addEventListener('input', () => {
+    window.clearTimeout(zoekTimer);
+    zoekTimer = window.setTimeout(() => render(true), 150);
+  });
   retry.addEventListener('click', load);
 
   const applyUser = value => {

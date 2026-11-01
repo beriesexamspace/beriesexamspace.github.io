@@ -30,7 +30,7 @@
     if (!l && !b) return 'Nog geen leerstof';
     return [l ? l + (l === 1 ? ' richting' : ' richtingen') : '', b ? b + ' binnenkort' : ''].filter(Boolean).join(', ');
   };
-  const AANMELDEN = 'aanmelden.html', INLOGGEN = 'inloggen.html';
+  const AANMELDEN = 'aanmelden.html';
   const insturenVoor = s => 'insturen/formulier.html?school=' + encodeURIComponent(s.id);
   // Mail mij als het er is: pas aan als de wachtlijst bestaat (tabel, bevestigingsmail, afmelden, privacytekst).
   const WACHTLIJST = false;
@@ -79,6 +79,8 @@
       const straal = (live(g.s) ? STRAAL.vol : STRAAL.leeg) * u;
       [g.golf, g.halo, g.kern].filter(Boolean).forEach(c => { c.setAttribute('cx', g.x); c.setAttribute('cy', g.y); });
       g.kern.setAttribute('r', straal); g.halo.setAttribute('r', straal + HALO * u); if (g.golf) g.golf.setAttribute('r', straal);
+      // Onzichtbaar tikvlak: zo groot als de afstand tussen de stippen toelaat, zodat ze elkaar niet overlappen.
+      g.raak.setAttribute('cx', g.x); g.raak.setAttribute('cy', g.y); g.raak.setAttribute('r', AFSTAND_PX / 2 * u);
     });
   };
   const zet = () => {
@@ -152,7 +154,7 @@
     const r = g.kern.getBoundingClientRect();
     tip.style.left = (r.left + r.width / 2) + 'px'; tip.style.top = r.top + 'px';
     tip.replaceChildren(maak('b', '', g.s.naam), g.s.stad + ' · ' + telTekst(g.s));
-    tip.hidden = false; requestAnimationFrame(() => tip.classList.add('zichtbaar'));
+    tip.classList.add('zichtbaar');
   };
   function verbergTip() { tip.classList.remove('zichtbaar'); }
 
@@ -164,13 +166,15 @@
     el.setAttribute('aria-label', s.naam + ', ' + telTekst(s));
     // De stippen verschijnen na de kaart, van noord naar zuid; waar al vakken zijn, pulseert een zachte golf.
     el.style.animationDelay = (450 + g.oy * 0.9 + i * 6) + 'ms';
+    g.raak = document.createElementNS(svgNS, 'circle'); g.raak.setAttribute('class', 'raak');
     g.halo = document.createElementNS(svgNS, 'circle'); g.halo.setAttribute('class', 'halo');
     g.kern = document.createElementNS(svgNS, 'circle'); g.kern.setAttribute('class', 'kern');
     if (!leeg) { g.golf = document.createElementNS(svgNS, 'circle'); g.golf.setAttribute('class', 'golf'); }
-    el.append(...[g.golf, g.halo, g.kern].filter(Boolean));
+    el.append(...[g.raak, g.golf, g.halo, g.kern].filter(Boolean));
     el.addEventListener('mouseenter', () => toonTip(g));
     el.addEventListener('mouseleave', verbergTip);
-    el.addEventListener('focus', () => toonTip(g));
+    // Alleen bij het toetsenbord: na het sluiten van het venster komt de focus hier terug, dan geen tooltip.
+    el.addEventListener('focus', () => { if (el.matches(':focus-visible')) toonTip(g); });
     el.addEventListener('blur', verbergTip);
     const open = () => { if (kaart.dataset.net) return; verbergTip(); openSchool(s); };
     el.addEventListener('click', open);
@@ -315,22 +319,71 @@
     toon(kop('Maak je account', 'Stap 3 van 3'), maak('div', 'keuze', s.afk + ' · ' + x.naam), knoppen, noot, terug);
   }
 
-  // Zoeken op school, stad, afkorting of richting.
+  // Zoeken op school, stad, afkorting of richting, zonder op hoofdletters en accenten te letten ("liege" vindt Liège).
+  const past = (q, metRichting) => {
+    const ids = new Set(CAT.zoekScholen(q).map(s => s.id)), vlak = CAT.plat(q).trim();
+    return s => ids.has(s.id) || (metRichting && richtingenVan(s).some(r => CAT.plat(r.naam).includes(vlak)));
+  };
   const zoek = $('zoek'), uit = $('zoek-uit');
-  zoek.addEventListener('input', () => {
-    const q = zoek.value.trim().toLowerCase();
-    if (!q) { uit.hidden = true; return; }
-    const hits = SCHOLEN.filter(s => [s.naam, s.afk, s.stad].some(v => v.toLowerCase().includes(q)) || richtingenVan(s).some(r => r.naam.toLowerCase().includes(q))).slice(0, 8);
+  let sluitTimer = 0;
+  const lijstOpen = () => !uit.hidden && !uit.classList.contains('sluiten');
+  const openLijst = () => {
+    clearTimeout(sluitTimer); uit.classList.remove('sluiten');
+    uit.hidden = false;
+  };
+  // Sluiten beweegt ook: kort uitfaden en omhoog, daarna pas weg.
+  const sluitLijst = () => {
+    if (uit.hidden || uit.classList.contains('sluiten')) return;
+    if (rustig.matches) { uit.hidden = true; return; }
+    uit.classList.add('sluiten');
+    sluitTimer = setTimeout(() => { uit.hidden = true; uit.classList.remove('sluiten'); }, 180);
+  };
+  const tekenLijst = () => {
+    const q = zoek.value.trim();
+    if (!q) { sluitLijst(); return; }
+    const hits = SCHOLEN.filter(past(q, true)).slice(0, 8);
+    const voor = lijstOpen() ? uit.getBoundingClientRect().height : 0;
     uit.replaceChildren(...hits.map(s => {
       const li = maak('li'); const b = maak('button'); b.type = 'button';
       b.append(maak('strong', '', s.naam), maak('small', '', s.stad + ' · ' + telTekst(s)));
-      b.addEventListener('click', () => { uit.hidden = true; zoek.value = ''; openSchool(s); });
+      b.addEventListener('click', () => { sluitLijst(); zoek.value = ''; openSchool(s); });
       li.append(b); return li;
     }));
     if (!hits.length) uit.append(maak('li', 'zoek-leeg', 'Niets gevonden. Probeer een stad of afkorting.'));
-    uit.hidden = false;
+    openLijst();
+    // Wordt de lijst langer of korter terwijl hij open is, dan groeit of krimpt hij mee.
+    const na = uit.getBoundingClientRect().height;
+    if (voor && Math.abs(na - voor) > 1 && !rustig.matches && uit.animate) {
+      uit.animate([{ height: voor + 'px' }, { height: na + 'px' }], { duration: 180, easing: getComputedStyle(uit).getPropertyValue('--ease').trim() || 'ease-out' });
+    }
+  };
+  zoek.addEventListener('input', tekenLijst);
+  // Terug in het veld met tekst erin: de lijst komt terug.
+  const heropen = () => { if (zoek.value.trim() && !lijstOpen()) tekenLijst(); };
+  zoek.addEventListener('focus', heropen);
+  zoek.addEventListener('click', heropen);
+  // Toetsenbord: Enter opent het eerste resultaat, pijltjes lopen door de lijst, Escape sluit.
+  const knoppenInLijst = () => [...uit.querySelectorAll('button')];
+  zoek.addEventListener('keydown', e => {
+    if (e.key === 'Enter') {
+      const eerste = lijstOpen() && knoppenInLijst()[0];
+      if (eerste) { e.preventDefault(); eerste.click(); }
+    } else if (e.key === 'ArrowDown') {
+      if (!lijstOpen() && zoek.value.trim()) tekenLijst();
+      const eerste = knoppenInLijst()[0];
+      if (eerste && lijstOpen()) { e.preventDefault(); eerste.focus(); }
+    } else if (e.key === 'Escape' && lijstOpen()) {
+      e.preventDefault(); sluitLijst();
+    }
   });
-  document.addEventListener('click', e => { if (!e.target.closest('.zoek')) uit.hidden = true; });
+  uit.addEventListener('keydown', e => {
+    const knoppen = knoppenInLijst(), i = knoppen.indexOf(document.activeElement);
+    if (i < 0) return;
+    if (e.key === 'ArrowDown') { e.preventDefault(); (knoppen[i + 1] || knoppen[i]).focus(); }
+    else if (e.key === 'ArrowUp') { e.preventDefault(); (knoppen[i - 1] || zoek).focus(); }
+    else if (e.key === 'Escape') { e.preventDefault(); zoek.focus(); sluitLijst(); }
+  });
+  document.addEventListener('click', e => { if (!e.target.closest('.zoek')) sluitLijst(); });
 
   // Lijstweergave in het venster: alle scholen per land.
   $('lijstknop').addEventListener('click', () => {
@@ -338,10 +391,10 @@
     const zoekLijst = maak('input'); zoekLijst.type = 'search'; zoekLijst.placeholder = 'Zoek je school of stad'; zoekLijst.setAttribute('aria-label', 'Zoek je school of stad');
     const vak = maak('div', 'richtingen');
     const teken = () => {
-      const q = zoekLijst.value.trim().toLowerCase();
+      const treft = past(zoekLijst.value, false);
       const delen = [];
       ['BE', 'NL'].forEach(land => {
-        const hits = SCHOLEN.filter(s => s.land === land && [s.naam, s.afk, s.stad].some(v => v.toLowerCase().includes(q)))
+        const hits = SCHOLEN.filter(s => s.land === land && treft(s))
           .sort((a, b) => live(b) - live(a) || a.naam.localeCompare(b.naam));
         if (!hits.length) return;
         delen.push(maak('p', 'groep-kop', land === 'BE' ? 'België' : 'Nederland'), ...hits.map(schoolKnop));
@@ -351,14 +404,21 @@
     zoekLijst.addEventListener('input', teken); teken();
     toon(kop('Alle scholen', SCHOLEN.length + ' universiteiten'), zoekLijst, vak);
   });
-  $('inlog').addEventListener('click', () => {
-    window.location.href = INLOGGEN;
-  });
   // Intro: de zoekbalk staat eerst in het midden boven een vervaagde kaart en schuift dan rustig naar zijn plek.
   // De rest (merk, knoppen, legende) komt erbij zodra de balk boven is. Bij minder beweging is er geen intro.
   const intro = async () => {
     const root = document.documentElement;
     if (!root.classList.contains('kaart-intro')) return;
+    // Vangnet: wat er ook misgaat, na 4 seconden is de kaart gewoon bruikbaar.
+    const vangnet = setTimeout(() => root.classList.remove('kaart-intro'), 4000);
+    try {
+      await introAnimatie(root);
+    } finally {
+      clearTimeout(vangnet);
+      root.classList.remove('kaart-intro');
+    }
+  };
+  const introAnimatie = async root => {
     const zoek = document.querySelector('.zoek');
     const rest = [...document.querySelectorAll('.merk, .boven-rechts, .inlog, .onder')].filter((el, i, alle) => !alle.some(ander => ander !== el && ander.contains(el)));
     try { await Promise.race([document.fonts.ready, new Promise(klaar => setTimeout(klaar, 700))]); } catch {}

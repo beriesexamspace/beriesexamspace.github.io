@@ -31,16 +31,16 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="assets/style.css?v=91">
-  <link rel="stylesheet" href="assets/kruisje-bolletje.css?v=90">
-  <script src="assets/app.js?v=90"></script>
+  <link rel="stylesheet" href="assets/style.css?v=92">
+  <link rel="stylesheet" href="assets/kruisje-bolletje.css?v=91">
+  <script src="assets/app.js?v=91"></script>
   <script src="assets/config.js?v=89" defer></script>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js" defer></script>
   <script src="assets/auth.js?v=90" defer></script>
-  <script src="assets/plan.js?v=89" defer></script>
-  <script src="assets/activiteit.js?v=89" defer></script>
+  <script src="assets/plan.js?v=90" defer></script>
+  <script src="assets/activiteit.js?v=90" defer></script>
   <script src="assets/robot.js?v=90" defer></script>
-  <script src="assets/kruisje-bolletje.js?v=90" defer></script>
+  <script src="assets/kruisje-bolletje.js?v=91" defer></script>
 </head>
 <body>
   <a class="skip-link" href="#inhoud">Ga naar inhoud</a>
@@ -88,12 +88,12 @@
           <h2 class="kb-stand-kop" id="kb-stand-kop">Jouw stand</h2>
           <p class="kb-stand-sub">Blijft bewaard op dit toestel.</p>
           <div class="kb-tabel-wrap">
-            <table class="kb-tabel">
-              <thead><tr><th scope="col">Niveau</th><th scope="col">Gewonnen</th><th scope="col">Gelijk</th><th scope="col">Verloren</th></tr></thead>
-              <tbody>
-                <tr data-niveau="makkelijk"><th scope="row">Makkelijk</th><td data-veld="jij">0</td><td data-veld="gelijk">0</td><td data-veld="robot">0</td></tr>
-                <tr data-niveau="normaal"><th scope="row">Normaal</th><td data-veld="jij">0</td><td data-veld="gelijk">0</td><td data-veld="robot">0</td></tr>
-                <tr data-niveau="onmogelijk"><th scope="row">Onmogelijk</th><td data-veld="jij">0</td><td data-veld="gelijk">0</td><td data-veld="robot">0</td></tr>
+            <table class="kb-tabel" role="table">
+              <thead role="rowgroup"><tr role="row"><th scope="col" role="columnheader">Niveau</th><th scope="col" role="columnheader">Gewonnen</th><th scope="col" role="columnheader">Gelijk</th><th scope="col" role="columnheader">Verloren</th></tr></thead>
+              <tbody role="rowgroup">
+                <tr role="row" data-niveau="makkelijk"><th scope="row" role="rowheader">Makkelijk</th><td role="cell" data-veld="jij">0</td><td role="cell" data-veld="gelijk">0</td><td role="cell" data-veld="robot">0</td></tr>
+                <tr role="row" data-niveau="normaal"><th scope="row" role="rowheader">Normaal</th><td role="cell" data-veld="jij">0</td><td role="cell" data-veld="gelijk">0</td><td role="cell" data-veld="robot">0</td></tr>
+                <tr role="row" data-niveau="onmogelijk"><th scope="row" role="rowheader">Onmogelijk</th><td role="cell" data-veld="jij">0</td><td role="cell" data-veld="gelijk">0</td><td role="cell" data-veld="robot">0</td></tr>
               </tbody>
             </table>
           </div>

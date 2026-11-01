@@ -156,7 +156,7 @@
 .comit-gesprek { display: flex; flex-direction: column; gap: 22px; width: 100%; margin-top: auto; padding-top: 24px; }
 .comit-gesprek:empty { margin-top: 0; padding-top: 0; }
 .comit-bericht { display: flex; align-items: flex-start; gap: 10px; min-width: 0; animation: comit-bericht-binnen 220ms var(--ease) both; }
-.comit-bericht-gebruiker { --comit-bericht-start: 10px; justify-content: flex-end; }
+.comit-bericht-gebruiker { --comit-bericht-start: 8px; justify-content: flex-end; }
 .comit-bericht-logo { margin-top: 13px; }
 .comit-bericht.is-denkend .comit-bericht-logo { animation: comit-ademen 1600ms var(--ease) infinite; }
 .comit-wolk { max-width: 82%; margin: 0; padding: 14px 18px; border-radius: 20px; color: var(--ink); font-size: .9375rem; line-height: 1.65; white-space: pre-wrap; overflow-wrap: anywhere; }
@@ -165,7 +165,9 @@
 .comit-antwoord-tekst { white-space: pre-wrap; }
 .comit-antwoord-woord { animation: comit-verschijnen 150ms var(--ease) both; }
 .comit-antwoord-knoppen { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 14px; white-space: normal; }
-.comit-antwoord-knoppen.is-zichtbaar { animation: comit-verschijnen 180ms var(--ease) both; }
+/* De knoppen staan al op hun plek terwijl het antwoord tikt, onzichtbaar en buiten de tabvolgorde; daarna komen ze omhoog binnen. */
+.comit-antwoord-knoppen.is-verborgen { opacity: 0; visibility: hidden; }
+.comit-antwoord-knoppen.is-zichtbaar { animation: comit-omhoog 180ms var(--ease) both; }
 .comit-antwoord-knoppen .comit-antwoord-knop { flex: 0 1 auto; width: auto; min-width: 0; max-width: 100%; min-height: 44px; margin: 0; padding: 10px 14px; color: var(--accent); font-size: .875rem; line-height: 1.5; text-align: center; white-space: normal; overflow-wrap: anywhere; }
 /* Geschiedenis: knop in de kop, eerdere gesprekken boven het lopende gesprek. */
 .comit-kop-knop { display: inline-flex; align-items: center; gap: 6px; min-height: 44px; margin: -8px 0 -8px auto; padding: 0 14px; border: 1px solid var(--line); border-radius: var(--pill); background: var(--card); color: var(--ink-soft); font: 500 .875rem/1.2 var(--font); cursor: pointer; transition: border-color 150ms var(--ease), color 150ms var(--ease), background-color 150ms var(--ease), transform 150ms var(--ease); }
@@ -174,7 +176,10 @@
 .comit-kop-knop:active { transform: scale(.97); }
 .comit-kop-knop:disabled { cursor: default; opacity: .6; }
 .comit-geschiedenis { display: flex; flex-direction: column; gap: 22px; width: 100%; margin-top: auto; padding-top: 8px; }
-.comit-geschiedenis:not([hidden]) { animation: comit-verschijnen 220ms var(--ease) both; }
+.comit-geschiedenis:not([hidden]) { animation: comit-omhoog 220ms var(--ease) backwards; }
+/* Sluiten beweegt ook (comit.js zet is-sluitend 220 ms voor het blok weggaat). */
+.comit-geschiedenis.is-sluitend:not([hidden]) { animation: comit-welkom-weg 220ms var(--ease) both; }
+.comit-welkom.is-terug { animation: comit-omhoog 220ms var(--ease) both; }
 .comit-geschiedenis .comit-bericht { animation: none; }
 .comit-scroll:has(.comit-geschiedenis:not([hidden])) .comit-gesprek { margin-top: 0; }
 .comit-scroll:has(.comit-geschiedenis:not([hidden])) .comit-gesprek:not(:empty) { margin-top: 8px; border-top: 1px solid var(--line); }
@@ -182,13 +187,16 @@
 .comit-geschiedenis-kop h2 { margin: 0; color: var(--ink); font-size: 1.125rem; font-weight: 600; letter-spacing: -.02em; }
 .comit-geschiedenis-gesprek { display: flex; flex-direction: column; gap: 22px; }
 .comit-geschiedenis-datum { margin: 8px 0 0; color: var(--ink-soft); font-size: .8125rem; font-weight: 500; text-align: center; }
-.comit-geschiedenis-melding { margin: 0; color: var(--ink-soft); font-size: .9375rem; line-height: 1.55; }
+.comit-geschiedenis-melding { margin: 0; color: var(--ink-soft); font-size: .9375rem; line-height: 1.55; animation: comit-omhoog 220ms var(--ease) both; }
 .comit-wis-knop { min-height: 44px; padding: 10px 0; border: 0; background: none; color: var(--ink-soft); font: 400 .875rem/1.4 var(--font); text-decoration: underline; text-underline-offset: 3px; cursor: pointer; transition: color 150ms var(--ease), transform 150ms var(--ease); }
 :where(html.has-hover) .comit-wis-knop:hover { color: var(--fout); }
 .comit-wis-knop:active { transform: scale(.97); }
 .comit-wis-zeker { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 16px; padding: 14px 18px; border-radius: 18px; background: var(--surface); }
 .comit-wis-zeker:not([hidden]) { animation: comit-omhoog 200ms var(--ease) both; }
 .comit-wis-zeker p { flex: 1 1 260px; margin: 0; color: var(--ink); font-size: .9375rem; line-height: 1.5; }
+/* Foutregel bij het wissen: leeg onzichtbaar maar wel aanwezig (live-gebied), met tekst een eigen regel in de foutkleur. */
+.comit-wis-zeker .comit-wis-fout { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+.comit-wis-zeker .comit-wis-fout:not(:empty) { position: static; flex: 1 1 100%; width: auto; height: auto; overflow: visible; clip-path: none; white-space: normal; color: var(--fout); }
 .comit-wis-zeker .knop-secundair { width: auto; min-width: 0; max-width: none; margin: 0; padding: 10px 18px; font-size: .9375rem; }
 .comit-wis-zeker .tekstlink { min-height: 44px; padding: 10px 0; border: 0; background: none; font: inherit; font-size: .9375rem; cursor: pointer; }
 
@@ -228,7 +236,9 @@
 
 /* Klein demo-zinnetje net boven de typbalk: absoluut, zodat de balk zelf even hoog blijft. */
 .comit-demo-regel { position: absolute; left: 50%; bottom: calc(100% + 8px); translate: -50% 0; width: max-content; max-width: calc(100% - 24px); margin: 0; padding: 3px 12px; border-radius: 980px; background: var(--bg); color: var(--ink-soft); font-size: .75rem; line-height: 1.5; text-align: center; }
-.comit-demo-regel a { color: var(--accent); text-decoration: underline; text-underline-offset: 2px; }
+.comit-demo-regel a { position: relative; color: var(--accent); text-decoration: underline; text-underline-offset: 2px; }
+/* Onzichtbaar tikvlak: 18 px regelhoogte plus 26 px is 44 px. */
+.comit-demo-regel a::after { content: ''; position: absolute; inset: -13px -6px; }
 
 .comit-invoer:focus-within { border-color: var(--accent); box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 12%, var(--transparent)), var(--shadow-soft); }
 .comit-invoer textarea { display: block; flex: 1 1 auto; width: 100%; min-width: 0; min-height: 44px; max-height: 116px; padding: 10px 10px 10px 14px; border: 0; border-radius: 20px; outline: none; resize: none; background: var(--transparent); color: var(--ink); font: 400 1rem/24px var(--font); overflow-x: hidden; overflow-y: auto; }
@@ -254,7 +264,6 @@
 .comit-pagina[data-opening="eerste"] :is(.comit-hulpvraag, .comit-kop) { animation: comit-verschijnen 200ms var(--ease) calc(var(--comit-intro-vervolg, 900ms) + 200ms) both; }
 .comit-pagina[data-opening="eerste"] .comit-voorstel { animation: comit-omhoog 150ms var(--ease) calc(var(--comit-intro-vervolg, 900ms) + 400ms + var(--voorstel-index, 0) * 50ms) both; }
 .comit-pagina[data-opening="eerste"] .comit-invoer { animation: comit-omhoog 200ms var(--ease) calc(var(--comit-intro-vervolg, 900ms) + 700ms) both; }
-.comit-pagina[data-opening="herhaal"]  .comit-begroeting-rij { animation: comit-verschijnen 300ms var(--ease) both; }
 
 /* De ster draait in het midden van het scherm binnen, groeit even aan, en schuift dan rustig naar zijn plek. */
 @keyframes comit-logo { 0% { opacity: 0; transform: translateY(var(--comit-logo-start-y, 0px)) scale(.3) rotate(-135deg); } 42% { opacity: 1; transform: translateY(var(--comit-logo-start-y, 0px)) scale(1.08) rotate(0deg); } 58% { transform: translateY(var(--comit-logo-start-y, 0px)) scale(1) rotate(0deg); } 100% { opacity: 1; transform: translateY(0) scale(1) rotate(0deg); } }
@@ -263,7 +272,7 @@
 @keyframes comit-kleur { 0% { opacity: 0; transform: translateX(-25%); } 45% { opacity: .15; } 100% { opacity: .045; transform: translateX(0); } }
 @keyframes comit-verschijnen { from { opacity: 0; } to { opacity: 1; } }
 @keyframes comit-omhoog { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
-@keyframes comit-bericht-binnen { from { opacity: 0; transform: translateX(var(--comit-bericht-start, -10px)); } to { opacity: 1; transform: translateX(0); } }
+@keyframes comit-bericht-binnen { from { opacity: 0; transform: translateX(var(--comit-bericht-start, -8px)); } to { opacity: 1; transform: translateX(0); } }
 @keyframes comit-welkom-weg { from { opacity: 1; transform: translateY(0); } to { opacity: 0; transform: translateY(-8px); } }
 @keyframes comit-glans { from { background-position: 100% 0; } to { background-position: 0% 0; } }
 @keyframes comit-ademen { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.06); } }

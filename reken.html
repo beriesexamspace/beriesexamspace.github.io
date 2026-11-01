@@ -31,14 +31,14 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="assets/style.css?v=91">
-  <script src="assets/app.js?v=90"></script>
+  <link rel="stylesheet" href="assets/style.css?v=92">
+  <script src="assets/app.js?v=91"></script>
   <script src="assets/config.js?v=89" defer></script>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js" defer></script>
   <script src="assets/auth.js?v=90" defer></script>
-  <script src="assets/plan.js?v=89" defer></script>
-  <script src="assets/activiteit.js?v=89" defer></script>
-  <script src="assets/reken.js?v=89" defer></script>
+  <script src="assets/plan.js?v=90" defer></script>
+  <script src="assets/activiteit.js?v=90" defer></script>
+  <script src="assets/reken.js?v=90" defer></script>
   <style>
 
     .reken-pagina .wrap { max-width: 808px; }
@@ -76,7 +76,8 @@
     [data-state="leeg"]:is(#ex1Status, #ex2Graad) { color: var(--muted); }
     .wsum { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 8px 16px; padding-top: 16px; border-top: 1px solid var(--line); color: var(--muted); font-size: .8125rem; line-height: 1.5; }
     .wsum b { color: var(--ink); font-weight: 600; }
-    .wwarn { color: var(--fout); }
+    .wwarn { color: var(--fout); visibility: hidden; opacity: 0; transition: opacity 200ms var(--ease), visibility 0s linear 200ms; }
+    .wwarn.is-aan { visibility: visible; opacity: 1; transition-delay: 0s; }
     .rules { display: grid; gap: 18px; padding: 0; margin: 0; list-style: none; }
     .rule { display: grid; grid-template-columns: 24px minmax(0, 1fr); gap: 5px 12px; align-items: start; font-size: .875rem; line-height: 1.5; }
     .ric { display: grid; place-items: center; grid-row: span 2; width: 24px; height: 24px; border-radius: 50%; background: var(--surface); color: var(--muted); font-size: 1rem; font-weight: 600; }
@@ -104,7 +105,7 @@
       .reken-kaart { padding: 20px; }
       .reken-kaarten { gap: 24px; }
       .chead { display: none; }
-      .crow { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) 36px; gap: 12px; padding-bottom: 20px; border-bottom: 1px solid var(--line); }
+      .crow { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) 44px; gap: 12px; padding-bottom: 20px; border-bottom: 1px solid var(--line); }
       .crow .naam-veld { grid-column: 1 / 3; grid-row: 1; }
       .crow .delbtn { grid-column: 3; grid-row: 1; width: 44px; height: 44px; align-self: end; margin-bottom: 6px; }
       .crow .uwrap:nth-child(2) { grid-column: 1; grid-row: 2; }
@@ -156,13 +157,13 @@
           <div class="chead" aria-hidden="true"><span>Onderdeel</span><span>Cijfer (op 20)</span><span>Gewicht (%)</span><span></span></div>
           <div class="rows" id="ex1Rows"></div>
           <button class="knop-secundair addbtn" id="ex1Add" type="button">Rij toevoegen</button>
-          <div aria-live="polite" aria-atomic="true">
+          <div>
             <div class="metrics">
               <div class="metric"><div class="ml">Gewogen eindcijfer</div><div class="mv"><span id="ex1Mark">--</span><small> /20</small></div><div class="mh">afgerond: <span id="ex1Round">--</span>/20</div></div>
               <div class="metric"><div class="ml">Percentage</div><div class="mv"><span id="ex1Pct">--</span><small> %</small></div><div class="mh">van de 20 punten</div></div>
-              <div class="metric metric-status"><div class="vt" id="ex1Status">Vul gewichten in</div><div class="mh">vanaf 10/20</div></div>
+              <div class="metric metric-status"><div class="vt" id="ex1Status" aria-live="polite" aria-atomic="true">Vul gewichten in</div><div class="mh" id="ex1Hint">vanaf 10/20</div></div>
             </div>
-            <div class="wsum"><span>Som van de gewichten: <b id="ex1Wsum">0</b>%</span><span class="wwarn" id="ex1Warn" style="display:none">telt niet op tot 100%</span></div>
+            <div class="wsum"><span>Som van de gewichten: <b id="ex1Wsum">0</b>%</span><span class="wwarn" id="ex1Warn">telt niet op tot 100%</span></div>
           </div>
         </section>
 
@@ -172,7 +173,7 @@
           <div class="chead" aria-hidden="true"><span>Vak</span><span>Studiepunten</span><span>Cijfer</span><span></span></div>
           <div class="rows" id="ex2Rows"></div>
           <button class="knop-secundair addbtn" id="ex2Add" type="button">Rij toevoegen</button>
-          <div aria-live="polite" aria-atomic="true">
+          <div>
             <div class="metrics">
               <div class="metric"><div class="ml">Gewogen gemiddelde</div><div class="mv"><span id="ex2Avg">--</span><small> /20</small></div></div>
               <div class="metric"><div class="ml">In percentage</div><div class="mv"><span id="ex2Pct">--</span><small> %</small></div><div class="mh">drempel deliberatie: 55%</div></div>
@@ -180,7 +181,7 @@
             </div>
             <div class="verdict" id="ex2Verdict" data-state="leeg">
               <span class="vbox" id="ex2VIc"></span>
-              <div><div class="vt" id="ex2VTitle">Vul je vakken in om te beginnen</div><div class="vs" id="ex2VSub">Je ziet hier meteen of je aan de deliberatievoorwaarden voldoet.</div></div>
+              <div aria-live="polite" aria-atomic="true"><div class="vt" id="ex2VTitle">Vul je vakken in om te beginnen</div><div class="vs" id="ex2VSub">Je ziet hier meteen of je aan de deliberatievoorwaarden voldoet.</div></div>
             </div>
             <ul class="rules" aria-label="Deliberatievoorwaarden">
               <li class="rule" id="ex2r1"></li>

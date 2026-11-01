@@ -30,8 +30,8 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="/assets/style.css?v=91">
-  <script src="/assets/app.js?v=90" defer></script>
+  <link rel="stylesheet" href="/assets/style.css?v=92">
+  <script src="/assets/app.js?v=91" defer></script>
   <style>
     .niet-gevonden { display: flex; flex: 1 0 auto; align-items: center; justify-content: center; width: 100%; box-sizing: border-box; padding: 88px 16px 48px; }
     .niet-gevonden-kaart { width: 100%; max-width: 36rem; min-width: 0; box-sizing: border-box; padding: clamp(28px, 6vw, 48px) clamp(20px, 5vw, 44px); text-align: center; }
@@ -56,7 +56,8 @@
       const pad = window.location.pathname;
       const eerste = pad.split('/')[1];
       let nieuw = null;
-      if (eerste === 'v2') nieuw = pad.slice(3) || '/';
+      // Voorloopslashes en backslashes weg, anders wordt /v2//andere-site een link naar een andere site.
+      if (eerste === 'v2') nieuw = '/' + pad.slice(3).replace(/^[\/\\]+/, '');
       else if (oudeMappen.includes(eerste) && pad !== '/' + eerste + '/') nieuw = '/' + eerste + '/';
       if (nieuw) window.location.replace(nieuw + window.location.search + window.location.hash);
     })();

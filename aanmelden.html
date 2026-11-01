@@ -29,14 +29,14 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="assets/style.css?v=91">
-  <script src="assets/app.js?v=90" defer></script>
+  <link rel="stylesheet" href="assets/style.css?v=92">
+  <script src="assets/app.js?v=91" defer></script>
   <script src="assets/config.js?v=89" defer></script>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js" defer></script>
   <script src="assets/auth.js?v=90" defer></script>
   <script src="assets/over-jezelf.js?v=89" defer></script>
-  <script src="assets/plan.js?v=89" defer></script>
-  <script src="assets/activiteit.js?v=89" defer></script>
+  <script src="assets/plan.js?v=90" defer></script>
+  <script src="assets/activiteit.js?v=90" defer></script>
   <style>
     .aanmelden-dicht-tekst { max-width: 34rem; margin: 16px auto 28px; color: var(--ink-soft); font-size: 1.0625rem; line-height: 1.6; text-wrap: pretty; }
     #name-step { display: grid; gap: 18px; }
@@ -159,6 +159,11 @@
       let step = 0;
       let changing = false;
       let submitting = false;
+      // Kom je van de kaart (school en richting gekozen), dan brengt Terug je daar weer naartoe.
+      let terugStart = 'index.html';
+      try { if (window.sessionStorage.getItem('bes_keuze')) terugStart = 'kaart.html'; } catch {}
+      back.setAttribute('data-terug', terugStart);
+      back.href = terugStart;
 
       const addLink = (text, href) => {
         const link = document.createElement('a');
@@ -171,7 +176,6 @@
       const showError = (message, field, code) => {
         error.dataset.code = code || '';
         error.replaceChildren();
-        error.hidden = false;
         if (code === 'duplicate') {
           error.textContent = 'Dit e-mailadres wordt al gebruikt.';
           addLink('Log in', 'inloggen.html');
@@ -180,6 +184,7 @@
           error.textContent = message;
           if (code === 'unavailable') addLink('Ga verder met oefenen →', 'hub.html');
         }
+        window.BES.toon(error);
         if (field) {
           field.setAttribute('aria-invalid', 'true');
           field.focus({ preventScroll: true });
@@ -192,11 +197,16 @@
         return false;
       };
 
-      const clearError = () => {
+      // direct === true: meteen weg (tijdens een stapwissel, als alles toch onzichtbaar is); anders schuift de melding dicht.
+      const clearError = direct => {
         allFields.forEach(field => field.removeAttribute('aria-invalid'));
         if (!auth?.beschikbaar && error.dataset.code === 'unavailable' && !error.hidden) return;
-        error.hidden = true;
-        error.replaceChildren();
+        if (direct === true) {
+          error.hidden = true;
+          error.replaceChildren();
+        } else {
+          window.BES.verberg(error, () => error.replaceChildren());
+        }
         availability();
       };
 
@@ -221,12 +231,13 @@
       const changeStep = async (next, name) => {
         changing = true;
         let fadeOut = null;
+        const ease = getComputedStyle(content).getPropertyValue('--ease').trim() || 'ease-out';
         if (!reducedMotion.matches && content.animate) {
-          fadeOut = content.animate([{ opacity: 1 }, { opacity: 0 }], { duration: 100, easing: 'ease-out', fill: 'forwards' });
+          fadeOut = content.animate([{ opacity: 1, transform: 'none' }, { opacity: 0, transform: 'translateY(4px)' }], { duration: 120, easing: ease, fill: 'forwards' });
           await wachtOp(fadeOut);
         }
         step = next;
-        clearError();
+        clearError(true);
         panels.forEach((panel, index) => {
           panel.hidden = index !== step;
           panel.querySelectorAll('input, button').forEach(field => { field.disabled = index !== step; });
@@ -235,7 +246,7 @@
           heading.textContent = titles[step];
           stepLabel.textContent = 'Stap ' + (step + 1) + ' van 3';
           submit.textContent = step === 2 ? 'Account maken →' : 'Verder →';
-          if (step === 0) back.setAttribute('data-terug', 'index.html');
+          if (step === 0) back.setAttribute('data-terug', terugStart);
           else back.removeAttribute('data-terug');
         } else {
           heading.textContent = 'Je account staat, ' + name + '.';
@@ -246,7 +257,7 @@
           document.getElementById('signup-success').hidden = false;
         }
         if (!reducedMotion.matches && content.animate) {
-          const fadeIn = content.animate([{ opacity: 0 }, { opacity: 1 }], { duration: 100, easing: 'ease-out' });
+          const fadeIn = content.animate([{ opacity: 0, transform: 'translateY(4px)' }, { opacity: 1, transform: 'none' }], { duration: 200, easing: ease });
           if (fadeOut) fadeOut.cancel();
           await wachtOp(fadeIn);
         } else if (fadeOut) {
@@ -375,14 +386,18 @@
       sync();
       button.addEventListener('click', async () => {
         button.disabled = true;
-        error.hidden = true;
+        window.BES.verberg(error);
         try {
           await window.BES.auth.metGoogle();
         } catch (failure) {
           error.textContent = failure?.message || 'Inloggen met Google is nog niet ingeschakeld.';
-          error.hidden = false;
+          window.BES.toon(error);
           button.disabled = false;
         }
+      });
+      // Terug naar deze pagina met de knop Vorige: de Googleknop weer aanzetten.
+      window.addEventListener('pageshow', event => {
+        if (event.persisted) button.disabled = false;
       });
     });
 </script>
@@ -396,8 +411,19 @@
     try {
       const { data, error } = await auth.client.rpc('site_open');
       if (error || data !== false) return;
-      document.getElementById('signup-content').hidden = true;
-      document.getElementById('aanmelden-dicht').hidden = false;
+      // Rustig wisselen: het formulier fade uit, daarna komt de melding binnen.
+      const formulier = document.getElementById('signup-content');
+      const dicht = document.getElementById('aanmelden-dicht');
+      const rustig = window.matchMedia('(prefers-reduced-motion: reduce)').matches || !formulier.animate;
+      const ease = getComputedStyle(formulier).getPropertyValue('--ease').trim() || 'ease-out';
+      if (!rustig) {
+        const uit = formulier.animate([{ opacity: 1, transform: 'none' }, { opacity: 0, transform: 'translateY(4px)' }], { duration: 160, easing: ease, fill: 'forwards' });
+        await Promise.race([uit.finished.catch(() => {}), new Promise(resolve => window.setTimeout(resolve, 300))]);
+      }
+      formulier.hidden = true;
+      formulier.getAnimations().forEach(animation => animation.cancel());
+      dicht.hidden = false;
+      if (!rustig) dicht.animate([{ opacity: 0, transform: 'translateY(4px)' }, { opacity: 1, transform: 'none' }], { duration: 220, easing: ease });
     } catch {}
   });
 </script>

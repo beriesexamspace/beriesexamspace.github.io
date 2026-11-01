@@ -302,6 +302,22 @@ window.BES = window.BES || {};
       });
     };
 
+    // Op de laatste stap (niet in de lus) schuift de knop op een breed scherm naar het midden. Met de losse eigenschappen
+    // translate en scale, zodat hover en indrukken (transform) blijven werken; op een telefoon blijft hij naast Vorige staan.
+    const breed = window.matchMedia('(min-width: 768px)');
+    const zetMidden = () => {
+      if (root.classList.contains('is-laatste') && breed.matches) {
+        const bediening = root.querySelector('.stap-bediening');
+        const dx = bediening.clientWidth / 2 - (volgende.offsetLeft + volgende.offsetWidth / 2);
+        volgende.style.translate = `${Math.round(dx)}px`;
+        volgende.style.scale = '1.06';
+      } else {
+        volgende.style.translate = '';
+        volgende.style.scale = '';
+      }
+    };
+    window.addEventListener('resize', zetMidden);
+
     const toon = index => {
       actief = index;
       const stap = stappen[index];
@@ -325,17 +341,13 @@ window.BES = window.BES || {};
       vorige.classList.toggle('is-onzichtbaar', index === 0);
       vorige.disabled = index === 0;
       volgende.textContent = laatste ? (opties.lus ? 'Opnieuw' : laatsteTekst) : 'Volgende →';
-      if (overslaan) overslaan.hidden = !opties.overslaan || laatste;
-      // Op de laatste stap (niet in de lus) schuift de knop naar het midden.
-      const bediening = root.querySelector('.stap-bediening');
-      if (laatste && !opties.lus) {
-        const dx = bediening.clientWidth / 2 - (volgende.offsetLeft + volgende.offsetWidth / 2);
-        volgende.style.transform = `translateX(${Math.round(dx)}px) scale(1.06)`;
-        root.classList.add('is-laatste');
-      } else {
-        volgende.style.transform = '';
-        root.classList.remove('is-laatste');
+      // Op de laatste stap blijft Overslaan staan maar onzichtbaar (zoals Vorige), zodat de stippenrij niet verspringt.
+      if (overslaan && opties.overslaan) {
+        overslaan.classList.toggle('is-onzichtbaar', laatste);
+        overslaan.disabled = laatste;
       }
+      root.classList.toggle('is-laatste', laatste && !opties.lus);
+      zetMidden();
     };
 
     const gaNaar = (index, richting) => {
@@ -407,20 +419,20 @@ window.BES = window.BES || {};
     root.innerHTML = `
       <div class="carrousel-baan" tabindex="0">
         ${stappen.map((stap, n) => `
-          <article class="stap-kaart is-dia is-${stap.soort}" id="${naam}-dia-${n + 1}" aria-roledescription="dia" aria-label="${n + 1} van ${stappen.length}: ${stap.naam}">
+          <div class="stap-kaart is-dia is-${stap.soort}" id="${naam}-dia-${n + 1}" role="tabpanel" aria-roledescription="dia" aria-label="${n + 1} van ${stappen.length}: ${stap.naam}">
             <div class="stap-tekst">
               <p class="stap-label">${stap.label}</p>
               <${kop} class="stap-titel">${stap.titel}</${kop}>
               <p class="stap-uitleg">${stap.tekst}</p>
             </div>
             <div class="stap-beeld" aria-hidden="true">${stap.telefoon ? telefoon(stap.scherm, false) : stap.beeld}</div>
-          </article>`).join('')}
+          </div>`).join('')}
       </div>
       <div class="carrousel-bediening">
         <div class="carrousel-stippen" role="tablist" aria-label="Kies een stap">
           ${stappen.map((stap, n) => `<button class="carrousel-stip" type="button" role="tab" aria-selected="${n === 0}" aria-controls="${naam}-dia-${n + 1}" aria-label="${stap.naam}"${n ? ' tabindex="-1"' : ''}><i></i></button>`).join('')}
         </div>
-        <button class="carrousel-pauze" type="button" aria-pressed="false" aria-label="Pauzeren">${PAUZE_ICOON}</button>
+        <button class="carrousel-pauze" type="button" aria-label="Pauzeren">${PAUZE_ICOON}</button>
       </div>`;
 
     const baan = root.querySelector('.carrousel-baan');
@@ -469,10 +481,13 @@ window.BES = window.BES || {};
     const gaNaar = index => {
       const doel = (index + kaarten.length) % kaarten.length;
       const kaart = kaarten[doel];
+      // Na de laatste dia (of voor de eerste) springt de baan in één keer en komt zacht in beeld, in plaats van langs alle dia's terug te scrollen.
+      const omloop = doel !== index;
       eersteRonde = false;
       window.clearTimeout(timer);
       if (Math.abs(baan.scrollLeft - positieVan(kaart)) < 2) { zetActief(doel); herstartVul(); planVolgende(); return; }
-      baan.scrollTo({ left: positieVan(kaart), behavior: rustig ? 'auto' : 'smooth' });
+      baan.scrollTo({ left: positieVan(kaart), behavior: rustig || omloop ? 'auto' : 'smooth' });
+      if (omloop && !rustig && baan.animate) baan.animate([{ opacity: 0 }, { opacity: 1 }], { duration: 250, easing: getComputedStyle(baan).getPropertyValue('--ease').trim() || 'ease-out' });
     };
     const dichtstbij = () => {
       const midden = baan.scrollLeft + baan.clientWidth / 2;
@@ -488,6 +503,10 @@ window.BES = window.BES || {};
     baan.addEventListener('scroll', () => {
       window.clearTimeout(timer);
       window.clearTimeout(settleTimer);
+      // Staat een andere dia voor meer dan de helft in beeld, dan wordt die meteen actief en beginnen zijn animaties. Pas na het
+      // scrollen starten zou de al zichtbare dia laten verdwijnen en opnieuw laten komen.
+      const naast = dichtstbij();
+      if (naast !== actief) zetActief(naast);
       settleTimer = window.setTimeout(() => { zetActief(dichtstbij()); herstartVul(); planVolgende(); }, 120);
     }, { passive: true });
     baan.addEventListener('pointerdown', () => window.clearTimeout(timer));
@@ -508,7 +527,6 @@ window.BES = window.BES || {};
     const zetPauze = waarde => {
       gepauzeerd = waarde;
       root.classList.toggle('is-gepauzeerd', waarde);
-      pauzeKnop.setAttribute('aria-pressed', String(waarde));
       pauzeKnop.setAttribute('aria-label', waarde ? 'Afspelen' : 'Pauzeren');
       if (waarde) window.clearTimeout(timer);
       else { herstartVul(); planVolgende(); }

@@ -29,13 +29,13 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="assets/style.css?v=91">
-  <script src="assets/app.js?v=90" defer></script>
+  <link rel="stylesheet" href="assets/style.css?v=92">
+  <script src="assets/app.js?v=91" defer></script>
   <script src="assets/config.js?v=89" defer></script>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js" defer></script>
   <script src="assets/auth.js?v=90" defer></script>
-  <script src="assets/plan.js?v=89" defer></script>
-  <script src="assets/activiteit.js?v=89" defer></script>
+  <script src="assets/plan.js?v=90" defer></script>
+  <script src="assets/activiteit.js?v=90" defer></script>
 </head>
 <body>
   <a class="skip-link" href="#inhoud">Ga naar inhoud</a>
@@ -75,7 +75,7 @@
             <p class="auth-error" id="recovery-error" role="alert" hidden></p>
             <button class="knop" id="recovery-submit" type="submit">Opslaan →</button>
           </form>
-          <div class="auth-form" id="recovery-state">
+          <div class="auth-form" id="recovery-state" hidden>
             <p class="auth-error" id="recovery-message" role="status" hidden></p>
             <div class="auth-links" id="recovery-links" hidden>
               <a class="tekstlink" href="inloggen.html" id="recovery-action">Vraag een nieuwe link aan →</a>
@@ -104,14 +104,13 @@
       const submit = document.getElementById('recovery-submit');
       const error = document.getElementById('recovery-error');
       const heading = document.getElementById('recovery-title');
+      const content = heading.closest('.hero-content');
       let submitting = false;
       let validRecovery = false;
 
       const showState = (message, unavailable, retry = false) => {
         validRecovery = false;
         field.value = '';
-        form.hidden = true;
-        document.getElementById('recovery-state').hidden = false;
         const state = document.getElementById('recovery-message');
         state.textContent = message;
         state.hidden = false;
@@ -120,6 +119,9 @@
         action.href = retry ? '#' : unavailable ? 'hub.html' : 'inloggen.html';
         action.textContent = retry ? 'Probeer opnieuw →' : unavailable ? 'Ga verder met oefenen →' : 'Vraag een nieuwe link aan →';
         action.toggleAttribute('data-recovery-retry', retry);
+        // Het formulier schuift dicht en de melding schuift open, zodat de kop rustig meebeweegt.
+        window.BES.verberg(form);
+        window.BES.toon(document.getElementById('recovery-state'));
       };
 
       document.getElementById('recovery-action').addEventListener('click', event => {
@@ -130,17 +132,17 @@
 
       field.addEventListener('input', () => {
         field.removeAttribute('aria-invalid');
-        error.hidden = true;
+        window.BES.verberg(error);
       });
 
       form.addEventListener('submit', async event => {
         event.preventDefault();
         if (submitting || !validRecovery) return;
-        error.hidden = true;
+        window.BES.verberg(error);
         field.removeAttribute('aria-invalid');
         if (field.value.length < 8) {
           error.textContent = 'Je wachtwoord is te kort. Gebruik minimaal 8 tekens.';
-          error.hidden = false;
+          window.BES.toon(error);
           field.setAttribute('aria-invalid', 'true');
           field.focus({ preventScroll: true });
           return;
@@ -152,11 +154,13 @@
         try {
           await auth.nieuwWachtwoord(field.value);
           field.value = '';
-          form.hidden = true;
-          document.getElementById('recovery-state').hidden = true;
-          document.getElementById('recovery-check').removeAttribute('hidden');
-          heading.textContent = 'Je wachtwoord is aangepast.';
-          document.getElementById('recovery-success').hidden = false;
+          await window.BES.wissel(content, () => {
+            form.hidden = true;
+            document.getElementById('recovery-state').hidden = true;
+            document.getElementById('recovery-check').removeAttribute('hidden');
+            heading.textContent = 'Je wachtwoord is aangepast.';
+            document.getElementById('recovery-success').hidden = false;
+          });
           heading.focus({ preventScroll: true });
         } catch (failure) {
           if (failure.code === 'recovery_invalid') {
@@ -165,7 +169,7 @@
             showState('Accounts zijn nog niet ingeschakeld. Je kunt wel gewoon oefenen.', true);
           } else {
             error.textContent = failure.message || 'Opslaan is niet gelukt. Probeer het opnieuw.';
-            error.hidden = false;
+            window.BES.toon(error);
             if (failure.code === 'weak_password') {
               field.setAttribute('aria-invalid', 'true');
               field.focus({ preventScroll: true });
@@ -190,7 +194,7 @@
         }
         validRecovery = true;
         document.getElementById('recovery-state').hidden = true;
-        form.hidden = false;
+        window.BES.toon(form);
       }).catch(failure => {
         if (['network', 'rate_limit'].includes(failure.code)) showState(failure.message, false, true);
         else showState('Deze link is verlopen. Vraag een nieuwe aan.', false);

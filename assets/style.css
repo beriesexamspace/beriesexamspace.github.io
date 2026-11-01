@@ -8,6 +8,9 @@
   --grey-title: #8A8A8E;
   --accent: #0071e3;
   --accent-dark: #0062c4;
+  /* Knopvlakken met witte tekst: in donker iets dieper blauw, zodat wit leesbaar blijft (minstens 4,5:1). */
+  --accent-vlak: #0071e3;
+  --accent-vlak-hover: #0062c4;
   --accent-zacht: rgba(0,113,227,.06);
   --teal: #3fb9b2;
   --teal-zacht: rgba(63,185,178,.12);
@@ -17,8 +20,9 @@
   --sig: #7FCFC9;
   --fout: #b42318;
   --fout-zacht: rgba(180,35,24,.06);
-  --whatsapp: #25D366;
-  --whatsapp-hover: #1EBE5A;
+  /* WhatsApp-groen, donker genoeg voor witte tekst (5,4:1). */
+  --whatsapp: #0B7A3E;
+  --whatsapp-hover: #096A33;
   --muted: var(--ink-soft);
   --secondary: var(--grey-title);
   --font: 'Inter', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
@@ -65,6 +69,10 @@ html[data-theme="dark"] {
   --grey-title: #8E8E93;
   --accent: #0A84FF;
   --accent-dark: #409CFF;
+  --accent-vlak: #0A6ED1;
+  --accent-vlak-hover: #0A62BA;
+  --whatsapp: #0A8043;
+  --whatsapp-hover: #0B7A3E;
   --accent-zacht: rgba(10,132,255,.16);
   --teal-zacht: rgba(63,185,178,.18);
   --teal-tekst: #5fd0c9;
@@ -238,14 +246,14 @@ body[data-nav="vast"] :is(.navigation, .nav-vol) { transition: none; }
 .navigation-links a {
   display: inline-flex;
   align-items: center;
-  min-height: 40px;
+  min-height: 44px;
   padding: 9px 11px;
   border-radius: var(--radius-pill);
   font-size: .9375rem;
   font-weight: 500;
   white-space: nowrap;
   text-decoration: none;
-  transition: color 150ms var(--ease), background-color 150ms var(--ease), transform 150ms var(--ease);
+  transition: color 150ms var(--ease), background-color 150ms var(--ease), transform 150ms var(--ease), opacity 150ms var(--ease);
 }
 
 .pill, .knop, .knop-secundair {
@@ -254,11 +262,11 @@ body[data-nav="vast"] :is(.navigation, .nav-vol) { transition: none; }
   justify-content: center;
   flex-shrink: 0;
   border-radius: var(--radius-pill);
-  background: var(--accent);
+  background: var(--accent-vlak);
   color: var(--white);
   font-weight: 600;
   white-space: nowrap;
-  transition: transform 180ms var(--ease), box-shadow 180ms var(--ease), background-color 180ms var(--ease), border-color 180ms var(--ease);
+  transition: transform 180ms var(--ease), box-shadow 180ms var(--ease), background-color 180ms var(--ease), border-color 180ms var(--ease), opacity 150ms var(--ease);
 }
 
 .login-button {
@@ -342,9 +350,12 @@ button.profiel-knop { font: inherit; font-size: .875rem; font-weight: 500; curso
   border-radius: 16px;
   background: var(--card);
   box-shadow: var(--shadow-card-hover);
-  animation: menu-open 160ms var(--ease) both;
+  /* Openen en sluiten met een korte fade en 4 px verschuiving. auth.js zet alleen hidden; display blijft dankzij
+     allow-discrete staan tot de fade klaar is. Browsers zonder die ondersteuning openen en sluiten direct, zoals vroeger. */
+  transition: opacity 200ms var(--ease), transform 200ms var(--ease), display 200ms allow-discrete;
 }
-.profiel-menu-lijst[hidden] { display: none; }
+.profiel-menu-lijst[hidden] { display: none; opacity: 0; transform: translateY(-4px); }
+@starting-style { .profiel-menu-lijst { opacity: 0; transform: translateY(-4px); } }
 .profiel-menu-kop { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin: 0; padding: 8px 10px 10px; border-bottom: 1px solid var(--line); }
 .profiel-menu-kop strong { min-width: 0; overflow: hidden; font-size: .9375rem; text-overflow: ellipsis; white-space: nowrap; }
 .profiel-menu-plan { flex-shrink: 0; padding: 3px 9px; border-radius: var(--pill); background: var(--surface); color: var(--ink-soft); font-size: .75rem; font-weight: 600; }
@@ -356,6 +367,7 @@ button.profiel-knop { font: inherit; font-size: .875rem; font-weight: 500; curso
 .profiel-menu-lijst hr { width: 100%; height: 1px; margin: 6px 0; border: 0; background: var(--line); }
 .profiel-menu-uitloggen { width: 100%; color: var(--ink-soft); }
 @keyframes menu-open { from { opacity: 0; transform: translateY(-4px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes menu-dicht { to { opacity: 0; transform: translateY(-4px); } }
 .profiel-naam { white-space: nowrap; }
 .account-uitloggen { padding: 0; border: 0; background: var(--transparent); white-space: nowrap; cursor: pointer; }
 .account-uitloggen-mobiel { display: none; }
@@ -448,6 +460,8 @@ h1 {
 }
 
 h1 span { display: block; }
+/* Een lange naam ("Je account staat, ...") breekt af in plaats van buiten beeld te lopen. */
+.hero-content h1 { overflow-wrap: anywhere; }
 .title-accent { color: var(--secondary); }
 
 .intro {
@@ -555,7 +569,7 @@ h1 span { display: block; }
   background: var(--card);
   color: var(--ink);
   box-shadow: var(--shadow-soft);
-  transition: transform 200ms var(--ease), box-shadow 200ms var(--ease);
+  transition: transform 200ms var(--ease), box-shadow 200ms var(--ease), opacity 150ms var(--ease);
 }
 
 .kaart-rij {
@@ -683,9 +697,18 @@ h1 span { display: block; }
   font-family: var(--font);
 }
 .kies-plan:has(.kies-plan-vergelijking:not([hidden])) { width: min(660px, calc(100% - 32px)); }
-.kies-plan[open] { animation: kies-plan-in 260ms var(--ease) both; }
 .kies-plan::backdrop { background: var(--nav-bg); -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px); }
-@keyframes kies-plan-in { from { opacity: 0; transform: translateY(12px) scale(.98); } to { opacity: 1; transform: none; } }
+/* Alle vensters (<dialog>): openen en sluiten met fade en 8 px, de achtergrond fade mee. Sluiten gaat via BES.sluitDialoog (app.js).
+   Pagina's met een eigen, specifiekere vensterstijl (kaart.css, insturen) houden die. */
+dialog[open] { animation: dialoog-in 260ms var(--ease) both; }
+dialog[open]::backdrop { animation: appear 220ms var(--ease) both; }
+dialog.is-sluitend { animation: dialoog-uit 200ms var(--ease) both; }
+dialog.is-sluitend::backdrop { animation: dialoog-weg 200ms var(--ease) both; }
+@keyframes dialoog-in { from { opacity: 0; transform: translateY(8px) scale(.98); } to { opacity: 1; transform: none; } }
+@keyframes dialoog-uit { to { opacity: 0; transform: translateY(8px) scale(.98); } }
+@keyframes dialoog-weg { to { opacity: 0; } }
+/* Geen scrollen achter een open venster; de ruimte van de schuifbalk blijft, zodat de pagina niet verschuift. */
+html:has(dialog[open]) { overflow: hidden; scrollbar-gutter: stable; }
 .kies-plan h2 { margin: 0 0 8px; font-size: 1.5rem; text-wrap: balance; }
 .kies-plan-reden { margin: 0 0 20px; color: var(--ink-soft); line-height: 1.5; }
 .kies-plan-keuzes { display: grid; gap: 12px; }
@@ -721,7 +744,7 @@ h1 span { display: block; }
 .kies-plan-vergelijking td.is-ja::before { content: ""; display: inline-block; width: 10px; height: 6px; border-left: 2px solid var(--accent); border-bottom: 2px solid var(--accent); transform: translateY(-2px) rotate(-45deg); }
 .kies-plan-vergelijking td.is-nee::before { content: ""; display: inline-block; width: 10px; height: 2px; border-radius: 1px; background: var(--line); vertical-align: middle; }
 .kies-plan-sr { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
-@media (prefers-reduced-motion: reduce) { .kies-plan[open] { animation: none; } }
+@media (prefers-reduced-motion: reduce) { dialog[open], dialog.is-sluitend, dialog[open]::backdrop, dialog.is-sluitend::backdrop { animation: none !important; } }
 
 .terug { color: var(--ink-soft); }
 
@@ -754,7 +777,7 @@ html.page-fade.page-ready body { animation: page-in 250ms var(--ease) both; }
 }
 
 :where(html.has-hover) .kaart:where(a[href], button, [role="button"], [role="checkbox"], [role="radio"]):not(:disabled):not([aria-disabled="true"]):hover { transform: translateY(-2px); box-shadow: var(--shadow-card-hover); }
-:where(html.has-hover) .knop:not(:disabled):not([aria-disabled="true"]):hover { background: var(--accent-dark); box-shadow: var(--shadow-primary-hover); }
+:where(html.has-hover) .knop:not(:disabled):not([aria-disabled="true"]):hover { background: var(--accent-vlak-hover); box-shadow: var(--shadow-primary-hover); }
 :where(html.has-hover) .knop-secundair:not(:disabled):not([aria-disabled="true"]):hover { background: var(--surface); border-color: var(--accent); box-shadow: var(--shadow-soft); }
 :where(html.has-hover) :is(.knop, .knop-secundair, .pill):not(:disabled):not([aria-disabled="true"]):hover:not(:active) { transform: translateY(-2px); }
 :where(html.has-hover) .terug:hover,
@@ -769,7 +792,7 @@ html.page-fade.page-ready body { animation: page-in 250ms var(--ease) both; }
 }
 :where(html.has-hover) .navigation-links a:hover:not(:active),
 .navigation-links a:focus-visible:not(:active) { transform: translateY(-1px); }
-:where(html.has-hover) .pill:not(:disabled):not([aria-disabled="true"]):hover { background: var(--accent-dark); }
+:where(html.has-hover) .pill:not(:disabled):not([aria-disabled="true"]):hover { background: var(--accent-vlak-hover); }
 :where(html.has-hover) .primary-button:hover { box-shadow: var(--shadow-primary-hover); }
 :where(html.has-hover) .tekstlink:hover { text-decoration: underline; }
 
@@ -786,8 +809,9 @@ html.page-fade.page-ready body { animation: page-in 250ms var(--ease) both; }
 @media (min-width: 768px) and (max-width: 1100px) {
   .navigation-links { min-width: 0; overflow-x: auto; scrollbar-width: none; }
   .navigation-links::-webkit-scrollbar { display: none; }
-  .navigation-links a:focus-visible { outline-offset: -2px; }
 }
+/* De linkbalk kan scrollen en knipt alles erbuiten af: de focusring daarom binnen de link, op elke breedte vanaf 768 px. */
+@media (min-width: 768px) { .navigation-links a:focus-visible { outline-offset: -2px; box-shadow: none; } }
 
 @media (min-width: 768px) and (max-width: 1023px) {
   .navigation, .nav-vol { gap: 10px; padding-left: 12px; }
@@ -838,6 +862,8 @@ html.page-fade.page-ready body { animation: page-in 250ms var(--ease) both; }
     box-shadow: var(--shadow-soft);
     animation: menu-open 200ms var(--ease);
   }
+  /* Sluiten (app.js zet is-sluitend en haalt menu-open pas na 180 ms weg). */
+  .navigation.menu-open.is-sluitend .navigation-links, .nav-vol.menu-open.is-sluitend .navigation-links { animation: menu-dicht 180ms var(--ease) both; }
   .navigation.menu-open .navigation-links a, .nav-vol.menu-open .navigation-links a { display: flex; min-height: 44px; }
   .rooster-3 { grid-template-columns: minmax(0, 1fr); }
   .login-button { margin-left: 0; min-height: 38px; padding: 9px 14px; font-size: .8125rem; }
@@ -1015,7 +1041,9 @@ html.page-fade.page-ready body { animation: page-in 250ms var(--ease) both; }
 /* Foutregels duidelijk rood, met de link erin in dezelfde kleur en onderstreept */
 .auth-error, .account-fout { margin: 12px 0 0; color: var(--fout); font-size: .9375rem; font-weight: 500; line-height: 1.5; }
 .auth-error a, .account-fout a { color: var(--fout); text-decoration: underline; text-underline-offset: 4px; }
-.auth-error .tekstlink, .account-fout .tekstlink, .terug.tekstlink { color: var(--accent); text-decoration: none; font-size: 15px; }
+.auth-error .tekstlink, .account-fout .tekstlink { color: var(--accent); text-decoration: none; font-size: 15px; }
+/* Terug is overal grijs (rust); blauw is voor acties. */
+.terug.tekstlink { color: var(--ink-soft); text-decoration: none; font-size: 15px; }
 .auth-links a { color: var(--accent); text-underline-offset: 4px; }
 .site-header > .account-fout {
   position: absolute;
@@ -1078,9 +1106,10 @@ html.page-fade.page-ready body { animation: page-in 250ms var(--ease) both; }
   font-size: .9375rem;
   font-weight: 500;
   line-height: 1.3;
-  transition: border-color .15s ease, background-color .15s ease, box-shadow .15s ease;
+  transition: border-color 150ms var(--ease), background-color 150ms var(--ease), box-shadow 150ms var(--ease), transform 150ms var(--ease);
 }
-.over-keuze:hover .over-keuze-tekst { border-color: var(--ink-soft); }
+:where(html.has-hover) .over-keuze:hover .over-keuze-tekst { border-color: var(--ink-soft); }
+.over-keuze:active .over-keuze-tekst { transform: scale(.98); }
 .over-keuze input:checked + .over-keuze-tekst { border-color: var(--accent); background: var(--accent-zacht); box-shadow: inset 0 0 0 1px var(--accent); }
 .over-keuze input:focus-visible + .over-keuze-tekst { outline: 2px solid var(--accent); outline-offset: 3px; }
 .over-groep.is-wie .over-keuzes { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
@@ -1155,6 +1184,7 @@ html.page-fade.page-ready body { animation: page-in 250ms var(--ease) both; }
 .vak-pagina .vak-tab:not(:disabled):active { transform: scale(.97); }
 .vak-pagina :is(.optie, [role="checkbox"], [role="radio"]):not(:disabled):not([aria-disabled="true"]):active { transform: scale(.99); }
 .knop:disabled, .knop[aria-disabled="true"] { opacity: .45; transform: none; box-shadow: var(--shadow-primary); cursor: default; }
+.knop-secundair:disabled, .knop-secundair[aria-disabled="true"] { opacity: .45; transform: none; cursor: default; }
 
 :where(a[href], button, summary, [role="button"], [role="tab"], [role="checkbox"], [role="radio"]) {
   transition: color 150ms var(--ease), background-color 150ms var(--ease), border-color 150ms var(--ease), box-shadow 150ms var(--ease), transform 150ms var(--ease), opacity 150ms var(--ease);
@@ -1206,7 +1236,7 @@ html.ball-cursor,html.ball-cursor body,html.ball-cursor body *,html.ball-cursor 
 @media(prefers-reduced-motion:reduce){.cursor-dot[popover]{transition:none}}
 
 /* Toetsenbord: eerste tab-stop springt naar de inhoud */
-.skip-link { position: absolute; top: -100px; left: 16px; z-index: 100; padding: 10px 14px; border-radius: 12px; background: var(--accent); color: #fff; font-size: .9375rem; font-weight: 600; text-decoration: none; }
+.skip-link { position: absolute; top: -100px; left: 16px; z-index: 100; padding: 10px 14px; border-radius: 12px; background: var(--accent-vlak); color: var(--white); font-size: .9375rem; font-weight: 600; text-decoration: none; }
 .skip-link:focus { top: 12px; outline: 2px solid var(--ink); outline-offset: 2px; }
 
 /* De deur: pagina verborgen tot het account bevestigd is (assets/deur.js) */
@@ -1214,8 +1244,9 @@ html.deur-check body { visibility: hidden; }
 
 /* Tikvlak op de telefoon: minstens 44 pixels, zonder de knoppen groter te tekenen. Een onzichtbaar vlak ligt over de rand heen.
    :where() houdt de specificiteit op nul, zodat een eigen position (zoals bij .auth-back) altijd voorgaat. */
-:where(.brand, .home-knop, .thema-knop, .menu-toggle, .tekstlink, .vak-tekstknop, .carrousel-stip) { position: relative; }
+:where(.brand, .home-knop, .thema-knop, .menu-toggle, .tekstlink, .vak-tekstknop, .carrousel-stip, .terug) { position: relative; }
 :where(.home-knop, .thema-knop, .menu-toggle)::after { content: ''; position: absolute; inset: -5px; }
+:where(.terug)::after { content: ''; position: absolute; inset: -2px -6px; }
 :where(.brand)::after { content: ''; position: absolute; inset: -8px -4px -8px -8px; }
 :where(.tekstlink)::after { content: ''; position: absolute; inset: -11px -4px; }
 :where(.vak-tekstknop)::after { content: ''; position: absolute; inset: 0 -6px; }
@@ -1229,6 +1260,13 @@ html.deur-check body { visibility: hidden; }
   box-shadow: 0 0 0 3px var(--accent-zacht);
 }
 details[open] > :not(summary) { animation: menu-open 200ms var(--ease); }
+/* Uitklapblokken openen én sluiten vloeiend in hoogte, waar de browser dat kan; elders blijft de fade bij openen. */
+@supports selector(::details-content) {
+  :root { interpolate-size: allow-keywords; }
+  details::details-content { block-size: 0; opacity: 0; overflow: clip; transition: block-size 240ms var(--ease), opacity 240ms var(--ease), content-visibility 240ms allow-discrete; }
+  details[open]::details-content { block-size: auto; opacity: 1; }
+  details[open] > :not(summary) { animation: none; }
+}
 :is(.auth-error, .account-fout, .ab-melding, .abo-melding, .ep-melding, .profiel-email-status, .profiel-opgeslagen, .feedback-verstuurd):not(:empty):not([hidden]) { animation: appear 200ms var(--ease); }
 :is(.auth-success, .feedback-bedankt, #profiel-bevestiging):not([hidden]) { animation: menu-open 200ms var(--ease); }
 /* Kleine bestaande knoppen houden hun uiterlijk; het onzichtbare tikvlak vult aan tot 44 px. */
@@ -1239,4 +1277,5 @@ details[open] > :not(summary) { animation: menu-open 200ms var(--ease); }
   :is(.jaar-pijl, .abo-knop-pijl, .thema-knop svg) { transform: none !important; }
   .cursor-dot[popover]:is(.over-control, .is-pressed, .is-releasing) { transform: translate(-50%, -50%); animation: none !important; }
   .cursor-dot.is-releasing::after { animation: none !important; }
+  details::details-content { transition: none !important; }
 }

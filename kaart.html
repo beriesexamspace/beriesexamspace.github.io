@@ -39,14 +39,14 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/style.css?v=91">
-<link rel="stylesheet" href="assets/kaart.css?v=6">
+<link rel="stylesheet" href="assets/style.css?v=92">
+<link rel="stylesheet" href="assets/kaart.css?v=7">
 </head>
 <body class="kaartpagina">
 <a class="skip-link" href="#zoek">Ga naar zoeken</a>
 
-<div class="scherm">
-  <svg id="kaart" viewBox="15 -30 400 545" preserveAspectRatio="xMidYMid meet" role="img" aria-labelledby="kaart-titel">
+<main class="scherm">
+  <svg id="kaart" viewBox="15 -30 400 545" preserveAspectRatio="xMidYMid meet" role="group" aria-labelledby="kaart-titel">
     <title id="kaart-titel">Kaart van België en Nederland met de universiteiten</title>
     <g id="wereld">
       <path class="land" id="land-nl"/>
@@ -59,9 +59,9 @@
   </svg>
 
   <header class="boven">
-    <a class="merk" href="./"><span class="merk-b" aria-hidden="true">B</span>Berie's Exam Space</a>
+    <a class="merk" href="./"><span class="merk-b" aria-hidden="true">B</span><span class="merk-tekst">Berie's Exam Space</span></a>
     <div class="zoek">
-      <p class="zoek-titel" id="titel">Waar studeer je?</p>
+      <h1 class="zoek-titel" id="titel">Waar studeer je?</h1>
       <div class="zoek-veld">
         <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
         <input id="zoek" type="search" placeholder="Zoek je school, stad of richting" autocomplete="off" aria-labelledby="titel" aria-controls="zoek-uit">
@@ -69,7 +69,7 @@
       <ul class="zoek-uit" id="zoek-uit" hidden></ul>
     </div>
     <div class="boven-rechts" id="boven-rechts">
-      <button class="inlog" type="button" id="inlog">Ik heb al een account</button>
+      <a class="inlog" id="inlog" href="inloggen.html">Ik heb al een account</a>
     </div>
   </header>
 
@@ -82,18 +82,18 @@
       <button class="lijstknop" type="button" id="lijstknop">Bekijk als lijst</button>
     </div>
   </div>
-  <div class="tip" id="tip" hidden></div>
-</div>
+  <div class="tip" id="tip" aria-hidden="true"></div>
+</main>
 
 <dialog id="venster" aria-labelledby="venster-titel"><div class="venster" id="venster-inhoud"></div></dialog>
 
-<script src="assets/app.js?v=90"></script>
-<script src="assets/catalogus.js?v=90"></script>
+<script src="assets/app.js?v=91"></script>
+<script src="assets/catalogus.js?v=91"></script>
 <script src="assets/kaart-data.js?v=2"></script>
-<script src="assets/kaart.js?v=5"></script>
+<script src="assets/kaart.js?v=6"></script>
 <script src="assets/config.js?v=89" defer></script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js" defer></script>
 <script src="assets/auth.js?v=90" defer></script>
-<script src="assets/activiteit.js?v=89" defer></script>
+<script src="assets/activiteit.js?v=90" defer></script>
 </body>
 </html>

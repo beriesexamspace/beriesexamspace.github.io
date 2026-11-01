@@ -121,6 +121,72 @@
     ['Hacks voor je zwakste hoofdstukken', true, true],
     ['Nieuwe onderdelen een week eerder', false, true]
   ];
+  // Gedeelde beweging voor pagina's (zie style.css): een venster sluiten, en een blok rustig tonen of verbergen,
+  // zodat de inhoud eronder meeschuift in plaats van te springen. Bij "minder beweging" gaat alles direct.
+  const zachtVerloop = element => getComputedStyle(element).getPropertyValue('--ease').trim() || 'ease-out';
+  window.BES.sluitDialoog = dialoog => {
+    if (!dialoog || !dialoog.open || dialoog.classList.contains('is-sluitend')) return;
+    if (motion.matches) { dialoog.close(); return; }
+    dialoog.classList.add('is-sluitend');
+    window.setTimeout(() => { dialoog.classList.remove('is-sluitend'); if (dialoog.open) dialoog.close(); }, 200);
+  };
+  const lopend = new WeakMap();
+  // Schuift een blok in hoogte en opacity van 'open' naar 'dicht' of andersom. Loopt er al een schuif,
+  // dan begint de nieuwe vanaf waar het blok nu is, zodat het niet eerst terugspringt.
+  const hoogteAnimatie = (element, van, naar, klaar) => {
+    const bezig = lopend.get(element);
+    let nu = null;
+    if (bezig) {
+      const st = getComputedStyle(element);
+      nu = { height: element.getBoundingClientRect().height + 'px', marginTop: st.marginTop, marginBottom: st.marginBottom, paddingTop: st.paddingTop, paddingBottom: st.paddingBottom, opacity: st.opacity };
+      bezig.cancel();
+    }
+    const stijl = getComputedStyle(element);
+    const marges = { marginTop: stijl.marginTop, marginBottom: stijl.marginBottom, paddingTop: stijl.paddingTop, paddingBottom: stijl.paddingBottom };
+    const dicht = { height: '0px', marginTop: '0px', marginBottom: '0px', paddingTop: '0px', paddingBottom: '0px', opacity: 0 };
+    const open = { height: element.getBoundingClientRect().height + 'px', ...marges, opacity: 1 };
+    element.style.overflow = 'hidden';
+    const animatie = element.animate([nu || (van === 'dicht' ? dicht : open), naar === 'dicht' ? dicht : open], { duration: 220, easing: zachtVerloop(element) });
+    animatie.sluit = naar === 'dicht';
+    lopend.set(element, animatie);
+    const opruimen = () => { if (lopend.get(element) !== animatie) return; lopend.delete(element); element.style.overflow = ''; klaar?.(); };
+    animatie.addEventListener('finish', opruimen);
+    return animatie;
+  };
+  // Toon een verborgen blok (hidden weg) en laat het in hoogte openschuiven.
+  window.BES.toon = element => {
+    if (!element) return;
+    const sluit = lopend.get(element)?.sluit;
+    const wasVerborgen = sluit || element.hidden || !element.getClientRects().length;
+    element.hidden = false;
+    if (!wasVerborgen || motion.matches || !element.animate || !element.getClientRects().length) {
+      if (sluit) { lopend.get(element).cancel(); lopend.delete(element); element.style.overflow = ''; }
+      return;
+    }
+    hoogteAnimatie(element, 'dicht', 'open');
+  };
+  // Verberg een blok: eerst dichtschuiven en uitfaden, daarna hidden. klaar() draait na afloop (ook zonder beweging).
+  window.BES.verberg = (element, klaar) => {
+    if (!element) return;
+    if (element.hidden || motion.matches || !element.animate || !element.getClientRects().length) { element.hidden = true; klaar?.(); return; }
+    if (lopend.get(element)?.sluit) return;
+    hoogteAnimatie(element, 'open', 'dicht', () => { element.hidden = true; klaar?.(); });
+  };
+  // Wissel de inhoud van een blok rustig: kort uitfaden, verander() terwijl niets zichtbaar is, en weer infaden.
+  // Zo springt een kop of formulier dat van hoogte wisselt niet zichtbaar. Geeft een promise terug.
+  window.BES.wissel = async (element, verander) => {
+    if (!element || motion.matches || !element.animate) { verander(); return; }
+    const verloop = zachtVerloop(element);
+    // Nooit langer wachten dan 300ms: in een verborgen tab staan animaties stil.
+    const wacht = animatie => Promise.race([animatie.finished.catch(() => {}), new Promise(klaar => window.setTimeout(klaar, 300))]);
+    const uit = element.animate([{ opacity: 1, transform: 'none' }, { opacity: 0, transform: 'translateY(4px)' }], { duration: 120, easing: verloop, fill: 'forwards' });
+    await wacht(uit);
+    verander();
+    const terug = element.animate([{ opacity: 0, transform: 'translateY(4px)' }, { opacity: 1, transform: 'none' }], { duration: 200, easing: verloop });
+    uit.cancel();
+    await wacht(terug);
+  };
+
   let kiesPlanVenster = null;
   const maak = (tag, klasse, tekst) => {
     const el = document.createElement(tag);
@@ -172,11 +238,18 @@
     const voet = maak('div', 'kies-plan-voet');
     const later = maak('button', 'kies-plan-later', 'Misschien later');
     later.type = 'button';
-    later.addEventListener('click', () => venster.close());
+    later.addEventListener('click', () => window.BES.sluitDialoog(venster));
     voet.append(maak('p', 'kies-plan-proef', 'Plus probeer je eerst een maand.'), later);
     venster.append(kop, reden, keuzes, vergelijking, voet);
-    // Klik naast het venster sluit het.
-    venster.addEventListener('click', event => { if (event.target === venster) venster.close(); });
+    // Klik naast het venster sluit het. Een klik op de eigen rand of witruimte van het venster telt niet:
+    // alleen een klik buiten de rechthoek (op de achtergrond) sluit.
+    venster.addEventListener('click', event => {
+      if (event.target !== venster) return;
+      const r = venster.getBoundingClientRect();
+      if (event.clientX < r.left || event.clientX > r.right || event.clientY < r.top || event.clientY > r.bottom) window.BES.sluitDialoog(venster);
+    });
+    // Escape sluit met dezelfde beweging.
+    venster.addEventListener('cancel', event => { event.preventDefault(); window.BES.sluitDialoog(venster); });
     document.body.append(venster);
     return venster;
   };
@@ -240,7 +313,7 @@
     const meta = document.querySelector('meta[name="theme-color"]');
     if (meta) meta.content = dark ? '#0B0B0C' : '#FFFFFF';
     document.querySelectorAll('.thema-knop').forEach(button => {
-      button.setAttribute('aria-label', dark ? 'Lichte modus aan' : 'Donkere modus aan');
+      button.setAttribute('aria-label', 'Donkere modus');
       button.setAttribute('aria-pressed', String(dark));
     });
     if (remember) {
@@ -324,18 +397,28 @@
 
     if (!menuButton || !menu) return;
 
+    // Sluiten beweegt ook: is-sluitend speelt 180 ms de sluitanimatie (style.css), daarna gaat menu-open weg.
+    let sluitTimer = 0;
     const closeMenu = (restoreFocus = false) => {
-      const wasOpen = navigation.classList.contains('menu-open');
-      navigation.classList.remove('menu-open');
+      const wasOpen = menuButton.getAttribute('aria-expanded') === 'true';
       menuButton.setAttribute('aria-expanded', 'false');
+      window.clearTimeout(sluitTimer);
+      if (wasOpen && mobile.matches && !motion.matches && navigation.classList.contains('menu-open')) {
+        navigation.classList.add('is-sluitend');
+        sluitTimer = window.setTimeout(() => navigation.classList.remove('menu-open', 'is-sluitend'), 180);
+      } else {
+        navigation.classList.remove('menu-open', 'is-sluitend');
+      }
       if (wasOpen && restoreFocus && mobile.matches) menuButton.focus();
     };
 
     menuButton.addEventListener('click', () => {
       if (!mobile.matches) return;
-      const open = !navigation.classList.contains('menu-open');
-      navigation.classList.toggle('menu-open', open);
-      menuButton.setAttribute('aria-expanded', String(open));
+      if (menuButton.getAttribute('aria-expanded') === 'true') { closeMenu(); return; }
+      window.clearTimeout(sluitTimer);
+      navigation.classList.remove('is-sluitend');
+      navigation.classList.add('menu-open');
+      menuButton.setAttribute('aria-expanded', 'true');
     });
 
     menu.addEventListener('click', event => {
@@ -351,6 +434,8 @@
 
     document.addEventListener('click', event => {
       if (!navigation.contains(event.target)) closeMenu(menu.contains(document.activeElement));
+      // Het profielmenu en het navigatiemenu staan nooit tegelijk open.
+      else if (event.target.closest && event.target.closest('.profiel-knop')) closeMenu();
     });
 
     document.addEventListener('focusin', event => {
@@ -586,22 +671,45 @@
     const status = '[role="status"], [role="alert"], .kalender-daginfo';
     const opening = '#stap-1, .info-kaart, .crow';
     const running = new Map();
+    const leeg = new WeakMap();
     const start = () => {
+      // Onthoud welke meldingen nu leeg of verborgen zijn, zodat een melding die verschijnt ook in hoogte kan openen.
+      document.querySelectorAll(status).forEach(el => leeg.set(el, el.hidden || !el.textContent.trim()));
       document.removeEventListener('click', start, true);
       document.removeEventListener('input', start, true);
       new MutationObserver(records => {
         if (motion.matches) return;
         const targets = new Set();
+        const verschenen = new Set();
         records.forEach(record => {
           const element = record.target.nodeType === Node.ELEMENT_NODE ? record.target : record.target.parentElement;
           if (!element) return;
           const message = element.closest(status);
-          if (message) targets.add(message);
+          if (message) {
+            targets.add(message);
+            const wasLeeg = leeg.has(message) ? leeg.get(message) : (record.type === 'attributes' && record.oldValue !== null);
+            if (wasLeeg) verschenen.add(message);
+          }
           if (record.type === 'attributes' && element.matches(opening)) targets.add(element);
           record.addedNodes.forEach(node => { if (node.nodeType === Node.ELEMENT_NODE && node.matches('.crow')) targets.add(node); });
         });
         targets.forEach(element => {
-          if (!element.isConnected || !element.textContent.trim() || !element.getClientRects().length || !element.animate) return;
+          const zichtbaar = element.isConnected && !element.hidden && element.textContent.trim() && element.getClientRects().length;
+          leeg.set(element, !zichtbaar);
+          // BES.toon en BES.verberg animeren dit blok al zelf.
+          if (!zichtbaar || !element.animate || lopend.has(element)) return;
+          // Een melding die net verschijnt, schuift open in hoogte; een tekstwissel in een al zichtbare melding alleen fade.
+          if (verschenen.has(element) && getComputedStyle(element).position !== 'absolute' && getComputedStyle(element).display !== 'inline') {
+            running.get(element)?.cancel();
+            const r = element.getBoundingClientRect(); const st = getComputedStyle(element);
+            const animation = element.animate([
+              { opacity: 0, height: '0px', marginTop: '0px', marginBottom: '0px', paddingTop: '0px', paddingBottom: '0px', overflow: 'hidden' },
+              { opacity: 1, height: r.height + 'px', marginTop: st.marginTop, marginBottom: st.marginBottom, paddingTop: st.paddingTop, paddingBottom: st.paddingBottom, overflow: 'hidden' }
+            ], { duration: 220, easing: st.getPropertyValue('--ease').trim() });
+            running.set(element, animation);
+            animation.finished.catch(() => {}).finally(() => { if (running.get(element) === animation) running.delete(element); });
+            return;
+          }
           running.get(element)?.cancel();
           const shift = element.matches(opening) ? 'translateY(-4px)' : 'none';
           const animation = element.animate([{ opacity: 0, transform: shift }, { opacity: 1, transform: 'none' }], {
@@ -610,7 +718,7 @@
           running.set(element, animation);
           animation.finished.catch(() => {}).finally(() => { if (running.get(element) === animation) running.delete(element); });
         });
-      }).observe(main, { childList: true, characterData: true, subtree: true, attributes: true, attributeFilter: ['hidden'] });
+      }).observe(main, { childList: true, characterData: true, subtree: true, attributes: true, attributeFilter: ['hidden'], attributeOldValue: true });
     };
     document.addEventListener('click', start, true);
     document.addEventListener('input', start, true);

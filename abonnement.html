@@ -30,13 +30,13 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="assets/style.css?v=91">
-  <script src="assets/app.js?v=90" defer></script>
+  <link rel="stylesheet" href="assets/style.css?v=92">
+  <script src="assets/app.js?v=91" defer></script>
   <script src="assets/config.js?v=89" defer></script>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js" defer></script>
   <script src="assets/auth.js?v=90" defer></script>
-  <script src="assets/plan.js?v=89" defer></script>
-  <script src="assets/activiteit.js?v=89" defer></script>
+  <script src="assets/plan.js?v=90" defer></script>
+  <script src="assets/activiteit.js?v=90" defer></script>
   <style>
     .ab-plannen {
       display: grid;
@@ -60,7 +60,8 @@
     :where(html.has-hover) .ab-plan:hover { transform: translateY(-2px); border-color: var(--accent); box-shadow: 0 0 0 1px var(--accent), var(--shadow-card-hover); }
     .ab-plan-kop { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px 12px; }
     .ab-plan-kop .label { white-space: nowrap; }
-    .ab-plan-naam { margin: 0; font-size: clamp(2rem, 3vw, 2.5rem); font-weight: 700; line-height: 1.1; letter-spacing: -.02em; }
+    /* Het anker #plan-plus landt op deze kop: 56 px balk, 16 px lucht en de 32 px padding van de kaart blijven zichtbaar. */
+    .ab-plan-naam { margin: 0; font-size: clamp(2rem, 3vw, 2.5rem); font-weight: 700; line-height: 1.1; letter-spacing: -.02em; scroll-margin-top: 104px; }
     .ab-prijs { display: flex; flex-wrap: wrap; align-items: baseline; gap: 0 6px; margin: 8px 0 0; }
     .ab-prijs-blok { margin: 8px 0 0; }
     @media (min-width: 900px) {
@@ -100,7 +101,7 @@
     /* Free: ook in licht thema de donkere kaart, zodat de twee plannen elk een eigen kleur hebben (grijs, teal). Rand bij de muis: grijs. */
     .ab-plan[data-plan="free"] {
       --card: #1c1c1e; --line: rgba(255,255,255,.12); --ink: #f5f5f7; --ink-soft: #a1a1a6; --surface: #2c2c2e;
-      --accent: #636366; --teal-tekst: #5fd0c9; --teal-zacht: rgba(63,185,178,.18);
+      --accent: #636366; --accent-vlak: #636366; --teal-tekst: #5fd0c9; --teal-zacht: rgba(63,185,178,.18);
       background: var(--card);
       color: var(--ink);
     }
@@ -113,13 +114,17 @@
     .ab-plan.is-plus .knop { color: #0d1117; }
     /* Knop bij de muis: style.css kleurt .knop dan blauw (--accent-dark) met een blauwe schaduw. In Plus blijft hij teal.
        --shadow-primary wordt in :root al uitgerekend, dus de kaart zet de hele schaduw opnieuw. */
-    .ab-plan.is-plus { --accent-dark: #5cc8c1; --shadow-primary: 0 8px 24px rgba(63,185,178,.25); --shadow-primary-hover: 0 10px 28px rgba(63,185,178,.32); }
+    .ab-plan.is-plus { --accent-dark: #5cc8c1; --accent-vlak: #3fb9b2; --accent-vlak-hover: #5cc8c1; --shadow-primary: 0 8px 24px rgba(63,185,178,.25); --shadow-primary-hover: 0 10px 28px rgba(63,185,178,.32); }
     /* Knop van je huidige plan (of een gebruikte proefmaand): rustig, niet vaag. */
     .ab-plan .knop.is-huidig:disabled { opacity: 1; background: var(--surface); color: var(--ink-soft); box-shadow: none; }
     .ab-melding { max-width: 560px; margin: 20px 0 0; color: var(--ink); font-size: .9375rem; line-height: 1.5; }
     .ab-melding:empty { display: none; }
     /* Terug van Mollie: de stand van je betaling bovenaan, boven de kaarten. */
     .ab-melding.ab-betaling { margin: 0 0 24px; font-weight: 500; }
+    /* Komt de bezoeker terug uit de betaling, dan staat de regel voor de melding er al, zodat de kaarten niet naar beneden springen. */
+    .ab-melding.ab-betaling.is-wacht:empty { display: block; min-height: 1.5em; }
+    /* Het label Jouw plan verschijnt zodra het plan bekend is. */
+    .ab-jouw { animation: appear 200ms var(--ease); }
     /* Vinkje Laat mijn plan meteen starten: nodig voor elke proefmaand (start_proef, supabase/herroepen.sql). */
     .ab-meteen { display: grid; grid-template-columns: 22px minmax(0, 1fr); gap: 12px; align-items: start; max-width: 640px; margin: 24px 0 0; padding: 16px 18px; border: 1px solid var(--line); border-radius: 16px; background: var(--card); font-size: .9375rem; line-height: 1.55; cursor: pointer; transition: border-color 180ms var(--ease), box-shadow 180ms var(--ease); }
     .ab-meteen input { width: 20px; height: 20px; margin: 1px 0 0; accent-color: var(--accent); cursor: pointer; }
@@ -146,7 +151,7 @@
     /* Onder de vaste balk (56 px) blijft de bovenkant van de tabel zichtbaar na het inschuiven. */
     .ab-vergelijking { margin: 24px 0 16px; scroll-margin-top: 72px; }
     .ab-vergelijking:not([hidden]) { animation: ab-uitklappen 320ms var(--ease) backwards; }
-    @keyframes ab-uitklappen { from { opacity: 0; transform: translateY(-10px); } }
+    @keyframes ab-uitklappen { from { opacity: 0; transform: translateY(-8px); } }
     /* De Plus-kolom: één doorlopend teal vlak achter de cellen, ook achter de kopjes van de groepen. */
     .ab-tabel-vlak { position: relative; isolation: isolate; }
     .ab-tabel-vlak::before {
@@ -205,7 +210,7 @@
       .ab-v-uitleg { font-size: .6875rem; }
     }
     /* Klein knopje onder de kop naar de uitleg over Free en Plus (plannen.html). */
-    .ab-waarom { display: inline-flex; align-items: center; gap: 6px; min-height: 36px; margin-top: 16px; padding: 6px 14px; border: 1px solid var(--line); border-radius: var(--pill); background: var(--card); color: var(--accent); font-size: .875rem; font-weight: 500; line-height: 1.4; transition: border-color 180ms var(--ease), background-color 180ms var(--ease); }
+    .ab-waarom { display: inline-flex; align-items: center; gap: 6px; min-height: 44px; margin-top: 16px; padding: 6px 14px; border: 1px solid var(--line); border-radius: var(--pill); background: var(--card); color: var(--accent); font-size: .875rem; font-weight: 500; line-height: 1.4; transition: border-color 180ms var(--ease), background-color 180ms var(--ease), transform 150ms var(--ease); }
     :where(html.has-hover) .ab-waarom:hover { border-color: var(--accent); background: var(--accent-zacht); }
     .ab-waarom:active { transform: scale(.97); }
   </style>
@@ -274,7 +279,7 @@
           </div>
           <div class="ab-prijs-blok">
             <p class="ab-prijs"><span class="ab-bedrag">2,99 euro</span><span class="ab-per">per maand</span></p>
-            <p class="ab-daarna"><strong>1 maand gratis</strong> om te proberen.</p>
+            <p class="ab-daarna" data-daarna><strong>De eerste maand kost niets</strong>, om te proberen.</p>
           </div>
           <p class="ab-plan-sub">Onbeperkt simulaties, met extra hulp van Comit.</p>
           <p class="ab-lijst-kop">Alles van Free, plus:</p>
@@ -287,7 +292,7 @@
           </ul>
           <div class="ab-plan-voet">
             <p class="ab-betaal-uitleg" data-betaal-uitleg="plus" hidden></p>
-            <button class="knop" type="button" data-proef="plus">Probeer 1 maand</button>
+            <button class="knop" type="button" data-proef="plus" disabled>Even laden</button>
           </div>
         </section>
       </div>
@@ -526,8 +531,27 @@
               ? 'Je proefmaand is al gebruikt. Je betaalt bij Mollie meteen ' + prijs[plan] + ' voor de eerste maand, daarna automatisch ' + prijs[plan] + ' per maand. Opzeggen kan altijd op je profiel.'
               : 'Je geeft je betaalgegevens op bij Mollie. De eerste maand kost niets, alleen 2 cent om je betaalmethode te bevestigen. Daarna betaal je automatisch ' + prijs[plan] + ' per maand. Opzeggen kan altijd op je profiel.';
           }
+          // De regel op de kaart en de eerste regel bij Goed om te weten beloven geen proefmaand meer aan wie hem al gebruikte.
+          if (gebruikt) {
+            const daarna = document.querySelector('[data-daarna]');
+            if (daarna) daarna.textContent = 'Je proefmaand is al gebruikt.';
+            const weten = document.querySelector('[data-weten="proef"]');
+            if (weten) weten.textContent = 'Je proefmaand is al gebruikt, want een proefmaand kan je één keer gebruiken.';
+          }
         });
       };
+
+      // De knop staat in de HTML op "Even laden" tot het plan bekend is; lukt het laden niet, dan is hij toch bruikbaar.
+      const ontgrendel = () => knoppen.forEach((knop) => {
+        if (knop.textContent !== 'Even laden') return;
+        knop.disabled = false;
+        knop.textContent = 'Probeer 1 maand';
+      });
+
+      // Terug uit de betaalpagina met de terugknop: de pagina komt dan uit het geheugen en de knop staat nog op "Even geduld…".
+      window.addEventListener('pageshow', async (e) => {
+        if (e.persisted && BES.plan) zetStand(await BES.plan(true));
+      });
 
       knoppen.forEach((knop) => knop.addEventListener('click', async () => {
         const plan = knop.dataset.proef;
@@ -596,6 +620,8 @@
         terug = vraag.get('betaling') === 'terug';
         terugPlan = terug ? vraag.get('plan') || '' : '';
       } catch {}
+      // Terug uit de betaling komt er zo een melding bovenaan: de ruimte ervoor staat er meteen.
+      if (terugPlan === 'plus' || terugPlan === 'pro') betaling.classList.add('is-wacht');
       const ruimOp = () => { try { window.history.replaceState(window.history.state, '', window.location.pathname + window.location.hash); } catch {} };
       const wacht = (ms) => new Promise((klaar) => { setTimeout(klaar, ms); });
       const controleer = async (plan) => {
@@ -622,15 +648,17 @@
         zetStand(p);
       };
 
-      if (!BES.plan) return;
+      if (!BES.plan) { ontgrendel(); return; }
       Promise.all([BES.plan(), BES.betalen ? BES.betalen() : false]).then(([p, aan]) => {
         betalen = aan === true;
         if (betalen) zetWeten();
         zetStand(p);
+        // Het plan kon niet worden opgehaald: niet stilzwijgend als Free tonen.
+        if (p.fout) melding.textContent = 'Je plan kon niet worden geladen. Probeer het zo opnieuw.';
         // Een betaling die nog voor Pro gestart was, komt nu binnen als Plus.
         if (terugPlan === 'plus' || terugPlan === 'pro') controleer('plus');
         else if (terug) ruimOp();
-      });
+      }).catch(ontgrendel);
     });
 
     // Vergelijk abonnementen: de knop klapt de tabel open of dicht. Open schuift de tabel in beeld (zonder beweging bij reduced motion).
@@ -643,7 +671,10 @@
         const open = knop.getAttribute('aria-expanded') !== 'true';
         knop.setAttribute('aria-expanded', String(open));
         tekst.textContent = open ? 'Verberg vergelijking' : 'Vergelijk abonnementen';
-        paneel.hidden = !open;
+        // Open: de tabel klapt open met de eigen animatie. Dicht: de tabel schuift dicht en pas daarna gaat hij weg.
+        if (open) paneel.hidden = false;
+        else if (window.BES && window.BES.verberg) window.BES.verberg(paneel, () => { if (knop.getAttribute('aria-expanded') === 'true') paneel.hidden = false; });
+        else paneel.hidden = true;
         if (open) paneel.scrollIntoView({ block: 'start', behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' });
       });
     })();

@@ -21,15 +21,16 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="assets/style.css?v=91">
-  <script src="assets/app.js?v=90" defer></script>
+  <link rel="stylesheet" href="assets/style.css?v=92">
+  <script src="assets/app.js?v=91" defer></script>
   <script src="assets/vakken.js?v=89"></script>
   <script src="assets/config.js?v=89" defer></script>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js" defer></script>
   <script src="assets/auth.js?v=90" defer></script>
-  <script src="assets/plan.js?v=89" defer></script>
+  <script src="assets/plan.js?v=90" defer></script>
   <style>
     .beheer-wrap { max-width: 760px; }
+    #beheer-inhoud:not([hidden]) { animation: menu-open 200ms var(--ease); }
     .beheer-tegels { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
     .beheer-tegel { padding: 20px 22px; }
     .beheer-tegel .getal { display: block; font-size: 2rem; font-weight: 700; line-height: 1.1; font-variant-numeric: tabular-nums; }
@@ -40,7 +41,8 @@
     .beheer-lijst li { display: grid; grid-template-columns: 96px minmax(0, 1fr) 64px; align-items: center; gap: 12px; }
     .beheer-lijst .dag { color: var(--ink-soft); font-variant-numeric: tabular-nums; }
     .beheer-lijst .balk { height: 10px; border-radius: 5px; background: var(--surface); overflow: hidden; }
-    .beheer-lijst .balk i { display: block; height: 100%; border-radius: inherit; background: var(--accent); min-width: 0; }
+    .beheer-lijst .balk i { display: block; height: 100%; border-radius: inherit; background: var(--accent); min-width: 0; transition: width 320ms var(--ease); }
+    .beheer-lijst li.beheer-leeg { display: block; }
     .beheer-lijst .aantal { text-align: right; font-weight: 600; font-variant-numeric: tabular-nums; }
     .beheer-lijst .aantal small { color: var(--ink-soft); font-weight: 400; }
     .beheer-status { margin: 0; color: var(--ink-soft); }
@@ -73,7 +75,7 @@
     .beheer-leeg { margin: 0; color: var(--ink-soft); font-size: .9375rem; }
     .beheer-verborgen { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
     /* Accounts: de hele lijst zit in één vak dat open- en dichtklapt; de keuze blijft bewaard. */
-    .beheer-vouw { display: flex; align-items: center; gap: 10px; width: 100%; padding: 0; border: 0; background: none; color: inherit; font: inherit; letter-spacing: inherit; text-align: left; cursor: pointer; }
+    .beheer-vouw { display: flex; align-items: center; gap: 10px; width: 100%; min-height: 44px; padding: 0; border: 0; background: none; color: inherit; font: inherit; letter-spacing: inherit; text-align: left; cursor: pointer; }
     .beheer-vouw-teller { color: var(--ink-soft); font-size: .9375rem; font-weight: 500; letter-spacing: 0; font-variant-numeric: tabular-nums; }
     .beheer-vouw-actie { display: inline-flex; align-items: center; gap: 6px; margin-left: auto; min-height: 40px; padding: 6px 12px 6px 16px; border: 1px solid var(--line); border-radius: var(--pill); background: var(--surface); font-size: .9375rem; font-weight: 600; letter-spacing: 0; white-space: nowrap; transition: border-color 150ms var(--ease); }
     :where(html.has-hover) .beheer-vouw:hover .beheer-vouw-actie { border-color: var(--accent); }
@@ -100,10 +102,12 @@
     .beheer-sorteer select:focus-visible, .beheer-inst-filter select:focus-visible { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-zacht); }
     .beheer-sorteer select[data-muis]:focus-visible, .beheer-inst-filter select[data-muis]:focus-visible { border-color: var(--line); box-shadow: none; }
     .beheer-sorteer-richting { min-height: 44px; padding: 8px 18px; border: 1px solid var(--line); border-radius: var(--pill); background: var(--surface); color: var(--ink); font: inherit; font-size: .9375rem; font-weight: 600; cursor: pointer; white-space: nowrap; }
-    .beheer-sorteer-richting:hover { border-color: var(--accent); }
-    /* Op de telefoon zou een vaste balk het halve scherm vullen: daar scrolt hij gewoon mee. */
-    @media (max-width: 639px) {
+    :where(html.has-hover) .beheer-sorteer-richting:hover { border-color: var(--accent); }
+    /* Op de telefoon zou een vaste balk het halve scherm vullen, ook liggend: daar scrolt hij gewoon mee. */
+    @media (max-width: 639px), (max-height: 520px) {
       .beheer-zoek { position: static; padding-top: 0; }
+    }
+    @media (max-width: 639px) {
       .beheer-zoek-veld { flex-basis: 100%; }
     }
     .beheer-accounts { display: grid; gap: 12px; margin: 0; padding: 0; list-style: none; }
@@ -124,7 +128,7 @@
     .beheer-account-gegevens div { min-width: 0; }
     .beheer-account-gegevens dt { color: var(--ink-soft); font-size: .75rem; }
     .beheer-account-gegevens dd { margin: 2px 0 0; font-size: .875rem; font-variant-numeric: tabular-nums; overflow-wrap: anywhere; }
-    .beheer-plan.is-beheerder { background: var(--accent-zacht); color: var(--accent); }
+    .beheer-plan.is-beheerder { background: none; color: var(--ink); box-shadow: inset 0 0 0 1px var(--line); }
     .beheer-over { display: grid; gap: 6px; margin: 16px 0 0; padding-top: 14px; border-top: 1px solid var(--line); }
     .beheer-over p { margin: 0; }
     .beheer-over-kop { color: var(--ink-soft); font-size: .75rem; }
@@ -158,7 +162,7 @@
     .beheer-inst-bestand:last-child { border-bottom: 0; padding-bottom: 2px; }
     .beheer-inst-bestand.is-leeg { display: block; color: var(--ink-soft); font-size: .9375rem; }
     /* Elk bestand als klein vel papier met een omgeslagen hoek; het type komt uit het opslagpad, niet uit de naam die iemand intypte. */
-    .beheer-inst-type { position: relative; display: flex; align-items: flex-end; justify-content: center; box-sizing: border-box; width: 34px; height: 42px; padding-bottom: 7px; border-radius: 6px; background: var(--teal-zacht); color: var(--teal-tekst); font-size: .5625rem; font-weight: 700; line-height: 1; letter-spacing: .06em; clip-path: polygon(0 0, calc(100% - 11px) 0, 100% 11px, 100% 100%, 0 100%); }
+    .beheer-inst-type { position: relative; display: flex; align-items: flex-end; justify-content: center; box-sizing: border-box; width: 34px; height: 42px; padding-bottom: 7px; border-radius: 6px; background: var(--teal-zacht); color: var(--teal-tekst); font-size: .625rem; font-weight: 700; line-height: 1; letter-spacing: .02em; clip-path: polygon(0 0, calc(100% - 11px) 0, 100% 11px, 100% 100%, 0 100%); }
     .beheer-inst-type::after { content: ''; position: absolute; top: 0; right: 0; width: 11px; height: 11px; border-bottom-left-radius: 3px; background: var(--teal); opacity: .5; }
     .beheer-inst-bestand-wat { display: grid; gap: 2px; min-width: 0; }
     .beheer-inst-bestand-naam { font-size: .9375rem; font-weight: 500; line-height: 1.35; overflow-wrap: anywhere; }
@@ -367,6 +371,16 @@
       const vakNaam = new Map((window.BES_VAKKEN || []).map((vak) => [vak.id, vak.naam]));
       const redenen = { klaar: 'Klaar met de opleiding', 'gebruik-niet': 'Gebruikt het niet meer', 'te-weinig-vakken': 'Vakken staan er niet bij', 'werkt-niet': 'Iets werkt niet goed', anders: 'Een andere reden' };
 
+      // Bevestigingen, kaarten en de accountlijst schuiven rustig open en dicht (BES.toon en BES.verberg uit app.js).
+      const toonBlok = (element) => { if (window.BES.toon) window.BES.toon(element); else element.hidden = false; };
+      const verbergBlok = (element, klaar) => { if (window.BES.verberg) window.BES.verberg(element, klaar); else { element.hidden = true; if (klaar) klaar(); } };
+      // "Even laden." schuift dicht in plaats van te verdwijnen. Staat er intussen een andere tekst, dan blijft die staan.
+      const wisStatus = () => {
+        const tekst = status.textContent;
+        if (!tekst) return;
+        verbergBlok(status, () => { status.hidden = false; if (status.textContent === tekst) status.textContent = ''; });
+      };
+
       const cijfers = (plek, lijst) => $(plek).replaceChildren(...lijst.map(([getal, uitleg]) => {
         const tegel = el('div', 'kaart beheer-cijfer');
         tegel.append(el('span', 'getal', getal ?? 0), el('span', 'uitleg', uitleg));
@@ -380,7 +394,9 @@
           const dag = el('span', 'dag', kort.format(new Date(rij.dag + 'T12:00:00')));
           const balk = el('span', 'balk');
           const vul = el('i');
-          vul.style.width = (rij[sleutel] / max * 100) + '%';
+          // Begint op 0 en loopt twee frames later naar de waarde, zodat de overgang echt loopt.
+          vul.style.width = '0%';
+          window.requestAnimationFrame(() => window.requestAnimationFrame(() => { vul.style.width = (rij[sleutel] / max * 100) + '%'; }));
           balk.append(vul);
           li.append(dag, balk, el('span', 'aantal', rij[sleutel]));
           li.setAttribute('aria-label', dag.textContent + ': ' + rij[sleutel] + ' ' + label);
@@ -401,9 +417,10 @@
       };
       const boekMelding = (rij, index) => {
         const li = el('li');
-        li.append(el('strong', '', rij.titel), el('small', '', lang.format(new Date(rij.gemaakt))), el('p', '', rij.reden));
+        const titel = instToon(rij.titel);
+        li.append(el('strong', '', titel), el('small', '', lang.format(new Date(rij.gemaakt))), el('p', '', instToon(rij.reden)));
         const acties = el('div', 'beheer-boek-acties');
-        const wis = el('button', 'knop-secundair', 'Wis dit boek');
+        const wis = el('button', 'beheer-inst-wis', 'Wis dit boek');
         wis.type = 'button';
         wis.disabled = boekBezig;
         wis.setAttribute('aria-expanded', 'false');
@@ -411,7 +428,7 @@
         bevestiging.id = 'beheer-boek-bevestiging-' + index;
         bevestiging.hidden = true;
         bevestiging.setAttribute('role', 'group');
-        const vraag = el('p', '', 'Wil je "' + rij.titel + '" wissen? Het boek en de bijbehorende meldingen verdwijnen uit het overzicht.');
+        const vraag = el('p', '', 'Wil je "' + titel + '" wissen? Het boek en de bijbehorende meldingen verdwijnen uit het overzicht.');
         vraag.id = bevestiging.id + '-vraag';
         bevestiging.setAttribute('aria-labelledby', vraag.id);
         wis.setAttribute('aria-controls', bevestiging.id);
@@ -420,19 +437,20 @@
         const nee = el('button', 'knop-secundair', 'Annuleren');
         ja.type = nee.type = 'button';
         ja.disabled = nee.disabled = boekBezig;
+        // Of de bevestiging open is, lees ik uit aria-expanded: bij het dichtschuiven staat hidden er nog niet op.
         const sluit = (focus = true) => {
-          bevestiging.hidden = true;
           wis.setAttribute('aria-expanded', 'false');
+          verbergBlok(bevestiging, () => { if (wis.getAttribute('aria-expanded') === 'true') bevestiging.hidden = false; });
           if (sluitBoekBevestiging === sluit) sluitBoekBevestiging = null;
           if (focus && wis.isConnected) wis.focus();
         };
         wis.addEventListener('click', () => {
           if (boekBezig || !beheerderId) return;
-          if (!bevestiging.hidden) { sluit(); return; }
+          if (wis.getAttribute('aria-expanded') === 'true') { sluit(); return; }
           if (sluitBoekBevestiging) sluitBoekBevestiging(false);
           sluitBoekBevestiging = sluit;
           boekStatus.textContent = '';
-          bevestiging.hidden = false;
+          toonBlok(bevestiging);
           wis.setAttribute('aria-expanded', 'true');
           nee.focus();
         });
@@ -441,7 +459,7 @@
           if (event.key === 'Escape' && !boekBezig) { event.preventDefault(); sluit(); }
         });
         ja.addEventListener('click', async () => {
-          if (boekBezig || !beheerderId || bevestiging.hidden) return;
+          if (boekBezig || !beheerderId || wis.getAttribute('aria-expanded') !== 'true') return;
           const eigenaar = beheerderId;
           boekBezig = true;
           boekKnoppen(true);
@@ -455,12 +473,14 @@
             if (resultaat.error) throw resultaat.error;
             const huidig = await auth.gebruiker();
             if (!huidig || huidig.id !== eigenaar) return;
-            const vernieuwd = await laadOverzicht();
+            // Alleen de boeken vernieuwen: de rest van de pagina, de inzendingen en de scrollpositie blijven staan.
+            const vernieuwd = await vernieuwBoeken();
             if (vernieuwd && beheerderId === eigenaar) {
               boekStatus.textContent = resultaat.data === false ? 'Dit boek was al gewist. Het overzicht is bijgewerkt.' : 'Het boek is gewist.';
               $('boeken-kop').focus();
-            } else if (vernieuwd === false && (await auth.gebruiker())?.id === eigenaar) {
-              status.textContent = 'Het boek is gewist, maar het overzicht kon niet worden geladen. Vernieuw de pagina.';
+            } else if (vernieuwd === false && beheerderId === eigenaar) {
+              sluit(false);
+              boekStatus.textContent = 'Het boek is gewist, maar het overzicht kon niet worden bijgewerkt. Vernieuw de pagina.';
             }
           } catch {
             if (beheerderId === eigenaar && li.isConnected) {
@@ -471,7 +491,7 @@
             boekBezig = false;
             boekKnoppen(false);
             ja.textContent = 'Ja, wis dit boek';
-            if (li.isConnected && bevestiging.hidden && !inhoud.hidden) wis.focus();
+            if (li.isConnected && wis.getAttribute('aria-expanded') !== 'true' && !inhoud.hidden) wis.focus();
           }
         });
         acties.append(wis);
@@ -479,6 +499,28 @@
         bevestiging.append(vraag, keuze);
         li.append(acties, bevestiging);
         return li;
+      };
+      // De cijfers en meldingen van Boeken; ook los te vernieuwen na het wissen van een boek.
+      const toonBoeken = (o) => {
+        cijfers('beheer-boeken-cijfers', [
+          [o.boeken ? o.boeken.te_koop : '-', 'te koop'],
+          [o.boeken ? o.boeken.verkocht : '-', 'verkocht']
+        ]);
+        rijen('beheer-boek-meldingen', (o.boeken?.meldingen || []).map(boekMelding), o.boeken ? 'Nog geen boekmeldingen.' : 'Boekenbeheer is nog niet ingeschakeld.');
+      };
+      // Haalt alleen het overzicht van de boeken opnieuw op. true = bijgewerkt, false = mislukt, null = intussen is de hele pagina opnieuw geladen.
+      const vernieuwBoeken = async () => {
+        const versie = laadVersie;
+        try {
+          const overzicht = await auth.client.rpc('beheer_overzicht');
+          if (versie !== laadVersie) return null;
+          if (overzicht.error || !overzicht.data) return false;
+          sluitBoekBevestiging = null;
+          toonBoeken(overzicht.data);
+          return true;
+        } catch {
+          return versie === laadVersie ? false : null;
+        }
       };
       // Keuzelijsten: na een muisklik geen blauwe rand laten staan, bij het toetsenbord wel.
       document.querySelectorAll('.beheer-sorteer select, .beheer-inst-filter select').forEach((keuze) => {
@@ -491,6 +533,8 @@
         const term = zoek.value.trim().toLowerCase();
         let zichtbaar = 0;
         accounts.forEach((li) => { li.hidden = Boolean(term) && !li.dataset.zoek.includes(term); if (!li.hidden) zichtbaar += 1; });
+        // Is de lijst afgekapt, dan klopt "niemand gevonden" niet: het account kan er gewoon niet in staan.
+        $('beheer-geen').textContent = totaalAccounts > accounts.length ? 'Niet gevonden in de ' + accounts.length + ' nieuwste accounts. Oudere accounts staan niet in dit overzicht.' : 'Niemand gevonden met die naam of dat e-mailadres.';
         $('beheer-geen').hidden = !term || zichtbaar > 0;
         const afgekapt = totaalAccounts > accounts.length ? ' (de ' + accounts.length + ' nieuwste van ' + totaalAccounts + ')' : '';
         $('beheer-zoek-aantal').textContent = (term ? zichtbaar + ' van ' + accounts.length : accounts.length + (accounts.length === 1 ? ' account' : ' accounts')) + afgekapt;
@@ -549,16 +593,18 @@
       window.addEventListener('scroll', balkLater, { passive: true });
       window.addEventListener('resize', balkLater);
       const zetAccounts = (open, bewaar) => {
-        accountsBlok.hidden = !open;
         accountsVouw.setAttribute('aria-expanded', String(open));
         $('accounts-actie').textContent = open ? 'Verberg' : 'Toon';
         if (bewaar) { try { window.localStorage.setItem('bes_beheer_accounts', open ? 'open' : 'dicht'); } catch {} }
+        // Open- en dichtschuiven; de zoekbalk telt pas als niet-vast zodra het blok echt dicht is.
+        if (open) toonBlok(accountsBlok);
+        else verbergBlok(accountsBlok, () => { if (accountsVouw.getAttribute('aria-expanded') === 'true') accountsBlok.hidden = false; balkVast(); });
         balkVast();
       };
       let accountsOpen = false;
       try { accountsOpen = window.localStorage.getItem('bes_beheer_accounts') === 'open'; } catch {}
       zetAccounts(accountsOpen, false);
-      accountsVouw.addEventListener('click', () => zetAccounts(accountsBlok.hidden, true));
+      accountsVouw.addEventListener('click', () => zetAccounts(accountsVouw.getAttribute('aria-expanded') !== 'true', true));
 
       // Ingestuurd materiaal (supabase/insturingen.sql): tabel insturingen en de privé bucket 'insturingen'.
       // Lezen en wissen mag alleen de beheerder (RLS met public.is_beheerder()). Alles wat studenten intypten gaat via textContent.
@@ -688,20 +734,21 @@
         const ja = el('button', 'knop', jaTekst);
         const nee = el('button', 'knop-secundair', 'Annuleren');
         [wis, ja, nee].forEach((knop) => { knop.type = 'button'; knop.dataset.wis = ''; knop.disabled = instBezig; });
+        // Of de bevestiging open is, lees ik uit aria-expanded: bij het dichtschuiven staat hidden er nog niet op.
         const sluit = (focus = true) => {
-          bevestiging.hidden = true;
           wis.setAttribute('aria-expanded', 'false');
+          verbergBlok(bevestiging, () => { if (wis.getAttribute('aria-expanded') === 'true') bevestiging.hidden = false; });
           if (sluitInstBevestiging === sluit) sluitInstBevestiging = null;
           if (focus && wis.isConnected) wis.focus();
         };
         wis.addEventListener('click', () => {
           if (instBezig || !beheerderId) return;
-          if (!bevestiging.hidden) { sluit(); return; }
+          if (wis.getAttribute('aria-expanded') === 'true') { sluit(); return; }
           if (sluitInstBevestiging) sluitInstBevestiging(false);
           sluitInstBevestiging = sluit;
           instStatus.textContent = '';
           instLosseStatus.textContent = '';
-          bevestiging.hidden = false;
+          toonBlok(bevestiging);
           wis.setAttribute('aria-expanded', 'true');
           nee.focus();
         });
@@ -710,7 +757,7 @@
           if (event.key === 'Escape' && !instBezig) { event.preventDefault(); sluit(); }
         });
         ja.addEventListener('click', async () => {
-          if (instBezig || !beheerderId || bevestiging.hidden) return;
+          if (instBezig || !beheerderId || wis.getAttribute('aria-expanded') !== 'true') return;
           const kaart = wis.closest('.beheer-inst');
           instBezig = true;
           instKnoppen(true, kaart);
@@ -793,7 +840,7 @@
           if (versie !== laadVersie || !item.li.isConnected) return true;
           instKijker?.unobserve(item.li);
           instRijen = instRijen.filter((ander) => ander !== item);
-          item.li.remove();
+          verbergBlok(item.li, () => item.li.remove());
           instFilterVullen();
           instTellen();
           instStatus.textContent = rijWeg ? 'De inzending is gewist, met al haar bestanden.' : 'Deze inzending was al gewist. Het overzicht is bijgewerkt.';
@@ -977,12 +1024,13 @@
             return false;
           }
           if (versie !== laadVersie || !li.isConnected) return true;
-          li.remove();
-          if ($('inst-losse-lijst').children.length) {
+          // De kaart schuift weg (nog even in de lijst); was het de laatste, dan schuift het hele blok weg.
+          if ($('inst-losse-lijst').children.length > 1) {
+            verbergBlok(li, () => li.remove());
             instLosseStatus.textContent = 'De map is gewist.';
             $('inst-losse-kop').focus();
           } else {
-            $('inst-losse').hidden = true;
+            verbergBlok($('inst-losse'), () => li.remove());
             instStatus.textContent = 'De losse map is gewist. Er zijn geen losse bestanden meer.';
             $('inst-kop').focus();
           }
@@ -1175,17 +1223,21 @@
             comit: Number(rij.comit_vragen) || 0, fouten: Number(rij.open_fouten) || 0
           };
           li.dataset.zoek = [rij.naam, rij.bijnaam, rij.email].filter(Boolean).join(' ').toLowerCase();
-          const naam = (rij.naam || 'Geen naam') + (rij.bijnaam ? ' (' + rij.bijnaam + ')' : '');
+          // Wat iemand intypte: zonder stuurtekens en zonder tekens die de leesrichting omdraaien; een mailadres met vreemde tekens wordt geen link.
+          const naamTekst = instToon(rij.naam);
+          const bijnaamTekst = instToon(rij.bijnaam);
+          const mailTekst = instToon(rij.email);
+          const naam = (naamTekst || 'Geen naam') + (bijnaamTekst ? ' (' + bijnaamTekst + ')' : '');
           const kop = el('div', 'beheer-account-kop');
-          const letter = el('span', 'beheer-account-letter', ((rij.naam || rij.email || '?').trim().charAt(0) || '?').toUpperCase());
+          const letter = el('span', 'beheer-account-letter', (Array.from(naamTekst || mailTekst || '?')[0] || '?').toUpperCase());
           letter.setAttribute('aria-hidden', 'true');
           const wie = el('div', 'beheer-account-wie');
           wie.append(el('span', 'beheer-account-naam', naam));
-          if (rij.email) {
-            const mail = el('a', 'beheer-account-mail', rij.email);
-            mail.href = 'mailto:' + rij.email;
+          if (mailTekst && instMailVorm.test(mailTekst)) {
+            const mail = el('a', 'beheer-account-mail', mailTekst);
+            mail.href = 'mailto:' + mailTekst;
             wie.append(mail);
-          }
+          } else if (mailTekst) wie.append(el('span', 'beheer-inst-geen', mailTekst));
           const labels = el('div', 'beheer-account-labels');
           const plan = el('span', 'beheer-plan', planId(rij.plan) === 'plus' ? 'Plus' : 'Free');
           plan.dataset.plan = planId(rij.plan);
@@ -1201,7 +1253,7 @@
             ['Inloggen via', (Array.isArray(rij.via) ? rij.via : [rij.via || 'email']).map((p) => inlogNamen[p] || p).join(', ')],
             ['E-mail bevestigd', rij.bevestigd ? 'Ja' : 'Nee'],
             ['Plan', planTekst(rij)],
-            ['Geoefend', rij.rondes + (rij.rondes === 1 ? ' ronde, ' : ' rondes, ') + rij.vragen + ' vragen' + (rij.score === null ? '' : ', ' + rij.score + '% goed')],
+            ['Geoefend', rij.rondes + (rij.rondes === 1 ? ' ronde, ' : ' rondes, ') + rij.vragen + (rij.vragen === 1 ? ' vraag' : ' vragen') + (rij.score === null ? '' : ', ' + rij.score + '% goed')],
             ['Laatst geoefend', wanneer(rij.laatst_geoefend)],
             ['Vragen aan Comit', rij.comit_vragen],
             ['Open fouten', rij.open_fouten]
@@ -1213,14 +1265,15 @@
           li.append(gegevens);
           // Wat iemand over zichzelf vertelde (optioneel), als platte tekst.
           const over = rij.over && typeof rij.over === 'object' ? rij.over : null;
-          const overTekst = (waarde, max) => (typeof waarde === 'string' ? waarde.trim() : '').slice(0, max);
+          // Stuurtekens en tekens die de leesrichting omdraaien eruit; bij de lange tekst blijven de regeleinden staan (white-space: pre-line).
+          const overTekst = (waarde, max, regels) => typeof waarde === 'string' ? (regels ? waarde.replace(/[\u0000-\u0009\u000b-\u001f\u007f\u061c\u200e\u200f\u202a-\u202e\u2066-\u2069]/g, '') : instToon(waarde)).trim().slice(0, max) : '';
           const overJaar = over && Object.hasOwn(jaarNamen, over.jaar) ? jaarNamen[over.jaar] : '';
-          if (over && (overTekst(over.studie, 60) || overJaar || overTekst(over.tekst, 300))) {
+          if (over && (overTekst(over.studie, 60) || overJaar || overTekst(over.tekst, 300, true))) {
             const blok = el('div', 'beheer-over');
             blok.append(el('p', 'beheer-over-kop', over.openbaar === true ? 'Over zichzelf, openbaar' : 'Over zichzelf, alleen voor jou'));
             const regel = [overTekst(over.studie, 60), overJaar].filter(Boolean).join(' · ');
             if (regel) blok.append(el('p', 'beheer-over-regel', regel));
-            if (overTekst(over.tekst, 300)) blok.append(el('p', 'beheer-over-tekst', overTekst(over.tekst, 300)));
+            if (overTekst(over.tekst, 300, true)) blok.append(el('p', 'beheer-over-tekst', overTekst(over.tekst, 300, true)));
             li.append(blok);
           }
           return li;
@@ -1258,15 +1311,11 @@
         rijen('beheer-feedback', (o.feedback.nieuwste || []).map((rij) => {
           const li = el('li');
           const kop = el('small', '', (soorten[rij.soort] || rij.soort) + (rij.vak ? ' · ' + (vakNaam.get(rij.vak) || rij.vak) : '') + ' · ' + lang.format(new Date(rij.gemaakt)));
-          li.append(kop, el('p', '', rij.tekst));
+          li.append(kop, el('p', '', instToon(rij.tekst)));
           return li;
         }), 'Nog geen feedback.');
 
-        cijfers('beheer-boeken-cijfers', [
-          [o.boeken ? o.boeken.te_koop : '-', 'te koop'],
-          [o.boeken ? o.boeken.verkocht : '-', 'verkocht']
-        ]);
-        rijen('beheer-boek-meldingen', (o.boeken?.meldingen || []).map(boekMelding), o.boeken ? 'Nog geen boekmeldingen.' : 'Boekenbeheer is nog niet ingeschakeld.');
+        toonBoeken(o);
 
         rijen('beheer-vertrek', Object.entries(o.vertrek || {}).sort((a, b) => b[1] - a[1]).map(([reden, aantal]) => {
           const li = el('li');
@@ -1275,9 +1324,10 @@
         }), 'Nog niemand heeft zijn account gewist.');
 
         if (!dagen.error) balken('beheer-lijst', dagen.data || [], 'oefenaars', 'oefenaars');
+        else $('beheer-lijst').replaceChildren(el('li', 'beheer-leeg', 'De dagcijfers laden is niet gelukt.'));
         balken('beheer-nieuw-lijst', o.accounts.per_dag || [], 'nieuw', 'nieuwe accounts');
 
-        status.textContent = '';
+        wisStatus();
         beheerderId = user.id;
         inhoud.hidden = false;
         balkVast();

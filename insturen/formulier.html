@@ -30,15 +30,15 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="../assets/style.css?v=91">
-  <script src="../assets/app.js?v=90" defer></script>
+  <link rel="stylesheet" href="../assets/style.css?v=92">
+  <script src="../assets/app.js?v=91" defer></script>
   <script src="../assets/config.js?v=89" defer></script>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js" defer></script>
   <script src="../assets/auth.js?v=90" defer></script>
-  <script src="../assets/plan.js?v=89" defer></script>
+  <script src="../assets/plan.js?v=90" defer></script>
   <style>
     /* Insturen: zelfde opbouw als de andere binnenpagina's (WhatsApp, Feedback); alle kleuren komen uit de tokens van style.css. */
-    html { scroll-padding-top: 76px; }
+    html { scroll-padding-top: 76px; scrollbar-gutter: stable; }
     @media (prefers-reduced-motion: no-preference) { html { scroll-behavior: smooth; } }
     body:has(.ins-dialoog[open]) { overflow: hidden; }
     /* De pagina is even breed als de startpagina en de hub; de uitleg en het formulier blijven smaller, dat leest rustiger. */
@@ -96,7 +96,7 @@
     .ins-sectie { margin-top: 104px; }
     .ins-sectie:first-of-type { margin-top: 0; }
     .ins-sectie > .sectie-kop { margin-bottom: 14px; text-align: center; text-wrap: balance; }
-    :is(.sectie-kop, .ins-bedankt h3, .ins-dialoog h2):focus { outline: none; box-shadow: none; }
+    :is(.sectie-kop, .ins-bedankt h2, .ins-dialoog h2):focus { outline: none; box-shadow: none; }
 
     /* Formulier: één kaart met de genummerde stappen; de knop is de laatste. */
     .ins-form { display: grid; grid-template-columns: minmax(0, 1fr); gap: 48px; max-width: none; margin-inline: 0; }
@@ -114,7 +114,7 @@
       padding: 24px 20px; text-align: center;
       border: 1.5px dashed var(--ins-rand); border-radius: 16px; background: var(--surface);
       cursor: pointer; touch-action: manipulation; -webkit-tap-highlight-color: transparent;
-      transition: border-color 160ms var(--ease), background-color 160ms var(--ease), transform 160ms var(--ease);
+      transition: border-color 160ms var(--ease), background-color 160ms var(--ease), transform 160ms var(--ease), opacity 200ms var(--ease);
     }
     .ins-zone-knop {
       display: grid; place-items: center; width: 52px; height: 52px; margin-bottom: 6px;
@@ -156,6 +156,8 @@
       border: 1px solid var(--ins-lijn); border-radius: 16px; background: var(--card);
     }
     .ins-bestand.is-nieuw { animation: bestand-in 280ms var(--ease) both; }
+    /* Een weggehaald bestand vervaagt eerst; daarna pas verdwijnt de rij (zie tekenLijst). */
+    .ins-bestand.is-weg { opacity: 0; transform: translateY(6px); animation: none; transition: opacity 200ms var(--ease), transform 200ms var(--ease); }
     @keyframes bestand-in { from { opacity: 0; transform: translateY(6px); } }
     .ins-bestand-icoon {
       position: relative; display: grid; place-items: center; width: 36px; height: 44px; border-radius: 6px;
@@ -176,13 +178,13 @@
     :where(html.has-hover) .ins-bestand-weg:hover { background: var(--surface); color: var(--ink); }
     .ins-bestand-weg:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; }
     .ins-bestand-weg svg { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; }
-    .ins-bestand-vink { visibility: hidden; color: var(--teal-tekst); }
+    .ins-bestand-vink { opacity: 0; pointer-events: none; color: var(--teal-tekst); transition: opacity 200ms var(--ease); }
     .ins-bestand-vink svg { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 2.4; stroke-linecap: round; stroke-linejoin: round; }
     .ins-form.is-bezig .ins-bestand-weg { visibility: hidden; }
     /* Wat al verstuurd is, kan niet meer weg: zo blijft opnieuw proberen in dezelfde map en ontstaan er geen losse bestanden. */
     .ins-bestand[data-stand="klaar"] .ins-bestand-weg { visibility: hidden; }
-    .ins-bestand[data-stand="klaar"] .ins-bestand-vink { visibility: visible; }
-    .ins-bestand-balk { position: absolute; left: 0; right: 0; bottom: 0; height: 3px; overflow: hidden; opacity: 0; }
+    .ins-bestand[data-stand="klaar"] .ins-bestand-vink { opacity: 1; }
+    .ins-bestand-balk { position: absolute; left: 0; right: 0; bottom: 0; height: 3px; overflow: hidden; opacity: 0; transition: opacity 200ms var(--ease); }
     .ins-bestand-balk::after { content: ''; position: absolute; top: 0; bottom: 0; left: 0; width: 100%; background: var(--teal); }
     .ins-bestand:is([data-stand="bezig"], [data-stand="klaar"]) .ins-bestand-balk { opacity: 1; }
     .ins-bestand[data-stand="bezig"] .ins-bestand-balk { background: var(--teal-zacht); }
@@ -197,7 +199,6 @@
     .ins-veld .auth-input:focus { border-color: var(--accent); }
     .ins-veld .auth-input[aria-invalid="true"] { border-color: var(--fout); }
     .ins-veld[hidden] { display: none; }
-    .ins-veld:not([hidden]).is-nieuw { animation: rise 360ms var(--ease) both; }
     /* Keuzelijsten zien eruit als de tekstvelden, met een eigen pijltje. */
     .ins-veld select.auth-input {
       -webkit-appearance: none; appearance: none; padding-right: 48px; cursor: pointer; text-overflow: ellipsis;
@@ -283,7 +284,7 @@
     .ins-voortgang { display: grid; gap: 8px; margin-bottom: 12px; }
     .ins-voortgang-tekst { margin: 0; font-size: .9375rem; font-weight: 600; line-height: 1.3; font-variant-numeric: tabular-nums; }
     .ins-voortgang-delen { display: grid; grid-auto-flow: column; grid-auto-columns: minmax(0, 1fr); gap: 4px; }
-    .ins-voortgang-delen span { position: relative; height: 4px; overflow: hidden; border-radius: 2px; background: var(--line); }
+    .ins-voortgang-delen span { position: relative; height: 4px; overflow: hidden; border-radius: 2px; background: var(--line); transition: background-color 200ms var(--ease); }
     .ins-voortgang-delen span[data-stand="klaar"] { background: var(--teal); }
     .ins-voortgang-delen span[data-stand="mislukt"] { background: var(--fout); }
     .ins-voortgang-delen span[data-stand="bezig"] { background: var(--teal-zacht); }
@@ -293,7 +294,7 @@
 
     /* Bedankkaart op de plek van het formulier */
     .ins-bedankt { display: grid; justify-items: start; gap: 10px; max-width: none; margin-inline: 0; }
-    .ins-bedankt h3 { margin: 6px 0 0; font-size: 1.375rem; font-weight: 700; line-height: 1.2; text-wrap: balance; }
+    .ins-bedankt h2 { margin: 6px 0 0; font-size: 1.375rem; font-weight: 700; line-height: 1.2; text-wrap: balance; }
     .ins-bedankt p { margin: 0; color: var(--muted); font-size: 1rem; line-height: 1.55; }
     .ins-knoppen { display: grid; grid-template-columns: minmax(0, 1fr); gap: 10px; width: 100%; margin-top: 10px; }
     .ins-knoppen :is(.knop, .knop-secundair) { gap: 10px; width: 100%; max-width: none; min-height: 52px; margin: 0; padding: 0 22px; }
@@ -308,7 +309,7 @@
       border: 1px solid var(--ins-lijn); border-bottom: 0; border-radius: 28px 28px 0 0; background: var(--card); color: var(--ink);
       box-shadow: 0 -12px 40px rgba(0, 0, 0, .18); font-family: var(--font);
     }
-    .ins-dialoog[open] { animation: paneel-op 460ms cubic-bezier(.22, 1, .36, 1) both; }
+    .ins-dialoog[open] { animation: paneel-op 360ms var(--ease) both; }
     .ins-dialoog.is-dicht { animation: paneel-neer 220ms cubic-bezier(.4, 0, 1, 1) both; }
     .ins-dialoog::backdrop { background: rgba(0, 0, 0, .36); animation: appear 300ms var(--ease) both; }
     html[data-theme="dark"] .ins-dialoog::backdrop { background: rgba(0, 0, 0, .62); }
@@ -364,7 +365,6 @@
       .ins-bestand[data-stand="bezig"] .ins-bestand-balk::after,
       .ins-voortgang-delen span[data-stand="bezig"]::after { width: 100%; opacity: .5; animation: none !important; transform: none; }
       .ins-zone, .ins-zone-knop { transition: none; }
-      .ins-veld:not([hidden]).is-nieuw { animation: none; }
     }
   </style>
 </head>
@@ -398,10 +398,10 @@
         </ol>
       </section>
 
-      <section class="ins-sectie ins-smal ins-formulier" id="formulier" aria-labelledby="formulier-titel">
+      <section class="ins-sectie ins-smal ins-formulier" id="formulier" aria-label="Je inzending">
         <form class="kaart ins-form" id="insturen-form" novalidate>
           <div class="ins-groep">
-            <h3 class="ins-groep-kop"><span class="ins-nr" aria-hidden="true">1</span>Zeg voor wie het is</h3>
+            <h2 class="ins-groep-kop"><span class="ins-nr" aria-hidden="true">1</span>Zeg voor wie het is</h2>
             <div class="ins-veld">
               <label for="ins-school">Je school</label>
               <div class="ins-vast" id="school-vast" hidden>
@@ -446,7 +446,7 @@
           </div>
 
           <div class="ins-groep">
-            <h3 class="ins-groep-kop"><span class="ins-nr" aria-hidden="true">2</span>Kies je bestanden</h3>
+            <h2 class="ins-groep-kop"><span class="ins-nr" aria-hidden="true">2</span>Kies je bestanden</h2>
             <ul class="ins-lijst" id="insturen-lijst" aria-label="Gekozen bestanden"></ul>
             <label class="ins-zone" id="insturen-zone">
               <span class="ins-zone-knop" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><path d="M12 5v14M5 12h14"/></svg></span>
@@ -478,7 +478,7 @@
             <path class="ring" pathLength="1" d="M32 3a29 29 0 1 1 0 58a29 29 0 1 1 0-58"/>
             <path class="haak" pathLength="1" d="m20.5 33 8 8 15-16"/>
           </svg>
-          <h3 id="insturen-bedankt-kop" tabindex="-1">Je inzending is binnen.</h3>
+          <h2 id="insturen-bedankt-kop" tabindex="-1">Je inzending is binnen.</h2>
           <p>Bedankt om mee te bouwen aan jouw richting.</p>
           <ol class="ins-zo-lijst is-status" aria-label="Wat er nu gebeurt">
             <li class="is-klaar" style="--n:0"><span class="ins-zo-icoon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="m6.5 12.5 3.8 3.8L17.5 9"/></svg></span>Je samenvatting is binnen.</li>
@@ -522,7 +522,7 @@
     </div>
   </footer>
 
-  <script src="../assets/catalogus.js?v=90"></script>
+  <script src="../assets/catalogus.js?v=91"></script>
   <script>
     (() => {
       const MAX_BESTANDEN = 10;
@@ -594,6 +594,47 @@
       const dialoogKop = element('dialoog-kop');
       const dialoogSluit = element('dialoog-sluit');
       const minderBeweging = window.matchMedia('(prefers-reduced-motion: reduce)');
+      // Beweging: blokken tonen en verbergen met BES.toon en BES.verberg uit app.js (hoogte en opacity), zodat wat eronder staat
+      // rustig meeschuift. Dat script laadt na dit blok; bij het eerste vullen van de pagina gaat het dus direct.
+      const zachtVerloop = blok => getComputedStyle(blok).getPropertyValue('--ease').trim() || 'ease-out';
+      const sluitend = new WeakSet();
+      const zachtToon = blok => {
+        if (sluitend.has(blok)) {
+          // Een sluitbeweging die nog loopt gaat eerst weg, anders verdwijnt het blok alsnog.
+          sluitend.delete(blok);
+          blok.getAnimations().forEach(animatie => animatie.cancel());
+          blok.style.overflow = '';
+        }
+        if (!blok.hidden) return;
+        if (window.BES && window.BES.toon) window.BES.toon(blok); else blok.hidden = false;
+      };
+      const zachtVerberg = blok => {
+        if (blok.hidden || sluitend.has(blok)) return;
+        if (window.BES && window.BES.verberg) {
+          sluitend.add(blok);
+          window.BES.verberg(blok, () => sluitend.delete(blok));
+        } else blok.hidden = true;
+      };
+      // Verandert de hoogte van een blok (bestanden erbij of weg), dan glijdt die mee in plaats van te springen.
+      const glad = (blok, wijzig) => {
+        const voor = blok.getBoundingClientRect().height;
+        blok.getAnimations().forEach(animatie => animatie.cancel());
+        blok.style.overflow = '';
+        wijzig();
+        if (minderBeweging.matches || !blok.animate || !voor) return;
+        const na = blok.getBoundingClientRect().height;
+        if (Math.abs(voor - na) < 1) return;
+        blok.style.overflow = 'clip';
+        const animatie = blok.animate([{ height: voor + 'px' }, { height: na + 'px' }], { duration: 240, easing: zachtVerloop(blok) });
+        const opruimen = () => { if (!blok.getAnimations().length) blok.style.overflow = ''; };
+        animatie.addEventListener('finish', opruimen);
+        animatie.addEventListener('cancel', opruimen);
+      };
+      // Een blok dat een ander vervangt, komt zacht binnen.
+      const instroom = blok => {
+        if (minderBeweging.matches || !blok.animate) return;
+        blok.animate([{ opacity: 0, transform: 'translateY(6px)' }, { opacity: 1, transform: 'none' }], { duration: 240, easing: zachtVerloop(blok) });
+      };
       // Elke fout staat bij het veld waar ze over gaat.
       const velden = {
         school: [school, element('school-fout')],
@@ -644,14 +685,21 @@
           });
 
       // Bij de bestanden: één regel per bestand. Een melding met info (staat er al) is geen fout.
-      const toonBestandMeldingen = meldingen => {
-        bestandenFout.replaceChildren(...meldingen.map(({ tekst, info }) => {
+      // direct: de hoogte wordt al door glad() van de bestandenlijst meegenomen.
+      const toonBestandMeldingen = (meldingen, direct) => {
+        const regels = meldingen.map(({ tekst, info }) => {
           const regel = document.createElement('p');
           regel.className = info ? 'ins-fout is-info' : 'ins-fout';
           regel.textContent = tekst;
           return regel;
-        }));
-        bestandenFout.hidden = !meldingen.length;
+        });
+        if (direct) {
+          bestandenFout.replaceChildren(...regels);
+          bestandenFout.hidden = !meldingen.length;
+        } else if (meldingen.length) {
+          bestandenFout.replaceChildren(...regels);
+          zachtToon(bestandenFout);
+        } else zachtVerberg(bestandenFout);
         const echt = meldingen.some(melding => !melding.info);
         if (echt) input.setAttribute('aria-invalid', 'true');
         else input.removeAttribute('aria-invalid');
@@ -660,14 +708,20 @@
       const toonVeldFout = (naam, bericht) => {
         if (naam === 'bestanden') { toonBestandMeldingen(bericht ? [{ tekst: bericht }] : []); return; }
         const [veld, plek] = velden[naam];
-        plek.textContent = bericht;
-        plek.hidden = !bericht;
-        if (bericht) veld.setAttribute('aria-invalid', 'true');
-        else veld.removeAttribute('aria-invalid');
+        if (bericht) {
+          plek.textContent = bericht;
+          zachtToon(plek);
+          veld.setAttribute('aria-invalid', 'true');
+        } else {
+          zachtVerberg(plek);
+          veld.removeAttribute('aria-invalid');
+        }
       };
       const toonFout = bericht => {
-        fout.textContent = bericht;
-        fout.hidden = !bericht;
+        if (bericht) {
+          fout.textContent = bericht;
+          zachtToon(fout);
+        } else zachtVerberg(fout);
       };
       const wisFouten = () => {
         toonFout('');
@@ -685,7 +739,7 @@
       const werkKnopBij = () => {
         volgende.textContent = verstuurTekst();
         const toon = Boolean(poging?.verstuurd.length);
-        bewaard.hidden = !toon;
+        if (toon) zachtToon(bewaard); else zachtVerberg(bewaard);
         if (toon) volgende.setAttribute('aria-describedby', 'insturen-bewaard');
         else volgende.removeAttribute('aria-describedby');
       };
@@ -703,7 +757,7 @@
       // Minstens een minuut, en nooit trager dan ongeveer 50 kB per seconde.
       const uploadLimiet = grootte => Math.max(60000, Math.ceil(grootte / 51.2));
 
-      const tekenLijst = () => {
+      const bouwLijst = () => {
         lijst.replaceChildren(...bestanden.map((bestand, index) => {
           const li = document.createElement('li');
           li.className = 'ins-bestand';
@@ -736,12 +790,19 @@
           weg.addEventListener('click', () => {
             // Verstuurde bestanden zijn altijd de eerste rijen; weghalen kan alleen bij wat nog niet binnen is,
             // dus de paden van wat al binnen is blijven gelijk en de poging (dezelfde map) blijft geldig.
-            if (bezig || isVerstuurd(bestand, index)) return;
-            bestanden.splice(index, 1);
-            tekenLijst();
-            toonVeldFout('bestanden', '');
-            toonStatus(bestand.name + ' is weggehaald.');
-            input.focus();
+            if (bezig || isVerstuurd(bestand, index) || li.classList.contains('is-weg')) return;
+            const haalWeg = () => {
+              const plek = bestanden.indexOf(bestand);
+              if (bezig || plek < 0) { li.classList.remove('is-weg'); return; }
+              bestanden.splice(plek, 1);
+              tekenLijst([]);
+              toonStatus(bestand.name + ' is weggehaald.');
+              input.focus();
+            };
+            // Eerst vervaagt de rij, daarna schuift de rest op.
+            if (minderBeweging.matches) { haalWeg(); return; }
+            li.classList.add('is-weg');
+            window.setTimeout(haalWeg, 200);
           });
           const vink = document.createElement('span');
           vink.className = 'ins-bestand-vink';
@@ -762,6 +823,11 @@
         zoneTitel.textContent = bestanden.length ? 'Nog een bestand toevoegen' : 'Kies bestanden';
         werkKnopBij();
       };
+      // De groep met lijst, zone en meldingen verandert van hoogte; die glijdt mee. Met meldingen worden ook de bestandsmeldingen bijgewerkt.
+      const tekenLijst = meldingen => glad(lijst.parentElement, () => {
+        bouwLijst();
+        if (meldingen) toonBestandMeldingen(meldingen, true);
+      });
 
       const voegToe = lijstBestanden => {
         if (bezig) return;
@@ -781,8 +847,7 @@
           bestanden.push(bestand);
         });
         if (teVeel) meldingen.push({ tekst: 'Maximaal ' + MAX_BESTANDEN + ' bestanden per keer. ' + (teVeel === 1 ? '1 bestand past' : teVeel + ' bestanden passen') + ' er niet meer bij.' });
-        tekenLijst();
-        toonBestandMeldingen(meldingen);
+        tekenLijst(meldingen);
         const erbij = bestanden.length - eerder;
         if (erbij > 0) toonStatus(erbij === 1 ? '1 bestand toegevoegd.' : erbij + ' bestanden toegevoegd.');
       };
@@ -803,8 +868,14 @@
         zone.classList.remove('is-over');
         if (event.dataTransfer?.files?.length) voegToe(event.dataTransfer.files);
       });
-      // Een bestand net naast de zone loslaten mag de pagina niet vervangen.
-      ['dragover', 'drop'].forEach(soort => window.addEventListener(soort, event => event.preventDefault()));
+      // Een bestand net naast de zone loslaten mag de pagina niet vervangen. Tekst slepen in de velden blijft gewoon werken.
+      ['dragover', 'drop'].forEach(soort => window.addEventListener(soort, event => {
+        if (Array.from(event.dataTransfer?.types || []).includes('Files')) event.preventDefault();
+      }));
+      // Wie wegtikt terwijl er geüpload wordt, of met gekozen maar nog niet verstuurde bestanden, krijgt eerst een vraag.
+      window.addEventListener('beforeunload', event => {
+        if (bezig || (!form.hidden && bestanden.length > 0)) { event.preventDefault(); event.returnValue = ''; }
+      });
 
       // School en richting komen uit de catalogus. "Staat er niet tussen" opent een tekstveld.
       const CATALOGUS = window.BES_CATALOGUS;
@@ -825,16 +896,14 @@
         CATALOGUS.scholen.filter(s => s.type === 'bijzonder').sort(opNaam).forEach(s => bijzonder.append(optie(s.id, s.naam)));
         school.append(bijzonder, optie(ANDERS, 'Mijn school staat er niet tussen'));
       };
-      const toon = (veld, aan) => {
-        if (veld.hidden === !aan) return;
-        veld.hidden = !aan;
-        veld.classList.toggle('is-nieuw', aan);
-      };
+      // Of de keuzelijst met richtingen er is; veldRichting zelf schuift nog dicht als de lijst net verdwijnt.
+      let richtingLijst = false;
+      const toon = (veld, aan) => { if (aan) zachtToon(veld); else zachtVerberg(veld); };
       const werkRichtingBij = () => {
         richting.classList.toggle('is-leeg', !richting.value);
-        const anders = !veldRichting.hidden ? richting.value === ANDERS : school.value !== '';
+        const anders = richtingLijst ? richting.value === ANDERS : school.value !== '';
         toon(veldRichtingAnders, anders);
-        element('richting-anders-label').textContent = veldRichting.hidden ? 'Je richting' : 'Welke richting?';
+        element('richting-anders-label').textContent = richtingLijst ? 'Welke richting?' : 'Je richting';
       };
       const werkSchoolBij = () => {
         const id = school.value;
@@ -844,7 +913,8 @@
         richting.replaceChildren(optie('', 'Kies je richting'),
           ...lijstRichtingen.map(r => optie(r.id, r.status === 'live' ? r.naam + ' (al online)' : r.naam)),
           optie(ANDERS, 'Mijn richting staat er niet tussen'));
-        toon(veldRichting, lijstRichtingen.length > 0);
+        richtingLijst = lijstRichtingen.length > 0;
+        toon(veldRichting, richtingLijst);
         werkRichtingBij();
         ['schoolAnders', 'richting', 'richtingAnders'].forEach(naam => toonVeldFout(naam, ''));
       };
@@ -857,12 +927,16 @@
       let richtingGekozen = false;
       const toonVast = () => {
         const gekozen = vast && CATALOGUS ? CATALOGUS.school(vast.id) : null;
-        schoolVast.hidden = !gekozen;
-        school.hidden = Boolean(gekozen);
-        if (gekozen) {
-          element('school-vast-naam').textContent = gekozen.naam;
-          element('school-vast-bron').textContent = BRONNEN[vast.bron];
-        }
+        const wissel = () => {
+          schoolVast.hidden = !gekozen;
+          school.hidden = Boolean(gekozen);
+          if (gekozen) {
+            element('school-vast-naam').textContent = gekozen.naam;
+            element('school-vast-bron').textContent = BRONNEN[vast.bron];
+          }
+        };
+        // Bij het eerste vullen van de pagina gaat het direct; daarna glijdt de hoogte mee en komt het nieuwe blok zacht binnen.
+        if (window.BES) { glad(schoolVast.parentElement, wissel); instroom(gekozen ? schoolVast : school); } else wissel();
       };
       const zetSchool = (id, bron) => {
         vast = { id, bron };
@@ -893,7 +967,7 @@
         const herkend = CATALOGUS.herken(window.BES?.auth?.overGegevens?.(user)?.studie);
         if (!herkend) return;
         if (!vast && !schoolGekozen && !school.value) zetSchool(herkend.school.id, 'account');
-        if (herkend.richting && school.value === herkend.school.id && !richtingGekozen && !richting.value && !veldRichting.hidden) {
+        if (herkend.richting && school.value === herkend.school.id && !richtingGekozen && !richting.value && richtingLijst) {
           richting.value = herkend.richting.id;
           werkRichtingBij();
         }
@@ -911,7 +985,7 @@
       const werkVoortgangBij = () => {
         const standen = Array.from(lijst.children, li => li.dataset.stand || 'wacht');
         const klaarAantal = standen.filter(stand => stand === 'klaar').length;
-        voortgang.hidden = false;
+        zachtToon(voortgang);
         voortgangTekst.textContent = klaarAantal + ' van ' + standen.length + ' verstuurd';
         if (voortgangDelen.children.length !== standen.length) {
           voortgangDelen.replaceChildren(...standen.map(() => document.createElement('span')));
@@ -925,10 +999,10 @@
         form.classList.toggle('is-bezig', aan);
         if (aan) {
           volgende.textContent = 'Wordt verstuurd…';
-          bewaard.hidden = true;
+          zachtVerberg(bewaard);
         } else {
           werkKnopBij();
-          voortgang.hidden = true;
+          zachtVerberg(voortgang);
         }
       };
 
@@ -958,6 +1032,7 @@
         form.hidden = true;
         zoWerkt.hidden = true;
         bedankt.hidden = false;
+        instroom(bedankt);
         if (typeof dialoog.showModal === 'function') {
           dialoog.classList.remove('is-dicht');
           dialoog.showModal();
@@ -981,9 +1056,13 @@
         bedankt.hidden = true;
         zoWerkt.hidden = false;
         form.hidden = false;
+        instroom(zoWerkt);
+        instroom(form);
         formulierTitel.focus();
       });
 
+      // De melding staat net boven de knop; scroll pas als ze open is, anders blijft de knop onder de rand hangen.
+      const naarBalk = () => window.setTimeout(() => balk.scrollIntoView({ block: 'nearest', behavior: minderBeweging.matches ? 'auto' : 'smooth' }), minderBeweging.matches ? 0 : 240);
       const foutTekst = mislukt => {
         if (mislukt?.eigen === 'offline') return 'Je verbinding is weg. Probeer het opnieuw zodra je weer online bent.';
         if (mislukt?.eigen === 'traag') return 'Versturen duurt te lang. Probeer het opnieuw.';
@@ -1008,8 +1087,8 @@
         if (!school.value) { toonVeldFout('school', 'Kies je school. Staat ze er niet tussen, kies dan de laatste keuze.'); school.focus(); return; }
         const schoolTekst = gekozenSchool ? gekozenSchool.naam : schoolAnders.value.trim();
         if (Array.from(schoolTekst).length < 2) { toonVeldFout('schoolAnders', 'Vul de naam van je school in.'); schoolAnders.focus(); return; }
-        if (!veldRichting.hidden && !richting.value) { toonVeldFout('richting', 'Kies je richting. Staat ze er niet tussen, kies dan de laatste keuze.'); richting.focus(); return; }
-        const gekozenRichting = !veldRichting.hidden && richting.value !== ANDERS ? CATALOGUS.richting(richting.value) : null;
+        if (richtingLijst && !richting.value) { toonVeldFout('richting', 'Kies je richting. Staat ze er niet tussen, kies dan de laatste keuze.'); richting.focus(); return; }
+        const gekozenRichting = richtingLijst && richting.value !== ANDERS ? CATALOGUS.richting(richting.value) : null;
         const richtingNaam = gekozenRichting ? gekozenRichting.naam : richtingAnders.value.trim();
         if (Array.from(richtingNaam).length < 2) { toonVeldFout('richtingAnders', 'Vul je richting in, zodat we weten voor wie het is.'); richtingAnders.focus(); return; }
         const richtingTekst = richtingNaam + ', ' + schoolTekst;
@@ -1023,7 +1102,7 @@
           toonFout(auth && auth.beschikbaar === false
             ? 'Insturen lukt nu niet in deze browser. Probeer het later opnieuw of via mobiele data.'
             : 'De pagina is nog aan het laden. Probeer het over een paar tellen opnieuw.');
-          balk.scrollIntoView({ block: 'nearest', behavior: minderBeweging.matches ? 'auto' : 'smooth' });
+          naarBalk();
           return;
         }
 
@@ -1079,7 +1158,7 @@
           zetBezig(false);
           toonFout(foutTekst(mislukt));
           // De melding staat net boven de knop; breng die twee samen in beeld.
-          balk.scrollIntoView({ block: 'nearest', behavior: minderBeweging.matches ? 'auto' : 'smooth' });
+          naarBalk();
           volgende.focus({ preventScroll: true });
         }
       });

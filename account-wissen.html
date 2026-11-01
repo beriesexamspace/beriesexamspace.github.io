@@ -31,12 +31,12 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="assets/style.css?v=91">
-  <script src="assets/app.js?v=90" defer></script>
+  <link rel="stylesheet" href="assets/style.css?v=92">
+  <script src="assets/app.js?v=91" defer></script>
   <script src="assets/config.js?v=89" defer></script>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js" defer></script>
   <script src="assets/auth.js?v=90" defer></script>
-  <script src="assets/plan.js?v=89" defer></script>
+  <script src="assets/plan.js?v=90" defer></script>
   <style>
     .wissen-wrap { max-width: 640px; }
     .wissen-legenda { position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0; border: 0; clip-path: inset(50%); overflow: hidden; white-space: nowrap; }
@@ -66,7 +66,8 @@
     .wissen-knoppen .knop, .wissen-knoppen .knop-secundair { width: auto; min-width: 0; margin: 0; }
     .knop-gevaar-vol { background: var(--fout); border-color: var(--fout); box-shadow: none; }
     .knop-gevaar-vol:disabled { opacity: .45; cursor: default; }
-    :where(html.has-hover) .knop-gevaar-vol:not(:disabled):hover { background: var(--fout); box-shadow: none; }
+    /* Specifieker dan de blauwe hover van .knop in style.css, zodat de knop bij de muis rood blijft. */
+    :where(html.has-hover) .knop.knop-gevaar-vol:not(:disabled):not([aria-disabled="true"]):hover { background: var(--fout); box-shadow: none; }
     button.wissen-terug { padding: 10px 0; border: 0; background: none; font: inherit; font-size: .9375rem; cursor: pointer; }
     .wissen-terug { color: var(--ink-soft); text-decoration: underline; text-underline-offset: 3px; }
     :where(html.has-hover) .wissen-terug:hover { color: var(--ink); }
@@ -109,7 +110,7 @@
       <p class="wissen-stappen" id="wissen-stappen" aria-hidden="true"><i class="is-nu"></i><i></i><i></i></p>
 
       <section class="kaart wissen-kaart" id="stap-1" aria-labelledby="stap-1-kop">
-        <h2 id="stap-1-kop">Wat er gebeurt</h2>
+        <h2 id="stap-1-kop"><span class="wissen-legenda">Stap 1 van 3: </span>Wat er gebeurt</h2>
         <p>Als je je account wist, verdwijnt dit meteen en voorgoed:</p>
         <ul class="wissen-lijst">
           <li><div>Je voortgang per vak en per hoofdstuk, en je opgeslagen sessies.</div></li>
@@ -127,7 +128,7 @@
       </section>
 
       <section class="kaart wissen-kaart" id="stap-2" aria-labelledby="stap-2-kop" hidden>
-        <h2 id="stap-2-kop">Waarom ga je weg?</h2>
+        <h2 id="stap-2-kop"><span class="wissen-legenda">Stap 2 van 3: </span>Waarom ga je weg?</h2>
         <p>Dit helpt om de site beter te maken. We bewaren alleen je antwoord, zonder je naam of e-mailadres.</p>
         <fieldset class="wissen-redenen" id="wissen-redenen">
           <legend class="wissen-legenda">Kies een reden</legend>
@@ -146,7 +147,7 @@
       </section>
 
       <section class="kaart wissen-kaart" id="stap-3" aria-labelledby="stap-3-kop" hidden>
-        <h2 id="stap-3-kop">Weet je het zeker?</h2>
+        <h2 id="stap-3-kop"><span class="wissen-legenda">Stap 3 van 3: </span>Weet je het zeker?</h2>
         <p>Dit is de laatste stap. Na het klikken is je account weg en word je uitgelogd.</p>
         <div class="wissen-knoppen">
           <button class="knop knop-gevaar-vol" id="wissen-definitief" type="button">Account verwijderen</button>
@@ -175,16 +176,30 @@
 
   <script>
     document.addEventListener('DOMContentLoaded', () => {
-      const auth = window.BES.auth;
+      const BES = window.BES;
+      const auth = BES.auth;
       const stappen = document.getElementById('wissen-stappen');
       const fout = document.getElementById('wissen-fout');
       const knop = document.getElementById('wissen-definitief');
       const toelichting = document.getElementById('wissen-toelichting');
       let bezig = false;
+      let wisselt = false;
+      let redenBewaard = false;
 
       const toon = nummer => {
-        if (bezig) return;
-        [1, 2, 3].forEach(n => { document.getElementById('stap-' + n).hidden = n !== nummer; });
+        if (bezig || wisselt) return;
+        // Terwijl de ene kaart dichtschuift en de volgende openschuift, geen nieuwe wissel.
+        wisselt = true;
+        window.setTimeout(() => { wisselt = false; }, 260);
+        [1, 2, 3].forEach(n => {
+          const stap = document.getElementById('stap-' + n);
+          if (n === nummer) {
+            // Stap 2 en 3 hebben hun eigen intro in de css; stap 1 (via Vorige) schuift open met de gedeelde BES.toon.
+            if (n === 1 && stap.hidden && window.BES.toon) window.BES.toon(stap);
+            else stap.hidden = false;
+          } else if (!stap.hidden && window.BES.verberg) window.BES.verberg(stap);
+          else stap.hidden = true;
+        });
         document.getElementById('stap-klaar').hidden = true;
         stappen.hidden = false;
         [...stappen.children].forEach((balk, i) => {
@@ -204,13 +219,41 @@
       });
 
       // De reden gaat als losse rij naar Supabase, zonder gebruikers-id, vlak voor het wissen zelf.
+      // Mislukt het wissen en probeert de student het opnieuw, dan staat dezelfde reden niet dubbel in de tabel.
       const redenBewaren = async () => {
         const gekozen = document.querySelector('input[name="reden"]:checked');
-        if (!gekozen || !auth.client) return;
+        if (redenBewaard || !gekozen || !auth.client) return;
         const tekst = toelichting.value.trim().slice(0, 500);
         try {
-          await auth.client.from('vertrek_redenen').insert({ reden: gekozen.value, toelichting: tekst || null });
+          const { error } = await auth.client.from('vertrek_redenen').insert({ reden: gekozen.value, toelichting: tekst || null });
+          if (!error) redenBewaard = true;
         } catch {}
+      };
+
+      // Na het wissen blijft er op dit toestel niets van het gewiste account achter (auth.uitloggen doet dit voor twee sleutels, wissen niet).
+      const lokaalOpruimen = eigenaar => {
+        try {
+          ['bes_versie_gezien', 'bes_comit_voorgesteld', 'bes_studieactiviteit_' + eigenaar, 'bes_laatst_geoefend_' + eigenaar].forEach(sleutel => window.localStorage.removeItem(sleutel));
+          for (let i = window.localStorage.length - 1; i >= 0; i -= 1) {
+            const sleutel = window.localStorage.key(i);
+            if (!sleutel || !sleutel.startsWith('bes_voortgang_')) continue;
+            let van = null;
+            try { van = JSON.parse(window.localStorage.getItem(sleutel)).eigenaar; } catch {}
+            if (van === eigenaar) window.localStorage.removeItem(sleutel);
+          }
+        } catch {}
+      };
+
+      // Het contactadres in een foutmelding is een link om te mailen.
+      const toonFout = (tekst, mail) => {
+        fout.textContent = tekst;
+        if (mail) {
+          const link = document.createElement('a');
+          link.href = 'mailto:' + mail;
+          link.textContent = mail;
+          fout.append(' ', link, '.');
+        }
+        fout.hidden = false;
       };
 
       // Steeds de eerste pagina wissen, zodat ook losse uploads en oude boekfoto's verdwijnen.
@@ -263,6 +306,22 @@
           fase = 'fotos';
           await boekfotosWissen(eigenaar, controleer);
           await controleer();
+          // Betaalt dit account via Mollie, dan eerst het abonnement stoppen; lukt dat niet, dan wordt er niet gewist.
+          // Een Free-account (geen via_mollie) wist gewoon. Lukt het plan niet op te halen, dan weten we het niet zeker en wissen we ook niet.
+          fase = 'plan';
+          const plan = await BES.plan(true);
+          await controleer();
+          if (plan.fout) throw new Error('plan-laden');
+          if (plan.via_mollie === true) {
+            fase = 'abonnement';
+            try {
+              await BES.mollie({ actie: 'opzeggen' });
+            } catch (mislukt) {
+              // Was er niets meer op te zeggen (al opgezegd), dan is dat in orde.
+              if (!(mislukt && (mislukt.reden === 'niets_op_te_zeggen' || mislukt.fout === 'Je hebt geen abonnement om op te zeggen.'))) throw mislukt;
+            }
+            await controleer();
+          }
           fase = 'account';
           await redenBewaren();
           await controleer();
@@ -274,6 +333,7 @@
           document.getElementById('stap-klaar').hidden = false;
           document.getElementById('stap-klaar-kop').setAttribute('tabindex', '-1');
           document.getElementById('stap-klaar-kop').focus({ preventScroll: true });
+          lokaalOpruimen(eigenaar);
           try { await auth.client.auth.signOut(); } catch {}
           const huidig = await auth.gebruiker();
           if (huidig && huidig.id !== eigenaar) throw sessieFout;
@@ -284,12 +344,11 @@
           bezig = error === sessieFout;
           knop.disabled = bezig;
           knop.textContent = 'Account verwijderen';
-          fout.textContent = error === sessieFout
-            ? 'Je account is gewijzigd of je bent uitgelogd. Laad de pagina opnieuw.'
-            : fase === 'fotos'
-              ? "Je boekfoto's konden niet allemaal worden gewist. Je account is nog niet gewist. Probeer het opnieuw."
-              : 'Wissen is niet gelukt. Probeer het later opnieuw of mail naar berie007yldrm@gmail.com.';
-          fout.hidden = false;
+          if (error === sessieFout) toonFout('Je account is gewijzigd of je bent uitgelogd. Laad de pagina opnieuw.');
+          else if (fase === 'fotos') toonFout("Je boekfoto's konden niet allemaal worden gewist. Je account is nog niet gewist. Probeer het opnieuw.");
+          else if (fase === 'plan') toonFout('Je abonnement kon niet worden gecontroleerd. Je account is nog niet gewist. Probeer het opnieuw.');
+          else if (fase === 'abonnement') toonFout('Je abonnement kon niet worden gestopt. Je account is nog niet gewist. Probeer het opnieuw.');
+          else toonFout('Wissen is niet gelukt. Probeer het later opnieuw of mail naar', 'berie007yldrm@gmail.com');
         } finally {
           subscription.unsubscribe();
           document.removeEventListener('click', bijUitloggen, true);
