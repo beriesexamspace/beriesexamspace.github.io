@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="nl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script src="assets/deur.js?v=89"></script>
+  <link rel="apple-touch-icon" href="/assets/icoon-180.png">
+  <link rel="manifest" href="/manifest.webmanifest">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Berie's Exam Space">
+  <meta property="og:title" content="Kruisje bolletje | Berie's Exam Space">
+  <meta property="og:description" content="Speel kruisje bolletje tegen de robot van Berie's Exam Space.">
+  <meta property="og:image" content="https://beriesexamspace.com/assets/deel.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:url" content="https://beriesexamspace.com/kruisje-bolletje.html">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="description" content="Speel kruisje bolletje tegen de robot van Berie's Exam Space.">
+  <meta name="theme-color" content="#FFFFFF">
+  <script>
+    (() => {
+      let keuze;
+      try { keuze = window.localStorage.getItem('bes_thema'); } catch {}
+      const donker = keuze === 'donker' || (keuze !== 'licht' && window.matchMedia('(prefers-color-scheme: dark)').matches);
+      document.documentElement.dataset.theme = donker ? 'dark' : 'light';
+      document.querySelector('meta[name="theme-color"]').content = donker ? '#0B0B0C' : '#FFFFFF';
+    })();
+  </script>
+  <meta name="robots" content="noindex">
+  <title>Kruisje bolletje | Berie's Exam Space</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/style.css?v=91">
+  <link rel="stylesheet" href="assets/kruisje-bolletje.css?v=90">
+  <script src="assets/app.js?v=90"></script>
+  <script src="assets/config.js?v=89" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js" defer></script>
+  <script src="assets/auth.js?v=90" defer></script>
+  <script src="assets/plan.js?v=89" defer></script>
+  <script src="assets/activiteit.js?v=89" defer></script>
+  <script src="assets/robot.js?v=90" defer></script>
+  <script src="assets/kruisje-bolletje.js?v=90" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#inhoud">Ga naar inhoud</a>
+  <header class="site-header">
+    <nav class="navigation" aria-label="Hoofdnavigatie">
+      <a class="brand" href="index.html" aria-label="Berie's Exam Space, startpagina">
+        <span class="brand-symbol" aria-hidden="true">B</span>
+        <span class="brand-name"><span>Berie's</span> <span>Exam Space</span></span>
+      </a>
+      <a class="home-knop" href="hub.html" aria-label="Home" title="Home">
+        <svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 10.5 12 3l9 7.5M5 9v12h5v-7h4v7h5V9"/></svg>
+      </a>
+      <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="site-menu">Menu</button>
+      <ul class="navigation-links" id="site-menu">
+        <li><a href="hub.html#hoe-werkt-het">Hoe werkt het</a></li>
+        <li><a href="hub.html#wie-is-berie">Over mij</a></li>
+        <li><a href="whatsapp.html">WhatsApp-groep</a></li>
+        <li><a href="insturen/formulier.html">Insturen</a></li>
+      </ul>
+      <a class="pill login-button" href="inloggen.html">Inloggen&nbsp; →</a>
+    </nav>
+  </header>
+
+  <main id="inhoud" class="pagina kb-pagina" aria-labelledby="kb-kop">
+    <div class="wrap">
+      <a class="terug" href="games.html" data-terug="games.html" data-terug-tekst="Terug">← Terug</a>
+      <header class="pagina-kop"><p class="eyebrow">Pauze</p><h1 id="kb-kop">Kruisje bolletje</h1></header>
+      <div class="kb-rooster">
+        <div class="kaart kb-spel">
+          <div class="kb-niveaus" role="group" aria-label="Niveau">
+            <button type="button" class="kb-niveau" data-niveau="makkelijk" aria-pressed="false">Makkelijk</button>
+            <button type="button" class="kb-niveau" data-niveau="normaal" aria-pressed="false">Normaal</button>
+            <button type="button" class="kb-niveau" data-niveau="onmogelijk" aria-pressed="false">Onmogelijk</button>
+          </div>
+          <p class="kb-uitleg" id="kb-uitleg"></p>
+          <div class="kb-status" id="kb-status" role="status" aria-live="polite">
+            <span class="kb-stip" aria-hidden="true"></span><span id="kb-status-tekst"></span>
+          </div>
+        </div>
+        <div class="kaart kb-veld">
+          <div class="kb-bord-ruimte"><div class="kb-bord" id="kb-bord" role="group" aria-label="Speelbord"></div></div>
+          <div class="kb-acties"><button type="button" class="knop" id="kb-opnieuw">Nieuw spel</button></div>
+        </div>
+        <section class="kaart kb-stand" aria-labelledby="kb-stand-kop">
+          <h2 class="kb-stand-kop" id="kb-stand-kop">Jouw stand</h2>
+          <p class="kb-stand-sub">Blijft bewaard op dit toestel.</p>
+          <div class="kb-tabel-wrap">
+            <table class="kb-tabel">
+              <thead><tr><th scope="col">Niveau</th><th scope="col">Gewonnen</th><th scope="col">Gelijk</th><th scope="col">Verloren</th></tr></thead>
+              <tbody>
+                <tr data-niveau="makkelijk"><th scope="row">Makkelijk</th><td data-veld="jij">0</td><td data-veld="gelijk">0</td><td data-veld="robot">0</td></tr>
+                <tr data-niveau="normaal"><th scope="row">Normaal</th><td data-veld="jij">0</td><td data-veld="gelijk">0</td><td data-veld="robot">0</td></tr>
+                <tr data-niveau="onmogelijk"><th scope="row">Onmogelijk</th><td data-veld="jij">0</td><td data-veld="gelijk">0</td><td data-veld="robot">0</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+      </div>
+    </div>
+  </main>
+</body>
+</html>

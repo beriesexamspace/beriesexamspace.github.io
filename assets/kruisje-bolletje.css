@@ -1,0 +1,381 @@
+/* Kruisje bolletje: alles op één scherm, zonder scrollen. Het bord krijgt de ruimte die overblijft. */
+
+/* Pagina precies schermhoog. Op een heel klein scherm mag hij toch scrollen in plaats van iets af te knippen. */
+.kb-pagina {
+  flex: 0 0 auto;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  height: 100dvh;
+  min-height: 560px;
+  padding: 68px 0 12px;
+}
+
+.kb-pagina .wrap {
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  min-height: 0;
+}
+
+.kb-pagina .terug { display: none; }
+.kb-pagina .pagina-kop { flex: none; margin: 0 0 12px; }
+.kb-pagina .pagina-kop .eyebrow { display: none; margin: 0 0 4px; }
+.kb-pagina .pagina-kop h1 { font-size: clamp(1.625rem, 3vw, 2.25rem); }
+
+/* Telefoon: één kolom. Niveaus, uitleg, beurt met de knop ernaast, het bord, en onderaan de stand. */
+.kb-rooster {
+  display: grid;
+  flex: 1 1 auto;
+  min-height: 0;
+  grid-template-columns: minmax(0, 1fr) auto;
+  grid-template-rows: auto auto auto minmax(0, 1fr) auto;
+  grid-template-areas:
+    "niveaus niveaus"
+    "uitleg uitleg"
+    "status acties"
+    "bord bord"
+    "stand stand";
+  align-items: center;
+  gap: 12px;
+}
+
+.kb-spel, .kb-veld { display: contents; }
+.kb-niveaus { grid-area: niveaus; }
+.kb-uitleg { grid-area: uitleg; }
+.kb-status { grid-area: status; }
+.kb-acties { grid-area: acties; }
+.kb-bord-ruimte { grid-area: bord; }
+.kb-stand { grid-area: stand; }
+
+/* Drie losse niveauknoppen. */
+.kb-niveaus {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.kb-niveau {
+  min-width: 0;
+  min-height: 40px;
+  padding: 6px 2px;
+  border: 1px solid var(--line);
+  border-radius: var(--pill);
+  background: var(--card);
+  color: var(--ink);
+  font: 500 .875rem/1.4 var(--font-family);
+  text-align: center;
+  overflow-wrap: anywhere;
+  cursor: pointer;
+  transition: background-color 180ms var(--ease), border-color 180ms var(--ease), color 180ms var(--ease);
+}
+
+:where(html.has-hover) .kb-niveau:not(:disabled):hover {
+  border-color: var(--accent);
+  background: var(--surface);
+}
+
+.kb-niveau[aria-pressed="true"] {
+  border-color: var(--accent);
+  background: var(--accent-zacht);
+  color: var(--accent);
+}
+
+:where(html.has-hover) .kb-niveau[aria-pressed="true"]:not(:disabled):hover {
+  background: var(--accent-zacht);
+}
+
+.kb-uitleg {
+  margin: 0;
+  color: var(--muted);
+  font-size: .875rem;
+  line-height: 1.45;
+}
+
+/* Beurt en uitslag. */
+.kb-status {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 44px;
+  padding: 10px 14px;
+  border-radius: 14px;
+  background: var(--surface);
+  color: var(--ink);
+  font-size: .875rem;
+  line-height: 1.4;
+  transition: background-color 200ms var(--ease);
+}
+
+.kb-stip {
+  flex: 0 0 10px;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--accent);
+}
+
+.kb-status[data-beurt="robot"] .kb-stip,
+.kb-status[data-uitslag="robot"] .kb-stip { background: var(--teal); }
+
+.kb-status[data-beurt="robot"]:not([data-uitslag]) .kb-stip {
+  animation: kb-denken 1200ms var(--ease) infinite;
+}
+
+.kb-status[data-uitslag="jij"] { background: var(--accent-zacht); }
+.kb-status[data-uitslag="jij"] .kb-stip { background: var(--accent); }
+.kb-status[data-uitslag="robot"] { background: var(--teal-zacht); }
+.kb-status[data-uitslag="gelijk"] .kb-stip { background: var(--muted); }
+
+@keyframes kb-denken {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: .45; transform: scale(.85); }
+}
+
+/* Nieuw spel: op de telefoon een kleine knop naast de beurt. */
+.kb-acties { display: flex; justify-content: flex-end; }
+
+.kb-acties .knop {
+  width: auto;
+  min-width: 0;
+  max-width: none;
+  margin: 0;
+  padding: 0 18px;
+  font-size: .9375rem;
+}
+
+/* Het bord vult de ruimte die overblijft en blijft vierkant. */
+.kb-bord-ruimte {
+  align-self: stretch;
+  display: grid;
+  place-items: center;
+  min-height: 200px;
+  container-type: size;
+}
+
+.kb-bord {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+  width: min(100cqw, 100cqh, 520px);
+}
+
+.kb-vak {
+  display: grid;
+  place-items: center;
+  min-width: 0;
+  aspect-ratio: 1;
+  padding: 0;
+  border: 1px solid transparent;
+  border-radius: 16px;
+  background: var(--surface);
+  cursor: pointer;
+  transition: background-color 180ms var(--ease), border-color 180ms var(--ease), transform 180ms var(--ease), opacity 200ms var(--ease);
+}
+
+:where(html.has-hover) .kb-vak:not(:disabled):hover { border-color: var(--accent); }
+.kb-vak:not(:disabled):active { transform: scale(.96); }
+.kb-vak:disabled { cursor: default; opacity: 1; }
+
+.kb-teken {
+  display: block;
+  width: 56%;
+  height: 56%;
+  overflow: visible;
+  pointer-events: none;
+}
+
+.kb-kruis { stroke: var(--accent); }
+.kb-bol { stroke: var(--teal); }
+
+.kb-teken line,
+.kb-teken circle {
+  fill: none;
+  stroke-width: 11;
+  stroke-linecap: round;
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  animation: kb-tekenen 300ms var(--ease) both;
+}
+
+.kb-kruis line:nth-of-type(2) { animation-delay: 120ms; }
+
+@keyframes kb-tekenen {
+  to { stroke-dashoffset: 0; }
+}
+
+/* De winnende lijn blijft helder. */
+.kb-bord[data-winnaar="jij"] .kb-vak.kb-lijn {
+  border-color: var(--accent);
+  background: var(--accent-zacht);
+}
+
+.kb-bord[data-winnaar="robot"] .kb-vak.kb-lijn {
+  border-color: var(--teal);
+  background: var(--teal-zacht);
+}
+
+.kb-bord[data-winnaar="jij"] .kb-vak:not(.kb-lijn),
+.kb-bord[data-winnaar="robot"] .kb-vak:not(.kb-lijn) { opacity: .45; }
+.kb-bord[data-winnaar="gelijk"] .kb-vak { opacity: .6; }
+
+/* Stand per niveau: op de computer een tabel. */
+.kb-stand-kop {
+  margin: 0;
+  font-size: 1.375rem;
+  font-weight: 600;
+  line-height: 1.2;
+  letter-spacing: -.01em;
+}
+
+.kb-stand-sub {
+  margin: 4px 0 12px;
+  color: var(--muted);
+  font-size: .9375rem;
+  line-height: 1.5;
+}
+
+.kb-tabel-wrap { overflow-x: auto; }
+
+.kb-tabel {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  color: var(--ink);
+  font-size: .9375rem;
+  line-height: 1.5;
+  font-variant-numeric: tabular-nums;
+}
+
+.kb-tabel thead th {
+  padding: 0 8px 8px;
+  color: var(--muted);
+  font-size: .8125rem;
+  font-weight: 600;
+  text-align: right;
+}
+
+.kb-tabel thead th:first-child { text-align: left; }
+.kb-tabel tbody th,
+.kb-tabel tbody td { padding: 10px 8px; }
+.kb-tabel tbody th { font-weight: 500; text-align: left; }
+.kb-tabel tbody td { font-weight: 600; text-align: right; }
+
+.kb-tabel tbody tr:not(:last-child) > :is(th, td) { border-bottom: 1px solid var(--line); }
+.kb-tabel td[data-veld="jij"] { color: var(--accent); }
+.kb-tabel td[data-veld="gelijk"] { color: var(--ink); }
+.kb-tabel td[data-veld="robot"] { color: var(--teal-tekst); }
+
+.kb-tabel tbody tr[aria-current="true"] > :is(th, td) {
+  border-bottom-color: transparent;
+  background: var(--accent-zacht);
+}
+
+.kb-tabel tbody tr > :first-child { border-radius: 10px 0 0 10px; }
+.kb-tabel tbody tr > :last-child { border-radius: 0 10px 10px 0; }
+
+.kb-tabel tr.kb-nieuw > :is(th, td) {
+  animation: kb-stand-flits 1200ms var(--ease);
+}
+
+@keyframes kb-stand-flits {
+  0%, 45% { background-color: var(--teal-zacht); }
+}
+
+/* Telefoon en tablet: geen kaarten, en de stand als drie kleine tegels met één legenda erboven. */
+@media (max-width: 899px) {
+  .kb-stand { padding: 0; border: 0; border-radius: 0; background: none; box-shadow: none; }
+  .kb-stand-kop {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    white-space: nowrap;
+  }
+  .kb-stand-sub { display: none; }
+  .kb-tabel-wrap { overflow: visible; }
+  .kb-tabel, .kb-tabel thead, .kb-tabel tbody { display: block; }
+  .kb-tabel thead tr { display: flex; justify-content: center; gap: 16px; margin-bottom: 6px; }
+  .kb-tabel thead th { padding: 0; font-size: .75rem; }
+  .kb-tabel thead th:first-child { display: none; }
+  .kb-tabel thead th:nth-child(2) { color: var(--accent); }
+  .kb-tabel thead th:nth-child(3) { color: var(--ink); }
+  .kb-tabel thead th:nth-child(4) { color: var(--teal-tekst); }
+  .kb-tabel tbody { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
+  .kb-tabel tbody tr {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 2px 12px;
+    padding: 8px 6px;
+    border-radius: 12px;
+    background: var(--surface);
+  }
+  .kb-pagina .kb-tabel tbody tr > :is(th, td) {
+    padding: 0;
+    border: 0;
+    border-radius: 0;
+    background: none;
+    text-align: center;
+  }
+  .kb-tabel tbody th { flex: 0 0 100%; color: var(--muted); font-size: .75rem; }
+  .kb-tabel tbody td { font-size: 1rem; }
+  .kb-tabel tbody tr[aria-current="true"] { background: var(--accent-zacht); }
+  .kb-pagina .kb-tabel tr.kb-nieuw > :is(th, td) { animation: none; }
+  .kb-tabel tr.kb-nieuw { animation: kb-stand-flits 1200ms var(--ease); }
+}
+
+/* Computer: links het bord in een kaart, rechts de knoppen en de stand. */
+@media (min-width: 900px) {
+  .kb-pagina { min-height: 600px; padding: 76px 0 24px; }
+  .kb-pagina .terug { display: inline-block; margin-bottom: 4px; }
+  .kb-pagina .pagina-kop { margin-bottom: 16px; }
+  .kb-pagina .pagina-kop .eyebrow { display: block; }
+
+  .kb-rooster {
+    grid-template-columns: minmax(0, 1.35fr) minmax(300px, 1fr);
+    /* De stand krijgt nooit minder dan zijn inhoud: past het echt niet, dan scrolt de pagina een stukje in plaats van af te knippen. */
+    grid-template-rows: auto minmax(min-content, 1fr);
+    grid-template-areas:
+      "veld spel"
+      "veld stand";
+    align-items: stretch;
+    gap: 20px;
+  }
+
+  .kb-spel { grid-area: spel; display: flex; flex-direction: column; gap: 12px; padding: 20px; }
+  .kb-veld { grid-area: veld; display: flex; flex-direction: column; gap: 16px; min-height: 0; padding: 20px; }
+  .kb-stand { padding: 20px; }
+  .kb-bord-ruimte { flex: 1 1 0; min-height: 0; }
+  .kb-acties { justify-content: center; }
+  .kb-acties .knop { min-width: 200px; padding: 0 28px; font-size: 1.0625rem; }
+
+  .kb-niveau { min-height: 44px; padding: 8px 12px; font-size: .9375rem; }
+  .kb-uitleg { font-size: .9375rem; line-height: 1.5; }
+  .kb-status { min-height: 48px; padding: 12px 16px; font-size: .9375rem; line-height: 1.5; }
+}
+
+/* Lage computerschermen: het kopje Pauze en de zin onder Jouw stand vallen weg, en de rijen worden lager, zodat alles past. */
+@media (min-width: 900px) and (max-height: 720px) {
+  .kb-pagina .pagina-kop .eyebrow { display: none; }
+  .kb-stand-sub { display: none; }
+  .kb-stand-kop { margin-bottom: 10px; }
+  .kb-tabel tbody th,
+  .kb-tabel tbody td { padding: 8px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .kb-stip,
+  .kb-teken line,
+  .kb-teken circle,
+  .kb-tabel tr.kb-nieuw,
+  .kb-tabel tr.kb-nieuw > :is(th, td) { animation: none !important; }
+  .kb-teken line,
+  .kb-teken circle { stroke-dashoffset: 0; }
+  .kb-niveau,
+  .kb-status,
+  .kb-vak { transition: none !important; }
+  .kb-niveau:active,
+  .kb-vak:active { transform: none !important; }
+}
