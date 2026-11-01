@@ -40,7 +40,7 @@
   <script src="assets/over-jezelf.js?v=89" defer></script>
   <script src="assets/plan.js?v=90" defer></script>
   <script src="assets/activiteit.js?v=90" defer></script>
-  <script src="assets/vakken.js?v=89"></script>
+  <script src="assets/vakken.js?v=90"></script>
   <script src="assets/inzichten.js?v=90" defer></script>
   <style>
     .profiel-wrap { max-width: 640px; }
@@ -845,7 +845,7 @@
             meld('Herroepen op ' + wanneer + '. Je plan is gestopt.'
               + (terug > 0 ? ' Je krijgt ' + BES.planBedrag(terug) + ' terug op dezelfde manier als je betaalde.' : '')
               // Stoppen of terugbetalen bij Mollie lukte niet helemaal: de student moet dat weten en kan mailen.
-              + (data.onvolledig ? ' Het stoppen of terugbetalen bij Mollie is nog niet helemaal gelukt. Mail naar berie007yldrm@gmail.com, dan regelen we het.' : '')
+              + (data.onvolledig ? ' Het stoppen of terugbetalen bij onze betaalpartner is nog niet helemaal gelukt. Mail naar berie007yldrm@gmail.com, dan regelen we het.' : '')
               + ' Bewaar dit bericht als bevestiging.', true);
           } catch (fout) {
             if (fout && fout.fout) {

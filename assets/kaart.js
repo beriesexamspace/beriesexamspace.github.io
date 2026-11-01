@@ -361,7 +361,7 @@
     const knoppen = maak('div', 'knoppen'); knoppen.append(account);
     const noot = maak('p', 'noot', 'Je maakt je account op de volgende pagina, met Google of met je e-mail. Daarna kom je op je eigen hub met de vakken van ' + x.naam + '.');
     const terug = maak('button', 'tekstknop', 'Andere richting'); terug.type = 'button'; terug.addEventListener('click', () => openSchool(s));
-    toon(kop('Maak je account', 'Stap 3 van 3'), maak('div', 'keuze', s.afk + ' · ' + x.naam), knoppen, noot, terug);
+    toon(kop('Maak je account'), maak('div', 'keuze', s.afk + ' · ' + x.naam), knoppen, noot, terug);
   }
 
   // Zoeken op school, stad, afkorting of richting, zonder op hoofdletters en accenten te letten ("liege" vindt Liège).
@@ -447,7 +447,7 @@
       vak.replaceChildren(...(delen.length ? delen : [maak('p', 'leegmelding', 'Geen school gevonden. Probeer een stad of afkorting.')]));
     };
     zoekLijst.addEventListener('input', teken); teken();
-    toon(kop('Alle scholen', SCHOLEN.length + ' universiteiten'), zoekLijst, vak);
+    toon(kop('Alle scholen', SCHOLEN.length + ' scholen'), zoekLijst, vak);
   });
   // Intro: de zoekbalk staat eerst in het midden boven een vervaagde kaart en schuift dan rustig naar zijn plek.
   // De rest (merk, knoppen, legende) komt erbij zodra de balk boven is. Bij minder beweging is er geen intro.

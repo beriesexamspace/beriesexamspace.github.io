@@ -497,7 +497,7 @@
       const zetWeten = () => {
         const proef = document.querySelector('[data-weten="proef"]');
         const daarna = document.querySelector('[data-weten="daarna"]');
-        if (proef) proef.textContent = 'De eerste maand van Plus kost niets. Je geeft wel je betaalgegevens op bij Mollie, met een betaling van 2 cent om je betaalmethode te bevestigen. Een proefmaand kan je één keer gebruiken.';
+        if (proef) proef.textContent = 'De eerste maand van Plus kost niets. Je geeft wel je betaalgegevens op bij onze betaalpartner, met een betaling van 2 cent om je betaalmethode te bevestigen. Een proefmaand kan je één keer gebruiken.';
         if (daarna) daarna.textContent = 'Na je proefmaand loopt je plan vanzelf door en betaal je automatisch 2,99 euro per maand. Zeg je op tijdens je proefmaand, dan betaal je niets.';
       };
 
@@ -528,8 +528,8 @@
           if (uitleg) {
             uitleg.hidden = !betalen || uit;
             uitleg.textContent = gebruikt
-              ? 'Je proefmaand is al gebruikt. Je betaalt bij Mollie meteen ' + prijs[plan] + ' voor de eerste maand, daarna automatisch ' + prijs[plan] + ' per maand. Opzeggen kan altijd op je profiel.'
-              : 'Je geeft je betaalgegevens op bij Mollie. De eerste maand kost niets, alleen 2 cent om je betaalmethode te bevestigen. Daarna betaal je automatisch ' + prijs[plan] + ' per maand. Opzeggen kan altijd op je profiel.';
+              ? 'Je proefmaand is al gebruikt. Je betaalt bij onze betaalpartner meteen ' + prijs[plan] + ' voor de eerste maand, daarna automatisch ' + prijs[plan] + ' per maand. Opzeggen kan altijd op je profiel.'
+              : 'Je geeft je betaalgegevens op bij onze betaalpartner. De eerste maand kost niets, alleen 2 cent om je betaalmethode te bevestigen. Daarna betaal je automatisch ' + prijs[plan] + ' per maand. Opzeggen kan altijd op je profiel.';
           }
           // De regel op de kaart en de eerste regel bij Goed om te weten beloven geen proefmaand meer aan wie hem al gebruikte.
           if (gebruikt) {
