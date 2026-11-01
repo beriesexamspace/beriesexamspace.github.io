@@ -306,7 +306,7 @@
 
   function toonAccount(s, x) {
     // Eén knop naar het echte aanmeldscherm van de site.
-    const account = maak('a', 'kaart-knop', 'Account maken'); account.href = AANMELDEN;
+    const account = maak('a', 'kaart-knop', 'Volgende →'); account.href = AANMELDEN;
     account.addEventListener('click', () => { try { window.sessionStorage.setItem('bes_keuze', JSON.stringify({ school: s.id, richting: x.id })); } catch {} });
     const knoppen = maak('div', 'knoppen'); knoppen.append(account);
     const noot = maak('p', 'noot', 'Je maakt je account op de volgende pagina, met Google of met je e-mail. Daarna kom je op je eigen hub met de vakken van ' + x.naam + '.');
