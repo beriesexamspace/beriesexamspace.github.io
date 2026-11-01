@@ -195,8 +195,8 @@
             </div>
           </article>
           <article class="kaart info-kaart" data-cat="tweede">
-            <h2>Wanneer valt de tweede zit dit jaar?</h2>
-            <p class="info-antwoord">Voor Psychologie en Educatiewetenschappen 2025-2026: van maandag 17 augustus tot zaterdag 5 september 2026, met de resultaten online op vrijdag 11 september 2026. Deze data kunnen per jaar wijzigen, check de facultaire kalender.</p>
+            <h2>Wanneer valt de tweede zit?</h2>
+            <p class="info-antwoord">Voor Psychologie en Educatiewetenschappen liep de tweede zit in 2025-2026 van maandag 17 augustus tot zaterdag 5 september 2026, met de resultaten online op vrijdag 11 september 2026. De data voor 2026-2027 vind je in de examenkalender van de faculteit.</p>
             <div class="info-bronnen">
               <span class="label">Bevestigd</span>
               <a class="info-bron" href="https://www.vub.be/sites/default/files/2025-10/2025_Examenregeling_Kalender_PE_2526_NL.pdf">Examenkalender PE ↗</a>
@@ -235,8 +235,8 @@
             </div>
           </article>
           <article class="kaart info-kaart" data-cat="punten">
-            <h2>Waar staan mijn officiele punten?</h2>
-            <p class="info-antwoord">Alleen op cali.vub.be (SelfService), in je puntenblad. Canvas is enkel het leerplatform, daar staat je officiele resultaat niet. Wat je tijdens de examenperiode ziet is voorlopig tot de proclamatie.</p>
+            <h2>Waar staan mijn officiële punten?</h2>
+            <p class="info-antwoord">Alleen op cali.vub.be (SelfService), in je puntenblad. Canvas is enkel het leerplatform, daar staat je officiële resultaat niet. Wat je tijdens de examenperiode ziet is voorlopig tot de proclamatie.</p>
             <div class="info-bronnen">
               <span class="label">Bevestigd</span>
               <a class="info-bron" href="https://www.vub.be/nl/studeren-aan-de-vub/praktische-info-voor-studenten/examens-en-deliberatie/mijn-examenresultaten">VUB examenresultaten ↗</a>
@@ -244,7 +244,7 @@
           </article>
           <article class="kaart info-kaart" data-cat="punten">
             <h2>Study Overview of Transcript of records?</h2>
-            <p class="info-antwoord">In SelfService toont Study Overview snel je cijfers per academiejaar. Het Transcript of records is je officiele puntenblad: daar staat je proclamatiecode op. Voor de officiele beslissing kijk je dus in je transcript, niet enkel in het overzicht.</p>
+            <p class="info-antwoord">In SelfService toont Study Overview snel je cijfers per academiejaar. Het Transcript of records is je officiële puntenblad: daar staat je proclamatiecode op. Voor de officiële beslissing kijk je dus in je transcript, niet enkel in het overzicht.</p>
             <div class="info-bronnen">
               <span class="label">Bevestigd</span>
               <a class="info-bron" href="https://www.vub.be/nl/studeren-aan-de-vub/praktische-info-voor-studenten/examens-en-deliberatie/mijn-examenresultaten">VUB examenresultaten ↗</a>
@@ -260,7 +260,7 @@
           </article>
           <article class="kaart info-kaart" data-cat="punten">
             <h2>Wat is de proclamatiecode?</h2>
-            <p class="info-antwoord">Dat is de enige officiele uitslag over of je slaagt en of je je opleiding mag verderzetten. De examencommissie legt die vast na de deliberatie en je vindt hem op je Transcript of records, niet in het snelle cijferoverzicht.</p>
+            <p class="info-antwoord">Dat is de enige officiële uitslag over of je slaagt en of je je opleiding mag verderzetten. De examencommissie legt die vast na de deliberatie en je vindt hem op je Transcript of records, niet in het snelle cijferoverzicht.</p>
             <div class="info-bronnen">
               <span class="label">Bevestigd</span>
               <a class="info-bron" href="https://www.vub.be/nl/studeren-aan-de-vub/praktische-info-voor-studenten/examens-en-deliberatie/mijn-examenresultaten">VUB examenresultaten ↗</a>
@@ -390,7 +390,7 @@
       const panel = document.getElementById('info-resultaten');
       const empty = document.getElementById('info-leeg');
       const status = document.getElementById('info-aankondiging');
-      // Zonder hoofdletters en accenten vergelijken, zodat "officiele" ook "officiele" vindt.
+      // Zonder hoofdletters en accenten vergelijken, zodat "officiele" ook "officiële" vindt.
       const plat = tekst => tekst.toLocaleLowerCase('nl').normalize('NFD').replace(/[\u0300-\u036f]/g, '');
       const cards = Array.from(document.querySelectorAll('.info-kaart')).map(card => ({
         element: card,

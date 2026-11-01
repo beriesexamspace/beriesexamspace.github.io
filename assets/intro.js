@@ -30,17 +30,27 @@ window.BES = window.BES || {};
       naam: 'Oud naast nieuw: startpagina',
       label: 'Oud naast nieuw · 1 van 3',
       titel: 'De startpagina.',
-      tekst: 'Vroeger één lange lijst met links naar alle vakken. Nu een rustige start: je meldt je aan of logt in, en daarna is het jouw eigen space.',
+      tekst: 'Vroeger één lange lijst met links naar alle vakken. Nu een rustige start: je kiest je school en richting op de kaart, maakt een account, en daarna is het jouw eigen space.',
       beeld: `
-        <div class="oudnieuw is-foto">
-          <figure class="mini is-oud is-foto anim-links">
+        <div class="oudnieuw">
+          <div class="mini is-oud anim-links">
             <span class="mini-label">Oud</span>
-            <img src="${BASIS}assets/intro/oud-start.png" width="480" height="640" alt="De oude startpagina: donker, met een lange lijst links naar de vakken" loading="lazy">
-          </figure>
-          <figure class="mini is-nieuw is-foto anim-rechts">
+            <span class="mini-oud-kop">Berie's Exam Space</span>
+            <span class="mini-oud-link">Statistiek I</span>
+            <span class="mini-oud-link">Inleiding pedagogiek</span>
+            <span class="mini-oud-link">Algemene psychologie</span>
+            <span class="mini-oud-link">Sociale psychologie I</span>
+            <span class="mini-oud-link">Statistiek II</span>
+            <span class="mini-oud-link">Persoonlijkheidspsychologie</span>
+            <span class="mini-oud-tekst">en zo verder, de hele pagina lang</span>
+          </div>
+          <div class="mini is-nieuw is-hero anim-rechts">
             <span class="mini-label">Nieuw</span>
-            <img src="${BASIS}assets/intro/nieuw-start.png" width="480" height="640" alt="De nieuwe startpagina: licht en rustig, met Aanmelden en Log in" loading="lazy">
-          </figure>
+            <span class="mini-hero-kop">Jouw leerstof.<em>Jouw eigen space.</em></span>
+            <span class="mini-hero-sub">Alles wat je nodig hebt om overzicht te krijgen, slimmer te leren en door te groeien.</span>
+            <div class="tel-knop">Laten we starten →</div>
+            <span class="mini-hero-link">Ik heb al een account</span>
+          </div>
         </div>`
     },
     {
@@ -229,7 +239,7 @@ window.BES = window.BES || {};
           <span class="stap-groep-icoon anim-pop" style="--i:1">B</span>
           <span class="stap-groep-naam anim" style="--i:3">Berie's Exam Space</span>
           <span class="stap-groep-sub anim" style="--i:4">WhatsApp-groep · alleen updates</span>
-          <span class="stap-groep-sub anim" style="--i:5">Bijna 200 studenten</span>
+          <span class="stap-groep-sub anim" style="--i:5">Meer dan 300 studenten</span>
         </div>`
     },
     {

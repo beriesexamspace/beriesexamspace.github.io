@@ -119,6 +119,8 @@
         action.href = retry ? '#' : unavailable ? 'hub.html' : 'inloggen.html';
         action.textContent = retry ? 'Probeer opnieuw →' : unavailable ? 'Ga verder met oefenen →' : 'Vraag een nieuwe link aan →';
         action.toggleAttribute('data-recovery-retry', retry);
+        // Werkt de link niet meer, dan zegt de kop dat ook (in plaats van "Kies een nieuw wachtwoord.").
+        if (!unavailable && !retry) heading.textContent = 'Deze link werkt niet meer.';
         // Het formulier schuift dicht en de melding schuift open, zodat de kop rustig meebeweegt.
         window.BES.verberg(form);
         window.BES.toon(document.getElementById('recovery-state'));
