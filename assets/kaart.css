@@ -105,8 +105,9 @@
   /* Telefoon: het naamkaartje van de stip in het midden. Het ligt onder de zoekbalk en de knoppen, zodat het nooit over de zoeklijst valt. */
   .tip.midden-tip { z-index: 2; }
   .boven, .onder { animation: zacht-in 700ms var(--ease) 250ms both; }
-  /* Tijdens de intro regelt kaart.js het verschijnen; de eigen animatie hierboven zou anders even flitsen. */
-  html.kaart-intro .boven, html.kaart-intro .onder { animation: none; }
+  /* Tijdens en na de intro regelt kaart.js het verschijnen. De eigen animatie hierboven zou anders even flitsen,
+     of na de intro alsnog starten, zodat de zoekbalk knippert zodra hij boven is. */
+  html:is(.kaart-intro, .intro-klaar) :is(.boven, .onder) { animation: none; }
   .zoek-uit:not([hidden]) { animation: zacht-in 220ms var(--ease) both; }
   .zoek-uit.sluiten { animation: zacht-uit 180ms var(--ease) both; }
   .merk, .inlog, .lijstknop, .zoom button, .kaart-knop, .tekstknop, .sluit, .richting, .school, .zoek-veld input { transition: transform 150ms var(--ease), box-shadow 200ms var(--ease), border-color 200ms var(--ease), background-color 200ms var(--ease); }

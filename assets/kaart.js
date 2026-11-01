@@ -480,6 +480,8 @@
       ...rest.map(el => el.animate([{ opacity: 0 }, { opacity: 0, offset: .62 }, { opacity: 1 }], { duration: duur, fill: 'forwards' }))
     ];
     await animaties[0].finished.catch(() => {});
+    // intro-klaar houdt de gewone animatie van de boven- en onderkant uit (zie kaart.css), anders knippert alles nog één keer.
+    root.classList.add('intro-klaar');
     root.classList.remove('kaart-intro');
     animaties.forEach(animatie => animatie.cancel());
   };
