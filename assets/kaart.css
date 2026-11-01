@@ -35,6 +35,10 @@
   .land { fill: var(--land); stroke: var(--grens); stroke-linejoin: round; vector-effect: non-scaling-stroke; stroke-width: 1.2; }
   /* Meren (Natural Earth): in de kleur van de zee, zodat het IJsselmeer en Flevoland herkenbaar zijn. */
   .meer { fill: var(--zee); stroke: var(--grens); stroke-linejoin: round; vector-effect: non-scaling-stroke; stroke-width: 1; }
+  /* De Afsluitdijk is in de landkaart een dun stukje land; hij lijkt op land, dus hij gaat weg: water in de kleur van de zee,
+     met een rand in dezelfde kleur die de omtrek van de dijk afdekt. Gemaakt met dam-data.json. */
+  .dam { fill: var(--zee); }
+  .dam-rand { fill: none; stroke: var(--zee); stroke-width: 2.6; stroke-linejoin: round; vector-effect: non-scaling-stroke; }
   .punt { cursor: pointer; transform-box: fill-box; transform-origin: center; animation: punt-in 520ms var(--ease) both; }
   .punt .kern { fill: var(--accent); stroke: var(--card); vector-effect: non-scaling-stroke; stroke-width: 2; transform-box: fill-box; transform-origin: center; transition: transform 260ms var(--ease); }
   /* Blauw alleen waar al vakken klaar zijn; een school zonder leerstof is een rustige grijze stip. */

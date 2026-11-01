@@ -6,6 +6,7 @@
   const CAT = window.BES_CATALOGUS, KAART = window.BES_KAART;
   // De omtrek van België en Nederland en de meren (Natural Earth), uit assets/kaart-data.js.
   $('land-nl').setAttribute('d', KAART.nl); $('land-be').setAttribute('d', KAART.be); $('meren').setAttribute('d', KAART.meren);
+  $('dam').setAttribute('d', KAART.dam.vlak); $('dam-rand').setAttribute('d', KAART.dam.rand);
 
   // Lengte- en breedtegraad naar een punt op de kaart: dezelfde projectie als de omtrek (zie maak-sitekaart.js).
   const opKaart = (lat, lon) => {
