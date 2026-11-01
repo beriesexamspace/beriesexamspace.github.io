@@ -4,6 +4,10 @@
   const el = id => document.getElementById(id);
   const pendingDecimals = new WeakMap();
   const fmt = (number, decimals) => number.toFixed(decimals).replace('.', ',');
+  // Getal met hoogstens één decimaal en een komma, zonder ',0' (3 in plaats van 3,0).
+  const getal = number => fmt(number, 1).replace(/,0$/, '');
+  const beweging = window.matchMedia('(prefers-reduced-motion: reduce)');
+  const zachtVerloop = node => getComputedStyle(node).getPropertyValue('--ease').trim() || 'ease-out';
   const emptyRows = () => [{ naam: '', punt: '', weeg: '' }, { naam: '', punt: '', weeg: '' }, { naam: '', punt: '', weeg: '' }];
   const ruleLabels = {
     ex2r1: 'Gewogen gemiddelde minstens 55%',
@@ -19,10 +23,48 @@
     return node;
   };
 
-  function marker(state, className) {
-    const node = create('span', className, state === null ? '−' : state ? '✓' : '×');
+  // Schrijft alleen als er iets verandert, zodat een schermlezer niet bij elke toets opnieuw voorleest.
+  function zetTekst(node, tekst) {
+    if (node.textContent !== tekst) node.textContent = tekst;
+  }
+
+  function zetMarker(node, state) {
+    zetTekst(node, state === null ? '−' : state ? '✓' : '×');
+    node.setAttribute('role', 'img');
     node.setAttribute('aria-label', state === null ? 'Nog niet in te vullen' : state ? 'Voldaan' : 'Niet voldaan');
-    return node;
+  }
+
+  // Een rij glijdt open of dicht in hoogte en opacity (220 ms); de ruimte tussen de rijen schuift mee.
+  function glijRij(item, naarOpen, klaar) {
+    if (beweging.matches || !item.animate) { if (klaar) klaar(); return; }
+    const stijl = getComputedStyle(item);
+    const gat = parseFloat(getComputedStyle(item.parentElement).rowGap) || 0;
+    const rand = item.previousElementSibling ? 'marginTop' : 'marginBottom';
+    const open = { height: item.getBoundingClientRect().height + 'px', paddingBottom: stijl.paddingBottom, borderBottomWidth: stijl.borderBottomWidth, opacity: 1, [rand]: '0px' };
+    const dicht = { height: '0px', paddingBottom: '0px', borderBottomWidth: '0px', opacity: 0, [rand]: -gat + 'px' };
+    item.style.overflow = 'clip';
+    const animatie = item.animate(naarOpen ? [dicht, open] : [open, dicht], { duration: 220, easing: zachtVerloop(item), fill: naarOpen ? 'none' : 'forwards' });
+    const einde = () => { item.style.overflow = ''; if (klaar) klaar(); };
+    animatie.finished.then(einde, einde);
+  }
+
+  // Alle rijen van een blok veranderen tegelijk (Alles wissen): de hoogte van het blok glijdt mee.
+  function glijBlok(box, wijzig) {
+    const voor = box.getBoundingClientRect().height;
+    box.getAnimations().forEach(animatie => animatie.cancel());
+    wijzig();
+    if (beweging.matches || !box.animate || !voor) return;
+    const na = box.getBoundingClientRect().height;
+    if (Math.abs(voor - na) < 1) return;
+    box.style.overflow = 'clip';
+    box.animate([{ height: voor + 'px' }, { height: na + 'px' }], { duration: 220, easing: zachtVerloop(box) }).finished.then(() => { box.style.overflow = ''; }, () => { box.style.overflow = ''; });
+  }
+
+  // Een cijfer of gewicht buiten het toegestane bereik krijgt de foutrand; het rekent wel gewoon mee.
+  function markeerBereik(input) {
+    if (!input.matches('input[type="number"]')) return;
+    if (input.validity.rangeUnderflow || input.validity.rangeOverflow) input.setAttribute('aria-invalid', 'true');
+    else input.removeAttribute('aria-invalid');
   }
 
   function field(className, labelText, value, number, max, step) {
@@ -62,7 +104,7 @@
   }
 
   function updateRows(box) {
-    const rows = [...box.querySelectorAll('.crow')];
+    const rows = [...box.querySelectorAll('.crow:not(.is-weg)')];
     rows.forEach((item, index) => {
       item.querySelectorAll('input').forEach(input => {
         input.setAttribute('aria-label', input.closest('label').querySelector('.veld-label').textContent + ', rij ' + (index + 1));
@@ -74,17 +116,20 @@
   }
 
   function calcOne() {
-    let sw = 0, spw = 0;
-    el('ex1Rows').querySelectorAll('.crow').forEach(item => {
+    let sw = 0, spw = 0, zonder = 0;
+    el('ex1Rows').querySelectorAll('.crow:not(.is-weg)').forEach(item => {
       const p = parseFloat(item.querySelector('.c-punt').value);
       const w = parseFloat(item.querySelector('.c-weeg').value);
       if (!isNaN(w)) {
         sw += w;
         if (!isNaN(p)) spw += p * w;
+        else zonder += w;
       }
     });
     el('ex1Wsum').textContent = Math.round(sw);
-    el('ex1Warn').style.display = sw > 0 && Math.round(sw) !== 100 ? 'inline' : 'none';
+    el('ex1Warn').classList.toggle('is-aan', sw > 0 && Math.round(sw) !== 100);
+    // Een gewicht zonder cijfer telt als 0; dat zegt de uitslag erbij.
+    zetTekst(el('ex1Hint'), zonder > 0 ? 'nog ' + Math.round(zonder) + '% zonder cijfer' : 'vanaf 10/20');
     const mark = el('ex1Mark'), rounded = el('ex1Round'), percentage = el('ex1Pct'), status = el('ex1Status');
     if (sw > 0) {
       const weighted = spw / sw, official = Math.round(weighted), pct = weighted / 20 * 100;
@@ -92,21 +137,30 @@
       rounded.textContent = official;
       percentage.textContent = Math.round(pct);
       status.dataset.state = official >= 10 ? 'goed' : 'fout';
-      status.textContent = official >= 10 ? 'Geslaagd' : 'Niet geslaagd';
+      zetTekst(status, official >= 10 ? 'Geslaagd' : 'Niet geslaagd');
     } else {
       mark.textContent = '--';
       rounded.textContent = '--';
       percentage.textContent = '--';
       status.dataset.state = 'leeg';
-      status.textContent = 'Vul gewichten in';
+      zetTekst(status, 'Vul gewichten in');
     }
   }
 
   function setRule(id, state, detail) {
     const node = el(id);
     node.dataset.state = state === null ? 'leeg' : state ? 'goed' : 'fout';
-    node.replaceChildren(marker(state, 'ric'), create('span', 'rlbl', ruleLabels[id]));
-    if (detail !== undefined) node.append(create('span', 'rdet', detail));
+    // De kinderen blijven staan, zodat de kleurwissel zacht verloopt.
+    let teken = node.querySelector('.ric');
+    if (!teken) {
+      teken = create('span', 'ric');
+      node.replaceChildren(teken, create('span', 'rlbl', ruleLabels[id]));
+    }
+    zetMarker(teken, state);
+    let regel = node.querySelector('.rdet');
+    if (detail === undefined) { if (regel) regel.remove(); return; }
+    if (!regel) { regel = create('span', 'rdet'); node.append(regel); }
+    zetTekst(regel, detail);
   }
 
   function degree(pct) {
@@ -120,15 +174,17 @@
 
   function verdict(state, title, explanation) {
     el('ex2Verdict').dataset.state = state === null ? 'leeg' : state ? 'goed' : 'fout';
-    el('ex2VIc').replaceChildren(marker(state, 'verdict-teken'));
-    el('ex2VTitle').textContent = title;
-    el('ex2VSub').textContent = explanation;
+    const vak = el('ex2VIc');
+    if (!vak.firstElementChild) vak.append(create('span', 'verdict-teken'));
+    zetMarker(vak.firstElementChild, state);
+    zetTekst(el('ex2VTitle'), title);
+    zetTekst(el('ex2VSub'), explanation);
   }
 
   function calcTwo() {
     let ssp = 0, scs = 0;
     const items = [];
-    el('ex2Rows').querySelectorAll('.crow').forEach(item => {
+    el('ex2Rows').querySelectorAll('.crow:not(.is-weg)').forEach(item => {
       const c = parseFloat(item.querySelector('.v-cij').value);
       const s = parseFloat(item.querySelector('.v-sp').value);
       if (!isNaN(c) && !isNaN(s) && s > 0) {
@@ -148,8 +204,10 @@
       return;
     }
     const avg = scs / ssp, pct = avg / 20 * 100;
+    // Het getal dat je ziet is het getal dat getoetst wordt.
+    const pctRond = Math.round(pct);
     el('ex2Avg').textContent = fmt(avg, 1);
-    el('ex2Pct').textContent = Math.round(pct);
+    el('ex2Pct').textContent = pctRond;
     const grade = degree(pct);
     el('ex2Graad').textContent = grade.name;
     el('ex2Graad').dataset.state = grade.state;
@@ -160,14 +218,15 @@
     };
     const belowTen = items.filter(item => item.c < 10);
     const belowEight = items.filter(item => item.c < 8);
-    const deficit = belowTen.reduce((sum, item) => sum + (10 - item.c), 0);
-    const weightedDeficit = belowTen.reduce((sum, item) => sum + (10 - item.c) * item.s, 0);
-    const r1 = pct >= 55, r2 = belowEight.length === 0, r3 = belowTen.length <= 2, r4 = deficit <= 3, r5 = weightedDeficit <= 18;
-    setRule('ex2r1', r1, Math.round(pct) + '%');
+    // Tekorten op één decimaal: wat je leest is wat getoetst wordt, en rekenruis zoals 0,9000000000000004 verdwijnt.
+    const deficit = Math.round(belowTen.reduce((sum, item) => sum + (10 - item.c), 0) * 10) / 10;
+    const weightedDeficit = Math.round(belowTen.reduce((sum, item) => sum + (10 - item.c) * item.s, 0) * 10) / 10;
+    const r1 = pctRond >= 55, r2 = belowEight.length === 0, r3 = belowTen.length <= 2, r4 = deficit <= 3, r5 = weightedDeficit <= 18;
+    setRule('ex2r1', r1, pctRond + '%');
     setRule('ex2r2', r2, belowEight.length ? belowEight.length + ' onder 8' : 'in orde');
     setRule('ex2r3', r3, belowTen.length + ' onder 10' + (belowTen.length ? ': ' + names(belowTen) : ''));
-    setRule('ex2r4', r4, Math.round(deficit) + ' punten tekort' + (belowTen.length > 1 ? ' samen' : '') + (belowTen.length ? ' (' + belowTen.map(item => (10 - item.c) + ' bij ' + (item.n || 'een vak')).join(', ') + ')' : ''));
-    setRule('ex2r5', r5, 'GPT ' + Math.round(weightedDeficit) + (belowTen.length ? ' = ' + belowTen.map(item => (10 - item.c) + ' x ' + item.s).join(' + ') : ''));
+    setRule('ex2r4', r4, getal(deficit) + ' punten tekort' + (belowTen.length > 1 ? ' samen' : '') + (belowTen.length ? ' (' + belowTen.map(item => getal(10 - item.c) + ' bij ' + (item.n || 'een vak')).join(', ') + ')' : ''));
+    setRule('ex2r5', r5, 'GPT ' + getal(weightedDeficit) + (belowTen.length ? ' = ' + belowTen.map(item => getal(10 - item.c) + ' x ' + getal(item.s)).join(' + ') : ''));
     const allCredits = belowTen.length === 0, pass = r1 && r2 && r3 && r4 && r5;
     if (allCredits) verdict(true, 'Geslaagd voor al je vakken', 'Deliberatie is niet nodig, alles staat op 10 of meer.');
     else if (pass) verdict(true, 'Je voldoet aan de automatische voorwaarden', 'Op basis van de regels hieronder. De examencommissie bevestigt.');
@@ -176,8 +235,8 @@
 
   function save() {
     try {
-      const onderdelen = [...el('ex1Rows').querySelectorAll('.crow')].map(item => ({ naam: item.querySelector('.c-naam').value, punt: item.querySelector('.c-punt').value, weeg: item.querySelector('.c-weeg').value }));
-      const vakken = [...el('ex2Rows').querySelectorAll('.crow')].map(item => ({ naam: item.querySelector('.v-naam').value, cij: item.querySelector('.v-cij').value, sp: item.querySelector('.v-sp').value }));
+      const onderdelen = [...el('ex1Rows').querySelectorAll('.crow:not(.is-weg)')].map(item => ({ naam: item.querySelector('.c-naam').value, punt: item.querySelector('.c-punt').value, weeg: item.querySelector('.c-weeg').value }));
+      const vakken = [...el('ex2Rows').querySelectorAll('.crow:not(.is-weg)')].map(item => ({ naam: item.querySelector('.v-naam').value, cij: item.querySelector('.v-cij').value, sp: item.querySelector('.v-sp').value }));
       window.localStorage.setItem('bes_reken', JSON.stringify({ onderdelen, vakken }));
     } catch {}
   }
@@ -211,7 +270,8 @@
       const saved = Array.isArray(stored?.[key]) ? stored[key].filter(item => item && typeof item === 'object') : [];
       (saved.length ? saved : emptyRows()).forEach(data => box.append(row(data, kind)));
       updateRows(box);
-      box.addEventListener('input', update);
+      box.querySelectorAll('input[type="number"]').forEach(markeerBereik);
+      box.addEventListener('input', event => { markeerBereik(event.target); update(); });
       box.addEventListener('beforeinput', event => {
         const input = event.target;
         if (!input.matches('input[type="number"]')) return;
@@ -251,12 +311,16 @@
       });
       box.addEventListener('click', event => {
         const button = event.target.closest('.delbtn');
-        if (!button || box.querySelectorAll('.crow').length <= 1) return;
+        if (!button) return;
         const parent = button.closest('.crow');
-        const next = parent.nextElementSibling || parent.previousElementSibling;
-        parent.remove();
+        const over = [...box.querySelectorAll('.crow:not(.is-weg)')];
+        if (parent.classList.contains('is-weg') || over.length <= 1) return;
+        const next = over[over.indexOf(parent) + 1] || over[over.indexOf(parent) - 1];
+        // De rij telt meteen niet meer mee en glijdt dicht; pas daarna gaat hij uit de pagina.
+        parent.classList.add('is-weg');
         updateRows(box);
         update();
+        glijRij(parent, false, () => parent.remove());
         next.querySelector('input').focus();
       });
       el('ex' + kind + 'Add').addEventListener('click', () => {
@@ -264,19 +328,21 @@
         box.append(added);
         updateRows(box);
         update();
+        glijRij(added, true);
         added.querySelector('input').focus();
       });
     });
     el('reken-wissen').addEventListener('click', () => {
       [1, 2].forEach(kind => {
         const box = el('ex' + kind + 'Rows');
-        box.replaceChildren(...emptyRows().map(data => row(data, kind)));
-        updateRows(box);
+        glijBlok(box, () => {
+          box.replaceChildren(...emptyRows().map(data => row(data, kind)));
+          updateRows(box);
+        });
       });
       try { window.localStorage.removeItem('bes_reken'); } catch {}
       calcOne();
       calcTwo();
-      el('ex1Rows').querySelector('input').focus();
     });
     calcOne();
     calcTwo();

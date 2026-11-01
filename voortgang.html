@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <script src="assets/deur.js?v=89"></script>
+  <script src="assets/deur.js?v=90"></script>
   <link rel="apple-touch-icon" href="/assets/icoon-180.png">
   <link rel="manifest" href="/manifest.webmanifest">
   <meta name="robots" content="noindex">
@@ -21,19 +21,22 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="assets/style.css?v=91">
-  <script src="assets/app.js?v=90" defer></script>
+  <link rel="stylesheet" href="assets/style.css?v=93">
+  <script src="assets/app.js?v=91" defer></script>
   <script src="assets/vakken.js?v=89"></script>
   <script src="assets/config.js?v=89" defer></script>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js" defer></script>
-  <script src="assets/auth.js?v=90" defer></script>
-  <script src="assets/plan.js?v=89" defer></script>
+  <script src="assets/auth.js?v=91" defer></script>
+  <script src="assets/plan.js?v=90" defer></script>
   <script src="assets/klaarmeter.js?v=89" defer></script>
-  <script src="assets/activiteit.js?v=89" defer></script>
+  <script src="assets/activiteit.js?v=90" defer></script>
   <style>
     .vg-wrap { max-width: 860px; }
     .vg-status { margin: 0 0 16px; color: var(--ink-soft); }
     .vg-status:empty { display: none; }
+    #vg-inhoud:not([hidden]) { animation: menu-open 200ms var(--ease); }
+    /* Bij een andere periode faden de grafiek, de cijfers en de zinnen in (zie wisselPeriode). */
+    .is-wissel :is(svg, h3, .vg-samenvatting, .vg-verschil, .vg-week-leeg, .vg-feiten) { animation: menu-open 200ms var(--ease); }
     .vg-samenvatting { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; margin-bottom: 28px; }
     .vg-tegel { padding: 18px 20px; }
     .vg-tegel .getal { display: block; font-size: 1.75rem; font-weight: 700; line-height: 1.1; font-variant-numeric: tabular-nums; }
@@ -53,6 +56,7 @@
     .vg-legenda .is-goed { background: var(--teal); border-color: var(--teal); }
     .vg-week-leeg { margin: 18px 0 0; color: var(--ink-soft); line-height: 1.6; }
     .vg-week-leeg a { color: var(--accent); }
+    .vg-week figcaption .vg-week-leeg { flex: 1 1 100%; margin: 0; font-size: 1rem; }
     .vg-blok { margin: 0 0 32px; }
     .vg-blok .vg-samenvatting { margin-bottom: 12px; }
     .vg-verschil { margin: 0; color: var(--ink-soft); font-size: .875rem; }
@@ -81,7 +85,7 @@
     .vg-regel a { color: var(--accent); font-weight: 500; text-decoration: none; }
     :where(html.has-hover) .vg-regel a:hover { text-decoration: underline; }
     .vg-hoofdstukken { margin-top: 14px; }
-    .vg-hoofdstukken summary { display: inline-flex; align-items: center; gap: 6px; min-height: 40px; padding: 0 4px; color: var(--accent); font-size: .875rem; font-weight: 500; cursor: pointer; list-style: none; }
+    .vg-hoofdstukken summary { display: inline-flex; align-items: center; gap: 6px; min-height: 44px; padding: 0 4px; color: var(--accent); font-size: .875rem; font-weight: 500; cursor: pointer; list-style: none; }
     .vg-hoofdstukken summary::-webkit-details-marker { display: none; }
     .vg-hoofdstukken summary::after { content: '▾'; font-size: .8em; transition: transform 200ms var(--ease); }
     .vg-hoofdstukken[open] summary::after { transform: rotate(180deg); }
@@ -112,7 +116,7 @@
     .vg-klaar-boven { display: grid; grid-template-columns: 64px minmax(0, 1fr); align-items: center; gap: 14px; }
     .vg-ring { display: block; width: 64px; height: 64px; }
     .vg-ring-baan { fill: none; stroke: var(--line); stroke-width: 7; }
-    .vg-ring-boog { fill: none; stroke: var(--accent); stroke-width: 7; transition: stroke-dasharray 700ms var(--ease); }
+    .vg-ring-boog { fill: none; stroke: var(--accent); stroke-width: 7; transition: stroke-dasharray 400ms var(--ease); }
     .vg-ring-boog.is-goed { stroke: var(--teal); }
     .vg-ring-getal { fill: var(--ink); font: 700 17px var(--font); text-anchor: middle; dominant-baseline: central; }
     .vg-klaar-score { margin: 3px 0 0; font-size: .875rem; font-variant-numeric: tabular-nums; }
@@ -173,8 +177,9 @@
     @media (max-width: 640px) {
       .vg-samenvatting { grid-template-columns: minmax(0, 1fr); }
       .vg-week { padding: 16px; }
-      .vg-hoofdstuk { grid-template-columns: minmax(0, 1fr) 80px; }
-      .vg-hoofdstuk .vg-balk { grid-column: 1 / -1; }
+      .vg-hoofdstuk { grid-template-columns: minmax(0, 1fr) auto; }
+      .vg-hoofdstuk .stand { grid-column: 2; grid-row: 1; }
+      .vg-hoofdstuk .vg-balk { grid-column: 1 / -1; grid-row: 2; }
       .vg-periode { display: flex; width: 100%; }
       .vg-periode button { flex: 1 1 0; padding: 0 8px; }
       .vg-pro-blok { padding: 18px; }
@@ -216,6 +221,7 @@
 
       <p class="vg-status" id="vg-status" role="status">Even laden.</p>
 
+      <div id="vg-inhoud" hidden>
       <section class="vg-blok" id="vg-overzicht" aria-labelledby="vg-overzicht-kop" hidden>
         <div class="vg-overzicht-kop">
           <h2 id="vg-overzicht-kop">Weekoverzicht</h2>
@@ -226,13 +232,13 @@
           </div>
         </div>
         <figure class="vg-week" id="vg-week" aria-labelledby="vg-week-kop">
-          <h3 id="vg-week-kop">Laatste 7 dagen</h3>
+          <h3 id="vg-week-kop" aria-live="polite">Laatste 7 dagen</h3>
           <svg class="vg-staven" id="vg-week-grafiek" role="img" aria-label=""></svg>
           <figcaption>
             <span class="vg-legenda"><i aria-hidden="true"></i>gemaakt</span>
             <span class="vg-legenda"><i class="is-goed" aria-hidden="true"></i>goed</span>
+            <p class="vg-week-leeg" id="vg-week-leeg" hidden><span id="vg-week-leeg-tekst">In de laatste 7 dagen nog niets geoefend.</span> <a href="hub.html">Kies een vak op de hub.</a></p>
           </figcaption>
-          <p class="vg-week-leeg" id="vg-week-leeg" hidden><span id="vg-week-leeg-tekst">In de laatste 7 dagen nog niets geoefend.</span> <a href="hub.html">Kies een vak op de hub.</a></p>
         </figure>
         <div class="vg-samenvatting">
           <div class="kaart vg-tegel"><span class="getal" id="vg-week-sessies">0</span><span class="uitleg">sessies</span></div>
@@ -296,6 +302,7 @@
         <div class="kaart vg-tegel"><span class="getal" id="vg-afgerond">0</span><span class="uitleg">hoofdstukken afgerond</span></div>
       </div>
       <div class="vg-lijst" id="vg-lijst"></div>
+      </div>
     </div>
   </main>
 
@@ -311,6 +318,7 @@
     document.addEventListener('DOMContentLoaded', () => {
       const auth = window.BES.auth;
       const status = document.getElementById('vg-status');
+      const inhoud = document.getElementById('vg-inhoud');
       const lijst = document.getElementById('vg-lijst');
       const samenvatting = document.getElementById('vg-samenvatting');
       const vakken = (window.BES_VAKKEN || []).filter(vak => vak.v2);
@@ -330,13 +338,28 @@
 
       const procent = (goed, totaal) => totaal ? Math.round(goed / totaal * 100) : 0;
       const el = (tag, klasse, tekst) => { const node = document.createElement(tag); if (klasse) node.className = klasse; if (tekst !== undefined) node.textContent = tekst; return node; };
+      // De balk begint op 0 en loopt naar zijn waarde zodra het blok getoond wordt (toonInhoud, twee frames later zodat de overgang echt loopt).
       const balk = (waarde, goed, klein) => {
         const wrap = el('div', 'vg-balk');
         const vul = el('i', goed ? 'is-goed' : '');
         vul.style.width = '0%';
+        vul.dataset.doel = waarde;
         wrap.append(vul);
-        window.requestAnimationFrame(() => { vul.style.width = waarde + '%'; });
         return wrap;
+      };
+      // Alles wat tot nu toe verzameld is, in één keer en in de vaste volgorde tonen; balken en ringen lopen dan naar hun waarde.
+      const toonInhoud = () => {
+        inhoud.hidden = false;
+        window.requestAnimationFrame(() => window.requestAnimationFrame(() => {
+          inhoud.querySelectorAll('.vg-balk i[data-doel]').forEach(vul => { vul.style.width = vul.dataset.doel + '%'; });
+          inhoud.querySelectorAll('.vg-ring-boog[data-dash]').forEach(boog => { boog.style.strokeDasharray = boog.dataset.dash; });
+        }));
+      };
+      // "Even laden." schuift dicht in plaats van te verdwijnen (BES.verberg uit app.js).
+      const wisStatus = () => {
+        if (!status.textContent) return;
+        const leeg = () => { status.hidden = false; status.textContent = ''; };
+        if (window.BES.verberg) window.BES.verberg(status, leeg); else leeg();
       };
       const svgNode = (tag, attributen, tekst) => {
         const node = document.createElementNS('http://www.w3.org/2000/svg', tag);
@@ -506,12 +529,34 @@
         if (activiteit) toonLeertijd(emmers);
       };
 
+      // Een andere periode: de blokken schuiven vloeiend naar hun nieuwe hoogte en de grafiek, de cijfers en de zinnen faden in (220 ms; css .is-wissel).
+      const minderBeweging = window.matchMedia('(prefers-reduced-motion: reduce)');
+      const wisselPeriode = () => {
+        const blokken = ['vg-overzicht', 'vg-leertijd'].map(id => document.getElementById(id));
+        const voor = blokken.map(blok => blok.getBoundingClientRect().height);
+        blokken.forEach(blok => { if (blok._hoogte) { blok._hoogte.cancel(); blok._hoogte = null; blok.style.overflow = ''; } });
+        toonOverzicht();
+        if (minderBeweging.matches) return;
+        blokken.forEach((blok, i) => {
+          blok.classList.remove('is-wissel');
+          void blok.offsetWidth;
+          blok.classList.add('is-wissel');
+          window.setTimeout(() => blok.classList.remove('is-wissel'), 260);
+          const na = blok.getBoundingClientRect().height;
+          if (!blok.animate || !voor[i] || Math.abs(na - voor[i]) < 2) return;
+          blok.style.overflow = 'hidden';
+          const animatie = blok.animate([{ height: voor[i] + 'px' }, { height: na + 'px' }], { duration: 220, easing: getComputedStyle(blok).getPropertyValue('--ease').trim() || 'ease-out' });
+          blok._hoogte = animatie;
+          animatie.addEventListener('finish', () => { if (blok._hoogte === animatie) { blok._hoogte = null; blok.style.overflow = ''; } });
+        });
+      };
+
       document.getElementById('vg-periode').addEventListener('click', event => {
         const knop = event.target.closest('button[data-periode]');
         if (!knop || knop.hidden || knop.dataset.periode === periode) return;
         periode = knop.dataset.periode;
         try { window.localStorage.setItem('bes_vg_periode', periode); } catch {}
-        toonOverzicht();
+        wisselPeriode();
       });
 
       // De sterke hoofdstukken als chips; wat nog aandacht vraagt, staat bij Alle verbeterpunten. Alleen bij minstens drie vragen.
@@ -555,7 +600,7 @@
 
           const kaart = el('article', 'kaart vg-vak');
           const kop = el('div', 'vg-kop');
-          const titel = el('h2', 'vg-naam', vak.naam);
+          const titel = el('h3', 'vg-naam', vak.naam);
           const pct = el('span', 'vg-procent' + (score >= 80 ? ' is-goed' : ''), score + '%');
           kop.append(titel, pct);
           kaart.append(kop, balk(score, score >= 80));
@@ -632,7 +677,7 @@
         const boog = svgNode('circle', { cx: 32, cy: 32, r: 27, class: 'vg-ring-boog' + (score >= 80 ? ' is-goed' : ''), transform: 'rotate(-90 32 32)' });
         boog.style.strokeDasharray = `0 ${omtrek}`;
         svg.append(svgNode('circle', { cx: 32, cy: 32, r: 27, class: 'vg-ring-baan' }), boog, svgNode('text', { x: 32, y: 32, class: 'vg-ring-getal' }, score));
-        window.requestAnimationFrame(() => window.requestAnimationFrame(() => { boog.style.strokeDasharray = `${omtrek * score / 100} ${omtrek}`; }));
+        boog.dataset.dash = `${omtrek * score / 100} ${omtrek}`;
         return svg;
       };
 
@@ -703,9 +748,19 @@
         const knop = el('button', 'vg-meer', tekst);
         knop.type = 'button';
         knop.setAttribute('aria-expanded', 'false');
+        let bezig = false;
         knop.addEventListener('click', () => {
+          // De extra rijen schuiven open of dicht (BES.toon en BES.verberg uit app.js); een tweede klik wacht tot ze klaar zijn.
+          if (bezig) return;
+          bezig = true;
+          window.setTimeout(() => { bezig = false; }, 260);
           const open = knop.getAttribute('aria-expanded') !== 'true';
-          [...lijst.children].forEach((li, i) => { li.hidden = !open && i >= kort; });
+          [...lijst.children].forEach((li, i) => {
+            const zichtbaar = open || i < kort;
+            if (zichtbaar === !li.hidden) return;
+            if (zichtbaar) { if (window.BES.toon) window.BES.toon(li); else li.hidden = false; }
+            else if (window.BES.verberg) window.BES.verberg(li); else li.hidden = true;
+          });
           knop.setAttribute('aria-expanded', String(open));
           knop.textContent = open ? 'Minder tonen' : tekst;
         });
@@ -791,7 +846,7 @@
         tekenBijResize(grafiek, () => {
           const breedte = Math.max(220, grafiek.clientWidth);
           const hoogte = 132;
-          const links = 30, rechts = 38, boven = 10, onder = 12;
+          const links = 30, rechts = 46, boven = 10, onder = 12;
           const y = waarde => boven + (1 - waarde / 100) * (hoogte - boven - onder);
           const x = i => punten.length === 1 ? (links + breedte - rechts) / 2 : links + i * (breedte - links - rechts) / (punten.length - 1);
           grafiek.setAttribute('viewBox', `0 0 ${breedte} ${hoogte}`);
@@ -1074,9 +1129,14 @@
         }
         if (activiteitUitslag.error || foutenUitslag.error) mislukt = true;
         await toonGeavanceerd(context, foutenUitslag);
-        status.textContent = mislukt ? 'Niet alle voortgang kon geladen worden. Probeer het later opnieuw.' : '';
+        // Alleen Hard mode geoefend: die rondes staan wel in het weekoverzicht, niet in de kaarten per vak.
+        const leegTekst = lijst.querySelector('.vg-leeg p');
+        if (leegTekst && sessies && sessies.length) leegTekst.textContent = 'Hard mode staat nog niet in dit overzicht; oefen een vak op Normaal voor je voortgang per hoofdstuk.';
+        // Alles tegelijk tonen, in de vaste volgorde, zodat de pagina niet verspringt.
+        toonInhoud();
+        if (mislukt) status.textContent = 'Niet alle voortgang kon geladen worden. Probeer het later opnieuw.'; else wisStatus();
       };
-      laad().catch(() => { status.textContent = 'Laden is niet gelukt. Probeer het later opnieuw.'; });
+      laad().catch(() => { status.textContent = 'Laden is niet gelukt. Probeer het later opnieuw.'; toonInhoud(); });
     });
   </script>
 </body>

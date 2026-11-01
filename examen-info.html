@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <script src="assets/deur.js?v=89"></script>
+  <script src="assets/deur.js?v=90"></script>
   <link rel="apple-touch-icon" href="/assets/icoon-180.png">
   <link rel="manifest" href="/manifest.webmanifest">
   <meta property="og:type" content="website">
@@ -30,23 +30,23 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="assets/style.css?v=91">
-  <script src="assets/app.js?v=90"></script>
+  <link rel="stylesheet" href="assets/style.css?v=93">
+  <script src="assets/app.js?v=91"></script>
   <script src="assets/config.js?v=89" defer></script>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js" defer></script>
-  <script src="assets/auth.js?v=90" defer></script>
-  <script src="assets/plan.js?v=89" defer></script>
-  <script src="assets/activiteit.js?v=89" defer></script>
+  <script src="assets/auth.js?v=91" defer></script>
+  <script src="assets/plan.js?v=90" defer></script>
+  <script src="assets/activiteit.js?v=90" defer></script>
   <style>
     .info-vraag-ontbreekt { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 14px 20px; margin-top: 28px; }
     .info-vraag-ontbreekt p { margin: 0; max-width: 34rem; color: var(--ink-soft); font-size: .9375rem; line-height: 1.6; }
-    .info-vraag-ontbreekt .knop-secundair { width: auto; min-width: 0; margin: 0; text-decoration: none; }
+    .info-vraag-ontbreekt .knop-secundair { width: auto; min-width: 0; max-width: 100%; margin: 0; text-align: center; text-decoration: none; white-space: normal; }
     .info-wrap { max-width: 808px; }
     .info-wrap .pagina-kop .eyebrow { margin: 0 0 20px; color: var(--accent); font-size: .875rem; }
     .info-filters { margin: 0 0 28px; }
     .info-tabs { display: flex; flex-wrap: wrap; gap: 10px; margin: 20px 0 0; }
-    .info-tab { min-height: 44px; padding: 10px 22px; font-size: .9375rem; line-height: 22px; box-shadow: none; }
-    .info-tab[aria-selected="true"] { background: var(--accent); border-color: var(--accent); color: var(--white); }
+    .info-tab { width: auto; min-width: 0; max-width: none; min-height: 44px; margin-inline: 0; padding: 10px 22px; font-size: .9375rem; line-height: 22px; box-shadow: none; }
+    .info-tab[aria-selected="true"] { background: var(--accent-vlak); border-color: var(--accent-vlak); color: var(--white); }
     .info-tab[aria-selected="false"] { background: var(--card); border-color: var(--line); color: var(--ink); box-shadow: none; }
     .info-resultaten:focus-visible { outline: 2px solid var(--accent); outline-offset: 6px; border-radius: 16px; }
     .info-kaart h2 { margin: 0; font-size: 1.0625rem; font-weight: 600; line-height: 1.45; }
@@ -390,22 +390,34 @@
       const panel = document.getElementById('info-resultaten');
       const empty = document.getElementById('info-leeg');
       const status = document.getElementById('info-aankondiging');
+      // Zonder hoofdletters en accenten vergelijken, zodat "officiele" ook "officiele" vindt.
+      const plat = tekst => tekst.toLocaleLowerCase('nl').normalize('NFD').replace(/[\u0300-\u036f]/g, '');
       const cards = Array.from(document.querySelectorAll('.info-kaart')).map(card => ({
         element: card,
         category: card.dataset.cat,
-        text: (card.querySelector('h2').textContent + ' ' + card.querySelector('.info-antwoord').textContent).toLocaleLowerCase('nl')
+        // Ook het artikelnummer uit de bronregel is doorzoekbaar.
+        text: plat(card.querySelector('h2').textContent + ' ' + card.querySelector('.info-antwoord').textContent + ' ' + (card.querySelector('.info-bron')?.textContent || ''))
       }));
       let category = 'all';
+      const beweging = window.matchMedia('(prefers-reduced-motion: reduce)');
+      // Bij een andere categorie en bij de melding "Geen antwoord gevonden": opacity en 4 px, 200 ms.
+      const instroom = blok => {
+        if (beweging.matches || !blok.animate) return;
+        blok.animate([{ opacity: 0, transform: 'translateY(-4px)' }, { opacity: 1, transform: 'none' }], { duration: 200, easing: getComputedStyle(blok).getPropertyValue('--ease').trim() });
+      };
 
       const filter = () => {
-        const query = search.value.trim().toLocaleLowerCase('nl');
+        // Elk woord moet voorkomen, in elke volgorde.
+        const woorden = plat(search.value.trim()).split(/\s+/).filter(Boolean);
         let count = 0;
         cards.forEach(card => {
-          const visible = (category === 'all' || card.category === category) && card.text.includes(query);
+          const visible = (category === 'all' || card.category === category) && woorden.every(woord => card.text.includes(woord));
           card.element.hidden = !visible;
           if (visible) count += 1;
         });
+        const wasVerborgen = empty.hidden;
         empty.hidden = count !== 0;
+        if (wasVerborgen && !empty.hidden) instroom(empty);
         status.textContent = count === 1 ? '1 antwoord gevonden.' : count + ' antwoorden gevonden.';
       };
 
@@ -420,6 +432,7 @@
         });
         panel.setAttribute('aria-labelledby', tab.id);
         filter();
+        instroom(panel);
       };
 
       tabs.forEach(tab => tab.addEventListener('click', () => select(tab)));

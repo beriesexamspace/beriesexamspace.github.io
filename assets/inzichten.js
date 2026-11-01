@@ -11,9 +11,9 @@ window.BES = window.BES || {};
   const balk = (waarde, goed) => {
     const wrap = el('div', 'inz-balk');
     const vul = el('i', goed ? 'is-goed' : '');
-    vul.style.width = '0%';
     wrap.append(vul);
-    window.requestAnimationFrame(() => { vul.style.width = waarde + '%'; });
+    // De balk start op 0 (css) en groeit met transform. Twee frames wachten, zodat de beginstand echt getekend is voor de transitie start.
+    window.requestAnimationFrame(() => window.requestAnimationFrame(() => { vul.style.transform = 'scaleX(' + Math.min(100, Math.max(0, waarde)) / 100 + ')'; }));
     return wrap;
   };
 
@@ -21,14 +21,15 @@ window.BES = window.BES || {};
     const auth = window.BES.auth;
     await auth.gereed;
     const user = await auth.gebruiker();
-    if (!user || !auth.client) { root.hidden = true; return; }
+    // Zonder gebruiker of bij een fout verdwijnt het hele blok, ook de kop erboven.
+    if (!user || !auth.client) { (root.closest('section') || root).hidden = true; return; }
     const vakken = (window.BES_VAKKEN || []).filter(vak => vak.v2);
     const [voortgang, sessies] = await Promise.all([
       auth.client.from('voortgang').select('vak,hoofdstuk,laatst_goed,laatst_totaal').eq('user_id', user.id),
       auth.client.from('sessies').select('vak,niveau,modus,goed,totaal,gemaakt_op').eq('user_id', user.id).order('gemaakt_op', { ascending: false }).limit(5)
     ]);
     root.replaceChildren();
-    if (voortgang.error) { root.append(el('p', 'inz-leeg', 'Je voortgang kon niet geladen worden. Probeer het later opnieuw.')); return; }
+    if (voortgang.error) { root.append(el('p', 'inz-leeg', 'Je voortgang kon niet geladen worden. Probeer het later opnieuw.')); root.hidden = false; return; }
 
     // Per vak: gemiddelde van de laatste score per hoofdstuk (Hard mode apart, niet meegeteld)
     const perVak = {};
@@ -82,10 +83,11 @@ window.BES = window.BES || {};
       blok.append(ul);
       root.append(blok);
     }
-    root.hidden = false;
+    // De inhoud schuift rustig open in plaats van dat de pagina eronder springt.
+    if (window.BES.toon) window.BES.toon(root); else root.hidden = false;
   }
 
   document.addEventListener('DOMContentLoaded', () => {
-    document.querySelectorAll('[data-inzichten]').forEach(root => { toon(root).catch(() => { root.hidden = true; }); });
+    document.querySelectorAll('[data-inzichten]').forEach(root => { toon(root).catch(() => { (root.closest('section') || root).hidden = true; }); });
   });
 })();

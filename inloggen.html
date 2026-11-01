@@ -29,13 +29,13 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="assets/style.css?v=91">
-  <script src="assets/app.js?v=90" defer></script>
+  <link rel="stylesheet" href="assets/style.css?v=93">
+  <script src="assets/app.js?v=91" defer></script>
   <script src="assets/config.js?v=89" defer></script>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js" defer></script>
-  <script src="assets/auth.js?v=90" defer></script>
-  <script src="assets/plan.js?v=89" defer></script>
-  <script src="assets/activiteit.js?v=89" defer></script>
+  <script src="assets/auth.js?v=91" defer></script>
+  <script src="assets/plan.js?v=90" defer></script>
+  <script src="assets/activiteit.js?v=90" defer></script>
 </head>
 <body>
   <a class="skip-link" href="#inhoud">Ga naar inhoud</a>
@@ -116,13 +116,15 @@
       const password = document.getElementById('login-password');
       const submit = document.getElementById('login-submit');
       const error = document.getElementById('login-error');
+      const google = document.getElementById('login-google');
+      const content = heading.closest('.hero-content');
       let resetting = false;
       let submitting = false;
+      let wisselen = false;
 
       const showError = (message, field, code) => {
         error.dataset.code = code || '';
         error.textContent = message;
-        error.hidden = false;
         if (code === 'unavailable') {
           const link = document.createElement('a');
           link.className = 'tekstlink';
@@ -130,6 +132,7 @@
           link.href = 'hub.html';
           error.append(' ', link);
         }
+        window.BES.toon(error);
         if (field) {
           field.setAttribute('aria-invalid', 'true');
           field.focus({ preventScroll: true });
@@ -142,28 +145,38 @@
         return false;
       };
 
-      const clearError = () => {
+      // direct === true: meteen weg (tijdens een wissel, als alles toch onzichtbaar is); anders schuift de melding dicht.
+      const clearError = direct => {
         email.removeAttribute('aria-invalid');
         password.removeAttribute('aria-invalid');
         if (!auth?.beschikbaar && error.dataset.code === 'unavailable' && !error.hidden) return;
-        error.hidden = true;
-        error.replaceChildren();
+        if (direct === true) {
+          error.hidden = true;
+          error.replaceChildren();
+        } else {
+          window.BES.verberg(error, () => error.replaceChildren());
+        }
         availability();
       };
 
-      const changeMode = reset => {
-        if (submitting) return;
-        resetting = reset;
-        password.value = '';
-        password.disabled = reset;
-        document.getElementById('login-password-field').hidden = reset;
-        document.getElementById('login-links').hidden = reset;
-        document.getElementById('reset-links').hidden = !reset;
-        heading.textContent = reset ? 'Wachtwoord vergeten?' : 'Welkom terug.';
-        submit.textContent = reset ? 'Herstelmail sturen →' : 'Inloggen →';
-        email.setAttribute('enterkeyhint', reset ? 'go' : 'next');
-        clearError();
+      const changeMode = async reset => {
+        if (submitting || wisselen || reset === resetting) return;
+        wisselen = true;
+        await window.BES.wissel(content, () => {
+          resetting = reset;
+          password.value = '';
+          password.disabled = reset;
+          document.getElementById('login-password-field').hidden = reset;
+          document.getElementById('login-links').hidden = reset;
+          document.getElementById('reset-links').hidden = !reset;
+          google.hidden = reset;
+          heading.textContent = reset ? 'Wachtwoord vergeten?' : 'Welkom terug.';
+          submit.textContent = reset ? 'Herstelmail sturen →' : 'Inloggen →';
+          email.setAttribute('enterkeyhint', reset ? 'go' : 'next');
+          clearError(true);
+        });
         email.focus({ preventScroll: true });
+        wisselen = false;
       };
 
       document.getElementById('forgot-password').addEventListener('click', event => {
@@ -179,7 +192,7 @@
 
       form.addEventListener('submit', async event => {
         event.preventDefault();
-        if (submitting) return;
+        if (submitting || wisselen) return;
         clearError();
         email.value = email.value.trim();
         if (!email.value || !email.validity.valid) {
@@ -195,16 +208,21 @@
         submit.disabled = true;
         submit.textContent = 'Even geduld…';
         form.setAttribute('aria-busy', 'true');
+        let ingelogd = false;
         try {
           if (resetting) {
             await auth.herstelMail(email.value);
             password.value = '';
-            form.hidden = true;
-            document.getElementById('reset-sent').hidden = false;
+            await window.BES.wissel(content, () => {
+              form.hidden = true;
+              google.hidden = true;
+              document.getElementById('reset-sent').hidden = false;
+            });
             heading.focus({ preventScroll: true });
           } else {
             await auth.inloggen(email.value, password.value);
             password.value = '';
+            ingelogd = true;
             window.location.assign(auth.terugNa);
           }
         } catch (failure) {
@@ -212,11 +230,20 @@
           if (failure.code === 'invalid_credentials') email.setAttribute('aria-invalid', 'true');
           showError(failure.message || 'Inloggen is niet gelukt. Probeer het opnieuw.', field, failure.code);
         } finally {
-          submitting = false;
-          submit.disabled = false;
-          submit.textContent = resetting ? 'Herstelmail sturen →' : 'Inloggen →';
-          form.removeAttribute('aria-busy');
+          // Na een geslaagde login blijft de knop uit tot de volgende pagina er is.
+          if (!ingelogd) herstelKnop();
         }
+      });
+
+      const herstelKnop = () => {
+        submitting = false;
+        submit.disabled = false;
+        submit.textContent = resetting ? 'Herstelmail sturen →' : 'Inloggen →';
+        form.removeAttribute('aria-busy');
+      };
+      // Terug naar deze pagina met de knop Vorige (uit het geheugen van de browser): knop weer bruikbaar.
+      window.addEventListener('pageshow', event => {
+        if (event.persisted && submitting) herstelKnop();
       });
 
       availability();
@@ -237,14 +264,18 @@
       }
       button.addEventListener('click', async () => {
         button.disabled = true;
-        error.hidden = true;
+        window.BES.verberg(error);
         try {
           await window.BES.auth.metGoogle();
         } catch (failure) {
           error.textContent = failure?.message || 'Inloggen met Google is nog niet ingeschakeld.';
-          error.hidden = false;
+          window.BES.toon(error);
           button.disabled = false;
         }
+      });
+      // Terug naar deze pagina met de knop Vorige: de Googleknop weer aanzetten.
+      window.addEventListener('pageshow', event => {
+        if (event.persisted) button.disabled = false;
       });
     });
 </script>

@@ -17,8 +17,10 @@
 .boeken-rooster { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px; }
 .boek-kaart { display: flex; flex-direction: column; gap: 16px; padding: 18px; overflow-wrap: anywhere; }
 .boek-fotos { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 6px; }
-.boek-fotos img { display: block; width: 100%; height: 92px; object-fit: contain; border-radius: 10px; background: var(--surface); }
+.boek-fotos img { display: block; width: 100%; height: 92px; object-fit: contain; border-radius: 10px; background: var(--surface); opacity: 0; transition: opacity 200ms var(--ease); }
+.boek-fotos img.is-geladen { opacity: 1; }
 .boek-fotos img:first-child { grid-column: 1 / -1; height: 190px; }
+.boek-fotos img:first-child:nth-last-child(2), .boek-fotos img:last-child:nth-child(2) { grid-column: auto; height: 190px; }
 .boek-geen-foto { display: grid; place-items: center; min-height: 190px; border-radius: 10px; background: var(--surface); color: var(--muted); font-size: .875rem; }
 .boek-info { display: grid; gap: 8px; }
 .boek-info h3 { margin: 0; font-size: 1.125rem; line-height: 1.4; }
@@ -32,11 +34,13 @@
 .boek-kaart .knop { width: 100%; font-size: .9375rem; }
 .boek-kaart .knop-secundair { font-size: .875rem; }
 .boeken-tekstknop { display: inline-flex; align-items: center; padding: 8px 0; border: 0; background: var(--transparent); color: var(--accent); text-align: left; font: 500 .875rem/1.5 var(--font); cursor: pointer; }
-.boeken-paneel { display: grid; gap: 10px; padding-top: 16px; border-top: 1px solid var(--line); animation: appear 200ms var(--ease) both; }
+:where(html.has-hover) .boeken-tekstknop:hover { text-decoration: underline; text-underline-offset: 4px; }
+:where(html.has-hover) .boeken-tekstknop[data-action="wissen"]:hover { color: var(--fout); }
+.boeken-paneel { display: grid; gap: 10px; padding-top: 16px; border-top: 1px solid var(--line); }
 .boeken-paneel textarea { min-height: 108px; resize: vertical; }
 .boeken-paneel .auth-input { min-width: 0; padding: 10px 12px; font-size: 1rem; }
 .boeken-resultaat { margin: 0; color: var(--teal-tekst); font-size: .9375rem; line-height: 1.5; overflow-wrap: anywhere; }
-.boeken-resultaat.is-fout { color: var(--muted); }
+.boeken-resultaat.is-fout, .boeken-form .auth-help.is-fout { color: var(--fout); }
 .boeken-melding p, .boeken-leeg p { margin: 0; color: var(--muted); line-height: 1.6; }
 .boeken-leeg .tekstlink { margin-top: 12px; }
 .boeken-form { max-width: 800px; display: grid; gap: 20px; padding: clamp(20px, 4vw, 32px); }
@@ -52,6 +56,7 @@
 .boeken-toestemming { display: flex; align-items: center; gap: 12px; min-height: 44px; line-height: 1.5; cursor: pointer; }
 .boeken-toestemming input { flex: 0 0 44px; width: 44px; height: 44px; margin: 0; accent-color: var(--accent); }
 .boeken-pagina section[id] { scroll-margin-top: 90px; }
+@media (prefers-reduced-motion: no-preference) { html { scroll-behavior: smooth; } }
 @media (max-width: 950px) { .boeken-rooster { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 @media (max-width: 600px) {
   .boeken-rooster, .boeken-formrooster { grid-template-columns: minmax(0, 1fr); }

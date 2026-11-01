@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <script src="assets/deur.js?v=89"></script>
+  <script src="assets/deur.js?v=90"></script>
   <link rel="apple-touch-icon" href="/assets/icoon-180.png">
   <link rel="manifest" href="/manifest.webmanifest">
   <meta property="og:type" content="website">
@@ -31,13 +31,13 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="assets/style.css?v=91">
-  <script src="assets/app.js?v=90" defer></script>
+  <link rel="stylesheet" href="assets/style.css?v=93">
+  <script src="assets/app.js?v=91" defer></script>
   <script src="assets/config.js?v=89" defer></script>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js" defer></script>
-  <script src="assets/auth.js?v=90" defer></script>
-  <script src="assets/plan.js?v=89" defer></script>
-  <script src="assets/activiteit.js?v=89" defer></script>
+  <script src="assets/auth.js?v=91" defer></script>
+  <script src="assets/plan.js?v=90" defer></script>
+  <script src="assets/activiteit.js?v=90" defer></script>
   <style>
     .leren-wrap { max-width: 760px; }
     .leren-sectie + .leren-sectie { margin-top: 40px; }
@@ -57,6 +57,10 @@
     .leren-hulp .leren-nummer { justify-self: end; color: var(--ink); font-size: 1.125rem; font-weight: 600; font-variant-numeric: tabular-nums; white-space: nowrap; }
     .leren-hulp a { color: var(--accent); font-weight: 500; text-decoration: none; }
     .leren-hulp a:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 6px; }
+    .leren-hulp .leren-nummer a { display: inline-flex; align-items: center; min-height: 44px; }
+    .leren-nood a { color: var(--accent); font-weight: 600; text-decoration: none; }
+    .leren-nood a:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 6px; }
+    :where(html.has-hover) :is(.leren-hulp .leren-nummer a, .leren-nood a):hover { text-decoration: underline; text-underline-offset: 4px; }
     .leren-nood { margin-top: 20px; padding-top: 18px; border-top: 1px solid var(--line); color: var(--ink-soft); }
     .leren-nood strong { color: var(--ink); }
     @media (max-width: 480px) {
@@ -134,11 +138,11 @@
             </li>
             <li>
               <div><strong>Tele-Onthaal</strong><span>Dag en nacht, anoniem, over alles wat je bezighoudt. Chatten kan ook via tele-onthaal.be.</span></div>
-              <span class="leren-nummer">106</span>
+              <span class="leren-nummer"><a href="tel:106">106</a></span>
             </li>
             <li>
               <div><strong>Awel</strong><span>Voor iedereen tot 25 jaar. Bellen, chatten of mailen, anoniem.</span></div>
-              <span class="leren-nummer">102</span>
+              <span class="leren-nummer"><a href="tel:102">102</a></span>
             </li>
             <li>
               <div><strong>JAC</strong><span>Het jongerenadviescentrum van het CAW: voor vragen over thuis, geld, wonen of relaties. Gesprek in de buurt of online via jac.be.</span></div>
@@ -147,7 +151,7 @@
               <div><strong>Je huisarts</strong><span>Ook voor wat niet lichamelijk is. Een huisarts kent de weg en kan je doorverwijzen.</span></div>
             </li>
           </ul>
-          <p class="leren-nood"><strong>Bij direct gevaar bel je 112.</strong> Denk je aan zelfdoding, bel dan 1813 (Zelfmoordlijn, dag en nacht).</p>
+          <p class="leren-nood"><strong>Bij direct gevaar bel je <a href="tel:112">112</a>.</strong> Denk je aan zelfdoding, bel dan <a href="tel:1813">1813</a> (Zelfmoordlijn, dag en nacht).</p>
         </div>
       </section>
     </div>

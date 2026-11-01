@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <script src="assets/deur.js?v=89"></script>
+  <script src="assets/deur.js?v=90"></script>
   <link rel="apple-touch-icon" href="/assets/icoon-180.png">
   <link rel="manifest" href="/manifest.webmanifest">
   <meta property="og:type" content="website">
@@ -31,14 +31,14 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="assets/style.css?v=91">
-  <script src="assets/app.js?v=90" defer></script>
+  <link rel="stylesheet" href="assets/style.css?v=93">
+  <script src="assets/app.js?v=91" defer></script>
   <script src="assets/config.js?v=89" defer></script>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js" defer></script>
-  <script src="assets/auth.js?v=90" defer></script>
-  <script src="assets/plan.js?v=89" defer></script>
+  <script src="assets/auth.js?v=91" defer></script>
+  <script src="assets/plan.js?v=90" defer></script>
   <script src="assets/vakken.js?v=89" defer></script>
-  <script src="assets/activiteit.js?v=89" defer></script>
+  <script src="assets/activiteit.js?v=90" defer></script>
   <style>
     .feedback-wrap { max-width: 640px; }
     .feedback-form { display: grid; gap: 28px; padding: clamp(22px, 5vw, 36px); }
@@ -53,7 +53,7 @@
       color: var(--ink); font: inherit; font-size: .9375rem; font-weight: 500; cursor: pointer;
       transition: background-color 150ms var(--ease), border-color 150ms var(--ease), color 150ms var(--ease), transform 150ms var(--ease);
     }
-    .feedback-soort[aria-checked="true"] { background: var(--accent); border-color: var(--accent); color: #fff; }
+    .feedback-soort[aria-checked="true"] { background: var(--accent-vlak); border-color: var(--accent-vlak); color: var(--white); }
     :where(html.has-hover) .feedback-soort:not([aria-checked="true"]):hover { background: var(--surface); }
     .feedback-soort:active { transform: scale(.97); }
     .feedback-soort:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
@@ -70,6 +70,7 @@
     .feedback-verstuurd .vinkje { width: 40px; height: 40px; margin: 0; }
     .feedback-bedankt { display: grid; gap: 12px; padding: clamp(22px, 5vw, 36px); }
     .feedback-bedankt h2 { margin: 0; font-size: 1.25rem; }
+    .feedback-bedankt h2:focus { outline: none; }
     .feedback-bedankt p { margin: 0; color: var(--muted); line-height: 1.55; }
     .feedback-bedankt .tekstlink { justify-self: start; }
     button.tekstlink { padding: 0; border: 0; background: none; cursor: pointer; }
@@ -116,7 +117,7 @@
       </div>
 
       <div class="kaart feedback-bedankt" id="feedback-bedankt" role="status" hidden>
-        <h2>Bedankt.</h2>
+        <h2 id="feedback-bedankt-kop" tabindex="-1">Bedankt.</h2>
         <p>Je bericht is binnen. Fouten in vragen pas ik zo snel mogelijk aan; ideeën komen op de lijst.</p>
         <button class="tekstlink" id="feedback-opnieuw" type="button">Nog iets sturen →</button>
       </div>
@@ -174,6 +175,7 @@
       const form = document.getElementById('feedback-form');
       const loginCard = document.getElementById('feedback-login');
       const thanksCard = document.getElementById('feedback-bedankt');
+      const thanksTitle = document.getElementById('feedback-bedankt-kop');
       const again = document.getElementById('feedback-opnieuw');
       const kinds = Array.from(document.querySelectorAll('.feedback-soort'));
       const subject = document.getElementById('feedback-vak');
@@ -206,7 +208,9 @@
       const vooraf = params.get('vak');
       if (vooraf && vakken.some(vak => vak.id === vooraf)) subject.value = vooraf;
       const vraag = params.get('vraag');
-      if (vraag && /^[\w:-]{1,40}$/.test(vraag)) text.value = 'Vraag ' + vraag + ': ';
+      // Het voorvoegsel telt niet mee als bericht: er moet ook eigen tekst achter staan.
+      let voorvoegsel = '';
+      if (vraag && /^[\w:-]{1,40}$/.test(vraag)) { voorvoegsel = 'Vraag ' + vraag + ': '; text.value = voorvoegsel; }
 
       const showError = message => {
         error.textContent = message;
@@ -269,13 +273,16 @@
         event.preventDefault();
         if (busy) return;
         const bericht = text.value.trim();
-        if (bericht.length < 5) { showError('Schrijf eerst je bericht.'); text.focus(); return; }
+        const eigenTekst = voorvoegsel && bericht.startsWith(voorvoegsel.trim()) ? bericht.slice(voorvoegsel.trim().length).trim() : bericht;
+        if (eigenTekst.length < 5) { showError('Schrijf eerst je bericht.'); text.focus(); return; }
         if (!user) { showState('login'); return; }
         if (!auth.client) { showError('Feedback versturen lukt nu niet. Probeer het later opnieuw.'); return; }
         busy = true;
         submit.disabled = true;
         submit.textContent = 'Even geduld…';
         showError('');
+        // Na een gelukte INSERT blijft de knop uit tot de bedankkaart staat; anders kan een snelle tweede klik het bericht nog eens sturen.
+        let gelukt = false;
         try {
           const naam = typeof auth.naamGegevens === 'function' ? auth.naamGegevens(user.user_metadata || {}) : null;
           const { error: insertError } = await auth.client.from('feedback').insert({
@@ -288,13 +295,27 @@
             pagina: params.get('van') || null
           });
           if (insertError) throw insertError;
+          gelukt = true;
           sent.hidden = false;
           sent.classList.remove('is-fading');
-          window.setTimeout(() => {
+          const toonBedankt = () => {
             sent.hidden = true;
+            sent.classList.remove('is-fading');
             text.value = '';
             updateCounter();
             showState('bedankt');
+            thanksTitle.focus();
+            busy = false;
+            submit.disabled = false;
+            submit.textContent = 'Versturen →';
+          };
+          window.setTimeout(() => {
+            if (window.matchMedia('(prefers-reduced-motion: reduce)').matches || !form.animate) { toonBedankt(); return; }
+            // Vinkje en formulier vervagen eerst, daarna komt de bedankkaart.
+            sent.classList.add('is-fading');
+            const vervaag = form.animate([{ opacity: 1 }, { opacity: 0 }], { duration: 200, easing: getComputedStyle(form).getPropertyValue('--ease').trim(), fill: 'forwards' });
+            const klaar = () => { toonBedankt(); vervaag.cancel(); };
+            vervaag.finished.then(klaar, klaar);
           }, 900);
         } catch (failure) {
           const code = failure?.code || '';
@@ -302,9 +323,11 @@
             ? 'Feedback is nog niet ingeschakeld. Laat het voorlopig weten in de WhatsApp-groep.'
             : 'Versturen is niet gelukt. Controleer je verbinding en probeer het opnieuw.');
         } finally {
-          busy = false;
-          submit.disabled = false;
-          submit.textContent = 'Versturen →';
+          if (!gelukt) {
+            busy = false;
+            submit.disabled = false;
+            submit.textContent = 'Versturen →';
+          }
         }
       });
     });

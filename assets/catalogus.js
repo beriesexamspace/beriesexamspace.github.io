@@ -106,6 +106,7 @@
   window.BES_CATALOGUS = {
     scholen,
     richtingen,
+    plat,
     school: (id) => scholen.find((s) => s.id === id) || null,
     richting: (id) => richtingen.find((x) => x.id === id) || null,
     // Richtingen van een school: eerst live, dan binnenkort, dan alfabetisch.

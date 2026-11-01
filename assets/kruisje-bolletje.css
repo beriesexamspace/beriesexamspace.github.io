@@ -57,7 +57,7 @@
 
 .kb-niveau {
   min-width: 0;
-  min-height: 40px;
+  min-height: 44px;
   padding: 6px 2px;
   border: 1px solid var(--line);
   border-radius: var(--pill);
@@ -67,7 +67,7 @@
   text-align: center;
   overflow-wrap: anywhere;
   cursor: pointer;
-  transition: background-color 180ms var(--ease), border-color 180ms var(--ease), color 180ms var(--ease);
+  transition: background-color 180ms var(--ease), border-color 180ms var(--ease), color 180ms var(--ease), transform 150ms var(--ease), opacity 150ms var(--ease);
 }
 
 :where(html.has-hover) .kb-niveau:not(:disabled):hover {
@@ -87,6 +87,8 @@
 
 .kb-uitleg {
   margin: 0;
+  /* Twee regels vast, zodat het bord niet verspringt als de uitleg van het niveau wisselt. */
+  min-height: calc(2 * 1.45em);
   color: var(--muted);
   font-size: .875rem;
   line-height: 1.45;
@@ -97,7 +99,8 @@
   display: flex;
   align-items: center;
   gap: 10px;
-  min-height: 44px;
+  /* Ruimte voor twee regels vast, zodat het bord niet verspringt als de tekst van de beurt of de uitslag wisselt. */
+  min-height: 3.75rem;
   padding: 10px 14px;
   border-radius: 14px;
   background: var(--surface);
@@ -105,6 +108,16 @@
   font-size: .875rem;
   line-height: 1.4;
   transition: background-color 200ms var(--ease);
+}
+
+/* Op een hoge telefoon is er ruimte voor de uitslag van drie regels. */
+@media (max-width: 899px) and (min-height: 760px) {
+  .kb-status { min-height: 5rem; }
+}
+
+/* Op een heel smal scherm kan de uitleg drie regels worden. */
+@media (max-width: 340px) {
+  .kb-uitleg { min-height: calc(3 * 1.45em); }
 }
 
 .kb-stip {
@@ -275,7 +288,7 @@
 .kb-tabel tbody tr > :last-child { border-radius: 0 10px 10px 0; }
 
 .kb-tabel tr.kb-nieuw > :is(th, td) {
-  animation: kb-stand-flits 1200ms var(--ease);
+  animation: kb-stand-flits 500ms var(--ease);
 }
 
 @keyframes kb-stand-flits {
@@ -323,7 +336,7 @@
   .kb-tabel tbody td { font-size: 1rem; }
   .kb-tabel tbody tr[aria-current="true"] { background: var(--accent-zacht); }
   .kb-pagina .kb-tabel tr.kb-nieuw > :is(th, td) { animation: none; }
-  .kb-tabel tr.kb-nieuw { animation: kb-stand-flits 1200ms var(--ease); }
+  .kb-tabel tr.kb-nieuw { animation: kb-stand-flits 500ms var(--ease); }
 }
 
 /* Computer: links het bord in een kaart, rechts de knoppen en de stand. */
@@ -351,9 +364,10 @@
   .kb-acties { justify-content: center; }
   .kb-acties .knop { min-width: 200px; padding: 0 28px; font-size: 1.0625rem; }
 
-  .kb-niveau { min-height: 44px; padding: 8px 12px; font-size: .9375rem; }
-  .kb-uitleg { font-size: .9375rem; line-height: 1.5; }
-  .kb-status { min-height: 48px; padding: 12px 16px; font-size: .9375rem; line-height: 1.5; }
+  /* Smalle zijpadding: "Onmogelijk" past zo ook op 900 tot 980 px in de knop zonder af te breken. */
+  .kb-niveau { padding: 8px 4px; font-size: .9375rem; }
+  .kb-uitleg { min-height: calc(2 * 1.5em); font-size: .9375rem; line-height: 1.5; }
+  .kb-status { min-height: 4.5rem; padding: 12px 16px; font-size: .9375rem; line-height: 1.5; }
 }
 
 /* Lage computerschermen: het kopje Pauze en de zin onder Jouw stand vallen weg, en de rijen worden lager, zodat alles past. */

@@ -32,14 +32,14 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="../assets/style.css?v=91">
-  <link rel="stylesheet" href="../assets/intro.css?v=89">
-  <script src="../assets/app.js?v=90" defer></script>
-  <script src="../assets/intro.js?v=90" defer></script>
+  <link rel="stylesheet" href="../assets/style.css?v=93">
+  <link rel="stylesheet" href="../assets/intro.css?v=90">
+  <script src="../assets/app.js?v=91" defer></script>
+  <script src="../assets/intro.js?v=91" defer></script>
   <script src="../assets/config.js?v=89" defer></script>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js" defer></script>
-  <script src="../assets/auth.js?v=90" defer></script>
-  <script src="../assets/plan.js?v=89" defer></script>
+  <script src="../assets/auth.js?v=91" defer></script>
+  <script src="../assets/plan.js?v=90" defer></script>
   <style>
     /* Insturen, pagina 1: wie we zijn en waarom we je hulp vragen. Het formulier staat op formulier.html.
        Alle kleuren komen uit de tokens van style.css. */
@@ -78,9 +78,9 @@
     :is(.ins-held-knoppen, .ins-slot, .ins-plak) :is(.knop, .knop-secundair) svg, .ins-meer svg {
       width: 18px; height: 18px; flex: none; fill: none; stroke: currentColor; stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round;
     }
-    /* Lees wie we zijn: het pijltje veert even naar beneden terwijl de pagina naar het verhaal schuift. */
-    .ins-lees.is-tik svg { animation: lees-pijl 700ms var(--ease); }
-    @keyframes lees-pijl { 40% { transform: translateY(6px); } }
+    /* Lees wie we zijn: het pijltje zakt een stukje naar beneden terwijl de pagina naar het verhaal schuift. */
+    .ins-lees.is-tik svg { animation: lees-pijl 300ms var(--ease) both; }
+    @keyframes lees-pijl { to { transform: translateY(4px); } }
     @media (prefers-reduced-motion: no-preference) {
       .ins-held > * { animation: rise 600ms var(--ease) both; }
       .ins-held > :nth-child(2) { animation-delay: 70ms; }
@@ -193,7 +193,8 @@
     }
     .ins-dia-bestand-tekst { display: grid; gap: 1px; min-width: 0; }
     .ins-dia-bestand-tekst span { color: var(--ink-soft); font-size: 10px; font-weight: 400; }
-    .ins-dia-scan { position: absolute; top: 0; bottom: 0; left: 0; width: 2px; background: var(--teal); box-shadow: 0 0 10px 2px rgba(63, 185, 178, .45); opacity: 0; }
+    .ins-dia-scan { position: absolute; inset: 0; pointer-events: none; opacity: 0; }
+    .ins-dia-scan::after { content: ''; position: absolute; top: 0; right: 0; bottom: 0; width: 2px; background: var(--teal); box-shadow: 0 0 10px 2px rgba(63, 185, 178, .45); }
     .ins-dia-wordt { display: flex; align-items: center; justify-content: center; gap: 6px; color: var(--teal-tekst); font-size: 10.5px; font-weight: 600; }
     .ins-dia-wordt svg { width: 12px; height: 12px; fill: none; stroke: currentColor; stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round; }
     .ins-dia-optie { position: relative; display: flex; align-items: center; gap: 8px; }
@@ -212,8 +213,8 @@
     .stap-kaart .ins-dia-goed.anim { animation: stap-op 250ms var(--ease) both, ins-goed 320ms var(--ease) 3050ms both; animation-delay: calc(var(--i, 0) * 110ms + 180ms), 3050ms; }
     .stap-kaart .ins-dia-goed .ins-dia-letter.anim { animation: ins-goed-letter 320ms var(--ease) 3050ms both; }
     .stap-kaart .ins-dia-goed .ins-dia-vink.anim { animation: ins-vink 300ms var(--ease) 3150ms both; }
-    @keyframes ins-scan { 0% { left: 0; opacity: 1; } 88% { left: calc(100% - 2px); opacity: 1; } 100% { left: calc(100% - 2px); opacity: 0; } }
-    @keyframes ins-tik { 0% { opacity: 0; transform: scale(1.6); } 30% { opacity: 1; transform: scale(1); } 50% { transform: scale(.8); } 70% { opacity: 1; transform: scale(1); } 100% { opacity: 0; transform: scale(1); } }
+    @keyframes ins-scan { 0% { transform: translateX(-100%); opacity: 1; } 88% { transform: translateX(0); opacity: 1; } 100% { transform: translateX(0); opacity: 0; } }
+    @keyframes ins-tik { 0% { opacity: 0; transform: scale(1.2); } 30% { opacity: 1; transform: scale(1); } 50% { transform: scale(.9); } 70% { opacity: 1; transform: scale(1); } 100% { opacity: 0; transform: scale(1); } }
     @keyframes ins-goed { to { border-color: var(--teal); background: var(--teal-zacht); color: var(--teal-tekst); font-weight: 600; } }
     @keyframes ins-goed-letter { to { background: transparent; color: var(--teal-tekst); } }
     @keyframes ins-vink { from { opacity: 0; transform: scale(.4); } to { opacity: 1; transform: none; } }
@@ -279,10 +280,9 @@
     .ins-volg.is-gestart .ins-volg-stap:nth-child(1)::after { animation: volg-vul 800ms cubic-bezier(.45, 0, .55, 1) 350ms both; }
     .ins-volg.is-gestart .ins-volg-stap:nth-child(2) .ins-volg-bol { animation: volg-aan 420ms var(--ease) 1150ms both; }
     .ins-volg.is-gestart .ins-volg-stap:nth-child(2)::after { animation: volg-vul 800ms cubic-bezier(.45, 0, .55, 1) 1500ms both; }
-    .ins-volg.is-gestart .ins-volg-stap:nth-child(3) .ins-volg-bol { animation: volg-aan 420ms var(--ease) 2300ms both, volg-pop 520ms var(--ease) 2300ms; }
+    .ins-volg.is-gestart .ins-volg-stap:nth-child(3) .ins-volg-bol { animation: volg-aan 420ms var(--ease) 2300ms both; }
     @keyframes volg-aan { to { border-color: var(--teal); background: linear-gradient(var(--teal-zacht), var(--teal-zacht)), var(--card); color: var(--teal-tekst); } }
     @keyframes volg-vul { to { transform: none; } }
-    @keyframes volg-pop { 50% { scale: 1.14; } }
 
     /* Beeld 6: rond de B komen studenten erbij, de teller loopt tot 340, en onderaan wacht een lege plek: En jij?
        Het middelpunt ligt op 130 px; de bolletjes staan op twee ringen (--r) onder een hoek (--a). */
@@ -318,24 +318,24 @@
 
     /* De beelden spelen pas als hun hoofdstuk in beeld komt (klasse is-zichtbaar). */
     @media (prefers-reduced-motion: no-preference) {
-      .is-zichtbaar .ins-fig-b { animation: fig-pop 650ms cubic-bezier(.34, 1.56, .64, 1) 200ms both; }
-      .is-zichtbaar .ins-fig-hoi { animation: fig-pop 500ms cubic-bezier(.34, 1.56, .64, 1) 750ms both; }
+      .is-zichtbaar .ins-fig-b { animation: fig-pop 650ms var(--ease) 200ms both; }
+      .is-zichtbaar .ins-fig-hoi { animation: fig-pop 500ms var(--ease) 750ms both; }
       .is-zichtbaar .ins-fig-chips li { animation: rise 500ms var(--ease) both; animation-delay: calc(1000ms + var(--n, 0) * 110ms); }
       .is-zichtbaar .ins-chat { animation: rise 550ms var(--ease) 150ms both; }
       .is-zichtbaar .ins-chat-melding { animation: appear 400ms var(--ease) 600ms both; }
-      .is-zichtbaar .ins-chat-stapel i { animation: fig-pop 380ms cubic-bezier(.34, 1.56, .64, 1) both; animation-delay: calc(850ms + var(--n, 0) * 90ms); }
-      .is-zichtbaar .ins-chat-meer { animation: fig-pop 420ms cubic-bezier(.34, 1.56, .64, 1) 1600ms both; }
+      .is-zichtbaar .ins-chat-stapel i { animation: fig-pop 380ms var(--ease) both; animation-delay: calc(850ms + var(--n, 0) * 90ms); }
+      .is-zichtbaar .ins-chat-meer { animation: fig-pop 420ms var(--ease) 1600ms both; }
       .is-zichtbaar .ins-chat-bericht { animation: rise 500ms var(--ease) 2000ms both; }
-      .is-zichtbaar .ins-boeken i { animation: boek-in 440ms cubic-bezier(.34, 1.56, .64, 1) both; animation-delay: calc(250ms + var(--k, 0) * 70ms); }
+      .is-zichtbaar .ins-boeken i { animation: boek-in 440ms var(--ease) both; animation-delay: calc(250ms + var(--k, 0) * 70ms); }
       .is-zichtbaar .ins-plank-naam { animation: appear 400ms var(--ease) 300ms both; }
       .is-zichtbaar .ins-plank.is-half .ins-plank-naam { animation-delay: 1150ms; }
       .is-zichtbaar .ins-plank.is-jij .ins-plank-naam { animation-delay: 1350ms; }
-      .is-zichtbaar .ins-boek-plus { animation: fig-pop 420ms cubic-bezier(.34, 1.56, .64, 1) 1400ms both, jij-puls 1400ms var(--ease) 1900ms 2; }
-      .is-zichtbaar .ins-kring-b { animation: fig-pop 600ms cubic-bezier(.34, 1.56, .64, 1) 200ms both; }
-      .is-zichtbaar .ins-kring i { animation: stip-in 380ms cubic-bezier(.34, 1.56, .64, 1) both; animation-delay: calc(550ms + var(--k, 0) * 65ms); }
-      .is-zichtbaar .ins-kring-jij { animation: fig-pop 420ms cubic-bezier(.34, 1.56, .64, 1) 2250ms both, jij-puls 1400ms var(--ease) 2700ms 3; }
+      .is-zichtbaar .ins-boek-plus { animation: fig-pop 420ms var(--ease) 1400ms both, jij-puls 1400ms var(--ease) 1900ms 2; }
+      .is-zichtbaar .ins-kring-b { animation: fig-pop 600ms var(--ease) 200ms both; }
+      .is-zichtbaar .ins-kring i { animation: stip-in 380ms var(--ease) both; animation-delay: calc(550ms + var(--k, 0) * 65ms); }
+      .is-zichtbaar .ins-kring-jij { animation: fig-pop 420ms var(--ease) 2250ms both, jij-puls 1400ms var(--ease) 2700ms 3; }
       .is-zichtbaar .ins-kring-label { animation: appear 400ms var(--ease) 2400ms both; }
-      @keyframes fig-pop { from { opacity: 0; transform: scale(.5); } }
+      @keyframes fig-pop { from { opacity: 0; transform: scale(.85); } }
       @keyframes boek-in { from { opacity: 0; transform: translateY(-16px) scaleY(.6); } }
       @keyframes stip-in { from { opacity: 0; scale: 0; } }
       @keyframes jij-puls { 50% { box-shadow: 0 0 0 6px color-mix(in srgb, var(--accent) 22%, transparent); } }

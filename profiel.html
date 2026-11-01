@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <script src="assets/deur.js?v=89"></script>
+  <script src="assets/deur.js?v=90"></script>
   <link rel="apple-touch-icon" href="/assets/icoon-180.png">
   <link rel="manifest" href="/manifest.webmanifest">
   <meta property="og:type" content="website">
@@ -31,17 +31,17 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="assets/style.css?v=91">
+  <link rel="stylesheet" href="assets/style.css?v=93">
   <link rel="stylesheet" href="assets/kalender.css?v=89">
-  <script src="assets/app.js?v=90" defer></script>
+  <script src="assets/app.js?v=91" defer></script>
   <script src="assets/config.js?v=89" defer></script>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js" defer></script>
-  <script src="assets/auth.js?v=90" defer></script>
+  <script src="assets/auth.js?v=91" defer></script>
   <script src="assets/over-jezelf.js?v=89" defer></script>
-  <script src="assets/plan.js?v=89" defer></script>
-  <script src="assets/activiteit.js?v=89" defer></script>
+  <script src="assets/plan.js?v=90" defer></script>
+  <script src="assets/activiteit.js?v=90" defer></script>
   <script src="assets/vakken.js?v=89"></script>
-  <script src="assets/inzichten.js?v=89" defer></script>
+  <script src="assets/inzichten.js?v=90" defer></script>
   <style>
     .profiel-wrap { max-width: 640px; }
     /* Bovenaan alleen foto, naam en e-mail met één knop Bewerken; de velden komen pas na die klik. */
@@ -60,7 +60,7 @@
     #studiekalender { margin-top: 20px; }
     /* Jouw abonnement: tussen profielkaart en studiekalender. Nu heeft iedereen Free; het plan komt later uit Supabase. */
     #over-jezelf { margin-top: 20px; }
-    #abonnement { margin-top: 20px; }
+    #abonnement { margin-top: 20px; scroll-margin-top: 88px; }
     #over-jezelf + #abonnement { margin-top: 40px; }
     #abonnement + #studiekalender { margin-top: 40px; }
     .abo-kaart { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; gap: 20px; padding: clamp(22px, 5vw, 32px); }
@@ -75,7 +75,7 @@
     .abo-kaart { transition: background 300ms var(--ease), border-color 300ms var(--ease); }
     .abo-kaart[data-plan="plus"] {
       --card: #161c24; --line: #262e39; --ink: #e7ecf1; --ink-soft: #9aa6b2; --surface: rgba(255,255,255,.07);
-      --accent: #3fb9b2; --teal-tekst: #7fd6d0; --teal-zacht: #15302e;
+      --accent: #3fb9b2; --accent-vlak: #3fb9b2; --accent-vlak-hover: #36a8a1; --teal-tekst: #7fd6d0; --teal-zacht: #15302e;
       border-color: #3fb9b2; background: radial-gradient(120% 90% at 100% 0%, rgba(63,185,178,.2), transparent 60%), var(--card); color: var(--ink);
     }
     .abo-knop-pijl { transition: transform 180ms var(--ease); }
@@ -111,6 +111,8 @@
     .profiel-opgeslagen { display: inline-flex; align-items: center; gap: 10px; color: var(--teal-tekst); font-size: .9375rem; opacity: 1; transition: opacity 200ms var(--ease); }
     .profiel-opgeslagen.is-fading { opacity: 0; }
     .profiel-opgeslagen .vinkje { width: 40px; height: 40px; margin: 0; }
+    /* In de profielkaart krijgt de melding een eigen rij over de volle breedte, in plaats van de smalle foto-kolom. */
+    .profiel-kaart > .profiel-opgeslagen { grid-column: 1 / -1; justify-self: start; }
     .profiel-form-knoppen { display: flex; flex-wrap: wrap; align-items: center; gap: 14px; }
     .profiel-form-knoppen .knop, .profiel-form-knoppen .knop-secundair { width: auto; min-width: 0; margin: 0; }
     .profiel-email-status { overflow-wrap: anywhere; }
@@ -127,7 +129,7 @@
     .inz-procent { font-weight: 700; font-variant-numeric: tabular-nums; }
     .inz-procent.is-goed, .inz-sessie-score.is-goed { color: var(--teal-tekst); }
     .inz-balk { height: 8px; border-radius: 4px; background: var(--surface); overflow: hidden; }
-    .inz-balk i { display: block; height: 100%; border-radius: inherit; background: var(--accent); transition: width 300ms var(--ease), background-color 200ms var(--ease); }
+    .inz-balk i { display: block; width: 100%; height: 100%; border-radius: inherit; background: var(--accent); transform: scaleX(0); transform-origin: left; transition: transform 300ms var(--ease), background-color 200ms var(--ease); }
     .inz-balk i.is-goed { background: var(--teal); }
     .inz-sub { color: var(--ink-soft); font-size: .8125rem; }
     .inz-meer { display: inline-block; margin-top: 16px; }
@@ -140,10 +142,12 @@
     @media (max-width: 520px) { .inz-sessie { grid-template-columns: 56px minmax(0, 1fr) auto; } .inz-sessie-modus { display: none; } }
     @media (prefers-reduced-motion: reduce) { .inz-balk i { transition: none; } }
     @media (prefers-reduced-motion: reduce) { .profiel-opgeslagen { transition: none; } }
+    /* Over jezelf: het formulier opent met dezelfde zachte beweging als de andere formulieren op deze pagina. */
+    .over-kaart .over-form { animation: menu-open 220ms var(--ease); }
     /* Profielacties: zacht optillen bij een muis en kort indrukken bij klikken of tikken. */
     .profiel-wrap :is(button, a.knop, a.knop-secundair, a.tekstlink),
     .profiel-wrap .over-keuze-tekst {
-      transition: transform 260ms var(--ease), color 180ms var(--ease), background-color 180ms var(--ease), border-color 180ms var(--ease), box-shadow 220ms var(--ease), opacity 180ms var(--ease);
+      transition: transform 180ms var(--ease), color 180ms var(--ease), background-color 180ms var(--ease), border-color 180ms var(--ease), box-shadow 220ms var(--ease), opacity 180ms var(--ease);
     }
     :where(html.has-hover) .profiel-wrap :is(button, a.knop, a.knop-secundair, a.tekstlink):not(:disabled):not([aria-disabled="true"]):hover:not(:active),
     :where(html.has-hover) .profiel-wrap .over-keuze:hover:not(:active) input:not(:disabled) + .over-keuze-tekst {
@@ -288,19 +292,19 @@
             <p class="abo-label">Je plan</p>
             <p class="abo-naam"><span data-abo-plan>Free</span><span class="label" data-abo-status hidden></span></p>
             <p class="abo-sub" data-abo-sub>Alle vakken, Hard mode, je foutenlijst, je overzicht en je examenplan. Met Plus krijg je er onbeperkt simulaties en extra hulp van Comit bij. Nieuwe onderdelen krijg je met Plus een week eerder.</p>
-            <p class="abo-melding" data-abo-melding role="status" aria-live="polite"></p>
+            <p class="abo-melding" data-abo-melding role="status" aria-live="polite" tabindex="-1"></p>
           </div>
           <div class="abo-knoppen">
             <a class="knop-secundair abo-knop" href="abonnement.html" data-abo-knop>Beheer abonnement<span class="abo-knop-pijl" aria-hidden="true">→</span></a>
-            <button class="abo-opzeggen" type="button" data-abo-opzeggen hidden>Opzeggen</button>
-            <button class="abo-herroepen" type="button" data-abo-herroepen hidden>Hier de overeenkomst herroepen</button>
+            <button class="abo-opzeggen" type="button" data-abo-opzeggen aria-expanded="false" aria-controls="abo-zeker" hidden>Opzeggen</button>
+            <button class="abo-herroepen" type="button" data-abo-herroepen aria-expanded="false" aria-controls="abo-herroep-zeker" hidden>Hier de overeenkomst herroepen</button>
           </div>
-          <div class="abo-zeker" data-abo-zeker hidden>
+          <div class="abo-zeker" id="abo-zeker" data-abo-zeker hidden>
             <p data-abo-zeker-tekst>Weet je het zeker?</p>
             <button class="knop-secundair" type="button" data-abo-ja>Ja, opzeggen</button>
             <button class="tekstlink" type="button" data-abo-nee>Nee, toch niet</button>
           </div>
-          <div class="abo-zeker" data-abo-herroep-zeker hidden>
+          <div class="abo-zeker" id="abo-herroep-zeker" data-abo-herroep-zeker hidden>
             <p data-abo-herroep-tekst>Weet je het zeker?</p>
             <button class="knop-secundair" type="button" data-abo-herroep-ja>Herroeping bevestigen</button>
             <button class="tekstlink" type="button" data-abo-herroep-nee>Nee, toch niet</button>
@@ -370,6 +374,7 @@
       let emailChanged = false;
       let refreshingEmail = false;
       let confirmationHandled = false;
+      let confirmationShown = false;
       let successTimer = 0;
       let hideTimer = 0;
       let leaving = false;
@@ -445,7 +450,11 @@
           emailStatus.textContent = 'Je huidige e-mailadres: ' + (current.email || '') + '.';
         }
         confirmation.hidden = true;
-        if (auth.emailBevestiging.fout && !confirmationHandled) showError(error, 'Deze bevestigingslink is ongeldig of verlopen. Controleer je adres en kies Opslaan om de wijziging opnieuw aan te vragen.', email);
+        if (auth.emailBevestiging.fout && !confirmationHandled) {
+          // Het formulier is dicht tot de student op Bewerken klikt; hij opent eenmalig, anders blijft deze fout onzichtbaar.
+          if (!confirmationShown) { confirmationShown = true; setEditing(true); }
+          showError(error, 'Deze bevestigingslink is ongeldig of verlopen. Controleer je adres en kies Opslaan om de wijziging opnieuw aan te vragen.', email);
+        }
         remove.hidden = !current.user_metadata?.foto;
         mailLine.textContent = current.email || '';
         mailLine.title = current.email || '';
@@ -458,7 +467,10 @@
       // Bewerken opent de velden; Annuleren sluit ze en zet alles terug zoals het opgeslagen staat.
       const setEditing = value => {
         editing = value;
-        form.hidden = !value;
+        // Open: de intro in de css. Dicht: het formulier schuift eerst dicht (gedeelde BES.verberg), daarna gaat hij weg.
+        if (value) form.hidden = false;
+        else if (window.BES.verberg) window.BES.verberg(form, () => { if (editing) form.hidden = false; });
+        else form.hidden = true;
         editButton.setAttribute('aria-expanded', String(value));
         editButton.textContent = value ? 'Sluiten' : 'Bewerken';
       };
@@ -533,8 +545,10 @@
         let source;
         let objectUrl;
         try {
-          if ('createImageBitmap' in window) source = await createImageBitmap(file, { imageOrientation: 'from-image' });
-          else {
+          if ('createImageBitmap' in window) {
+            // Kent een oudere browser 'from-image' niet, dan gooit dit een fout; dan zonder die optie, voor een geldige foto.
+            try { source = await createImageBitmap(file, { imageOrientation: 'from-image' }); } catch { source = await createImageBitmap(file); }
+          } else {
             objectUrl = URL.createObjectURL(file);
             source = await new Promise((resolve, reject) => {
               const image = new Image();
@@ -588,6 +602,7 @@
       fileInput.addEventListener('change', () => {
         const file = fileInput.files?.[0];
         if (!file) return;
+        choose.textContent = 'Even geduld…';
         photoOperation(async owner => {
           const blob = await makePhoto(file);
           const current = await auth.gebruiker();
@@ -603,7 +618,7 @@
           if (!active || active.id !== owner) throw localFailure('signed_out');
           const updated = await auth.profielBijwerken({ foto: url.href });
           if (user?.id === owner && updated?.id === owner) render(updated);
-        });
+        }).finally(() => { choose.textContent = 'Foto kiezen'; });
       });
 
       remove.addEventListener('click', () => photoOperation(async owner => {
@@ -688,6 +703,7 @@
           toggle.setAttribute('aria-pressed', 'false');
           render(updated);
           setEditing(false);
+          editButton.focus({ preventScroll: true });
           saved();
         } catch (caught) {
           failure = caught;
@@ -742,6 +758,22 @@
         return { ...p, plan: alsPlus(p.plan), daarna: alsPlus(p.daarna) };
       };
 
+      // Opzeggen en Herroepen openen een bevestiging: aria-expanded volgt, en een bevestiging die sluit schuift eerst dicht.
+      const zetZeker = (naam, open) => {
+        const bevestiging = $(naam);
+        const knop = $(naam === 'zeker' ? 'opzeggen' : 'herroepen');
+        knop.setAttribute('aria-expanded', String(open));
+        if (open) bevestiging.hidden = false;
+        else if (BES.verberg) BES.verberg(bevestiging, () => { if (knop.getAttribute('aria-expanded') === 'true') bevestiging.hidden = false; });
+        else bevestiging.hidden = true;
+      };
+      // Een melding na opzeggen of herroepen; verdween de knop waar de focus stond, dan gaat de focus naar de melding.
+      const meld = (tekst, focus) => {
+        const melding = $('melding');
+        melding.textContent = tekst;
+        if (focus) melding.focus({ preventScroll: true });
+      };
+
       const toon = (p) => {
         const naam = BES.planNaam(p.plan);
         const datum = p.geldig_tot ? BES.planDatum(p.geldig_tot) : '';
@@ -749,8 +781,8 @@
         $('knop').dataset.plan = p.plan;
         blok.querySelector('.abo-kaart').dataset.plan = p.plan;
         const status = $('status');
-        status.hidden = p.plan === 'free' || !p.status;
         status.textContent = p.status === 'opgezegd' ? 'Opgezegd' : p.status === 'proef' ? 'Proefmaand' : '';
+        status.hidden = p.plan === 'free' || !status.textContent;
         status.classList.toggle('gedimd', p.status === 'opgezegd');
         let tijd = '';
         const daarna = p.daarna ? BES.planNaam(p.daarna) : '';
@@ -765,8 +797,10 @@
         $('sub').textContent = inhoud[p.plan] + tijd + bedenktijd;
         $('opzeggen').hidden = p.plan === 'free' || p.status === 'opgezegd';
         $('herroepen').hidden = !p.kan_herroepen;
-        $('zeker').hidden = true;
-        $('herroep-zeker').hidden = true;
+        zetZeker('zeker', false);
+        zetZeker('herroep-zeker', false);
+        // Het plan-label in het profielmenu bouwt auth.js één keer; na herroepen klopt het hier weer.
+        if (!p.fout) document.querySelectorAll('.profiel-menu-plan').forEach((pil) => { pil.textContent = naam; pil.dataset.plan = naam.toLowerCase(); });
       };
 
       let huidig = null;
@@ -775,22 +809,26 @@
       const viaMollie = async () => (huidig && huidig.via_mollie === true) || Boolean(BES.betalen && await BES.betalen());
       $('opzeggen').addEventListener('click', () => {
         if (!huidig) return;
-        $('herroep-zeker').hidden = true;
-        $('zeker-tekst').textContent = 'Weet je het zeker? Je houdt ' + BES.planNaam(huidig.plan) + ' tot ' + BES.planDatum(huidig.geldig_tot) + ', daarna ga je terug naar Free.';
-        $('zeker').hidden = false;
+        zetZeker('herroep-zeker', false);
+        // Staat de einddatum al achter ons (de betaalmarge), dan geen datum uit het verleden tonen.
+        const verstreken = !huidig.geldig_tot || new Date(huidig.geldig_tot).getTime() < Date.now();
+        $('zeker-tekst').textContent = verstreken
+          ? 'Weet je het zeker? Je abonnement stopt na de lopende betaling, daarna ga je terug naar Free.'
+          : 'Weet je het zeker? Je houdt ' + BES.planNaam(huidig.plan) + ' tot ' + BES.planDatum(huidig.geldig_tot) + ', daarna ga je terug naar Free.';
+        zetZeker('zeker', true);
         $('ja').focus();
       });
-      $('nee').addEventListener('click', () => { $('zeker').hidden = true; $('opzeggen').focus(); });
+      $('nee').addEventListener('click', () => { zetZeker('zeker', false); $('opzeggen').focus(); });
 
       // Herroepen binnen de bedenktijd via herroep (supabase/herroepen.sql): het plan stopt meteen.
       $('herroepen').addEventListener('click', () => {
         if (!huidig) return;
-        $('zeker').hidden = true;
+        zetZeker('zeker', false);
         $('herroep-tekst').textContent = 'Wil je je overeenkomst voor ' + BES.planNaam(huidig.plan) + ' herroepen? Je plan stopt meteen. Je betaalt alleen voor de dagen tot nu, de rest krijg je binnen 14 dagen terug op dezelfde manier als je betaalde.';
-        $('herroep-zeker').hidden = false;
+        zetZeker('herroep-zeker', true);
         $('herroep-ja').focus();
       });
-      $('herroep-nee').addEventListener('click', () => { $('herroep-zeker').hidden = true; $('herroepen').focus(); });
+      $('herroep-nee').addEventListener('click', () => { zetZeker('herroep-zeker', false); $('herroepen').focus(); });
       $('herroep-ja').addEventListener('click', async () => {
         const knop = $('herroep-ja');
         knop.disabled = true;
@@ -804,18 +842,18 @@
             const terug = Number(data.terug) || 0;
             huidig = await laad(true);
             toon(huidig);
-            $('melding').textContent = 'Herroepen op ' + wanneer + '. Je plan is gestopt.'
+            meld('Herroepen op ' + wanneer + '. Je plan is gestopt.'
               + (terug > 0 ? ' Je krijgt ' + BES.planBedrag(terug) + ' terug op dezelfde manier als je betaalde.' : '')
               // Stoppen of terugbetalen bij Mollie lukte niet helemaal: de student moet dat weten en kan mailen.
               + (data.onvolledig ? ' Het stoppen of terugbetalen bij Mollie is nog niet helemaal gelukt. Mail naar berie007yldrm@gmail.com, dan regelen we het.' : '')
-              + ' Bewaar dit bericht als bevestiging.';
+              + ' Bewaar dit bericht als bevestiging.', true);
           } catch (fout) {
             if (fout && fout.fout) {
-              $('herroep-zeker').hidden = true;
+              zetZeker('herroep-zeker', false);
               huidig = await laad(true);
               toon(huidig);
             }
-            $('melding').textContent = (fout && fout.fout) || 'Herroepen lukte niet. Probeer het zo opnieuw, of mail naar berie007yldrm@gmail.com.';
+            meld((fout && fout.fout) || 'Herroepen lukte niet. Probeer het zo opnieuw, of mail naar berie007yldrm@gmail.com.', Boolean(fout && fout.fout));
           }
           knop.disabled = false;
           return;
@@ -824,10 +862,10 @@
           const { data, error } = await BES.auth.client.rpc('herroep');
           if (error || !data) throw error || new Error('niet gelukt');
           if (!data.ok) {
-            $('herroep-zeker').hidden = true;
-            $('melding').textContent = data.reden === 'bedenktijd_voorbij'
+            zetZeker('herroep-zeker', false);
+            meld(data.reden === 'bedenktijd_voorbij'
               ? 'Je bedenktijd is voorbij. Opzeggen kan nog wel.'
-              : 'Er is geen bedenktijd meer voor je abonnement. Opzeggen kan nog wel.';
+              : 'Er is geen bedenktijd meer voor je abonnement. Opzeggen kan nog wel.', true);
             huidig = await laad(true);
             toon(huidig);
             knop.disabled = false;
@@ -838,9 +876,9 @@
           try { wanneer = new Intl.DateTimeFormat('nl-BE', { day: 'numeric', month: 'long', year: 'numeric', hour: '2-digit', minute: '2-digit' }).format(op); } catch {}
           huidig = await laad(true);
           toon(huidig);
-          $('melding').textContent = 'Herroepen op ' + wanneer + '. Je plan is gestopt. Bewaar dit bericht als bevestiging.';
+          meld('Herroepen op ' + wanneer + '. Je plan is gestopt. Bewaar dit bericht als bevestiging.', true);
         } catch {
-          $('melding').textContent = 'Herroepen lukte niet. Probeer het zo opnieuw, of mail naar berie007yldrm@gmail.com.';
+          meld('Herroepen lukte niet. Probeer het zo opnieuw, of mail naar berie007yldrm@gmail.com.');
         }
         knop.disabled = false;
       });
@@ -858,9 +896,9 @@
           }
           huidig = await laad(true);
           toon(huidig);
-          $('melding').textContent = 'Opgezegd. Je betaalt niets meer.';
+          meld('Opgezegd. Je betaalt niets meer.', true);
         } catch (fout) {
-          $('melding').textContent = (fout && fout.fout) || 'Opzeggen lukte niet. Probeer het zo opnieuw.';
+          meld((fout && fout.fout) || 'Opzeggen lukte niet. Probeer het zo opnieuw.');
         }
         knop.disabled = false;
       });
@@ -870,7 +908,9 @@
         toon(p);
         let proef = '';
         try { proef = new URLSearchParams(window.location.search).get('proef') || ''; } catch {}
-        if (p.status === 'proef' && proef === p.plan) $('melding').textContent = 'Je proefmaand van ' + BES.planNaam(p.plan) + ' is gestart.';
+        // Het plan kon niet worden opgehaald: niet stilzwijgend als Free tonen.
+        if (p.fout) $('melding').textContent = 'Je plan kon niet worden geladen. Probeer het zo opnieuw.';
+        else if (p.status === 'proef' && proef === p.plan) $('melding').textContent = 'Je proefmaand van ' + BES.planNaam(p.plan) + ' is gestart.';
         // Terug van Mollie na een betaalde eerste maand (proefmaand al gebruikt): dan is het abonnement meteen actief.
         else if (p.status === 'actief' && proef === p.plan) $('melding').textContent = 'Je abonnement op ' + BES.planNaam(p.plan) + ' is gestart.';
       });

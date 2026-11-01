@@ -329,8 +329,14 @@
       let waarde = '';
       try { waarde = new URLSearchParams(window.location.search).get('terug') || window.sessionStorage.getItem('bes_terug') || ''; } catch {}
       try { window.sessionStorage.removeItem('bes_terug'); } catch {}
-      // alleen eigen relatieve paden, nooit een andere site
-      if (!waarde || /^[a-z]+:|^\/\/|^\//i.test(waarde) || waarde.includes('..')) return pagePrefix + 'hub.html';
+      // Alleen eigen relatieve paden, nooit een andere site of een javascript:-link.
+      // Geen witruimte, stuurtekens of backslash: de browser haalt tabs uit een link ("java\tscript:") en leest \ als /.
+      const hub = pagePrefix + 'hub.html';
+      if (!waarde || /[\s\\\u0000-\u001f\u007f]/.test(waarde) || /^[a-z][a-z0-9+.-]*:|^\//i.test(waarde) || waarde.includes('..')) return hub;
+      // Laatste controle: het doel moet op deze site liggen.
+      try {
+        if (new URL(pagePrefix + waarde, window.location.href).origin !== window.location.origin) return hub;
+      } catch { return hub; }
       return pagePrefix + waarde;
     },
     get versieGezien() { return Number(currentUser?.user_metadata?.versie_gezien) || 0; },
@@ -538,8 +544,11 @@
         toegang = !error && data === true;
       }
     } catch {}
-    if (toegang) document.documentElement.classList.remove('deur-check');
-    else window.location.replace(window.BES_DEUR.prefix + 'gesloten.html');
+    if (toegang) {
+      // deur-open laat de pagina rustig infaden in plaats van in één keer te verschijnen (style.css).
+      document.documentElement.classList.add('deur-open');
+      document.documentElement.classList.remove('deur-check');
+    } else window.location.replace(window.BES_DEUR.prefix + 'gesloten.html');
   };
   auth.gereed.then(openDeur, openDeur);
 

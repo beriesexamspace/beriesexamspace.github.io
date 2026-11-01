@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <script src="assets/deur.js?v=89"></script>
+  <script src="assets/deur.js?v=90"></script>
   <script src="assets/vakken.js?v=89"></script>
   <link rel="apple-touch-icon" href="/assets/icoon-180.png">
   <link rel="manifest" href="/manifest.webmanifest">
@@ -32,16 +32,16 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="assets/style.css?v=91">
-  <script src="assets/app.js?v=90" defer></script>
+  <link rel="stylesheet" href="assets/style.css?v=93">
+  <script src="assets/app.js?v=91" defer></script>
   <script src="assets/config.js?v=89" defer></script>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js" defer></script>
-  <script src="assets/auth.js?v=90" defer></script>
-  <script src="assets/plan.js?v=89" defer></script>
-  <link rel="stylesheet" href="assets/comit.css?v=90">
-  <script src="assets/comit-antwoorden.js?v=89" defer></script>
-  <script src="assets/comit-ai.js?v=89" defer></script>
-  <script src="assets/comit.js?v=89" defer></script>
+  <script src="assets/auth.js?v=91" defer></script>
+  <script src="assets/plan.js?v=90" defer></script>
+  <link rel="stylesheet" href="assets/comit.css?v=91">
+  <script src="assets/comit-antwoorden.js?v=90" defer></script>
+  <script src="assets/comit-ai.js?v=90" defer></script>
+  <script src="assets/comit.js?v=90" defer></script>
 </head>
 <body class="comit-pagina-body" data-nav="vast">
   <a class="skip-link" href="#inhoud">Ga naar inhoud</a>
@@ -96,7 +96,7 @@
       <form id="comit-form" class="comit-invoer" autocomplete="off">
         <p class="comit-demo-regel">Comit is een demo en kan zich vergissen. Klopt iets niet? Meld het via <a href="feedback.html">Feedback</a>.</p>
         <label class="comit-sr-only" for="comit-tekst">Vraag Comit iets</label>
-        <textarea id="comit-tekst" name="vraag" rows="1" placeholder="Vraag Comit iets"></textarea>
+        <textarea id="comit-tekst" name="vraag" rows="1" maxlength="1000" placeholder="Vraag Comit iets"></textarea>
         <button id="comit-verstuur" class="comit-verstuur" type="submit" aria-label="Verstuur je vraag" disabled>
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 19V5m-6 6 6-6 6 6"/></svg>
         </button>

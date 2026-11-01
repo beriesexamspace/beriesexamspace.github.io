@@ -6,7 +6,7 @@ html[data-theme="dark"] .stappen { --tel-rand: #1D1D1F; --tel-glans: rgba(255,25
 .stap-boven { display: flex; align-items: center; justify-content: space-between; gap: 12px; min-height: 28px; padding: 0 4px; }
 .stap-teller { color: var(--ink-soft); font-size: .875rem; font-variant-numeric: tabular-nums; }
 .stap-stippen { display: flex; gap: 6px; }
-.stap-stippen i { width: 6px; height: 6px; border-radius: 3px; background: var(--ink); opacity: .2; transition: opacity 200ms var(--ease); }
+.stap-stippen i { width: 6px; height: 6px; border-radius: 3px; background: var(--ink); opacity: .2; transition: opacity 200ms var(--ease), width 220ms var(--ease); }
 .stap-stippen i.is-actief { width: 18px; opacity: .8; }
 .stap-overslaan, .stap-vorige { border: 0; background: none; color: var(--ink-soft); font: inherit; cursor: pointer; border-radius: 10px; transition: color 180ms var(--ease), background-color 180ms var(--ease), box-shadow 180ms var(--ease), transform 180ms var(--ease); }
 .stap-overslaan { padding: 6px 10px; margin: -6px -10px; font-size: .875rem; }
@@ -39,7 +39,7 @@ html[data-theme="dark"] .stap-beeld { background: linear-gradient(180deg, #4A4A4
 /* Het scherm van de iPhone en de laptop is altijd wit (lichte kleuren), ook in de donkere modus. */
 .stap-beeld :is(.tel, .laptop-scherm) {
   --bg: #FFFFFF; --card: #FFFFFF; --surface: #F5F5F7; --line: #E9E7F3; --ink: #1D1D1F; --ink-soft: #6E6E73; --muted: #6E6E73;
-  --accent: #0071e3; --accent-zacht: rgba(0,113,227,.06); --teal-zacht: rgba(63,185,178,.12); --teal-tekst: #15756f;
+  --accent: #0071e3; --accent-vlak: #0071e3; --accent-zacht: rgba(0,113,227,.06); --teal-zacht: rgba(63,185,178,.12); --teal-tekst: #15756f;
   color: var(--ink);
 }
 
@@ -209,7 +209,7 @@ html[data-theme="dark"] .stap-beeld { background: linear-gradient(180deg, #4A4A4
 .carrousel-stip i { display: block; width: 8px; height: 8px; border-radius: 4px; background: var(--ink); opacity: .35; transition: width 360ms var(--ease), opacity 240ms var(--ease), background-color 200ms var(--ease); }
 .carrousel-stip[aria-selected="true"] { width: 52px; min-width: 52px; }
 .carrousel-stip[aria-selected="true"] i { position: relative; width: 36px; opacity: .25; overflow: hidden; }
-.carrousel-stip[aria-selected="true"] i::after { content: ''; position: absolute; inset: 0; width: 0; background: var(--ink); }
+.carrousel-stip[aria-selected="true"] i::after { content: ''; position: absolute; inset: 0; background: var(--ink); transform: scaleX(0); transform-origin: left; }
 .carrousel-stip[aria-selected="true"] i.is-bezig::after { animation: carrousel-vullen var(--carrousel-duur) linear forwards; }
 .carrousel.is-gepauzeerd .carrousel-stip i::after { animation-play-state: paused; }
 .carrousel-stip:focus-visible { outline: 2px solid var(--accent); outline-offset: -6px; border-radius: 12px; }
@@ -222,13 +222,13 @@ html[data-theme="dark"] .stap-beeld { background: linear-gradient(180deg, #4A4A4
 :where(html.has-hover) .carrousel-stip:hover i { opacity: .65; }
 :where(html.has-hover) :is(.carrousel-pauze, .carrousel-stip):hover:not(:active) { transform: translateY(-1px); }
 :is(.carrousel-pauze, .carrousel-stip):active { transform: scale(.97); }
-@keyframes carrousel-vullen { from { width: 0; } to { width: 100%; } }
+@keyframes carrousel-vullen { from { transform: scaleX(0); } to { transform: scaleX(1); } }
 
 /* Bediening: Vorige, Volgende */
 .stap-bediening { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
 .stap-vorige { padding: 10px 8px; font-size: .9375rem; }
-.stap-vorige.is-onzichtbaar { visibility: hidden; }
-.stap-volgende.knop { width: auto; min-width: 180px; margin: 0; transition: transform 200ms var(--ease), color 200ms var(--ease), background-color 200ms var(--ease), box-shadow 200ms var(--ease); }
+.stap-vorige.is-onzichtbaar, .stap-overslaan.is-onzichtbaar { visibility: hidden; }
+.stap-volgende.knop { width: auto; min-width: 180px; margin: 0; transition: transform 200ms var(--ease), translate 200ms var(--ease), scale 200ms var(--ease), color 200ms var(--ease), background-color 200ms var(--ease), box-shadow 200ms var(--ease); }
 .stappen.is-laatste .stap-vorige { opacity: .6; }
 
 /* Animaties per stap. --i = volgorde, --doel = eindbreedte van een balk. */
@@ -287,7 +287,7 @@ html[data-theme="dark"] .stap-beeld { background: linear-gradient(180deg, #4A4A4
 @media (prefers-reduced-motion: reduce) {
   .carrousel-baan { scroll-behavior: auto; }
   .carrousel-stip, .carrousel-stip i { transition: none; }
-  .carrousel-stip[aria-selected="true"] i::after { animation: none !important; width: 100%; }
+  .carrousel-stip[aria-selected="true"] i::after { animation: none !important; transform: scaleX(1); }
   .stap-kaart, .stap-kaart * { animation: none !important; }
   .stap-kaart .anim-vul { width: var(--doel, 100%); }
   .stap-kaart .anim-kies { border-color: var(--accent); background: var(--accent-zacht); }

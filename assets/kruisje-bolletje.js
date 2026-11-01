@@ -113,7 +113,7 @@
     if (!rij) return;
     void rij.offsetWidth;
     rij.classList.add('kb-nieuw');
-    nieuwTimer = setTimeout(() => rij.classList.remove('kb-nieuw'), 1200);
+    nieuwTimer = setTimeout(() => rij.classList.remove('kb-nieuw'), 500);
   }
 
   function toonFout() {

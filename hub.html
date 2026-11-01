@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <script src="assets/deur.js?v=89"></script>
+  <script src="assets/deur.js?v=90"></script>
   <link rel="apple-touch-icon" href="/assets/icoon-180.png">
   <link rel="manifest" href="/manifest.webmanifest">
   <meta property="og:type" content="website">
@@ -15,7 +15,7 @@
   <meta property="og:image:height" content="630">
   <meta property="og:url" content="https://beriesexamspace.com/hub.html">
   <meta name="twitter:card" content="summary_large_image">
-  <script src="assets/updates.js?v=92"></script>
+  <script src="assets/updates.js?v=93"></script>
   <script>
     // Welkomstscherm (Wat is nieuw) één keer per persoon per versie.
     // Op dit toestel al gezien: meteen door. Anders even wachten op het account (misschien al gezien op een ander toestel).
@@ -61,17 +61,17 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="assets/style.css?v=91">
-  <link rel="stylesheet" href="assets/intro.css?v=89">
-  <script src="assets/app.js?v=90"></script>
-  <script src="assets/intro.js?v=90"></script>
+  <link rel="stylesheet" href="assets/style.css?v=93">
+  <link rel="stylesheet" href="assets/intro.css?v=90">
+  <script src="assets/app.js?v=91"></script>
+  <script src="assets/intro.js?v=91"></script>
   <script src="assets/vakken.js?v=89"></script>
   <script src="assets/config.js?v=89" defer></script>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js" defer></script>
-  <script src="assets/auth.js?v=90" defer></script>
-  <script src="assets/plan.js?v=89" defer></script>
-  <script src="assets/comit.js?v=89" defer></script>
-  <script src="assets/activiteit.js?v=89" defer></script>
+  <script src="assets/auth.js?v=91" defer></script>
+  <script src="assets/plan.js?v=90" defer></script>
+  <script src="assets/comit.js?v=90" defer></script>
+  <script src="assets/activiteit.js?v=90" defer></script>
   <style>
     html { scroll-behavior: smooth; }
 
@@ -113,12 +113,12 @@
     .jaar-nummer { font-size: 44px; font-weight: 700; line-height: 1; }
     .jaar .label {
       visibility: hidden;
-      background: color-mix(in srgb, var(--white) 24%, transparent);
-      color: var(--white);
+      background: var(--card);
+      color: var(--teal-tekst);
     }
     .jaar.is-laatst .label { visibility: visible; }
     .jaar-body { flex: 1; gap: 8px; padding: 24px; background: var(--card); }
-    .jaar-link { display: flex; align-items: center; gap: 8px; margin-top: 12px; color: var(--jaar); font-weight: 600; }
+    .jaar-link { display: flex; align-items: center; gap: 8px; margin-top: 12px; color: var(--accent); font-weight: 600; }
     .jaar-pijl { display: inline-block; transition: transform 150ms var(--ease); }
     a.kaart.jaar[data-jaar]:not([aria-disabled="true"]):active { transform: scale(.99); transition-duration: 150ms; }
 
@@ -200,10 +200,12 @@
     .update-label-nieuw { background: var(--teal-zacht); color: var(--teal-tekst); }
     .update-label-verbeterd { background: var(--surface); color: var(--ink-soft); }
     .hub-updates-knop { margin-top: 24px; }
-    .hub-update.is-net-zichtbaar { animation: menu-open 200ms var(--ease) both; }
+    /* De extra updates staan in een eigen lijst die open en dicht schuift (BES.toon, BES.verberg); de eerste rij krijgt zelf het lijntje. */
+    .hub-updates-extra .hub-update:first-child { padding-top: 16px; border-top: 1px solid var(--line); }
 
     @media (max-width: 767px) {
       .hub-update { grid-template-columns: minmax(0, 1fr); gap: 6px; padding: 14px 0; }
+      .hub-updates-extra .hub-update:first-child { padding-top: 14px; }
       .update-meta { grid-auto-flow: column; align-items: center; gap: 8px; }
     }
 
@@ -222,7 +224,6 @@
       html { scroll-behavior: auto; }
       html.nav-intro .site-header { animation: none; }
       .kaart.jaar, .jaar-pijl { transition: none; }
-      .hub-update.is-net-zichtbaar { animation: none; }
       a.kaart.jaar:hover, a.kaart.jaar:active, a.kaart.jaar:hover .jaar-pijl { transform: none !important; }
     }
   </style>
@@ -400,7 +401,8 @@
         <h2 class="sectie-kop" id="nieuw-kop">Wat is nieuw</h2>
         <div class="kaart">
           <ul class="hub-updates" id="hub-updates"></ul>
-          <button class="knop-secundair hub-updates-knop" id="hub-updates-knop" type="button" aria-expanded="false" aria-controls="hub-updates" hidden>Alles bekijken →</button>
+          <ul class="hub-updates hub-updates-extra" id="hub-updates-extra" hidden></ul>
+          <button class="knop-secundair hub-updates-knop" id="hub-updates-knop" type="button" aria-expanded="false" aria-controls="hub-updates-extra" hidden>Alles bekijken →</button>
         </div>
       </section>
 
@@ -418,6 +420,7 @@
   <script>
     (() => {
       const bes = window.BES || {};
+      const motion = window.matchMedia('(prefers-reduced-motion: reduce)');
       const begroeting = document.getElementById('begroeting');
       const vraag = document.getElementById('hub-vraag');
       const updateBegroeting = user => {
@@ -464,19 +467,40 @@
         } catch {}
         if (generatie === verderGeneratie && eigenaar === verderEigenaar) updateVerderOefenen();
       };
+      // Verandert de tekst nadat de kaart al zichtbaar is (de vraag naar het account komt later terug), dan schuift de hoogte
+      // vloeiend mee en komt de tekst zacht binnen, zodat de jaarkaarten eronder niet springen.
+      const verderWissel = (naam, sub) => {
+        if (verderVak.textContent === naam && verderSub.textContent === sub) return;
+        const van = verderLink.offsetHeight;
+        verderVak.textContent = naam;
+        verderSub.textContent = sub;
+        if (motion.matches || !verderLink.animate || !van) return;
+        const naar = verderLink.offsetHeight;
+        const opties = { duration: 220, easing: getComputedStyle(verderLink).getPropertyValue('--ease').trim() || 'ease-out' };
+        verderLink.querySelector('.kaart-tekst').animate([{ opacity: 0, transform: 'translateY(4px)' }, { opacity: 1, transform: 'none' }], opties);
+        if (van === naar) return;
+        verderLink.style.overflow = 'hidden';
+        verderLink.animate([{ height: van + 'px' }, { height: naar + 'px' }], opties).addEventListener('finish', () => { verderLink.style.overflow = ''; });
+      };
       const updateVerderOefenen = () => {
-        verder.hidden = true;
-        verderLink.removeAttribute('href');
-        verderVak.textContent = '';
-        verderSub.textContent = '';
-        if (!verderEigenaar) return;
+        if (!verderEigenaar) {
+          verder.hidden = true;
+          verderLink.removeAttribute('href');
+          verderVak.textContent = '';
+          verderSub.textContent = '';
+          return;
+        }
         // Het recentste van twee: de laatst gestarte ronde op dit toestel of de laatste afgeronde ronde van het account.
         const lokaal = lokaalVerderVak();
         const vak = (lokaal && (!verderSessieVak || lokaal.t >= verderSessieVak.t) ? lokaal : verderSessieVak)?.vak || null;
-        verderVak.textContent = vak ? vak.naam : 'Kies een vak';
-        verderSub.textContent = vak ? 'Kies je oefenvorm en hoofdstukken.' : 'Ga naar je jaar en kies een vak om te oefenen.';
+        const naam = vak ? vak.naam : 'Kies een vak';
+        const sub = vak ? 'Kies je oefenvorm en hoofdstukken.' : 'Ga naar je jaar en kies een vak om te oefenen.';
         verderLink.href = vak ? 'vak/' + vak.id + '/' : '#kies-je-jaar';
-        verder.hidden = false;
+        if (verder.hidden) {
+          verderVak.textContent = naam;
+          verderSub.textContent = sub;
+          window.BES.toon(verder);
+        } else verderWissel(naam, sub);
         laadVerderSessie();
       };
       const verderVoorGebruiker = user => {
@@ -530,28 +554,20 @@
       window.BES.carrousel(document.getElementById('hub-intro'), { soorten: ['uitleg'] });
 
       const updates = document.getElementById('hub-updates');
+      const extraLijst = document.getElementById('hub-updates-extra');
       const updatesKnop = document.getElementById('hub-updates-knop');
-      const extraUpdates = [];
       (window.BES_UPDATES || []).forEach((update, index) => {
-        const item = window.BES.updateRij(update, 'hub');
-        if (index >= 4) {
-          item.hidden = true;
-          extraUpdates.push(item);
-        }
-        updates.append(item);
+        (index >= 4 ? extraLijst : updates).append(window.BES.updateRij(update, 'hub'));
       });
-      updatesKnop.hidden = extraUpdates.length === 0;
+      updatesKnop.hidden = extraLijst.children.length === 0;
       updatesKnop.addEventListener('click', () => {
         const uitgevouwen = updatesKnop.getAttribute('aria-expanded') !== 'true';
-        extraUpdates.forEach(item => {
-          item.hidden = !uitgevouwen;
-          item.classList.toggle('is-net-zichtbaar', uitgevouwen);
-        });
+        if (uitgevouwen) window.BES.toon(extraLijst);
+        else window.BES.verberg(extraLijst);
         updatesKnop.setAttribute('aria-expanded', String(uitgevouwen));
         updatesKnop.textContent = uitgevouwen ? 'Minder tonen' : 'Alles bekijken →';
       });
 
-      const motion = window.matchMedia('(prefers-reduced-motion: reduce)');
       const sectionForHash = hash => {
         if (hash !== '#nieuw' && hash !== '#hoe-werkt-het' && hash !== '#wie-is-berie') return null;
         return document.getElementById(hash.slice(1));

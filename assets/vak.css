@@ -34,16 +34,16 @@
 .modus.is-gekozen, .modus[aria-checked="true"] { border-color: var(--accent); background: var(--accent-zacht); }
 .vak-hint { margin: 12px 0 0; color: var(--muted); font-size: .875rem; }
 .vak-pagina .gedimde-tekst { color: var(--muted); }
-.vak-pagina :is(#oefenscherm, #eindscherm, #vraag-tekst, #score-kop, #start-oefening) { scroll-margin-top: 100px; }
+.vak-pagina :is(#oefenscherm, #eindscherm, #vraag-tekst, #uitleg, #score-kop, #start-oefening) { scroll-margin-top: 100px; }
 #laatste-simulatie { margin: -8px 0 20px; }
 .vak-start { margin-top: 32px; }
 .oefenscherm { margin-top: 36px; }
 .oefenscherm .eyebrow { margin: 24px 0 12px; color: var(--accent); font-size: .875rem; font-weight: 600; line-height: 1.5; }
-.oefenscherm h2, .eindscherm h2 { margin: 20px 0 28px; font-size: clamp(1.5rem, 3vw, 2rem); font-weight: 600; line-height: 1.35; text-wrap: balance; }
+.oefenscherm h2, .eindscherm h2 { margin: 20px 0 28px; font-size: clamp(1.5rem, 3vw, 2rem); font-weight: 600; line-height: 1.35; text-wrap: balance; overflow-wrap: anywhere; }
 .opties { display: flex; flex-direction: column; gap: 12px; }
 .optie { display: flex; align-items: center; width: 100%; gap: 16px; padding: 18px 20px; border: 1px solid var(--line); border-radius: 16px; color: var(--ink); background: var(--card); font-size: 1rem; text-align: left; line-height: 1.6; cursor: pointer; transition: background-color 150ms var(--ease), border-color 150ms var(--ease); }
 .optie-letter { display: flex; align-items: center; justify-content: center; flex: 0 0 32px; width: 32px; height: 32px; border-radius: 50%; background: var(--surface); color: var(--muted); font-weight: 600; font-size: .875rem; }
-.optie-tekst { min-width: 0; }
+.optie-tekst { min-width: 0; overflow-wrap: anywhere; }
 .vraag-keuze-hint { margin-bottom: 16px; }
 .optie-meervoudig .optie-letter { border: 1px solid var(--line); border-radius: 8px; }
 .optie-meervoudig.is-gekozen .optie-letter { border-color: var(--accent); }
@@ -59,11 +59,11 @@
 .vinkje.vinkje-klein { width: 24px; height: 24px; margin: 0; }
 .uitleg { margin-top: 24px; }
 .uitleg h3 { margin: 0 0 10px; font-size: 1rem; font-weight: 600; }
-.uitleg p { margin: 0; color: var(--muted); }
+.uitleg p { margin: 0; color: var(--muted); overflow-wrap: anywhere; }
 .vak-volgende { display: flex; justify-content: flex-end; align-items: center; flex-wrap: wrap; gap: 12px; margin-top: 24px; }
 .vak-volgende .vraag-melden { margin-right: auto; }
 .vraag-melding { width: min(560px, calc(100% - 32px)); max-height: calc(100dvh - 32px); margin: auto; padding: clamp(20px, 4vw, 32px); overflow-y: auto; border: 1px solid var(--line); border-radius: 24px; background: var(--card); color: var(--ink); box-shadow: var(--shadow-card-hover); font-family: var(--font); }
-.vraag-melding::backdrop { background: var(--nav-bg); backdrop-filter: blur(6px); }
+.vraag-melding::backdrop { background: var(--nav-bg); -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px); }
 .vraag-melding h2 { margin: 0 0 16px; font-size: 1.5rem; }
 .vraag-melding p { line-height: 1.55; overflow-wrap: anywhere; }
 .vraag-melding-context { margin: 0; color: var(--ink-soft); font-size: .875rem; }
@@ -95,7 +95,7 @@ html.ball-cursor .vraag-melding textarea { cursor: text !important; }
 .eindscherm .vak-knoppen { margin-top: 28px; }
 .eindscherm #terug-vak { margin: 20px 0; }
 .simulatie-overzicht { margin-top: 24px; text-align: left; }
-.simulatie-overzicht summary { width: fit-content; margin: 0 auto 24px; padding: 8px; color: var(--accent); cursor: pointer; font-size: .9375rem; font-weight: 500; }
+.simulatie-overzicht summary { box-sizing: border-box; width: fit-content; min-height: 44px; margin: 0 auto 24px; padding: 11px 8px; color: var(--accent); cursor: pointer; font-size: .9375rem; font-weight: 500; line-height: 1.5; }
 .simulatie-overzicht summary:focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; border-radius: 8px; }
 .overzicht-vraag h3 { margin: 0 0 16px; font-size: 1.0625rem; line-height: 1.5; }
 .overzicht-vraag p { margin: 8px 0 0; color: var(--muted); font-size: .9375rem; }
@@ -109,15 +109,16 @@ html.ball-cursor .vraag-melding textarea { cursor: text !important; }
 .hack-regel { display: flex; align-items: baseline; gap: 16px; margin-top: 12px; }
 .hack-vink { flex: 0 0 auto; color: var(--teal); font-size: 1.25rem; }
 .hack-regel p { margin: 0; color: var(--ink); font-size: .9375rem; }
-.hack-tekst { display: flex; flex-direction: column; gap: 4px; min-width: 0; }
+.hack-tekst { display: flex; flex-direction: column; gap: 4px; min-width: 0; overflow-wrap: anywhere; }
 .hack-tekst strong { font-weight: 600; font-size: 1rem; }
 .theorie-kaart + .theorie-kaart { margin-top: 16px; }
 .theorie-kaart h3 { margin: 0 0 16px; font-size: 1.0625rem; font-weight: 600; }
 .theorie-kaart ul { margin: 0; padding-left: 20px; color: var(--muted); font-size: .9375rem; line-height: 1.7; }
+.theorie-kaart li { overflow-wrap: anywhere; }
 .theorie-kaart li + li { margin-top: 8px; }
 .vak-pagina :is(.uitleg, .stop-bevestiging, .hack-regel, .theorie-kaart, .overzicht-vraag):active,
 :where(html.has-hover) .vak-pagina :is(.uitleg, .stop-bevestiging, .hack-regel, .theorie-kaart, .overzicht-vraag):hover { transform: none; box-shadow: var(--shadow-soft); }
-:where(html.has-hover) .vak-tekstknop:hover,
+:where(html.has-hover) .vak-tekstknop:hover { color: var(--ink); }
 :where(html.has-hover) .optie:not(:disabled):hover { border-color: var(--accent); background: var(--surface); }
 @media (max-width: 767px) {
   .vak-pagina .pagina-kop h1 { overflow-wrap: anywhere; hyphens: auto; }
@@ -253,7 +254,7 @@ html.is-examen .thema-knop.is-los { display: none; }
 }
 
 /* Simulatie: een kleine balk in plaats van de hoofdstukkenlijst. */
-#simulatie-uitleg:not([hidden]) { display: flex; align-items: center; gap: 12px; margin: 4px 0 0; padding: 14px 18px; border: 1px solid var(--line); border-radius: 14px; background: var(--surface); color: var(--ink); font-size: .9375rem; line-height: 1.5; animation: rise 300ms var(--ease) both; }
+#simulatie-uitleg:not([hidden]) { display: flex; align-items: center; gap: 12px; margin: 4px 0 0; padding: 14px 18px; border: 1px solid var(--line); border-radius: 14px; background: var(--surface); color: var(--ink); font-size: .9375rem; line-height: 1.5; animation: menu-open 200ms var(--ease) both; }
 #simulatie-uitleg:not([hidden])::before { content: ''; flex: 0 0 10px; width: 10px; height: 10px; border-radius: 50%; background: var(--accent); }
 
 /* Studie-hacks: Voor jou bovenaan, met ezelsbruggetjes van Comit (Plus). */
@@ -266,7 +267,7 @@ html.is-examen .thema-knop.is-los { display: none; }
 .hack-voorjou-punt h3 span { color: var(--ink-soft); font-size: .8125rem; font-weight: 500; }
 .hack-voorjou-punt ul { display: grid; gap: 8px; margin: 12px 0 0; padding-left: 18px; font-size: .9375rem; line-height: 1.55; }
 .hack-voorjou-knoppen { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 14px; }
-.hack-voorjou-knoppen .knop-secundair { width: auto; min-width: 0; max-width: none; margin: 0; padding: 10px 18px; gap: 8px; font-size: .9375rem; }
+.hack-voorjou-knoppen .knop-secundair { width: auto; min-width: 0; max-width: none; margin: 0; padding: 10px 18px; gap: 8px; font-size: .9375rem; line-height: 1.3; white-space: normal; text-align: center; }
 .hack-brug { margin: 12px 0 0; padding: 14px 16px; border-radius: 12px; background: var(--surface); font-size: .9375rem; line-height: 1.55; white-space: pre-line; }
 .hack-brug:empty { display: none; }
 .uitleg-hack { margin: 12px 0 0; padding: 12px 14px; border-radius: 12px; background: var(--teal-zacht); color: var(--ink); font-size: .9375rem; line-height: 1.55; }
@@ -333,12 +334,12 @@ html.is-examen .thema-knop.is-los { display: none; }
 /* 85 procent en meer: korte gloed en een handvol deeltjes, samen hooguit 1,2 seconde. */
 .vak-pagina .score-ring.is-feest svg { animation: score-gloed 1200ms var(--ease) both; }
 @keyframes score-gloed {
-  0%, 100% { filter: drop-shadow(0 0 0 rgba(63,185,178,0)); }
-  45% { filter: drop-shadow(0 0 12px rgba(63,185,178,.55)); }
+  0%, 100% { filter: drop-shadow(0 0 0 transparent); }
+  45% { filter: drop-shadow(0 0 12px color-mix(in srgb, var(--teal) 55%, transparent)); }
 }
 .vak-pagina .score-deeltje { position: absolute; top: 50%; left: 50%; width: 8px; height: 8px; border-radius: 50%; background: var(--teal); opacity: 0; pointer-events: none; animation: score-deeltje 900ms var(--ease) 300ms forwards; }
 .vak-pagina .score-deeltje[data-kleur="1"] { background: var(--accent); }
-.vak-pagina .score-deeltje[data-kleur="2"] { width: 6px; height: 6px; background: #d4af37; }
+.vak-pagina .score-deeltje[data-kleur="2"] { width: 6px; height: 6px; background: color-mix(in srgb, var(--teal) 60%, var(--accent)); }
 @keyframes score-deeltje {
   0% { opacity: 0; transform: translate(-50%, -50%) scale(.3); }
   20% { opacity: 1; }
@@ -361,7 +362,7 @@ html.is-examen .thema-knop.is-los { display: none; }
 #hoofdstukken-inhoud .theorie-groep + .hack-groep { margin-top: 32px; }
 .hoofdstuk-oefen { display: block; margin-top: 36px; width: 100%; max-width: 420px; }
 @media (max-width: 767px) {
-  .vak-tabs { flex-wrap: nowrap; overflow-x: auto; overscroll-behavior-x: contain; -webkit-overflow-scrolling: touch; scrollbar-width: none; -ms-overflow-style: none; padding: 3px; margin-inline: -3px; max-width: calc(100% + 6px); }
+  .vak-tabs { flex-wrap: nowrap; overflow-x: auto; overscroll-behavior-x: contain; -webkit-overflow-scrolling: touch; scrollbar-width: none; -ms-overflow-style: none; padding: 8px; margin-block: 27px; margin-inline: -8px; max-width: calc(100% + 16px); }
   .vak-tabs::-webkit-scrollbar { display: none; }
   .vak-tab { flex: 0 0 auto; white-space: nowrap; }
   .hoofdstuk-detail-kop { font-size: 1.3125rem; }

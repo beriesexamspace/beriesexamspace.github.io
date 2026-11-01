@@ -5,9 +5,11 @@
   // Waar vak.js staat: zo vindt de pagina klaarmeter.js, los van de map van het vak.
   const scriptBron = document.currentScript?.src || window.location.href;
   const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
-  // Na een echte klik zacht naar de volgende stap scrollen; niet bij verminderde beweging en niet als het doel al in beeld staat
-  const scrollNaar = element => {
+  // Na een echte klik zacht naar de volgende stap scrollen; niet bij verminderde beweging en niet als het doel al in beeld staat.
+  // Schuift het doel nog open (BES.toon), geef dan `wacht` mee (ms): pas na de beweging is de hoogte bekend.
+  const scrollNaar = (element, wacht = 0) => {
     if (!element || reducedMotion.matches) return;
+    if (wacht) { window.setTimeout(() => scrollNaar(element), wacht); return; }
     const rect = element.getBoundingClientRect();
     const boven = 88;
     if (rect.top >= boven && rect.bottom <= window.innerHeight) return;
@@ -48,6 +50,20 @@
     if (reducedMotion.matches) fades.forEach(animation => animation.finish());
   });
 
+  // Blokken die verschijnen of verdwijnen schuiven open of dicht met de gedeelde BES.toon en BES.verberg (app.js), zodat de pagina niet springt.
+  // Moet een blok weer open terwijl het nog dichtschuift, dan schuift BES.toon het vanaf die plek weer open.
+  function toonBlok(element) {
+    if (BES.toon) BES.toon(element);
+    else element.hidden = false;
+  }
+
+  function verbergBlok(element, klaar) {
+    if (!BES.verberg) { element.hidden = true; klaar?.(); return; }
+    BES.verberg(element, klaar);
+  }
+
+  const zetBlok = (element, open, klaar) => (open ? toonBlok(element) : verbergBlok(element, klaar));
+
   function checkmark() {
     const ns = 'http://www.w3.org/2000/svg';
     const svg = document.createElementNS(ns, 'svg');
@@ -64,18 +80,22 @@
     return svg;
   }
 
-  function progressBar(good, total) {
-    const bar = create('span', 'voortgang-balk');
+  // Een bestaande balk bijwerken (en niet opnieuw maken) laat de breedte en de kleur vloeiend meelopen.
+  function setProgress(bar, good, total) {
     const percentage = total ? Math.min(100, good / total * 100) : 0;
     bar.classList.toggle('is-afgerond', total > 0 && good === total);
+    bar.setAttribute('aria-valuemax', String(total || 1));
+    bar.setAttribute('aria-valuenow', String(good));
+    bar.firstElementChild.style.width = `${percentage}%`;
+  }
+
+  function progressBar(good, total) {
+    const bar = create('span', 'voortgang-balk');
     bar.setAttribute('role', 'progressbar');
     bar.setAttribute('aria-label', 'Goed beantwoord');
     bar.setAttribute('aria-valuemin', '0');
-    bar.setAttribute('aria-valuemax', String(total || 1));
-    bar.setAttribute('aria-valuenow', String(good));
-    const fill = create('span');
-    fill.style.width = `${percentage}%`;
-    bar.append(fill);
+    bar.append(create('span'));
+    setProgress(bar, good, total);
     return bar;
   }
 
@@ -115,6 +135,11 @@
     const byId = id => document.getElementById(id);
     const data = readData(window.BES_VAK);
     if (!data) {
+      // Terug werkt ook zonder bruikbare vakdata: naar het jaar als dat bekend is, anders naar de hub.
+      const jaar = window.BES_VAK?.jaar;
+      const terug = Object.keys(years).includes(jaar) ? `../../jaar-${jaar}.html` : '../../hub.html';
+      byId('vak-terug').dataset.terug = terug;
+      byId('vak-terug').href = terug;
       byId('vak-fout').textContent = 'Dit vak kan niet worden geladen. Ga terug naar het jaar en probeer later opnieuw.';
       byId('vak-fout').hidden = false;
       byId('vak-tabs').hidden = true;
@@ -170,6 +195,16 @@
     checkAnswer.type = 'button';
     checkAnswer.hidden = true;
     byId('volgende-vraag').before(checkAnswer);
+    // De uitleg wordt voorgelezen via een live-region die altijd in de pagina staat; een blok dat pas bij het tonen verschijnt, wordt vaak niet aangekondigd.
+    // De kaart zelf is geen live-region meer, zodat de gedeelde melding-animatie (app.js) hem niet laat knipperen bij elke tekstwissel.
+    const uitlegLive = create('p', 'vak-sr-only');
+    uitlegLive.id = 'uitleg-live';
+    uitlegLive.setAttribute('role', 'status');
+    uitlegLive.setAttribute('aria-live', 'polite');
+    uitlegLive.setAttribute('aria-atomic', 'true');
+    byId('uitleg').before(uitlegLive);
+    byId('uitleg').removeAttribute('role');
+    byId('uitleg').removeAttribute('aria-live');
 
     // Een melding blijft bij de vraag: de lopende oefening en gekozen antwoorden blijven staan.
     const reportDialog = create('dialog', 'vraag-melding');
@@ -180,6 +215,10 @@
     reportHeading.id = 'vraag-melding-kop';
     const reportContext = create('p', 'vraag-melding-context');
     const reportQuestion = create('p', 'vraag-melding-vraag');
+    // De vraag scrolt als hij lang is; met tabindex kan dat ook met het toetsenbord.
+    reportQuestion.tabIndex = 0;
+    reportQuestion.setAttribute('role', 'group');
+    reportQuestion.setAttribute('aria-label', 'De vraag');
     const reportHint = create('p', 'vak-hint');
     const reportLabel = create('label', '', 'Wat klopt er niet?');
     reportLabel.htmlFor = 'vraag-melding-tekst';
@@ -227,6 +266,7 @@
       reportText.value = '';
       reportText.maxLength = 2000 - prefix.length;
       reportText.readOnly = false;
+      reportText.style.minHeight = '';
       reportText.removeAttribute('aria-invalid');
       [reportLabel, reportText, reportCounter, reportSubmit].forEach(element => { element.hidden = false; });
       reportSubmit.disabled = false;
@@ -254,7 +294,8 @@
       openReport(session.questions[session.index].question, session.level, session.mode, currentReportButton);
     });
     byId('volgende-vraag').parentElement.prepend(currentReportButton);
-    reportClose.addEventListener('click', () => reportDialog.close());
+    reportClose.addEventListener('click', () => BES.sluitDialoog(reportDialog));
+    reportDialog.addEventListener('cancel', event => { event.preventDefault(); BES.sluitDialoog(reportDialog); });
     reportDialog.addEventListener('close', () => {
       if (reportDialog.open) return;
       report = null;
@@ -299,9 +340,12 @@
         });
         if (error) throw error;
         if (report !== active || !reportDialog.open) return;
-        [reportLabel, reportText, reportCounter, reportSubmit].forEach(element => { element.hidden = true; });
+        // Label, tekstvak en teller schuiven dicht terwijl het bericht opent; het tekstvak heeft een minimumhoogte die eerst weg moet.
+        reportText.style.minHeight = '0';
+        [reportLabel, reportText, reportCounter].forEach(element => verbergBlok(element));
+        reportSubmit.hidden = true;
         reportSuccess.textContent = 'Bedankt! Je melding is verstuurd.';
-        reportSuccess.hidden = false;
+        toonBlok(reportSuccess);
         reportClose.textContent = screen === 'oefenen' ? 'Verder oefenen' : 'Sluiten';
         reportClose.focus();
       } catch {
@@ -338,7 +382,7 @@
     function chooseMode(value) {
       // Free met de simulaties van vandaag al gedaan: rustige melding, Training blijft gekozen.
       if (value === 'simulatie' && simulatieOp()) { toonSimSlot(true); return; }
-      if (byId('sim-slot')) byId('sim-slot').hidden = true;
+      if (byId('sim-slot')) verbergBlok(byId('sim-slot'));
       setMode(value);
       revealStep(showLevelStep ? 'niveau' : 'tijd');
     }
@@ -356,6 +400,7 @@
         melding = create('p', 'vak-hint plus-slot sim-slot');
         melding.id = 'sim-slot';
         melding.setAttribute('role', 'status');
+        melding.hidden = true;
         byId('modus-keuzes').after(melding);
       }
       const reden = `Je ${FREE_SIMULATIES_PER_DAG} simulaties van vandaag voor dit vak heb je gedaan. Met Plus oefen je onbeperkt.`;
@@ -364,7 +409,7 @@
       link.dataset.kiesPlan = 'plus';
       link.dataset.reden = reden;
       melding.replaceChildren(`Je ${FREE_SIMULATIES_PER_DAG} simulaties van vandaag voor dit vak heb je gedaan. Morgen kan je weer, of `, link, '.');
-      melding.hidden = false;
+      toonBlok(melding);
       if (popup) BES.kiesPlan?.({ nodig: 'plus', reden });
       return melding;
     }
@@ -377,7 +422,7 @@
         const free = planBekend && accountPlan === 'free';
         detail.textContent = simulatieOp() ? 'Vandaag gedaan, morgen weer' : free ? `${detail.dataset.origineel}, ${FREE_SIMULATIES_PER_DAG} keer per dag` : detail.dataset.origineel;
       }
-      if (!simulatieOp() && byId('sim-slot')) byId('sim-slot').hidden = true;
+      if (!simulatieOp() && byId('sim-slot')) verbergBlok(byId('sim-slot'));
     }
 
     // Terug bij de keuzes met Simulatie gekozen terwijl het vandaag niet meer mag: terug naar Training, met de melding erbij.
@@ -478,10 +523,11 @@
     function toonFoutenKnop() {
       const vragen = foutVragen();
       let blok = byId('fouten-blok');
-      if (!vragen.length) { if (blok) blok.hidden = true; return; }
+      if (!vragen.length) { if (blok) verbergBlok(blok); return; }
       if (!blok) {
         blok = create('div', 'kaart fouten-blok');
         blok.id = 'fouten-blok';
+        blok.hidden = true;
         const tekst = create('div', 'fouten-tekst');
         tekst.append(create('p', 'kaart-titel', 'Je foutenlijst'), create('p', 'kaart-sub'));
         const knop = create('button', 'knop-secundair', 'Oefen je fouten');
@@ -498,7 +544,7 @@
         else byId('vak-instellingen').prepend(blok);
       }
       blok.querySelector('.kaart-sub').textContent = `${countText(vragen.length)}${hasLevels ? ` in ${levelLabel(level)}` : ''} die je fout had en nog niet goed beantwoordde.`;
-      blok.hidden = false;
+      toonBlok(blok);
     }
 
     async function laadFouten() {
@@ -559,12 +605,12 @@
         button.setAttribute('aria-checked', String(active));
         button.tabIndex = active ? 0 : -1;
       });
-      byId('tijd-instellingen').hidden = !timed;
+      zetBlok(byId('tijd-instellingen'), timed);
       updateStart();
       if (reveal) {
         revealStep('hoofdstukken', false);
         revealStep('start', false);
-        scrollNaar(timed ? byId('tijd-instellingen') : byId('stap-hoofdstukken'));
+        scrollNaar(timed ? byId('tijd-instellingen') : byId('stap-hoofdstukken'), timed ? 240 : 0);
       }
     }
 
@@ -731,7 +777,7 @@
     function setAccount(user) {
       const owner = user?.id || null;
       if (owner === context.owner && context.authReady) return;
-      if (reportDialog.open) reportDialog.close();
+      if (reportDialog.open) BES.sluitDialoog(reportDialog);
       report = null;
       const previous = context;
       authGeneration += 1;
@@ -820,49 +866,65 @@
     }
 
     // Voortgang van een hoofdstuk: dezelfde balk en tekst bij Oefenen (stap 4) en in de tab Hoofdstukken.
+    // update(record) werkt de balk en tekst bij en geeft terug of het hoofdstuk afgerond is.
     function progressBlock(record) {
-      const complete = Boolean(record?.laatstTotaal && record.laatstGoed === record.laatstTotaal);
       const bottom = create('span', 'hoofdstuk-voortgang');
-      const progressText = !record ? 'Nog niet geoefend' : `${record.laatstGoed} van ${record.laatstTotaal} goed${complete ? ' · Afgerond ✓' : ''}`;
-      bottom.append(progressBar(record?.laatstGoed || 0, record?.laatstTotaal || 0), create('span', 'voortgang-tekst', progressText));
-      return { bottom, complete };
+      const bar = progressBar(0, 0);
+      const text = create('span', 'voortgang-tekst');
+      bottom.append(bar, text);
+      const update = value => {
+        const complete = Boolean(value?.laatstTotaal && value.laatstGoed === value.laatstTotaal);
+        setProgress(bar, value?.laatstGoed || 0, value?.laatstTotaal || 0);
+        text.textContent = !value ? 'Nog niet geoefend' : `${value.laatstGoed} van ${value.laatstTotaal} goed${complete ? ' · Afgerond ✓' : ''}`;
+        return complete;
+      };
+      return { bottom, complete: update(record), update };
+    }
+
+    // De rijen van stap 4 worden één keer gemaakt en daarna bijgewerkt: zo lopen het vinkje en de balk vloeiend en blijft de hover staan.
+    const chapterRows = new Map();
+    function chapterRow(chapter) {
+      let entry = chapterRows.get(chapter.id);
+      if (entry) return entry;
+      const row = create('button', 'hoofdstuk kaart');
+      row.type = 'button';
+      row.dataset.hoofdstuk = chapter.id;
+      row.setAttribute('role', 'checkbox');
+      const checkbox = create('span', 'vinkvak', '✓');
+      checkbox.setAttribute('aria-hidden', 'true');
+      const body = create('span', 'hoofdstuk-inhoud');
+      const top = create('span', 'hoofdstuk-boven');
+      const amount = create('span', 'hoofdstuk-aantal');
+      top.append(create('span', 'hoofdstuk-kop', chapter.naam), amount);
+      const progress = progressBlock(null);
+      body.append(top, progress.bottom);
+      row.append(checkbox, body);
+      row.addEventListener('click', () => {
+        const aangevinkt = !selected.has(chapter.id);
+        if (aangevinkt) selected.add(chapter.id);
+        else selected.delete(chapter.id);
+        renderChapters();
+        updateStart();
+      });
+      byId('hoofdstukken').append(row);
+      entry = { row, amount, progress };
+      chapterRows.set(chapter.id, entry);
+      return entry;
     }
 
     function renderChapters() {
-      const list = byId('hoofdstukken');
-      const focused = document.activeElement?.dataset.hoofdstuk;
-      list.replaceChildren();
       data.hoofdstukken.forEach(chapter => {
         const total = counts[chapter.id];
         const chosen = hasLevels && mode === 'simulatie' ? Boolean(total) : selected.has(chapter.id);
         const record = context.authReady || !context.owner ? context.chapters[chapter.id] : null;
-        const complete = Boolean(record?.laatstTotaal && record.laatstGoed === record.laatstTotaal);
-        const row = create('button', 'hoofdstuk kaart');
-        row.type = 'button';
-        row.dataset.hoofdstuk = chapter.id;
-        row.setAttribute('role', 'checkbox');
+        const { row, amount, progress } = chapterRow(chapter);
         row.setAttribute('aria-checked', String(chosen));
         row.disabled = !total || mode === 'simulatie';
         row.classList.toggle('is-gekozen', chosen);
-        row.classList.toggle('is-afgerond', complete);
+        row.classList.toggle('is-afgerond', progress.update(record));
         row.classList.toggle('is-leeg', !total);
-        const checkbox = create('span', 'vinkvak', chosen ? '✓' : '');
-        checkbox.setAttribute('aria-hidden', 'true');
-        const body = create('span', 'hoofdstuk-inhoud');
-        const top = create('span', 'hoofdstuk-boven');
-        top.append(create('span', 'hoofdstuk-kop', chapter.naam), create('span', 'hoofdstuk-aantal', total ? countText(total) : level === 'hard' ? 'Nog geen Hard mode-vragen' : 'Nog geen vragen'));
-        body.append(top, progressBlock(record).bottom);
-        row.append(checkbox, body);
-        row.addEventListener('click', () => {
-          const aangevinkt = !selected.has(chapter.id);
-          if (aangevinkt) selected.add(chapter.id);
-          else selected.delete(chapter.id);
-          renderChapters();
-          updateStart();
-        });
-        list.append(row);
+        amount.textContent = total ? countText(total) : level === 'hard' ? 'Nog geen Hard mode-vragen' : 'Nog geen vragen';
       });
-      if (focused) [...list.children].find(row => row.dataset.hoofdstuk === focused)?.focus({ preventScroll: true });
       renderHoofdstukken();
     }
 
@@ -899,6 +961,7 @@
           openHoofdstuk = chapter.id;
           root.replaceChildren();
           renderHoofdstukDetail(root, chapter);
+          fade(root);
           const kop = byId('hoofdstuk-detail-kop');
           kop.focus({ preventScroll: true });
           scrollNaar(kop);
@@ -915,6 +978,7 @@
         const id = chapter.id;
         openHoofdstuk = null;
         renderHoofdstukken();
+        fade(root);
         const card = [...root.querySelectorAll('[data-kaart]')].find(item => item.dataset.kaart === id);
         if (card) { card.focus({ preventScroll: true }); scrollNaar(card); }
       });
@@ -962,7 +1026,9 @@
     // Oefenen starten voor één hoofdstuk: Examen Training, Normaal, zonder tijd, alleen dit hoofdstuk.
     function oefenHoofdstuk(id) {
       const vragen = data.vragen.filter(question => question.h === id);
-      if (!vragen.length || screen !== 'keuzes') return;
+      if (!vragen.length || screen === 'oefenen') return;
+      // Na een afgeronde ronde (eindscherm) eerst terug naar de keuzes, net als Terug naar het vak; daarna start de training zoals altijd.
+      if (screen === 'einde') { session = null; showScreen('keuzes'); }
       selectTab(byId('tab-oefenen'));
       if (level !== 'normaal') setLevel('normaal');
       setMode('training');
@@ -992,13 +1058,21 @@
       const minimumHard = 8;
       const tooFewHard = level === 'hard' && mode === 'training' && selected.size > 0 && amount > 0 && amount < minimumHard && pool.length >= minimumHard;
       byId('start-oefening').disabled = emptySelection || !amount || tooFewHard || !context.authReady;
-      byId('start-hint').hidden = !(emptySelection || tooFewHard);
-      byId('start-hint').textContent = emptySelection
+      // De tekst blijft staan tot de melding dichtgeschoven is (en verdwijnt dan, voor aria-describedby).
+      const hint = byId('start-hint');
+      const hintTekst = emptySelection
         ? 'Kies minstens één hoofdstuk.'
         : tooFewHard ? `Kies voor Hard mode minstens ${minimumHard} vragen, dus meer hoofdstukken (nu ${countText(amount)}).` : '';
-      const chapters = mode === 'simulatie' ? 'Alle beschikbare hoofdstukken' : selected.size
-        ? data.hoofdstukken.filter(chapter => selected.has(chapter.id)).map(chapter => chapter.naam).join(', ')
-        : 'Nog geen hoofdstukken gekozen';
+      if (hintTekst) hint.textContent = hintTekst;
+      zetBlok(hint, Boolean(hintTekst), () => { hint.textContent = ''; });
+      // Bij veel hoofdstukken geen lange opsomming: alle, de namen bij hooguit drie, anders een aantal.
+      const gekozen = data.hoofdstukken.filter(chapter => selected.has(chapter.id));
+      const beschikbaar = data.hoofdstukken.filter(chapter => counts[chapter.id]).length;
+      const chapters = mode === 'simulatie' ? 'Alle beschikbare hoofdstukken' : !gekozen.length
+        ? 'Nog geen hoofdstukken gekozen'
+        : gekozen.length === beschikbaar && beschikbaar > 3 ? `Alle ${beschikbaar} hoofdstukken`
+          : gekozen.length <= 3 ? gekozen.map(chapter => chapter.naam).join(', ')
+            : `${gekozen.length} van ${beschikbaar} hoofdstukken`;
       const minutes = Math.ceil(amount * secondsPerQuestion / 60);
       const duration = `${minutes} ${minutes === 1 ? 'minuut' : 'minuten'}`;
       const perQuestion = secondsPerQuestion < 60 ? `${secondsPerQuestion} sec per vraag`
@@ -1021,10 +1095,10 @@
         button.classList.toggle('is-gekozen', button.dataset.modus === mode);
       });
       // Simulatie: geen grijze lijst meer, maar een kleine balk dat alle hoofdstukken meedoen.
-      byId('hoofdstuk-selectie').hidden = simulation;
-      byId('hoofdstuk-acties').hidden = simulation;
+      zetBlok(byId('hoofdstuk-selectie'), !simulation);
+      zetBlok(byId('hoofdstuk-acties'), !simulation);
       byId('hoofdstukken-kop').textContent = simulation ? 'Alle hoofdstukken' : 'Kies je hoofdstukken';
-      byId('simulatie-uitleg').hidden = !simulation;
+      zetBlok(byId('simulatie-uitleg'), simulation);
       byId('kies-alles').disabled = simulation;
       byId('kies-niets').disabled = simulation;
       renderChapters();
@@ -1057,13 +1131,13 @@
         if (knop.disabled) return;
         knop.disabled = true;
         hint.textContent = 'Hard mode laden.';
-        hint.hidden = false;
+        toonBlok(hint);
         laadHardVragen().then(() => {
           updateStart();
           const echte = questions.filter(question => !question.plaatshouder);
           if (echte.length) { start(echte, runMode, runLevel, runSeconds); return; }
           hint.textContent = 'Hard mode laden lukte niet. Probeer het zo opnieuw.';
-          hint.hidden = false;
+          toonBlok(hint);
         });
         return;
       }
@@ -1116,6 +1190,7 @@
       byId('simulatie-melding').hidden = session.mode !== 'simulatie';
       byId('uitleg').hidden = true;
       byId('uitleg-tekst').textContent = '';
+      uitlegLive.textContent = '';
       byId('volgende-vraag').hidden = true;
       byId('volgende-vraag').textContent = session.index === session.questions.length - 1 ? 'Bekijk je uitslag →' : 'Volgende →';
       checkAnswer.hidden = true;
@@ -1200,7 +1275,10 @@
         byId('uitleg-tekst').textContent = current.question.u;
         toonHackBijFout(current);
         toonWaarom(current);
-        fade(byId('uitleg'));
+        toonBlok(byId('uitleg'));
+        // Op een telefoon kan de uitleg onder de vouw staan; scrollNaar slaat over als hij al in beeld is.
+        scrollNaar(byId('uitleg'), 240);
+        uitlegLive.textContent = `Waarom: ${current.question.u}${byId('uitleg-hack').hidden ? '' : ` ${byId('uitleg-hack').textContent}`}`;
         recordAnswer(current.question.h, correctAnswer(current));
       }
       fade(byId('volgende-vraag'));
@@ -1297,7 +1375,7 @@
             item.append(create('p', '', `Juiste antwoord: ${entry.question.o[entry.question.a]}`));
           }
           item.append(create('p', '', entry.question.u));
-          if (waaromKan(entry)) item.append(waaromBlok(entry, false));
+          if (waaromKan(entry)) item.append(waaromBlok(entry));
           item.append(reportButton(entry.question, session.level, session.mode));
           byId('overzicht-vragen').append(item);
         });
@@ -1456,7 +1534,7 @@
             ? `${nu}% tegenover ${toen}% bij je vorige simulatie. Doe je zwakste hoofdstukken nog eens in Training.`
             : `Even goed als je vorige simulatie: ${nu}%.`;
       }
-      regel.hidden = false;
+      toonBlok(regel);
     }
 
     // Ook per hoofdstuk van deze ronde: [{ h, goed, totaal }] (supabase/sessie-hoofdstukken.sql), voor de groei per hoofdstuk later.
@@ -1496,7 +1574,7 @@
         const hardKan = hasLevels && session.level !== 'hard' && data.hardVragen.length >= 8;
         tip = hardKan ? 'Klaar voor een stap verder? Probeer dezelfde stof in Hard mode.' : 'Kies een volgend hoofdstuk, of doe deze ronde over een paar dagen nog eens; dan blijft het zitten.';
         knopTekst = 'Terug naar het vak';
-        knopActie = () => { showScreen('keuzes'); scrollNaar(byId('vak-keuzes')); };
+        knopActie = () => { session = null; showScreen('keuzes'); byId('start-oefening').focus({ preventScroll: true }); scrollNaar(byId('vak-keuzes')); };
       } else {
         if (sterk.length) regels.push(`Sterk: ${opsomming(namen(sterk))}.`);
         const eerste = zwak[0];
@@ -1602,7 +1680,9 @@
         oefen.type = 'button';
         oefen.addEventListener('click', () => {
           const vragen = data.vragen.filter(question => question.h === chapter.id);
-          if (!vragen.length) return;
+          if (!vragen.length || screen === 'oefenen') return;
+          // Na een afgeronde ronde eerst terug naar de keuzes; setLevel en start werken alleen vanaf de keuzes.
+          if (screen === 'einde') { session = null; showScreen('keuzes'); }
           selectTab(byId('tab-oefenen'));
           if (level !== 'normaal') setLevel('normaal');
           setMode('training');
@@ -1691,19 +1771,19 @@
     function toonWaarom(entry) {
       byId('waarom-blok')?.remove();
       if (!waaromKan(entry)) return;
-      const blok = waaromBlok(entry, true);
+      const blok = waaromBlok(entry);
       blok.id = 'waarom-blok';
       byId('uitleg').append(blok);
     }
 
-    function waaromBlok(entry, inLiveRegio) {
+    function waaromBlok(entry) {
       const blok = create('div', 'waarom-blok');
       const knop = create('button', 'knop-secundair waarom-knop', 'Waarom niet mijn antwoord?');
       knop.type = 'button';
       if (planBekend && !plusOk) knop.append(create('span', 'label', 'Plus'));
       const uitkomst = create('p', 'waarom-antwoord');
-      // In Training staat dit in de uitleg, die zelf al wordt voorgelezen; in het overzicht van de simulatie niet.
-      if (!inLiveRegio) uitkomst.setAttribute('aria-live', 'polite');
+      // De uitleg is zelf geen live-region meer, dus het antwoord van Comit meldt zich overal zelf.
+      uitkomst.setAttribute('aria-live', 'polite');
       knop.addEventListener('click', () => vraagWaarom(entry, knop, uitkomst));
       blok.append(knop, uitkomst);
       return blok;
@@ -1795,7 +1875,9 @@
       if (!klaarScript) {
         klaarScript = new Promise((klaar, mislukt) => {
           const script = document.createElement('script');
-          script.src = new URL('klaarmeter.js?v=89', scriptBron).href;
+          // Zelfde cachenummer als vak.js, zodat het meeloopt als de pagina's een nieuw nummer krijgen.
+          const versie = /[?&]v=(\d+)/.exec(scriptBron)?.[1];
+          script.src = new URL(`klaarmeter.js${versie ? `?v=${versie}` : ''}`, scriptBron).href;
           script.onload = () => (typeof BES.klaarMeter === 'function' ? klaar() : mislukt());
           script.onerror = () => { klaarScript = null; mislukt(); };
           document.head.append(script);
@@ -1809,38 +1891,43 @@
       if (!plek) return;
       const owner = context?.owner;
       let kaart = byId('klaar-meter');
-      if (!owner || !data.vragen.length || !context.authReady) { if (kaart) kaart.hidden = true; return; }
+      if (!owner || !data.vragen.length || !context.authReady) { if (kaart) verbergBlok(kaart); return; }
       if (typeof BES.klaarMeter !== 'function') {
-        if (kaart) kaart.hidden = true;
+        if (kaart) verbergBlok(kaart);
         laadKlaarMeterScript().then(renderKlaarMeter, () => {});
         return;
       }
+      // De kaart wordt één keer gemaakt en daarna bijgewerkt, zodat de balk vloeiend meegroeit; de kaart zelf schuift open als hij verschijnt.
       if (!kaart) {
         kaart = create('section', 'kaart klaar-meter');
         kaart.id = 'klaar-meter';
         kaart.setAttribute('aria-labelledby', 'klaar-kop');
+        kaart.hidden = true;
+        const kop = create('div', 'klaar-kop');
+        const titel = create('h2', '', 'Klaar-meter');
+        titel.id = 'klaar-kop';
+        kop.append(titel);
+        const getal = create('p', 'klaar-getal');
+        getal.append(create('strong'), create('span', '', ' van 100'));
+        const balk = create('span', 'klaar-balk');
+        balk.setAttribute('aria-hidden', 'true');
+        balk.append(create('span'));
+        const score = create('div', 'klaar-score');
+        score.append(getal, balk, create('p', 'klaar-noot', `${hasLevels ? 'Op Normaal. ' : ''}Geen voorspelling van je examencijfer.`));
+        const inhoud = create('div', 'klaar-inhoud');
+        inhoud.append(score, create('div', 'klaar-stappen'));
+        kaart.append(kop, inhoud);
         plek.prepend(kaart);
       }
-      kaart.hidden = false;
-      const kop = create('div', 'klaar-kop');
-      const titel = create('h2', '', 'Klaar-meter');
-      titel.id = 'klaar-kop';
-      kop.append(titel);
       const hoofdstukken = banks.get('normaal')?.get(owner)?.chapters || {};
       const rijen = Object.entries(hoofdstukken).map(([hoofdstuk, rij]) => ({
         hoofdstuk, beantwoord: rij.beantwoord, goed: rij.goed, laatst_goed: rij.laatstGoed, laatst_totaal: rij.laatstTotaal, bijgewerkt: rij.bijgewerkt
       }));
       const meter = BES.klaarMeter(data, rijen, Date.now());
-      const score = create('div', 'klaar-score');
-      const getal = create('p', 'klaar-getal');
-      getal.append(create('strong', '', String(meter.score)), create('span', '', ' van 100'));
-      const balk = create('span', 'klaar-balk');
-      balk.setAttribute('aria-hidden', 'true');
-      const vulling = create('span');
-      vulling.style.width = `${meter.score}%`;
-      balk.append(vulling);
-      score.append(getal, balk, create('p', 'klaar-noot', `${hasLevels ? 'Op Normaal. ' : ''}Geen voorspelling van je examencijfer.`));
-      const stappen = create('div', 'klaar-stappen');
+      kaart.querySelector('.klaar-getal strong').textContent = String(meter.score);
+      kaart.querySelector('.klaar-balk > span').style.width = `${meter.score}%`;
+      const stappen = kaart.querySelector('.klaar-stappen');
+      stappen.replaceChildren();
       if (meter.stappen.length) {
         stappen.append(create('p', 'klaar-stappen-kop', meter.stappen.length === 1 ? 'Snelste stap omhoog' : 'Twee snelste stappen omhoog'));
         const lijst = create('div', 'klaar-stappen-lijst');
@@ -1862,24 +1949,25 @@
       } else {
         stappen.append(create('p', 'klaar-stappen-kop', 'Je zit goed in dit vak'), create('p', 'klaar-noot', 'Herhaal af en toe een hoofdstuk, dan blijft het zitten.'));
       }
-      const inhoud = create('div', 'klaar-inhoud');
-      inhoud.append(score, stappen);
-      kaart.replaceChildren(kop, inhoud);
+      toonBlok(kaart);
     }
 
     function selectTab(tab, focus = false) {
-      currentTab = tab.getAttribute('aria-controls');
-      if (currentTab === 'paneel-hacks') renderVoorJou();
-      if (currentTab === 'paneel-hoofdstukken') renderHoofdstukken();
-      byId('vak-tabs').querySelectorAll('[role="tab"]').forEach(button => {
-        const active = button === tab;
-        button.setAttribute('aria-selected', String(active));
-        button.tabIndex = active ? 0 : -1;
-        button.classList.toggle('is-actief', active);
-        const panel = byId(button.getAttribute('aria-controls'));
-        panel.hidden = !active;
-        if (active) fade(panel);
-      });
+      // Opnieuw klikken op de tab die al open is, laat het paneel niet opnieuw invaden of knipperen.
+      if (tab.getAttribute('aria-selected') !== 'true') {
+        currentTab = tab.getAttribute('aria-controls');
+        if (currentTab === 'paneel-hacks') renderVoorJou();
+        if (currentTab === 'paneel-hoofdstukken') renderHoofdstukken();
+        byId('vak-tabs').querySelectorAll('[role="tab"]').forEach(button => {
+          const active = button === tab;
+          button.setAttribute('aria-selected', String(active));
+          button.tabIndex = active ? 0 : -1;
+          button.classList.toggle('is-actief', active);
+          const panel = byId(button.getAttribute('aria-controls'));
+          panel.hidden = !active;
+          if (active) fade(panel);
+        });
+      }
       if (focus) tab.focus();
       try { tab.scrollIntoView({ block: 'nearest', inline: 'nearest', behavior: reducedMotion.matches ? 'auto' : 'smooth' }); } catch {}
     }
@@ -1963,9 +2051,17 @@
     });
     byId('volgende-vraag').addEventListener('click', next);
     checkAnswer.addEventListener('click', confirmAnswer);
-    byId('stop-oefening').addEventListener('click', () => { if (timeExpired()) return; fade(byId('stop-bevestiging')); byId('stop-nee').focus(); });
-    byId('stop-nee').addEventListener('click', () => { byId('stop-bevestiging').hidden = true; byId('stop-oefening').focus(); });
-    byId('stop-ja').addEventListener('click', () => { if (timeExpired()) return; session = null; showScreen('keuzes'); byId('start-oefening').focus(); scheduleSync(); });
+    byId('stop-oefening').addEventListener('click', () => { if (timeExpired()) return; toonBlok(byId('stop-bevestiging')); byId('stop-nee').focus(); });
+    byId('stop-nee').addEventListener('click', () => { verbergBlok(byId('stop-bevestiging')); byId('stop-oefening').focus(); });
+    byId('stop-ja').addEventListener('click', () => {
+      if (timeExpired()) return;
+      // Ook een afgebroken ronde: de fouten tot nu toe komen op de foutenlijst (alleen vragen met een bevestigd antwoord).
+      if (session?.owner === context) bewaarFouten(session.questions.filter(entry => entry.selected !== null), correctAnswer);
+      session = null;
+      showScreen('keuzes');
+      byId('start-oefening').focus();
+      scheduleSync();
+    });
     byId('fouten-opnieuw').addEventListener('click', () => { if (lastRun) start(lastRun.wrong, 'training', lastRun.level, lastRun.secondsPerQuestion); });
     byId('opnieuw').addEventListener('click', () => {
       if (!lastRun) return;

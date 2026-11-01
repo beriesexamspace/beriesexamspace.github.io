@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <script src="assets/deur.js?v=89"></script>
+  <script src="assets/deur.js?v=90"></script>
   <link rel="apple-touch-icon" href="/assets/icoon-180.png">
   <link rel="manifest" href="/manifest.webmanifest">
   <meta property="og:type" content="website">
@@ -30,17 +30,17 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="assets/style.css?v=91">
-  <link rel="stylesheet" href="assets/intro.css?v=89">
-  <script src="assets/app.js?v=90"></script>
-  <script src="assets/updates.js?v=92"></script>
-  <script src="assets/intro.js?v=90"></script>
+  <link rel="stylesheet" href="assets/style.css?v=93">
+  <link rel="stylesheet" href="assets/intro.css?v=90">
+  <script src="assets/app.js?v=91"></script>
+  <script src="assets/updates.js?v=93"></script>
+  <script src="assets/intro.js?v=91"></script>
   <script src="assets/config.js?v=89" defer></script>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js" defer></script>
-  <script src="assets/auth.js?v=90" defer></script>
-  <script src="assets/plan.js?v=89" defer></script>
-  <script src="assets/activiteit.js?v=89" defer></script>
-  <script src="assets/comit.js?v=89" defer></script>
+  <script src="assets/auth.js?v=91" defer></script>
+  <script src="assets/plan.js?v=90" defer></script>
+  <script src="assets/activiteit.js?v=90" defer></script>
+  <script src="assets/comit.js?v=90" defer></script>
   <style>
     /* Alles in één scherm: kop, de stap, en de knoppen, zonder scrollen. */
     html, body { height: 100%; overflow: hidden; }
@@ -121,22 +121,43 @@
   <script>
     (() => {
       let klaar = false;
+      let knopTekst = '';
+      // Begin met leren en Overslaan: meteen laten zien dat er iets gebeurt en niet twee keer laten klikken.
+      const wacht = aan => {
+        const intro = document.getElementById('intro');
+        const hoofdknop = intro.querySelector('.stap-volgende');
+        if (aan) knopTekst = hoofdknop.textContent;
+        hoofdknop.textContent = aan ? 'Even geduld…' : knopTekst;
+        hoofdknop.disabled = aan;
+        intro.querySelector('.stap-overslaan').disabled = aan;
+      };
       const afronden = async () => {
         if (klaar) return;
         klaar = true;
+        wacht(true);
         const versie = window.BES_VERSIE || 0;
         try {
           window.localStorage.setItem('bes_versie_gezien', String(versie));
           window.sessionStorage.setItem('bes_nav_intro', '1');
         } catch {}
-        try {
+        // Een trage of mislukte update op het account mag niet blokkeren: de versie staat al op dit toestel en de hub vangt dat af.
+        const bijwerken = (async () => {
           const auth = window.BES.auth;
-          await Promise.race([auth.gereed, new Promise(resolve => window.setTimeout(resolve, 1500))]);
+          await auth.gereed;
           if (await auth.gebruiker()) await auth.profielBijwerken({ versieGezien: versie });
-        } catch {}
-        if (await comitVoorstellen()) return;
+        })().catch(() => {});
+        await Promise.race([bijwerken, new Promise(resolve => window.setTimeout(resolve, 1500))]);
+        let voorgesteld = false;
+        try { voorgesteld = await comitVoorstellen(); } catch {}
+        if (voorgesteld) return;
         window.location.assign('hub.html' + window.location.hash);
       };
+      // Terug via de browser (bfcache) zonder de laag van Comit: de knoppen weer bruikbaar maken.
+      window.addEventListener('pageshow', event => {
+        if (!event.persisted || !klaar || document.querySelector('.comit-voorstel')) return;
+        klaar = false;
+        wacht(false);
+      });
 
       // Na de slideshow stelt Comit zich één keer per toestel voor. Kiezen: praten met Comit of later (naar de hub).
       const comitVoorstellen = async () => {
