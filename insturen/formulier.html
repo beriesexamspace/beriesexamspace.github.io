@@ -372,7 +372,7 @@
   <a class="skip-link" href="#inhoud">Ga naar inhoud</a>
   <header class="site-header">
     <nav class="navigation ins-nav" aria-label="Berie's Exam Space">
-      <a class="brand" href="./" aria-label="Berie's Exam Space, Help ons groeien">
+      <a class="brand" href="../" aria-label="Berie's Exam Space, naar de beginpagina">
         <span class="brand-symbol" aria-hidden="true">B</span>
         <span class="brand-name"><span>Berie's</span> <span>Exam Space</span></span>
       </a>
@@ -563,6 +563,18 @@
       // Terug naar het verhaal, met dezelfde school uit de QR-code.
       const terug = document.querySelector('.terug[data-terug]');
       if (terug && window.location.search) terug.dataset.terug += window.location.search;
+      // Kwam je van een andere pagina van de site (zoals de kaart of aanmelden), dan brengt Terug je daar weer naartoe.
+      // Anders (via de QR-code of een link van buiten) ga je naar het verhaal van Insturen.
+      if (terug) terug.addEventListener('click', event => {
+        let vanSite = false;
+        try {
+          const van = new URL(document.referrer);
+          vanSite = van.origin === window.location.origin && van.pathname !== window.location.pathname;
+        } catch {}
+        if (!vanSite || window.history.length < 2) return;
+        event.preventDefault();
+        window.history.back();
+      });
       const email = element('insturen-email');
       const val = element('ins-x7');
       const bestandenFout = element('bestanden-fout');
