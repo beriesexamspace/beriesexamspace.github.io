@@ -85,7 +85,9 @@
     animation:rise .7s cubic-bezier(.2,.8,.2,1) .2s forwards;
   }
   .account-options,.account-session{display:flex;flex-direction:column;align-items:center;gap:14px}
-  .cta .knop{min-height:56px;padding-inline:36px;font-size:1.125rem}
+  /* Twee knoppen naast elkaar: starten (naar de kaart) en inloggen. Op de telefoon onder elkaar. */
+  .account-options{flex-direction:row;flex-wrap:wrap;justify-content:center}
+  .cta .knop,.cta .knop-secundair{min-height:56px;padding-inline:36px;font-size:1.125rem}
   .cta .tekstlink{font-size:1.0625rem}
   .account-session{max-width:34rem;margin:0 auto}
   .insturen-link{
@@ -159,8 +161,8 @@
     <p class="lead">Alles wat je nodig hebt om overzicht te krijgen, slimmer te leren en door te groeien.</p>
     <div class="cta">
       <div class="account-options" data-account-opties>
-        <a class="knop" href="aanmelden.html">Aanmelden →</a>
-        <a class="tekstlink" href="inloggen.html">Heb je al een account? Log in</a>
+        <a class="knop" href="kaart.html">Laten we starten →</a>
+        <a class="knop-secundair" href="inloggen.html">Ik heb al een account</a>
       </div>
       <div class="account-session" data-account-sessie hidden>
         <a class="knop" href="hub.html">Naar je space →</a>
