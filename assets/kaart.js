@@ -51,6 +51,8 @@
   const view = { w: B.w / 1.25, h: B.h / 1.25 };
   view.x = B.x + (B.w - view.w) / 2; view.y = B.y + (B.h - view.h) / 2;
   const MIN_W = B.w / 8, MAX_W = GRENS.x1 - GRENS.x0;
+  // Op een telefoon toont de stip in het midden pas zijn naam als je minstens twee keer bent ingezoomd: de kaart is dan half zo breed als bij de start.
+  const NAAM_W = view.w / 2;
   const eenheid = () => { const r = kaart.getBoundingClientRect(); return Math.max(view.w / r.width, view.h / r.height); };
   // Schermpunt naar kaartpunt (de kaart staat gecentreerd in het scherm).
   const naarKaart = (cx, cy) => {
@@ -182,8 +184,8 @@
     $('punten').append(el); g.el = el;
   });
 
-  // Telefoon: daar is geen muis, dus geen hover. De stip die ongeveer in het midden van de kaart staat, toont zelf zijn naam.
-  // Twee naamkaartjes om beurten: het oude faadt uit terwijl het nieuwe infaadt, zodat niets springt.
+  // Telefoon: daar is geen muis, dus geen hover. De stip die ongeveer in het midden van de kaart staat, toont zelf zijn naam
+  // zodra je genoeg bent ingezoomd (NAAM_W). Twee naamkaartjes om beurten: het oude faadt uit terwijl het nieuwe infaadt, zodat niets springt.
   const geenMuis = matchMedia('(hover: none)');
   const naamkaartjes = [0, 1].map(() => { const t = maak('div', 'tip midden-tip'); t.setAttribute('aria-hidden', 'true'); tip.after(t); return t; });
   let middenG = null, middenKaartje = null, midden = null;
@@ -197,7 +199,7 @@
   };
   function toonMidden() {
     let kies = null;
-    if (geenMuis.matches && !document.documentElement.classList.contains('kaart-intro') && !$('venster').open) {
+    if (geenMuis.matches && view.w <= NAAM_W && !document.documentElement.classList.contains('kaart-intro') && !$('venster').open) {
       const r = kaart.getBoundingClientRect(), u = eenheid(), [mx, my] = middenVanKaart();
       const R = Math.min(90, Math.max(48, Math.min(innerWidth, innerHeight) * .16));
       groepen.forEach(g => {
