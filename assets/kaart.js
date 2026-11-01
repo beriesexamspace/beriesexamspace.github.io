@@ -87,7 +87,7 @@
     if (view.w > GRENS.x1 - GRENS.x0) view.x = (GRENS.x0 + GRENS.x1 - view.w) / 2; else view.x = Math.min(Math.max(view.x, GRENS.x0), GRENS.x1 - view.w);
     if (view.h > GRENS.y1 - GRENS.y0) view.y = (GRENS.y0 + GRENS.y1 - view.h) / 2; else view.y = Math.min(Math.max(view.y, GRENS.y0), GRENS.y1 - view.h);
     kaart.setAttribute('viewBox', `${view.x} ${view.y} ${view.w} ${view.h}`);
-    spreid(); verbergTip();
+    spreid(); verbergTip(); toonMidden();
   };
   const zoomRond = (factor, cx, cy) => {
     const [px, py] = naarKaart(cx, cy);
@@ -179,10 +179,53 @@
     const open = () => { if (kaart.dataset.net) return; verbergTip(); openSchool(s); };
     el.addEventListener('click', open);
     el.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); open(); } });
-    $('punten').append(el);
+    $('punten').append(el); g.el = el;
   });
+
+  // Telefoon: daar is geen muis, dus geen hover. De stip die ongeveer in het midden van de kaart staat, toont zelf zijn naam.
+  // Twee naamkaartjes om beurten: het oude faadt uit terwijl het nieuwe infaadt, zodat niets springt.
+  const geenMuis = matchMedia('(hover: none)');
+  const naamkaartjes = [0, 1].map(() => { const t = maak('div', 'tip midden-tip'); t.setAttribute('aria-hidden', 'true'); tip.after(t); return t; });
+  let middenG = null, middenKaartje = null, midden = null;
+  // Het midden van de vrije kaart: tussen de zoekbalk en de knoppen onderaan.
+  const middenVanKaart = () => midden || (midden = [innerWidth / 2, ($('zoek').getBoundingClientRect().bottom + document.querySelector('.onder').getBoundingClientRect().top) / 2]);
+  // Het kaartje staat boven zijn stip en blijft binnen het scherm.
+  const plaatsKaartje = t => {
+    const g = t.g, w = t.offsetWidth;
+    t.style.left = Math.min(Math.max(g.sx, 12 + w / 2), innerWidth - 12 - w / 2) + 'px';
+    t.style.top = (g.sy - (live(g.s) ? STRAAL.vol : STRAAL.leeg) * 1.18) + 'px';
+  };
+  function toonMidden() {
+    let kies = null;
+    if (geenMuis.matches && !document.documentElement.classList.contains('kaart-intro') && !$('venster').open) {
+      const r = kaart.getBoundingClientRect(), u = eenheid(), [mx, my] = middenVanKaart();
+      const R = Math.min(90, Math.max(48, Math.min(innerWidth, innerHeight) * .16));
+      groepen.forEach(g => {
+        g.sx = r.left + (r.width - view.w / u) / 2 + (g.x - view.x) / u; g.sy = r.top + (r.height - view.h / u) / 2 + (g.y - view.y) / u;
+        g.d = Math.hypot(g.sx - mx, g.sy - my);
+        if (!kies || g.d < kies.d) kies = g;
+      });
+      if (kies && kies.d > R) kies = null;
+      // De stip die zijn naam al toont, houdt die tot hij uit het midden gaat of een andere stip duidelijk dichter staat.
+      if (middenG && middenG !== kies && middenG.d <= R * 1.2 && (!kies || middenG.d - kies.d < 12)) kies = middenG;
+    }
+    if (kies !== middenG) {
+      const oud = middenKaartje;
+      if (middenG) middenG.el.classList.remove('midden');
+      if (oud) oud.classList.remove('zichtbaar');
+      middenG = kies; middenKaartje = null;
+      if (kies) {
+        const t = naamkaartjes[0] === oud ? naamkaartjes[1] : naamkaartjes[0];
+        t.g = kies; t.replaceChildren(maak('b', '', kies.s.naam), kies.s.stad + ' · ' + telTekst(kies.s));
+        kies.el.classList.add('midden'); t.classList.add('zichtbaar'); middenKaartje = t;
+      }
+    }
+    // Ook het kaartje dat nog uitfaadt, volgt zijn stip.
+    naamkaartjes.forEach(t => { if (t.g) plaatsKaartje(t); });
+  }
+  geenMuis.addEventListener('change', toonMidden);
   zet();
-  window.addEventListener('resize', () => { laatsteU = 0; zet(); });
+  window.addEventListener('resize', () => { laatsteU = 0; midden = null; zet(); });
 
   // Het venster: school kiezen in een groep, richting kiezen, account, lijst.
   const venster = $('venster'), inhoud = $('venster-inhoud');
@@ -194,6 +237,8 @@
     setTimeout(() => { venster.close(); venster.classList.remove('sluiten'); }, 200);
   };
   venster.addEventListener('cancel', e => { e.preventDefault(); sluit(); });
+  // Met het venster open faadt het naamkaartje in het midden weg; na het sluiten komt het terug.
+  venster.addEventListener('close', toonMidden);
   venster.addEventListener('click', e => { if (e.target === venster) sluit(); });
   const kop = (titel, sub) => {
     const k = maak('div', 'venster-kop'); const tekst = maak('div'); const h = maak('h2', '', titel); h.id = 'venster-titel'; tekst.append(h);
@@ -205,7 +250,7 @@
   const toon = (...delen) => {
     const was = venster.open && !rustig.matches ? inhoud.offsetHeight : 0;
     inhoud.replaceChildren(...delen);
-    if (!venster.open) venster.showModal();
+    if (!venster.open) { venster.showModal(); toonMidden(); }
     const nu = inhoud.offsetHeight;
     if (was && Math.abs(nu - was) > 1) {
       inhoud.style.overflow = 'hidden';
@@ -416,6 +461,8 @@
     } finally {
       clearTimeout(vangnet);
       root.classList.remove('kaart-intro');
+      // Pas nu staat de zoekbalk op zijn plek: dan het midden opnieuw bepalen en het naamkaartje tonen.
+      midden = null; toonMidden();
     }
   };
   const introAnimatie = async root => {

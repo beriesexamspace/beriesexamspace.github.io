@@ -50,9 +50,10 @@
   .punt .golf { fill: none; stroke: var(--accent); vector-effect: non-scaling-stroke; stroke-width: 2; transform-box: fill-box; transform-origin: center; animation: golf 2600ms var(--ease) infinite; pointer-events: none; }
   .punt .aantal { fill: #fff; font-weight: 700; text-anchor: middle; dominant-baseline: central; pointer-events: none; }
   .punt.leeg .aantal { fill: var(--card); }
-  .punt:hover .halo, .punt:focus-visible .halo { fill: var(--accent); opacity: .28; transform: scale(1.35); }
-  .punt:hover .kern, .punt:focus-visible .kern { transform: scale(1.18); }
-  .punt.leeg:hover .halo, .punt.leeg:focus-visible .halo { fill: var(--muted); opacity: .3; }
+  /* Ook de stip in het midden van de kaart op een telefoon (klasse midden uit kaart.js) licht zo op. */
+  .punt:hover .halo, .punt:focus-visible .halo, .punt.midden .halo { fill: var(--accent); opacity: .28; transform: scale(1.35); }
+  .punt:hover .kern, .punt:focus-visible .kern, .punt.midden .kern { transform: scale(1.18); }
+  .punt.leeg:hover .halo, .punt.leeg:focus-visible .halo, .punt.leeg.midden .halo { fill: var(--muted); opacity: .3; }
   .punt:focus { outline: none; }
   @keyframes kaart-in { from { opacity: 0; transform: scale(.96); } }
   @keyframes punt-in { from { opacity: 0; transform: scale(.2); } }
@@ -101,6 +102,8 @@
   /* De tooltip staat altijd klaar maar onzichtbaar, zodat ook de eerste keer rustig infaadt. */
   .tip { position: fixed; z-index: 4; transform: translate(-50%, calc(-100% - 6px)); opacity: 0; visibility: hidden; padding: 8px 12px; border-radius: 10px; background: var(--ink); color: var(--card); font-size: .8125rem; line-height: 1.35; white-space: nowrap; pointer-events: none; box-shadow: var(--schaduw); transition: opacity 180ms var(--ease), transform 220ms var(--ease), visibility 0s linear 220ms; }
   .tip.zichtbaar { opacity: 1; visibility: visible; transform: translate(-50%, calc(-100% - 14px)); transition: opacity 180ms var(--ease), transform 220ms var(--ease), visibility 0s; }
+  /* Telefoon: het naamkaartje van de stip in het midden. Het ligt onder de zoekbalk en de knoppen, zodat het nooit over de zoeklijst valt. */
+  .tip.midden-tip { z-index: 2; }
   .boven, .onder { animation: zacht-in 700ms var(--ease) 250ms both; }
   /* Tijdens de intro regelt kaart.js het verschijnen; de eigen animatie hierboven zou anders even flitsen. */
   html.kaart-intro .boven, html.kaart-intro .onder { animation: none; }
