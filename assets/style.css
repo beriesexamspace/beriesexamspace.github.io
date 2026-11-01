@@ -1241,6 +1241,9 @@ html.ball-cursor,html.ball-cursor body,html.ball-cursor body *,html.ball-cursor 
 
 /* De deur: pagina verborgen tot het account bevestigd is (assets/deur.js) */
 html.deur-check body { visibility: hidden; }
+/* Gaat de deur open, dan komt de pagina rustig in beeld in plaats van in één keer (ook na de gewone paginafade). */
+html.deur-open body, html.page-fade.page-ready.deur-open body { animation: deur-in 240ms var(--ease) both; }
+@keyframes deur-in { from { opacity: 0; } to { opacity: 1; } }
 
 /* Tikvlak op de telefoon: minstens 44 pixels, zonder de knoppen groter te tekenen. Een onzichtbaar vlak ligt over de rand heen.
    :where() houdt de specificiteit op nul, zodat een eigen position (zoals bij .auth-back) altijd voorgaat. */

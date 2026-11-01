@@ -15,6 +15,12 @@
     sessie = Object.keys(window.localStorage).some(key => key.startsWith('sb-') && key.endsWith('-auth-token'));
   } catch {}
   if (!sessie) { naarInloggen(); return; }
-  document.documentElement.classList.add('deur-check');
-  window.setTimeout(() => document.documentElement.classList.remove('deur-check'), 4000);
+  const root = document.documentElement;
+  root.classList.add('deur-check');
+  // Vangnet: na 4 seconden gaat de deur hoe dan ook open (rustig, zie deur-open in style.css).
+  window.setTimeout(() => {
+    if (!root.classList.contains('deur-check')) return;
+    root.classList.add('deur-open');
+    root.classList.remove('deur-check');
+  }, 4000);
 })();
