@@ -166,6 +166,9 @@
     .zoek-titel { font-size: 1rem; }
     .legende { font-size: .6875rem; padding: 8px 10px; }
   }
+  /* Intro: de zoekbalk staat eerst in het midden boven een vervaagde kaart en schuift dan rustig naar zijn plek (zie intro in het script). */
+  html.kaart-intro .zoek, html.kaart-intro .merk, html.kaart-intro .boven-rechts, html.kaart-intro .inlog, html.kaart-intro .onder { opacity: 0; }
+  html.kaart-intro #kaart { filter: blur(12px) brightness(.8); }
   @media (prefers-reduced-motion: reduce) {
     *, *::before, *::after, dialog::backdrop { animation: none !important; transition: none !important; }
     .punt .golf { display: none; }

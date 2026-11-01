@@ -353,6 +353,27 @@
   $('inlog').addEventListener('click', () => {
     window.location.href = INLOGGEN;
   });
+  // Intro: de zoekbalk staat eerst in het midden boven een vervaagde kaart en schuift dan rustig naar zijn plek.
+  // De rest (merk, knoppen, legende) komt erbij zodra de balk boven is. Bij minder beweging is er geen intro.
+  const intro = async () => {
+    const root = document.documentElement;
+    if (!root.classList.contains('kaart-intro')) return;
+    const zoek = document.querySelector('.zoek');
+    const rest = [...document.querySelectorAll('.merk, .boven-rechts, .inlog, .onder')].filter((el, i, alle) => !alle.some(ander => ander !== el && ander.contains(el)));
+    try { await Promise.race([document.fonts.ready, new Promise(klaar => setTimeout(klaar, 700))]); } catch {}
+    const plek = zoek.getBoundingClientRect();
+    const midden = 'translateY(' + Math.round(innerHeight / 2 - (plek.top + plek.height / 2)) + 'px) scale(1.04)';
+    const zacht = 'cubic-bezier(.65, 0, .35, 1)', duur = 2600;
+    const animaties = [
+      zoek.animate([{ opacity: 0, transform: midden }, { opacity: 1, transform: midden, offset: .2 }, { opacity: 1, transform: midden, offset: .5, easing: zacht }, { opacity: 1, transform: 'none' }], { duration: duur, fill: 'forwards' }),
+      kaart.animate([{ filter: 'blur(12px) brightness(.8)' }, { filter: 'blur(12px) brightness(.8)', offset: .5, easing: zacht }, { filter: 'blur(0px) brightness(1)' }], { duration: duur, fill: 'forwards' }),
+      ...rest.map(el => el.animate([{ opacity: 0 }, { opacity: 0, offset: .62 }, { opacity: 1 }], { duration: duur, fill: 'forwards' }))
+    ];
+    await animaties[0].finished.catch(() => {});
+    root.classList.remove('kaart-intro');
+    animaties.forEach(animatie => animatie.cancel());
+  };
+  intro();
   const plaatsThema = () => {
     const knop = document.querySelector('.thema-knop.is-los');
     if (!knop) return;
