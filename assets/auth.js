@@ -285,9 +285,47 @@
       .finally(() => { completingName = false; });
   }
 
+  let savingChoice = false;
+  // De keuze op de kaart (kaart.js zet bes_keuze) komt bij het account (tabel studiekeuze), maar alleen na aanmelden of
+  // inloggen in dit tabblad: dan koppelt bindMapChoice de keuze aan dat account (bes_keuze_voor). Een inlog in een ander
+  // tabblad komt hier ook binnen; zonder die koppeling zou een oude keuze uit dit tabblad bij dat andere account belanden.
+  // Heeft het account al een keuze, dan blijft die staan: wisselen van richting gebeurt bewust, niet via een oude kaartkeuze.
+  const forgetMapChoice = () => { try { window.sessionStorage.removeItem('bes_keuze'); window.sessionStorage.removeItem('bes_keuze_voor'); } catch {} };
+  function bindMapChoice(user) {
+    if (!user?.id) return;
+    try {
+      if (!window.sessionStorage.getItem('bes_keuze')) return;
+      window.sessionStorage.setItem('bes_keuze_voor', user.id);
+    } catch { return; }
+    saveMapChoice(user);
+  }
+  // Uitgelogd (hier of in een ander tabblad): een keuze die al aan dat account gekoppeld was, hoort bij niemand meer.
+  function dropBoundMapChoice() {
+    try { if (window.sessionStorage.getItem('bes_keuze_voor')) forgetMapChoice(); } catch {}
+  }
+  function saveMapChoice(user) {
+    if (!user || savingChoice || logoutInProgress || !client) return;
+    let keuze = null;
+    try {
+      if (window.sessionStorage.getItem('bes_keuze_voor') !== user.id) return;
+      keuze = JSON.parse(window.sessionStorage.getItem('bes_keuze') || 'null');
+    } catch { forgetMapChoice(); return; }
+    // Dezelfde regels als de tabel: kleine letters, cijfers en streepjes, en de richting begint met de school (vub-psychologie).
+    const { school, richting } = keuze && typeof keuze === 'object' ? keuze : {};
+    const id = /^[a-z0-9]+(-[a-z0-9]+)*$/;
+    if (typeof school !== 'string' || typeof richting !== 'string' || school.length > 40 || richting.length > 80
+      || !id.test(school) || !id.test(richting) || !richting.startsWith(school + '-')) { forgetMapChoice(); return; }
+    savingChoice = true;
+    client.from('studiekeuze').insert({ school, richting })
+      // 23505: dit account heeft al een keuze. Bij een andere fout (geen verbinding) volgt een nieuwe poging op de volgende pagina.
+      .then(({ error }) => { if (!error || error.code === '23505') forgetMapChoice(); }, () => {})
+      .finally(() => { savingChoice = false; });
+  }
+
   function setUser(user, clearGuestName = false) {
     currentUser = user || null;
     if (currentUser) completeNameFromProvider(currentUser);
+    if (currentUser) saveMapChoice(currentUser);
     if (currentUser) {
       const name = nameDetails(currentUser).aanspreeknaam;
       if (name) BES.naamOpslaan?.(name);
@@ -373,6 +411,7 @@
       if (data?.user?.identities?.length === 0) throw failure('duplicate');
       if (!data?.session || !data?.user) throw failure('confirmation_required');
       setUser(data.user);
+      bindMapChoice(data.user);
       return data.user;
     },
 
@@ -397,6 +436,7 @@
       if (!data?.session || !data?.user) throw failure('invalid_credentials');
       recoveryUserId = null;
       setUser(data.user);
+      bindMapChoice(data.user);
       return data.user;
     },
 
@@ -508,6 +548,7 @@
         if (event === 'USER_UPDATED' && (logoutInProgress || !currentUser || session?.user?.id !== currentUser.id)) return;
         if (event === 'PASSWORD_RECOVERY') recoveryUserId = session?.user?.id || null;
         if (event === 'SIGNED_OUT' || !session || (recoveryUserId && session.user?.id !== recoveryUserId)) recoveryUserId = null;
+        if (event === 'SIGNED_OUT') dropBoundMapChoice();
         setUser(session?.user, event === 'SIGNED_OUT');
       });
       auth.gereed = (async () => {
@@ -551,6 +592,8 @@
     } else window.location.replace(window.BES_DEUR.prefix + 'gesloten.html');
   };
   auth.gereed.then(openDeur, openDeur);
+  // Terug van Google in dit tabblad: een keuze op de kaart hoort bij het account dat hier net inlogde.
+  if (googleCallback && !googleError) auth.gereed.then(bindMapChoice, () => {});
 
   const initializeView = () => {
     renderAccount();
