@@ -285,9 +285,31 @@
       .finally(() => { completingName = false; });
   }
 
+  let savingChoice = false;
+  // De keuze op de kaart (kaart.js zet bes_keuze) komt na het aanmelden of inloggen bij het account (tabel studiekeuze).
+  // Heeft het account al een keuze, dan blijft die staan: wisselen van richting gebeurt bewust, niet via een oude kaartkeuze.
+  function saveMapChoice(user) {
+    if (!user || savingChoice || logoutInProgress || !client) return;
+    let keuze = null;
+    try { keuze = JSON.parse(window.sessionStorage.getItem('bes_keuze') || 'null'); } catch {}
+    if (!keuze) return;
+    const forget = () => { try { window.sessionStorage.removeItem('bes_keuze'); } catch {} };
+    // Dezelfde regels als de tabel: kleine letters, cijfers en streepjes, en de richting begint met de school (vub-psychologie).
+    const { school, richting } = typeof keuze === 'object' ? keuze : {};
+    const id = /^[a-z0-9]+(-[a-z0-9]+)*$/;
+    if (typeof school !== 'string' || typeof richting !== 'string' || school.length > 40 || richting.length > 80
+      || !id.test(school) || !id.test(richting) || !richting.startsWith(school + '-')) { forget(); return; }
+    savingChoice = true;
+    client.from('studiekeuze').insert({ school, richting })
+      // 23505: dit account heeft al een keuze. Bij een andere fout (geen verbinding) volgt een nieuwe poging op de volgende pagina.
+      .then(({ error }) => { if (!error || error.code === '23505') forget(); }, () => {})
+      .finally(() => { savingChoice = false; });
+  }
+
   function setUser(user, clearGuestName = false) {
     currentUser = user || null;
     if (currentUser) completeNameFromProvider(currentUser);
+    if (currentUser) saveMapChoice(currentUser);
     if (currentUser) {
       const name = nameDetails(currentUser).aanspreeknaam;
       if (name) BES.naamOpslaan?.(name);
