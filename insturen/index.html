@@ -33,8 +33,8 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../assets/style.css?v=93">
-  <link rel="stylesheet" href="../assets/intro.css?v=91">
-  <script src="../assets/app.js?v=91" defer></script>
+  <link rel="stylesheet" href="../assets/intro.css?v=94">
+  <script src="../assets/app.js?v=94" defer></script>
   <script src="../assets/intro.js?v=92" defer></script>
   <script src="../assets/config.js?v=89" defer></script>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js" defer></script>
@@ -236,7 +236,9 @@
     @keyframes ins-ring { from { stroke-dashoffset: 100; } }
     /* Op de telefoon toont de hub maar de bovenkant van de iPhone; hier moet ook het groene antwoord en de uitleg in beeld. */
     @media (max-width: 767px) {
-      #ins-dias .tel { margin-bottom: -48px; }
+      #ins-dias .tel { margin-bottom: -80px; }
+      #ins-dias .tel-scherm { gap: 6px; }
+      #ins-dias .tel-optie { padding: 7px 10px; }
     }
 
     /* Beeld 4: een boekenkast. De plank van Psychologie staat vol, Criminologie krijgt de eerste boeken, en de lege plank wacht op jouw richting. */
@@ -738,7 +740,7 @@
             <p class="tel-kop anim" style="--i:1">Psychologie</p>
             <p class="tel-sub anim" style="--i:1">1ste bachelor</p>
             <div class="tel-kaart is-los anim" style="--i:2"><div class="tel-kaart-kop">Statistiek I<span class="tel-pijl">→</span></div><div class="tel-balk"><i class="anim-vul" style="--doel:80%;--i:0"></i></div></div>
-            <div class="tel-kaart is-los anim" style="--i:3"><div class="tel-kaart-kop">Ontwikkelingspsychologie<span class="tel-pijl">→</span></div><div class="tel-balk"><i class="anim-vul" style="--doel:45%;--i:1"></i></div></div>
+            <div class="tel-kaart is-los anim" style="--i:3"><div class="tel-kaart-kop">Sociologie I<span class="tel-pijl">→</span></div><div class="tel-balk"><i class="anim-vul" style="--doel:45%;--i:1"></i></div></div>
             <div class="tel-kaart is-los anim" style="--i:4"><div class="tel-kaart-kop">Philosophy of Science<span class="tel-pijl">→</span></div><div class="tel-balk"><i class="anim-vul" style="--doel:20%;--i:2"></i></div></div>
             <div class="tel-knop anim anim-puls" style="--i:5">Oefen verder →</div>`
         },
@@ -771,7 +773,7 @@
             <div class="tel-optie ins-dia-optie anim" style="--i:16"><span class="ins-dia-letter">A</span>Een rangorde</div>
             <div class="tel-optie ins-dia-optie ins-dia-goed anim" style="--i:17"><span class="ins-dia-letter anim">B</span>Categorieën zonder volgorde<svg class="ins-dia-vink anim" viewBox="0 0 16 16"><path d="m3.5 8.5 3 3 6-7"/></svg><span class="ins-dia-vinger anim"></span></div>
             <div class="tel-optie ins-dia-optie anim" style="--i:18"><span class="ins-dia-letter">C</span>Gelijke afstanden</div>
-            <div class="mini-uitleg anim" style="--i:32">Een nominale schaal deelt in groepen in, zonder volgorde. Denk aan geslacht of oogkleur.</div>`
+            <div class="mini-uitleg anim" style="--i:32">Groepen zonder volgorde, zoals oogkleur.</div>`
         }
       ];
       const startDias = () => window.BES?.carrousel?.(element('ins-dias'), { stappen: DIAS, kopniveau: 'h3' });
