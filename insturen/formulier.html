@@ -569,7 +569,9 @@
         let vanSite = false;
         try {
           const van = new URL(document.referrer);
-          vanSite = van.origin === window.location.origin && van.pathname !== window.location.pathname;
+          // Kwam je net van een pagina die je vanuit dit formulier opende (zoals de privacyverklaring), dan niet daarheen terug maar naar het verhaal.
+          vanSite = van.origin === window.location.origin && van.pathname !== window.location.pathname
+            && !/\/(privacy|voorwaarden|over-mij|whatsapp|inloggen|aanmelden|wachtwoord)\.html$/.test(van.pathname);
         } catch {}
         if (!vanSite || window.history.length < 2) return;
         event.preventDefault();
