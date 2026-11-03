@@ -502,6 +502,33 @@
       if (link !== element) element.replaceWith(link);
     });
 
+    // Insturen is een afgesloten route, ook voor wie de QR-code scant zonder account. Op Insturen onthouden we waar je was.
+    // Op de pagina's die je van daaruit opent (privacy, voorwaarden, Over mij, WhatsApp, inloggen, aanmelden) brengt Terug
+    // je daar terug. Zonder account gaan daar en op Insturen ook alle andere links naar de leersite (startpagina, hub, vakken)
+    // terug naar Insturen. Op elke andere pagina vervalt de route.
+    const insturenSleutel = 'bes_insturen_terug';
+    const pad = window.location.pathname;
+    const opInsturen = /\/insturen\/(index\.html|formulier\.html)?$/.test(pad);
+    const vanuitInsturen = /\/(privacy|voorwaarden|over-mij|whatsapp|inloggen|aanmelden|wachtwoord)\.html$/.test(pad);
+    let insturenTerug = null;
+    try {
+      if (opInsturen) window.sessionStorage.setItem(insturenSleutel, pad + window.location.search);
+      else if (vanuitInsturen) insturenTerug = window.sessionStorage.getItem(insturenSleutel);
+      else window.sessionStorage.removeItem(insturenSleutel);
+    } catch {}
+    if (insturenTerug && !/^\/insturen\/[^/]*$/.test(insturenTerug.split('?')[0])) insturenTerug = null;
+    if (insturenTerug) document.querySelectorAll('a.terug').forEach(link => { link.href = insturenTerug; });
+    if (!heeftSessie && (opInsturen || insturenTerug)) {
+      const naar = insturenTerug || pad.replace(/[^/]*$/, '') + window.location.search;
+      const toegestaan = /\/(insturen\/[^/]*|privacy\.html|voorwaarden\.html|over-mij\.html|whatsapp\.html|inloggen\.html|aanmelden\.html|wachtwoord\.html)$/;
+      document.querySelectorAll('a[href]').forEach(link => {
+        let doel;
+        try { doel = new URL(link.getAttribute('href'), window.location.href); } catch { return; }
+        if (doel.origin !== window.location.origin || doel.pathname === pad || toegestaan.test(doel.pathname)) return;
+        link.href = naar;
+      });
+    }
+
     wrapBackLinks(document.body);
     new MutationObserver(mutations => {
       mutations.forEach(mutation => {

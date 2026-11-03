@@ -98,12 +98,12 @@ html[data-theme="dark"] .stap-beeld { background: linear-gradient(180deg, #4A4A4
 .laptop .tel-balk { height: 4px; }
 .laptop .tel-knop { margin-top: 2px; padding: 6px; font-size: 8px; }
 
-.tel-scherm { display: grid; align-content: start; gap: 8px; padding: 12px 14px; }
+.tel-scherm { display: grid; grid-template-columns: minmax(0, 1fr); align-content: start; gap: 8px; padding: 12px 14px; }
 .tel-kop { margin: 4px 0 0; font-size: 15px; font-weight: 700; letter-spacing: -.01em; }
 .tel-sub { margin: -4px 0 2px; color: var(--ink-soft); font-size: 11px; }
 .tel-kaart { display: flex; align-items: center; gap: 9px; padding: 10px 12px; border: 1px solid var(--line); border-radius: 12px; background: var(--card); font-size: 11.5px; font-weight: 500; }
 .tel-kaart.is-los { display: grid; gap: 7px; }
-.tel-kaart-kop { display: flex; align-items: center; gap: 9px; }
+.tel-kaart-kop { display: flex; align-items: center; gap: 9px; min-width: 0; overflow-wrap: anywhere; }
 .tel-pijl { margin-left: auto; color: var(--ink-soft); }
 .tel-nummer { display: grid; place-items: center; flex: 0 0 auto; width: 22px; height: 22px; border-radius: 50%; background: var(--accent); color: #fff; font-size: 11px; font-weight: 700; }
 .tel-vink { display: grid; place-items: center; flex: 0 0 auto; width: 17px; height: 17px; border: 1.5px solid var(--line); border-radius: 50%; color: #fff; font-size: 10px; }
