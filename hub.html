@@ -583,20 +583,23 @@
       // Net op de kaart gekozen in dit tabblad: die keuze gaat voor.
       try { const keuze = JSON.parse(window.sessionStorage.getItem('bes_keuze') || 'null'); if (typeof keuze?.richting === 'string') { bewaard = keuze.richting; window.localStorage.setItem('bes_richting', bewaard); } } catch {}
       if (/^(localhost|127.0.0.1)$/.test(window.location.hostname)) bewaard = new URLSearchParams(window.location.search).get('richting') || bewaard;
-      toonRichting(bewaard);
+      // Beheerder: bekijkt de site als een andere richting (gekozen via Beheer en de kaart).
+      let bekijkAls = null;
+      try { bekijkAls = window.localStorage.getItem('bes_bekijk_als'); } catch {}
+      toonRichting(bekijkAls || bewaard);
       document.addEventListener('DOMContentLoaded', () => {
+        if (bekijkAls) {
+          window.BES.auth?.isBeheerder?.().then(ja => {
+            if (ja) return;
+            try { window.localStorage.removeItem('bes_bekijk_als'); } catch {}
+            toonRichting(bewaard);
+          }, () => {});
+        }
         window.BES.auth?.richting?.().then(richting => {
-          if (!richting) return;
+          if (!richting || bekijkAls) return;
           try { window.localStorage.setItem('bes_richting', richting); } catch {}
           toonRichting(richting);
-        }, () => {}).finally(() => {
-          // De beheerder ziet alle richtingen, om alles te kunnen nakijken.
-          window.BES.auth?.isBeheerder?.().then(ja => {
-            if (!ja) return;
-            document.getElementById('hub-jaren').hidden = false;
-            document.getElementById('hub-um').hidden = false;
-          }, () => {});
-        });
+        }, () => {});
       });
 
       // auth.js is uitgesteld geladen; pas na DOMContentLoaded is BES.auth er.
