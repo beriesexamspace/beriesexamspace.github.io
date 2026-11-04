@@ -137,7 +137,8 @@
     if (!data) {
       // Terug werkt ook zonder bruikbare vakdata: naar het jaar als dat bekend is, anders naar de hub.
       const jaar = window.BES_VAK?.jaar;
-      const terug = window.BES_VAK?.terug ? '../../hub.html' : Object.keys(years).includes(jaar) ? `../../jaar-${jaar}.html` : '../../hub.html';
+      const eigen = window.BES_VAK?.terug;
+      const terug = typeof eigen === 'string' && /^jaar-[a-z0-9]+.html$/.test(eigen) ? `../../${eigen}` : Object.keys(years).includes(jaar) ? `../../jaar-${jaar}.html` : '../../hub.html';
       byId('vak-terug').dataset.terug = terug;
       byId('vak-terug').href = terug;
       byId('vak-fout').textContent = 'Dit vak kan niet worden geladen. Ga terug naar het jaar en probeer later opnieuw.';
@@ -1975,7 +1976,7 @@
 
     document.title = `${data.naam} | Berie's Exam Space`;
     // Vakken van een andere richting (Maastricht): eigen label en terug naar de hub in plaats van naar een Psychologie-jaar.
-    const terugNaar = data.terug ? '../../hub.html' : `../../jaar-${data.jaar}.html`;
+    const terugNaar = typeof data.terug === 'string' && /^jaar-[a-z0-9]+.html$/.test(data.terug) ? `../../${data.terug}` : `../../jaar-${data.jaar}.html`;
     byId('vak-jaar').textContent = data.label || years[data.jaar];
     byId('vak-naam').textContent = data.naam;
     byId('vak-aantallen').textContent = `${countText(data.vragen.length)} over ${data.hoofdstukken.length} ${data.hoofdstukken.length === 1 ? 'hoofdstuk' : 'hoofdstukken'}.`;

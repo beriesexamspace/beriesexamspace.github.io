@@ -3,7 +3,7 @@
 window.BES_VAK = {
  "id": "um-privaat",
  "label": "Rechtsgeleerdheid · Maastricht",
- "terug": "hub",
+ "terug": "jaar-um1.html",
  "jaar": "1ba",
  "naam": "Privaatrecht: verbintenissen en goederen",
  "hoofdstukken": [

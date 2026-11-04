@@ -3,7 +3,7 @@
 window.BES_VAK = {
  "id": "um-ier",
  "label": "Rechtsgeleerdheid · Maastricht",
- "terug": "hub",
+ "terug": "jaar-um2.html",
  "jaar": "2ba",
  "naam": "Internationaal en Europees recht",
  "hoofdstukken": [

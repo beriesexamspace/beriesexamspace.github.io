@@ -66,7 +66,7 @@
   <script src="assets/meten.js?v=1"></script>
   <script src="assets/app.js?v=95"></script>
   <script src="assets/intro.js?v=95"></script>
-  <script src="assets/vakken.js?v=90"></script>
+  <script src="assets/vakken.js?v=91"></script>
   <script src="assets/config.js?v=89" defer></script>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js" defer></script>
   <script src="assets/auth.js?v=93" defer></script>
@@ -93,9 +93,9 @@
     .hub-richting { display: grid; gap: 14px; }
     .hub-richting[hidden] { display: none; }
     .hub-richting-kop { margin: 0; color: var(--ink-soft); font-size: .9375rem; font-weight: 600; }
-    .jaar[data-jaar="1ba"] { --jaar: #3FB9B2; --jaar-licht: #8FDAD5; }
-    .jaar[data-jaar="2ba"] { --jaar: #8B7CF6; --jaar-licht: #C4BAFF; }
-    .jaar[data-jaar="3ba"] { --jaar: #E0A030; --jaar-licht: #F5D08A; }
+    .jaar:is([data-jaar="1ba"], [data-jaar="um1"]) { --jaar: #3FB9B2; --jaar-licht: #8FDAD5; }
+    .jaar:is([data-jaar="2ba"], [data-jaar="um2"]) { --jaar: #8B7CF6; --jaar-licht: #C4BAFF; }
+    .jaar:is([data-jaar="3ba"], [data-jaar="um3"]) { --jaar: #E0A030; --jaar-licht: #F5D08A; }
 
     html[data-theme="dark"] .kaart.jaar {
       --jaar-schaduw: 0 14px 30px var(--shadow-far-color), 0 2px 6px var(--shadow-near-color);
@@ -311,35 +311,40 @@
         <!-- Rechtsgeleerdheid, Maastricht University: alleen voor wie die richting koos (zie BES.auth.richting). -->
         <div class="hub-richting" id="hub-um" hidden>
           <p class="hub-richting-kop">Rechtsgeleerdheid · Maastricht University</p>
-          <div class="rooster-2">
-          <a class="kaart kaart-pijl" href="vak/um-ier/">
-            <span class="kaart-tekst">
-              <span class="kaart-titel">Internationaal en Europees recht</span>
-              <span class="kaart-sub">129 oefenvragen, met uitleg.</span>
-            </span>
-            <span class="pijl" aria-hidden="true">→</span>
-          </a>
-          <a class="kaart kaart-pijl" href="vak/um-staatsrecht/">
-            <span class="kaart-tekst">
-              <span class="kaart-titel">Staatsrecht</span>
-              <span class="kaart-sub">87 oefenvragen, met uitleg.</span>
-            </span>
-            <span class="pijl" aria-hidden="true">→</span>
-          </a>
-          <a class="kaart kaart-pijl" href="vak/um-privaat/">
-            <span class="kaart-tekst">
-              <span class="kaart-titel">Privaatrecht: verbintenissen en goederen</span>
-              <span class="kaart-sub">44 oefenvragen, met uitleg.</span>
-            </span>
-            <span class="pijl" aria-hidden="true">→</span>
-          </a>
-          <a class="kaart kaart-pijl" href="vak/um-belasting/">
-            <span class="kaart-tekst">
-              <span class="kaart-titel">Inleiding belastingrecht</span>
-              <span class="kaart-sub">36 oefenvragen, met uitleg.</span>
-            </span>
-            <span class="pijl" aria-hidden="true">→</span>
-          </a>
+          <div class="rooster-3">
+            <a class="kaart jaar" href="jaar-um1.html" data-jaar="um1">
+              <span class="jaar-band">
+                <span class="jaar-nummer">1</span>
+                <span class="label">Laatst gekozen</span>
+              </span>
+              <span class="kaart-tekst jaar-body">
+                <span class="kaart-titel">1ste jaar</span>
+                <span class="kaart-sub">3 vakken</span>
+                <span class="jaar-link">Bekijk vakken <span class="jaar-pijl" aria-hidden="true">→</span></span>
+              </span>
+            </a>
+            <a class="kaart jaar" href="jaar-um2.html" data-jaar="um2">
+              <span class="jaar-band">
+                <span class="jaar-nummer">2</span>
+                <span class="label">Laatst gekozen</span>
+              </span>
+              <span class="kaart-tekst jaar-body">
+                <span class="kaart-titel">2de jaar</span>
+                <span class="kaart-sub">1 vak</span>
+                <span class="jaar-link">Bekijk vakken <span class="jaar-pijl" aria-hidden="true">→</span></span>
+              </span>
+            </a>
+            <a class="kaart jaar" href="jaar-um3.html" data-jaar="um3">
+              <span class="jaar-band">
+                <span class="jaar-nummer">3</span>
+                <span class="label">Laatst gekozen</span>
+              </span>
+              <span class="kaart-tekst jaar-body">
+                <span class="kaart-titel">3de jaar</span>
+                <span class="kaart-sub">Nog geen vakken</span>
+                <span class="jaar-link">Bekijk vakken <span class="jaar-pijl" aria-hidden="true">→</span></span>
+              </span>
+            </a>
           </div>
         </div>
         <div class="hub-comit">

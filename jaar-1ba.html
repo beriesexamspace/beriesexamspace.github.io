@@ -38,7 +38,7 @@
   <script src="assets/auth.js?v=93" defer></script>
   <script src="assets/plan.js?v=90" defer></script>
   <script src="assets/activiteit.js?v=90" defer></script>
-  <script src="assets/vakken.js?v=90"></script>
+  <script src="assets/vakken.js?v=91"></script>
   <style>
     .vak {
       animation: rise 400ms var(--ease) backwards;
@@ -133,7 +133,7 @@
         return;
       }
 
-      sub.textContent = vakken.length + ' vakken. Kies er een om te oefenen.';
+      sub.textContent = vakken.length === 1 ? '1 vak. Kies het om te oefenen.' : vakken.length + ' vakken. Kies er een om te oefenen.';
 
       vakken.forEach((vak, index) => {
         const kaart = document.createElement('a');
