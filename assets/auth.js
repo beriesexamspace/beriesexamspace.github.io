@@ -146,7 +146,9 @@
   // Is dit account beheerder? Eén keer per account per pagina gevraagd; dan komt Beheer als link in de navigatiebalk.
   let beheerderBelofte = null;
   const isBeheerder = () => {
-    if (!beheerderBelofte) beheerderBelofte = client && currentUser ? client.rpc('is_beheerder').then(({ data }) => data === true, () => false) : Promise.resolve(false);
+    // Nog niemand ingelogd (of de login is nog aan het laden): nee, maar niet onthouden.
+    if (!client || !currentUser) return Promise.resolve(false);
+    if (!beheerderBelofte) beheerderBelofte = client.rpc('is_beheerder').then(({ data }) => data === true, () => false);
     return beheerderBelofte;
   };
 
@@ -389,10 +391,14 @@
       return currentUser;
     },
 
+    // Is dit account beheerder? Wacht eerst tot de login geladen is.
+    async isBeheerder() {
+      const user = await auth.gebruiker();
+      return user ? isBeheerder() : false;
+    },
+
     // De richting die dit account op de kaart koos (tabel studiekeuze, alleen de eigen rij), of null.
     // Net aangemeld en nog niet opgeslagen: dan de keuze uit dit tabblad.
-    isBeheerder,
-
     async richting() {
       const user = await auth.gebruiker();
       if (!user || !client) return null;
