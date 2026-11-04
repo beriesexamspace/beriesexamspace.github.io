@@ -276,6 +276,9 @@ html[data-theme="dark"] .stap-beeld { background: linear-gradient(180deg, #4A4A4
   .stap-updates { gap: 14px; padding: 0 22px 24px; }
   .mini-nieuw { max-width: 100%; margin-bottom: 8px; padding: 14px 16px; }
   .mini-nieuw .stap-updates { padding: 0; }
+  /* Op een telefoon is er weinig plek: het blok begint bovenaan het beeldvak en toont 2 updates, zodat het nooit over de tekst schuift. */
+  .stap-beeld:has(.mini-nieuw) { align-items: flex-start; overflow: hidden; }
+  .mini-nieuw .stap-updates > :nth-child(n+3) { display: none; }
   .stap-volgende.knop { min-width: 0; flex: 1 1 auto; }
 }
 @media (prefers-reduced-motion: reduce) {
