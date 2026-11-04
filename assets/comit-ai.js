@@ -39,9 +39,9 @@ window.BES = window.BES || {};
       const aanroep = (async () => client.functions.invoke('comit', { body: { vraag, context: await bouwOverzicht(client, user) } }))();
       aanroep.catch(() => {});
       const { data } = await Promise.race([aanroep, new Promise(klaar => { timer = window.setTimeout(() => klaar({ data: null }), 28000); })]);
-      // Daglimiet bereikt: een melding met een knop naar Plus (alleen bij Free), niet bewaard in Geschiedenis.
+      // Daglimiet bereikt: een melding, niet bewaard in Geschiedenis.
       if (data && data.limiet === true && typeof data.tekst === 'string' && data.tekst.trim()) {
-        return { tekst: data.tekst.trim(), knoppen: data.plan === 'free' ? [{ label: 'Bekijk Plus →', href: 'abonnement.html' }] : [], onbewaard: true };
+        return { tekst: data.tekst.trim(), knoppen: [], onbewaard: true };
       }
       if (data && typeof data.tekst === 'string' && data.tekst.trim()) return { tekst: data.tekst.trim(), knoppen: [] };
     } catch {} finally { window.clearTimeout(timer); }

@@ -469,8 +469,9 @@
     }
 
     function planToepassen(plan) {
-      accountPlan = planVan(plan);
-      plusOk = accountPlan === 'plus';
+      // Er is geen abonnement meer: iedereen krijgt wat Plus had, dus geen simulatielimiet en alle hulp van Comit.
+      accountPlan = 'plus';
+      plusOk = true;
       planBekend = Boolean(plan);
       markeerSimulatie();
     }

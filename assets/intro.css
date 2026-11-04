@@ -34,6 +34,11 @@ html[data-theme="dark"] .stappen { --tel-rand: #1D1D1F; --tel-glans: rgba(255,25
 .stap-uitleg { margin: 4px 0 0; max-width: 34rem; color: var(--ink-soft); font-size: 1.0625rem; line-height: 1.6; }
 .stap-uitleg strong { color: var(--ink); font-weight: 600; }
 .stap-beeld { position: relative; display: flex; align-items: flex-end; justify-content: center; padding: 48px 40px 0; background: linear-gradient(180deg, var(--surface) 0%, var(--card) 100%); }
+/* Het grote toestel staat bovenaan het beeldvak: het schuift nooit over de tekst en staat bij elke stap op dezelfde plek.
+   Wat onderaan niet helemaal past, valt weg (zie pasSchermen in intro.js). */
+.stappen .stap-beeld:has(> .tel) { align-items: flex-start; }
+/* Onzichtbaar meetvak voor de hoogte van de teksten (zie meetTeksten in intro.js). */
+.stap-meet { position: absolute; top: 0; left: 0; display: block; min-height: 0; height: auto; visibility: hidden; pointer-events: none; box-shadow: none; }
 /* Donkere modus: het beeldvak iets grijzer zodat de zwarte rand van de iPhone en de laptop zichtbaar blijft. */
 html[data-theme="dark"] .stap-beeld { background: linear-gradient(180deg, #4A4A4E 0%, #343437 100%); }
 /* Het scherm van de iPhone en de laptop is altijd wit (lichte kleuren), ook in de donkere modus. */
@@ -64,7 +69,7 @@ html[data-theme="dark"] .stap-beeld { background: linear-gradient(180deg, #4A4A4
 .tel-batterij { position: relative; display: inline-block; width: 24px; height: 11px; border: 1.5px solid var(--ink); border-radius: 4px; opacity: .9; }
 .tel-batterij::after { content: ''; position: absolute; top: 2px; right: -4.5px; width: 2px; height: 4px; border-radius: 0 1px 1px 0; background: var(--ink); }
 .tel-batterij i { position: absolute; inset: 1.5px; width: 85%; border-radius: 2px; background: var(--ink); }
-.tel.is-klein { width: 128px; margin-bottom: -60px; border-width: 4px; border-radius: 26px; font-size: 8px; }
+.tel.is-klein { flex: 0 0 auto; width: 128px; margin-bottom: -44px; border-width: 4px; border-radius: 26px; font-size: 8px; }
 .tel.is-klein::before { top: 4px; width: 30%; height: 10px; border-radius: 6px; }
 .tel.is-klein::after { bottom: 4px; width: 36px; height: 3px; }
 .tel.is-klein .tel-status { padding: 6px 9px 0; font-size: 6.5px; }
@@ -99,6 +104,8 @@ html[data-theme="dark"] .stap-beeld { background: linear-gradient(180deg, #4A4A4
 .laptop .tel-knop { margin-top: 2px; padding: 6px; font-size: 8px; }
 
 .tel-scherm { display: grid; grid-template-columns: minmax(0, 1fr); align-content: start; gap: 8px; padding: 12px 14px; }
+/* Rijen die onderaan niet helemaal in beeld passen (zie pasSchermen in intro.js). */
+.tel-scherm > .is-buiten { visibility: hidden; }
 .tel-kop { margin: 4px 0 0; font-size: 15px; font-weight: 700; letter-spacing: -.01em; }
 .tel-sub { margin: -4px 0 2px; color: var(--ink-soft); font-size: 11px; }
 .tel-kaart { display: flex; align-items: center; gap: 9px; padding: 10px 12px; border: 1px solid var(--line); border-radius: 12px; background: var(--card); font-size: 11.5px; font-weight: 500; }
@@ -259,7 +266,7 @@ html[data-theme="dark"] .stap-beeld { background: linear-gradient(180deg, #4A4A4
   .carrousel { --carrousel-breedte: calc(100cqw - 32px); }
   .carrousel .stap-kaart.is-dia { min-height: 0; }
   .toestellen { gap: 10px; }
-  .tel.is-klein { width: 96px; margin-bottom: -40px; }
+  .tel.is-klein { flex-shrink: 1; width: 96px; margin-bottom: -40px; }
   .laptop { width: 230px; }
   .laptop-inhoud { grid-template-columns: 1fr; }
   .laptop-kolom:last-child { display: none; }
@@ -274,8 +281,13 @@ html[data-theme="dark"] .stap-beeld { background: linear-gradient(180deg, #4A4A4
   .oudnieuw { max-width: 100%; margin-bottom: 0; }
   .mini { min-height: 0; }
   .stap-updates { gap: 14px; padding: 0 22px 24px; }
-  .mini-nieuw { max-width: 100%; margin-bottom: 8px; padding: 14px 16px; }
+  .mini-nieuw { max-width: 100%; margin-bottom: 8px; padding: 14px 16px; align-self: flex-start; }
   .mini-nieuw .stap-updates { padding: 0; }
+  /* Op een telefoon is er weinig plek: het blok begint bovenaan het beeldvak en toont 2 updates, zodat het nooit over de tekst schuift. */
+  .stap-beeld:has(.mini-nieuw) { align-items: flex-start; overflow: hidden; }
+  /* Het tekstvak kan hoger zijn dan de tekst (zie meetTeksten): de tekst staat dan bovenaan. */
+  .stappen .stap-tekst { justify-content: flex-start; }
+  .mini-nieuw .stap-updates > :nth-child(n+3) { display: none; }
   .stap-volgende.knop { min-width: 0; flex: 1 1 auto; }
 }
 @media (prefers-reduced-motion: reduce) {

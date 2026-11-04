@@ -30,11 +30,12 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="assets/style.css?v=93">
-  <link rel="stylesheet" href="assets/intro.css?v=94">
-  <script src="assets/app.js?v=94"></script>
-  <script src="assets/updates.js?v=93"></script>
-  <script src="assets/intro.js?v=92"></script>
+  <link rel="stylesheet" href="assets/style.css?v=94">
+  <link rel="stylesheet" href="assets/intro.css?v=96">
+  <script src="assets/meten.js?v=1"></script>
+  <script src="assets/app.js?v=95"></script>
+  <script src="assets/updates.js?v=94"></script>
+  <script src="assets/intro.js?v=95"></script>
   <script src="assets/config.js?v=89" defer></script>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js" defer></script>
   <script src="assets/auth.js?v=92" defer></script>
@@ -51,6 +52,8 @@
     .nieuw-pagina .pagina-kop p { margin-top: 10px; font-size: clamp(.9375rem, 1.2vw, 1.125rem); }
     .nieuw-intro { flex: 1 1 auto; min-height: 0; width: 100%; max-width: 1100px; margin: 0 auto; padding: 0 24px; box-sizing: border-box; }
     .nieuw-intro .stap-kaart { flex: 1 1 auto; min-height: 0; }
+    /* Op een groot scherm niet hoger dan nodig (Berat, 04-11-2026). */
+    @media (min-width: 1024px) { .nieuw-intro .stap-kaart { max-height: 480px; } }
     .site-footer { display: none; }
     @media (max-width: 767px) {
       .nieuw-pagina { padding-top: 22px; }
@@ -262,7 +265,8 @@
         kopniveau: 'h2',
         overslaan: true,
         laatsteTekst: 'Begin met leren →',
-        bijKlaar: afronden
+        bijKlaar: afronden,
+        meten: true
       });
     })();
   </script>

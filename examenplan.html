@@ -21,8 +21,8 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="assets/style.css?v=93">
-  <script src="assets/app.js?v=94" defer></script>
+  <link rel="stylesheet" href="assets/style.css?v=94">
+  <script src="assets/app.js?v=95" defer></script>
   <script src="assets/vakken.js?v=90"></script>
   <script src="assets/config.js?v=89" defer></script>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js" defer></script>
@@ -668,8 +668,8 @@
         gebruiker = auth ? await auth.gebruiker() : null;
         client = auth && auth.client;
         if (!gebruiker || !client) { status.textContent = 'Log in om je examenplan te zien.'; return; }
-        const plan = BES.plan ? await BES.plan().catch(() => null) : null;
-        plusOk = Boolean(plan && (plan.plan === 'plus' || plan.plan === 'pro'));
+        // Er is geen abonnement meer: ezelsbruggetjes van Comit voor iedereen.
+        plusOk = true;
         const { data: voortgang, error: voortgangFout } = await client.from('voortgang').select('vak,hoofdstuk,laatst_goed,laatst_totaal').eq('user_id', gebruiker.id);
         voortgangOk = !voortgangFout;
         scores = new Map((voortgang || []).filter((rij) => !rij.vak.endsWith('__hard') && rij.laatst_totaal >= 3).map((rij) => [rij.vak + '|' + rij.hoofdstuk, rij.laatst_goed / rij.laatst_totaal]));

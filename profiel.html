@@ -31,9 +31,9 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="assets/style.css?v=93">
+  <link rel="stylesheet" href="assets/style.css?v=94">
   <link rel="stylesheet" href="assets/kalender.css?v=89">
-  <script src="assets/app.js?v=94" defer></script>
+  <script src="assets/app.js?v=95" defer></script>
   <script src="assets/config.js?v=89" defer></script>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js" defer></script>
   <script src="assets/auth.js?v=92" defer></script>
@@ -286,16 +286,16 @@
       </section>
 
       <section id="abonnement" class="sectie" aria-labelledby="abonnement-kop">
-        <h2 id="abonnement-kop">Jouw abonnement</h2>
+        <h2 id="abonnement-kop">Jouw plan</h2>
         <div class="kaart abo-kaart">
           <div>
             <p class="abo-label">Je plan</p>
             <p class="abo-naam"><span data-abo-plan>Free</span><span class="label" data-abo-status hidden></span></p>
-            <p class="abo-sub" data-abo-sub>Alle vakken, Hard mode, je foutenlijst, je overzicht en je examenplan. Met Plus krijg je er onbeperkt simulaties en extra hulp van Comit bij. Nieuwe onderdelen krijg je met Plus een week eerder.</p>
+            <p class="abo-sub" data-abo-sub>Alles staat open: alle vakken, onbeperkt simulaties, Hard mode, je foutenlijst, je overzicht, je examenplan en alle hulp van Comit.</p>
             <p class="abo-melding" data-abo-melding role="status" aria-live="polite" tabindex="-1"></p>
           </div>
           <div class="abo-knoppen">
-            <a class="knop-secundair abo-knop" href="abonnement.html" data-abo-knop>Beheer abonnement<span class="abo-knop-pijl" aria-hidden="true">→</span></a>
+            <a class="knop-secundair abo-knop" href="abonnement.html" data-abo-knop>Meer uitleg<span class="abo-knop-pijl" aria-hidden="true">→</span></a>
             <button class="abo-opzeggen" type="button" data-abo-opzeggen aria-expanded="false" aria-controls="abo-zeker" hidden>Opzeggen</button>
             <button class="abo-herroepen" type="button" data-abo-herroepen aria-expanded="false" aria-controls="abo-herroep-zeker" hidden>Hier de overeenkomst herroepen</button>
           </div>
@@ -748,7 +748,7 @@
       if (!blok || !BES.plan) return;
       const $ = (naam) => blok.querySelector('[data-abo-' + naam + ']');
       const inhoud = {
-        free: 'Alle vakken, Hard mode, je foutenlijst, je overzicht en je examenplan. Met Plus krijg je er onbeperkt simulaties en extra hulp van Comit bij. Nieuwe onderdelen krijg je met Plus een week eerder.',
+        free: 'Alles staat open: alle vakken, onbeperkt simulaties, Hard mode, je foutenlijst, je overzicht, je examenplan en alle hulp van Comit.',
         plus: 'Alles van Free, plus onbeperkt simulaties, 60 vragen per dag aan Comit, uitleg bij je foute antwoorden, ezelsbruggetjes voor je zwakke hoofdstukken en nieuwe onderdelen een week eerder.',
       };
       // Een oud plan Pro telt als Plus (plan.js zet dat normaal al om).
