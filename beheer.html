@@ -274,6 +274,23 @@
           <div class="kaart beheer-tegel"><span class="getal" id="tegel-plus">0</span><span class="uitleg">met Plus</span></div>
         </div>
 
+        <section class="beheer-sectie" aria-labelledby="bekijk-kop">
+          <h2 class="sectie-kop" id="bekijk-kop">Bekijk als student</h2>
+          <p class="sub" id="bekijk-nu">Je ziet de site nu als je eigen richting.</p>
+          <div style="display:flex;flex-wrap:wrap;gap:12px;margin-top:12px">
+            <a class="knop" href="kaart.html?bekijk=1">Kies een richting op de kaart</a>
+            <button class="knop" id="bekijk-stop" type="button" hidden>Terug naar mijn eigen richting</button>
+          </div>
+          <script>
+            (() => {
+              let r = null; try { r = localStorage.getItem('bes_bekijk_als'); } catch {}
+              const stop = document.getElementById('bekijk-stop');
+              if (r) { document.getElementById('bekijk-nu').textContent = 'Je bekijkt de site nu als: ' + r + '.'; stop.hidden = false; }
+              stop.addEventListener('click', () => { try { localStorage.removeItem('bes_bekijk_als'); } catch {} location.reload(); });
+            })();
+          </script>
+        </section>
+
         <section class="beheer-sectie" aria-labelledby="abo-kop">
           <h2 class="sectie-kop" id="abo-kop">Abonnementen</h2>
           <div class="beheer-cijfers" id="beheer-abo"></div>

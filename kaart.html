@@ -20,7 +20,7 @@
     (() => {
       // Ingelogd: meteen naar je eigen hub. De kaart is voor wie nog moet kiezen.
       try {
-        if (Object.keys(window.localStorage).some(key => key.startsWith('sb-') && key.endsWith('-auth-token'))) {
+        if (new URLSearchParams(window.location.search).get('bekijk') !== '1' && Object.keys(window.localStorage).some(key => key.startsWith('sb-') && key.endsWith('-auth-token'))) {
           window.location.replace('hub.html');
           return;
         }
@@ -91,7 +91,7 @@
 <script src="assets/app.js?v=95"></script>
 <script src="assets/catalogus.js?v=92"></script>
 <script src="assets/kaart-data.js?v=2"></script>
-<script src="assets/kaart.js?v=11"></script>
+<script src="assets/kaart.js?v=12"></script>
 <script src="assets/config.js?v=89" defer></script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js" defer></script>
 <script src="assets/auth.js?v=94" defer></script>

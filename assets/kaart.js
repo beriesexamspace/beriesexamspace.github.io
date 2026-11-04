@@ -357,6 +357,11 @@
   }
 
   function toonAccount(s, x) {
+    if (new URLSearchParams(window.location.search).get('bekijk') === '1') {
+      try { window.localStorage.setItem('bes_bekijk_als', x.id); } catch {}
+      window.location.href = 'hub.html';
+      return;
+    }
     // Eén knop naar het echte aanmeldscherm van de site.
     const account = maak('a', 'kaart-knop', 'Volgende →'); account.href = AANMELDEN;
     account.addEventListener('click', () => { try { window.sessionStorage.setItem('bes_keuze', JSON.stringify({ school: s.id, richting: x.id })); } catch {} });
