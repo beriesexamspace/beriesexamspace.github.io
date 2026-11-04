@@ -186,6 +186,14 @@
   .mail-vraag { margin: 0; line-height: 1.5; }
   .noot.fout { color: var(--fout); }
 
+  /* Breed scherm: merk, zoekbalk en de knoppen rechts op één lijn (Berat, 04-11-2026). Alles zakt naar de onderkant van de rij,
+     4px extra houdt het midden van de knoppen (44px) gelijk met het midden van de zoekbalk (52px). De lijst met resultaten
+     ligt over de kaart, zodat hij de rij niet langer maakt en niets verspringt. */
+  @media (min-width: 721px) {
+    .boven { align-items: end; }
+    .merk, .boven-rechts { margin-bottom: 4px; }
+    .zoek-uit { position: absolute; top: calc(100% + 8px); left: 0; right: 0; }
+  }
   /* Telefoon: zoekbalk over de hele breedte onder het merk. */
   @media (max-width: 720px) {
     .boven { grid-template-columns: auto 1fr; padding: 12px; }
