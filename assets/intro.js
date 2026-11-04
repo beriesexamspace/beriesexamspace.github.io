@@ -13,6 +13,24 @@ window.BES = window.BES || {};
   // De iPhone: eerste keer veert hij binnen (anim-pop), bij de volgende telefoon-stap blijft hij staan en wisselt alleen het scherm.
   const telefoon = (scherm, pop = true) => `<div class="tel${pop ? ' anim-pop' : ''}" style="--i:0">${STATUS}<div class="tel-scherm">${scherm}</div></div>`;
 
+  // Een getekend toestel wordt onderaan door de kaart afgesneden. Rijen die daar niet helemaal in beeld passen, worden onzichtbaar,
+  // zodat je nooit een halve regel of knop ziet (Berat, 04-11-2026). Gemeten zonder animaties (offsetTop), dus ook tijdens het inkomen.
+  const bovenIn = (el, ouder) => { let y = 0; for (let e = el; e && e !== ouder; e = e.offsetParent) y += e.offsetTop; return y; };
+  const pasSchermen = kaart => {
+    kaart.querySelectorAll('.tel').forEach(tel => {
+      const beeld = tel.closest('.stap-beeld');
+      if (!beeld || !beeld.clientHeight) return;
+      const kaartOnder = kaart.getBoundingClientRect().bottom - kaart.clientTop;
+      const beeldVak = beeld.getBoundingClientRect();
+      const zicht = Math.min(beeldVak.bottom, kaartOnder) - beeldVak.top - bovenIn(tel, beeld);
+      const rijen = Array.from(tel.querySelectorAll('.tel-scherm > *'));
+      rijen.forEach(rij => rij.classList.toggle('is-buiten', tel.clientTop + rij.offsetTop + rij.offsetHeight > zicht - 10));
+      // Een kopje zonder iets eronder valt ook weg.
+      const laatste = rijen.filter(rij => !rij.classList.contains('is-buiten')).at(-1);
+      if (laatste && laatste !== rijen.at(-1) && laatste.classList.contains('tel-kop')) laatste.classList.add('is-buiten');
+    });
+  };
+
   const STAPPEN = [
     {
       soort: 'uitleg',
@@ -230,6 +248,58 @@ window.BES = window.BES || {};
     };
     window.addEventListener('resize', zetMidden);
 
+    // Op een telefoon staat het toestel onder de tekst. Het tekstvak is bij de telefoon-stappen even hoog (de hoogste tekst),
+    // zodat het toestel bij Volgende niet verspringt. Gemeten in een onzichtbaar vak, even breed als de kaart.
+    const meet = document.createElement('div');
+    meet.className = 'stap-kaart stap-meet';
+    meet.setAttribute('aria-hidden', 'true');
+    root.append(meet);
+    let tekstHoogte = 0;
+    const meetTeksten = () => {
+      tekstHoogte = 0;
+      if (breed.matches || !kaart.offsetWidth) return;
+      meet.style.width = `${kaart.offsetWidth}px`;
+      meet.innerHTML = stappen.filter(stap => stap.telefoon).map(tekstVan).join('');
+      tekstHoogte = Math.max(0, ...Array.from(meet.children, el => el.offsetHeight));
+      meet.innerHTML = '';
+    };
+    // Wat is nieuw: zoveel als er helemaal in het beeldvak past. Eerst minder updates, dan zonder knop, dan alleen de kop en de knop.
+    const pasNieuws = () => {
+      const blok = kaart.querySelector('.mini-nieuw');
+      const beeld = blok?.closest('.stap-beeld');
+      if (!blok || !beeld || !beeld.clientHeight) return;
+      const lijst = blok.querySelector('.stap-updates');
+      const knop = blok.querySelector('.mini-nieuw-knop');
+      const rijen = lijst ? Array.from(lijst.children) : [];
+      const zet = (aantal, metKnop) => {
+        rijen.forEach((rij, n) => { rij.style.display = n < aantal ? '' : 'none'; });
+        if (lijst) lijst.style.display = aantal ? '' : 'none';
+        if (knop) knop.style.display = metKnop ? '' : 'none';
+      };
+      const past = () => { const boven = bovenIn(blok, beeld); return boven >= 0 && boven + blok.offsetHeight <= beeld.clientHeight - 8; };
+      const standen = rijen.map((rij, n) => [rijen.length - n, true]).concat([[1, false], [0, true], [0, false]]);
+      for (const [aantal, metKnop] of standen) { zet(aantal, metKnop); if (past()) return; }
+    };
+    const pasAan = () => {
+      const tekst = kaart.querySelector('.stap-tekst');
+      if (tekst) tekst.style.minHeight = tekstHoogte && stappen[actief]?.telefoon ? `${tekstHoogte}px` : '';
+      pasNieuws();
+      pasSchermen(kaart);
+    };
+    // Opnieuw passen als de kaart van grootte verandert (ander venster, telefoon gedraaid, of de pagina werd pas later zichtbaar).
+    let pasRaf = 0;
+    let gemetenBreedte = 0;
+    const opnieuw = () => {
+      window.cancelAnimationFrame(pasRaf);
+      pasRaf = window.requestAnimationFrame(() => {
+        if (kaart.offsetWidth !== gemetenBreedte) { gemetenBreedte = kaart.offsetWidth; meetTeksten(); }
+        pasAan();
+      });
+    };
+    if ('ResizeObserver' in window) new ResizeObserver(opnieuw).observe(kaart);
+    else window.addEventListener('resize', opnieuw);
+    document.fonts?.ready.then(() => { gemetenBreedte = 0; opnieuw(); });
+
     const toon = index => {
       actief = index;
       const stap = stappen[index];
@@ -261,6 +331,7 @@ window.BES = window.BES || {};
       root.classList.toggle('is-laatste', laatste && !opties.lus);
       if (opties.meten) window.BES.meet?.('kennismaking_dia', { dia: index + 1, van: stappen.length, naam: stap.naam });
       zetMidden();
+      pasAan();
     };
 
     const gaNaar = (index, richting) => {
@@ -315,6 +386,8 @@ window.BES = window.BES || {};
       if (dx > 0 && actief > 0) gaNaar(actief - 1, -1);
     }, { passive: true });
 
+    gemetenBreedte = kaart.offsetWidth;
+    meetTeksten();
     toon(0);
     return { gaNaar: index => gaNaar(index, index >= actief ? 1 : -1), get stap() { return actief; } };
   };
@@ -356,6 +429,15 @@ window.BES = window.BES || {};
 
     const baan = root.querySelector('.carrousel-baan');
     const kaarten = Array.from(baan.querySelectorAll('.stap-kaart'));
+    // Rijen in de getekende toestellen die niet helemaal in beeld passen, verbergen (ook als de dia's van grootte veranderen).
+    if ('ResizeObserver' in window) {
+      const waarnemer = new ResizeObserver(entries => entries.forEach(entry => pasSchermen(entry.target)));
+      kaarten.forEach(kaart => waarnemer.observe(kaart));
+    } else {
+      kaarten.forEach(pasSchermen);
+      window.addEventListener('resize', () => kaarten.forEach(pasSchermen));
+    }
+    document.fonts?.ready.then(() => kaarten.forEach(pasSchermen));
     const stippen = Array.from(root.querySelectorAll('.carrousel-stip'));
     const pauzeKnop = root.querySelector('.carrousel-pauze');
     let actief = 0;
