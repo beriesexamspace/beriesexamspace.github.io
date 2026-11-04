@@ -2,6 +2,8 @@
 // Formaat: zie README, kop "Vakpagina". Aanpassen kan hier; de pagina (index.html) hoeft niet te veranderen.
 window.BES_VAK = {
  "id": "um-ier",
+ "label": "Rechtsgeleerdheid · Maastricht",
+ "terug": "hub",
  "jaar": "2ba",
  "naam": "Internationaal en Europees recht",
  "hoofdstukken": [

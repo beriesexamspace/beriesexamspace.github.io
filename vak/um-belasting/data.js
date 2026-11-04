@@ -2,6 +2,8 @@
 // Formaat: zie README, kop "Vakpagina". Aanpassen kan hier; de pagina (index.html) hoeft niet te veranderen.
 window.BES_VAK = {
  "id": "um-belasting",
+ "label": "Rechtsgeleerdheid · Maastricht",
+ "terug": "hub",
  "jaar": "1ba",
  "naam": "Inleiding belastingrecht",
  "hoofdstukken": [

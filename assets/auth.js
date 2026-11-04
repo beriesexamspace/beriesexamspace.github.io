@@ -389,6 +389,22 @@
       return currentUser;
     },
 
+    // De richting die dit account op de kaart koos (tabel studiekeuze, alleen de eigen rij), of null.
+    // Net aangemeld en nog niet opgeslagen: dan de keuze uit dit tabblad.
+    async richting() {
+      const user = await auth.gebruiker();
+      if (!user || !client) return null;
+      try {
+        if (window.sessionStorage.getItem('bes_keuze_voor') === user.id) {
+          const keuze = JSON.parse(window.sessionStorage.getItem('bes_keuze') || 'null');
+          if (typeof keuze?.richting === 'string') return keuze.richting;
+        }
+      } catch {}
+      const { data, error } = await client.from('studiekeuze').select('richting').limit(1);
+      if (error || !data?.length) return null;
+      return typeof data[0].richting === 'string' ? data[0].richting : null;
+    },
+
     async gebruikerVerversen() {
       const owner = currentUser?.id;
       if (!owner) return null;
