@@ -670,7 +670,14 @@
       document.querySelectorAll("[data-hub-comit-logo]").forEach((plek) => plek.append(window.BES.comitLogo(30)));
     });
     // Voor iedereen, één keer per toestel: de pop-up Er is geen abonnement meer (app.js).
-    window.addEventListener("load", () => window.setTimeout(() => window.BES?.geenAboMelding?.(), 1500));
+    // Alleen voor Psychologie: andere richtingen (zoals Maastricht) hebben nooit een abonnement gekend.
+    window.addEventListener("load", () => window.setTimeout(async () => {
+      let richting = null;
+      try { richting = window.localStorage.getItem('bes_richting'); } catch {}
+      try { richting = (await window.BES?.auth?.richting?.()) || richting; } catch {}
+      if (richting && richting !== 'vub-psychologie') return;
+      window.BES?.geenAboMelding?.();
+    }, 1500));
   </script>
 </body>
 </html>
