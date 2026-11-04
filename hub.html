@@ -61,7 +61,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="assets/style.css?v=93">
+  <link rel="stylesheet" href="assets/style.css?v=94">
   <link rel="stylesheet" href="assets/intro.css?v=94">
   <script src="assets/app.js?v=95"></script>
   <script src="assets/intro.js?v=92"></script>
@@ -615,8 +615,8 @@
       if (typeof window.BES?.comitLogo !== "function") return;
       document.querySelectorAll("[data-hub-comit-logo]").forEach((plek) => plek.append(window.BES.comitLogo(30)));
     });
-    // Free-accounts: na een paar seconden de pop-up Probeer Plus met vergelijking (app.js, hoogstens eens per drie dagen).
-    window.addEventListener("load", () => window.setTimeout(() => window.BES?.planReclame?.(), 4000));
+    // Voor iedereen, één keer per toestel: de pop-up Er is geen abonnement meer (app.js).
+    window.addEventListener("load", () => window.setTimeout(() => window.BES?.geenAboMelding?.(), 1500));
   </script>
 </body>
 </html>

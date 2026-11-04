@@ -732,6 +732,14 @@ html:has(dialog[open]) { overflow: hidden; scrollbar-gutter: stable; }
 .kies-plan-proef { margin: 0; color: var(--ink-soft); font-size: .875rem; }
 .kies-plan-later { min-height: 44px; padding: 10px 4px; border: 0; background: none; color: var(--ink-soft); font: inherit; font-weight: 500; cursor: pointer; }
 .has-hover .kies-plan-later:hover { color: var(--ink); }
+/* Pop-up Er is geen abonnement meer (app.js, BES.geenAboMelding): twee alinea's, Lees waarom links, de knop rechts. */
+.geen-abo .kies-plan-reden + .kies-plan-reden { margin-top: -8px; }
+.geen-abo .kies-plan-voet { margin-top: 4px; }
+.geen-abo .kies-plan-later { color: var(--accent); text-decoration: none; display: inline-flex; align-items: center; }
+@media (max-width: 480px) {
+  .geen-abo .kies-plan-voet { flex-direction: column-reverse; align-items: stretch; gap: 4px; }
+  .geen-abo .kies-plan-voet .knop, .geen-abo .kies-plan-later { justify-content: center; }
+}
 .kies-plan-vergelijking { margin-top: 24px; overflow-x: auto; }
 .kies-plan-vergelijking-kop { margin: 0 0 12px; font-size: 1.0625rem; }
 .kies-plan-vergelijking table { width: 100%; border-collapse: collapse; font-size: .875rem; }

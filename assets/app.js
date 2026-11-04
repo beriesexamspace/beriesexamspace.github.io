@@ -98,6 +98,51 @@
   })();
   window.BES.kiesPlan = () => { window.location.href = abonnementUrl; };
   window.BES.planReclame = async () => {};
+  // Pop-up "Er is geen abonnement meer" (Berat, 04-11-2026): voor iedereen, één keer per toestel. hub.html roept dit aan.
+  // Staat er al een ander venster open (zoals Comit die zich voorstelt), dan wacht hij tot dat dicht is.
+  window.BES.geenAboMelding = (pogingen = 10) => {
+    const sleutel = 'bes_geen_abo_gezien';
+    try { if (window.localStorage.getItem(sleutel)) return; } catch { return; }
+    if (typeof HTMLDialogElement !== 'function') return;
+    if (document.querySelector('dialog[open]')) {
+      if (pogingen > 0) window.setTimeout(() => window.BES.geenAboMelding(pogingen - 1), 3000);
+      return;
+    }
+    try { window.localStorage.setItem(sleutel, '1'); } catch {}
+    const maak = (tag, klasse, tekst) => {
+      const el = document.createElement(tag);
+      if (klasse) el.className = klasse;
+      if (tekst) el.textContent = tekst;
+      return el;
+    };
+    const venster = maak('dialog', 'kies-plan geen-abo');
+    venster.setAttribute('aria-labelledby', 'geen-abo-kop');
+    const kop = maak('h2', '', 'Er is geen abonnement meer');
+    kop.id = 'geen-abo-kop';
+    const voet = maak('div', 'kies-plan-voet');
+    const waarom = maak('a', 'kies-plan-later', 'Lees waarom');
+    waarom.href = abonnementUrl;
+    const verder = maak('button', 'knop', 'Top, verder oefenen');
+    verder.type = 'button';
+    verder.addEventListener('click', () => window.BES.sluitDialoog(venster));
+    voet.append(waarom, verder);
+    venster.append(
+      kop,
+      maak('p', 'kies-plan-reden', "Bij Berie's Exam Space zit je nooit meer vast aan een maandbedrag. Alles staat nu open voor iedereen, ook onbeperkt simulaties en alle hulp van Comit."),
+      maak('p', 'kies-plan-reden', 'Er komt iets beters in de plaats. Daar hoor je snel meer over.'),
+      voet
+    );
+    venster.addEventListener('click', event => {
+      if (event.target !== venster) return;
+      const r = venster.getBoundingClientRect();
+      if (event.clientX < r.left || event.clientX > r.right || event.clientY < r.top || event.clientY > r.bottom) window.BES.sluitDialoog(venster);
+    });
+    venster.addEventListener('cancel', event => { event.preventDefault(); window.BES.sluitDialoog(venster); });
+    venster.addEventListener('close', () => venster.remove());
+    document.body.append(venster);
+    venster.showModal();
+    verder.focus({ preventScroll: true });
+  };
 
   // Gedeelde beweging voor pagina's (zie style.css): een venster sluiten, en een blok rustig tonen of verbergen,
   // zodat de inhoud eronder meeschuift in plaats van te springen. Bij "minder beweging" gaat alles direct.
