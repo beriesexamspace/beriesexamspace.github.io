@@ -152,6 +152,9 @@
   }
   .richting span, .school span { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
   .richting small, .school small { color: var(--muted); }
+  /* Lange namen breken af in plaats van onder het label te schuiven. */
+  :is(.richting, .school) > span:first-child { flex: 1 1 auto; overflow-wrap: anywhere; }
+  :is(.richting, .school) > .chip { display: inline-block; }
   .chip { margin-left: auto; flex: none; padding: 2px 9px; border-radius: var(--pill); font-size: .75rem; font-weight: 600; background: var(--surface); color: var(--muted); }
   .chip.live { background: var(--accent-zacht); color: var(--accent); }
   .chip.later { background: var(--teal-zacht); color: var(--teal-tekst); }
