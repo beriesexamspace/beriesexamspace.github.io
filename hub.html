@@ -580,6 +580,8 @@
       };
       let bewaard = null;
       try { bewaard = window.localStorage.getItem('bes_richting'); } catch {}
+      // Net op de kaart gekozen in dit tabblad: die keuze gaat voor.
+      try { const keuze = JSON.parse(window.sessionStorage.getItem('bes_keuze') || 'null'); if (typeof keuze?.richting === 'string') { bewaard = keuze.richting; window.localStorage.setItem('bes_richting', bewaard); } } catch {}
       if (/^(localhost|127.0.0.1)$/.test(window.location.hostname)) bewaard = new URLSearchParams(window.location.search).get('richting') || bewaard;
       toonRichting(bewaard);
       document.addEventListener('DOMContentLoaded', () => {
