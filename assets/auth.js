@@ -391,6 +391,8 @@
 
     // De richting die dit account op de kaart koos (tabel studiekeuze, alleen de eigen rij), of null.
     // Net aangemeld en nog niet opgeslagen: dan de keuze uit dit tabblad.
+    isBeheerder,
+
     async richting() {
       const user = await auth.gebruiker();
       if (!user || !client) return null;

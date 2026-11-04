@@ -69,7 +69,7 @@
   <script src="assets/vakken.js?v=91"></script>
   <script src="assets/config.js?v=89" defer></script>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js" defer></script>
-  <script src="assets/auth.js?v=93" defer></script>
+  <script src="assets/auth.js?v=94" defer></script>
   <script src="assets/plan.js?v=90" defer></script>
   <script src="assets/comit.js?v=90" defer></script>
   <script src="assets/activiteit.js?v=90" defer></script>
@@ -589,7 +589,14 @@
           if (!richting) return;
           try { window.localStorage.setItem('bes_richting', richting); } catch {}
           toonRichting(richting);
-        }, () => {});
+        }, () => {}).finally(() => {
+          // De beheerder ziet alle richtingen, om alles te kunnen nakijken.
+          window.BES.auth?.isBeheerder?.().then(ja => {
+            if (!ja) return;
+            document.getElementById('hub-jaren').hidden = false;
+            document.getElementById('hub-um').hidden = false;
+          }, () => {});
+        });
       });
 
       // auth.js is uitgesteld geladen; pas na DOMContentLoaded is BES.auth er.
