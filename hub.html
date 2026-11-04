@@ -146,9 +146,6 @@
       .hub-wie-foto { order: -1; }
       .hub-wie-tekst { padding: 24px 22px 28px; }
     }
-    .hub-verder { margin-bottom: 24px; }
-    .hub-verder .kaart { min-height: 44px; padding: 20px 24px; }
-    .hub-verder-label { color: var(--accent); font-size: .8125rem; font-weight: 600; }
     .kaart-binnenkort { cursor: default; opacity: .8; }
     /* Comit: een eigen knop in het midden onder de drie jaren, met een rand in teal naar blauw. */
     .hub-comit { display: flex; justify-content: center; margin-top: 28px; animation: rise 400ms var(--ease) 150ms both; }
@@ -260,17 +257,6 @@
         <h1 id="begroeting">Welkom.</h1>
         <p id="hub-vraag">In welk jaar zit je?</p>
       </header>
-
-      <div class="hub-verder" id="hub-verder" hidden>
-        <a class="kaart kaart-pijl" id="hub-verder-link">
-          <span class="kaart-tekst">
-            <span class="hub-verder-label">Verder oefenen</span>
-            <span class="kaart-titel" id="hub-verder-vak"></span>
-            <span class="kaart-sub" id="hub-verder-sub">Kies je oefenvorm en hoofdstukken.</span>
-          </span>
-          <span class="pijl" aria-hidden="true">→</span>
-        </a>
-      </div>
 
       <section class="rijst hub-sectie" id="kies-je-jaar" aria-label="Kies je jaar">
         <div class="rooster-3" id="hub-jaren">
@@ -468,100 +454,6 @@
       updateBegroeting();
       window.addEventListener('bes:auth', event => updateBegroeting(event.detail?.user));
 
-      const verder = document.getElementById('hub-verder');
-      const verderLink = document.getElementById('hub-verder-link');
-      const verderVak = document.getElementById('hub-verder-vak');
-      const verderSub = document.getElementById('hub-verder-sub');
-      const verderVakken = (bes.vakken || []).filter(vak => vak.v2 === true);
-      let verderEigenaar = null;
-      let verderGeneratie = 0;
-      let verderSessieVak = null;
-      let verderSessieOpgevraagd = false;
-      let authOntvangen = false;
-      const lokaalVerderVak = () => {
-        try {
-          const laatstGeoefend = JSON.parse(window.localStorage.getItem('bes_laatst_geoefend_' + verderEigenaar));
-          const vak = verderVakken.find(item => item.id === laatstGeoefend?.vak);
-          return vak ? { vak, t: Date.parse(laatstGeoefend.t) || 0 } : null;
-        } catch { return null; }
-      };
-      const laadVerderSessie = async () => {
-        const client = bes.auth?.client;
-        if (!verderEigenaar || !client || verderSessieOpgevraagd || !verderVakken.length) return;
-        const eigenaar = verderEigenaar;
-        const generatie = verderGeneratie;
-        verderSessieOpgevraagd = true;
-        try {
-          const { data: sessies, error } = await client.from('sessies').select('vak,gemaakt_op')
-            .eq('user_id', eigenaar).in('vak', verderVakken.map(vak => vak.id))
-            .order('gemaakt_op', { ascending: false }).limit(1);
-          if (generatie !== verderGeneratie || eigenaar !== verderEigenaar) return;
-          if (!error) {
-            const vak = verderVakken.find(item => item.id === sessies?.[0]?.vak);
-            verderSessieVak = vak ? { vak, t: Date.parse(sessies[0].gemaakt_op) || 0 } : null;
-          }
-        } catch {}
-        if (generatie === verderGeneratie && eigenaar === verderEigenaar) updateVerderOefenen();
-      };
-      // Verandert de tekst nadat de kaart al zichtbaar is (de vraag naar het account komt later terug), dan schuift de hoogte
-      // vloeiend mee en komt de tekst zacht binnen, zodat de jaarkaarten eronder niet springen.
-      const verderWissel = (naam, sub) => {
-        if (verderVak.textContent === naam && verderSub.textContent === sub) return;
-        const van = verderLink.offsetHeight;
-        verderVak.textContent = naam;
-        verderSub.textContent = sub;
-        if (motion.matches || !verderLink.animate || !van) return;
-        const naar = verderLink.offsetHeight;
-        const opties = { duration: 220, easing: getComputedStyle(verderLink).getPropertyValue('--ease').trim() || 'ease-out' };
-        verderLink.querySelector('.kaart-tekst').animate([{ opacity: 0, transform: 'translateY(4px)' }, { opacity: 1, transform: 'none' }], opties);
-        if (van === naar) return;
-        verderLink.style.overflow = 'hidden';
-        verderLink.animate([{ height: van + 'px' }, { height: naar + 'px' }], opties).addEventListener('finish', () => { verderLink.style.overflow = ''; });
-      };
-      const updateVerderOefenen = () => {
-        if (!verderEigenaar) {
-          verder.hidden = true;
-          verderLink.removeAttribute('href');
-          verderVak.textContent = '';
-          verderSub.textContent = '';
-          return;
-        }
-        // Het recentste van twee: de laatst gestarte ronde op dit toestel of de laatste afgeronde ronde van het account.
-        const lokaal = lokaalVerderVak();
-        const vak = (lokaal && (!verderSessieVak || lokaal.t >= verderSessieVak.t) ? lokaal : verderSessieVak)?.vak || null;
-        const naam = vak ? vak.naam : 'Kies een vak';
-        const sub = vak ? 'Kies je oefenvorm en hoofdstukken.' : 'Ga naar je jaar en kies een vak om te oefenen.';
-        verderLink.href = vak ? 'vak/' + vak.id + '/' : '#kies-je-jaar';
-        if (verder.hidden) {
-          verderVak.textContent = naam;
-          verderSub.textContent = sub;
-          window.BES.toon(verder);
-        } else verderWissel(naam, sub);
-        laadVerderSessie();
-      };
-      const verderVoorGebruiker = user => {
-        const eigenaar = typeof user?.id === 'string' && user.id ? user.id : null;
-        if (eigenaar !== verderEigenaar) {
-          verderEigenaar = eigenaar;
-          verderGeneratie += 1;
-          verderSessieVak = null;
-          verderSessieOpgevraagd = false;
-        }
-        updateVerderOefenen();
-      };
-      window.addEventListener('bes:auth', event => {
-        authOntvangen = true;
-        verderVoorGebruiker(event.detail?.uitloggen ? null : event.detail?.user);
-      });
-      document.addEventListener('DOMContentLoaded', () => {
-        Promise.resolve(bes.auth?.gebruiker?.()).then(user => {
-          if (!authOntvangen) verderVoorGebruiker(user);
-        }).catch(() => {});
-      }, { once: true });
-      window.addEventListener('storage', event => {
-        if (event.key === null || event.key === 'bes_laatst_geoefend_' + verderEigenaar) updateVerderOefenen();
-      });
-      window.addEventListener('pageshow', updateVerderOefenen);
 
       const kaarten = Array.from(document.querySelectorAll('.jaar[data-jaar]'));
       const laatst = typeof bes.jaarOphalen === 'function' ? bes.jaarOphalen() : null;
