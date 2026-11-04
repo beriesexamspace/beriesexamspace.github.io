@@ -1,9 +1,10 @@
 // Stap-voor-stap-intro: één kaart per stap met Volgende, Vorige en Overslaan.
-// Gebruik: BES.stappen(element, { soorten, kopniveau, overslaan, lus, laatsteTekst, bijKlaar })
+// Gebruik: BES.stappen(element, { soorten, kopniveau, overslaan, lus, laatsteTekst, bijKlaar, meten })
 //   soorten      welke stappen: uitleg (ook op de hub), groep (WhatsApp), nieuw (Wat is nieuw)
 //                De dia's 'vroeger en nu' over de oude site zijn weg (Berat, 04-11-2026): nieuwe mensen kenden die nooit.
 //   overslaan    true: knop Overslaan tonen (telt als gezien)
 //   lus          true: na de laatste stap weer naar de eerste (hub); anders knop laatsteTekst en bijKlaar()
+//   meten        true: anoniem tellen welke dia iemand ziet, overslaat of afmaakt (BES.meet, zie meten.js)
 window.BES = window.BES || {};
 
 (() => {
@@ -258,6 +259,7 @@ window.BES = window.BES || {};
         overslaan.disabled = laatste;
       }
       root.classList.toggle('is-laatste', laatste && !opties.lus);
+      if (opties.meten) window.BES.meet?.('kennismaking_dia', { dia: index + 1, van: stappen.length, naam: stap.naam });
       zetMidden();
     };
 
@@ -280,13 +282,19 @@ window.BES = window.BES || {};
     volgende.addEventListener('click', () => {
       if (actief === stappen.length - 1) {
         if (opties.lus) gaNaar(0, 1);
-        else klaar();
+        else {
+          if (opties.meten) window.BES.meet?.('kennismaking_klaar', { van: stappen.length });
+          klaar();
+        }
         return;
       }
       gaNaar(actief + 1, 1);
     });
     vorige.addEventListener('click', () => gaNaar(actief - 1, -1));
-    overslaan?.addEventListener('click', klaar);
+    overslaan?.addEventListener('click', () => {
+      if (opties.meten) window.BES.meet?.('kennismaking_overgeslagen', { dia: actief + 1, van: stappen.length });
+      klaar();
+    });
 
     kaart.addEventListener('keydown', event => {
       if (event.key === 'ArrowRight' && actief < stappen.length - 1) { event.preventDefault(); gaNaar(actief + 1, 1); }
