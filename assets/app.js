@@ -14,6 +14,42 @@
 
   if (needsPageFade && !motion.matches) root.classList.add('page-fade');
 
+  // Zonder account toont de navigatiebalk alleen Insturen (zie style.css). Eerst een snelle gok uit de opslag,
+  // zodat de balk meteen goed staat; auth.js zet het daarna zeker zodra het account bekend is.
+  let heeftSessie = false;
+  try {
+    heeftSessie = Object.keys(window.localStorage).some(key => key.startsWith('sb-') && key.endsWith('-auth-token'));
+  } catch {}
+  root.classList.toggle('zonder-account', !heeftSessie);
+
+  // Elke pagina begint bovenaan, ook na herladen of terug-gaan: de browser zet de oude scrollplek niet meer terug.
+  // Zet iets anders de pagina vlak na het openen toch lager (zoals de omgeving van een voorbeeld), dan gaat ze terug naar boven,
+  // zolang je zelf nog niets deed. Alleen een link naar een plek op de pagina (#...) begint daar.
+  if ('scrollRestoration' in window.history) window.history.scrollRestoration = 'manual';
+  let zelfBewogen = false;
+  let bewaakTot = performance.now() + 3000;
+  ['wheel', 'touchstart', 'pointerdown', 'keydown'].forEach(soort => {
+    window.addEventListener(soort, () => { zelfBewogen = true; }, { capture: true, passive: true });
+  });
+  const naarBoven = () => {
+    if (zelfBewogen || window.scrollY === 0 || performance.now() > bewaakTot) return;
+    let doel = null;
+    try { doel = window.location.hash.length > 1 && document.getElementById(decodeURIComponent(window.location.hash.slice(1))); } catch {}
+    if (doel) return;
+    const gedrag = root.style.scrollBehavior;
+    root.style.scrollBehavior = 'auto';
+    window.scrollTo(0, 0);
+    root.style.scrollBehavior = gedrag;
+  };
+  window.addEventListener('scroll', naarBoven, { passive: true });
+  window.addEventListener('pageshow', event => {
+    if (event.persisted) {
+      zelfBewogen = false;
+      bewaakTot = performance.now() + 3000;
+    }
+    naarBoven();
+  });
+
   window.naamOpslaan = naam => {
     try {
       window.localStorage.setItem('bes_naam', naam);
@@ -55,136 +91,124 @@
     jaarOphalen: window.jaarOphalen
   });
 
-  // Kies je plan: pop-up met de Plus-kaart, zodra iemand iets kiest dat niet in Free zit.
-  // BES.kiesPlan({ reden }) opent hem; een link met data-kies-plan (en data-reden) ook, ook een oude met data-kies-plan="pro".
-  // De knop gaat naar Abonnement, want daar staat het vinkje "Laat mijn plan meteen starten".
+  // Er is geen abonnement meer (Berat, 04-11-2026): alles staat open voor iedereen. Oude aanroepen van
+  // BES.kiesPlan (of een link met data-kies-plan) gaan naar de uitleg op abonnement.html; de Plus-reclame op de hub is weg.
   const abonnementUrl = (() => {
     try { return new URL('../abonnement.html', document.currentScript.src).href; } catch { return 'abonnement.html'; }
   })();
-  const PLANNEN = [
-    { id: 'plus', naam: 'Plus', prijs: '2,99 euro per maand', punten: ['Onbeperkt simulaties', '60 vragen per dag aan Comit', 'Comit legt uit waarom jouw antwoord fout is', 'Ezelsbruggetjes voor je zwakke hoofdstukken', 'Nieuwe onderdelen een week eerder'] }
-  ];
-  // Rijen: onderdeel, Free, Plus (true = inbegrepen, false = niet, tekst = hoeveel). Gelijk houden met abonnement.html.
-  const VERGELIJKING = [
-    ['Alle vakken, training en uitleg bij elke vraag', true, true],
-    ['Theorie, studie-hacks en handige tools', true, true],
-    ['Simulaties per vak', '5 per dag', 'Onbeperkt'],
-    ['Tijdklok bij simulaties', true, true],
-    ['Hard mode', true, true],
-    ['Foutenlijst en fouten opnieuw oefenen', true, true],
-    ['Hack bij een fout', true, true],
-    ['Je voortgang en studiekalender', true, true],
-    ['Weekoverzicht', true, true],
-    ['Geavanceerd overzicht per vak en hoofdstuk', true, true],
-    ['Klaar-meter', true, true],
-    ['Vooruitgang na een simulatie', true, true],
-    ['Vragen aan Comit per dag', '10', '60'],
-    ['Comit legt uit waarom jouw antwoord fout is', false, true],
-    ['Ezelsbruggetjes van Comit', false, true],
-    ['Examenplan in je agenda', true, true],
-    ['Hacks voor je zwakste hoofdstukken', true, true],
-    ['Nieuwe onderdelen een week eerder', false, true]
-  ];
-  let kiesPlanVenster = null;
-  const maak = (tag, klasse, tekst) => {
-    const el = document.createElement(tag);
-    if (klasse) el.className = klasse;
-    if (tekst) el.textContent = tekst;
-    return el;
-  };
-  const bouwKiesPlan = () => {
-    const venster = maak('dialog', 'kies-plan');
-    venster.setAttribute('aria-labelledby', 'kies-plan-kop');
-    const kop = maak('h2', '', 'Probeer Plus');
-    kop.id = 'kies-plan-kop';
-    const reden = maak('p', 'kies-plan-reden');
-    const keuzes = maak('div', 'kies-plan-keuzes');
-    PLANNEN.forEach(plan => {
-      const kaart = maak('section', 'kies-plan-kaart is-' + plan.id);
-      kaart.setAttribute('aria-labelledby', 'kies-plan-' + plan.id);
-      const naam = maak('h3', 'kies-plan-naam', plan.naam);
-      naam.id = 'kies-plan-' + plan.id;
-      const lijst = maak('ul', 'kies-plan-lijst');
-      plan.punten.forEach(punt => lijst.append(maak('li', '', punt)));
-      const knop = maak('a', 'knop', 'Kies ' + plan.naam);
-      knop.href = abonnementUrl + '#plan-' + plan.id;
-      kaart.append(naam, maak('p', 'kies-plan-prijs', plan.prijs), lijst, knop);
-      keuzes.append(kaart);
-    });
-    // Vergelijking Free en Plus onder de kaart; alleen zichtbaar bij de pop-up op de hub (vergelijking: true).
-    const vergelijking = maak('div', 'kies-plan-vergelijking');
-    vergelijking.hidden = true;
-    const tabel = maak('table');
-    const kopRij = maak('tr');
-    kopRij.append(maak('th', 'kies-plan-sr', 'Onderdeel'), ...['Free', 'Plus'].map(naam => { const th = maak('th', '', naam); th.scope = 'col'; return th; }));
-    const thead = maak('thead');
-    thead.append(kopRij);
-    const tbody = maak('tbody');
-    VERGELIJKING.forEach(([onderdeel, ...waarden]) => {
-      const rij = maak('tr');
-      const th = maak('th', '', onderdeel);
-      th.scope = 'row';
-      rij.append(th, ...waarden.map(waarde => {
-        const td = maak('td', waarde === true ? 'is-ja' : waarde === false ? 'is-nee' : '', typeof waarde === 'string' ? waarde : '');
-        if (typeof waarde === 'boolean') td.setAttribute('aria-label', waarde ? 'Inbegrepen' : 'Niet inbegrepen');
-        return td;
-      }));
-      tbody.append(rij);
-    });
-    tabel.append(thead, tbody);
-    vergelijking.append(maak('h3', 'kies-plan-vergelijking-kop', 'Vergelijk de plannen'), tabel);
+  window.BES.kiesPlan = () => { window.location.href = abonnementUrl; };
+  window.BES.planReclame = async () => {};
+  // Pop-up "Er is geen abonnement meer" (Berat, 04-11-2026): voor iedereen, één keer per toestel. hub.html roept dit aan.
+  // Staat er al een ander venster open (zoals Comit die zich voorstelt), dan wacht hij tot dat dicht is.
+  window.BES.geenAboMelding = (pogingen = 10) => {
+    const sleutel = 'bes_geen_abo_gezien';
+    try { if (window.localStorage.getItem(sleutel)) return; } catch { return; }
+    if (typeof HTMLDialogElement !== 'function') return;
+    if (document.querySelector('dialog[open]')) {
+      if (pogingen > 0) window.setTimeout(() => window.BES.geenAboMelding(pogingen - 1), 3000);
+      return;
+    }
+    try { window.localStorage.setItem(sleutel, '1'); } catch {}
+    const maak = (tag, klasse, tekst) => {
+      const el = document.createElement(tag);
+      if (klasse) el.className = klasse;
+      if (tekst) el.textContent = tekst;
+      return el;
+    };
+    const venster = maak('dialog', 'kies-plan geen-abo');
+    venster.setAttribute('aria-labelledby', 'geen-abo-kop');
+    const kop = maak('h2', '', 'Er is geen abonnement meer');
+    kop.id = 'geen-abo-kop';
     const voet = maak('div', 'kies-plan-voet');
-    const later = maak('button', 'kies-plan-later', 'Misschien later');
-    later.type = 'button';
-    later.addEventListener('click', () => venster.close());
-    voet.append(maak('p', 'kies-plan-proef', 'Plus probeer je eerst een maand.'), later);
-    venster.append(kop, reden, keuzes, vergelijking, voet);
-    // Klik naast het venster sluit het.
-    venster.addEventListener('click', event => { if (event.target === venster) venster.close(); });
+    const waarom = maak('a', 'kies-plan-later', 'Lees waarom');
+    waarom.href = abonnementUrl;
+    const verder = maak('button', 'knop', 'Top, verder oefenen');
+    verder.type = 'button';
+    verder.addEventListener('click', () => window.BES.sluitDialoog(venster));
+    voet.append(waarom, verder);
+    venster.append(
+      kop,
+      maak('p', 'kies-plan-reden', "Bij Berie's Exam Space zit je nooit meer vast aan een maandbedrag. Alles staat nu open voor iedereen, ook onbeperkt simulaties en alle hulp van Comit."),
+      maak('p', 'kies-plan-reden', 'Er komt iets beters in de plaats. Daar hoor je snel meer over.'),
+      voet
+    );
+    venster.addEventListener('click', event => {
+      if (event.target !== venster) return;
+      const r = venster.getBoundingClientRect();
+      if (event.clientX < r.left || event.clientX > r.right || event.clientY < r.top || event.clientY > r.bottom) window.BES.sluitDialoog(venster);
+    });
+    venster.addEventListener('cancel', event => { event.preventDefault(); window.BES.sluitDialoog(venster); });
+    venster.addEventListener('close', () => venster.remove());
     document.body.append(venster);
-    return venster;
+    venster.showModal();
+    verder.focus({ preventScroll: true });
   };
-  // Er is alleen nog Plus, dus wat er nodig is ('plus' of een oude 'pro') verandert niets aan de pop-up.
-  window.BES.kiesPlan = ({ reden = '', titel = '', vergelijking = false } = {}) => {
-    if (typeof HTMLDialogElement !== 'function') { window.location.href = abonnementUrl; return; }
-    if (!kiesPlanVenster) kiesPlanVenster = bouwKiesPlan();
-    if (kiesPlanVenster.open) return;
-    kiesPlanVenster.querySelector('#kies-plan-kop').textContent = titel || 'Probeer Plus';
-    kiesPlanVenster.querySelector('.kies-plan-vergelijking').hidden = !vergelijking;
-    kiesPlanVenster.querySelector('.kies-plan-reden').textContent = reden || 'Dit zit niet in Free, wel in Plus.';
-    // Eén proefmaand per account: wie die al gebruikte (ook een oude van Pro), krijgt geen proefmaand meer beloofd.
-    const proef = kiesPlanVenster.querySelector('.kies-plan-proef');
-    proef.textContent = 'Plus probeer je eerst een maand.';
-    if (typeof window.BES.plan === 'function') window.BES.plan().then(plan => { if (plan && plan.proef_plus) proef.textContent = 'Je proefmaand heb je al gebruikt.'; }, () => {});
-    kiesPlanVenster.showModal();
-    kiesPlanVenster.querySelector('.kies-plan-kaart a').focus({ preventScroll: true });
+
+  // Gedeelde beweging voor pagina's (zie style.css): een venster sluiten, en een blok rustig tonen of verbergen,
+  // zodat de inhoud eronder meeschuift in plaats van te springen. Bij "minder beweging" gaat alles direct.
+  const zachtVerloop = element => getComputedStyle(element).getPropertyValue('--ease').trim() || 'ease-out';
+  window.BES.sluitDialoog = dialoog => {
+    if (!dialoog || !dialoog.open || dialoog.classList.contains('is-sluitend')) return;
+    if (motion.matches) { dialoog.close(); return; }
+    dialoog.classList.add('is-sluitend');
+    window.setTimeout(() => { dialoog.classList.remove('is-sluitend'); if (dialoog.open) dialoog.close(); }, 200);
   };
-  // Op de hub: Free-accounts krijgen de pop-up met vergelijking vanzelf, hoogstens eens per drie dagen per toestel,
-  // en alleen als betalen aanstaat. hub.html roept dit aan.
-  window.BES.planReclame = async () => {
-    const sleutel = 'bes_plan_reclame';
-    let laatst = 0;
-    try { laatst = Number(window.localStorage.getItem(sleutel)) || 0; } catch {}
-    if (Date.now() - laatst < 3 * 864e5) return;
-    let proefGebruikt = false;
-    try {
-      if (!window.BES.plan || (window.BES.betalen && !(await window.BES.betalen()))) return;
-      const plan = await window.BES.plan();
-      if (!plan || !plan.ingelogd || plan.plan !== 'free' || document.querySelector('dialog[open]')) return;
-      proefGebruikt = Boolean(plan.proef_plus);
-    } catch { return; }
-    try { window.localStorage.setItem(sleutel, String(Date.now())); } catch {}
-    const reden = proefGebruikt
-      ? 'Haal meer uit je studietijd met onbeperkt simulaties en extra hulp van Comit.'
-      : 'Haal meer uit je studietijd. Probeer Plus een maand en kijk wat het je oplevert.';
-    window.BES.kiesPlan({ titel: 'Probeer Plus', reden, vergelijking: true });
+  const lopend = new WeakMap();
+  // Schuift een blok in hoogte en opacity van 'open' naar 'dicht' of andersom. Loopt er al een schuif,
+  // dan begint de nieuwe vanaf waar het blok nu is, zodat het niet eerst terugspringt.
+  const hoogteAnimatie = (element, van, naar, klaar) => {
+    const bezig = lopend.get(element);
+    let nu = null;
+    if (bezig) {
+      const st = getComputedStyle(element);
+      nu = { height: element.getBoundingClientRect().height + 'px', marginTop: st.marginTop, marginBottom: st.marginBottom, paddingTop: st.paddingTop, paddingBottom: st.paddingBottom, opacity: st.opacity };
+      bezig.cancel();
+    }
+    const stijl = getComputedStyle(element);
+    const marges = { marginTop: stijl.marginTop, marginBottom: stijl.marginBottom, paddingTop: stijl.paddingTop, paddingBottom: stijl.paddingBottom };
+    const dicht = { height: '0px', marginTop: '0px', marginBottom: '0px', paddingTop: '0px', paddingBottom: '0px', opacity: 0 };
+    const open = { height: element.getBoundingClientRect().height + 'px', ...marges, opacity: 1 };
+    element.style.overflow = 'hidden';
+    const animatie = element.animate([nu || (van === 'dicht' ? dicht : open), naar === 'dicht' ? dicht : open], { duration: 220, easing: zachtVerloop(element) });
+    animatie.sluit = naar === 'dicht';
+    lopend.set(element, animatie);
+    const opruimen = () => { if (lopend.get(element) !== animatie) return; lopend.delete(element); element.style.overflow = ''; klaar?.(); };
+    animatie.addEventListener('finish', opruimen);
+    return animatie;
   };
-  document.addEventListener('click', event => {
-    const link = event.target.closest && event.target.closest('a[data-kies-plan]');
-    if (!link || typeof HTMLDialogElement !== 'function') return;
-    event.preventDefault();
-    window.BES.kiesPlan({ reden: link.dataset.reden });
-  });
+  // Toon een verborgen blok (hidden weg) en laat het in hoogte openschuiven.
+  window.BES.toon = element => {
+    if (!element) return;
+    const sluit = lopend.get(element)?.sluit;
+    const wasVerborgen = sluit || element.hidden || !element.getClientRects().length;
+    element.hidden = false;
+    if (!wasVerborgen || motion.matches || !element.animate || !element.getClientRects().length) {
+      if (sluit) { lopend.get(element).cancel(); lopend.delete(element); element.style.overflow = ''; }
+      return;
+    }
+    hoogteAnimatie(element, 'dicht', 'open');
+  };
+  // Verberg een blok: eerst dichtschuiven en uitfaden, daarna hidden. klaar() draait na afloop (ook zonder beweging).
+  window.BES.verberg = (element, klaar) => {
+    if (!element) return;
+    if (element.hidden || motion.matches || !element.animate || !element.getClientRects().length) { element.hidden = true; klaar?.(); return; }
+    if (lopend.get(element)?.sluit) return;
+    hoogteAnimatie(element, 'open', 'dicht', () => { element.hidden = true; klaar?.(); });
+  };
+  // Wissel de inhoud van een blok rustig: kort uitfaden, verander() terwijl niets zichtbaar is, en weer infaden.
+  // Zo springt een kop of formulier dat van hoogte wisselt niet zichtbaar. Geeft een promise terug.
+  window.BES.wissel = async (element, verander) => {
+    if (!element || motion.matches || !element.animate) { verander(); return; }
+    const verloop = zachtVerloop(element);
+    // Nooit langer wachten dan 300ms: in een verborgen tab staan animaties stil.
+    const wacht = animatie => Promise.race([animatie.finished.catch(() => {}), new Promise(klaar => window.setTimeout(klaar, 300))]);
+    const uit = element.animate([{ opacity: 1, transform: 'none' }, { opacity: 0, transform: 'translateY(4px)' }], { duration: 120, easing: verloop, fill: 'forwards' });
+    await wacht(uit);
+    verander();
+    const terug = element.animate([{ opacity: 0, transform: 'translateY(4px)' }, { opacity: 1, transform: 'none' }], { duration: 200, easing: verloop });
+    uit.cancel();
+    await wacht(terug);
+  };
 
   const systemTheme = window.matchMedia('(prefers-color-scheme: dark)');
   const validTheme = value => value === 'licht' || value === 'donker';
@@ -204,7 +228,7 @@
     const meta = document.querySelector('meta[name="theme-color"]');
     if (meta) meta.content = dark ? '#0B0B0C' : '#FFFFFF';
     document.querySelectorAll('.thema-knop').forEach(button => {
-      button.setAttribute('aria-label', dark ? 'Lichte modus aan' : 'Donkere modus aan');
+      button.setAttribute('aria-label', 'Donkere modus');
       button.setAttribute('aria-pressed', String(dark));
     });
     if (remember) {
@@ -288,18 +312,28 @@
 
     if (!menuButton || !menu) return;
 
+    // Sluiten beweegt ook: is-sluitend speelt 180 ms de sluitanimatie (style.css), daarna gaat menu-open weg.
+    let sluitTimer = 0;
     const closeMenu = (restoreFocus = false) => {
-      const wasOpen = navigation.classList.contains('menu-open');
-      navigation.classList.remove('menu-open');
+      const wasOpen = menuButton.getAttribute('aria-expanded') === 'true';
       menuButton.setAttribute('aria-expanded', 'false');
+      window.clearTimeout(sluitTimer);
+      if (wasOpen && mobile.matches && !motion.matches && navigation.classList.contains('menu-open')) {
+        navigation.classList.add('is-sluitend');
+        sluitTimer = window.setTimeout(() => navigation.classList.remove('menu-open', 'is-sluitend'), 180);
+      } else {
+        navigation.classList.remove('menu-open', 'is-sluitend');
+      }
       if (wasOpen && restoreFocus && mobile.matches) menuButton.focus();
     };
 
     menuButton.addEventListener('click', () => {
       if (!mobile.matches) return;
-      const open = !navigation.classList.contains('menu-open');
-      navigation.classList.toggle('menu-open', open);
-      menuButton.setAttribute('aria-expanded', String(open));
+      if (menuButton.getAttribute('aria-expanded') === 'true') { closeMenu(); return; }
+      window.clearTimeout(sluitTimer);
+      navigation.classList.remove('is-sluitend');
+      navigation.classList.add('menu-open');
+      menuButton.setAttribute('aria-expanded', 'true');
     });
 
     menu.addEventListener('click', event => {
@@ -315,6 +349,8 @@
 
     document.addEventListener('click', event => {
       if (!navigation.contains(event.target)) closeMenu(menu.contains(document.activeElement));
+      // Het profielmenu en het navigatiemenu staan nooit tegelijk open.
+      else if (event.target.closest && event.target.closest('.profiel-knop')) closeMenu();
     });
 
     document.addEventListener('focusin', event => {
@@ -352,6 +388,19 @@
       element.querySelectorAll('a.terug').forEach(wrapBackArrow);
     };
 
+    // Terug naar de hub kan alleen met een account, want de hub zit achter de deur.
+    // Kom je van Insturen (?van=insturen), dan brengt Terug je daar terug, bij het verhaal.
+    // Op een open pagina zonder sessie gaat Terug naar de startpagina in plaats van naar het inlogscherm.
+    const terugDoel = doel => {
+      if (!/(^|\/)hub\.html$/.test(doel)) return doel;
+      const map = doel.slice(0, -'hub.html'.length);
+      let van = null;
+      try { van = new URLSearchParams(window.location.search).get('van'); } catch {}
+      if (van === 'insturen') return map + 'insturen/#verhaal';
+      if (window.BES_DEUR) return doel;
+      return heeftSessie ? doel : map + 'index.html';
+    };
+
     document.querySelectorAll('[data-terug]').forEach(element => {
       const link = element.tagName === 'A' ? element : document.createElement('a');
       if (link !== element) {
@@ -361,12 +410,39 @@
           }
         });
       }
-      link.href = element.dataset.terug;
+      link.href = terugDoel(element.dataset.terug);
       link.classList.add('terug');
       link.textContent = `\u2190 ${element.dataset.terugTekst || 'Terug'}`;
       wrapBackArrow(link);
       if (link !== element) element.replaceWith(link);
     });
+
+    // Insturen is een afgesloten route, ook voor wie de QR-code scant zonder account. Op Insturen onthouden we waar je was.
+    // Op de pagina's die je van daaruit opent (privacy, voorwaarden, Over mij, WhatsApp, inloggen, aanmelden) brengt Terug
+    // je daar terug. Zonder account gaan daar en op Insturen ook alle andere links naar de leersite (startpagina, hub, vakken)
+    // terug naar Insturen. Op elke andere pagina vervalt de route.
+    const insturenSleutel = 'bes_insturen_terug';
+    const pad = window.location.pathname;
+    const opInsturen = /\/insturen\/(index\.html|formulier\.html)?$/.test(pad);
+    const vanuitInsturen = /\/(privacy|voorwaarden|over-mij|whatsapp|inloggen|aanmelden|wachtwoord)\.html$/.test(pad);
+    let insturenTerug = null;
+    try {
+      if (opInsturen) window.sessionStorage.setItem(insturenSleutel, pad + window.location.search);
+      else if (vanuitInsturen) insturenTerug = window.sessionStorage.getItem(insturenSleutel);
+      else window.sessionStorage.removeItem(insturenSleutel);
+    } catch {}
+    if (insturenTerug && !/^\/insturen\/[^/]*$/.test(insturenTerug.split('?')[0])) insturenTerug = null;
+    if (insturenTerug) document.querySelectorAll('a.terug').forEach(link => { link.href = insturenTerug; });
+    if (!heeftSessie && (opInsturen || insturenTerug)) {
+      const naar = insturenTerug || pad.replace(/[^/]*$/, '') + window.location.search;
+      const toegestaan = /\/(insturen\/[^/]*|privacy\.html|voorwaarden\.html|over-mij\.html|whatsapp\.html|inloggen\.html|aanmelden\.html|wachtwoord\.html)$/;
+      document.querySelectorAll('a[href]').forEach(link => {
+        let doel;
+        try { doel = new URL(link.getAttribute('href'), window.location.href); } catch { return; }
+        if (doel.origin !== window.location.origin || doel.pathname === pad || toegestaan.test(doel.pathname)) return;
+        link.href = naar;
+      });
+    }
 
     wrapBackLinks(document.body);
     new MutationObserver(mutations => {
@@ -537,22 +613,45 @@
     const status = '[role="status"], [role="alert"], .kalender-daginfo';
     const opening = '#stap-1, .info-kaart, .crow';
     const running = new Map();
+    const leeg = new WeakMap();
     const start = () => {
+      // Onthoud welke meldingen nu leeg of verborgen zijn, zodat een melding die verschijnt ook in hoogte kan openen.
+      document.querySelectorAll(status).forEach(el => leeg.set(el, el.hidden || !el.textContent.trim()));
       document.removeEventListener('click', start, true);
       document.removeEventListener('input', start, true);
       new MutationObserver(records => {
         if (motion.matches) return;
         const targets = new Set();
+        const verschenen = new Set();
         records.forEach(record => {
           const element = record.target.nodeType === Node.ELEMENT_NODE ? record.target : record.target.parentElement;
           if (!element) return;
           const message = element.closest(status);
-          if (message) targets.add(message);
+          if (message) {
+            targets.add(message);
+            const wasLeeg = leeg.has(message) ? leeg.get(message) : (record.type === 'attributes' && record.oldValue !== null);
+            if (wasLeeg) verschenen.add(message);
+          }
           if (record.type === 'attributes' && element.matches(opening)) targets.add(element);
           record.addedNodes.forEach(node => { if (node.nodeType === Node.ELEMENT_NODE && node.matches('.crow')) targets.add(node); });
         });
         targets.forEach(element => {
-          if (!element.isConnected || !element.textContent.trim() || !element.getClientRects().length || !element.animate) return;
+          const zichtbaar = element.isConnected && !element.hidden && element.textContent.trim() && element.getClientRects().length;
+          leeg.set(element, !zichtbaar);
+          // BES.toon en BES.verberg animeren dit blok al zelf.
+          if (!zichtbaar || !element.animate || lopend.has(element)) return;
+          // Een melding die net verschijnt, schuift open in hoogte; een tekstwissel in een al zichtbare melding alleen fade.
+          if (verschenen.has(element) && getComputedStyle(element).position !== 'absolute' && getComputedStyle(element).display !== 'inline') {
+            running.get(element)?.cancel();
+            const r = element.getBoundingClientRect(); const st = getComputedStyle(element);
+            const animation = element.animate([
+              { opacity: 0, height: '0px', marginTop: '0px', marginBottom: '0px', paddingTop: '0px', paddingBottom: '0px', overflow: 'hidden' },
+              { opacity: 1, height: r.height + 'px', marginTop: st.marginTop, marginBottom: st.marginBottom, paddingTop: st.paddingTop, paddingBottom: st.paddingBottom, overflow: 'hidden' }
+            ], { duration: 220, easing: st.getPropertyValue('--ease').trim() });
+            running.set(element, animation);
+            animation.finished.catch(() => {}).finally(() => { if (running.get(element) === animation) running.delete(element); });
+            return;
+          }
           running.get(element)?.cancel();
           const shift = element.matches(opening) ? 'translateY(-4px)' : 'none';
           const animation = element.animate([{ opacity: 0, transform: shift }, { opacity: 1, transform: 'none' }], {
@@ -561,7 +660,7 @@
           running.set(element, animation);
           animation.finished.catch(() => {}).finally(() => { if (running.get(element) === animation) running.delete(element); });
         });
-      }).observe(main, { childList: true, characterData: true, subtree: true, attributes: true, attributeFilter: ['hidden'] });
+      }).observe(main, { childList: true, characterData: true, subtree: true, attributes: true, attributeFilter: ['hidden'], attributeOldValue: true });
     };
     document.addEventListener('click', start, true);
     document.addEventListener('input', start, true);

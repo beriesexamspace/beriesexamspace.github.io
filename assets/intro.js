@@ -1,8 +1,10 @@
 // Stap-voor-stap-intro: één kaart per stap met Volgende, Vorige en Overslaan.
-// Gebruik: BES.stappen(element, { soorten, kopniveau, overslaan, lus, laatsteTekst, bijKlaar })
-//   soorten      welke stappen: intro (alleen welkomstscherm), uitleg (ook op de hub), groep (WhatsApp), nieuw (Wat is nieuw)
+// Gebruik: BES.stappen(element, { soorten, kopniveau, overslaan, lus, laatsteTekst, bijKlaar, meten })
+//   soorten      welke stappen: uitleg (ook op de hub), groep (WhatsApp), nieuw (Wat is nieuw)
+//                De dia's 'vroeger en nu' over de oude site zijn weg (Berat, 04-11-2026): nieuwe mensen kenden die nooit.
 //   overslaan    true: knop Overslaan tonen (telt als gezien)
 //   lus          true: na de laatste stap weer naar de eerste (hub); anders knop laatsteTekst en bijKlaar()
+//   meten        true: anoniem tellen welke dia iemand ziet, overslaat of afmaakt (BES.meet, zie meten.js)
 window.BES = window.BES || {};
 
 (() => {
@@ -11,97 +13,25 @@ window.BES = window.BES || {};
   // De iPhone: eerste keer veert hij binnen (anim-pop), bij de volgende telefoon-stap blijft hij staan en wisselt alleen het scherm.
   const telefoon = (scherm, pop = true) => `<div class="tel${pop ? ' anim-pop' : ''}" style="--i:0">${STATUS}<div class="tel-scherm">${scherm}</div></div>`;
 
+  // Een getekend toestel wordt onderaan door de kaart afgesneden. Rijen die daar niet helemaal in beeld passen, worden onzichtbaar,
+  // zodat je nooit een halve regel of knop ziet (Berat, 04-11-2026). Gemeten zonder animaties (offsetTop), dus ook tijdens het inkomen.
+  const bovenIn = (el, ouder) => { let y = 0; for (let e = el; e && e !== ouder; e = e.offsetParent) y += e.offsetTop; return y; };
+  const pasSchermen = kaart => {
+    kaart.querySelectorAll('.tel').forEach(tel => {
+      const beeld = tel.closest('.stap-beeld');
+      if (!beeld || !beeld.clientHeight) return;
+      const kaartOnder = kaart.getBoundingClientRect().bottom - kaart.clientTop;
+      const beeldVak = beeld.getBoundingClientRect();
+      const zicht = Math.min(beeldVak.bottom, kaartOnder) - beeldVak.top - bovenIn(tel, beeld);
+      const rijen = Array.from(tel.querySelectorAll('.tel-scherm > *'));
+      rijen.forEach(rij => rij.classList.toggle('is-buiten', tel.clientTop + rij.offsetTop + rij.offsetHeight > zicht - 10));
+      // Een kopje zonder iets eronder valt ook weg.
+      const laatste = rijen.filter(rij => !rij.classList.contains('is-buiten')).at(-1);
+      if (laatste && laatste !== rijen.at(-1) && laatste.classList.contains('tel-kop')) laatste.classList.add('is-buiten');
+    });
+  };
+
   const STAPPEN = [
-    {
-      soort: 'intro',
-      naam: 'Welkom',
-      label: 'Welkom',
-      titel: "Berie's Exam Space is vernieuwd.",
-      tekst: 'Nieuwe stijl, een account dat je voortgang bewaart, en alle vakken van je jaar op één plek. In een paar stappen zie je wat er veranderd is en hoe het werkt.',
-      beeld: `
-        <div class="stap-merk">
-          <span class="stap-merk-b anim-pop" style="--i:1" aria-hidden="true">B</span>
-          <span class="stap-merk-naam anim" style="--i:4">Berie's Exam Space</span>
-          <span class="stap-merk-sub anim" style="--i:5">Duidelijk leren. Rustig groeien.</span>
-        </div>`
-    },
-    {
-      soort: 'intro',
-      naam: 'Oud naast nieuw: startpagina',
-      label: 'Oud naast nieuw · 1 van 3',
-      titel: 'De startpagina.',
-      tekst: 'Vroeger één lange lijst met links naar alle vakken. Nu een rustige start: je meldt je aan of logt in, en daarna is het jouw eigen space.',
-      beeld: `
-        <div class="oudnieuw is-foto">
-          <figure class="mini is-oud is-foto anim-links">
-            <span class="mini-label">Oud</span>
-            <img src="${BASIS}assets/intro/oud-start.png" width="480" height="640" alt="De oude startpagina: donker, met een lange lijst links naar de vakken" loading="lazy">
-          </figure>
-          <figure class="mini is-nieuw is-foto anim-rechts">
-            <span class="mini-label">Nieuw</span>
-            <img src="${BASIS}assets/intro/nieuw-start.png" width="480" height="640" alt="De nieuwe startpagina: licht en rustig, met Aanmelden en Log in" loading="lazy">
-          </figure>
-        </div>`
-    },
-    {
-      soort: 'intro',
-      naam: 'Oud naast nieuw: oefenen',
-      label: 'Oud naast nieuw · 2 van 3',
-      titel: 'Oefenen.',
-      tekst: 'Vroeger stond een vraag met a, b, c en d onder elkaar, met het antwoord eronder. Nu krijg je één vraag per scherm, je kiest, en je ziet meteen of het goed was, met uitleg.',
-      beeld: `
-        <div class="oudnieuw">
-          <div class="mini is-oud anim-links">
-            <span class="mini-label">Oud</span>
-            <span class="mini-oud-kop">Statistiek I</span>
-            <span class="mini-oud-vraag">Vraag 12. Welke maat hoort bij een ordinale schaal?</span>
-            <span class="mini-oud-optie">a) gemiddelde</span>
-            <span class="mini-oud-optie">b) mediaan</span>
-            <span class="mini-oud-optie">c) standaardafwijking</span>
-            <span class="mini-oud-optie">d) variantie</span>
-            <span class="mini-oud-link">Toon antwoord</span>
-            <span class="mini-oud-tekst">Antwoord: b</span>
-          </div>
-          <div class="mini is-nieuw anim-rechts">
-            <span class="mini-label">Nieuw</span>
-            <span class="tel-rij"><span>Vraag 12 van 20</span><span>Training</span></span>
-            <span class="tel-vraag">Welke maat hoort bij een ordinale schaal?</span>
-            <div class="tel-optie">Gemiddelde</div>
-            <div class="tel-optie is-goed">Mediaan ✓</div>
-            <div class="tel-optie">Standaardafwijking</div>
-            <div class="mini-uitleg">Goed. Bij een ordinale schaal kan je wel ordenen, maar niet rekenen met afstanden.</div>
-            <div class="tel-knop">Volgende →</div>
-          </div>
-        </div>`
-    },
-    {
-      soort: 'intro',
-      naam: 'Oud naast nieuw: hoofdstukken',
-      label: 'Oud naast nieuw · 3 van 3',
-      titel: 'Je hoofdstukken.',
-      tekst: 'De oude site was één lange pagina per vak. Nu kies je eerst je jaar en je vak, vink je hoofdstukken aan en oefen je in <strong>Training</strong> of <strong>Simulatie</strong>. Je voortgang blijft bewaard.',
-      beeld: `
-        <div class="oudnieuw">
-          <div class="mini is-oud anim-links">
-            <span class="mini-label">Oud</span>
-            <span class="mini-oud-kop">Berie's Exam Space</span>
-            <span class="mini-oud-link">Statistiek I</span>
-            <span class="mini-oud-link">Inleiding pedagogiek</span>
-            <span class="mini-oud-vraag">Vraag 12. Welke maat hoort bij een ordinale schaal?</span>
-            <span class="mini-oud-optie">a) gemiddelde</span>
-            <span class="mini-oud-optie">b) mediaan</span>
-            <span class="mini-oud-optie">c) standaardafwijking</span>
-          </div>
-          <div class="mini is-nieuw anim-rechts">
-            <span class="mini-label">Nieuw</span>
-            <span class="tel-kop">Kies je hoofdstukken</span>
-            <div class="tel-kaart"><span class="tel-vink is-aan">✓</span>Meetschalen</div>
-            <div class="tel-kaart"><span class="tel-vink is-aan">✓</span>Centrummaten</div>
-            <div class="tel-kaart"><span class="tel-vink"></span>Spreiding</div>
-            <div class="tel-knop">Start →</div>
-          </div>
-        </div>`
-    },
     {
       soort: 'uitleg',
       naam: 'Vakken',
@@ -229,7 +159,7 @@ window.BES = window.BES || {};
           <span class="stap-groep-icoon anim-pop" style="--i:1">B</span>
           <span class="stap-groep-naam anim" style="--i:3">Berie's Exam Space</span>
           <span class="stap-groep-sub anim" style="--i:4">WhatsApp-groep · alleen updates</span>
-          <span class="stap-groep-sub anim" style="--i:5">Bijna 200 studenten</span>
+          <span class="stap-groep-sub anim" style="--i:5">Meer dan 300 studenten</span>
         </div>`
     },
     {
@@ -248,7 +178,7 @@ window.BES = window.BES || {};
   ];
 
   window.BES.stappen = (root, opties = {}) => {
-    const soorten = opties.soorten || ['intro', 'uitleg', 'groep', 'nieuw'];
+    const soorten = opties.soorten || ['uitleg', 'groep', 'nieuw'];
     const stappen = STAPPEN.filter(stap => soorten.includes(stap.soort));
     const kop = opties.kopniveau || 'h3';
     const rustig = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -302,6 +232,74 @@ window.BES = window.BES || {};
       });
     };
 
+    // Op de laatste stap (niet in de lus) schuift de knop op een breed scherm naar het midden. Met de losse eigenschappen
+    // translate en scale, zodat hover en indrukken (transform) blijven werken; op een telefoon blijft hij naast Vorige staan.
+    const breed = window.matchMedia('(min-width: 768px)');
+    const zetMidden = () => {
+      if (root.classList.contains('is-laatste') && breed.matches) {
+        const bediening = root.querySelector('.stap-bediening');
+        const dx = bediening.clientWidth / 2 - (volgende.offsetLeft + volgende.offsetWidth / 2);
+        volgende.style.translate = `${Math.round(dx)}px`;
+        volgende.style.scale = '1.06';
+      } else {
+        volgende.style.translate = '';
+        volgende.style.scale = '';
+      }
+    };
+    window.addEventListener('resize', zetMidden);
+
+    // Op een telefoon staat het toestel onder de tekst. Het tekstvak is bij de telefoon-stappen even hoog (de hoogste tekst),
+    // zodat het toestel bij Volgende niet verspringt. Gemeten in een onzichtbaar vak, even breed als de kaart.
+    const meet = document.createElement('div');
+    meet.className = 'stap-kaart stap-meet';
+    meet.setAttribute('aria-hidden', 'true');
+    root.append(meet);
+    let tekstHoogte = 0;
+    const meetTeksten = () => {
+      tekstHoogte = 0;
+      if (breed.matches || !kaart.offsetWidth) return;
+      meet.style.width = `${kaart.offsetWidth}px`;
+      meet.innerHTML = stappen.filter(stap => stap.telefoon).map(tekstVan).join('');
+      tekstHoogte = Math.max(0, ...Array.from(meet.children, el => el.offsetHeight));
+      meet.innerHTML = '';
+    };
+    // Wat is nieuw: zoveel als er helemaal in het beeldvak past. Eerst minder updates, dan zonder knop, dan alleen de kop en de knop.
+    const pasNieuws = () => {
+      const blok = kaart.querySelector('.mini-nieuw');
+      const beeld = blok?.closest('.stap-beeld');
+      if (!blok || !beeld || !beeld.clientHeight) return;
+      const lijst = blok.querySelector('.stap-updates');
+      const knop = blok.querySelector('.mini-nieuw-knop');
+      const rijen = lijst ? Array.from(lijst.children) : [];
+      const zet = (aantal, metKnop) => {
+        rijen.forEach((rij, n) => { rij.style.display = n < aantal ? '' : 'none'; });
+        if (lijst) lijst.style.display = aantal ? '' : 'none';
+        if (knop) knop.style.display = metKnop ? '' : 'none';
+      };
+      const past = () => { const boven = bovenIn(blok, beeld); return boven >= 0 && boven + blok.offsetHeight <= beeld.clientHeight - 8; };
+      const standen = rijen.map((rij, n) => [rijen.length - n, true]).concat([[1, false], [0, true], [0, false]]);
+      for (const [aantal, metKnop] of standen) { zet(aantal, metKnop); if (past()) return; }
+    };
+    const pasAan = () => {
+      const tekst = kaart.querySelector('.stap-tekst');
+      if (tekst) tekst.style.minHeight = tekstHoogte && stappen[actief]?.telefoon ? `${tekstHoogte}px` : '';
+      pasNieuws();
+      pasSchermen(kaart);
+    };
+    // Opnieuw passen als de kaart van grootte verandert (ander venster, telefoon gedraaid, of de pagina werd pas later zichtbaar).
+    let pasRaf = 0;
+    let gemetenBreedte = 0;
+    const opnieuw = () => {
+      window.cancelAnimationFrame(pasRaf);
+      pasRaf = window.requestAnimationFrame(() => {
+        if (kaart.offsetWidth !== gemetenBreedte) { gemetenBreedte = kaart.offsetWidth; meetTeksten(); }
+        pasAan();
+      });
+    };
+    if ('ResizeObserver' in window) new ResizeObserver(opnieuw).observe(kaart);
+    else window.addEventListener('resize', opnieuw);
+    document.fonts?.ready.then(() => { gemetenBreedte = 0; opnieuw(); });
+
     const toon = index => {
       actief = index;
       const stap = stappen[index];
@@ -325,17 +323,15 @@ window.BES = window.BES || {};
       vorige.classList.toggle('is-onzichtbaar', index === 0);
       vorige.disabled = index === 0;
       volgende.textContent = laatste ? (opties.lus ? 'Opnieuw' : laatsteTekst) : 'Volgende →';
-      if (overslaan) overslaan.hidden = !opties.overslaan || laatste;
-      // Op de laatste stap (niet in de lus) schuift de knop naar het midden.
-      const bediening = root.querySelector('.stap-bediening');
-      if (laatste && !opties.lus) {
-        const dx = bediening.clientWidth / 2 - (volgende.offsetLeft + volgende.offsetWidth / 2);
-        volgende.style.transform = `translateX(${Math.round(dx)}px) scale(1.06)`;
-        root.classList.add('is-laatste');
-      } else {
-        volgende.style.transform = '';
-        root.classList.remove('is-laatste');
+      // Op de laatste stap blijft Overslaan staan maar onzichtbaar (zoals Vorige), zodat de stippenrij niet verspringt.
+      if (overslaan && opties.overslaan) {
+        overslaan.classList.toggle('is-onzichtbaar', laatste);
+        overslaan.disabled = laatste;
       }
+      root.classList.toggle('is-laatste', laatste && !opties.lus);
+      if (opties.meten) window.BES.meet?.('kennismaking_dia', { dia: index + 1, van: stappen.length, naam: stap.naam });
+      zetMidden();
+      pasAan();
     };
 
     const gaNaar = (index, richting) => {
@@ -357,13 +353,19 @@ window.BES = window.BES || {};
     volgende.addEventListener('click', () => {
       if (actief === stappen.length - 1) {
         if (opties.lus) gaNaar(0, 1);
-        else klaar();
+        else {
+          if (opties.meten) window.BES.meet?.('kennismaking_klaar', { van: stappen.length });
+          klaar();
+        }
         return;
       }
       gaNaar(actief + 1, 1);
     });
     vorige.addEventListener('click', () => gaNaar(actief - 1, -1));
-    overslaan?.addEventListener('click', klaar);
+    overslaan?.addEventListener('click', () => {
+      if (opties.meten) window.BES.meet?.('kennismaking_overgeslagen', { dia: actief + 1, van: stappen.length });
+      klaar();
+    });
 
     kaart.addEventListener('keydown', event => {
       if (event.key === 'ArrowRight' && actief < stappen.length - 1) { event.preventDefault(); gaNaar(actief + 1, 1); }
@@ -384,18 +386,21 @@ window.BES = window.BES || {};
       if (dx > 0 && actief > 0) gaNaar(actief - 1, -1);
     }, { passive: true });
 
+    gemetenBreedte = kaart.offsetWidth;
+    meetTeksten();
     toon(0);
     return { gaNaar: index => gaNaar(index, index >= actief ? 1 : -1), get stap() { return actief; } };
   };
 
   // Carrousel zoals bij Apple: schuift vanzelf door, balkjes die zich vullen, pauzeknop, swipen. Voor Hoe werkt het op de hub.
-  // Gebruik: BES.carrousel(element, { soorten, kopniveau })
+  // Gebruik: BES.carrousel(element, { soorten, kopniveau, stappen })
+  //   stappen      eigen dia's (zelfde vorm als STAPPEN) in plaats van de vaste; zo gebruikt /insturen/ dezelfde carrousel
   const PAUZE_ICOON = '<svg class="carrousel-ico-pauze" viewBox="0 0 14 14" aria-hidden="true"><rect x="2" y="1" width="3.5" height="12" rx="1"/><rect x="8.5" y="1" width="3.5" height="12" rx="1"/></svg>'
     + '<svg class="carrousel-ico-speel" viewBox="0 0 14 14" aria-hidden="true"><path d="M3 1.5v11a.8.8 0 0 0 1.2.7l9-5.5a.8.8 0 0 0 0-1.4l-9-5.5A.8.8 0 0 0 3 1.5z"/></svg>';
 
   window.BES.carrousel = (root, opties = {}) => {
     const soorten = opties.soorten || ['uitleg'];
-    const stappen = STAPPEN.filter(stap => soorten.includes(stap.soort));
+    const stappen = opties.stappen || STAPPEN.filter(stap => soorten.includes(stap.soort));
     const kop = opties.kopniveau || 'h3';
     const naam = root.id || 'carrousel';
     const rustig = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -406,29 +411,39 @@ window.BES = window.BES || {};
     root.innerHTML = `
       <div class="carrousel-baan" tabindex="0">
         ${stappen.map((stap, n) => `
-          <article class="stap-kaart is-dia is-${stap.soort}" id="${naam}-dia-${n + 1}" aria-roledescription="dia" aria-label="${n + 1} van ${stappen.length}: ${stap.naam}">
+          <div class="stap-kaart is-dia is-${stap.soort}" id="${naam}-dia-${n + 1}" role="tabpanel" aria-roledescription="dia" aria-label="${n + 1} van ${stappen.length}: ${stap.naam}">
             <div class="stap-tekst">
               <p class="stap-label">${stap.label}</p>
               <${kop} class="stap-titel">${stap.titel}</${kop}>
               <p class="stap-uitleg">${stap.tekst}</p>
             </div>
             <div class="stap-beeld" aria-hidden="true">${stap.telefoon ? telefoon(stap.scherm, false) : stap.beeld}</div>
-          </article>`).join('')}
+          </div>`).join('')}
       </div>
       <div class="carrousel-bediening">
         <div class="carrousel-stippen" role="tablist" aria-label="Kies een stap">
           ${stappen.map((stap, n) => `<button class="carrousel-stip" type="button" role="tab" aria-selected="${n === 0}" aria-controls="${naam}-dia-${n + 1}" aria-label="${stap.naam}"${n ? ' tabindex="-1"' : ''}><i></i></button>`).join('')}
         </div>
-        <button class="carrousel-pauze" type="button" aria-pressed="false" aria-label="Pauzeren">${PAUZE_ICOON}</button>
+        <button class="carrousel-pauze" type="button" aria-label="Pauzeren">${PAUZE_ICOON}</button>
       </div>`;
 
     const baan = root.querySelector('.carrousel-baan');
     const kaarten = Array.from(baan.querySelectorAll('.stap-kaart'));
+    // Rijen in de getekende toestellen die niet helemaal in beeld passen, verbergen (ook als de dia's van grootte veranderen).
+    if ('ResizeObserver' in window) {
+      const waarnemer = new ResizeObserver(entries => entries.forEach(entry => pasSchermen(entry.target)));
+      kaarten.forEach(kaart => waarnemer.observe(kaart));
+    } else {
+      kaarten.forEach(pasSchermen);
+      window.addEventListener('resize', () => kaarten.forEach(pasSchermen));
+    }
+    document.fonts?.ready.then(() => kaarten.forEach(pasSchermen));
     const stippen = Array.from(root.querySelectorAll('.carrousel-stip'));
     const pauzeKnop = root.querySelector('.carrousel-pauze');
     let actief = 0;
     let gepauzeerd = rustig;
-    let inBeeld = true;
+    // Pas doorschuiven als de carrousel in beeld is; zonder IntersectionObserver meteen.
+    let inBeeld = !('IntersectionObserver' in window);
     let timer = 0;
     let settleTimer = 0;
 
@@ -467,10 +482,13 @@ window.BES = window.BES || {};
     const gaNaar = index => {
       const doel = (index + kaarten.length) % kaarten.length;
       const kaart = kaarten[doel];
+      // Na de laatste dia (of voor de eerste) springt de baan in één keer en komt zacht in beeld, in plaats van langs alle dia's terug te scrollen.
+      const omloop = doel !== index;
       eersteRonde = false;
       window.clearTimeout(timer);
       if (Math.abs(baan.scrollLeft - positieVan(kaart)) < 2) { zetActief(doel); herstartVul(); planVolgende(); return; }
-      baan.scrollTo({ left: positieVan(kaart), behavior: rustig ? 'auto' : 'smooth' });
+      baan.scrollTo({ left: positieVan(kaart), behavior: rustig || omloop ? 'auto' : 'smooth' });
+      if (omloop && !rustig && baan.animate) baan.animate([{ opacity: 0 }, { opacity: 1 }], { duration: 250, easing: getComputedStyle(baan).getPropertyValue('--ease').trim() || 'ease-out' });
     };
     const dichtstbij = () => {
       const midden = baan.scrollLeft + baan.clientWidth / 2;
@@ -486,6 +504,10 @@ window.BES = window.BES || {};
     baan.addEventListener('scroll', () => {
       window.clearTimeout(timer);
       window.clearTimeout(settleTimer);
+      // Staat een andere dia voor meer dan de helft in beeld, dan wordt die meteen actief en beginnen zijn animaties. Pas na het
+      // scrollen starten zou de al zichtbare dia laten verdwijnen en opnieuw laten komen.
+      const naast = dichtstbij();
+      if (naast !== actief) zetActief(naast);
       settleTimer = window.setTimeout(() => { zetActief(dichtstbij()); herstartVul(); planVolgende(); }, 120);
     }, { passive: true });
     baan.addEventListener('pointerdown', () => window.clearTimeout(timer));
@@ -506,7 +528,6 @@ window.BES = window.BES || {};
     const zetPauze = waarde => {
       gepauzeerd = waarde;
       root.classList.toggle('is-gepauzeerd', waarde);
-      pauzeKnop.setAttribute('aria-pressed', String(waarde));
       pauzeKnop.setAttribute('aria-label', waarde ? 'Afspelen' : 'Pauzeren');
       if (waarde) window.clearTimeout(timer);
       else { herstartVul(); planVolgende(); }
@@ -522,7 +543,11 @@ window.BES = window.BES || {};
         if (zichtbaar === inBeeld) return;
         inBeeld = zichtbaar;
         if (!zichtbaar) window.clearTimeout(timer);
-        else if (!gepauzeerd) { herstartVul(); planVolgende(); }
+        else {
+          // Komt de carrousel (weer) in beeld, dan speelt de dia opnieuw, zodat niemand een afgelopen animatie ziet.
+          speelAnimaties(kaarten[actief]);
+          if (!gepauzeerd) { herstartVul(); planVolgende(); }
+        }
       }, { threshold: .4 }).observe(root);
     }
     window.addEventListener('resize', () => {

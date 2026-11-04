@@ -31,10 +31,12 @@ window.BES = window.BES || {};
       if (!user || !auth.client) return { ...leeg };
       try {
         const { data, error } = await auth.client.rpc('mijn_abonnement');
-        if (error || !data) return { ...leeg, ingelogd: true };
+        if (error || !data) { belofte = null; return { ...leeg, ingelogd: true, fout: true }; }
         return gelijkTrekken({ ...leeg, ...data, ingelogd: true });
       } catch {
-        return { ...leeg, ingelogd: true };
+        // Een mislukte aanvraag niet onthouden: de volgende aanroep probeert opnieuw. fout: true laat een pagina dat melden.
+        belofte = null;
+        return { ...leeg, ingelogd: true, fout: true };
       }
     })();
     return belofte;
@@ -71,7 +73,7 @@ window.BES = window.BES || {};
   // met in .fout de Nederlandse melding van de functie (leeg als er geen melding was).
   BES.mollie = async (body) => {
     const client = BES.auth && BES.auth.client;
-    const fout = (tekst) => Object.assign(new Error(tekst || 'mollie'), { fout: tekst || '' });
+    const fout = (tekst, reden) => Object.assign(new Error(tekst || 'mollie'), { fout: tekst || '', reden: reden || '' });
     if (!client) throw fout('');
     let antwoord;
     try {
@@ -83,14 +85,16 @@ window.BES = window.BES || {};
     if (error) {
       // Bij status 4xx of 5xx zit het antwoord van de functie in error.context (een Response).
       let tekst = '';
+      let reden = '';
       try {
         const inhoud = error.context && typeof error.context.json === 'function' ? await error.context.json() : null;
         if (inhoud && typeof inhoud.fout === 'string') tekst = inhoud.fout;
+        if (inhoud && typeof inhoud.reden === 'string') reden = inhoud.reden;
       } catch {}
-      throw fout(tekst);
+      throw fout(tekst, reden);
     }
     if (!data || typeof data !== 'object') throw fout('');
-    if (typeof data.fout === 'string') throw fout(data.fout);
+    if (typeof data.fout === 'string') throw fout(data.fout, data.reden);
     return data;
   };
 

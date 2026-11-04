@@ -285,9 +285,47 @@
       .finally(() => { completingName = false; });
   }
 
+  let savingChoice = false;
+  // De keuze op de kaart (kaart.js zet bes_keuze) komt bij het account (tabel studiekeuze), maar alleen na aanmelden of
+  // inloggen in dit tabblad: dan koppelt bindMapChoice de keuze aan dat account (bes_keuze_voor). Een inlog in een ander
+  // tabblad komt hier ook binnen; zonder die koppeling zou een oude keuze uit dit tabblad bij dat andere account belanden.
+  // Heeft het account al een keuze, dan blijft die staan: wisselen van richting gebeurt bewust, niet via een oude kaartkeuze.
+  const forgetMapChoice = () => { try { window.sessionStorage.removeItem('bes_keuze'); window.sessionStorage.removeItem('bes_keuze_voor'); } catch {} };
+  function bindMapChoice(user) {
+    if (!user?.id) return;
+    try {
+      if (!window.sessionStorage.getItem('bes_keuze')) return;
+      window.sessionStorage.setItem('bes_keuze_voor', user.id);
+    } catch { return; }
+    saveMapChoice(user);
+  }
+  // Uitgelogd (hier of in een ander tabblad): een keuze die al aan dat account gekoppeld was, hoort bij niemand meer.
+  function dropBoundMapChoice() {
+    try { if (window.sessionStorage.getItem('bes_keuze_voor')) forgetMapChoice(); } catch {}
+  }
+  function saveMapChoice(user) {
+    if (!user || savingChoice || logoutInProgress || !client) return;
+    let keuze = null;
+    try {
+      if (window.sessionStorage.getItem('bes_keuze_voor') !== user.id) return;
+      keuze = JSON.parse(window.sessionStorage.getItem('bes_keuze') || 'null');
+    } catch { forgetMapChoice(); return; }
+    // Dezelfde regels als de tabel: kleine letters, cijfers en streepjes, en de richting begint met de school (vub-psychologie).
+    const { school, richting } = keuze && typeof keuze === 'object' ? keuze : {};
+    const id = /^[a-z0-9]+(-[a-z0-9]+)*$/;
+    if (typeof school !== 'string' || typeof richting !== 'string' || school.length > 40 || richting.length > 80
+      || !id.test(school) || !id.test(richting) || !richting.startsWith(school + '-')) { forgetMapChoice(); return; }
+    savingChoice = true;
+    client.from('studiekeuze').insert({ school, richting })
+      // 23505: dit account heeft al een keuze. Bij een andere fout (geen verbinding) volgt een nieuwe poging op de volgende pagina.
+      .then(({ error }) => { if (!error || error.code === '23505') forgetMapChoice(); }, () => {})
+      .finally(() => { savingChoice = false; });
+  }
+
   function setUser(user, clearGuestName = false) {
     currentUser = user || null;
     if (currentUser) completeNameFromProvider(currentUser);
+    if (currentUser) saveMapChoice(currentUser);
     if (currentUser) {
       const name = nameDetails(currentUser).aanspreeknaam;
       if (name) BES.naamOpslaan?.(name);
@@ -297,6 +335,8 @@
     }
     window.clearTimeout(renderTimer);
     renderTimer = window.setTimeout(() => {
+      // Zonder account toont de balk alleen Insturen (zie style.css). Pas hier is zeker of er een account is.
+      document.documentElement.classList.toggle('zonder-account', !currentUser);
       renderAccount();
       window.dispatchEvent(new CustomEvent('bes:auth', { detail: { user: currentUser, uitloggen: logoutInProgress } }));
     }, 0);
@@ -327,8 +367,14 @@
       let waarde = '';
       try { waarde = new URLSearchParams(window.location.search).get('terug') || window.sessionStorage.getItem('bes_terug') || ''; } catch {}
       try { window.sessionStorage.removeItem('bes_terug'); } catch {}
-      // alleen eigen relatieve paden, nooit een andere site
-      if (!waarde || /^[a-z]+:|^\/\/|^\//i.test(waarde) || waarde.includes('..')) return pagePrefix + 'hub.html';
+      // Alleen eigen relatieve paden, nooit een andere site of een javascript:-link.
+      // Geen witruimte, stuurtekens of backslash: de browser haalt tabs uit een link ("java\tscript:") en leest \ als /.
+      const hub = pagePrefix + 'hub.html';
+      if (!waarde || /[\s\\\u0000-\u001f\u007f]/.test(waarde) || /^[a-z][a-z0-9+.-]*:|^\//i.test(waarde) || waarde.includes('..')) return hub;
+      // Laatste controle: het doel moet op deze site liggen.
+      try {
+        if (new URL(pagePrefix + waarde, window.location.href).origin !== window.location.origin) return hub;
+      } catch { return hub; }
       return pagePrefix + waarde;
     },
     get versieGezien() { return Number(currentUser?.user_metadata?.versie_gezien) || 0; },
@@ -365,6 +411,7 @@
       if (data?.user?.identities?.length === 0) throw failure('duplicate');
       if (!data?.session || !data?.user) throw failure('confirmation_required');
       setUser(data.user);
+      bindMapChoice(data.user);
       return data.user;
     },
 
@@ -389,6 +436,7 @@
       if (!data?.session || !data?.user) throw failure('invalid_credentials');
       recoveryUserId = null;
       setUser(data.user);
+      bindMapChoice(data.user);
       return data.user;
     },
 
@@ -500,6 +548,7 @@
         if (event === 'USER_UPDATED' && (logoutInProgress || !currentUser || session?.user?.id !== currentUser.id)) return;
         if (event === 'PASSWORD_RECOVERY') recoveryUserId = session?.user?.id || null;
         if (event === 'SIGNED_OUT' || !session || (recoveryUserId && session.user?.id !== recoveryUserId)) recoveryUserId = null;
+        if (event === 'SIGNED_OUT') dropBoundMapChoice();
         setUser(session?.user, event === 'SIGNED_OUT');
       });
       auth.gereed = (async () => {
@@ -536,10 +585,15 @@
         toegang = !error && data === true;
       }
     } catch {}
-    if (toegang) document.documentElement.classList.remove('deur-check');
-    else window.location.replace(window.BES_DEUR.prefix + 'gesloten.html');
+    if (toegang) {
+      // deur-open laat de pagina rustig infaden in plaats van in één keer te verschijnen (style.css).
+      document.documentElement.classList.add('deur-open');
+      document.documentElement.classList.remove('deur-check');
+    } else window.location.replace(window.BES_DEUR.prefix + 'gesloten.html');
   };
   auth.gereed.then(openDeur, openDeur);
+  // Terug van Google in dit tabblad: een keuze op de kaart hoort bij het account dat hier net inlogde.
+  if (googleCallback && !googleError) auth.gereed.then(bindMapChoice, () => {});
 
   const initializeView = () => {
     renderAccount();

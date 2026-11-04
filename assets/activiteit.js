@@ -33,11 +33,14 @@
   let lastSync = 0;
   let month = new Date(new Date().getFullYear(), new Date().getMonth(), 1);
   let monthTitle;
+  let previousButton;
   let nextButton;
   let grid;
   let details;
   let activeDay = '';
   let renderStamp = '';
+  // Tot de eerste auth-uitslag is de kalender neutraal ("laden"), zodat hij niet eerst "Log in" en stippelranden toont.
+  let userKnown = !BES.auth;
 
   try {
     const test = PREFIX + 'controle';
@@ -265,6 +268,7 @@
     const controls = create('div', 'kalender-bediening');
     const previous = create('button', 'kalender-maandknop', '←');
     previous.type = 'button';
+    previousButton = previous;
     previous.setAttribute('aria-label', 'Vorige maand');
     monthTitle = create('h3', 'kalender-maand');
     monthTitle.id = 'kalender-maand';
@@ -280,6 +284,10 @@
       activeDay = '';
       renderStamp = '';
       render();
+      // De nieuwe maand fadet kort in in plaats van dat de dagen ineens wisselen.
+      if (grid.animate && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        grid.animate([{ opacity: 0 }, { opacity: 1 }], { duration: 200, easing: getComputedStyle(grid).getPropertyValue('--ease').trim() || 'ease-out' });
+      }
     };
     previous.addEventListener('click', () => move(-1));
     nextButton.addEventListener('click', () => move(1));
@@ -309,7 +317,7 @@
   function render() {
     if (!mount || !grid) return;
     if (statusNode) {
-      statusNode.textContent = !owner ? 'Log in om je eigen studiekalender te bekijken.' : localFailure ? 'Lokale opslag is niet beschikbaar. Je activiteit wordt in deze browser niet gemeten.' : !available ? 'In deze browser kunnen we je leertijd niet betrouwbaar meten. Er wordt hier geen activiteit opgeslagen.' : remoteState === 'account' ? 'Je activiteit is gekoppeld aan je account. Nieuwe meetgegevens worden regelmatig opgeslagen.' : remoteState === 'inrichting' ? 'Opgeslagen in deze browser. Synchronisatie met je account is nog niet ingeschakeld.' : remoteState === 'laden' ? 'Je eigen activiteit wordt geladen…' : 'Opgeslagen in deze browser. Synchroniseren met je account is nu niet gelukt.';
+      statusNode.textContent = !userKnown ? 'Je studiekalender wordt geladen…' : !owner ? 'Log in om je eigen studiekalender te bekijken.' : localFailure ? 'Lokale opslag is niet beschikbaar. Je activiteit wordt in deze browser niet gemeten.' : !available ? 'In deze browser kunnen we je leertijd niet betrouwbaar meten. Er wordt hier geen activiteit opgeslagen.' : remoteState === 'account' ? 'Je activiteit is gekoppeld aan je account. Nieuwe meetgegevens worden regelmatig opgeslagen.' : remoteState === 'inrichting' ? 'Opgeslagen in deze browser. Synchronisatie met je account is nog niet ingeschakeld.' : remoteState === 'laden' ? 'Je eigen activiteit wordt geladen…' : 'Opgeslagen in deze browser. Synchroniseren met je account is nu niet gelukt.';
     }
     const days = totals();
     const today = new Date();
@@ -319,6 +327,8 @@
     renderStamp = stamp;
     monthTitle.textContent = month.toLocaleDateString('nl-NL', { month: 'long', year: 'numeric' });
     nextButton.disabled = month.getFullYear() === today.getFullYear() && month.getMonth() === today.getMonth();
+    // Een uitgeschakelde knop houdt geen focus: die gaat dan naar Vorige maand, zodat het toetsenbord niet vastloopt.
+    if (nextButton.disabled && document.activeElement === nextButton) previousButton?.focus({ preventScroll: true });
     const focusedKey = grid.contains(document.activeElement) ? document.activeElement.dataset.dag : null;
     grid.replaceChildren();
     const offset = (month.getDay() + 6) % 7;
@@ -331,7 +341,7 @@
       button.type = 'button';
       button.dataset.dag = key;
       button.dataset.intensiteit = !day?.leertijd_ms ? 0 : day.leertijd_ms < 900000 ? 1 : day.leertijd_ms < 1800000 ? 2 : day.leertijd_ms < 3600000 ? 3 : 4;
-      button.classList.toggle('is-onbekend', !day && key <= dayKey(today));
+      button.classList.toggle('is-onbekend', userKnown && !day && key <= dayKey(today));
       button.classList.toggle('is-toekomst', key > dayKey(today));
       button.setAttribute('aria-label', description(key, days));
       button.setAttribute('aria-pressed', String(activeDay === key));
@@ -348,7 +358,9 @@
 
   function setUser(user) {
     const next = typeof user?.id === 'string' && uuidPattern.test(user.id) ? user.id : null;
-    if (next === owner) return;
+    const firstAnswer = !userKnown;
+    userKnown = true;
+    if (next === owner && !firstAnswer) return;
     revision += 1;
     owner = next;
     snapshot = next ? read(next) : { dagen: {}, elders: [] };
@@ -365,13 +377,14 @@
 
   buildCalendar();
   render();
-  ['pointerdown', 'keydown', 'scroll', 'touchstart'].forEach(name => window.addEventListener(name, activity, { passive: true }));
+  ['pointerdown', 'keydown'].forEach(name => window.addEventListener(name, activity, { passive: true }));
+  // Bewegen, scrollen en aanraken tellen hoogstens één keer per seconde (elke melding doet een meting en een render).
   let pointerTime = 0;
-  window.addEventListener('pointermove', () => {
+  ['pointermove', 'scroll', 'touchstart'].forEach(name => window.addEventListener(name, () => {
     if (Date.now() - pointerTime < 1000) return;
     pointerTime = Date.now();
     activity();
-  }, { passive: true });
+  }, { passive: true }));
   window.addEventListener('focus', activity);
   window.addEventListener('blur', () => { sample(); previousLearning = false; });
   document.addEventListener('visibilitychange', () => {

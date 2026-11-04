@@ -6,7 +6,7 @@ html[data-theme="dark"] .stappen { --tel-rand: #1D1D1F; --tel-glans: rgba(255,25
 .stap-boven { display: flex; align-items: center; justify-content: space-between; gap: 12px; min-height: 28px; padding: 0 4px; }
 .stap-teller { color: var(--ink-soft); font-size: .875rem; font-variant-numeric: tabular-nums; }
 .stap-stippen { display: flex; gap: 6px; }
-.stap-stippen i { width: 6px; height: 6px; border-radius: 3px; background: var(--ink); opacity: .2; transition: opacity 200ms var(--ease); }
+.stap-stippen i { width: 6px; height: 6px; border-radius: 3px; background: var(--ink); opacity: .2; transition: opacity 200ms var(--ease), width 220ms var(--ease); }
 .stap-stippen i.is-actief { width: 18px; opacity: .8; }
 .stap-overslaan, .stap-vorige { border: 0; background: none; color: var(--ink-soft); font: inherit; cursor: pointer; border-radius: 10px; transition: color 180ms var(--ease), background-color 180ms var(--ease), box-shadow 180ms var(--ease), transform 180ms var(--ease); }
 .stap-overslaan { padding: 6px 10px; margin: -6px -10px; font-size: .875rem; }
@@ -34,12 +34,17 @@ html[data-theme="dark"] .stappen { --tel-rand: #1D1D1F; --tel-glans: rgba(255,25
 .stap-uitleg { margin: 4px 0 0; max-width: 34rem; color: var(--ink-soft); font-size: 1.0625rem; line-height: 1.6; }
 .stap-uitleg strong { color: var(--ink); font-weight: 600; }
 .stap-beeld { position: relative; display: flex; align-items: flex-end; justify-content: center; padding: 48px 40px 0; background: linear-gradient(180deg, var(--surface) 0%, var(--card) 100%); }
+/* Het grote toestel staat bovenaan het beeldvak: het schuift nooit over de tekst en staat bij elke stap op dezelfde plek.
+   Wat onderaan niet helemaal past, valt weg (zie pasSchermen in intro.js). */
+.stappen .stap-beeld:has(> .tel) { align-items: flex-start; }
+/* Onzichtbaar meetvak voor de hoogte van de teksten (zie meetTeksten in intro.js). */
+.stap-meet { position: absolute; top: 0; left: 0; display: block; min-height: 0; height: auto; visibility: hidden; pointer-events: none; box-shadow: none; }
 /* Donkere modus: het beeldvak iets grijzer zodat de zwarte rand van de iPhone en de laptop zichtbaar blijft. */
 html[data-theme="dark"] .stap-beeld { background: linear-gradient(180deg, #4A4A4E 0%, #343437 100%); }
 /* Het scherm van de iPhone en de laptop is altijd wit (lichte kleuren), ook in de donkere modus. */
 .stap-beeld :is(.tel, .laptop-scherm) {
   --bg: #FFFFFF; --card: #FFFFFF; --surface: #F5F5F7; --line: #E9E7F3; --ink: #1D1D1F; --ink-soft: #6E6E73; --muted: #6E6E73;
-  --accent: #0071e3; --accent-zacht: rgba(0,113,227,.06); --teal-zacht: rgba(63,185,178,.12); --teal-tekst: #15756f;
+  --accent: #0071e3; --accent-vlak: #0071e3; --accent-zacht: rgba(0,113,227,.06); --teal-zacht: rgba(63,185,178,.12); --teal-tekst: #15756f;
   color: var(--ink);
 }
 
@@ -64,7 +69,7 @@ html[data-theme="dark"] .stap-beeld { background: linear-gradient(180deg, #4A4A4
 .tel-batterij { position: relative; display: inline-block; width: 24px; height: 11px; border: 1.5px solid var(--ink); border-radius: 4px; opacity: .9; }
 .tel-batterij::after { content: ''; position: absolute; top: 2px; right: -4.5px; width: 2px; height: 4px; border-radius: 0 1px 1px 0; background: var(--ink); }
 .tel-batterij i { position: absolute; inset: 1.5px; width: 85%; border-radius: 2px; background: var(--ink); }
-.tel.is-klein { width: 128px; margin-bottom: -60px; border-width: 4px; border-radius: 26px; font-size: 8px; }
+.tel.is-klein { flex: 0 0 auto; width: 128px; margin-bottom: -44px; border-width: 4px; border-radius: 26px; font-size: 8px; }
 .tel.is-klein::before { top: 4px; width: 30%; height: 10px; border-radius: 6px; }
 .tel.is-klein::after { bottom: 4px; width: 36px; height: 3px; }
 .tel.is-klein .tel-status { padding: 6px 9px 0; font-size: 6.5px; }
@@ -98,12 +103,14 @@ html[data-theme="dark"] .stap-beeld { background: linear-gradient(180deg, #4A4A4
 .laptop .tel-balk { height: 4px; }
 .laptop .tel-knop { margin-top: 2px; padding: 6px; font-size: 8px; }
 
-.tel-scherm { display: grid; align-content: start; gap: 8px; padding: 12px 14px; }
+.tel-scherm { display: grid; grid-template-columns: minmax(0, 1fr); align-content: start; gap: 8px; padding: 12px 14px; }
+/* Rijen die onderaan niet helemaal in beeld passen (zie pasSchermen in intro.js). */
+.tel-scherm > .is-buiten { visibility: hidden; }
 .tel-kop { margin: 4px 0 0; font-size: 15px; font-weight: 700; letter-spacing: -.01em; }
 .tel-sub { margin: -4px 0 2px; color: var(--ink-soft); font-size: 11px; }
 .tel-kaart { display: flex; align-items: center; gap: 9px; padding: 10px 12px; border: 1px solid var(--line); border-radius: 12px; background: var(--card); font-size: 11.5px; font-weight: 500; }
 .tel-kaart.is-los { display: grid; gap: 7px; }
-.tel-kaart-kop { display: flex; align-items: center; gap: 9px; }
+.tel-kaart-kop { display: flex; align-items: center; gap: 9px; min-width: 0; overflow-wrap: anywhere; }
 .tel-pijl { margin-left: auto; color: var(--ink-soft); }
 .tel-nummer { display: grid; place-items: center; flex: 0 0 auto; width: 22px; height: 22px; border-radius: 50%; background: var(--accent); color: #fff; font-size: 11px; font-weight: 700; }
 .tel-vink { display: grid; place-items: center; flex: 0 0 auto; width: 17px; height: 17px; border: 1.5px solid var(--line); border-radius: 50%; color: #fff; font-size: 10px; }
@@ -130,12 +137,6 @@ html[data-theme="dark"] .stap-beeld { background: linear-gradient(180deg, #4A4A4
 .oudnieuw { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; width: 100%; max-width: 420px; margin-bottom: 24px; align-self: center; }
 .mini { display: grid; align-content: start; gap: 7px; min-height: 250px; padding: 14px 12px 12px; border-radius: 14px; font-size: 11px; line-height: 1.35; }
 .mini-label { margin: -2px 0 4px; font-size: 10px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; opacity: .7; }
-/* Echte schermafbeeldingen (oud-start.png, nieuw-start.png op 2x) in plaats van nagemaakte kaartjes; het label ligt als pil over de foto. */
-.mini.is-foto { display: grid; gap: 8px; justify-items: center; align-content: start; min-height: 0; margin: 0; padding: 0; border: 0; background: none; box-shadow: none; overflow: visible; }
-.mini.is-foto .mini-label { margin: 0; opacity: 1; }
-.mini.is-foto img { display: block; width: 100%; height: auto; border-radius: 14px; }
-.mini.is-oud.is-foto img { box-shadow: inset 0 0 0 1px rgba(63, 185, 178, .25), 0 8px 24px rgba(0, 0, 0, .28); }
-.mini.is-nieuw.is-foto img { border: 1px solid var(--line); box-shadow: 0 8px 24px rgba(0, 0, 0, .1); }
 .mini.is-oud { background: #10171a; color: #dfe9e8; font-family: Georgia, 'Times New Roman', serif; box-shadow: inset 0 0 0 1px rgba(63,185,178,.25); }
 .mini.is-oud .mini-label { color: #3fb9b2; }
 .mini-oud-kop { font-size: 14px; font-weight: 700; color: #3fb9b2; }
@@ -209,7 +210,7 @@ html[data-theme="dark"] .stap-beeld { background: linear-gradient(180deg, #4A4A4
 .carrousel-stip i { display: block; width: 8px; height: 8px; border-radius: 4px; background: var(--ink); opacity: .35; transition: width 360ms var(--ease), opacity 240ms var(--ease), background-color 200ms var(--ease); }
 .carrousel-stip[aria-selected="true"] { width: 52px; min-width: 52px; }
 .carrousel-stip[aria-selected="true"] i { position: relative; width: 36px; opacity: .25; overflow: hidden; }
-.carrousel-stip[aria-selected="true"] i::after { content: ''; position: absolute; inset: 0; width: 0; background: var(--ink); }
+.carrousel-stip[aria-selected="true"] i::after { content: ''; position: absolute; inset: 0; background: var(--ink); transform: scaleX(0); transform-origin: left; }
 .carrousel-stip[aria-selected="true"] i.is-bezig::after { animation: carrousel-vullen var(--carrousel-duur) linear forwards; }
 .carrousel.is-gepauzeerd .carrousel-stip i::after { animation-play-state: paused; }
 .carrousel-stip:focus-visible { outline: 2px solid var(--accent); outline-offset: -6px; border-radius: 12px; }
@@ -222,13 +223,13 @@ html[data-theme="dark"] .stap-beeld { background: linear-gradient(180deg, #4A4A4
 :where(html.has-hover) .carrousel-stip:hover i { opacity: .65; }
 :where(html.has-hover) :is(.carrousel-pauze, .carrousel-stip):hover:not(:active) { transform: translateY(-1px); }
 :is(.carrousel-pauze, .carrousel-stip):active { transform: scale(.97); }
-@keyframes carrousel-vullen { from { width: 0; } to { width: 100%; } }
+@keyframes carrousel-vullen { from { transform: scaleX(0); } to { transform: scaleX(1); } }
 
 /* Bediening: Vorige, Volgende */
 .stap-bediening { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
 .stap-vorige { padding: 10px 8px; font-size: .9375rem; }
-.stap-vorige.is-onzichtbaar { visibility: hidden; }
-.stap-volgende.knop { width: auto; min-width: 180px; margin: 0; transition: transform 200ms var(--ease), color 200ms var(--ease), background-color 200ms var(--ease), box-shadow 200ms var(--ease); }
+.stap-vorige.is-onzichtbaar, .stap-overslaan.is-onzichtbaar { visibility: hidden; }
+.stap-volgende.knop { width: auto; min-width: 180px; margin: 0; transition: transform 200ms var(--ease), translate 200ms var(--ease), scale 200ms var(--ease), color 200ms var(--ease), background-color 200ms var(--ease), box-shadow 200ms var(--ease); }
 .stappen.is-laatste .stap-vorige { opacity: .6; }
 
 /* Animaties per stap. --i = volgorde, --doel = eindbreedte van een balk. */
@@ -265,7 +266,7 @@ html[data-theme="dark"] .stap-beeld { background: linear-gradient(180deg, #4A4A4
   .carrousel { --carrousel-breedte: calc(100cqw - 32px); }
   .carrousel .stap-kaart.is-dia { min-height: 0; }
   .toestellen { gap: 10px; }
-  .tel.is-klein { width: 96px; margin-bottom: -40px; }
+  .tel.is-klein { flex-shrink: 1; width: 96px; margin-bottom: -40px; }
   .laptop { width: 230px; }
   .laptop-inhoud { grid-template-columns: 1fr; }
   .laptop-kolom:last-child { display: none; }
@@ -280,14 +281,19 @@ html[data-theme="dark"] .stap-beeld { background: linear-gradient(180deg, #4A4A4
   .oudnieuw { max-width: 100%; margin-bottom: 0; }
   .mini { min-height: 0; }
   .stap-updates { gap: 14px; padding: 0 22px 24px; }
-  .mini-nieuw { max-width: 100%; margin-bottom: 8px; padding: 14px 16px; }
+  .mini-nieuw { max-width: 100%; margin-bottom: 8px; padding: 14px 16px; align-self: flex-start; }
   .mini-nieuw .stap-updates { padding: 0; }
+  /* Op een telefoon is er weinig plek: het blok begint bovenaan het beeldvak en toont 2 updates, zodat het nooit over de tekst schuift. */
+  .stap-beeld:has(.mini-nieuw) { align-items: flex-start; overflow: hidden; }
+  /* Het tekstvak kan hoger zijn dan de tekst (zie meetTeksten): de tekst staat dan bovenaan. */
+  .stappen .stap-tekst { justify-content: flex-start; }
+  .mini-nieuw .stap-updates > :nth-child(n+3) { display: none; }
   .stap-volgende.knop { min-width: 0; flex: 1 1 auto; }
 }
 @media (prefers-reduced-motion: reduce) {
   .carrousel-baan { scroll-behavior: auto; }
   .carrousel-stip, .carrousel-stip i { transition: none; }
-  .carrousel-stip[aria-selected="true"] i::after { animation: none !important; width: 100%; }
+  .carrousel-stip[aria-selected="true"] i::after { animation: none !important; transform: scaleX(1); }
   .stap-kaart, .stap-kaart * { animation: none !important; }
   .stap-kaart .anim-vul { width: var(--doel, 100%); }
   .stap-kaart .anim-kies { border-color: var(--accent); background: var(--accent-zacht); }

@@ -73,8 +73,8 @@
     const punten = procent(deze.goed, deze.totaal) - procent(vorige.goed, vorige.totaal);
     const verschil = !vorige.sessies ? 'Vorige week had je nog niet geoefend.'
       : !punten ? 'Even goed als vorige week.'
-      : `Dat is ${Math.abs(punten)} punten ${punten > 0 ? 'beter' : 'minder'} dan vorige week.`;
-    return { tekst: `Deze week: ${deze.sessies} sessies, ${deze.totaal} vragen, ${procent(deze.goed, deze.totaal)} procent goed.\n${verschil}`, knoppen };
+      : `Dat is ${Math.abs(punten)} ${Math.abs(punten) === 1 ? 'punt' : 'punten'} ${punten > 0 ? 'beter' : 'minder'} dan vorige week.`;
+    return { tekst: `Deze week: ${deze.sessies} ${deze.sessies === 1 ? 'sessie' : 'sessies'}, ${deze.totaal} ${deze.totaal === 1 ? 'vraag' : 'vragen'}, ${procent(deze.goed, deze.totaal)} procent goed.\n${verschil}`, knoppen };
   }
 
   // Alleen duidelijke vragen over de site zelf krijgen een vast antwoord; al het andere gaat naar de vrije antwoorden van Comit.
@@ -92,7 +92,7 @@
       if (lijktOp(tekst, /hoe ging mijn week/, /mijn week/, /deze week (ge)?oefend/)) return await week(client, user);
       if (lijktOp(tekst, /waar moet ik (nog )?op oefenen/, /wat moet ik (nog )?oefenen/, /zwakste/, /mijn zwakke/)) return await oefenen(client, user);
     } catch {
-      return { tekst: 'Ik kon je voortgang nu niet ophalen. Probeer het zo opnieuw.', knoppen: [] };
+      return { tekst: 'Ik kon je voortgang nu niet ophalen. Probeer het zo opnieuw.', knoppen: [], onbewaard: true };
     }
     if (lijktOp(tekst, /wachtwoord/, /e-?mail(adres)? (wijzig|verander|aanpas)/, /naam (wijzig|verander|aanpas)/, /profielfoto/)) {
       return { tekst: 'Je naam, e-mailadres en wachtwoord pas je aan op Profiel, via de knop Bewerken.', knoppen: [{ label: 'Naar Profiel →', href: 'profiel.html' }] };

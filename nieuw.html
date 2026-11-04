@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <script src="assets/deur.js?v=89"></script>
+  <script src="assets/deur.js?v=90"></script>
   <link rel="apple-touch-icon" href="/assets/icoon-180.png">
   <link rel="manifest" href="/manifest.webmanifest">
   <meta property="og:type" content="website">
@@ -30,17 +30,18 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="assets/style.css?v=89">
-  <link rel="stylesheet" href="assets/intro.css?v=89">
-  <script src="assets/app.js?v=89"></script>
-  <script src="assets/updates.js?v=89"></script>
-  <script src="assets/intro.js?v=89"></script>
+  <link rel="stylesheet" href="assets/style.css?v=94">
+  <link rel="stylesheet" href="assets/intro.css?v=96">
+  <script src="assets/meten.js?v=1"></script>
+  <script src="assets/app.js?v=95"></script>
+  <script src="assets/updates.js?v=94"></script>
+  <script src="assets/intro.js?v=95"></script>
   <script src="assets/config.js?v=89" defer></script>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js" defer></script>
-  <script src="assets/auth.js?v=89" defer></script>
-  <script src="assets/plan.js?v=89" defer></script>
-  <script src="assets/activiteit.js?v=89" defer></script>
-  <script src="assets/comit.js?v=89" defer></script>
+  <script src="assets/auth.js?v=92" defer></script>
+  <script src="assets/plan.js?v=90" defer></script>
+  <script src="assets/activiteit.js?v=90" defer></script>
+  <script src="assets/comit.js?v=90" defer></script>
   <style>
     /* Alles in één scherm: kop, de stap, en de knoppen, zonder scrollen. */
     html, body { height: 100%; overflow: hidden; }
@@ -51,6 +52,8 @@
     .nieuw-pagina .pagina-kop p { margin-top: 10px; font-size: clamp(.9375rem, 1.2vw, 1.125rem); }
     .nieuw-intro { flex: 1 1 auto; min-height: 0; width: 100%; max-width: 1100px; margin: 0 auto; padding: 0 24px; box-sizing: border-box; }
     .nieuw-intro .stap-kaart { flex: 1 1 auto; min-height: 0; }
+    /* Op een groot scherm niet hoger dan nodig (Berat, 04-11-2026). */
+    @media (min-width: 1024px) { .nieuw-intro .stap-kaart { max-height: 480px; } }
     .site-footer { display: none; }
     @media (max-width: 767px) {
       .nieuw-pagina { padding-top: 22px; }
@@ -121,22 +124,43 @@
   <script>
     (() => {
       let klaar = false;
+      let knopTekst = '';
+      // Begin met leren en Overslaan: meteen laten zien dat er iets gebeurt en niet twee keer laten klikken.
+      const wacht = aan => {
+        const intro = document.getElementById('intro');
+        const hoofdknop = intro.querySelector('.stap-volgende');
+        if (aan) knopTekst = hoofdknop.textContent;
+        hoofdknop.textContent = aan ? 'Even geduld…' : knopTekst;
+        hoofdknop.disabled = aan;
+        intro.querySelector('.stap-overslaan').disabled = aan;
+      };
       const afronden = async () => {
         if (klaar) return;
         klaar = true;
+        wacht(true);
         const versie = window.BES_VERSIE || 0;
         try {
           window.localStorage.setItem('bes_versie_gezien', String(versie));
           window.sessionStorage.setItem('bes_nav_intro', '1');
         } catch {}
-        try {
+        // Een trage of mislukte update op het account mag niet blokkeren: de versie staat al op dit toestel en de hub vangt dat af.
+        const bijwerken = (async () => {
           const auth = window.BES.auth;
-          await Promise.race([auth.gereed, new Promise(resolve => window.setTimeout(resolve, 1500))]);
+          await auth.gereed;
           if (await auth.gebruiker()) await auth.profielBijwerken({ versieGezien: versie });
-        } catch {}
-        if (await comitVoorstellen()) return;
+        })().catch(() => {});
+        await Promise.race([bijwerken, new Promise(resolve => window.setTimeout(resolve, 1500))]);
+        let voorgesteld = false;
+        try { voorgesteld = await comitVoorstellen(); } catch {}
+        if (voorgesteld) return;
         window.location.assign('hub.html' + window.location.hash);
       };
+      // Terug via de browser (bfcache) zonder de laag van Comit: de knoppen weer bruikbaar maken.
+      window.addEventListener('pageshow', event => {
+        if (!event.persisted || !klaar || document.querySelector('.comit-voorstel')) return;
+        klaar = false;
+        wacht(false);
+      });
 
       // Na de slideshow stelt Comit zich één keer per toestel voor. Kiezen: praten met Comit of later (naar de hub).
       const comitVoorstellen = async () => {
@@ -241,7 +265,8 @@
         kopniveau: 'h2',
         overslaan: true,
         laatsteTekst: 'Begin met leren →',
-        bijKlaar: afronden
+        bijKlaar: afronden,
+        meten: true
       });
     })();
   </script>

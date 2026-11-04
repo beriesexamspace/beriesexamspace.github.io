@@ -155,10 +155,12 @@
       }
       if (scrollFrame != null) return;
       const begin = performance.now();
+      const start = scroller.scrollTop;
       const stap = nu => {
+        // Het doel blijft meegroeien met het antwoord; de ease loopt over de afstand sinds de start, in 220 ms.
         const doel = scroller.scrollHeight - scroller.clientHeight;
         const deel = Math.min(1, (nu - begin) / 220);
-        scroller.scrollTop += (doel - scroller.scrollTop) * (1 - (1 - deel) ** 3);
+        scroller.scrollTop = start + (doel - start) * (1 - (1 - deel) ** 3);
         laatsteScrollTop = scroller.scrollTop;
         scrollFrame = deel < 1 ? window.requestAnimationFrame(stap) : null;
       };
@@ -170,6 +172,14 @@
       scrollFrame = null;
       naarLaatsteBericht();
     });
+    // Toetsenbord, groeiende typbalk of venstermaat: het nieuwste bericht blijft in beeld. De css-variabelen staan dan al goed
+    // (pasHoogteAan is eerder geregistreerd). scrollTop uitlezen houdt het geklemde maximum uit het scroll-event, dat anders meevolgen stopt.
+    const houdOnderaan = () => {
+      laatsteScrollTop = scroller.scrollTop;
+      if (volgGesprek) naarLaatsteBericht();
+    };
+    window.addEventListener('resize', houdOnderaan);
+    window.visualViewport?.addEventListener('resize', houdOnderaan);
 
     const verbergWelkom = () => new Promise(resolve => {
       if (welkom.hidden) { resolve(); return; }
@@ -183,6 +193,7 @@
       };
       const minder = event => { if (event.matches) klaar(); };
       welkom.inert = true;
+      welkom.classList.remove('is-terug');
       if (minderBeweging.matches) { klaar(); return; }
       welkom.classList.add('is-vertrekkend');
       minderBeweging.addEventListener('change', minder);
@@ -340,7 +351,8 @@
       if (!antwoord || typeof antwoord.tekst !== 'string') {
         antwoord = {
           tekst: 'Dat kan ik nog niet. Wil je het als feedback sturen?',
-          knoppen: [{ label: 'Stuur als feedback →', href: 'feedback.html' }]
+          knoppen: [{ label: 'Stuur als feedback →', href: 'feedback.html' }],
+          onbewaard: true
         };
       }
       await minimumDenktijd;
@@ -358,11 +370,13 @@
       wolk.setAttribute('aria-busy', 'false');
       const geldig = veiligeKnoppen(antwoord.knoppen);
       const knoppen = knoppenBlok(geldig);
-      knoppen.hidden = true;
+      // De knoppen nemen hun ruimte al in terwijl het antwoord tikt (onzichtbaar), zodat het bericht niet in één keer hoger wordt.
+      knoppen.classList.add('is-verborgen');
       if (geldig.length) wolk.append(knoppen);
-      bewaar('comit', antwoord.tekst, geldig);
+      // Limietmeldingen en foutteksten horen niet in Geschiedenis.
+      if (!antwoord.onbewaard) bewaar('comit', antwoord.tekst, geldig);
       await toonAntwoord(antwoordTekst, antwoord.tekst);
-      knoppen.hidden = false;
+      knoppen.classList.remove('is-verborgen');
       knoppen.classList.add('is-zichtbaar');
       bezig = false;
       werkKnopBij();
@@ -416,30 +430,55 @@
       const zeker = maak('div', 'comit-wis-zeker');
       zeker.hidden = true;
       const vraag = maak('p', '', 'Alles wat je tot nu toe met Comit besprak, wordt gewist. Dit kan niet ongedaan gemaakt worden.');
+      // Een eigen regel voor een mislukte wisactie (role="alert" staat er al voor de tekst komt), de vraag blijft staan.
+      const wisFout = maak('p', 'comit-wis-fout');
+      wisFout.setAttribute('role', 'alert');
       const ja = maak('button', 'knop-secundair', 'Ja, wis alles');
       const nee = maak('button', 'tekstlink', 'Nee, toch niet');
-      zeker.append(vraag, ja, nee);
-      wis.addEventListener('click', () => { zeker.hidden = false; wis.hidden = true; ja.focus(); });
-      nee.addEventListener('click', () => { zeker.hidden = true; wis.hidden = false; wis.focus(); });
+      zeker.append(vraag, wisFout, ja, nee);
+      // De bevestiging schuift open en dicht (gedeelde BES.toon en BES.verberg), zodat de lijst eronder niet springt.
+      wis.addEventListener('click', () => {
+        wisFout.textContent = '';
+        if (window.BES.toon) BES.toon(zeker); else zeker.hidden = false;
+        wis.hidden = true;
+        ja.focus();
+      });
+      nee.addEventListener('click', () => {
+        if (window.BES.verberg) BES.verberg(zeker); else zeker.hidden = true;
+        wis.hidden = false;
+        wis.focus();
+      });
       ja.addEventListener('click', async () => {
         ja.disabled = true;
+        wisFout.textContent = '';
         let gelukt = false;
         try {
           const { error } = await client.from('comit_berichten').delete().eq('user_id', user.id);
           gelukt = !error;
         } catch {}
         if (!gelukt) {
-          vraag.textContent = 'Wissen lukt nu niet. Probeer het zo opnieuw.';
+          wisFout.textContent = 'Wissen lukt nu niet. Probeer het zo opnieuw.';
           ja.disabled = false;
+          ja.focus();
           return;
         }
-        geschiedenis.querySelectorAll('.comit-geschiedenis-gesprek, .comit-geschiedenis-melding').forEach(el => el.remove());
-        zeker.remove();
-        wis.remove();
-        const klaar = maak('p', 'comit-geschiedenis-melding', 'Al je gesprekken met Comit zijn gewist.');
-        klaar.setAttribute('role', 'status');
-        geschiedenis.append(klaar);
-        geschiedenisKnop.focus();
+        const weg = [...geschiedenis.querySelectorAll('.comit-geschiedenis-gesprek, .comit-geschiedenis-melding')];
+        const ruimOp = () => {
+          weg.forEach(el => el.remove());
+          zeker.remove();
+          wis.remove();
+          // Het live-gebied staat eerst leeg in de pagina en krijgt daarna de tekst, anders leest een schermlezer het niet voor.
+          const klaar = maak('p', 'comit-geschiedenis-melding');
+          klaar.setAttribute('role', 'status');
+          geschiedenis.append(klaar);
+          window.setTimeout(() => { klaar.textContent = 'Al je gesprekken met Comit zijn gewist.'; }, 60);
+          geschiedenisKnop.focus();
+        };
+        if (minderBeweging.matches || !geschiedenis.animate) { ruimOp(); return; }
+        // De gesprekken fadeen eerst weg (180 ms), daarna verdwijnen ze.
+        const verloop = window.getComputedStyle(geschiedenis).getPropertyValue('--ease').trim() || 'ease-out';
+        [...weg, zeker].forEach(el => el.animate([{ opacity: 1 }, { opacity: 0 }], { duration: 180, easing: verloop, fill: 'forwards' }));
+        window.setTimeout(ruimOp, 190);
       });
       kop.append(wis);
       return zeker;
@@ -449,6 +488,9 @@
       geschiedenisKnop.disabled = true;
       openingKlaar();
       await verbergWelkom();
+      // Tijdens het laden niet een leeg scherm: een korte vaste tekst.
+      geschiedenis.replaceChildren(maak('p', 'comit-geschiedenis-melding', 'Gesprekken laden.'));
+      geschiedenis.hidden = false;
       let rijen = null;
       try {
         const { data, error } = await client.from('comit_berichten')
@@ -463,7 +505,10 @@
       kop.append(maak('h2', '', 'Eerdere gesprekken'));
       geschiedenis.replaceChildren(kop);
       if (!rijen) {
-        geschiedenis.append(maak('p', 'comit-geschiedenis-melding', 'Je eerdere gesprekken laden lukt nu niet. Probeer het zo opnieuw.'));
+        const laadFout = maak('p', 'comit-geschiedenis-melding');
+        laadFout.setAttribute('role', 'status');
+        geschiedenis.append(laadFout);
+        window.setTimeout(() => { laadFout.textContent = 'Je eerdere gesprekken laden lukt nu niet. Probeer het zo opnieuw.'; }, 60);
       } else if (!rijen.length) {
         geschiedenis.append(maak('p', 'comit-geschiedenis-melding', 'Nog geen eerdere gesprekken. Wat je vanaf nu met Comit bespreekt, vind je hier terug.'));
       } else {
@@ -489,21 +534,36 @@
       volgGesprek = onderaan();
     };
 
+    let sluitend = false;
     if (client) {
       geschiedenisKnop.hidden = false;
       geschiedenisKnop.addEventListener('click', () => {
         if (geschiedenisKnop.disabled) return;
+        if (sluitend) return;
         if (geschiedenis.hidden) { toonGeschiedenis(); return; }
-        geschiedenis.hidden = true;
-        geschiedenis.replaceChildren();
+        // Sluiten beweegt ook: het blok fadet 220 ms weg, daarna gaat het weg en komt het welkomstblok zacht terug.
+        const sluit = () => {
+          sluitend = false;
+          geschiedenis.classList.remove('is-sluitend');
+          geschiedenis.hidden = true;
+          geschiedenis.replaceChildren();
+          if (!gesprek.childElementCount) {
+            welkom.classList.remove('is-vertrekkend');
+            welkom.inert = false;
+            welkom.hidden = false;
+            if (!minderBeweging.matches) {
+              welkom.classList.add('is-terug');
+              window.setTimeout(() => welkom.classList.remove('is-terug'), 240);
+            }
+          }
+          laatsteScrollTop = scroller.scrollTop;
+          volgGesprek = onderaan();
+        };
         zetKnop(false);
-        if (!gesprek.childElementCount) {
-          welkom.classList.remove('is-vertrekkend');
-          welkom.inert = false;
-          welkom.hidden = false;
-        }
-        laatsteScrollTop = scroller.scrollTop;
-        volgGesprek = onderaan();
+        if (minderBeweging.matches) { sluit(); return; }
+        sluitend = true;
+        geschiedenis.classList.add('is-sluitend');
+        window.setTimeout(sluit, 220);
       });
     }
 
@@ -519,7 +579,8 @@
       }
     });
     pagina.querySelectorAll('.comit-voorstel').forEach(knop => knop.addEventListener('click', () => verstuurVraag(knop.textContent)));
-    await document.fonts?.ready;
+    // Een haperend lettertype houdt de pagina niet vast: na 1,5 s gaan we toch verder.
+    await Promise.race([document.fonts?.ready, new Promise(klaar => window.setTimeout(klaar, 1500))]);
     pagina.hidden = false;
     pasInvoerAan();
     document.body.style.setProperty('--comit-invoer-hoogte', `${formulier.getBoundingClientRect().height}px`);
@@ -530,11 +591,14 @@
     pagina.dataset.opening = minderBeweging.matches ? 'klaar' : 'eerste';
     new ResizeObserver(() => {
       document.body.style.setProperty('--comit-invoer-hoogte', `${formulier.getBoundingClientRect().height}px`);
+      houdOnderaan();
     }).observe(formulier);
     werkKnopBij();
     if (!minderBeweging.matches) openingTimer = window.setTimeout(openingKlaar, begroetingEinde + 900);
   }
 
-  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', initialize, { once: true });
-  else initialize();
+  // Mislukt de opening onverwacht, dan toch de pagina tonen (anders blijft alles onzichtbaar).
+  const start = () => initialize().catch(() => { const pagina = document.querySelector('.comit-pagina'); if (pagina) pagina.hidden = false; });
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', start, { once: true });
+  else start();
 })();

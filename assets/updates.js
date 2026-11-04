@@ -4,9 +4,12 @@
 window.BES_VERSIE = 1;
 
 window.BES_UPDATES = [
-  { versie: 1, soort: 'verbeterd', datum: '14 oktober 2026', tekst: '**Twee plannen: Free en Plus.** Hard mode, tijdklok, foutenlijst, weekoverzicht, klaar-meter en examenplan zitten nu in Free. Plus (2,99 euro per maand) geeft onbeperkt simulaties, 60 vragen per dag aan Comit, uitleg bij je foute antwoorden, ezelsbruggetjes en nieuwe onderdelen een week eerder.' },
+  { versie: 1, soort: 'verbeterd', datum: '4 november 2026', tekst: '**Er is geen abonnement meer.** Alles staat open voor iedereen: onbeperkt simulaties, 60 vragen per dag aan Comit, uitleg bij je foute antwoorden en ezelsbruggetjes. We werken aan een betere deal.' },
+  { versie: 1, soort: 'nieuw', datum: '1 november 2026', tekst: '**Games**: even pauze? Speel kruisje bolletje tegen de robot. Er komen meer games bij.' },
+  { versie: 1, soort: 'nieuw', datum: '1 november 2026', tekst: '**Nieuwe startpagina met een kaart**: kies je school en richting op de kaart van België en Nederland.' },
+  { versie: 1, soort: 'nieuw', datum: '31 oktober 2026', tekst: '**Insturen**: stuur je samenvatting in, ook zonder account. Daarmee maken we oefenvragen voor nieuwe vakken en richtingen.' },
   { versie: 1, soort: 'nieuw', datum: '20 september 2026', tekst: '**Inloggen met Google**: één klik, geen wachtwoord nodig.' },
-  { versie: 1, soort: 'nieuw', datum: '19 september 2026', tekst: '**Sociologie I** staat erin, met 204 vragen en oude examenvragen.' },
+  { versie: 1, soort: 'nieuw', datum: '19 september 2026', tekst: '**Sociologie I** staat erin, met 153 vragen en uitleg.' },
   { versie: 1, soort: 'nieuw', datum: '19 september 2026', tekst: '**Leren leren**: slim studeren, focus en hulp als het even niet gaat.' },
   { versie: 1, soort: 'nieuw', datum: '19 september 2026', tekst: '**Feedbackpagina**: meld een fout of stuur een idee.' },
   { versie: 1, soort: 'nieuw', datum: '18 september 2026', tekst: '**Hard mode** bij Inleiding tot de pedagogiek, met minstens 8 vragen per ronde.' },

@@ -7,14 +7,14 @@
   <link rel="manifest" href="/manifest.webmanifest">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="Berie's Exam Space">
-  <meta property="og:title" content="Abonnement | Berie's Exam Space">
-  <meta property="og:description" content="Free en Plus bij Berie's Exam Space: wat je bij elk plan krijgt, wat het kost en hoe betalen en opzeggen werkt.">
+  <meta property="og:title" content="Geen abonnement meer | Berie's Exam Space">
+  <meta property="og:description" content="Bij Berie's Exam Space zit je nooit vast aan een maandbedrag. We werken aan een betere deal.">
   <meta property="og:image" content="https://beriesexamspace.com/assets/deel.png">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
   <meta property="og:url" content="https://beriesexamspace.com/abonnement.html">
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="description" content="Free en Plus bij Berie's Exam Space: wat je bij elk plan krijgt, wat het kost en hoe betalen en opzeggen werkt.">
+  <meta name="description" content="Bij Berie's Exam Space zit je nooit vast aan een maandbedrag. We werken aan een betere deal.">
   <meta name="theme-color" content="#FFFFFF">
   <script>
     (() => {
@@ -26,17 +26,17 @@
     })();
   </script>
   <meta name="robots" content="noindex">
-  <title>Abonnement | Berie's Exam Space</title>
+  <title>Geen abonnement meer | Berie's Exam Space</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="assets/style.css?v=89">
-  <script src="assets/app.js?v=89" defer></script>
+  <link rel="stylesheet" href="assets/style.css?v=94">
+  <script src="assets/app.js?v=95" defer></script>
   <script src="assets/config.js?v=89" defer></script>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js" defer></script>
-  <script src="assets/auth.js?v=89" defer></script>
-  <script src="assets/plan.js?v=89" defer></script>
-  <script src="assets/activiteit.js?v=89" defer></script>
+  <script src="assets/auth.js?v=92" defer></script>
+  <script src="assets/plan.js?v=90" defer></script>
+  <script src="assets/activiteit.js?v=90" defer></script>
   <style>
     .ab-plannen {
       display: grid;
@@ -60,7 +60,8 @@
     :where(html.has-hover) .ab-plan:hover { transform: translateY(-2px); border-color: var(--accent); box-shadow: 0 0 0 1px var(--accent), var(--shadow-card-hover); }
     .ab-plan-kop { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px 12px; }
     .ab-plan-kop .label { white-space: nowrap; }
-    .ab-plan-naam { margin: 0; font-size: clamp(2rem, 3vw, 2.5rem); font-weight: 700; line-height: 1.1; letter-spacing: -.02em; }
+    /* Het anker #plan-plus landt op deze kop: 56 px balk, 16 px lucht en de 32 px padding van de kaart blijven zichtbaar. */
+    .ab-plan-naam { margin: 0; font-size: clamp(2rem, 3vw, 2.5rem); font-weight: 700; line-height: 1.1; letter-spacing: -.02em; scroll-margin-top: 104px; }
     .ab-prijs { display: flex; flex-wrap: wrap; align-items: baseline; gap: 0 6px; margin: 8px 0 0; }
     .ab-prijs-blok { margin: 8px 0 0; }
     @media (min-width: 900px) {
@@ -100,7 +101,7 @@
     /* Free: ook in licht thema de donkere kaart, zodat de twee plannen elk een eigen kleur hebben (grijs, teal). Rand bij de muis: grijs. */
     .ab-plan[data-plan="free"] {
       --card: #1c1c1e; --line: rgba(255,255,255,.12); --ink: #f5f5f7; --ink-soft: #a1a1a6; --surface: #2c2c2e;
-      --accent: #636366; --teal-tekst: #5fd0c9; --teal-zacht: rgba(63,185,178,.18);
+      --accent: #636366; --accent-vlak: #636366; --teal-tekst: #5fd0c9; --teal-zacht: rgba(63,185,178,.18);
       background: var(--card);
       color: var(--ink);
     }
@@ -113,13 +114,17 @@
     .ab-plan.is-plus .knop { color: #0d1117; }
     /* Knop bij de muis: style.css kleurt .knop dan blauw (--accent-dark) met een blauwe schaduw. In Plus blijft hij teal.
        --shadow-primary wordt in :root al uitgerekend, dus de kaart zet de hele schaduw opnieuw. */
-    .ab-plan.is-plus { --accent-dark: #5cc8c1; --shadow-primary: 0 8px 24px rgba(63,185,178,.25); --shadow-primary-hover: 0 10px 28px rgba(63,185,178,.32); }
+    .ab-plan.is-plus { --accent-dark: #5cc8c1; --accent-vlak: #3fb9b2; --accent-vlak-hover: #5cc8c1; --shadow-primary: 0 8px 24px rgba(63,185,178,.25); --shadow-primary-hover: 0 10px 28px rgba(63,185,178,.32); }
     /* Knop van je huidige plan (of een gebruikte proefmaand): rustig, niet vaag. */
     .ab-plan .knop.is-huidig:disabled { opacity: 1; background: var(--surface); color: var(--ink-soft); box-shadow: none; }
     .ab-melding { max-width: 560px; margin: 20px 0 0; color: var(--ink); font-size: .9375rem; line-height: 1.5; }
     .ab-melding:empty { display: none; }
     /* Terug van Mollie: de stand van je betaling bovenaan, boven de kaarten. */
     .ab-melding.ab-betaling { margin: 0 0 24px; font-weight: 500; }
+    /* Komt de bezoeker terug uit de betaling, dan staat de regel voor de melding er al, zodat de kaarten niet naar beneden springen. */
+    .ab-melding.ab-betaling.is-wacht:empty { display: block; min-height: 1.5em; }
+    /* Het label Jouw plan verschijnt zodra het plan bekend is. */
+    .ab-jouw { animation: appear 200ms var(--ease); }
     /* Vinkje Laat mijn plan meteen starten: nodig voor elke proefmaand (start_proef, supabase/herroepen.sql). */
     .ab-meteen { display: grid; grid-template-columns: 22px minmax(0, 1fr); gap: 12px; align-items: start; max-width: 640px; margin: 24px 0 0; padding: 16px 18px; border: 1px solid var(--line); border-radius: 16px; background: var(--card); font-size: .9375rem; line-height: 1.55; cursor: pointer; transition: border-color 180ms var(--ease), box-shadow 180ms var(--ease); }
     .ab-meteen input { width: 20px; height: 20px; margin: 1px 0 0; accent-color: var(--accent); cursor: pointer; }
@@ -146,7 +151,7 @@
     /* Onder de vaste balk (56 px) blijft de bovenkant van de tabel zichtbaar na het inschuiven. */
     .ab-vergelijking { margin: 24px 0 16px; scroll-margin-top: 72px; }
     .ab-vergelijking:not([hidden]) { animation: ab-uitklappen 320ms var(--ease) backwards; }
-    @keyframes ab-uitklappen { from { opacity: 0; transform: translateY(-10px); } }
+    @keyframes ab-uitklappen { from { opacity: 0; transform: translateY(-8px); } }
     /* De Plus-kolom: één doorlopend teal vlak achter de cellen, ook achter de kopjes van de groepen. */
     .ab-tabel-vlak { position: relative; isolation: isolate; }
     .ab-tabel-vlak::before {
@@ -205,9 +210,17 @@
       .ab-v-uitleg { font-size: .6875rem; }
     }
     /* Klein knopje onder de kop naar de uitleg over Free en Plus (plannen.html). */
-    .ab-waarom { display: inline-flex; align-items: center; gap: 6px; min-height: 36px; margin-top: 16px; padding: 6px 14px; border: 1px solid var(--line); border-radius: var(--pill); background: var(--card); color: var(--accent); font-size: .875rem; font-weight: 500; line-height: 1.4; transition: border-color 180ms var(--ease), background-color 180ms var(--ease); }
+    .ab-waarom { display: inline-flex; align-items: center; gap: 6px; min-height: 44px; margin-top: 16px; padding: 6px 14px; border: 1px solid var(--line); border-radius: var(--pill); background: var(--card); color: var(--accent); font-size: .875rem; font-weight: 500; line-height: 1.4; transition: border-color 180ms var(--ease), background-color 180ms var(--ease), transform 150ms var(--ease); }
     :where(html.has-hover) .ab-waarom:hover { border-color: var(--accent); background: var(--accent-zacht); }
     .ab-waarom:active { transform: scale(.97); }
+      /* Geen abonnement meer (Berat, 03-11-2026). */
+    .ga-blok { max-width: 640px; margin-top: 20px; padding: clamp(22px, 5vw, 32px); display: grid; gap: 8px; }
+    .ga-blok p { margin: 0; color: var(--ink-soft); font-size: 1rem; line-height: 1.6; }
+    .ga-kop { margin: 0; font-size: 1.25rem; font-weight: 600; letter-spacing: -.01em; }
+    .ga-acties { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 32px; }
+    .ga-voet { max-width: 640px; margin: 28px 0 0; color: var(--ink-soft); font-size: .875rem; line-height: 1.55; }
+    .ga-voet a { color: var(--accent); font-weight: 500; text-decoration: none; }
+    :where(html.has-hover) .ga-voet a:hover { text-decoration: underline; }
   </style>
 </head>
 <body data-nav="vast">
@@ -226,6 +239,7 @@
         <li><a href="hub.html#hoe-werkt-het">Hoe werkt het</a></li>
         <li><a href="over-mij.html" data-over-mij>Over mij</a></li>
         <li><a href="whatsapp.html">WhatsApp-groep</a></li>
+        <li><a href="insturen/formulier.html">Insturen</a></li>
       </ul>
       <a class="pill login-button" href="inloggen.html">Inloggen →</a>
     </nav>
@@ -235,418 +249,27 @@
       <a class="terug tekstlink" href="hub.html" data-terug="hub.html" data-terug-tekst="Terug">← Terug</a>
 
       <header class="pagina-kop">
-        <h1 id="ab-titel">Kies je plan</h1>
-        <p class="pagina-sub">Met Free oefen je alle vakken, ook in Hard mode, en volg je je voortgang. Plus geeft je onbeperkt simulaties en extra hulp van Comit.</p>
-        <a class="ab-waarom" href="plannen.html">Waarom is dit veranderd? <span aria-hidden="true">→</span></a>
+        <h1 id="ab-titel">Er is geen abonnement meer</h1>
+        <p class="pagina-sub">Bij Berie's Exam Space zit je nooit vast aan een maandbedrag.</p>
       </header>
-      <p class="ab-melding ab-betaling" id="ab-betaling" role="status" aria-live="polite"></p>
 
-      <div class="ab-plannen">
-        <section class="kaart ab-plan" data-plan="free" aria-labelledby="plan-free">
-          <div class="ab-plan-kop">
-            <h2 class="ab-plan-naam" id="plan-free">Free</h2>
-          </div>
-          <div class="ab-prijs-blok">
-            <p class="ab-prijs"><span class="ab-bedrag">Voor iedereen</span></p>
-          </div>
-          <p class="ab-plan-sub">Alles om te oefenen voor je examens.</p>
-          <ul class="ab-lijst">
-            <li><svg class="ab-vink" viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12.5 4.5 4.5L19 7.5"/></svg><span>Alle vakken oefenen, met uitleg bij elke vraag</span></li>
-            <li><svg class="ab-vink" viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12.5 4.5 4.5L19 7.5"/></svg><span>Hard mode op examenniveau</span></li>
-            <li><svg class="ab-vink" viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12.5 4.5 4.5L19 7.5"/></svg><span>Training onbeperkt en 5 simulaties per dag per vak, met tijdklok</span></li>
-            <li><svg class="ab-vink" viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12.5 4.5 4.5L19 7.5"/></svg><span>Foutenlijst en fouten opnieuw oefenen, met een hack bij een fout</span></li>
-            <li><svg class="ab-vink" viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12.5 4.5 4.5L19 7.5"/></svg><span>Je voortgang, studiekalender en weekoverzicht</span></li>
-            <li><svg class="ab-vink" viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12.5 4.5 4.5L19 7.5"/></svg><span>Klaar-meter en je groei per vak en hoofdstuk</span></li>
-            <li><svg class="ab-vink" viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12.5 4.5 4.5L19 7.5"/></svg><span>Examenplan tot je examen, ook in je agenda</span></li>
-            <li><svg class="ab-vink" viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12.5 4.5 4.5L19 7.5"/></svg><span>Theorie, studie-hacks en hacks voor je zwakste hoofdstukken</span></li>
-            <li><svg class="ab-vink" viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12.5 4.5 4.5L19 7.5"/></svg><span>Handige tools: punten berekenen, examen-info en sjablonen</span></li>
-            <li><svg class="ab-vink" viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12.5 4.5 4.5L19 7.5"/></svg><span>10 vragen per dag aan Comit</span></li>
-          </ul>
-          <div class="ab-plan-voet">
-            <a class="knop-secundair" href="hub.html">Begin met oefenen</a>
-          </div>
-        </section>
-
-        <section class="kaart ab-plan is-plus" data-plan="plus" aria-labelledby="plan-plus">
-          <div class="ab-plan-kop">
-            <h2 class="ab-plan-naam" id="plan-plus">Plus</h2>
-          </div>
-          <div class="ab-prijs-blok">
-            <p class="ab-prijs"><span class="ab-bedrag">2,99 euro</span><span class="ab-per">per maand</span></p>
-            <p class="ab-daarna"><strong>1 maand gratis</strong> om te proberen.</p>
-          </div>
-          <p class="ab-plan-sub">Onbeperkt simulaties, met extra hulp van Comit.</p>
-          <p class="ab-lijst-kop">Alles van Free, plus:</p>
-          <ul class="ab-lijst">
-            <li><svg class="ab-vink" viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12.5 4.5 4.5L19 7.5"/></svg><span>Onbeperkt simulaties</span></li>
-            <li><svg class="ab-vink" viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12.5 4.5 4.5L19 7.5"/></svg><span>60 vragen per dag aan Comit</span></li>
-            <li><svg class="ab-vink" viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12.5 4.5 4.5L19 7.5"/></svg><span>Comit legt uit waarom jouw antwoord fout is</span></li>
-            <li><svg class="ab-vink" viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12.5 4.5 4.5L19 7.5"/></svg><span>Ezelsbruggetjes voor je zwakke hoofdstukken</span></li>
-            <li><svg class="ab-vink" viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12.5 4.5 4.5L19 7.5"/></svg><span>Nieuwe onderdelen een week eerder</span></li>
-          </ul>
-          <div class="ab-plan-voet">
-            <p class="ab-betaal-uitleg" data-betaal-uitleg="plus" hidden></p>
-            <button class="knop" type="button" data-proef="plus">Probeer 1 maand</button>
-          </div>
-        </section>
-      </div>
-      <div class="ab-vergelijk">
-        <div class="ab-vergelijk-rij">
-          <button class="knop-secundair ab-vergelijk-knop" id="ab-vergelijk-knop" type="button" aria-expanded="false" aria-controls="ab-vergelijking"><span class="ab-vergelijk-tekst">Vergelijk abonnementen</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></button>
-        </div>
-        <div class="ab-vergelijking" id="ab-vergelijking" hidden>
-          <div class="ab-tabel-vlak">
-            <table class="ab-tabel">
-              <caption class="ab-sr">Vergelijking van Free en Plus</caption>
-              <colgroup><col class="ab-k-onderdeel"><col><col></colgroup>
-              <thead>
-                <tr>
-                  <th scope="col"><span class="ab-sr">Onderdeel</span></th>
-                  <th scope="col" class="is-free" abbr="Free"><span class="ab-k-naam">Free</span><span class="ab-k-prijs">Voor iedereen</span></th>
-                  <th scope="col" class="is-plus" abbr="Plus"><span class="ab-k-naam">Plus</span><span class="ab-k-prijs">2,99 euro per maand</span></th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr class="ab-groep"><th scope="rowgroup" colspan="3">Oefenen</th></tr>
-                <tr>
-                  <th scope="row"><span class="ab-v-naam">Alle vakken</span><span class="ab-v-uitleg">Elk vak en elk hoofdstuk oefenen.</span></th>
-                  <td class="is-free"><svg class="ab-v-vink" viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12.5 4.5 4.5L19 7.5"/></svg><span class="ab-sr">Inbegrepen</span></td>
-                  <td class="is-plus"><svg class="ab-v-vink" viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12.5 4.5 4.5L19 7.5"/></svg><span class="ab-sr">Inbegrepen</span></td>
-                </tr>
-                <tr>
-                  <th scope="row"><span class="ab-v-naam">Training</span><span class="ab-v-uitleg">Oefenen zo vaak je wil, zonder limiet.</span></th>
-                  <td class="is-free"><svg class="ab-v-vink" viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12.5 4.5 4.5L19 7.5"/></svg><span class="ab-sr">Inbegrepen</span></td>
-                  <td class="is-plus"><svg class="ab-v-vink" viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12.5 4.5 4.5L19 7.5"/></svg><span class="ab-sr">Inbegrepen</span></td>
-                </tr>
-                <tr>
-                  <th scope="row"><span class="ab-v-naam">Uitleg bij elke vraag</span><span class="ab-v-uitleg">Bij elke vraag lees je waarom het juiste antwoord klopt.</span></th>
-                  <td class="is-free"><svg class="ab-v-vink" viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12.5 4.5 4.5L19 7.5"/></svg><span class="ab-sr">Inbegrepen</span></td>
-                  <td class="is-plus"><svg class="ab-v-vink" viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12.5 4.5 4.5L19 7.5"/></svg><span class="ab-sr">Inbegrepen</span></td>
-                </tr>
-                <tr>
-                  <th scope="row"><span class="ab-v-naam">Theorie en studie-hacks</span><span class="ab-v-uitleg">Per vak de kernpunten en slimme hacks om te onthouden.</span></th>
-                  <td class="is-free"><svg class="ab-v-vink" viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12.5 4.5 4.5L19 7.5"/></svg><span class="ab-sr">Inbegrepen</span></td>
-                  <td class="is-plus"><svg class="ab-v-vink" viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12.5 4.5 4.5L19 7.5"/></svg><span class="ab-sr">Inbegrepen</span></td>
-                </tr>
-                <tr>
-                  <th scope="row"><span class="ab-v-naam">Simulaties</span><span class="ab-v-uitleg">Een proefexamen met je uitslag op het einde.</span></th>
-                  <td class="is-free"><span class="ab-v-tekst">5 per dag per vak</span></td>
-                  <td class="is-plus"><span class="ab-v-tekst">Onbe&shy;perkt</span></td>
-                </tr>
-                <tr>
-                  <th scope="row"><span class="ab-v-naam">Tijdklok</span><span class="ab-v-uitleg">Bij een simulatie loopt de tijd mee, zoals op de examendag.</span></th>
-                  <td class="is-free"><svg class="ab-v-vink" viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12.5 4.5 4.5L19 7.5"/></svg><span class="ab-sr">Inbegrepen</span></td>
-                  <td class="is-plus"><svg class="ab-v-vink" viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12.5 4.5 4.5L19 7.5"/></svg><span class="ab-sr">Inbegrepen</span></td>
-                </tr>
-                <tr>
-                  <th scope="row"><span class="ab-v-naam">Hard mode</span><span class="ab-v-uitleg">Moeilijke toepassingsvragen op examenniveau.</span></th>
-                  <td class="is-free"><svg class="ab-v-vink" viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12.5 4.5 4.5L19 7.5"/></svg><span class="ab-sr">Inbegrepen</span></td>
-                  <td class="is-plus"><svg class="ab-v-vink" viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12.5 4.5 4.5L19 7.5"/></svg><span class="ab-sr">Inbegrepen</span></td>
-                </tr>
-                <tr>
-                  <th scope="row"><span class="ab-v-naam">Foutenlijst</span><span class="ab-v-uitleg">Al je fouten op één plek.</span></th>
-                  <td class="is-free"><svg class="ab-v-vink" viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12.5 4.5 4.5L19 7.5"/></svg><span class="ab-sr">Inbegrepen</span></td>
-                  <td class="is-plus"><svg class="ab-v-vink" viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12.5 4.5 4.5L19 7.5"/></svg><span class="ab-sr">Inbegrepen</span></td>
-                </tr>
-                <tr>
-                  <th scope="row"><span class="ab-v-naam">Fouten opnieuw oefenen</span><span class="ab-v-uitleg">Oefen je fouten tot je ze kent.</span></th>
-                  <td class="is-free"><svg class="ab-v-vink" viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12.5 4.5 4.5L19 7.5"/></svg><span class="ab-sr">Inbegrepen</span></td>
-                  <td class="is-plus"><svg class="ab-v-vink" viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12.5 4.5 4.5L19 7.5"/></svg><span class="ab-sr">Inbegrepen</span></td>
-                </tr>
-                <tr>
-                  <th scope="row"><span class="ab-v-naam">Hack bij een fout</span><span class="ab-v-uitleg">Een hack erbij als je een vraag fout hebt.</span></th>
-                  <td class="is-free"><svg class="ab-v-vink" viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12.5 4.5 4.5L19 7.5"/></svg><span class="ab-sr">Inbegrepen</span></td>
-                  <td class="is-plus"><svg class="ab-v-vink" viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12.5 4.5 4.5L19 7.5"/></svg><span class="ab-sr">Inbegrepen</span></td>
-                </tr>
-              </tbody>
-              <tbody>
-                <tr>
-                  <th scope="row"><span class="ab-v-naam">Handige tools</span><span class="ab-v-uitleg">Punten berekenen, examen-info, sjablonen en boeken verkopen.</span></th>
-                  <td class="is-free"><svg class="ab-v-vink" viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12.5 4.5 4.5L19 7.5"/></svg><span class="ab-sr">Inbegrepen</span></td>
-                  <td class="is-plus"><svg class="ab-v-vink" viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12.5 4.5 4.5L19 7.5"/></svg><span class="ab-sr">Inbegrepen</span></td>
-                </tr>
-                <tr class="ab-groep"><th scope="rowgroup" colspan="3">Inzicht in je voortgang</th></tr>
-                <tr>
-                  <th scope="row"><span class="ab-v-naam">Je voortgang</span><span class="ab-v-uitleg">Per vak zie je wat je al geoefend hebt.</span></th>
-                  <td class="is-free"><svg class="ab-v-vink" viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12.5 4.5 4.5L19 7.5"/></svg><span class="ab-sr">Inbegrepen</span></td>
-                  <td class="is-plus"><svg class="ab-v-vink" viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12.5 4.5 4.5L19 7.5"/></svg><span class="ab-sr">Inbegrepen</span></td>
-                </tr>
-                <tr>
-                  <th scope="row"><span class="ab-v-naam">Studiekalender</span><span class="ab-v-uitleg">Per dag zie je hoe lang je oefende.</span></th>
-                  <td class="is-free"><svg class="ab-v-vink" viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12.5 4.5 4.5L19 7.5"/></svg><span class="ab-sr">Inbegrepen</span></td>
-                  <td class="is-plus"><svg class="ab-v-vink" viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12.5 4.5 4.5L19 7.5"/></svg><span class="ab-sr">Inbegrepen</span></td>
-                </tr>
-                <tr>
-                  <th scope="row"><span class="ab-v-naam">Weekoverzicht</span><span class="ab-v-uitleg">7 dagen, 4 weken of sinds dag 1 terugkijken.</span></th>
-                  <td class="is-free"><svg class="ab-v-vink" viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12.5 4.5 4.5L19 7.5"/></svg><span class="ab-sr">Inbegrepen</span></td>
-                  <td class="is-plus"><svg class="ab-v-vink" viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12.5 4.5 4.5L19 7.5"/></svg><span class="ab-sr">Inbegrepen</span></td>
-                </tr>
-                <tr>
-                  <th scope="row"><span class="ab-v-naam">Geavanceerd overzicht</span><span class="ab-v-uitleg">Je groei per vak en per hoofdstuk, met al je verbeterpunten.</span></th>
-                  <td class="is-free"><svg class="ab-v-vink" viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12.5 4.5 4.5L19 7.5"/></svg><span class="ab-sr">Inbegrepen</span></td>
-                  <td class="is-plus"><svg class="ab-v-vink" viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12.5 4.5 4.5L19 7.5"/></svg><span class="ab-sr">Inbegrepen</span></td>
-                </tr>
-                <tr>
-                  <th scope="row"><span class="ab-v-naam">Klaar-meter</span><span class="ab-v-uitleg">Hoe klaar je bent per vak. Geen voorspelling van je examencijfer.</span></th>
-                  <td class="is-free"><svg class="ab-v-vink" viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12.5 4.5 4.5L19 7.5"/></svg><span class="ab-sr">Inbegrepen</span></td>
-                  <td class="is-plus"><svg class="ab-v-vink" viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12.5 4.5 4.5L19 7.5"/></svg><span class="ab-sr">Inbegrepen</span></td>
-                </tr>
-                <tr>
-                  <th scope="row"><span class="ab-v-naam">Vooruitgang na een simulatie</span><span class="ab-v-uitleg">Na elke simulatie zie je of je vooruitgaat.</span></th>
-                  <td class="is-free"><svg class="ab-v-vink" viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12.5 4.5 4.5L19 7.5"/></svg><span class="ab-sr">Inbegrepen</span></td>
-                  <td class="is-plus"><svg class="ab-v-vink" viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12.5 4.5 4.5L19 7.5"/></svg><span class="ab-sr">Inbegrepen</span></td>
-                </tr>
-              </tbody>
-              <tbody>
-                <tr class="ab-groep"><th scope="rowgroup" colspan="3">Comit</th></tr>
-                <tr>
-                  <th scope="row"><span class="ab-v-naam">Vragen aan Comit</span><span class="ab-v-uitleg">Zoveel vragen kan je Comit per dag stellen.</span></th>
-                  <td class="is-free"><span class="ab-v-getal">10</span></td>
-                  <td class="is-plus"><span class="ab-v-getal">60</span></td>
-                </tr>
-                <tr>
-                  <th scope="row"><span class="ab-v-naam">Waarom niet mijn antwoord?</span><span class="ab-v-uitleg">Comit legt uit waarom jouw antwoord niet klopt.</span></th>
-                  <td class="is-free"><span class="ab-v-leeg" aria-hidden="true"></span><span class="ab-sr">Niet in Free</span></td>
-                  <td class="is-plus"><svg class="ab-v-vink" viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12.5 4.5 4.5L19 7.5"/></svg><span class="ab-sr">Inbegrepen</span></td>
-                </tr>
-                <tr>
-                  <th scope="row"><span class="ab-v-naam">Ezelsbruggetjes</span><span class="ab-v-uitleg">Comit maakt ezelsbruggetjes voor je zwakke hoofdstukken.</span></th>
-                  <td class="is-free"><span class="ab-v-leeg" aria-hidden="true"></span><span class="ab-sr">Niet in Free</span></td>
-                  <td class="is-plus"><svg class="ab-v-vink" viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12.5 4.5 4.5L19 7.5"/></svg><span class="ab-sr">Inbegrepen</span></td>
-                </tr>
-              </tbody>
-              <tbody>
-                <tr class="ab-groep"><th scope="rowgroup" colspan="3">Tot je examen</th></tr>
-                <tr>
-                  <th scope="row"><span class="ab-v-naam">Examenplan</span><span class="ab-v-uitleg">Een plan per dag tot je examen.</span></th>
-                  <td class="is-free"><svg class="ab-v-vink" viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12.5 4.5 4.5L19 7.5"/></svg><span class="ab-sr">Inbegrepen</span></td>
-                  <td class="is-plus"><svg class="ab-v-vink" viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12.5 4.5 4.5L19 7.5"/></svg><span class="ab-sr">Inbegrepen</span></td>
-                </tr>
-                <tr>
-                  <th scope="row"><span class="ab-v-naam">In je agenda</span><span class="ab-v-uitleg">Zet je examenplan ook in je eigen agenda.</span></th>
-                  <td class="is-free"><svg class="ab-v-vink" viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12.5 4.5 4.5L19 7.5"/></svg><span class="ab-sr">Inbegrepen</span></td>
-                  <td class="is-plus"><svg class="ab-v-vink" viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12.5 4.5 4.5L19 7.5"/></svg><span class="ab-sr">Inbegrepen</span></td>
-                </tr>
-                <tr>
-                  <th scope="row"><span class="ab-v-naam">Hacks voor je zwakste hoofdstukken</span><span class="ab-v-uitleg">Per vak de hacks voor waar je de meeste fouten maakt.</span></th>
-                  <td class="is-free"><svg class="ab-v-vink" viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12.5 4.5 4.5L19 7.5"/></svg><span class="ab-sr">Inbegrepen</span></td>
-                  <td class="is-plus"><svg class="ab-v-vink" viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12.5 4.5 4.5L19 7.5"/></svg><span class="ab-sr">Inbegrepen</span></td>
-                </tr>
-                <tr>
-                  <th scope="row"><span class="ab-v-naam">Nieuwe onderdelen een week eerder</span><span class="ab-v-uitleg">Met Plus krijg je nieuwe onderdelen een week voor Free.</span></th>
-                  <td class="is-free"><span class="ab-v-leeg" aria-hidden="true"></span><span class="ab-sr">Niet in Free</span></td>
-                  <td class="is-plus"><svg class="ab-v-vink" viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12.5 4.5 4.5L19 7.5"/></svg><span class="ab-sr">Inbegrepen</span></td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
-      </div>
-      <label class="ab-meteen" id="ab-meteen-blok" for="ab-meteen">
-        <input type="checkbox" id="ab-meteen">
-        <span><strong>Laat mijn plan meteen starten.</strong> Ik weet dat ik bij herroepen binnen de bedenktijd van 14 dagen alleen betaal voor de dagen tot dan.</span>
-      </label>
-      <p class="ab-melding" id="ab-melding" role="status" aria-live="polite"></p>
-
-      <section class="ab-sectie" aria-labelledby="weten-kop">
-        <h2 class="sectie-kop" id="weten-kop">Goed om te weten</h2>
-        <div class="kaart ab-weten">
-          <ul class="ab-weten-lijst">
-            <li><span>Prijzen in euro, inclusief btw.</span></li>
-            <li><span data-weten="proef">De eerste maand van Plus kost niets. Je proefmaand start meteen, zonder betaalgegevens. Een proefmaand kan je één keer gebruiken.</span></li>
-            <li><span data-weten="daarna">Na je proefmaand ga je vanzelf terug naar Free. Wil je verder, dan betaal je per maand met Bancontact, iDEAL of kaart.</span></li>
-            <li><span>Opzeggen kan altijd, met één knop op je profiel. Je houdt je plan tot het einde van je proefmaand of van de maand die je al betaalde.</span></li>
-            <li><span>Bedenktijd, opzeggen en de rest van de afspraken lees je in de <a href="voorwaarden.html">voorwaarden</a>.</span></li>
-            <li><span>Vragen? Stuur ze via de <a href="feedback.html">feedbackpagina</a>.</span></li>
-          </ul>
-        </div>
+      <section class="ga-blok kaart" aria-labelledby="ga-waarom">
+        <h2 class="ga-kop" id="ga-waarom">Waarom?</h2>
+        <p>Een abonnement loopt door, ook in maanden dat je niet studeert. Dat vinden we niet eerlijk voor studenten.</p>
       </section>
+
+      <section class="ga-blok kaart" aria-labelledby="ga-deal">
+        <h2 class="ga-kop" id="ga-deal">We werken aan een betere deal</h2>
+        <p>Een deal die past bij hoe jij leert. Tot dan staat alles open voor iedereen, ook wat eerst alleen in Plus zat.</p>
+      </section>
+
+      <div class="ga-acties">
+        <a class="knop" href="hub.html">Terug naar je vakken</a>
+      </div>
+
+      <p class="ga-voet">Had je Plus? Dan houd je het tot de einddatum op je profiel. Vragen? Stuur ze via de <a href="feedback.html">feedbackpagina</a>.</p>
     </div>
   </main>
-
-  <script>
-    // Knoppen Probeer 1 maand: proefmaand starten via start_proef (supabase/abonnementen.sql), daarna naar je profiel.
-    // Staat betalen met Mollie aan (BES.betalen, supabase/mollie.sql), dan gaat de knop via de Edge Function mollie naar Mollie:
-    // daar geef je je betaalgegevens op, daarna kom je terug op abonnement.html?betaling=terug&plan=plus.
-    // De knop toont ook je huidige stand: je hebt Plus al, of je proefmaand is al gebruikt.
-    // Na DOMContentLoaded, want plan.js wordt met defer geladen en staat pas dan klaar.
-    document.addEventListener('DOMContentLoaded', () => {
-      const BES = window.BES || {};
-      const melding = document.getElementById('ab-melding');
-      const betaling = document.getElementById('ab-betaling');
-      const knoppen = [...document.querySelectorAll('[data-proef]')];
-      const meteen = document.getElementById('ab-meteen');
-      const meteenBlok = document.getElementById('ab-meteen-blok');
-      const zacht = () => (window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth');
-      const prijs = { plus: '2,99 euro' };
-      // Een oud plan Pro telt als Plus (plan.js zet dat normaal al om).
-      const planVan = (p) => (p.plan === 'pro' ? 'plus' : p.plan);
-      let betalen = false;
-      meteen.addEventListener('change', () => {
-        meteenBlok.classList.remove('is-nodig');
-        if (meteen.checked && melding.dataset.soort === 'meteen') { melding.textContent = ''; delete melding.dataset.soort; }
-      });
-
-      // Met Mollie: de teksten bij Goed om te weten over betaalgegevens en wat er na je proefmaand gebeurt.
-      const zetWeten = () => {
-        const proef = document.querySelector('[data-weten="proef"]');
-        const daarna = document.querySelector('[data-weten="daarna"]');
-        if (proef) proef.textContent = 'De eerste maand van Plus kost niets. Je geeft wel je betaalgegevens op bij Mollie, met een betaling van 2 cent om je betaalmethode te bevestigen. Een proefmaand kan je één keer gebruiken.';
-        if (daarna) daarna.textContent = 'Na je proefmaand loopt je plan vanzelf door en betaal je automatisch 2,99 euro per maand. Zeg je op tijdens je proefmaand, dan betaal je niets.';
-      };
-
-      const zetStand = (p) => {
-        const nu = planVan(p);
-        document.querySelectorAll('.ab-jouw').forEach((label) => label.remove());
-        const kaart = p.ingelogd && document.querySelector('.ab-plan[data-plan="' + nu + '"]');
-        if (kaart) {
-          const label = document.createElement('span');
-          label.className = 'label ab-jouw';
-          label.textContent = 'Jouw plan';
-          kaart.querySelector('.ab-plan-kop').append(label);
-        }
-        knoppen.forEach((knop) => {
-          const plan = knop.dataset.proef;
-          // Iedereen krijgt één proefmaand: ook een oude proefmaand van Pro telt.
-          const gebruikt = Boolean(p.proef_plus || p.proef_pro);
-          let tekst = 'Probeer 1 maand';
-          let uit = false;
-          if (nu === plan) { tekst = 'Je hebt ' + BES.planNaam(plan); uit = true; }
-          else if (gebruikt && !betalen) { tekst = 'Proefmaand gebruikt'; uit = true; }
-          // Met Mollie kan je na een gebruikte proefmaand meteen een betaald abonnement nemen.
-          else if (gebruikt) tekst = 'Neem ' + BES.planNaam(plan);
-          knop.textContent = tekst;
-          knop.disabled = uit;
-          knop.classList.toggle('is-huidig', uit);
-          const uitleg = document.querySelector('[data-betaal-uitleg="' + plan + '"]');
-          if (uitleg) {
-            uitleg.hidden = !betalen || uit;
-            uitleg.textContent = gebruikt
-              ? 'Je proefmaand is al gebruikt. Je betaalt bij Mollie meteen ' + prijs[plan] + ' voor de eerste maand, daarna automatisch ' + prijs[plan] + ' per maand. Opzeggen kan altijd op je profiel.'
-              : 'Je geeft je betaalgegevens op bij Mollie. De eerste maand kost niets, alleen 2 cent om je betaalmethode te bevestigen. Daarna betaal je automatisch ' + prijs[plan] + ' per maand. Opzeggen kan altijd op je profiel.';
-          }
-        });
-      };
-
-      knoppen.forEach((knop) => knop.addEventListener('click', async () => {
-        const plan = knop.dataset.proef;
-        const auth = BES.auth;
-        const gebruiker = auth ? await auth.gebruiker().catch(() => null) : null;
-        if (!gebruiker || !auth.client) { window.location.href = 'inloggen.html?terug=abonnement.html'; return; }
-        if (!meteen.checked) {
-          melding.textContent = 'Zet eerst het vinkje "Laat mijn plan meteen starten" aan.';
-          melding.dataset.soort = 'meteen';
-          meteenBlok.classList.add('is-nodig');
-          meteenBlok.scrollIntoView({ block: 'center', behavior: zacht() });
-          meteen.focus({ preventScroll: true });
-          return;
-        }
-        const oud = knop.textContent;
-        knop.disabled = true;
-        knop.textContent = 'Even geduld';
-        melding.textContent = '';
-        delete melding.dataset.soort;
-        betaling.textContent = '';
-
-        // Mollie: betaling met machtiging aanmaken en doorsturen naar de betaalpagina van Mollie.
-        if (BES.betalen && await BES.betalen()) {
-          knop.textContent = 'Even geduld…';
-          try {
-            const data = await BES.mollie({ actie: 'start', plan, meteen: meteen.checked });
-            if (typeof data.url !== 'string' || !/^https:\/\//.test(data.url)) throw new Error('geen url');
-            window.location.assign(data.url);
-            return;
-          } catch (fout) {
-            knop.disabled = false;
-            knop.textContent = oud;
-            melding.textContent = (fout && fout.fout) || 'Naar de betaalpagina gaan lukte niet. Probeer het zo opnieuw.';
-            melding.scrollIntoView({ block: 'center', behavior: zacht() });
-            return;
-          }
-        }
-
-        try {
-          // Tot supabase/herroepen.sql is uitgevoerd bestaat alleen start_proef(p_plan); dan zonder p_meteen opnieuw.
-          let { data, error } = await auth.client.rpc('start_proef', { p_plan: plan, p_meteen: true });
-          if (error && error.code === 'PGRST202') ({ data, error } = await auth.client.rpc('start_proef', { p_plan: plan }));
-          if (error) throw error;
-          if (data && data.ok) { window.location.href = 'profiel.html?proef=' + plan + '#abonnement'; return; }
-          const naam = BES.planNaam(plan);
-          melding.textContent = ({
-            al_actief: 'Je hebt ' + naam + ' al.',
-            al_gebruikt: 'Je hebt je proefmaand al gebruikt.',
-            meteen_nodig: 'Zet eerst het vinkje "Laat mijn plan meteen starten" aan.',
-            betalen_aan: 'Er ging iets mis. Laad de pagina opnieuw en probeer het nog eens.',
-          })[data && data.reden] || 'Dat lukte niet. Probeer het zo opnieuw.';
-          zetStand(await BES.plan(true));
-        } catch {
-          knop.disabled = false;
-          knop.textContent = oud;
-          melding.textContent = 'Dat lukte niet. Probeer het zo opnieuw.';
-        }
-      }));
-
-      // Terug van Mollie: elke 2 seconden het plan opnieuw ophalen, hoogstens 30 seconden. De webhook zet het plan aan
-      // zodra Mollie de betaling bevestigt; lukt dat, dan naar je profiel zoals na een gewone proefmaand.
-      let terug = false;
-      let terugPlan = '';
-      try {
-        const vraag = new URLSearchParams(window.location.search);
-        terug = vraag.get('betaling') === 'terug';
-        terugPlan = terug ? vraag.get('plan') || '' : '';
-      } catch {}
-      const ruimOp = () => { try { window.history.replaceState(window.history.state, '', window.location.pathname + window.location.hash); } catch {} };
-      const wacht = (ms) => new Promise((klaar) => { setTimeout(klaar, ms); });
-      const controleer = async (plan) => {
-        betaling.textContent = 'We controleren je betaling…';
-        const start = Date.now();
-        let p = await BES.plan(true);
-        // Geen sessie in deze browser (bijvoorbeeld de bank-app opende een andere browser): niet wachten, eerst inloggen.
-        if (!p.ingelogd) {
-          ruimOp();
-          betaling.textContent = 'Log in om te zien of je betaling gelukt is. ';
-          const link = document.createElement('a');
-          link.href = 'inloggen.html?terug=' + encodeURIComponent('profiel.html#abonnement');
-          link.textContent = 'Inloggen';
-          betaling.append(link);
-          return;
-        }
-        while (planVan(p) !== plan && Date.now() - start < 30000) {
-          await wacht(2000);
-          p = await BES.plan(true);
-        }
-        ruimOp();
-        if (planVan(p) === plan) { window.location.href = 'profiel.html?proef=' + plan + '#abonnement'; return; }
-        betaling.textContent = 'Je betaling is niet gelukt of nog niet bevestigd. Probeer het opnieuw of kijk later op je profiel.';
-        zetStand(p);
-      };
-
-      if (!BES.plan) return;
-      Promise.all([BES.plan(), BES.betalen ? BES.betalen() : false]).then(([p, aan]) => {
-        betalen = aan === true;
-        if (betalen) zetWeten();
-        zetStand(p);
-        // Een betaling die nog voor Pro gestart was, komt nu binnen als Plus.
-        if (terugPlan === 'plus' || terugPlan === 'pro') controleer('plus');
-        else if (terug) ruimOp();
-      });
-    });
-
-    // Vergelijk abonnementen: de knop klapt de tabel open of dicht. Open schuift de tabel in beeld (zonder beweging bij reduced motion).
-    (() => {
-      const knop = document.getElementById('ab-vergelijk-knop');
-      const paneel = document.getElementById('ab-vergelijking');
-      if (!knop || !paneel) return;
-      const tekst = knop.querySelector('.ab-vergelijk-tekst');
-      knop.addEventListener('click', () => {
-        const open = knop.getAttribute('aria-expanded') !== 'true';
-        knop.setAttribute('aria-expanded', String(open));
-        tekst.textContent = open ? 'Verberg vergelijking' : 'Vergelijk abonnementen';
-        paneel.hidden = !open;
-        if (open) paneel.scrollIntoView({ block: 'start', behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' });
-      });
-    })();
-  </script>
 
   <footer class="site-footer">
     <p class="footer-brand">Berie's Exam Space</p>
