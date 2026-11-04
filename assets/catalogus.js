@@ -95,7 +95,7 @@
     r('vub', 'wiskunde', 'Wiskunde en Data Science'),
     r('vub', 'bio-ingenieur', 'Bio-ingenieurswetenschappen'),
     // Maastricht University
-    r('um', 'rechtsgeleerdheid', 'Rechtsgeleerdheid', 'binnenkort')
+    r('um', 'rechtsgeleerdheid', 'Rechtsgeleerdheid', 'live')
   ];
 
   // Zoeken zonder hoofdletters en accenten: "liege" vindt Université de Liège.

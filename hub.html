@@ -66,10 +66,10 @@
   <script src="assets/meten.js?v=1"></script>
   <script src="assets/app.js?v=95"></script>
   <script src="assets/intro.js?v=95"></script>
-  <script src="assets/vakken.js?v=90"></script>
+  <script src="assets/vakken.js?v=91"></script>
   <script src="assets/config.js?v=89" defer></script>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js" defer></script>
-  <script src="assets/auth.js?v=92" defer></script>
+  <script src="assets/auth.js?v=94" defer></script>
   <script src="assets/plan.js?v=90" defer></script>
   <script src="assets/comit.js?v=90" defer></script>
   <script src="assets/activiteit.js?v=90" defer></script>
@@ -90,9 +90,12 @@
       transition: transform 220ms var(--ease), box-shadow 220ms var(--ease);
     }
 
-    .jaar[data-jaar="1ba"] { --jaar: #3FB9B2; --jaar-licht: #8FDAD5; }
-    .jaar[data-jaar="2ba"] { --jaar: #8B7CF6; --jaar-licht: #C4BAFF; }
-    .jaar[data-jaar="3ba"] { --jaar: #E0A030; --jaar-licht: #F5D08A; }
+    .hub-richting { display: grid; gap: 14px; }
+    .hub-richting[hidden] { display: none; }
+    .hub-richting-kop { margin: 0; color: var(--ink-soft); font-size: .9375rem; font-weight: 600; }
+    .jaar:is([data-jaar="1ba"], [data-jaar="um1"]) { --jaar: #3FB9B2; --jaar-licht: #8FDAD5; }
+    .jaar:is([data-jaar="2ba"], [data-jaar="um2"]) { --jaar: #8B7CF6; --jaar-licht: #C4BAFF; }
+    .jaar:is([data-jaar="3ba"], [data-jaar="um3"]) { --jaar: #E0A030; --jaar-licht: #F5D08A; }
 
     html[data-theme="dark"] .kaart.jaar {
       --jaar-schaduw: 0 14px 30px var(--shadow-far-color), 0 2px 6px var(--shadow-near-color);
@@ -270,7 +273,7 @@
       </div>
 
       <section class="rijst hub-sectie" id="kies-je-jaar" aria-label="Kies je jaar">
-        <div class="rooster-3">
+        <div class="rooster-3" id="hub-jaren">
           <a class="kaart jaar" href="jaar-1ba.html" data-jaar="1ba">
             <span class="jaar-band">
               <span class="jaar-nummer">1</span>
@@ -304,6 +307,45 @@
               <span class="jaar-link">Bekijk vakken <span class="jaar-pijl" aria-hidden="true">→</span></span>
             </span>
           </a>
+        </div>
+        <!-- Rechtsgeleerdheid, Maastricht University: alleen voor wie die richting koos (zie BES.auth.richting). -->
+        <div class="hub-richting" id="hub-um" hidden>
+          <p class="hub-richting-kop">Rechtsgeleerdheid · Maastricht University</p>
+          <div class="rooster-3">
+            <a class="kaart jaar" href="jaar-um1.html" data-jaar="um1">
+              <span class="jaar-band">
+                <span class="jaar-nummer">1</span>
+                <span class="label">Laatst gekozen</span>
+              </span>
+              <span class="kaart-tekst jaar-body">
+                <span class="kaart-titel">1ste jaar</span>
+                <span class="kaart-sub">3 vakken</span>
+                <span class="jaar-link">Bekijk vakken <span class="jaar-pijl" aria-hidden="true">→</span></span>
+              </span>
+            </a>
+            <a class="kaart jaar" href="jaar-um2.html" data-jaar="um2">
+              <span class="jaar-band">
+                <span class="jaar-nummer">2</span>
+                <span class="label">Laatst gekozen</span>
+              </span>
+              <span class="kaart-tekst jaar-body">
+                <span class="kaart-titel">2de jaar</span>
+                <span class="kaart-sub">1 vak</span>
+                <span class="jaar-link">Bekijk vakken <span class="jaar-pijl" aria-hidden="true">→</span></span>
+              </span>
+            </a>
+            <a class="kaart jaar" href="jaar-um3.html" data-jaar="um3">
+              <span class="jaar-band">
+                <span class="jaar-nummer">3</span>
+                <span class="label">Laatst gekozen</span>
+              </span>
+              <span class="kaart-tekst jaar-body">
+                <span class="kaart-titel">3de jaar</span>
+                <span class="kaart-sub">Nog geen vakken</span>
+                <span class="jaar-link">Bekijk vakken <span class="jaar-pijl" aria-hidden="true">→</span></span>
+              </span>
+            </a>
+          </div>
         </div>
         <div class="hub-comit">
           <a class="hub-comit-knop" href="comit.html">
@@ -345,13 +387,6 @@
             <span class="kaart-tekst">
               <span class="kaart-titel">Foutenlijst</span>
               <span class="kaart-sub">Alle vragen die je fout had, per vak. Werk ze gericht weg.</span>
-            </span>
-            <span class="pijl" aria-hidden="true">→</span>
-          </a>
-          <a class="kaart kaart-pijl" href="examenplan.html">
-            <span class="kaart-tekst">
-              <span class="kaart-titel">Jouw examenplan</span>
-              <span class="kaart-sub">Een plan per dag tot je examen, met je zwakste hoofdstukken eerst.</span>
             </span>
             <span class="pijl" aria-hidden="true">→</span>
           </a>
@@ -537,6 +572,33 @@
         });
       });
 
+      // Welke vakken je ziet, hangt af van je richting. Eerst de bewaarde keuze van dit toestel (zodat niets verspringt), daarna die van je account.
+      const toonRichting = richting => {
+        const um = richting === 'um-rechtsgeleerdheid';
+        document.getElementById('hub-jaren').hidden = um;
+        document.getElementById('hub-um').hidden = !um;
+      };
+      let bewaard = null;
+      try { bewaard = window.localStorage.getItem('bes_richting'); } catch {}
+      // Net op de kaart gekozen in dit tabblad: die keuze gaat voor.
+      try { const keuze = JSON.parse(window.sessionStorage.getItem('bes_keuze') || 'null'); if (typeof keuze?.richting === 'string') { bewaard = keuze.richting; window.localStorage.setItem('bes_richting', bewaard); } } catch {}
+      if (/^(localhost|127.0.0.1)$/.test(window.location.hostname)) bewaard = new URLSearchParams(window.location.search).get('richting') || bewaard;
+      toonRichting(bewaard);
+      document.addEventListener('DOMContentLoaded', () => {
+        window.BES.auth?.richting?.().then(richting => {
+          if (!richting) return;
+          try { window.localStorage.setItem('bes_richting', richting); } catch {}
+          toonRichting(richting);
+        }, () => {}).finally(() => {
+          // De beheerder ziet alle richtingen, om alles te kunnen nakijken.
+          window.BES.auth?.isBeheerder?.().then(ja => {
+            if (!ja) return;
+            document.getElementById('hub-jaren').hidden = false;
+            document.getElementById('hub-um').hidden = false;
+          }, () => {});
+        });
+      });
+
       // auth.js is uitgesteld geladen; pas na DOMContentLoaded is BES.auth er.
       if (window.BES_VERSIE_CHECK) document.addEventListener('DOMContentLoaded', () => {
         const versie = window.BES_VERSIE || 0;
@@ -617,7 +679,14 @@
       document.querySelectorAll("[data-hub-comit-logo]").forEach((plek) => plek.append(window.BES.comitLogo(30)));
     });
     // Voor iedereen, één keer per toestel: de pop-up Er is geen abonnement meer (app.js).
-    window.addEventListener("load", () => window.setTimeout(() => window.BES?.geenAboMelding?.(), 1500));
+    // Alleen voor Psychologie: andere richtingen (zoals Maastricht) hebben nooit een abonnement gekend.
+    window.addEventListener("load", () => window.setTimeout(async () => {
+      let richting = null;
+      try { richting = window.localStorage.getItem('bes_richting'); } catch {}
+      try { richting = (await window.BES?.auth?.richting?.()) || richting; } catch {}
+      if (richting && richting !== 'vub-psychologie') return;
+      window.BES?.geenAboMelding?.();
+    }, 1500));
   </script>
 </body>
 </html>

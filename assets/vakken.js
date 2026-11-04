@@ -52,7 +52,12 @@
     { id: 'ppka', jaar: '3ba', naam: 'Psychopathologie van kinderen en adolescenten', tekst: '93 oefenvragen over 9 hoofdstukken, met uitleg.', v2: true },
     { id: 'hrm', jaar: '3ba', naam: 'Principles of Human Resources Management', tekst: '98 oefenvragen over 9 hoofdstukken, met uitleg.', v2: true },
     { id: 'ohv', jaar: '3ba', naam: 'Organisatie van de hulpverlening', tekst: '66 oefenvragen over 6 hoofdstukken, met uitleg.', v2: true },
-    { id: 'forensische', jaar: '3ba', naam: 'Forensische Psychiatrie', tekst: '47 oefenvragen over 6 hoofdstukken, met uitleg.', v2: true }
+    { id: 'forensische', jaar: '3ba', naam: 'Forensische Psychiatrie', tekst: '47 oefenvragen over 6 hoofdstukken, met uitleg.', v2: true },
+    // Rechtsgeleerdheid, Maastricht University (eigen jaren um1 tot um3, zie jaar-um1.html)
+    { id: 'um-staatsrecht', jaar: 'um1', naam: 'Staatsrecht', tekst: '87 oefenvragen over 8 hoofdstukken, met uitleg.', v2: true },
+    { id: 'um-privaat', jaar: 'um1', naam: 'Privaatrecht: verbintenissen en goederen', tekst: '44 oefenvragen over 7 hoofdstukken, met uitleg.', v2: true },
+    { id: 'um-belasting', jaar: 'um1', naam: 'Inleiding belastingrecht', tekst: '36 oefenvragen over 7 hoofdstukken, met uitleg.', v2: true },
+    { id: 'um-ier', jaar: 'um2', naam: 'Internationaal en Europees recht', tekst: '129 oefenvragen over 9 hoofdstukken, met uitleg.', v2: true }
   ];
 
   // Link naar een vak: in v2 zodra het is omgezet, anders de bestaande tool.

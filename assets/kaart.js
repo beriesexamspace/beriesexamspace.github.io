@@ -21,7 +21,7 @@
     return { id: s.id, naam: s.naam, afk: s.kort[0], stad: s.stad, land: s.land, x, y };
   });
   const UITLEG = { live: 'Er staan al vakken klaar', binnenkort: 'De eerste vakken worden gemaakt', leeg: 'Nog geen leerstof' };
-  const LIVE_UITLEG = { 'vub-psychologie': '34 vakken, 1ste tot 3de bachelor' };
+  const LIVE_UITLEG = { 'vub-psychologie': '34 vakken, 1ste tot 3de bachelor', 'um-rechtsgeleerdheid': '4 vakken' };
   const CHIP = { live: { klasse: 'live', tekst: 'Beschikbaar' }, binnenkort: { klasse: 'later', tekst: 'Binnenkort' }, leeg: { klasse: '', tekst: 'Nog niets' } };
   const richtingenVan = s => CAT.richtingenVan(s.id).map(r => ({ id: r.id, naam: r.naam, status: r.status, uitleg: r.status === 'live' ? (LIVE_UITLEG[r.id] || UITLEG.live) : UITLEG[r.status] }));
   const live = s => richtingenVan(s).some(r => r.status === 'live');

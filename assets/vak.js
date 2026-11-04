@@ -137,7 +137,8 @@
     if (!data) {
       // Terug werkt ook zonder bruikbare vakdata: naar het jaar als dat bekend is, anders naar de hub.
       const jaar = window.BES_VAK?.jaar;
-      const terug = Object.keys(years).includes(jaar) ? `../../jaar-${jaar}.html` : '../../hub.html';
+      const eigen = window.BES_VAK?.terug;
+      const terug = typeof eigen === 'string' && /^jaar-[a-z0-9]+.html$/.test(eigen) ? `../../${eigen}` : Object.keys(years).includes(jaar) ? `../../jaar-${jaar}.html` : '../../hub.html';
       byId('vak-terug').dataset.terug = terug;
       byId('vak-terug').href = terug;
       byId('vak-fout').textContent = 'Dit vak kan niet worden geladen. Ga terug naar het jaar en probeer later opnieuw.';
@@ -1974,17 +1975,19 @@
     }
 
     document.title = `${data.naam} | Berie's Exam Space`;
-    byId('vak-jaar').textContent = years[data.jaar];
+    // Vakken van een andere richting (Maastricht): eigen label en terug naar de hub in plaats van naar een Psychologie-jaar.
+    const terugNaar = typeof data.terug === 'string' && /^jaar-[a-z0-9]+.html$/.test(data.terug) ? `../../${data.terug}` : `../../jaar-${data.jaar}.html`;
+    byId('vak-jaar').textContent = data.label || years[data.jaar];
     byId('vak-naam').textContent = data.naam;
     byId('vak-aantallen').textContent = `${countText(data.vragen.length)} over ${data.hoofdstukken.length} ${data.hoofdstukken.length === 1 ? 'hoofdstuk' : 'hoofdstukken'}.`;
-    byId('vak-terug').dataset.terug = `../../jaar-${data.jaar}.html`;
-    byId('vak-terug').href = `../../jaar-${data.jaar}.html`;
+    byId('vak-terug').dataset.terug = terugNaar;
+    byId('vak-terug').href = terugNaar;
     if (!data.vragen.length) {
       byId('vak-instellingen').hidden = true;
       const empty = byId('vak-leeg');
       empty.replaceChildren(create('p', '', 'Voor dit vak staan nog geen vragen klaar.'));
       const back = create('a', 'terug', '← Terug naar het jaar');
-      back.href = `../../jaar-${data.jaar}.html`;
+      back.href = terugNaar;
       empty.append(back);
       empty.hidden = false;
     }
