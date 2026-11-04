@@ -291,6 +291,11 @@
           </script>
         </section>
 
+        <section class="beheer-sectie" aria-labelledby="richtingen-kop">
+          <h2 class="sectie-kop" id="richtingen-kop">Accounts per richting</h2>
+          <div class="beheer-cijfers" id="beheer-richtingen"><p class="sub">Even laden.</p></div>
+        </section>
+
         <section class="beheer-sectie" aria-labelledby="abo-kop">
           <h2 class="sectie-kop" id="abo-kop">Abonnementen</h2>
           <div class="beheer-cijfers" id="beheer-abo"></div>
@@ -1543,6 +1548,19 @@
           [o.plannen.opgezegd, 'opgezegd, loopt nog'],
           [(o.plannen.proeven_plus || 0) + (o.plannen.proeven_pro || 0), 'proefmaanden ooit']
         ]);
+
+        // Accounts per richting (aparte SQL beheer_richtingen). Zonder keuze = account van voor de kaart.
+        auth.client.rpc('beheer_richtingen').then(({ data, error }) => {
+          if (versie !== laadVersie) return;
+          if (error || !Array.isArray(data)) { $('beheer-richtingen').replaceChildren(el('p', 'sub', 'Nog niet beschikbaar: de SQL beheer-richtingen staat nog niet in het project.')); return; }
+          const cat = window.BES_CATALOGUS || null;
+          const naam = (id) => {
+            if (!id) return 'nog geen richting gekozen (account van voor de kaart)';
+            const r = cat ? cat.richting(id) : null; const s = r ? cat.school(r.school) : null;
+            return r ? r.naam + (s ? ' · ' + ((s.kort && s.kort[0]) || s.naam) : '') : id;
+          };
+          cijfers('beheer-richtingen', data.map((rij) => [rij.aantal, naam(rij.richting)]));
+        }, () => {});
 
         // Elk account met naam, e-mail en gegevens; zoeken op naam of e-mail. Een oude rij met 'pro' toont als Plus.
         const wanneer = (moment) => moment ? lang.format(new Date(moment)) : 'Nog nooit';
