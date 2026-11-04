@@ -1,6 +1,7 @@
 // Stap-voor-stap-intro: één kaart per stap met Volgende, Vorige en Overslaan.
 // Gebruik: BES.stappen(element, { soorten, kopniveau, overslaan, lus, laatsteTekst, bijKlaar })
-//   soorten      welke stappen: intro (alleen welkomstscherm), uitleg (ook op de hub), groep (WhatsApp), nieuw (Wat is nieuw)
+//   soorten      welke stappen: uitleg (ook op de hub), groep (WhatsApp), nieuw (Wat is nieuw)
+//                De dia's 'vroeger en nu' over de oude site zijn weg (Berat, 04-11-2026): nieuwe mensen kenden die nooit.
 //   overslaan    true: knop Overslaan tonen (telt als gezien)
 //   lus          true: na de laatste stap weer naar de eerste (hub); anders knop laatsteTekst en bijKlaar()
 window.BES = window.BES || {};
@@ -12,106 +13,6 @@ window.BES = window.BES || {};
   const telefoon = (scherm, pop = true) => `<div class="tel${pop ? ' anim-pop' : ''}" style="--i:0">${STATUS}<div class="tel-scherm">${scherm}</div></div>`;
 
   const STAPPEN = [
-    {
-      soort: 'intro',
-      naam: 'Welkom',
-      label: 'Welkom',
-      titel: "Berie's Exam Space is vernieuwd.",
-      tekst: 'Nieuwe stijl, een account dat je voortgang bewaart, en alle vakken van je jaar op één plek. In een paar stappen zie je wat er veranderd is en hoe het werkt.',
-      beeld: `
-        <div class="stap-merk">
-          <span class="stap-merk-b anim-pop" style="--i:1" aria-hidden="true">B</span>
-          <span class="stap-merk-naam anim" style="--i:4">Berie's Exam Space</span>
-          <span class="stap-merk-sub anim" style="--i:5">Duidelijk leren. Rustig groeien.</span>
-        </div>`
-    },
-    {
-      soort: 'intro',
-      naam: 'Oud naast nieuw: startpagina',
-      label: 'Oud naast nieuw · 1 van 3',
-      titel: 'De startpagina.',
-      tekst: 'Vroeger één lange lijst met links naar alle vakken. Nu een rustige start: je kiest je school en richting op de kaart, maakt een account, en daarna is het jouw eigen space.',
-      beeld: `
-        <div class="oudnieuw">
-          <div class="mini is-oud anim-links">
-            <span class="mini-label">Oud</span>
-            <span class="mini-oud-kop">Berie's Exam Space</span>
-            <span class="mini-oud-link">Statistiek I</span>
-            <span class="mini-oud-link">Inleiding pedagogiek</span>
-            <span class="mini-oud-link">Algemene psychologie</span>
-            <span class="mini-oud-link">Sociale psychologie I</span>
-            <span class="mini-oud-link">Statistiek II</span>
-            <span class="mini-oud-link">Persoonlijkheidspsychologie</span>
-            <span class="mini-oud-tekst">en zo verder, de hele pagina lang</span>
-          </div>
-          <div class="mini is-nieuw is-hero anim-rechts">
-            <span class="mini-label">Nieuw</span>
-            <span class="mini-hero-kop">Jouw leerstof.<em>Jouw eigen space.</em></span>
-            <span class="mini-hero-sub">Alles wat je nodig hebt om overzicht te krijgen, slimmer te leren en door te groeien.</span>
-            <div class="tel-knop">Laten we starten →</div>
-            <span class="mini-hero-link">Ik heb al een account</span>
-          </div>
-        </div>`
-    },
-    {
-      soort: 'intro',
-      naam: 'Oud naast nieuw: oefenen',
-      label: 'Oud naast nieuw · 2 van 3',
-      titel: 'Oefenen.',
-      tekst: 'Vroeger stond een vraag met a, b, c en d onder elkaar, met het antwoord eronder. Nu krijg je één vraag per scherm, je kiest, en je ziet meteen of het goed was, met uitleg.',
-      beeld: `
-        <div class="oudnieuw">
-          <div class="mini is-oud anim-links">
-            <span class="mini-label">Oud</span>
-            <span class="mini-oud-kop">Statistiek I</span>
-            <span class="mini-oud-vraag">Vraag 12. Welke maat hoort bij een ordinale schaal?</span>
-            <span class="mini-oud-optie">a) gemiddelde</span>
-            <span class="mini-oud-optie">b) mediaan</span>
-            <span class="mini-oud-optie">c) standaardafwijking</span>
-            <span class="mini-oud-optie">d) variantie</span>
-            <span class="mini-oud-link">Toon antwoord</span>
-            <span class="mini-oud-tekst">Antwoord: b</span>
-          </div>
-          <div class="mini is-nieuw anim-rechts">
-            <span class="mini-label">Nieuw</span>
-            <span class="tel-rij"><span>Vraag 12 van 20</span><span>Training</span></span>
-            <span class="tel-vraag">Welke maat hoort bij een ordinale schaal?</span>
-            <div class="tel-optie">Gemiddelde</div>
-            <div class="tel-optie is-goed">Mediaan ✓</div>
-            <div class="tel-optie">Standaardafwijking</div>
-            <div class="mini-uitleg">Goed. Bij een ordinale schaal kan je wel ordenen, maar niet rekenen met afstanden.</div>
-            <div class="tel-knop">Volgende →</div>
-          </div>
-        </div>`
-    },
-    {
-      soort: 'intro',
-      naam: 'Oud naast nieuw: hoofdstukken',
-      label: 'Oud naast nieuw · 3 van 3',
-      titel: 'Je hoofdstukken.',
-      tekst: 'De oude site was één lange pagina per vak. Nu kies je eerst je jaar en je vak, vink je hoofdstukken aan en oefen je in <strong>Training</strong> of <strong>Simulatie</strong>. Je voortgang blijft bewaard.',
-      beeld: `
-        <div class="oudnieuw">
-          <div class="mini is-oud anim-links">
-            <span class="mini-label">Oud</span>
-            <span class="mini-oud-kop">Berie's Exam Space</span>
-            <span class="mini-oud-link">Statistiek I</span>
-            <span class="mini-oud-link">Inleiding pedagogiek</span>
-            <span class="mini-oud-vraag">Vraag 12. Welke maat hoort bij een ordinale schaal?</span>
-            <span class="mini-oud-optie">a) gemiddelde</span>
-            <span class="mini-oud-optie">b) mediaan</span>
-            <span class="mini-oud-optie">c) standaardafwijking</span>
-          </div>
-          <div class="mini is-nieuw anim-rechts">
-            <span class="mini-label">Nieuw</span>
-            <span class="tel-kop">Kies je hoofdstukken</span>
-            <div class="tel-kaart"><span class="tel-vink is-aan">✓</span>Meetschalen</div>
-            <div class="tel-kaart"><span class="tel-vink is-aan">✓</span>Centrummaten</div>
-            <div class="tel-kaart"><span class="tel-vink"></span>Spreiding</div>
-            <div class="tel-knop">Start →</div>
-          </div>
-        </div>`
-    },
     {
       soort: 'uitleg',
       naam: 'Vakken',
@@ -258,7 +159,7 @@ window.BES = window.BES || {};
   ];
 
   window.BES.stappen = (root, opties = {}) => {
-    const soorten = opties.soorten || ['intro', 'uitleg', 'groep', 'nieuw'];
+    const soorten = opties.soorten || ['uitleg', 'groep', 'nieuw'];
     const stappen = STAPPEN.filter(stap => soorten.includes(stap.soort));
     const kop = opties.kopniveau || 'h3';
     const rustig = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
