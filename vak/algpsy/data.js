@@ -1113,7 +1113,7 @@ window.BES_VAK = {
     "Medicatie tegen depressie werkt via cortisol, niet serotonine"
    ],
    "a": 0,
-   "u": "Bij depressie is er te weinig serotonine (een neurotransmitter) in het brein. Medicatie zorgt ervoor dat het postsynaptische neuron serotonine niet terug opneemt/afbreekt, waardoor het serotoninegehalte op peil blijft."
+   "u": "Bij depressie is er te weinig serotonine (een neurotransmitter) in het brein. Medicatie zorgt ervoor dat serotonine minder snel door het presynaptische neuron wordt heropgenomen (SSRI's remmen die heropname) of minder snel wordt afgebroken, waardoor het serotoninegehalte in de synaptische spleet op peil blijft."
   },
   {
    "h": "h10",
