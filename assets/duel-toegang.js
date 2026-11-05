@@ -1,4 +1,5 @@
-// Wie mag het duel zien? Zolang het duel in stilte live staat, alleen de accounts in TESTERS.
+// Wie mag het duel zien? Zolang het duel in stilte live staat, alleen de accounts in TESTERS (knop en duel maken).
+// Meedoen via een uitnodigingslink (duel.html?c=CODE) mag met elk account; dat regelt duel.html.
 // TESTERS bevat de SHA-256 van het account-id (geen id's in deze openbare code). Lijst leeg = iedereen met een account.
 // Gebruikt door duel-start.js (de knop op de vakpagina) en duel.html (de pagina zelf).
 (() => {
