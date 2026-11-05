@@ -152,7 +152,7 @@
     const showLevelStep = hasLevels && data.hardVragen.length > 0;
     const levels = hasLevels ? ['normaal', 'hard'] : ['normaal'];
     const levelLabel = value => value === 'hard' ? 'Hard mode' : 'Normaal';
-    const modeLabel = value => value === 'simulatie' ? 'Examensimulatie' : 'Examen Training';
+    const modeLabel = value => value === 'simulatie' ? 'Examensimulatie' : value === 'duel' ? 'Duel met vrienden' : 'Examen Training';
     const courseKey = value => value === 'hard' ? `${data.id}__hard` : data.id;
     const questionsFor = value => value === 'hard' && hasLevels ? data.hardVragen : data.vragen;
     const countsFor = value => Object.fromEntries(data.hoofdstukken.map(chapter => [chapter.id, questionsFor(value).filter(question => question.h === chapter.id).length]));
@@ -177,6 +177,8 @@
     let context = null;
     let authGeneration = 0;
     let mode = 'training';
+    // Een duel speelt met de gewone vragen: het niveau van daarvoor komt terug als je weer Training of Simulatie kiest.
+    let niveauVoorDuel = null;
     let session = null;
     let screen = 'keuzes';
     let currentTab = 'paneel-oefenen';
@@ -384,8 +386,61 @@
       // Free met de simulaties van vandaag al gedaan: rustige melding, Training blijft gekozen.
       if (value === 'simulatie' && simulatieOp()) { toonSimSlot(true); return; }
       if (byId('sim-slot')) verbergBlok(byId('sim-slot'));
+      if (value === 'duel' && mode !== 'duel') { niveauVoorDuel = level; setLevel('normaal'); }
+      else if (value !== 'duel' && mode === 'duel' && niveauVoorDuel) { setLevel(niveauVoorDuel); niveauVoorDuel = null; }
       setMode(value);
-      revealStep(showLevelStep ? 'niveau' : 'tijd');
+      if (value !== 'duel') { revealStep(showLevelStep ? 'niveau' : 'tijd'); return; }
+      // Bij een duel gelden niveau en tijd niet: verder naar de hoofdstukken. Pas als niveau en tijd dichtgeschoven zijn
+      // kijken of de kop in beeld staat; anders zacht ernaartoe.
+      revealStep('hoofdstukken', false);
+      window.setTimeout(() => {
+        const kop = byId('stap-hoofdstukken').querySelector('.vak-sectie-kop').getBoundingClientRect();
+        if (mode === 'duel' && (kop.top < 88 || kop.bottom > window.innerHeight)) scrollNaar(byId('stap-hoofdstukken'));
+      }, 240);
+    }
+
+    // Duel met vrienden (duel-start.js): niveau en tijd schuiven dicht, Hoofdstukken wordt stap 2 en Start maakt een duel.
+    // Terug naar Training of Simulatie zet alles weer zoals het was.
+    function zetDuel(duel) {
+      [...(showLevelStep ? ['niveau'] : []), 'tijd'].forEach(name => zetBlok(byId(`stap-${name}`), !duel));
+      const stapLabel = byId('stap-hoofdstukken').querySelector('.keuze-stap');
+      const overzichtLabel = byId('stap-start').querySelector('.keuze-stap');
+      // De tekst volgt de modus van dat moment, ook als er snel na elkaar gewisseld wordt.
+      const labels = () => {
+        stapLabel.textContent = `Stap ${mode === 'duel' ? 2 : steps.length}`;
+        overzichtLabel.textContent = mode === 'duel' ? 'Jouw duel' : 'Jouw oefening';
+      };
+      if (BES.wissel) { BES.wissel(stapLabel, labels); BES.wissel(overzichtLabel, labels); }
+      else labels();
+      const knop = byId('start-oefening');
+      if (duel) knop.setAttribute('aria-haspopup', 'dialog');
+      else knop.removeAttribute('aria-haspopup');
+      zetKnopTekst(knop, duel ? 'Maak een duel →' : 'Start →');
+    }
+
+    // Een andere tekst op de Start-knop: de breedte loopt rustig mee en de tekst komt zacht in beeld.
+    let knopAnimatie = null;
+    function zetKnopTekst(knop, tekst) {
+      if (knop.textContent === tekst) return;
+      const van = knop.getBoundingClientRect().width;
+      const losLaten = () => Object.assign(knop.style, { width: '', whiteSpace: '', overflow: '' });
+      knopAnimatie?.cancel();
+      knopAnimatie = null;
+      losLaten();
+      knop.textContent = tekst;
+      if (reducedMotion.matches || !knop.animate || !van || !knop.getClientRects().length) return;
+      const naar = knop.getBoundingClientRect().width;
+      const stijl = window.getComputedStyle(knop);
+      // De oude breedte staat ook vast tot de animatie loopt, en alles op één regel: geen frame breder of hoger.
+      Object.assign(knop.style, { width: `${van}px`, whiteSpace: 'nowrap', overflow: 'hidden' });
+      const animatie = knopAnimatie = knop.animate([{ width: `${van}px`, color: 'transparent' }, { width: `${naar}px`, color: stijl.color }], { duration: 220, easing: stijl.getPropertyValue('--ease').trim() || 'ease-out', fill: 'forwards' });
+      // Klaar: eerst de vaste breedte weg, dan pas de animatie (die de eindbreedte vasthoudt), zodat er niets terugspringt.
+      animatie.addEventListener('finish', () => {
+        if (knopAnimatie !== animatie) return;
+        knopAnimatie = null;
+        losLaten();
+        animatie.cancel();
+      });
     }
 
     // Free: twee examensimulaties per dag per vak; Plus onbeperkt, Training altijd.
@@ -1053,7 +1108,7 @@
     }
 
     function updateStart() {
-      const emptySelection = mode === 'training' && !selected.size;
+      const emptySelection = mode !== 'simulatie' && !selected.size;
       const pool = questionsFor(level);
       const amount = mode === 'simulatie' ? Math.min(20, pool.length) : pool.filter(question => selected.has(question.h)).length;
       // Hard mode heeft weinig vragen per hoofdstuk: een training vraagt daar minstens 8 vragen (nu 4 hoofdstukken)
@@ -1082,13 +1137,18 @@
       byId('tijd-waarde').textContent = perQuestion;
       byId('tijd-per-vraag').setAttribute('aria-valuetext', perQuestion);
       byId('tijd-totaal').textContent = `${countText(amount)}, ${duration}`;
-      const summary = [['Modus', modeLabel(mode)], ['Niveau', levelLabel(level)], ['Tijd', timed ? `${duration}, ${perQuestion}` : 'Zonder tijd'], ['Hoofdstukken', chapters]];
+      // Een duel heeft geen niveau of tijd; evenveel regels, zodat het overzicht niet van hoogte verspringt.
+      const summary = mode === 'duel'
+        ? [['Modus', modeLabel(mode)], ['Spelers', '2 tot 10'], ['Vragen', '5, 10, 15 of 20'], ['Hoofdstukken', chapters]]
+        : [['Modus', modeLabel(mode)], ['Niveau', levelLabel(level)], ['Tijd', timed ? `${duration}, ${perQuestion}` : 'Zonder tijd'], ['Hoofdstukken', chapters]];
       byId('keuze-samenvatting').replaceChildren(...summary.flatMap(([label, value]) => [create('dt', '', label), create('dd', '', value)]));
-      byId('keuze-aantal').textContent = `${countText(amount)}${mode === 'simulatie' ? ' · Uitslag en uitleg aan het einde.' : ' · Uitleg na ieder antwoord.'}`;
+      byId('keuze-aantal').textContent = mode === 'duel' ? 'Live met je vrienden · Je deelt een code.'
+        : `${countText(amount)}${mode === 'simulatie' ? ' · Uitslag en uitleg aan het einde.' : ' · Uitleg na ieder antwoord.'}`;
       byId('simulatie-uitleg').textContent = `De simulatie kiest ${countText(amount)} uit alle hoofdstukken, in ${levelLabel(level)}. Je uitslag en uitleg krijg je aan het einde.`;
     }
 
     function setMode(value) {
+      const wasDuel = mode === 'duel';
       mode = value;
       const simulation = mode === 'simulatie';
       byId('modus-keuzes').querySelectorAll('[data-modus]').forEach(button => {
@@ -1103,6 +1163,7 @@
       zetBlok(byId('simulatie-uitleg'), simulation);
       byId('kies-alles').disabled = simulation;
       byId('kies-niets').disabled = simulation;
+      if (wasDuel !== (mode === 'duel')) zetDuel(mode === 'duel');
       renderChapters();
       updateStart();
     }
@@ -2002,13 +2063,18 @@
       event.preventDefault();
       selectTab(tabs[target], true);
     });
-    const modeButtons = [...byId('modus-keuzes').querySelectorAll('[data-modus]')];
-    modeButtons.forEach(button => button.addEventListener('click', () => chooseMode(button.dataset.modus)));
+    // Het kaartje Duel met vrienden komt er later bij (duel-start.js): daarom de kaartjes telkens opnieuw opzoeken.
+    byId('modus-keuzes').addEventListener('click', event => {
+      const button = event.target.closest('[data-modus]');
+      if (button) chooseMode(button.dataset.modus);
+    });
     byId('modus-keuzes').addEventListener('keydown', event => {
+      const modeButtons = [...byId('modus-keuzes').querySelectorAll('[data-modus]')];
       const current = modeButtons.indexOf(document.activeElement);
       if (current < 0 || !['ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown', 'Home', 'End'].includes(event.key)) return;
       event.preventDefault();
-      const index = event.key === 'Home' ? 0 : event.key === 'End' ? modeButtons.length - 1 : (current + 1) % modeButtons.length;
+      const step = ['ArrowLeft', 'ArrowUp'].includes(event.key) ? -1 : 1;
+      const index = event.key === 'Home' ? 0 : event.key === 'End' ? modeButtons.length - 1 : (current + step + modeButtons.length) % modeButtons.length;
       chooseMode(modeButtons[index].dataset.modus);
       // Mag de simulatie vandaag niet meer (Free), dan blijft de focus op de gekozen modus.
       (modeButtons.find(button => button.dataset.modus === mode) || modeButtons[index]).focus({ preventScroll: true });
@@ -2049,6 +2115,8 @@
     byId('kies-alles').addEventListener('click', () => { data.hoofdstukken.forEach(({ id }) => { if (counts[id]) selected.add(id); }); renderChapters(); updateStart(); });
     byId('kies-niets').addEventListener('click', () => { selected.clear(); renderChapters(); updateStart(); });
     byId('start-oefening').addEventListener('click', () => {
+      // Duel met vrienden: het venster van duel-start.js, waar je het aantal vragen kiest.
+      if (mode === 'duel') { BES.duelStart?.open(); return; }
       const pool = questionsFor(level);
       const questions = mode === 'simulatie' ? shuffle(pool).slice(0, 20) : pool.filter(question => selected.has(question.h));
       start(questions);
@@ -2110,7 +2178,7 @@
     // Duel met vrienden (assets/duel-start.js): het vak en de gekozen hoofdstukken van het huidige niveau.
     window.BES.vakKeuze = () => ({ vak: data.id, hoofdstukken: [...selected] });
     // duel-toegang.js eerst: die zegt of dit account het duel mag zien (async = false houdt de volgorde vast).
-    ['duel-toegang.js?v=1', 'duel-start.js?v=2'].forEach(bestand => {
+    ['duel-toegang.js?v=1', 'duel-start.js?v=3'].forEach(bestand => {
       const duelScript = document.createElement('script');
       duelScript.src = new URL(bestand, scriptBron).href;
       duelScript.async = false;
