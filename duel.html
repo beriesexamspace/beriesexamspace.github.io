@@ -1,0 +1,539 @@
+<!doctype html>
+<html lang="nl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <link rel="apple-touch-icon" href="/assets/icoon-180.png">
+  <link rel="manifest" href="/manifest.webmanifest">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Berie's Exam Space">
+  <meta property="og:title" content="Doe mee met een duel | Berie's Exam Space">
+  <meta property="og:description" content="Speel een quiz met je vrienden. Wie het eerst drukt en het juiste antwoord weet, scoort.">
+  <meta property="og:image" content="https://beriesexamspace.com/assets/deel.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:url" content="https://beriesexamspace.com/duel.html">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="description" content="Speel een quiz met je vrienden. Wie het eerst drukt en het juiste antwoord weet, scoort.">
+  <meta name="theme-color" content="#FFFFFF">
+  <script>
+    (() => {
+      let keuze;
+      try { keuze = window.localStorage.getItem('bes_thema'); } catch {}
+      const donker = keuze === 'donker' || (keuze !== 'licht' && window.matchMedia('(prefers-color-scheme: dark)').matches);
+      document.documentElement.dataset.theme = donker ? 'dark' : 'light';
+      document.querySelector('meta[name="theme-color"]').content = donker ? '#0B0B0C' : '#FFFFFF';
+    })();
+  </script>
+  <meta name="robots" content="noindex">
+  <title>Duel | Berie's Exam Space</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/style.css?v=94">
+  <link rel="stylesheet" href="assets/duel-kamer.css?v=1">
+  <link rel="stylesheet" href="assets/duel-laden.css?v=1">
+  <link rel="stylesheet" href="assets/duel-spel.css?v=1">
+  <link rel="stylesheet" href="assets/duel-podium.css?v=1">
+  <script src="assets/app.js?v=95"></script>
+  <script src="assets/config.js?v=89" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js" defer></script>
+  <script src="assets/auth.js?v=95" defer></script>
+  <script src="assets/plan.js?v=90" defer></script>
+  <script src="assets/activiteit.js?v=90" defer></script>
+  <script src="assets/vakken.js?v=91"></script>
+  <script src="assets/duel-kamer.js?v=1" defer></script>
+  <!-- Geen deur.js: wie een duel-link opent zonder account, krijgt het laadscherm met inloggen in plaats van een doorverwijzing. -->
+</head>
+<body class="duel-body">
+  <a class="skip-link" href="#inhoud">Ga naar inhoud</a>
+  <header class="site-header">
+    <nav class="navigation" aria-label="Hoofdnavigatie">
+      <a class="brand" href="index.html" aria-label="Berie's Exam Space, startpagina">
+        <span class="brand-symbol" aria-hidden="true">B</span>
+        <span class="brand-name"><span>Berie's</span> <span>Exam Space</span></span>
+      </a>
+      <a class="home-knop" href="hub.html" aria-label="Home" title="Home">
+        <svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 10.5 12 3l9 7.5M5 9v12h5v-7h4v7h5V9"/></svg>
+      </a>
+      <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="site-menu">Menu</button>
+      <ul class="navigation-links" id="site-menu">
+        <li><a href="hub.html#hoe-werkt-het">Hoe werkt het</a></li>
+        <li><a href="hub.html#wie-is-berie">Over mij</a></li>
+        <li><a href="whatsapp.html">WhatsApp-groep</a></li>
+        <li><a href="insturen/formulier.html">Insturen</a></li>
+      </ul>
+      <a class="pill login-button" href="inloggen.html">Inloggen&nbsp; →</a>
+    </nav>
+  </header>
+
+  <main id="inhoud" class="pagina duel-pagina" aria-label="Duel">
+    <div class="wrap duel-wrap">
+      <a class="terug" href="hub.html" data-terug="hub.html" data-terug-tekst="Terug">← Terug</a>
+
+      <p class="duel-verbinding" id="duel-verbinding" role="status" hidden>
+        <span class="duel-verbinding-stip" aria-hidden="true"></span>
+        <span>Geen verbinding. We proberen het opnieuw.</span>
+      </p>
+
+      <div class="duel-buis" id="duel-buis">
+        <section class="duel-laag duel-wacht" data-scherm="wacht">
+          <h1 class="duel-sr">Duel</h1>
+          <div class="duel-wacht-stippen" aria-hidden="true"><i></i><i></i><i></i></div>
+          <p class="duel-wacht-tekst" role="status">Duel laden…</p>
+        </section>
+      </div>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <p class="footer-brand">Berie's Exam Space</p>
+    <div class="footer-details">
+      <p>Duidelijk leren. Rustig groeien.</p>
+      <p class="project-label">Een project van The Berie Foundation</p>
+    </div>
+  </footer>
+
+  <script>
+    // Duel: de enige pagina. Kiest de database (nep met ?test=duel), laadt de schermen en toont per stand van de kamer
+    // het juiste scherm (contract deel 4). Elk scherm registreert zich in BES.duelScherm met maak(root, acties).
+    (() => {
+      'use strict';
+
+      const BES = window.BES = window.BES || {};
+      const zoek = () => new URLSearchParams(window.location.search);
+      const testModus = zoek().get('test') === 'duel';
+      const motion = window.matchMedia('(prefers-reduced-motion: reduce)');
+      const buis = document.getElementById('duel-buis');
+      const verbinding = document.getElementById('duel-verbinding');
+      const TEKENS = 'ABCDEFGHJKMNPQRSTUVWXYZ23456789';
+      const VERSIE = '?v=1';
+
+      // Een code is altijd 6 tekens uit TEKENS; al het andere telt als geen code.
+      const normaliseer = waarde => {
+        const c = String(waarde || '').toUpperCase().replace(/[^A-Z0-9]/g, '');
+        return c.length === 6 && Array.from(c).every(teken => TEKENS.includes(teken)) ? c : '';
+      };
+      const verloop = () => getComputedStyle(document.documentElement).getPropertyValue('--ease').trim() || 'ease-out';
+      const wachtEven = ms => new Promise(klaar => window.setTimeout(klaar, ms));
+
+      let code = '';
+      let acties = null;
+      // Het eerste scherm is het kleine laadteken dat al in de pagina staat.
+      let huidig = { naam: 'wacht', laag: buis.querySelector('.duel-wacht'), scherm: { toon() {}, weg() {} } };
+      let weg = [];
+      let hoogteAnimatie = null;
+      let volgNr = 0;
+      let stopper = null;
+      let laatste = null;
+      let wachtTimer = 0;
+      let uitstelTot = 0;
+      let uitstelTimer = 0;
+      let netMeegedaan = 0;
+      let ikNu;
+      let vakGeladen = '';
+      const nietGeladen = new Set(); // schermen waarvan het script ook na een tweede poging niet laadde
+
+      const zetTitel = () => { document.title = (code ? 'Duel ' + code : 'Duel') + " | Berie's Exam Space"; };
+
+      // Een fout in een scherm mag de pagina nooit stilleggen.
+      const veilig = (doe, naam) => {
+        try {
+          const uitkomst = doe();
+          if (uitkomst && typeof uitkomst.catch === 'function') uitkomst.catch(fout => console.warn('Duel: scherm ' + naam + ' gaf een fout.', fout));
+        } catch (fout) {
+          console.warn('Duel: scherm ' + naam + ' gaf een fout.', fout);
+        }
+      };
+
+      // ---------- Schermen wisselen ----------
+
+      const maakEl = (tag, klasse, tekst) => {
+        const el = document.createElement(tag);
+        if (klasse) el.className = klasse;
+        if (tekst !== undefined) el.textContent = tekst;
+        return el;
+      };
+
+      // Nette melding in plaats van een fout: ontbrekend scherm, geen verbinding, database niet geladen.
+      const meldingScherm = (root, vast) => {
+        root.classList.add('duel-melding');
+        const kaart = maakEl('div', 'duel-melding-kaart');
+        const icoon = maakEl('span', 'duel-melding-icoon');
+        icoon.setAttribute('aria-hidden', 'true');
+        icoon.innerHTML = '<svg viewBox="0 0 24 24" width="26" height="26"><circle cx="12" cy="12" r="9"/><path d="M12 7.5v5.2M12 16.2v.3"/></svg>';
+        const titel = maakEl('h1', 'duel-melding-titel');
+        const tekst = maakEl('p', 'duel-melding-tekst');
+        const knop = maakEl('button', 'knop duel-melding-knop');
+        knop.type = 'button';
+        kaart.append(icoon, titel, tekst, knop);
+        root.append(kaart);
+        let actie = () => window.location.reload();
+        knop.addEventListener('click', () => actie());
+        const vul = info => {
+          titel.textContent = info.titel || 'Even geduld';
+          tekst.textContent = info.tekst || '';
+          knop.textContent = info.knop || 'Opnieuw laden';
+          actie = typeof info.actie === 'function' ? info.actie : () => window.location.reload();
+        };
+        if (vast) vul(vast);
+        return {
+          toon(info) { if (!vast && info && typeof info.titel === 'string') vul(info); },
+          weg() {}
+        };
+      };
+
+      const maakScherm = (naam, laag) => {
+        if (naam === 'melding') return meldingScherm(laag);
+        const ontbreekt = nietGeladen.has(naam) ? {
+          titel: 'Laden lukte niet',
+          tekst: 'Controleer je internet en laad opnieuw.',
+          knop: 'Opnieuw laden'
+        } : {
+          titel: 'Dit deel komt eraan',
+          tekst: 'Dit scherm van het duel is nog niet klaar. Probeer het straks opnieuw.',
+          knop: 'Opnieuw laden'
+        };
+        const def = BES.duelScherm && BES.duelScherm[naam];
+        if (!def || typeof def.maak !== 'function') return meldingScherm(laag, ontbreekt);
+        try {
+          const scherm = def.maak(laag, acties);
+          if (scherm && typeof scherm.toon === 'function') return scherm;
+        } catch (fout) {
+          console.warn('Duel: scherm ' + naam + ' kon niet starten.', fout);
+        }
+        laag.replaceChildren();
+        laag.className = 'duel-laag';
+        return meldingScherm(laag, ontbreekt);
+      };
+
+      // Lagen die nog aan het vervagen zijn, meteen weghalen (bij snel na elkaar wisselen).
+      const ruimWegOp = () => {
+        weg.forEach(item => {
+          item.animatie?.cancel();
+          item.laag.remove();
+          veilig(() => item.scherm?.weg?.(), item.naam);
+        });
+        weg = [];
+      };
+
+      const naarBoven = () => {
+        const boven = buis.getBoundingClientRect().top;
+        if (boven >= 0) return;
+        window.scrollTo({ top: 0, behavior: motion.matches ? 'auto' : 'smooth' });
+      };
+
+      // Wissel van scherm: de oude laag vervaagt los van de stroom, de nieuwe komt rustig op
+      // en de buis schuift in hoogte mee, zodat de voet van de pagina niet springt.
+      const kies = (naam, staat) => {
+        if (huidig && huidig.naam === naam) {
+          veilig(() => huidig.scherm.toon(staat), naam);
+          return;
+        }
+        const vorige = huidig;
+        const vanHoogte = buis.getBoundingClientRect().height;
+        const focusBinnen = Boolean(vorige && vorige.laag.contains(document.activeElement));
+        ruimWegOp();
+        const zacht = !motion.matches && typeof buis.animate === 'function' && vorige;
+
+        if (vorige) {
+          vorige.laag.inert = true;
+          vorige.laag.setAttribute('aria-hidden', 'true');
+          if (zacht) vorige.laag.classList.add('is-weg');
+          else { vorige.laag.remove(); veilig(() => vorige.scherm?.weg?.(), vorige.naam); }
+        }
+
+        const laag = maakEl('section', 'duel-laag');
+        laag.dataset.scherm = naam;
+        laag.tabIndex = -1;
+        buis.append(laag);
+        const scherm = maakScherm(naam, laag);
+        huidig = { naam, laag, scherm };
+        veilig(() => scherm.toon(staat), naam);
+
+        if (zacht) {
+          const easing = verloop();
+          const item = { ...vorige };
+          item.animatie = vorige.laag.animate(
+            [{ opacity: 1, transform: 'none' }, { opacity: 0, transform: 'translateY(-6px)' }],
+            { duration: 160, easing, fill: 'forwards' }
+          );
+          weg.push(item);
+          const opruimen = () => {
+            if (!weg.includes(item)) return;
+            weg = weg.filter(ander => ander !== item);
+            item.laag.remove();
+            veilig(() => item.scherm?.weg?.(), item.naam);
+          };
+          item.animatie.finished.then(opruimen, () => {});
+          // Vangnet: in een verborgen tabblad staan animaties stil.
+          window.setTimeout(opruimen, 400);
+
+          laag.animate(
+            [{ opacity: 0, transform: 'translateY(10px)' }, { opacity: 1, transform: 'none' }],
+            { duration: 320, delay: 120, easing, fill: 'backwards' }
+          );
+
+          const naarHoogte = buis.getBoundingClientRect().height;
+          hoogteAnimatie?.cancel();
+          if (Math.abs(naarHoogte - vanHoogte) > 1) {
+            buis.style.overflow = 'clip';
+            const animatie = buis.animate(
+              [{ height: vanHoogte + 'px' }, { height: naarHoogte + 'px' }],
+              { duration: 420, easing }
+            );
+            hoogteAnimatie = animatie;
+            const klaar = () => { if (hoogteAnimatie === animatie) { hoogteAnimatie = null; buis.style.overflow = ''; } };
+            animatie.finished.then(klaar, klaar);
+          }
+        }
+
+        if (focusBinnen) laag.focus({ preventScroll: true });
+        if (naam !== 'invoer') naarBoven();
+      };
+
+      // ---------- Verbinding ----------
+
+      let verbindingTimer = 0;
+      const toonVerbinding = kwijt => {
+        window.clearTimeout(verbindingTimer);
+        if (!kwijt) {
+          if (!verbinding.hidden) (BES.verberg || (el => { el.hidden = true; }))(verbinding);
+          return;
+        }
+        // Pas na 2 seconden tonen: een korte hapering bij het verbinden hoeft niemand te zien.
+        verbindingTimer = window.setTimeout(() => {
+          if (laatste && laatste.verbonden === false && code) (BES.toon || (el => { el.hidden = false; }))(verbinding);
+        }, 2000);
+      };
+
+      // ---------- Stand van de kamer ----------
+
+      const leegStaat = () => ({ kamer: null, deelnemers: [], vragen: {}, pogingen: [], ik: ikNu || null, verbonden: false, code });
+
+      const schermVoor = staat => {
+        if (!staat || !staat.kamer || !staat.ik) return 'laden';
+        const deelnemers = Array.isArray(staat.deelnemers) ? staat.deelnemers : [];
+        if (!deelnemers.some(d => d && d.speler === staat.ik)) return 'laden';
+        switch (staat.kamer.status) {
+          case 'wachtkamer': return 'wachtkamer';
+          case 'open':
+          case 'antwoord':
+          case 'onthulling': return 'spel';
+          case 'einde': return 'podium';
+          default: return 'laden';
+        }
+      };
+
+      // De maker krijgt de vragen van het vak klaar (window.BES_VAK), zodat "Nog een keer" nieuwe vragen kan kiezen.
+      // Het is hetzelfde bestand als op de vakpagina, dus meestal komt het uit de cache.
+      const vakKlaarzetten = staat => {
+        const vak = staat?.kamer?.vak;
+        if (!vak || staat.ik !== staat.kamer.maker || vakGeladen === vak) return;
+        if (window.BES_VAK && window.BES_VAK.id === vak) { vakGeladen = vak; return; }
+        const bekend = (window.BES_VAKKEN || []).find(item => item.id === vak && item.v2);
+        if (!bekend || !/^[a-z0-9]+(-[a-z0-9]+)*$/.test(vak)) return;
+        vakGeladen = vak;
+        const script = document.createElement('script');
+        script.src = 'vak/' + vak + '/data.js?v=89';
+        script.async = true;
+        script.onerror = () => { script.remove(); vakGeladen = ''; };
+        document.body.append(script);
+      };
+
+      const bijStaat = staat => {
+        if (!staat || typeof staat !== 'object') return;
+        laatste = staat;
+        window.clearTimeout(wachtTimer);
+        toonVerbinding(staat.verbonden === false);
+
+        // "Nog een keer": de oude kamer wijst naar de nieuwe. Iedereen gaat vanzelf mee.
+        const volgende = normaliseer(staat.kamer && staat.kamer.volgende_code);
+        if (volgende && volgende !== code) { naar(volgende); return; }
+
+        // Verlopen kamer (een duel blijft 24 uur open): niet in een vastgelopen spel of een wachtkamer laten hangen.
+        // Het podium blijft wel te zien.
+        const k = staat.kamer;
+        if (k && k.status !== 'einde' && k.verloopt && BES.duel.nu() >= Date.parse(k.verloopt)) {
+          kies('melding', {
+            titel: 'Dit duel is verlopen',
+            tekst: 'Een duel blijft 24 uur open. Maak een nieuw duel op een vakpagina.',
+            knop: 'Naar je vakken',
+            actie: () => { window.location.href = 'hub.html'; }
+          });
+          return;
+        }
+
+        vakKlaarzetten(staat);
+        const naam = schermVoor(staat);
+
+        // Wie net meedeed, ziet nog even "Je zit erin" op het laadscherm voor de wachtkamer opent.
+        if (Date.now() < uitstelTot) { if (huidig && huidig.naam === 'laden') veilig(() => huidig.scherm.toon(staat), 'laden'); return; }
+        if (huidig && huidig.naam === 'laden' && naam !== 'laden' && netMeegedaan && Date.now() - netMeegedaan < 6000) {
+          netMeegedaan = 0;
+          veilig(() => huidig.scherm.toon(staat), 'laden');
+          uitstelTot = Date.now() + 700;
+          window.clearTimeout(uitstelTimer);
+          uitstelTimer = window.setTimeout(() => { uitstelTot = 0; if (laatste) kies(schermVoor(laatste), laatste); }, 720);
+          return;
+        }
+        kies(naam, staat);
+      };
+
+      const stopVolgen = () => {
+        volgNr++;
+        window.clearTimeout(wachtTimer);
+        window.clearTimeout(uitstelTimer);
+        uitstelTot = 0;
+        if (stopper) { const stop = stopper; stopper = null; try { stop(); } catch {} }
+      };
+
+      const volgen = async () => {
+        stopVolgen();
+        const nr = volgNr;
+        const mijnCode = code;
+        laatste = null;
+        // Het laadscherm pas tonen als de stand even uitblijft: zo flitst het niet voor wie al meedoet.
+        wachtTimer = window.setTimeout(() => {
+          if (nr === volgNr && !laatste && !(huidig && huidig.naam === 'laden')) kies('laden', leegStaat());
+        }, 900);
+
+        if (!testModus) {
+          try { await Promise.race([BES.auth?.gereed, wachtEven(6000)]); } catch {}
+          if (nr !== volgNr) return;
+          try {
+            const gebruiker = await Promise.race([BES.auth?.gebruiker?.(), wachtEven(3000)]);
+            if (ikNu === undefined || gebruiker) ikNu = gebruiker?.id || null;
+          } catch { if (ikNu === undefined) ikNu = null; }
+          if (nr !== volgNr) return;
+        }
+
+        let stop;
+        try {
+          const uitkomst = BES.duel.volg(mijnCode, staat => { if (nr === volgNr) bijStaat(staat); });
+          stop = uitkomst && typeof uitkomst.then === 'function' ? await uitkomst : uitkomst;
+        } catch (fout) {
+          if (nr !== volgNr) return;
+          window.clearTimeout(wachtTimer);
+          console.warn('Duel: volgen lukte niet.', fout);
+          if (!ikNu && !testModus) { kies('laden', leegStaat()); return; }
+          kies('melding', {
+            titel: 'Verbinden lukt niet',
+            tekst: 'Controleer je internet en probeer het opnieuw.',
+            knop: 'Opnieuw proberen',
+            actie: () => volgen()
+          });
+          return;
+        }
+        if (nr !== volgNr) { try { stop?.(); } catch {} return; }
+        stopper = typeof stop === 'function' ? stop : null;
+      };
+
+      // Na meedoen: komt de nieuwe stand niet vanzelf binnen, dan opnieuw beginnen met volgen.
+      const naMeedoen = () => {
+        const mijnCode = code;
+        window.setTimeout(() => {
+          if (code !== mijnCode || schermVoor(laatste) !== 'laden') return;
+          volgen();
+        }, 1500);
+      };
+
+      // ---------- Van kamer wisselen ----------
+
+      const naar = waarde => {
+        const nieuw = normaliseer(waarde);
+        if (!nieuw) return false;
+        if (nieuw === code) return true;
+        const url = new URL(window.location.href);
+        url.searchParams.set('c', nieuw);
+        try { window.history[code ? 'replaceState' : 'pushState'](null, '', url.pathname + url.search + url.hash); } catch {}
+        code = nieuw;
+        zetTitel();
+        toonVerbinding(false);
+        volgen();
+        return true;
+      };
+
+      const maakActies = () => {
+        const lijst = {};
+        const namen = new Set(['maak', 'doeMee', 'start', 'druk', 'antwoord', 'verder', 'volgende', 'uitleg', 'opnieuw', 'volg', 'nu', ...Object.keys(BES.duel)]);
+        namen.forEach(sleutel => {
+          const waarde = BES.duel[sleutel];
+          if (typeof waarde === 'function') lijst[sleutel] = (...args) => BES.duel[sleutel](...args);
+          else if (waarde !== undefined) lijst[sleutel] = waarde;
+        });
+        // netMeegedaan al voor de aanroep: komt de nieuwe stand sneller binnen dan het antwoord, dan zie je toch "Je zit erin".
+        lijst.doeMee = async (...args) => {
+          netMeegedaan = Date.now();
+          let antwoord;
+          try { antwoord = await BES.duel.doeMee(...args); } catch (fout) { netMeegedaan = 0; throw fout; }
+          if (antwoord && antwoord.ok) { netMeegedaan = Date.now(); naMeedoen(); }
+          else netMeegedaan = 0;
+          return antwoord;
+        };
+        lijst.naar = naar;
+        return lijst;
+      };
+
+      const route = () => {
+        const ruw = zoek().get('c');
+        code = normaliseer(ruw);
+        zetTitel();
+        if (!code) {
+          stopVolgen();
+          laatste = null;
+          toonVerbinding(false);
+          kies('invoer', ruw ? { fout: 'ongeldig', waarde: ruw } : {});
+          return;
+        }
+        volgen();
+      };
+
+      const laadScript = src => new Promise(klaar => {
+        const script = document.createElement('script');
+        script.src = src;
+        script.async = false;
+        script.onload = () => klaar(true);
+        script.onerror = () => { script.remove(); klaar(false); };
+        document.body.append(script);
+      });
+
+      const start = async () => {
+        const bron = testModus ? 'assets/duel-nep.js' : 'assets/duel.js';
+        const schermScripts = [['laden', 'assets/duel-laden.js'], ['spel', 'assets/duel-spel.js'], ['podium', 'assets/duel-podium.js']];
+        const geladen = await Promise.all([bron, ...schermScripts.map(([, src]) => src)].map(src => laadScript(src + VERSIE)));
+        // Een scherm-script dat niet laadde (hapering op gsm): één keer opnieuw proberen. Lukt het dan nog niet,
+        // dan zegt dat scherm "Laden lukte niet" in plaats van "Dit deel komt eraan".
+        await Promise.all(schermScripts.map(async ([naam, src], i) => {
+          if (geladen[i + 1]) return;
+          if (!(await laadScript(src + VERSIE))) nietGeladen.add(naam);
+        }));
+        if (!geladen[0] || !BES.duel || typeof BES.duel.volg !== 'function') {
+          kies('melding', {
+            titel: 'Duel laadt niet',
+            tekst: 'Controleer je internet en probeer het opnieuw.',
+            knop: 'Opnieuw proberen',
+            actie: () => window.location.reload()
+          });
+          return;
+        }
+        acties = maakActies();
+        window.addEventListener('popstate', route);
+        // Ingelogd of uitgelogd (ook in een ander tabblad): opnieuw volgen met het nieuwe account.
+        window.addEventListener('bes:auth', event => {
+          if (testModus || event.detail?.uitloggen) return;
+          const id = event.detail?.user?.id || null;
+          if (ikNu === undefined) { ikNu = id; return; }
+          if (id === ikNu) return;
+          ikNu = id;
+          if (code) volgen();
+        });
+        route();
+      };
+
+      if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', start, { once: true });
+      else start();
+    })();
+  </script>
+</body>
+</html>
