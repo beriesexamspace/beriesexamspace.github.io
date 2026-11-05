@@ -30,6 +30,7 @@
     email_confirmation: 'Deze bevestigingslink is ongeldig of verlopen. Vraag de e-mailwijziging opnieuw aan via je profiel.',
     reauthentication_needed: 'Log opnieuw in en probeer de wijziging nog eens.',
     google_unavailable: 'Inloggen met Google is nog niet ingeschakeld.',
+    te_lang: "Dit duurt te lang. Sluit andere tabbladen van Berie's Exam Space en probeer het opnieuw.",
     unknown: 'Dit is niet gelukt. Probeer het opnieuw.'
   };
 
@@ -324,6 +325,17 @@
       .finally(() => { savingChoice = false; });
   }
 
+  // Te laat binnengekomen inlog of aanmelding: alles afmaken wat de gewone weg ook doet, en de pagina laten weten dat het toch lukte.
+  function laatIngelogd(soort) {
+    return data => {
+      if (logoutInProgress) return;
+      recoveryUserId = null;
+      setUser(data.user);
+      bindMapChoice(data.user);
+      window.dispatchEvent(new CustomEvent('bes:laat-ingelogd', { detail: { soort, user: data.user } }));
+    };
+  }
+
   function setUser(user, clearGuestName = false) {
     currentUser = user || null;
     if (currentUser) completeNameFromProvider(currentUser);
@@ -344,16 +356,29 @@
     }, 0);
   }
 
+  // Wacht op een belofte, maar nooit langer dan ms (daarna gaat het gewoon verder).
+  const hoogstens = (belofte, ms) => Promise.race([belofte, new Promise(klaar => window.setTimeout(klaar, ms))]);
+
+  // Eerst even wachten tot de sessie van deze pagina gelezen is, maar nooit eindeloos: houdt een ander tabblad
+  // van de site het supabase-slot vast, dan gaat inloggen, aanmelden of een herstelmail na 6 seconden toch door.
   async function requireClient() {
     if (!auth.beschikbaar) throw failure('unavailable');
-    await auth.gereed;
+    await hoogstens(auth.gereed, 6000);
     return client;
   }
 
-  async function request(operation) {
+  // grens (ms): duurt het langer, dan krijgt de pagina de melding te_lang en zet ze haar knop terug.
+  // laat(data): komt het antwoord na de melding te_lang toch nog binnen met een sessie, dan is de gebruiker alsnog ingelogd.
+  async function request(operation, grens = 0, laat = null) {
     try {
       const activeClient = await requireClient();
-      const result = await operation(activeClient.auth);
+      const bezig = operation(activeClient.auth);
+      const result = grens
+        ? await Promise.race([bezig, new Promise((_, stop) => window.setTimeout(() => {
+          if (laat) Promise.resolve(bezig).then(r => { if (!r?.error && r?.data?.session && r.data.user) laat(r.data); }, () => {});
+          stop(failure('te_lang'));
+        }, grens))])
+        : await bezig;
       if (result.error) throw result.error;
       return result.data;
     } catch (error) {
@@ -431,7 +456,7 @@
         email: String(email).trim(),
         password: wachtwoord,
         options: { data: metadata }
-      }));
+      }), 15000, laatIngelogd('aanmelden'));
       if (data?.user?.identities?.length === 0) throw failure('duplicate');
       if (!data?.session || !data?.user) throw failure('confirmation_required');
       setUser(data.user);
@@ -445,7 +470,7 @@
       // Met ?kies=1 (bv. inloggen.html?kies=1) toont Google altijd de accountkeuze, ook als je al met een Google-account bent ingelogd.
       const options = { redirectTo, skipBrowserRedirect: true };
       if (new URLSearchParams(window.location.search).get('kies') === '1') options.queryParams = { prompt: 'select_account' };
-      const data = await request(api => api.signInWithOAuth({ provider: 'google', options }));
+      const data = await request(api => api.signInWithOAuth({ provider: 'google', options }), 15000);
       if (!data?.url) throw failure('unknown');
       // Eerst controleren of Google aanstaat; zolang de provider uit staat geeft Supabase een 400 in plaats van een doorverwijzing
       try {
@@ -459,7 +484,7 @@
     },
 
     async inloggen(email, wachtwoord) {
-      const data = await request(api => api.signInWithPassword({ email: String(email).trim(), password: wachtwoord }));
+      const data = await request(api => api.signInWithPassword({ email: String(email).trim(), password: wachtwoord }), 15000, laatIngelogd('inloggen'));
       if (!data?.session || !data?.user) throw failure('invalid_credentials');
       recoveryUserId = null;
       setUser(data.user);
@@ -501,7 +526,7 @@
 
     async herstelMail(email) {
       const redirectTo = new URL(pagePrefix + 'wachtwoord.html', window.location.href).href;
-      await request(api => api.resetPasswordForEmail(String(email).trim(), { redirectTo }));
+      await request(api => api.resetPasswordForEmail(String(email).trim(), { redirectTo }), 15000);
     },
 
     async herstelGeldig() {
@@ -514,7 +539,7 @@
       await requireClient();
       if (!await auth.herstelGeldig()) throw failure('recovery_invalid');
       if (String(wachtwoord).length < 8) throw failure('weak_password');
-      const data = await request(api => api.updateUser({ password: wachtwoord }));
+      const data = await request(api => api.updateUser({ password: wachtwoord }), 15000);
       if (!data?.user) throw failure('recovery_invalid');
       recoveryUserId = null;
       setUser(data.user);
@@ -577,12 +602,52 @@
   };
 
   const filled = value => typeof value === 'string' && value.trim() && !/[\[\]]/.test(value);
+  // Het slot van supabase-js (gedeeld door alle tabbladen van de site), maar nooit eindeloos wachten.
+  // Standaard wacht supabase-js zonder grens; houdt een ander tabblad het slot vast (bijvoorbeeld een token
+  // verversen dat blijft hangen), dan bleef inloggen op "Even geduld…" staan. Nu hoogstens 5 seconden,
+  // daarna gaat dit tabblad zonder slot verder. Bij 0 (de automatische verversing) meteen opgeven als het bezet is.
+  async function slotMetTijd(naam, wachtTijd, doe) {
+    const sloten = window.navigator?.locks;
+    if (!sloten?.request) return doe();
+    if (wachtTijd === 0) {
+      return sloten.request(naam, { mode: 'exclusive', ifAvailable: true }, async slot => {
+        if (!slot) {
+          const bezet = new Error('Het slot ' + naam + ' is bezet.');
+          bezet.isAcquireTimeout = true;
+          throw bezet;
+        }
+        return doe();
+      });
+    }
+    const stop = new AbortController();
+    const timer = window.setTimeout(() => stop.abort(), wachtTijd > 0 ? Math.min(wachtTijd, 5000) : 5000);
+    let binnen = false;
+    try {
+      return await sloten.request(naam, { mode: 'exclusive', signal: stop.signal }, async () => {
+        binnen = true;
+        window.clearTimeout(timer);
+        return doe();
+      });
+    } catch (fout) {
+      window.clearTimeout(timer);
+      if (!binnen && stop.signal.aborted) {
+        // Staat er al een sessie in de browser, dan kan een ander tabblad die net verversen: dan toch op het slot wachten,
+        // anders verversen twee tabbladen hetzelfde token en wordt iedereen uitgelogd. De knoppen hebben hun eigen grens (15 s).
+        let sessie = false;
+        try { sessie = Object.keys(window.localStorage).some(sleutel => /^sb-.+-auth-token$/.test(sleutel)); } catch {}
+        if (sessie) return sloten.request(naam, { mode: 'exclusive' }, async () => doe());
+        return doe();
+      }
+      throw fout;
+    }
+  }
+
   let validUrl = false;
   try { validUrl = /^https?:$/.test(new URL(config.supabaseUrl).protocol); } catch {}
 
   if (validUrl && filled(config.supabaseUrl) && filled(config.supabaseAnonKey) && typeof window.supabase?.createClient === 'function') {
     try {
-      client = window.supabase.createClient(config.supabaseUrl.trim(), config.supabaseAnonKey.trim());
+      client = window.supabase.createClient(config.supabaseUrl.trim(), config.supabaseAnonKey.trim(), { auth: { lock: slotMetTijd } });
       auth.beschikbaar = true;
       client.auth.onAuthStateChange((event, session) => {
         if (event === 'USER_UPDATED' && (logoutInProgress || !currentUser || session?.user?.id !== currentUser.id)) return;
