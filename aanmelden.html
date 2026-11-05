@@ -34,7 +34,7 @@
   <script src="assets/app.js?v=97" defer></script>
   <script src="assets/config.js?v=89" defer></script>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js" defer></script>
-  <script src="assets/auth.js?v=97" defer></script>
+  <script src="assets/auth.js?v=98" defer></script>
   <script src="assets/over-jezelf.js?v=89" defer></script>
   <script src="assets/plan.js?v=90" defer></script>
   <script src="assets/activiteit.js?v=90" defer></script>
@@ -122,6 +122,55 @@
               <span>Verder met Google</span>
             </button>
           </div>
+          <script>
+            // Zolang de pagina nog laadt (de inlogcode komt pas daarna), herlaadt een klik op de knop of Enter de pagina
+            // niet stil: de klik wordt onthouden en na het laden alsnog uitgevoerd. Laadt het na 10 seconden nog niet,
+            // dan volgt een melding.
+            (() => {
+              const form = document.getElementById('signup-form');
+              const knop = document.getElementById('signup-submit');
+              const google = document.getElementById('signup-google-knop');
+              const melding = document.getElementById('signup-error');
+              if (!form || !knop) return;
+              let klaar = false;
+              let wacht = null;
+              let timer = 0;
+              const tekst = knop.textContent;
+              const bezig = () => {
+                knop.textContent = 'Even laden…';
+                form.setAttribute('aria-busy', 'true');
+                if (timer) return;
+                timer = window.setTimeout(() => {
+                  if (klaar || !melding) return;
+                  melding.textContent = 'De pagina laadt niet goed. Controleer je internet en laad de pagina opnieuw.';
+                  melding.hidden = false;
+                }, 10000);
+              };
+              form.addEventListener('submit', event => {
+                if (klaar) return;
+                event.preventDefault();
+                wacht = 'form';
+                bezig();
+              });
+              google?.addEventListener('click', event => {
+                if (klaar) return;
+                event.stopImmediatePropagation();
+                wacht = 'google';
+                bezig();
+              });
+              // Na het laden (de handlers van de pagina hangen er dan al aan): knop terug en de klik alsnog uitvoeren.
+              document.addEventListener('DOMContentLoaded', () => window.setTimeout(() => {
+                klaar = true;
+                window.clearTimeout(timer);
+                if (!wacht) return;
+                if (knop.textContent === 'Even laden…') knop.textContent = tekst;
+                form.removeAttribute('aria-busy');
+                if (melding && !melding.dataset.code && /laadt niet goed/.test(melding.textContent)) { melding.hidden = true; melding.textContent = ''; }
+                if (wacht === 'form') form.requestSubmit ? form.requestSubmit(knop) : knop.click();
+                else google?.click();
+              }, 0));
+            })();
+          </script>
           <div class="auth-success" id="signup-success" hidden>
             <p class="over-jezelf-intro"><strong>Vertel een beetje over jezelf.</strong> Berie vindt het leuk om te lezen wie zijn website allemaal gebruikt. Kies je Openbaar, dan leren ook de anderen je straks kennen. Alles is optioneel.</p>
             <div id="signup-over"></div>
