@@ -1,6 +1,6 @@
 /*
-  Duel: het spelscherm (contract deel 4). Vraag, opties, de grote knop "Ik weet het!", de ring van 30 en 15 seconden,
-  het slot voor wie niet mag, de onthulling en de stand.
+  Duel: het spelscherm (contract deel 4). Vraag, opties, de knop "Ik weet het!", de tijdstreep van 30 en 15 seconden,
+  het slot voor wie niet mag, de onthulling en de stand. Bij "niemand drukte" klikt alleen de maker verder.
   Registreert zich als BES.duelScherm.spel. duel.html roept toon(staat) aan bij elke wijziging; dit scherm vergelijkt
   zelf met de vorige stand en beweegt alleen wat veranderd is. De database beslist alles, dit scherm toont het alleen.
 */
@@ -12,9 +12,6 @@
 
   const SCRIPT = (document.currentScript && document.currentScript.src) || '';
   const LETTERS = 'ABCDEF';
-  const NS = 'http://www.w3.org/2000/svg';
-  const STRAAL = 56;
-  const OMTREK = 2 * Math.PI * STRAAL;
 
   const ICOON = {
     slot: '<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="5" y="10.5" width="14" height="10" rx="2.5"/><path d="M8.5 10.5V7.8a3.5 3.5 0 0 1 7 0v2.7"/></svg>',
@@ -87,7 +84,7 @@
     if (document.querySelector('link[href*="duel-spel.css"]')) return;
     const link = document.createElement('link');
     link.rel = 'stylesheet';
-    link.href = SCRIPT ? new URL('duel-spel.css?v=1', SCRIPT).href : 'assets/duel-spel.css?v=1';
+    link.href = SCRIPT ? new URL('duel-spel.css?v=2', SCRIPT).href : 'assets/duel-spel.css?v=2';
     document.head.appendChild(link);
   };
 
@@ -125,10 +122,13 @@
     let uitlegBlok = null;
     let lus = 0;
     let laatsteSec = null;
+    let klokSleutel = '';
+    let klokSnap = true;
     let wisselTimer = 0;
     let hoogteTimer = 0;
     let meldingTimer = 0;
     let drukTimer = 0;
+    let klokTimer = 0;
     let laatstePointer = 0;
 
     // Wat dit toestel zelf bijhoudt per vraag.
@@ -175,27 +175,28 @@
     vraagvak.append(vraagblok);
 
     const dok = maakEl('div', 'ds-dok');
+    // Titel en uitleg samen hoogstens drie regels (de klem), zodat het dok nooit groeit of krimpt.
+    // Eén blok binnen de klem: Safari telt de regels per kind, zo telt hij titel en uitleg samen.
     const status = maakEl('div', 'ds-status');
+    const statusKlem = maakEl('div', 'ds-status-klem');
+    const statusRegels = maakEl('div');
     const statusTitel = maakEl('p', 'ds-status-titel');
     const statusSub = maakEl('p', 'ds-status-sub');
-    status.append(statusTitel, statusSub);
+    statusRegels.append(statusTitel, statusSub);
+    statusKlem.append(statusRegels);
+    status.append(statusKlem);
 
+    // Drie lagen op dezelfde plek, even groot: de knop, "Volgende vraag" en de wachtstand voor wie niet verder mag.
     const knopvak = maakEl('div', 'ds-knopvak');
-    const ring = document.createElementNS(NS, 'svg');
-    ring.setAttribute('class', 'ds-ring');
-    ring.setAttribute('viewBox', '0 0 120 120');
-    ring.setAttribute('aria-hidden', 'true');
-    ring.setAttribute('focusable', 'false');
-    const spoor = document.createElementNS(NS, 'circle');
-    const boog = document.createElementNS(NS, 'circle');
-    [spoor, boog].forEach(c => { c.setAttribute('cx', '60'); c.setAttribute('cy', '60'); c.setAttribute('r', String(STRAAL)); });
-    spoor.setAttribute('class', 'ds-ring-spoor');
-    boog.setAttribute('class', 'ds-ring-boog');
-    boog.setAttribute('stroke-dasharray', OMTREK.toFixed(2));
-    boog.style.strokeDashoffset = '0';
-    ring.append(spoor, boog);
+    knopvak.dataset.laag = 'buzzer';
+    const puntjes = () => {
+      const p = maakEl('span', 'ds-puntjes');
+      p.setAttribute('aria-hidden', 'true');
+      p.append(maakEl('i'), maakEl('i'), maakEl('i'));
+      return p;
+    };
 
-    const buzzer = maakEl('button', 'ds-buzzer');
+    const buzzer = maakEl('button', 'knop ds-buzzer');
     buzzer.type = 'button';
     buzzer.dataset.g = 'wacht';
     buzzer.setAttribute('aria-disabled', 'true');
@@ -205,28 +206,40 @@
     const gDruk = gezicht('druk');
     gDruk.textContent = 'Ik weet het!';
     const gWacht = gezicht('wacht');
-    gWacht.innerHTML = '<span class="ds-puntjes"><i></i><i></i><i></i></span>';
+    gWacht.append(puntjes());
     const gTijd = gezicht('tijd');
-    const tijdGetal = maakEl('b', null, '15');
-    gTijd.append(tijdGetal, maakEl('small', null, 'Kies!'));
+    gTijd.textContent = 'Kies je antwoord';
     const gSlot = gezicht('slot');
     gSlot.innerHTML = ICOON.slot;
-    gSlot.append(maakEl('small', null, 'Op slot'));
+    gSlot.append(maakEl('span', null, 'Op slot'));
     const gGoed = gezicht('goed');
     gGoed.innerHTML = ICOON.vink;
     const gFout = gezicht('fout');
     gFout.innerHTML = ICOON.kruis;
     buzzer.append(gDruk, gWacht, gTijd, gSlot, gGoed, gFout);
 
-    const volgendeKnop = maakEl('button', 'ds-volgende');
+    const volgendeKnop = maakEl('button', 'knop ds-volgende');
     volgendeKnop.type = 'button';
     const volgendeTekst = maakEl('span', 'ds-volgende-tekst', 'Volgende vraag');
     const volgendePijl = maakEl('span', 'ds-volgende-pijl');
     volgendePijl.innerHTML = ICOON.pijl;
     volgendeKnop.append(volgendeTekst, volgendePijl);
 
-    knopvak.append(ring, buzzer, volgendeKnop);
-    dok.append(status, knopvak);
+    // Geen knop: rustig wachten tot de maker verder klikt. Houdt de focus vast als de knop wegvalt.
+    const wachtMaker = maakEl('p', 'ds-wachtmaker');
+    wachtMaker.tabIndex = -1;
+    wachtMaker.append(puntjes(), maakEl('span', null, 'Wachten op de maker…'));
+
+    knopvak.append(buzzer, volgendeKnop, wachtMaker);
+    [volgendeKnop, wachtMaker].forEach(el => { el.inert = true; el.setAttribute('aria-hidden', 'true'); });
+
+    // De klok: een dunne streep onderaan het dok die van links naar rechts volloopt.
+    const klok = maakEl('div', 'ds-klok is-uit');
+    klok.setAttribute('aria-hidden', 'true');
+    const klokVul = maakEl('span', 'ds-klok-vul');
+    klok.append(klokVul);
+
+    dok.append(status, knopvak, klok);
     veld.append(vraagvak, dok);
 
     const stand = maakEl('aside', 'ds-stand');
@@ -318,8 +331,14 @@
       const vraag = vragen[nr] || vragen[String(nr)] || null;
       const winnaar = (pogingen.find(p => p.goed) || {}).speler || k.drukker || null;
       const juist = k.juist == null || k.juist === '' ? null : Number(k.juist);
+      // Verder na "niemand" is voor de maker. Zelfde vangnet als starten in de wachtkamer: is de maker langer dan
+      // 60 seconden niet gezien (lang_weg) of niet meer in het spel, dan mag iedereen. Zo loopt het spel nooit vast.
+      const maker = k.maker ? (s.deelnemers || []).find(d => d.speler === k.maker) : null;
+      const benMaker = !!ik && ik === k.maker;
+      const makerWeg = !maker || (maker.lang_weg === undefined ? maker.online === false : maker.lang_weg === true);
       return {
-        st, nr, aantal, ik, namen, pogingen, geprobeerd, vraag, winnaar,
+        st, nr, aantal, ik, namen, pogingen, geprobeerd, vraag, winnaar, benMaker,
+        magVerder: benMaker || makerWeg,
         code: k.code,
         drukker: k.drukker || null,
         juist: Number.isInteger(juist) ? juist : null,
@@ -503,7 +522,7 @@
       switch (a.st) {
         case 'open': return drukBezig ? 'Even kijken…' : 'Weet jij het?';
         case 'open-slot': return 'Je mag bij deze vraag niet meer';
-        case 'antwoord-ik': return 'Kies je antwoord';
+        case 'antwoord-ik': return 'Jij mag!';
         case 'antwoord-ander': return naamVan(a, a.drukker) + ' antwoordt…';
         case 'goed': return a.winnaar === a.ik ? 'Goed zo, jij had het!' : naamVan(a, a.winnaar) + ' had het goed';
         case 'iedereen-fout': return 'Niemand had het goed';
@@ -525,7 +544,8 @@
         case 'antwoord-ik':
           return klaar ? { tekst: 'De tijd is om.', sleutel: 'ik-0' } : { tekst: `Nog\u00a0${sec}\u00a0s. Tik op een antwoord.`, sleutel: 'ik', dringend: rest <= DRINGEND };
         case 'antwoord-ander':
-          if (teLaatNr === a.nr) return { tekst: `Net te laat, ${naamVan(a, a.drukker)} was eerst.`, sleutel: 'te-laat' };
+          // Zonder naam: die staat al in de titel, en zo blijft het bij lange namen bij een regel.
+          if (teLaatNr === a.nr) return { tekst: 'Net te laat.', sleutel: 'te-laat' };
           if (a.geprobeerd) return { tekst: 'Je mag bij deze vraag niet meer.', sleutel: 'ander-slot' };
           return klaar ? { tekst: 'De tijd is om.', sleutel: 'ander-0' } : { tekst: `Nog\u00a0${sec}\u00a0s om te kiezen.`, sleutel: 'ander' };
         case 'goed':
@@ -533,6 +553,8 @@
         case 'iedereen-fout':
           return { tekst: 'Het juiste antwoord staat in het groen.', sleutel: 'iedereen-fout' };
         case 'niemand':
+          if (!a.magVerder) return { tekst: a.laatste ? 'De maker opent zo de uitslag.' : 'De maker gaat zo verder.', sleutel: 'niemand-wacht' };
+          if (!a.benMaker) return { tekst: 'De maker is even weg. Jij mag verder.', sleutel: 'niemand-weg' };
           return { tekst: 'Het juiste antwoord staat in het groen.', sleutel: 'niemand' };
         default:
           return { tekst: '', sleutel: 'leeg' };
@@ -555,13 +577,19 @@
         statusSub.dataset.sleutel = sub.sleutel;
         if (oudeSleutel !== undefined) herstart(statusSub, 'is-nieuw');
       }
-      zetTekst(tijdGetal, String(Math.max(0, sec)));
     }
 
     function tekenDok(a) {
       veld.dataset.stand = a.st;
       veld.classList.toggle('is-rood', a.st === 'niemand');
-      knopvak.classList.toggle('is-volgende', a.st === 'niemand');
+      // Welke laag zichtbaar is. De andere twee zijn inert en verborgen voor schermlezers.
+      const laag = a.st !== 'niemand' ? 'buzzer' : a.magVerder ? 'volgende' : 'wacht';
+      knopvak.dataset.laag = laag;
+      [[buzzer, 'buzzer'], [volgendeKnop, 'volgende'], [wachtMaker, 'wacht']].forEach(([el, naam]) => {
+        el.inert = naam !== laag;
+        if (naam !== laag) el.setAttribute('aria-hidden', 'true');
+        else el.removeAttribute('aria-hidden');
+      });
 
       let g = 'wacht';
       if (a.st === 'open') g = drukBezig ? 'wacht' : 'druk';
@@ -575,13 +603,13 @@
       }
       buzzer.setAttribute('aria-disabled', g === 'druk' ? 'false' : 'true');
       buzzer.title = g === 'druk' ? 'Ik weet het! (spatiebalk)' : '';
-      buzzer.inert = a.st === 'niemand';
-      volgendeKnop.inert = a.st !== 'niemand';
 
-      ring.classList.toggle('is-goed', a.st === 'goed');
-      ring.classList.toggle('is-fout', a.st === 'iedereen-fout');
-      ring.classList.toggle('is-slot', a.st === 'open-slot' || a.st === 'antwoord-ander');
-      ring.classList.toggle('is-uit', a.st === 'niemand' || a.st === 'leeg');
+      // De streep: groen bij goed, grijs voor wie op slot zit, rustig weg bij fout en niemand.
+      const klokUit = a.st === 'niemand' || a.st === 'iedereen-fout' || a.st === 'leeg';
+      if (klok.classList.contains('is-uit') && !klokUit) klokSnap = true;
+      klok.classList.toggle('is-uit', klokUit);
+      klok.classList.toggle('is-goed', a.st === 'goed');
+      klok.classList.toggle('is-slot', a.st === 'open-slot' || a.st === 'antwoord-ander');
 
       volgendeKnop.setAttribute('aria-disabled', volgendeBezig ? 'true' : 'false');
       zetTekst(volgendeTekst, volgendeBezig ? 'Even geduld…' : a.laatste ? 'Naar de uitslag' : 'Volgende vraag');
@@ -593,7 +621,7 @@
       schrijfSub(a, laatsteSec, rest);
     }
 
-    // ---------- de ring ----------
+    // ---------- de tijdstreep ----------
 
     function startLus() {
       if (!lus && levend) lus = window.requestAnimationFrame(tik);
@@ -604,16 +632,25 @@
       if (!levend || !af) return;
       const kl = klokVan(af);
       let rest = 0;
-      let deel = 0;
       if (kl) {
         rest = Math.max(0, kl.eind - nu());
-        deel = Math.min(1, rest / kl.duur);
-        // Minder beweging: de ring loopt per seconde, niet vloeiend.
-        if (minderBeweging()) deel = Math.min(1, (Math.ceil(rest / 1000) * 1000) / kl.duur);
+        // Minder beweging: de streep loopt per seconde, niet vloeiend.
+        const over = minderBeweging() ? Math.ceil(rest / 1000) * 1000 : rest;
+        const vol = Math.min(1, Math.max(0, 1 - over / kl.duur));
+        // Een nieuwe klok (iemand drukt, nieuwe vraag): de streep schuift kort terug in plaats van te springen.
+        // Was hij weg, dan staat hij meteen goed en komt hij rustig op.
+        const sleutel = kl.soort + ':' + kl.eind;
+        if (sleutel !== klokSleutel) {
+          const glij = !!klokSleutel && !klokSnap;
+          wisTimer(klokTimer);
+          klokTimer = glij ? later(() => { klokTimer = 0; klok.classList.remove('is-terug'); }, 340) : 0;
+          klok.classList.toggle('is-terug', glij);
+          klokSleutel = sleutel;
+        }
+        klokSnap = false;
+        klokVul.style.transform = `translateX(${((vol - 1) * 100).toFixed(3)}%)`;
       }
-      boog.style.strokeDashoffset = (OMTREK * (1 - deel)).toFixed(2);
-      ring.classList.toggle('is-leeg', deel <= 0.002);
-      ring.classList.toggle('is-dringend', !!kl && kl.soort !== 'onthulling' && rest > 0 && rest <= DRINGEND);
+      klok.classList.toggle('is-dringend', !!kl && kl.soort !== 'onthulling' && rest <= DRINGEND);
       const sec = Math.ceil(rest / 1000);
       if (sec !== laatsteSec) {
         laatsteSec = sec;
@@ -728,12 +765,25 @@
       return optie == null ? '' : ` Het juiste antwoord is ${LETTERS[a.juist]}: ${optie}.`;
     }
 
+    // Wie verder mag, hoort welke knop; de anderen horen dat de maker verder gaat.
+    function verderZin(a) {
+      if (!a.magVerder) return a.laatste ? 'De maker opent zo de uitslag.' : 'De maker gaat zo verder.';
+      const knop = a.laatste ? 'Naar de uitslag' : 'Volgende vraag';
+      return (a.benMaker ? '' : 'De maker is even weg. Jij mag verder. ') + `Kies ${knop} om verder te gaan.`;
+    }
+
     function aankondigen(a, vorige) {
       if (!vorige || vorige.nr !== a.nr) {
         zeg(meldRustig, `Vraag ${a.nr} van ${a.aantal}.`);
         meldMeteen.textContent = '';
       }
-      if (vorige && vorige.nr === a.nr && vorige.st === a.st) return;
+      if (vorige && vorige.nr === a.nr && vorige.st === a.st) {
+        // Valt de maker weg of komt hij terug terwijl het scherm rood is, dan rustig zeggen wie nu verder mag.
+        if (a.st === 'niemand' && !a.benMaker && vorige.magVerder !== a.magVerder) {
+          zeg(meldRustig, a.magVerder ? verderZin(a) : a.laatste ? 'De maker is terug en opent zo de uitslag.' : 'De maker is terug en gaat zo verder.');
+        }
+        return;
+      }
       let tekst = '';
       switch (a.st) {
         case 'antwoord-ik':
@@ -760,7 +810,7 @@
           tekst = 'Niemand had het goed.' + juistZin(a);
           break;
         case 'niemand':
-          tekst = (a.pogingen.length ? 'Tijd om, niemand had het goed.' : 'Tijd om, niemand drukte.') + juistZin(a) + (a.laatste ? ' Kies Naar de uitslag om verder te gaan.' : ' Kies Volgende vraag om verder te gaan.');
+          tekst = (a.pogingen.length ? 'Tijd om, niemand had het goed.' : 'Tijd om, niemand drukte.') + juistZin(a) + ' ' + verderZin(a);
           break;
         default:
           break;
@@ -769,14 +819,16 @@
     }
 
     // Toetsenbord: wie met de knop werkt, landt na het drukken op de eerste optie en daarna weer op de knop.
+    // Wisselt de laag in het dok, dan gaat de focus mee naar de laag die nu te zien is, nooit naar een verborgen knop.
     function focusBeheer(a, vorige, actief) {
       if (a.st === 'antwoord-ik' && (!vorige || vorige.st !== 'antwoord-ik')) {
         if (actief === buzzer && optieKnoppen[0]) optieKnoppen[0].focus({ preventScroll: true });
-      } else if (a.st === 'niemand' && actief === buzzer) {
-        volgendeKnop.focus({ preventScroll: true });
-      } else if (a.st !== 'niemand' && actief === volgendeKnop) {
-        buzzer.focus({ preventScroll: true });
+        return;
       }
+      if (actief !== buzzer && actief !== volgendeKnop && actief !== wachtMaker) return;
+      const laag = knopvak.dataset.laag;
+      const doel = laag === 'volgende' ? volgendeKnop : laag === 'wacht' ? wachtMaker : buzzer;
+      if (actief !== doel) doel.focus({ preventScroll: true });
     }
 
     // ---------- alles tekenen ----------
@@ -864,7 +916,8 @@
     }
 
     async function volgende() {
-      if (!af || af.st !== 'niemand' || volgendeBezig) return;
+      // Alleen wie mag: de maker, of iedereen als de maker lang weg is. De database controleert het opnieuw.
+      if (!af || af.st !== 'niemand' || volgendeBezig || !af.magVerder) return;
       const nr = af.nr;
       volgendeBezig = true;
       teken();
@@ -873,7 +926,7 @@
       if (!levend || !af || af.nr !== nr || af.st !== 'niemand') return;
       if (!antwoord || (!antwoord.ok && antwoord.fout !== 'verkeerde_stand')) {
         volgendeBezig = false;
-        toonMelding(foutTekst(antwoord && antwoord.fout));
+        toonMelding(antwoord && antwoord.fout === 'niet_jouw_beurt' ? 'Alleen de maker kan verder.' : foutTekst(antwoord && antwoord.fout));
       }
     }
 
@@ -905,6 +958,8 @@
       if (!scherm.isConnected || scherm.closest('[inert]')) return;
       const doel = e.target;
       if (doel && doel.closest && doel.closest('input, textarea, select, [contenteditable=""], [contenteditable="true"], dialog')) return;
+      // De wachtstand is geen knop: de spatiebalk doet daar niets (anders schuift de pagina weg).
+      if ((e.key === ' ' || e.code === 'Space') && doel === wachtMaker) { e.preventDefault(); return; }
       if (af.st === 'antwoord-ik') {
         const toetsNaam = String(e.key || '').toLowerCase();
         let i = 'abcdef'.indexOf(toetsNaam);
