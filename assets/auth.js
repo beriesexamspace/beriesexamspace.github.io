@@ -325,6 +325,17 @@
       .finally(() => { savingChoice = false; });
   }
 
+  // Te laat binnengekomen inlog of aanmelding: alles afmaken wat de gewone weg ook doet, en de pagina laten weten dat het toch lukte.
+  function laatIngelogd(soort) {
+    return data => {
+      if (logoutInProgress) return;
+      recoveryUserId = null;
+      setUser(data.user);
+      bindMapChoice(data.user);
+      window.dispatchEvent(new CustomEvent('bes:laat-ingelogd', { detail: { soort, user: data.user } }));
+    };
+  }
+
   function setUser(user, clearGuestName = false) {
     currentUser = user || null;
     if (currentUser) completeNameFromProvider(currentUser);
@@ -357,12 +368,16 @@
   }
 
   // grens (ms): duurt het langer, dan krijgt de pagina de melding te_lang en zet ze haar knop terug.
-  async function request(operation, grens = 0) {
+  // laat(data): komt het antwoord na de melding te_lang toch nog binnen met een sessie, dan is de gebruiker alsnog ingelogd.
+  async function request(operation, grens = 0, laat = null) {
     try {
       const activeClient = await requireClient();
       const bezig = operation(activeClient.auth);
       const result = grens
-        ? await Promise.race([bezig, new Promise((_, stop) => window.setTimeout(() => stop(failure('te_lang')), grens))])
+        ? await Promise.race([bezig, new Promise((_, stop) => window.setTimeout(() => {
+          if (laat) Promise.resolve(bezig).then(r => { if (!r?.error && r?.data?.session && r.data.user) laat(r.data); }, () => {});
+          stop(failure('te_lang'));
+        }, grens))])
         : await bezig;
       if (result.error) throw result.error;
       return result.data;
@@ -441,7 +456,7 @@
         email: String(email).trim(),
         password: wachtwoord,
         options: { data: metadata }
-      }), 15000);
+      }), 15000, laatIngelogd('aanmelden'));
       if (data?.user?.identities?.length === 0) throw failure('duplicate');
       if (!data?.session || !data?.user) throw failure('confirmation_required');
       setUser(data.user);
@@ -469,7 +484,7 @@
     },
 
     async inloggen(email, wachtwoord) {
-      const data = await request(api => api.signInWithPassword({ email: String(email).trim(), password: wachtwoord }), 15000);
+      const data = await request(api => api.signInWithPassword({ email: String(email).trim(), password: wachtwoord }), 15000, laatIngelogd('inloggen'));
       if (!data?.session || !data?.user) throw failure('invalid_credentials');
       recoveryUserId = null;
       setUser(data.user);
@@ -615,7 +630,14 @@
       });
     } catch (fout) {
       window.clearTimeout(timer);
-      if (!binnen && stop.signal.aborted) return doe();
+      if (!binnen && stop.signal.aborted) {
+        // Staat er al een sessie in de browser, dan kan een ander tabblad die net verversen: dan toch op het slot wachten,
+        // anders verversen twee tabbladen hetzelfde token en wordt iedereen uitgelogd. De knoppen hebben hun eigen grens (15 s).
+        let sessie = false;
+        try { sessie = Object.keys(window.localStorage).some(sleutel => /^sb-.+-auth-token$/.test(sleutel)); } catch {}
+        if (sessie) return sloten.request(naam, { mode: 'exclusive' }, async () => doe());
+        return doe();
+      }
       throw fout;
     }
   }

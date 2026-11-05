@@ -144,6 +144,7 @@
                   if (klaar || !melding) return;
                   melding.textContent = 'De pagina laadt niet goed. Controleer je internet en laad de pagina opnieuw.';
                   melding.hidden = false;
+                  if (melding.animate && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) melding.animate([{ opacity: 0 }, { opacity: 1 }], { duration: 250, easing: 'ease-out' });
                 }, 10000);
               };
               form.addEventListener('submit', event => {
@@ -165,7 +166,11 @@
                 if (!wacht) return;
                 if (knop.textContent === 'Even laden…') knop.textContent = tekst;
                 form.removeAttribute('aria-busy');
-                if (melding && !melding.dataset.code && /laadt niet goed/.test(melding.textContent)) { melding.hidden = true; melding.textContent = ''; }
+                if (melding && !melding.dataset.code && /laadt niet goed/.test(melding.textContent)) {
+                  // Rustig dichtschuiven (app.js is nu geladen), zodat de knop niet verspringt.
+                  if (window.BES?.verberg) window.BES.verberg(melding, () => { melding.textContent = ''; });
+                  else { melding.hidden = true; melding.textContent = ''; }
+                }
                 if (wacht === 'form') form.requestSubmit ? form.requestSubmit(knop) : knop.click();
                 else google?.click();
               }, 0));
@@ -322,6 +327,7 @@
 
       // Na Account maken: het optionele scherm Over jezelf. Opslaan of Overslaan gaat naar de hub.
       const naarHub = () => window.location.assign('hub.html' + window.location.hash);
+      let laatsteNaam = '';
       const toonOver = async name => {
         const over = window.BES.overJezelf;
         if (!over) { naarHub(); return; }
@@ -394,6 +400,7 @@
         form.setAttribute('aria-busy', 'true');
         try {
           const names = { voornaam: fields[0].value.trim(), achternaam: lastName.value.trim(), bijnaam: nickname.value.trim() };
+          laatsteNaam = names.bijnaam || names.voornaam;
           await auth.aanmelden(names, fields[1].value.trim(), fields[2].value);
           fields[2].value = '';
           fields[2].type = 'password';
@@ -416,6 +423,15 @@
           submit.textContent = step === 2 ? 'Account maken →' : 'Verder →';
           form.removeAttribute('aria-busy');
         }
+      });
+
+      // Kwam het aanmelden na de melding "duurt te lang" toch nog door: dan alsnog naar Over jezelf.
+      window.addEventListener('bes:laat-ingelogd', event => {
+        if (event.detail?.soort !== 'aanmelden' || step === 3) return;
+        fields[2].value = '';
+        fields[2].type = 'password';
+        window.BES.verberg(error, () => error.replaceChildren());
+        toonOver(laatsteNaam);
       });
 
       availability();

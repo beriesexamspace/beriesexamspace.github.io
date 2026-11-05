@@ -114,6 +114,7 @@
                   if (klaar || !melding) return;
                   melding.textContent = 'De pagina laadt niet goed. Controleer je internet en laad de pagina opnieuw.';
                   melding.hidden = false;
+                  if (melding.animate && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) melding.animate([{ opacity: 0 }, { opacity: 1 }], { duration: 250, easing: 'ease-out' });
                 }, 10000);
               };
               form.addEventListener('submit', event => {
@@ -135,7 +136,11 @@
                 if (!wacht) return;
                 if (knop.textContent === 'Even laden…') knop.textContent = tekst;
                 form.removeAttribute('aria-busy');
-                if (melding && !melding.dataset.code && /laadt niet goed/.test(melding.textContent)) { melding.hidden = true; melding.textContent = ''; }
+                if (melding && !melding.dataset.code && /laadt niet goed/.test(melding.textContent)) {
+                  // Rustig dichtschuiven (app.js is nu geladen), zodat de knop niet verspringt.
+                  if (window.BES?.verberg) window.BES.verberg(melding, () => { melding.textContent = ''; });
+                  else { melding.hidden = true; melding.textContent = ''; }
+                }
                 if (wacht === 'form') form.requestSubmit ? form.requestSubmit(knop) : knop.click();
                 else google?.click();
               }, 0));
@@ -294,6 +299,13 @@
       // Terug naar deze pagina met de knop Vorige (uit het geheugen van de browser): knop weer bruikbaar.
       window.addEventListener('pageshow', event => {
         if (event.persisted && submitting) herstelKnop();
+      });
+
+      // Kwam het inloggen na de melding "duurt te lang" toch nog door: dan alsnog verder.
+      window.addEventListener('bes:laat-ingelogd', event => {
+        if (event.detail?.soort !== 'inloggen' || resetting) return;
+        password.value = '';
+        window.location.assign(auth.terugNa);
       });
 
       availability();
