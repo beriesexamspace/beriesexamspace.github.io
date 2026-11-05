@@ -1,18 +1,33 @@
 /* Duel, scherm "laden" (assets/duel-laden.js): meedoen via de link.
-   Alleen kleuren en tokens uit style.css. Het beeld is een quizknop met een ring die per stap vult
-   en lampjes die rondlopen zolang er iets gebeurt (data-licht: rust, jaag, feest, uit).
+   Alleen kleuren en tokens uit style.css. Een rustige uitnodigingskaart: een embleem met de bliksem van Duel,
+   de code als tegels, de knop om mee te doen en pas als het meedoen begint de stappen.
+   De rand om het embleem vult per stap (data-licht: rust, jaag, feest, uit).
    Hoogtewissels schuiven mee in de JS; bij "minder beweging" staat alles stil in zijn eindstand. */
 
 .duel-laden {
-  --dl-maat: 148px;
   position: relative;
-  width: min(100%, 480px);
-  margin: 0 auto;
-  padding: 24px 16px 32px;
+  width: min(100%, 440px);
+  margin: 8px auto 0;
+  padding: 36px 24px 32px;
+  border: 1px solid var(--line);
+  border-radius: 28px;
+  background: var(--card);
+  box-shadow: var(--shadow-soft);
   color: var(--ink);
   text-align: center;
 }
-/* Tijdens het meeschuiven van de hoogte: niets steekt uit. De zijmarge laat ruimte voor schaduwen. */
+/* Een zachte gloed bovenin de kaart, in de kleur van de site. */
+.duel-laden::before {
+  content: '';
+  position: absolute;
+  inset: 0 0 auto;
+  height: 200px;
+  border-radius: 28px 28px 0 0;
+  background: radial-gradient(120% 100% at 50% 0%, var(--accent-zacht) 0%, var(--transparent) 70%);
+  pointer-events: none;
+}
+.duel-laden > * { position: relative; }
+/* Tijdens het meeschuiven van de hoogte: niets steekt uit. */
 .duel-laden.is-schuivend { overflow: clip; }
 
 .duel-laden .dl-voorlees {
@@ -28,69 +43,55 @@
   border: 0;
 }
 
-/* ---------- Het beeld ---------- */
+/* ---------- Het embleem ---------- */
 
 .dl-embleem {
   position: relative;
-  width: var(--dl-maat);
-  height: var(--dl-maat);
-  margin: 0 auto 22px;
-}
-
-.dl-lamp {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 6px;
-  height: 6px;
-  margin: -3px 0 0 -3px;
-  border-radius: 50%;
-  background: var(--accent);
-  opacity: .18;
-  transform: rotate(calc(var(--i) * 22.5deg)) translateY(calc(var(--dl-maat) / -2 + 5px));
-  transition: background-color 400ms var(--ease), opacity 400ms var(--ease);
+  width: 92px;
+  height: 92px;
+  margin: 0 auto 20px;
 }
 
 .dl-ring {
   position: absolute;
-  inset: 13px;
-  width: calc(100% - 26px);
-  height: calc(100% - 26px);
+  inset: 0;
+  width: 100%;
+  height: 100%;
   overflow: visible;
-  transform: rotate(-90deg);
 }
-.dl-ring circle { fill: none; stroke-width: 4; }
+.dl-ring rect { fill: none; stroke-width: 2.5; }
 .dl-ring-baan { stroke: var(--line); }
 .dl-ring-vul {
   stroke: var(--accent);
   stroke-linecap: round;
-  stroke-dasharray: 339.292;
-  stroke-dashoffset: 339.292;
+  stroke-dasharray: 100;
+  stroke-dashoffset: 100;
   opacity: 0;
   transition: stroke-dashoffset 700ms var(--ease), stroke 400ms var(--ease), opacity 300ms var(--ease);
 }
 
+/* Zachte gloed achter het embleem die ademt zolang je wacht. */
 .dl-golf {
   position: absolute;
-  inset: 30px;
-  border: 2px solid var(--accent);
-  border-radius: 50%;
+  inset: 10px;
+  border-radius: 24px;
+  background: var(--accent);
   opacity: 0;
+  filter: blur(14px);
   pointer-events: none;
 }
 
 .dl-knop {
   position: absolute;
-  inset: 30px;
+  inset: 10px;
   display: grid;
   place-items: center;
-  border-radius: 50%;
-  background: var(--accent-vlak);
-  background: radial-gradient(circle at 34% 28%, color-mix(in srgb, var(--accent) 58%, var(--white)) 0%, var(--accent-vlak) 56%, var(--accent-vlak-hover) 100%);
-  box-shadow: inset 0 -5px 0 rgba(0, 0, 0, .16), inset 0 2px 1px rgba(255, 255, 255, .28), var(--shadow-primary);
-  transition: box-shadow 400ms var(--ease);
+  border-radius: 24px;
+  background: var(--card);
+  background-image: linear-gradient(var(--accent-zacht), var(--accent-zacht));
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--accent) 16%, var(--transparent));
 }
-/* Twee lagen over de knop: groenblauw als je erin zit, grijs bij een fout. Ze faden in plaats van te springen. */
+/* Twee lagen over het embleem: groenblauw als je erin zit, grijs bij een fout. Ze faden in plaats van te springen. */
 .dl-knop::before,
 .dl-knop::after {
   content: '';
@@ -100,133 +101,152 @@
   opacity: 0;
   transition: opacity 450ms var(--ease);
 }
-.dl-knop::before {
-  background: var(--teal);
-  background: radial-gradient(circle at 34% 28%, color-mix(in srgb, var(--teal) 55%, var(--white)) 0%, var(--teal) 62%);
-  box-shadow: inset 0 -5px 0 rgba(0, 0, 0, .14), inset 0 2px 1px rgba(255, 255, 255, .3);
-}
-.dl-knop::after {
-  background: var(--surface);
-  box-shadow: inset 0 0 0 1px var(--line);
-}
+.dl-knop::before { background: var(--teal); }
+.dl-knop::after { background: var(--surface); box-shadow: inset 0 0 0 1px var(--line); }
 .dl-knop svg {
   position: relative;
   z-index: 1;
   grid-area: 1 / 1;
-  width: 40px;
-  height: 40px;
+  width: 32px;
+  height: 32px;
   fill: none;
   stroke-linecap: round;
   stroke-linejoin: round;
-  stroke-width: 3;
 }
-.dl-knop-vink { stroke: var(--white); stroke-dasharray: 18; stroke-dashoffset: 18; }
-.dl-knop-let { stroke: var(--fout); opacity: 0; transition: opacity 300ms var(--ease); }
+.dl-knop-flits { stroke: var(--accent); stroke-width: 1.8; transition: opacity 300ms var(--ease), transform 400ms var(--ease); }
+.dl-knop-vink { stroke: var(--white); stroke-width: 2.6; stroke-dasharray: 18; stroke-dashoffset: 18; }
+.dl-knop-let { stroke: var(--fout); stroke-width: 2.6; opacity: 0; transition: opacity 300ms var(--ease); }
 
-/* Rust: wachten op jou (inloggen). Zacht ademende lampjes. */
-.duel-laden[data-licht="rust"] .dl-lamp { animation: dl-adem 3.2s ease-in-out infinite; animation-delay: calc(var(--i) * -.2s); }
-.duel-laden[data-licht="rust"] .dl-golf { animation: dl-golf 3.2s var(--ease) infinite; }
+/* Rust: wachten op jou (inloggen). De gloed ademt zacht. */
+.duel-laden[data-licht="rust"] .dl-golf { animation: dl-adem 3.6s ease-in-out infinite; }
 
-/* Jaag: er gebeurt iets. De lampjes lopen rond zoals bij een quizshow die opstart. */
-.duel-laden[data-licht="jaag"] .dl-lamp { animation: dl-jaag 1.6s linear infinite; animation-delay: calc(var(--i) * .1s - 1.6s); }
-.duel-laden[data-licht="jaag"] .dl-golf { animation: dl-golf 1.8s var(--ease) infinite; }
+/* Jaag: er gebeurt iets. De gloed ademt sneller, de bliksem knippert zacht en de rand vult. */
+.duel-laden[data-licht="jaag"] .dl-golf { animation: dl-adem 1.6s ease-in-out infinite; }
+.duel-laden[data-licht="jaag"] .dl-knop-flits { animation: dl-flits 1.6s ease-in-out infinite; }
 
-/* Feest: je zit erin. Alles groenblauw, twee keer flitsen en een vinkje in de knop. */
-.duel-laden[data-licht="feest"] .dl-lamp { background: var(--teal); opacity: .95; animation: dl-flits 300ms var(--ease) 2; animation-delay: calc(var(--i) * 10ms); }
-.duel-laden[data-licht="feest"] .dl-golf { border-color: var(--teal); animation: dl-golf 700ms var(--ease) 2; }
+/* Feest: je zit erin. Groenblauw met een vinkje. */
+.duel-laden[data-licht="feest"] .dl-golf { background: var(--teal); animation: dl-adem 900ms var(--ease) 1; }
 .duel-laden[data-licht="feest"] .dl-ring-vul { stroke: var(--teal); }
 .duel-laden[data-licht="feest"] .dl-knop::before { opacity: 1; }
-.duel-laden[data-licht="feest"] .dl-knop-vink { stroke-dashoffset: 0; animation: dl-teken-vink 320ms var(--ease) 80ms backwards; }
+.duel-laden[data-licht="feest"] .dl-knop-flits { opacity: 0; transform: scale(.6); }
+.duel-laden[data-licht="feest"] .dl-knop-vink { stroke-dashoffset: 0; animation: dl-teken-vink 320ms var(--ease) 120ms backwards; }
 
-/* Uit: er ging iets mis. Lampjes uit, de knop wordt grijs met een uitroepteken. */
-.duel-laden[data-licht="uit"] .dl-lamp { background: var(--ink-soft); opacity: .14; }
-.duel-laden[data-licht="uit"] .dl-knop { box-shadow: var(--shadow-soft); }
+/* Uit: er ging iets mis. Het embleem wordt grijs met een uitroepteken. */
 .duel-laden[data-licht="uit"] .dl-knop::after { opacity: 1; }
+.duel-laden[data-licht="uit"] .dl-knop-flits { opacity: 0; transform: scale(.6); }
 .duel-laden[data-licht="uit"] .dl-knop-let { opacity: 1; transition-delay: 150ms; }
 
-@keyframes dl-adem { 0%, 100% { opacity: .14; } 50% { opacity: .45; } }
-@keyframes dl-jaag {
-  0% { opacity: 1; scale: 1.35; }
-  25% { opacity: .18; scale: 1; }
-  100% { opacity: .18; scale: 1; }
-}
-@keyframes dl-flits { 0%, 100% { opacity: .95; scale: 1; } 50% { opacity: .3; scale: 1.25; } }
-@keyframes dl-golf { 0% { opacity: .45; transform: scale(1); } 100% { opacity: 0; transform: scale(1.5); } }
+@keyframes dl-adem { 0%, 100% { opacity: 0; } 50% { opacity: .3; } }
+@keyframes dl-flits { 0%, 100% { opacity: 1; } 50% { opacity: .45; } }
 @keyframes dl-teken-vink { from { stroke-dashoffset: 18; } }
 
 /* ---------- Tekst ---------- */
 
 .dl-boven {
-  margin: 0 0 8px;
+  display: inline-block;
+  margin: 0 0 12px;
+  padding: 4px 12px;
+  border-radius: var(--radius-pill);
+  background: var(--accent-zacht);
   color: var(--accent);
-  font-size: .875rem;
+  font-size: .8125rem;
   font-weight: 600;
   line-height: 1.5;
-  letter-spacing: .02em;
+  letter-spacing: .01em;
 }
 .duel-laden .dl-kop {
   margin: 0;
-  font-size: clamp(1.625rem, 6vw, 2.25rem);
+  font-size: clamp(1.625rem, 6vw, 2rem);
   font-weight: 700;
-  line-height: 1.12;
+  line-height: 1.15;
   letter-spacing: -.02em;
   text-wrap: balance;
   overflow-wrap: anywhere;
 }
 .duel-laden .dl-kop:focus,
 .duel-laden .dl-kop:focus-visible { outline: none; box-shadow: none; }
-/* Vaste ruimte voor 2 regels: wisselt de tekst naar 1 regel ("Op naar de wachtkamer…"), dan springt de kaart eronder niet. */
 .dl-sub {
-  max-width: 30rem;
-  min-height: calc(2 * 1.55em);
+  max-width: 22rem;
   margin: 10px auto 0;
   color: var(--ink-soft);
-  font-size: 1.0625rem;
+  font-size: 1rem;
   line-height: 1.55;
   text-wrap: pretty;
 }
-.dl-code {
-  color: var(--ink);
-  font-weight: 600;
-  letter-spacing: .08em;
-  font-variant-numeric: tabular-nums;
-  white-space: nowrap;
+
+/* ---------- De code als tegels ---------- */
+
+.dl-tegels {
+  display: flex;
+  justify-content: center;
+  gap: 6px;
+  margin: 22px 0 0;
+  transition: opacity 300ms var(--ease);
 }
+.dl-tegels[hidden] { display: none; }
+.dl-tegel {
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 48px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: var(--surface);
+  color: var(--ink);
+  font-size: 1.25rem;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  line-height: 1;
+}
+.duel-laden[data-licht="uit"] .dl-tegels { opacity: .45; }
 
 /* ---------- Stappen ---------- */
 
 .dl-kaart {
-  width: min(100%, 340px);
-  margin: 28px auto 0;
-  padding: 18px 20px;
-  border: 1px solid var(--line);
-  border-radius: 20px;
-  background: var(--card);
-  box-shadow: var(--shadow-soft);
+  margin: 24px 0 0;
+  padding: 16px 18px;
+  border-radius: 18px;
+  background: var(--surface);
   text-align: left;
 }
+.dl-kaart[hidden] { display: none; }
 .dl-stappen {
   display: grid;
-  gap: 14px;
+  gap: 12px;
   margin: 0;
   padding: 0;
   list-style: none;
 }
 .dl-stap {
+  position: relative;
   display: flex;
   align-items: center;
   gap: 12px;
-  min-height: 26px;
+  min-height: 24px;
 }
+/* Dun lijntje tussen de bolletjes, dat groenblauw wordt als de stap klaar is. */
+.dl-stap:not(:last-child)::after {
+  content: '';
+  position: absolute;
+  top: 24px;
+  left: 10px;
+  width: 2px;
+  height: 12px;
+  border-radius: 1px;
+  background: var(--line);
+  transition: background-color 300ms var(--ease);
+}
+.dl-stap[data-stand="klaar"]:not(:last-child)::after { background: var(--teal); }
 .dl-stip {
   position: relative;
   display: grid;
   place-items: center;
-  flex: 0 0 24px;
-  width: 24px;
-  height: 24px;
+  flex: 0 0 22px;
+  width: 22px;
+  height: 22px;
   border: 2px solid var(--line);
   border-radius: 50%;
+  background: var(--card);
   transition: border-color 250ms var(--ease), background-color 250ms var(--ease);
 }
 /* Draaiend boogje zolang de stap bezig is. */
@@ -241,8 +261,8 @@
   transition: opacity 200ms var(--ease);
 }
 .dl-stip svg {
-  width: 14px;
-  height: 14px;
+  width: 12px;
+  height: 12px;
   fill: none;
   stroke: var(--white);
   stroke-width: 3;
@@ -253,17 +273,17 @@
 }
 .dl-label {
   color: var(--ink-soft);
-  font-size: 1rem;
+  font-size: .9375rem;
   font-weight: 500;
   line-height: 1.4;
-  transition: color 250ms var(--ease), opacity 250ms var(--ease);
+  transition: color 250ms var(--ease);
 }
 .dl-stap[data-stand="bezig"] .dl-stip { border-color: var(--accent-zacht); }
 .dl-stap[data-stand="bezig"] .dl-stip::before { opacity: 1; animation: dl-draai 800ms linear infinite; }
-.dl-stap[data-stand="bezig"] .dl-label { color: var(--ink); opacity: 1; }
+.dl-stap[data-stand="bezig"] .dl-label { color: var(--ink); }
 .dl-stap[data-stand="klaar"] .dl-stip { border-color: var(--teal); background: var(--teal); animation: dl-plop 320ms var(--ease); }
 .dl-stap[data-stand="klaar"] .dl-stip svg { stroke-dashoffset: 0; animation: dl-teken-stip 280ms var(--ease) 80ms backwards; }
-.dl-stap[data-stand="klaar"] .dl-label { color: var(--ink); opacity: 1; }
+.dl-stap[data-stand="klaar"] .dl-label { color: var(--ink); }
 .dl-stap[data-stap="binnen"][data-stand="klaar"] .dl-label { color: var(--teal-tekst); font-weight: 600; }
 
 @keyframes dl-draai { to { transform: rotate(360deg); } }
@@ -281,14 +301,23 @@
 
 /* ---------- Knoppen en meldingen ---------- */
 
-.dl-actie { width: min(100%, 340px); margin: 24px auto 0; }
+.dl-actie { margin: 24px 0 0; }
 .dl-actie:empty { display: none; }
 
 .dl-login { display: grid; justify-items: center; }
-.duel-laden .dl-google { width: 100%; max-width: none; margin: 0; }
-.dl-klein { margin: 12px 0 0; color: var(--ink-soft); font-size: .875rem; line-height: 1.5; }
+.duel-laden .dl-google { box-sizing: border-box; width: 100%; min-width: 0; max-width: none; min-height: 52px; margin: 0; padding-inline: 16px; }
+.duel-laden .dl-google[aria-busy="true"] svg { animation: dl-flits 1.2s ease-in-out infinite; }
+.dl-klein { margin: 10px 0 0; color: var(--ink-soft); font-size: .8125rem; line-height: 1.5; }
 .dl-fout { margin: 12px 0 0; color: var(--fout); font-size: .9375rem; font-weight: 500; line-height: 1.5; }
-.dl-ook { margin: 18px 0 0; color: var(--ink-soft); font-size: .9375rem; line-height: 1.5; }
+.dl-ook {
+  width: 100%;
+  margin: 20px 0 0;
+  padding-top: 16px;
+  border-top: 1px solid var(--line);
+  color: var(--ink-soft);
+  font-size: .9375rem;
+  line-height: 1.5;
+}
 .dl-ook .tekstlink { position: relative; font-size: inherit; }
 /* Onzichtbaar tikvlak tot 44 px hoog, zonder dat de regel verschuift. */
 .dl-ook .tekstlink::after { content: ''; position: absolute; inset: -11px 0; }
@@ -305,28 +334,37 @@
 .dl-nieuw { animation: dl-in 260ms var(--ease) 60ms both; }
 @keyframes dl-in { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
 
-/* Eerste keer in beeld: het beeld komt op, daarna de tekst en de stappen een voor een. */
-.duel-laden.is-binnenkomst .dl-embleem { animation: dl-pop 460ms var(--ease) both; }
-.duel-laden.is-binnenkomst .dl-boven { animation: dl-in 320ms var(--ease) 60ms both; }
-.duel-laden.is-binnenkomst .dl-tekst { animation: dl-in 360ms var(--ease) 100ms both; }
-.duel-laden.is-binnenkomst .dl-actie { animation: dl-in 360ms var(--ease) 140ms both; }
-.duel-laden.is-binnenkomst .dl-kaart { animation: dl-in 360ms var(--ease) 190ms both; }
-.duel-laden.is-binnenkomst .dl-stap { animation: dl-in 280ms var(--ease) both; animation-delay: calc(230ms + var(--n, 0) * 60ms); }
-@keyframes dl-pop { from { opacity: 0; transform: scale(.9); } to { opacity: 1; transform: none; } }
+/* Eerste keer in beeld: de kaart komt op, daarna het embleem, de tekst, de tegels een voor een en de rest. */
+.duel-laden.is-binnenkomst { animation: dl-kaart-in 420ms var(--ease) both; }
+.duel-laden.is-binnenkomst .dl-embleem { animation: dl-pop 460ms var(--ease) 80ms both; }
+.duel-laden.is-binnenkomst .dl-boven { animation: dl-in 320ms var(--ease) 120ms both; }
+.duel-laden.is-binnenkomst .dl-tekst { animation: dl-in 360ms var(--ease) 160ms both; }
+.duel-laden.is-binnenkomst .dl-tegel { animation: dl-tegel-in 320ms var(--ease) both; animation-delay: calc(220ms + var(--n, 0) * 45ms); }
+.duel-laden.is-binnenkomst .dl-actie { animation: dl-in 360ms var(--ease) 320ms both; }
+.duel-laden.is-binnenkomst .dl-kaart { animation: dl-in 360ms var(--ease) 320ms both; }
+.duel-laden.is-binnenkomst .dl-stap { animation: dl-in 280ms var(--ease) both; animation-delay: calc(360ms + var(--n, 0) * 60ms); }
+@keyframes dl-kaart-in { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
+@keyframes dl-pop { from { opacity: 0; transform: scale(.88); } to { opacity: 1; transform: none; } }
+@keyframes dl-tegel-in { from { opacity: 0; transform: translateY(8px) scale(.96); } to { opacity: 1; transform: none; } }
 
-@media (min-width: 768px) {
-  .duel-laden { --dl-maat: 156px; padding-top: 40px; }
-  .dl-knop svg { width: 42px; height: 42px; }
+/* Smalle telefoons: tegels en ruimte iets kleiner, zodat alles op een regel past. */
+@media (max-width: 359px) {
+  .duel-laden { padding: 28px 16px 24px; border-radius: 24px; }
+  .duel-laden::before { border-radius: 24px 24px 0 0; }
+  .dl-tegels { gap: 5px; }
+  .dl-tegel { width: 34px; height: 42px; border-radius: 10px; font-size: 1.125rem; }
 }
 
-/* Minder beweging: geen rondlopende lampjes, golven of draaiende boogjes. Alles staat in zijn eindstand. */
+@media (min-width: 768px) {
+  .duel-laden { margin-top: 32px; padding: 44px 40px 36px; }
+}
+
+/* Minder beweging: geen ademende gloed of draaiende boogjes. Alles staat in zijn eindstand. */
 @media (prefers-reduced-motion: reduce) {
   .duel-laden,
   .duel-laden *,
   .duel-laden *::before,
   .duel-laden *::after { animation: none !important; transition-duration: 1ms !important; transition-delay: 0ms !important; }
-  .duel-laden[data-licht="rust"] .dl-lamp { opacity: .3; }
-  .duel-laden[data-licht="jaag"] .dl-lamp { opacity: .55; }
   .dl-stap[data-stand="bezig"] .dl-stip { border-color: var(--accent); }
   .dl-stap[data-stand="bezig"] .dl-stip::before { opacity: 0; }
   .duel-laden .dl-tekstknop:active { opacity: 1; }

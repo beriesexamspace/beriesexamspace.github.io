@@ -30,7 +30,7 @@
   const TEKENS = 'ABCDEFGHJKMNPQRSTUVWXYZ23456789';
   const CODE_VORM = /^[ABCDEFGHJKMNPQRSTUVWXYZ23456789]{6}$/;
   const MAX_SPELERS = 10;
-  const AANTALLEN = [5, 10, 15, 20]; // zoals duel_intern_vragen_ok in duel-live.sql
+  const AANTALLEN = [5, 10, 15, 20, 30, 50]; // zoals duel_intern_vragen_ok in duel-50.sql (15 alleen voor oude kamers)
 
   const zoek = new URLSearchParams(window.location.search);
   const spelerRuw = zoek.get('speler');
@@ -422,9 +422,15 @@
     } else {
       // Iedereen fout = iedereen die online is heeft een poging (zoals duel_intern_na_fout). Wie weg is, telt niet mee.
       const geprobeerd = new Set(k.pogingen.filter(p => p.nr === nr).map(p => p.speler));
+      // Precies 2 deelnemers en de ander is online zonder poging: die wordt meteen de drukker (duel-twee.sql).
       const mee = k.deelnemers.filter(d => d.speler === speler || tijd - tijdVan(d.laatst_gezien) < T.online);
-      if (mee.every(d => geprobeerd.has(d.speler))) {
+      const ander = mee.find(d => !geprobeerd.has(d.speler));
+      if (!ander) {
         onthul(k, 'iedereen_fout', tijd);
+      } else if (k.deelnemers.length === 2) {
+        kamer.status = 'antwoord';
+        kamer.drukker = ander.speler;
+        kamer.deadline = iso(tijd + T.antwoord);
       } else {
         kamer.status = 'open';
         kamer.open_sinds = iso(tijd);
