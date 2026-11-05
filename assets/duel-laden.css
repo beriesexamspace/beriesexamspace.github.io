@@ -210,6 +210,9 @@
   text-align: left;
 }
 .dl-kaart[hidden] { display: none; }
+/* Zonder zichtbare stappen: het blok verschijnt alleen voor de melding Geen verbinding. */
+.dl-kaart:not(:has(> .dl-netwerk:not([hidden]))) { display: none; }
+.dl-stappen[hidden] { display: none; }
 .dl-stappen {
   display: grid;
   gap: 12px;
