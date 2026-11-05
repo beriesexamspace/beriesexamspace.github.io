@@ -425,11 +425,11 @@ window.BES_VAK = {
    "o": [
     "1 - P(A) - P(B) - P(C)",
     "P(A) + P(B) + P(C)",
-    "P(A) + P(B) + P(C) - P(A en B en C)",
+    "P(A) + P(B) + P(C) - P(A) x P(B) x P(C)",
     "P(A) x P(B) x P(C)"
    ],
    "a": 1,
-   "u": "Disjunct betekent dat de gebeurtenissen geen enkele uitkomst delen. Er valt dus niets dubbel geteld te worden en je mag de kansen gewoon optellen."
+   "u": "Disjunct betekent dat de gebeurtenissen geen enkele uitkomst delen. Er valt dus niets dubbel geteld te worden en je mag de kansen gewoon optellen. Een product van kansen aftrekken klopt hier niet: dat product hoort bij onafhankelijke gebeurtenissen, en disjuncte gebeurtenissen kunnen nooit samen optreden."
   },
   {
    "h": "h3",

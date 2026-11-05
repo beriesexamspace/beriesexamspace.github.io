@@ -31,7 +31,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="assets/style.css?v=94">
   <script src="assets/meten.js?v=1"></script>
-  <script src="assets/app.js?v=95" defer></script>
+  <script src="assets/app.js?v=96" defer></script>
   <script src="assets/config.js?v=89" defer></script>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js" defer></script>
   <script src="assets/auth.js?v=97" defer></script>
@@ -161,8 +161,10 @@
       let changing = false;
       let submitting = false;
       // Kom je van de kaart (school en richting gekozen), dan brengt Terug je daar weer naartoe.
+      // Kom je via Insturen, dan zette app.js Terug al naar Insturen (bes_insturen_terug); die route blijft staan.
       let terugStart = 'index.html';
       try { if (window.sessionStorage.getItem('bes_keuze')) terugStart = 'kaart.html'; } catch {}
+      if (/\/insturen\/[^/]*$/.test(back.pathname)) terugStart = back.getAttribute('href');
       back.setAttribute('data-terug', terugStart);
       back.href = terugStart;
 

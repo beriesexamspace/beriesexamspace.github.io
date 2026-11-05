@@ -1251,13 +1251,13 @@ window.BES_VAK = {
    "h": "h3",
    "q": "Vul aan: Bij rust zal de elektrostatische druk...",
    "o": [
-    "Chloor naar de buitenkant van het axon duwen.",
+    "Chloor naar de binnenkant van het axon trekken.",
     "Natrium naar de binnenkant van het axon trekken.",
     "Kalium naar de buitenkant van het axon duwen.",
-    "Organische anionen naar de buitenkant van het axon duwen."
+    "Organische anionen naar de binnenkant van het axon trekken."
    ],
    "a": 1,
-   "u": "Binnen de cel is het in rust negatief."
+   "u": "Binnen de cel is het in rust negatief. De elektrostatische druk trekt positieve ionen zoals natrium dus naar binnen en duwt negatieve ionen (chloor, organische anionen) naar buiten. Kalium wordt door de elektrostatische druk juist binnengehouden; het is de concentratiegradiënt die kalium naar buiten duwt."
   },
   {
    "h": "h4",
@@ -1753,7 +1753,7 @@ window.BES_VAK = {
   },
   {
    "h": "h2",
-   "q": "Welke hersenstructuur heeft de vorm van een' C' of een grote boog en ligt direct boven de thalamus, omgeven door de laterale ventrikels?",
+   "q": "Welke grote, boogvormige witte-stofstructuur boven de thalamus verbindt de linker- en rechterhemisfeer en vormt het dak van de laterale ventrikels?",
    "o": [
     "Fornix",
     "Corpus callosum",
@@ -1761,7 +1761,7 @@ window.BES_VAK = {
     "Tentorium cerebelli"
    ],
    "a": 1,
-   "u": "Het corpus callosum (hersenbalk) is de grote witte boog over de thalamus heen die de linker-en rechterhemisfeer verbindt en het' dak' van de laterale ventrikels vormt."
+   "u": "Het corpus callosum (hersenbalk) is de grote witte boog over de thalamus heen die de linker- en rechterhemisfeer verbindt en het 'dak' van de laterale ventrikels vormt. De fornix is de C-vormige vezelbundel daaronder, die over de thalamus loopt en de hippocampus met de corpora mammillaria verbindt; hij verbindt de hemisferen niet."
   },
   {
    "h": "h2",

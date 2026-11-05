@@ -955,13 +955,13 @@ window.BES_VAK = {
    "h": "h7",
    "q": "De cognitieve as in het orthopedagogisch classificatiesysteem van Kok heeft twee polen:",
    "o": [
-    "De s-pool voor structuur en de v-pool voor variatie.",
+    "De s-pool waar de vraag naar variëren moet worden gesitueerd en de v-pool waar we de vraag naar structuur moeten lokaliseren.",
     "De s-pool waar de vraag naar structuur moet worden gesitueerd en de v-pool waar we de vraag naar langzamerhand variëren moeten lokaliseren.",
     "De s-pool voor gebrek aan structuur en de v-pool voor tekort aan variatie.",
     "De s-pool waar de vraag naar veiligheid en geborgenheid moet worden gesitueerd en de v-pool waar we de vraag naar meer bewegingsvrijheid moeten lokaliseren."
    ],
    "a": 1,
-   "u": "Het juiste antwoord is: De s-pool waar de vraag naar structuur moet worden gesitueerd en de v-pool waar we de vraag naar langzamerhand variëren moeten lokaliseren.."
+   "u": "Het juiste antwoord is: De s-pool waar de vraag naar structuur moet worden gesitueerd en de v-pool waar we de vraag naar langzamerhand variëren moeten lokaliseren. De s staat dus voor de vraag naar structuur, de v voor de vraag naar langzamerhand variëren; beide polen situeren een vraag, geen tekort bij het kind."
   },
   {
    "h": "h2",

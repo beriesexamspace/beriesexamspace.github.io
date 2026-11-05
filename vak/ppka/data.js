@@ -636,12 +636,12 @@ window.BES_VAK = {
    "q": "Aan welk leeftijds- en situatiecriterium moet volgens de classificatie voldaan worden om ADHD te kunnen classificeren?",
    "o": [
     "De symptomen zijn na de adolescentie begonnen en spelen enkel thuis",
-    "De symptomen zijn voor het twaalfde jaar begonnen en komen op meer dan twee terreinen voor",
+    "De symptomen zijn voor het twaalfde jaar begonnen en komen op twee of meer terreinen voor",
     "De symptomen zijn na het twaalfde jaar begonnen en beperken zich tot één terrein",
     "De symptomen zijn voor het zesde jaar begonnen en komen enkel op school voor"
    ],
    "a": 1,
-   "u": "Criterium B vereist een begin voor het twaalfde jaar, en criterium C vereist dat de symptomen zich op meer dan twee terreinen voordoen, met significante beperkingen in onder andere het schoolse functioneren."
+   "u": "Criterium B vereist een begin voor het twaalfde jaar, en criterium C vereist dat de symptomen zich op twee of meer terreinen voordoen (bv. thuis en op school), met significante beperkingen in onder andere het schoolse functioneren."
   },
   {
    "h": "h6",
@@ -1189,7 +1189,7 @@ window.BES_VAK = {
   {
    "h": "algemeen",
    "kop": "A tot E: de vijf ADHD-criteria",
-   "t": "Onthoud de classificatie via A-B-C-D-E: A staat voor de zes Aandachts- of hyperactiviteitssymptomen, B voor Begin voor twaalf jaar, C voor Context (meer dan twee terreinen), D voor Duidelijke beperking (impairment) en E voor Enkel als het niet beter door een andere stoornis verklaard wordt."
+   "t": "Onthoud de classificatie via A-B-C-D-E: A staat voor de zes Aandachts- of hyperactiviteitssymptomen, B voor Begin voor twaalf jaar, C voor Context (twee of meer terreinen), D voor Duidelijke beperking (impairment) en E voor Enkel als het niet beter door een andere stoornis verklaard wordt."
   },
   {
    "h": "algemeen",
@@ -1320,7 +1320,7 @@ window.BES_VAK = {
     "Overwegend hyperactieve/impulsieve beeld: presentatie waarbij vooral aanhoudende hyperactiviteit en impulsiviteit domineren.",
     "Gecombineerde beeld: presentatie waarbij zowel aandachtsproblemen als hyperactiviteit/impulsiviteit samen voorkomen.",
     "Leeftijdscriterium (B): de symptomen moeten voor het twaalfde jaar begonnen zijn en minstens zes maanden aanwezig zijn.",
-    "Situatiecriterium (C): de symptomen moeten zich op meer dan twee terreinen voordoen met significante beperkingen in het functioneren.",
+    "Situatiecriterium (C): de symptomen moeten zich op twee of meer terreinen voordoen met significante beperkingen in het functioneren.",
     "Comorbiditeit: meer dan 85 procent heeft minstens één bijkomende stoornis, waarbij oppositioneel-opstandige of gedragsstoornis zeer frequent voorkomt.",
     "Responsinhibitie (Barkley): executieve functie die de reactie afremt, onderbreekt of tegenhoudt en centraal staat in het neuropsychologische model.",
     "Werkgeheugen (Baddeley): systeem waarbij vooral verbaal, visuospatieel en spatiaal korte-termijngeheugen zwak is bij ADHD.",

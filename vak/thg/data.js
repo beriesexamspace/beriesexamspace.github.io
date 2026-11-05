@@ -1165,7 +1165,7 @@ window.BES_VAK = {
     "Dat de betrokken persoon liegt over wat hij ziet"
    ],
    "a": 0,
-   "u": "Bij visuele agnosie of blind zicht is men zich niet bewust iets te zien, maar de antwoorden kloppen meestal wel, wat wijst op de gelaagdheid van de menselijke hersenen."
+   "u": "Bij blind zicht (blindsight) is men zich niet bewust iets te zien, maar de antwoorden kloppen meestal wel. Visuele informatie wordt dus deels verwerkt zonder bewuste waarneming, wat wijst op de gelaagdheid van de menselijke hersenen. Niet te verwarren met visuele agnosie: daar ziet men wel, maar herkent men het geziene niet."
   },
   {
    "h": "h5",
@@ -1549,7 +1549,7 @@ window.BES_VAK = {
     "Modern dualisme: positie van Searle waarbij bewustzijn een mysterie blijft en innerlijke toestanden een privéaangelegenheid zijn.",
     "Bewustzijn als bijverschijnsel: idee van Dennett en Calvin dat menselijk bewustzijn een onbedoeld evolutionair bijverschijnsel is.",
     "Turing-machine: universele machine die volgens sommigen net zoals een mens werkt, in het licht van computers en AI.",
-    "Visuele agnosie / blind zicht: men is zich niet bewust iets te zien, maar antwoordt bij navraag toch vaak correct, wat wijst op de gelaagdheid van de hersenen.",
+    "Blind zicht: men is zich niet bewust iets te zien, maar antwoordt bij navraag toch vaak correct, wat wijst op de gelaagdheid van de hersenen. Bij visuele agnosie ziet men wel, maar herkent men het geziene niet.",
     "Obscurantisme: kritiek van Dennett op Searle, namelijk het doelbewust in onwetendheid houden van mensen en zelfstandig denken verhinderen.",
     "Orch OR-theorie (Penrose): opvatting dat het bewustzijn in de cellen zetelt via kleine rotaties van de microtubuli.",
     "Faust-Frankenstein syndroom: gevaar om je moraliteit en menselijkheid te verliezen door zonder ethiek een wetenschappelijke, alwetende utopie na te streven.",

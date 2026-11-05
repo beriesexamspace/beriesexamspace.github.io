@@ -35,7 +35,7 @@
   <link rel="stylesheet" href="assets/duel-laden.css?v=1">
   <link rel="stylesheet" href="assets/duel-spel.css?v=1">
   <link rel="stylesheet" href="assets/duel-podium.css?v=1">
-  <script src="assets/app.js?v=95"></script>
+  <script src="assets/app.js?v=96"></script>
   <script src="assets/config.js?v=89" defer></script>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js" defer></script>
   <script src="assets/auth.js?v=97" defer></script>
@@ -336,7 +336,7 @@
         if (!bekend || !/^[a-z0-9]+(-[a-z0-9]+)*$/.test(vak)) return;
         vakGeladen = vak;
         const script = document.createElement('script');
-        script.src = 'vak/' + vak + '/data.js?v=89';
+        script.src = 'vak/' + vak + '/data.js?v=90';
         script.async = true;
         script.onerror = () => { script.remove(); vakGeladen = ''; };
         document.body.append(script);
