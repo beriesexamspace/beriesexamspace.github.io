@@ -661,7 +661,7 @@ window.BES_VAK = {
   },
   {
    "h": "h4",
-   "q": "Wat is een mogelijk gevolg van een bijschildkliertumor die te veel calcitonine afscheidt?",
+   "q": "Wat is een mogelijk gevolg van een schildkliertumor die te veel calcitonine afscheidt?",
    "o": [
     "gewrichtsontsteking leidend tot artrose",
     "botverlies door stimulatie van osteoclasten",
@@ -669,7 +669,7 @@ window.BES_VAK = {
     "omzetting van kraakbeen in bot"
    ],
    "a": 2,
-   "u": "Het juiste antwoord is: botgroei door stimulatie van osteoblasten."
+   "u": "Het juiste antwoord is: botgroei door stimulatie van osteoblasten. Calcitonine wordt gemaakt door de C-cellen van de schildklier. Het verlaagt het calcium in het bloed door botopbouw te bevorderen en de osteoclasten te remmen. Het parathormoon (PTH) van de bijschildklier doet het omgekeerde: het stimuleert de osteoclasten en geeft botverlies."
   },
   {
    "h": "h4",
@@ -1153,7 +1153,7 @@ window.BES_VAK = {
   },
   {
    "h": "h6",
-   "q": "Wat is de juiste volgorde van hemostase?",
+   "q": "Wat is de juiste volgorde van hemostase: (1) vorming van een bloedplaatjesprop, (2) vaatspasme, (3) bloedstolling (vorming van een fibrinenetwerk)?",
    "o": [
     "1-3-2",
     "3-1-2",
@@ -1161,7 +1161,7 @@ window.BES_VAK = {
     "2-1-3"
    ],
    "a": 3,
-   "u": "Het juiste antwoord is: 2-1-3."
+   "u": "Het juiste antwoord is: 2-1-3. Eerst trekt het beschadigde bloedvat samen (vaatspasme), daarna vormen de bloedplaatjes een prop en tot slot verstevigt de bloedstolling die prop met een fibrinenetwerk."
   },
   {
    "h": "h6",
@@ -1256,8 +1256,8 @@ window.BES_VAK = {
     "Spierlaag en kleppen",
     "Buitenste bindweefsellaag en spierlaag"
    ],
-   "a": 2,
-   "u": "Het juiste antwoord is: Spierlaag en kleppen."
+   "a": 3,
+   "u": "Het juiste antwoord is: Buitenste bindweefsellaag en spierlaag. Arteriën moeten de hoge druk van het hart opvangen en hebben daarom een dikkere wand, met vooral een dikkere gladde spierlaag en een stevige buitenste bindweefsellaag. Kleppen komen niet voor in arteriën, maar in venen, waar ze het terugstromen van bloed tegengaan."
   },
   {
    "h": "h7",
@@ -1465,7 +1465,7 @@ window.BES_VAK = {
   },
   {
    "h": "h8",
-   "q": "Wat is de juiste volgorde van fagocytose?",
+   "q": "Wat is de juiste volgorde van fagocytose: (1) de bacterie wordt verteerd door lysosomale enzymen, (2) de fagocyt nadert de bacterie, (3) de fagocytische blaas versmelt met het lysosoom, (4) de fagocyt slokt de bacterie op en vormt een fagocytische blaas?",
    "o": [
     "4-2-3-1",
     "2-4-3-1",
@@ -1473,7 +1473,7 @@ window.BES_VAK = {
     "4-1-3-2"
    ],
    "a": 1,
-   "u": "Het juiste antwoord is: 2-4-3-1."
+   "u": "Het juiste antwoord is: 2-4-3-1. De fagocyt nadert eerst de bacterie (2) en slokt ze op in een fagocytische blaas (4). Die blaas versmelt met een lysosoom (3), waarna de lysosomale enzymen de bacterie verteren (1)."
   },
   {
    "h": "h8",
@@ -1664,8 +1664,8 @@ window.BES_VAK = {
     "Interstitiële vloeistof",
     "Pulmonale vene"
    ],
-   "a": 3,
-   "u": "Het juiste antwoord is: Pulmonale vene."
+   "a": 0,
+   "u": "Het juiste antwoord is: Alveolaire lucht. Zuurstof diffundeert van de alveolaire lucht naar het bloed, dus het bloed kan nooit een hogere Po₂ krijgen dan de alveolaire lucht. In de pulmonale vene is de Po₂ ongeveer even hoog of iets lager. In de pulmonale arterie en de interstitiële vloeistof is ze veel lager."
   },
   {
    "h": "h9",
@@ -2761,7 +2761,7 @@ window.BES_VAK = {
   },
   {
    "h": "h17",
-   "q": "Welke hormonen zijn betrokken bij borstvoeding?",
+   "q": "Vul aan over borstvoeding: ______ stimuleert de productie van melk, terwijl ______ zorgt voor de afgifte (toeschietreflex) van melk uit de borst.",
    "o": [
     "Oestrogeen … prolactine",
     "Prolactine … oxytocine",
@@ -2769,7 +2769,7 @@ window.BES_VAK = {
     "Oxytocine … prolactine"
    ],
    "a": 1,
-   "u": "Het juiste antwoord is: Prolactine … oxytocine."
+   "u": "Het juiste antwoord is: Prolactine … oxytocine. Prolactine (hypofysevoorkwab) stimuleert de aanmaak van melk. Oxytocine (hypofyseachterkwab) laat de spiercellen rond de melkklieren samentrekken, waardoor de melk toeschiet. Oestrogeen remt de melkproductie tijdens de zwangerschap."
   },
   {
    "h": "h17",
@@ -3145,7 +3145,7 @@ window.BES_VAK = {
   },
   {
    "h": "h1",
-   "q": "Welke is een sporenelement (trace mineral)? (variant met o.a. ijzer)",
+   "q": "Welke is een sporenelement (trace mineral)?",
    "o": [
     "Natrium",
     "Kalium",
@@ -3153,7 +3153,7 @@ window.BES_VAK = {
     "Calcium"
    ],
    "a": 2,
-   "u": "Variant met jodium/kalium/ijzer/chloride → dan is jodium het sporenelement."
+   "u": "Het juiste antwoord is: IJzer. IJzer is een sporenelement: het lichaam heeft het maar in kleine hoeveelheden nodig (net als bv. jodium en zink). Natrium, kalium en calcium zijn macromineralen, die je in grotere hoeveelheden nodig hebt."
   },
   {
    "h": "h2",
@@ -3205,7 +3205,7 @@ window.BES_VAK = {
   },
   {
    "h": "h2",
-   "q": "Wat hoort NIET bij het cytoskelet?",
+   "q": "Welke optie is GEEN van de drie typen filamenten van het cytoskelet?",
    "o": [
     "Actinefilamenten",
     "Keratine",
@@ -3213,7 +3213,7 @@ window.BES_VAK = {
     "Microtubuli (celbeweging)"
    ],
    "a": 1,
-   "u": "De drie bouwstenen van het cytoskelet zijn actinefilamenten, intermediaire filamenten en microtubuli. Keratine is het structuureiwit van de epidermis (maakt de huid hard en waterdicht) en is hier dus de vreemde eend."
+   "u": "Het juiste antwoord is: Keratine. De drie typen filamenten van het cytoskelet zijn actinefilamenten (microfilamenten), intermediaire filamenten en microtubuli. Keratine is geen apart type filament: het is het eiwit waaruit de intermediaire filamenten van epitheelcellen (zoals in de huid) zijn opgebouwd. Keratine maakt dus wel deel uit van het cytoskelet, maar is zelf geen filamenttype."
   },
   {
    "h": "h2",
@@ -4697,11 +4697,11 @@ window.BES_VAK = {
    "o": [
     "Cortisol",
     "Glucagon",
-    "Adrenaline",
+    "Oxytocine",
     "Insuline"
    ],
    "a": 0,
-   "u": "Cortisol is een steroïdhormoon (gemaakt uit cholesterol), dus zeker geen peptidehormoon. Let op: adrenaline is streng genomen ook geen peptide maar een aminozuurderivaat; cortisol is hier het bedoelde antwoord."
+   "u": "Het juiste antwoord is: Cortisol. Cortisol is een steroïdhormoon (gemaakt uit cholesterol), dus geen peptidehormoon. Glucagon, oxytocine en insuline zijn peptidehormonen: ketens van aminozuren."
   },
   {
    "h": "h10",
@@ -7181,11 +7181,11 @@ window.BES_VAK = {
    "o": [
     "Both contain granules",
     "Both lack a nucleus once they are fully mature in the blood",
-    "Both derived from myeloblasts (white blood cell precursors)",
+    "Both derived from stem cells in the red bone marrow",
     "Equal numbers in blood"
    ],
    "a": 2,
-   "u": "Strikt genomen komen alleen de granulocyten uit myeloblasten en de lymfocyten uit de lymfoïde lijn. Wat alle leukocyten wel delen: ze ontstaan uit stamcellen in het beenmerg. Dat is hier het bedoelde antwoord."
+   "u": "Het juiste antwoord is: Both derived from stem cells in the red bone marrow. Alle witte bloedcellen, granulair en agranulair, ontstaan uit stamcellen in het rode beenmerg. Granulocyten groeien via myeloblasten, lymfocyten via lymfoblasten en monocyten via monoblasten."
   },
   {
    "h": "h7",
@@ -12638,7 +12638,7 @@ window.BES_VAK = {
   },
   {
    "h": "hX",
-   "q": "Wat is de juiste volgorde van de stappen in het hemostaseproces?",
+   "q": "Wat is de juiste volgorde van de stappen in het hemostaseproces: (1) vorming van een bloedplaatjesprop, (2) vaatspasme, (3) bloedstolling (vorming van een fibrinenetwerk)?",
    "o": [
     "2-1-3",
     "1-3-2",
@@ -12646,7 +12646,7 @@ window.BES_VAK = {
     "2-3-1"
    ],
    "a": 0,
-   "u": "Het juiste antwoord is: 2-1-3."
+   "u": "Het juiste antwoord is: 2-1-3. Eerst trekt het beschadigde bloedvat samen (vaatspasme), daarna vormen de bloedplaatjes een prop en tot slot verstevigt de bloedstolling die prop met een fibrinenetwerk."
   },
   {
    "h": "hX",
@@ -13975,10 +13975,10 @@ window.BES_VAK = {
     "omgeving",
     "dominante allelen",
     "mutaties",
-    "voeding"
+    "recessieve allelen"
    ],
    "a": 0,
-   "u": "Het juiste antwoord is: omgeving."
+   "u": "Het juiste antwoord is: omgeving. Het fenotype is het resultaat van het genotype en de omgeving. Dominante en recessieve allelen en mutaties horen bij het genotype zelf (of veranderen het), dus die vormen geen extra factor naast het genotype."
   },
   {
    "h": "hX",
@@ -16222,7 +16222,7 @@ window.BES_VAK = {
     "Inademen: diafragma + tussenribspieren trekken SAMEN → volume borstkas stijgt → druk daalt → lucht stroomt IN. Uitademen: ontspannen.",
     "Externe respiratie (longen) vs. interne respiratie (weefsels) vs. cellulaire ademhaling (in de cel). Ventilatie = in-/uitademen.",
     "Longcirculatie: bloed komt zuurstofARM binnen en verlaat zuurstofRIJK.",
-    "O₂ vervoerd als oxyhemoglobine; CO₂ vooral als bicarbonaat in plasma (deels carbaminohemoglobine). Hoogste Po₂ in alveolaire lucht/longader. Op grote hoogte: lagere O₂-druk en -gradiënt."
+    "O₂ vervoerd als oxyhemoglobine; CO₂ vooral als bicarbonaat in plasma (deels carbaminohemoglobine). Hoogste Po₂ in de alveolaire lucht (longader bijna even hoog). Op grote hoogte: lagere O₂-druk en -gradiënt."
    ]
   },
   {

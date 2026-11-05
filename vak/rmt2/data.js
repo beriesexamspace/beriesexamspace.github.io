@@ -579,13 +579,13 @@ window.BES_VAK = {
    "h": "h4",
    "q": "Waar staat de afkorting WEIRD voor bij het bekritiseren van steekproeven met psychologiestudenten?",
    "o": [
-    "White, educated, industrialised, rich, democratic",
+    "Western, educated, industrialised, rich, democratic",
     "Wealthy, ethical, informed, rational, diverse",
     "Western, employed, insured, resident, digital",
     "Willing, engaged, invested, reliable, dedicated"
    ],
    "a": 0,
-   "u": "WEIRD staat voor white, educated, industrialised, rich en democratic. Slechts ongeveer 12% van de wereldbevolking valt onder deze criteria, dus zulke samples zijn niet representatief."
+   "u": "WEIRD staat voor western, educated, industrialised, rich en democratic. Slechts ongeveer 12% van de wereldbevolking valt onder deze criteria, dus zulke samples zijn niet representatief."
   },
   {
    "h": "h5",
@@ -1003,7 +1003,7 @@ window.BES_VAK = {
     "Systematic sampling: vanaf een lijst elke k-de persoon selecteren, bv. om de 5 personen een selecteren.",
     "Convenience sample: participanten kiezen omdat ze makkelijk te bereiken of te overtuigen zijn; een biased methode.",
     "Snowball sample: mensen uit je netwerk vragen mee te doen en zij vragen hun netwerk; handig voor moeilijk bereikbare groepen maar weinig representatief.",
-    "WEIRD samples: samples van vooral white, educated, industrialised, rich en democratic mensen, die niet representatief zijn voor de hele bevolking."
+    "WEIRD samples: samples van vooral western, educated, industrialised, rich en democratic mensen, die niet representatief zijn voor de hele bevolking."
    ]
   },
   {

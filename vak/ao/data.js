@@ -483,13 +483,13 @@ window.BES_VAK = {
    "h": "h4",
    "q": "Uit welke twee dimensies is de managerial grid opgebouwd?",
    "o": [
-    "Taakgerichtheid en mensgerichtheid",
+    "Taakstructuur en positiemacht van de leider",
     "Ingroup exchange en outgroup exchange",
     "Concern for production en concern for people",
     "Directief leiderschap en participatief overleg"
    ],
    "a": 2,
-   "u": "De managerial grid is een matrix gevormd door de twee dimensies concern for production en concern for people."
+   "u": "De managerial grid is een matrix gevormd door de twee dimensies concern for production en concern for people, in het Nederlands ook aandacht voor de taak (productie) en aandacht voor mensen. Taakstructuur en positiemacht van de leider zijn situatiefactoren uit de contingentietheorie, geen dimensies van de grid."
   },
   {
    "h": "h4",

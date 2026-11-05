@@ -22,7 +22,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="assets/style.css?v=94">
-  <script src="assets/app.js?v=95" defer></script>
+  <script src="assets/app.js?v=96" defer></script>
   <script src="assets/vakken.js?v=91"></script>
   <script src="assets/catalogus.js?v=92"></script>
   <script src="assets/config.js?v=89" defer></script>
@@ -97,13 +97,13 @@
     .beheer-zoek small { flex: 1 1 100%; color: var(--ink-soft); font-size: .8125rem; font-variant-numeric: tabular-nums; }
     .beheer-sorteer { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; flex: 0 1 auto; }
     .beheer-sorteer label { color: var(--ink-soft); font-size: .875rem; }
-    .beheer-sorteer select, .beheer-inst-filter select { min-height: 44px; padding: 8px 40px 8px 16px; border: 1px solid var(--line); border-radius: var(--pill); background: var(--input-bg) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%238e8e93' stroke-width='2' stroke-linecap='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E") no-repeat right 14px center / 18px; color: var(--ink); font: inherit; font-size: .9375rem; appearance: none; cursor: pointer; }
+    .beheer-sorteer select { min-height: 44px; padding: 8px 40px 8px 16px; border: 1px solid var(--line); border-radius: var(--pill); background: var(--input-bg) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%238e8e93' stroke-width='2' stroke-linecap='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E") no-repeat right 14px center / 18px; color: var(--ink); font: inherit; font-size: .9375rem; appearance: none; cursor: pointer; }
     .beheer-zoek :is(select, .beheer-sorteer-richting) { min-height: 48px; }
     /* Even breed bij elke volgorde, zodat het zoekveld niet verspringt. */
     .beheer-zoek .beheer-sorteer-richting { min-width: 164px; }
     /* Alleen bij toetsenbord een blauwe rand. Chrome rekent een keuzelijst ook na een muisklik tot :focus-visible, dus het script zet data-muis. */
-    .beheer-sorteer select:focus-visible, .beheer-inst-filter select:focus-visible { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-zacht); }
-    .beheer-sorteer select[data-muis]:focus-visible, .beheer-inst-filter select[data-muis]:focus-visible { border-color: var(--line); box-shadow: none; }
+    .beheer-sorteer select:focus-visible { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-zacht); }
+    .beheer-sorteer select[data-muis]:focus-visible { border-color: var(--line); box-shadow: none; }
     .beheer-sorteer-richting { min-height: 44px; padding: 8px 18px; border: 1px solid var(--line); border-radius: var(--pill); background: var(--surface); color: var(--ink); font: inherit; font-size: .9375rem; font-weight: 600; cursor: pointer; white-space: nowrap; }
     :where(html.has-hover) .beheer-sorteer-richting:hover { border-color: var(--accent); }
     /* Op de telefoon zou een vaste balk het halve scherm vullen, ook liggend: daar scrolt hij gewoon mee. */
@@ -140,12 +140,7 @@
     /* Ingestuurd materiaal */
     .beheer-inst-teller { display: inline-block; margin-left: 10px; color: var(--ink-soft); font-size: .9375rem; font-weight: 500; letter-spacing: 0; font-variant-numeric: tabular-nums; }
     .beheer-inst-intro { max-width: 36rem; margin: -6px 0 16px; color: var(--ink-soft); font-size: .9375rem; line-height: 1.5; }
-    .beheer-inst-balk { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px 16px; margin-bottom: 12px; }
-    .beheer-inst-balk[hidden], .beheer-inst-losse[hidden], .beheer-inst[hidden] { display: none; }
-    .beheer-inst-balk small { color: var(--ink-soft); font-size: .8125rem; }
-    .beheer-inst-filter { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 12px; min-width: 0; max-width: 100%; }
-    .beheer-inst-filter label { color: var(--ink-soft); font-size: .875rem; }
-    .beheer-inst-filter select { min-width: 0; max-width: 22rem; text-overflow: ellipsis; }
+    .beheer-inst-losse[hidden], .beheer-inst[hidden] { display: none; }
     .beheer-inst-status { margin: 0 0 12px; color: var(--ink-soft); font-size: .9375rem; overflow-wrap: anywhere; }
     .beheer-inst-status:empty { margin: 0; }
     .beheer-inst-lijst { display: grid; gap: 12px; margin: 0; padding: 0; list-style: none; }
@@ -214,15 +209,24 @@
     .beheer-scherm-vakknop:active .pijl { transform: scale(.94); }
     .beheer-scherm-vakknop[aria-expanded="true"]:active .pijl { transform: rotate(90deg) scale(.94); }
     .beheer-scherm-paneel { padding: 2px 20px 18px; }
-    .beheer-scherm-inzending + .beheer-scherm-inzending { margin-top: 20px; }
-    .beheer-scherm-inzending-kop { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 4px 16px; }
-    .beheer-scherm-inzending .beheer-inst-bestanden { margin-top: 8px; }
-    .beheer-scherm-inzending .beheer-account-mail { font-size: .875rem; overflow-wrap: anywhere; }
+    /* In het instuurscherm staat elke inzending als blok in haar vak: geen kaart in een kaart, en de richting staat al in de kop van het scherm. */
+    .beheer-scherm-paneel .beheer-inst-lijst { gap: 0; }
+    .beheer-scherm-paneel .kaart.beheer-inst { padding: 0; border: 0; border-radius: 0; background: none; box-shadow: none; }
+    .beheer-scherm-paneel .kaart.beheer-inst + .beheer-inst { margin-top: 20px; padding-top: 20px; border-top: 1px solid var(--line); }
+    .beheer-scherm-vak:not(.is-weggezet) .beheer-inst-richting { display: none; }
+    .beheer-scherm-weggezet { margin-top: 32px; }
+    .beheer-scherm-geen { margin: 0; color: var(--ink-soft); }
+    .beheer-scherm .beheer-inst-status:not(:empty) { margin-bottom: 28px; }
+    /* Wegzetten: de gewone actie als je klaar bent, rustig in de accentkleur; wissen blijft de kleine rode knop ernaast. */
+    .beheer-inst-zet { display: inline-flex; align-items: center; justify-content: center; min-height: 44px; padding: 0 16px; border: 1px solid var(--line); border-radius: var(--pill); background: var(--card); color: var(--accent); font: inherit; font-size: .875rem; font-weight: 600; cursor: pointer; touch-action: manipulation; transition: border-color 150ms var(--ease), background-color 150ms var(--ease), transform 150ms var(--ease); }
+    :where(html.has-hover) .beheer-inst-zet:not(:disabled):hover { border-color: var(--accent); background: var(--surface); }
+    .beheer-inst-zet:not(:disabled):active { transform: scale(.97); }
+    .beheer-inst-zet:disabled { opacity: .45; transform: none; cursor: default; }
+    .beheer-inst-zet[aria-busy="true"] { opacity: .55; cursor: progress; }
     @media (max-width: 600px) {
       .beheer-tegels, .beheer-tegels.is-vier { grid-template-columns: repeat(2, minmax(0, 1fr)); }
       .beheer-lijst li { grid-template-columns: 72px minmax(0, 1fr) 56px; }
       .beheer-inst-teller { display: block; margin: 6px 0 0; }
-      .beheer-inst-filter select { max-width: 100%; }
       .beheer-inst { padding: 16px; }
       .beheer-scherm-school { padding: 16px; }
       .beheer-scherm-vakknop { padding: 14px 16px; }
@@ -307,15 +311,7 @@
           <div class="beheer-inst-schermrij" id="inst-scherm-rij" hidden>
             <button class="knop" id="inst-scherm-knop" type="button">Kijk naar je instuurscherm</button>
           </div>
-          <div class="beheer-inst-balk" id="inst-balk" hidden>
-            <div class="beheer-inst-filter">
-              <label for="inst-filter">Richting</label>
-              <select id="inst-filter"></select>
-            </div>
-            <small>Nieuwste eerst</small>
-          </div>
           <p class="beheer-inst-status" id="inst-status" role="status"></p>
-          <ul class="beheer-inst-lijst" id="inst-lijst" aria-label="Inzendingen"></ul>
           <p class="beheer-leeg" id="inst-leeg">Even laden.</p>
           <div class="beheer-inst-losse" id="inst-losse" hidden>
             <h3 class="beheer-inst-subkop" id="inst-losse-kop" tabindex="-1">Losse bestanden</h3>
@@ -416,6 +412,7 @@
           <h1 id="scherm-titel" tabindex="-1">Instuurscherm</h1>
           <p class="pagina-sub" id="scherm-sub"></p>
         </header>
+        <p class="beheer-inst-status" id="scherm-status" role="status"></p>
         <div id="scherm-inhoud"></div>
       </section>
     </div>
@@ -594,7 +591,7 @@
         }
       };
       // Keuzelijsten: na een muisklik geen blauwe rand laten staan, bij het toetsenbord wel.
-      document.querySelectorAll('.beheer-sorteer select, .beheer-inst-filter select').forEach((keuze) => {
+      document.querySelectorAll('.beheer-sorteer select').forEach((keuze) => {
         keuze.addEventListener('pointerdown', () => { keuze.dataset.muis = ''; });
         keuze.addEventListener('keydown', () => { delete keuze.dataset.muis; });
         keuze.addEventListener('blur', () => { delete keuze.dataset.muis; });
@@ -686,10 +683,12 @@
       const instPadVorm = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}\/[0-9]{1,2}-[A-Za-z0-9_-]{1,60}\.(pdf|docx|pptx|jpg|jpeg|png|txt)$/;
       const instMailVorm = /^[^\s@?&#%<>"'\\/:;,()[\]]+@[^\s@?&#%<>"'\\/:;,()[\]]+\.[^\s@?&#%<>"'\\/:;,()[\]]+$/;
       const instDatum = new Intl.DateTimeFormat('nl-BE', { day: 'numeric', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' });
-      const instFilter = $('inst-filter');
       const instStatus = $('inst-status');
       const instLosseStatus = $('inst-losse-status');
+      const schermStatus = $('scherm-status');
+      // Open inzendingen en weggezette (gearchiveerd_op gezet: klaar, maar niet gewist). Beide nieuwste eerst.
       let instRijen = [];
+      let instKlaar = [];
       let instAfgekapt = false;
       let instBezig = false;
       let sluitInstBevestiging = null;
@@ -781,11 +780,11 @@
         return { li, pad: geldig ? pad : null, markeer, echt };
       };
 
-      // Tijdens het wissen: alle wisknoppen uit, en ook de downloads van de kaart die gewist wordt.
+      // Tijdens wissen of wegzetten: alle wis- en wegzetknoppen uit, en ook de downloads van de kaart waar het om gaat.
       // Ook het instuurscherm kan dan niet open: het zou nog de inzending tonen die net verdwijnt.
       const instKnoppen = (bezig, kaart) => {
-        $('beheer-inst').setAttribute('aria-busy', String(bezig));
-        $('beheer-inst').querySelectorAll('button[data-wis]').forEach((knop) => { knop.disabled = bezig; });
+        ['beheer-inst', 'inst-scherm'].forEach((id) => $(id).setAttribute('aria-busy', String(bezig)));
+        document.querySelectorAll('button[data-wis]').forEach((knop) => { knop.disabled = bezig; });
         $('inst-scherm-knop').disabled = bezig;
         kaart?.querySelectorAll('.beheer-inst-download').forEach((knop) => { knop.disabled = bezig; });
       };
@@ -911,13 +910,7 @@
           // Geen rij gewist: al weg, of geen rechten meer (dan staat de inzending er nog).
           if (!rijWeg && !(await instIsBeheerder())) throw new Error('Geen beheerrechten meer.');
           if (versie !== laadVersie || !item.li.isConnected) return true;
-          instKijker?.unobserve(item.li);
-          instRijen = instRijen.filter((ander) => ander !== item);
-          verbergBlok(item.li, () => item.li.remove());
-          instFilterVullen();
-          instTellen();
-          instStatus.textContent = rijWeg ? 'De inzending is gewist, met al haar bestanden.' : 'Deze inzending was al gewist. Het overzicht is bijgewerkt.';
-          $('inst-kop').focus();
+          instNaWeg(item, rijWeg ? 'De inzending is gewist, met al haar bestanden.' : 'Deze inzending was al gewist. Het overzicht is bijgewerkt.', null);
           return true;
         } catch {
           if (!item.li.isConnected) return false;
@@ -985,12 +978,83 @@
 
         const [acties, bevestiging] = instBevestiging({
           knopTekst: 'Wis deze inzending',
-          vraagTekst: 'Wil je de inzending voor "' + richting + '" wissen? ' + (lijst.length ? 'De ' + instAantal(lijst.length, 'bestand', 'bestanden') + ' en de inzending zelf verdwijnen voorgoed.' : 'De inzending verdwijnt voorgoed.'),
+          vraagTekst: 'Wil je de inzending voor "' + richting + '" wissen? ' + (lijst.length ? (lijst.length === 1 ? 'Het bestand' : 'De ' + lijst.length + ' bestanden') + ' en de inzending zelf verdwijnen voorgoed.' : 'De inzending verdwijnt voorgoed.'),
           jaTekst: 'Ja, wis deze inzending',
           opWissen: () => instWisInzending(item)
         });
+        // Klaar met een inzending: wegzetten haalt haar uit de open lijst zonder iets te wissen; terugzetten kan altijd.
+        const zet = el('button', 'beheer-inst-zet');
+        zet.type = 'button';
+        zet.dataset.wis = '';
+        zet.disabled = instBezig;
+        item.zetKnop = zet;
+        item.zetTekst = () => { zet.textContent = item.rij.gearchiveerd_op ? 'Zet terug' : 'Klaar, zet weg'; };
+        item.zetTekst();
+        zet.addEventListener('click', () => instZetWeg(item));
+        acties.prepend(zet);
         li.append(kop, gegevens, bestanden, acties, bevestiging, melding);
         return item;
+      };
+
+      // Wegzetten of terugzetten: alleen gearchiveerd_op verandert, de bestanden blijven staan.
+      const instZetWeg = async (item) => {
+        if (instBezig || !beheerderId || !item.li.isConnected) return;
+        const weg = !item.rij.gearchiveerd_op;
+        const eigenaar = beheerderId;
+        const versie = laadVersie;
+        if (sluitInstBevestiging) sluitInstBevestiging(false);
+        // De melding bovenaan blijft staan tot er een nieuwe komt: leegmaken zou alles eronder laten opschuiven.
+        item.melding.textContent = '';
+        instBezig = true;
+        instKnoppen(true, item.li);
+        item.zetKnop.setAttribute('aria-busy', 'true');
+        item.zetKnop.textContent = weg ? 'Bezig met wegzetten.' : 'Bezig met terugzetten.';
+        let gelukt = false;
+        try {
+          if (await instNietMeerBeheerder(eigenaar, versie)) return;
+          const moment = weg ? new Date().toISOString() : null;
+          const { data, error } = await auth.client.from('insturingen').update({ gearchiveerd_op: moment }).eq('id', item.rij.id).select('id');
+          if (error) throw error;
+          // Geen rij terug: de inzending is intussen gewist, of dit account is geen beheerder meer.
+          if (!(data || []).length) {
+            item.melding.textContent = (await instIsBeheerder()) ? 'Deze inzending staat er niet meer. Vernieuw de pagina.' : 'Dit account heeft geen beheerrechten meer. Er is niets veranderd.';
+            return;
+          }
+          if (versie !== laadVersie) return;
+          item.rij.gearchiveerd_op = moment;
+          gelukt = true;
+        } catch {
+          item.melding.textContent = (weg ? 'Wegzetten' : 'Terugzetten') + ' is niet gelukt. Er is niets veranderd; probeer het opnieuw.';
+        } finally {
+          instBezig = false;
+          instKnoppen(false, item.li);
+          item.zetKnop.removeAttribute('aria-busy');
+          // De tekst wisselt pas als de kaart al uit beeld is, zodat er niets springt.
+          if (!gelukt) item.zetTekst();
+        }
+        if (gelukt) instNaWeg(item, weg ? 'Weggezet. Je vindt deze inzending terug onder Weggezet, onderaan bij Alle scholen.' : 'Teruggezet bij de open inzendingen.', weg ? 'klaar' : 'open');
+      };
+
+      // Na wissen (naar = null), wegzetten (naar = 'klaar') of terugzetten (naar = 'open'): de kaart schuift weg,
+      // de lijsten en tellers kloppen meteen, en het scherm tekent zich opnieuw op dezelfde hoogte. Open vakken blijven open.
+      const nieuwsteEerst = (a, b) => String(b.rij.gemaakt || '').localeCompare(String(a.rij.gemaakt || ''));
+      const instNaWeg = (item, tekst, naar) => {
+        instKijker?.unobserve(item.li);
+        const plekVak = item.li.closest('[data-vak]')?.dataset.vak || '';
+        instRijen = instRijen.filter((ander) => ander !== item);
+        instKlaar = instKlaar.filter((ander) => ander !== item);
+        if (naar) (naar === 'klaar' ? instKlaar : instRijen).push(item);
+        instRijen.sort(nieuwsteEerst);
+        instKlaar.sort(nieuwsteEerst);
+        instTellen();
+        schermStatus.textContent = tekst;
+        if (!instRijen.length && !instKlaar.length) { instStatus.textContent = tekst; schermNaLaden(); return; }
+        verbergBlok(schermWegBlok(item.li), () => {
+          item.li.remove();
+          item.li.hidden = false;
+          item.zetTekst();
+          schermHerteken(plekVak);
+        });
       };
 
       // Echte grootte uit de opslag. Per kaart pas als die in beeld komt, met hoogstens 4 verzoeken tegelijk.
@@ -1017,7 +1081,9 @@
       const instVolgende = () => {
         while (instActief < 4 && instWachtrij.length) {
           const [item, versie] = instWachtrij.shift();
-          if (versie !== laadVersie || !item.li.isConnected) continue;
+          if (versie !== laadVersie) continue;
+          // Intussen dichtgeklapt: bij het volgende openen opnieuw in de rij.
+          if (!item.li.isConnected) { item.gemeten = false; continue; }
           instActief += 1;
           instControleer(item, versie).finally(() => { instActief -= 1; instVolgende(); });
         }
@@ -1028,54 +1094,35 @@
           if (!waarneming.isIntersecting) return;
           instKijker.unobserve(waarneming.target);
           const item = instItemVan.get(waarneming.target);
-          if (item) instWachtrij.push([item, laadVersie]);
+          if (item) { item.gemeten = true; instWachtrij.push([item, laadVersie]); }
         });
         instVolgende();
       }, { rootMargin: '400px 0px' }) : null;
-
-      // Keuzelijst per richting: hoofdletters en spaties aan de randen tellen niet mee.
-      const instFilterVullen = () => {
-        const groepen = new Map();
-        instRijen.forEach(({ sleutel, richting }) => {
-          const groep = groepen.get(sleutel) || { aantal: 0, namen: new Map() };
-          groep.aantal += 1;
-          groep.namen.set(richting, (groep.namen.get(richting) || 0) + 1);
-          groepen.set(sleutel, groep);
-        });
-        const opties = [...groepen].map(([sleutel, groep]) => {
-          // De schrijfwijze die het vaakst voorkomt; bij gelijke stand de nieuwste.
-          let naam = '';
-          let meeste = 0;
-          groep.namen.forEach((aantal, variant) => { if (aantal > meeste) { meeste = aantal; naam = variant; } });
-          return { sleutel, naam, aantal: groep.aantal };
-        }).sort((a, b) => a.naam.localeCompare(b.naam, 'nl', { sensitivity: 'base' }));
-        const vorige = instFilter.value;
-        instFilter.replaceChildren(new Option('Alle richtingen (' + instRijen.length + ')', ''), ...opties.map((optie) => new Option(optie.naam + ' (' + optie.aantal + ')', optie.sleutel)));
-        instFilter.value = opties.some((optie) => optie.sleutel === vorige) ? vorige : '';
+      // Een kaart staat pas in de pagina als haar vak openklapt; dan pas de grootte nakijken, één keer per kaart.
+      const instMeet = (item) => {
+        if (item.gemeten) return;
+        if (instKijker) { instKijker.observe(item.li); return; }
+        item.gemeten = true;
+        instWachtrij.push([item, laadVersie]);
+        instVolgende();
       };
+
+      // Teller bij de kop op Beheer: de open inzendingen met hun bestanden, en hoeveel er weggezet zijn.
       const instTellen = () => {
-        const filter = instFilter.value;
-        let zichtbaar = 0;
-        let bestanden = 0;
-        instRijen.forEach((item) => {
-          item.li.hidden = Boolean(filter) && item.sleutel !== filter;
-          // Bestanden die bij een half gelukte wis al weg zijn, tellen niet meer mee.
-          if (!item.li.hidden) { zichtbaar += 1; bestanden += item.regels.filter((regel) => !regel.li.classList.contains('is-gewist')).length; }
-        });
-        const leeg = !instRijen.length;
-        $('inst-balk').hidden = leeg;
+        // Bestanden die bij een half gelukte wis al weg zijn, tellen niet meer mee.
+        const bestanden = instRijen.reduce((som, item) => som + item.regels.filter((regel) => !regel.li.classList.contains('is-gewist')).length, 0);
+        const leeg = !instRijen.length && !instKlaar.length;
         // De knop naar het instuurscherm schuift rustig open of dicht.
         const schermRij = $('inst-scherm-rij');
         if (leeg && !schermRij.hidden) verbergBlok(schermRij);
         else if (!leeg && schermRij.hidden) toonBlok(schermRij);
         $('inst-leeg').hidden = !leeg;
         if (leeg) $('inst-leeg').textContent = 'Nog niets ingestuurd.';
-        $('inst-teller').textContent = leeg ? '' : (filter ? zichtbaar + ' van ' : '') + instAantal(filter ? instRijen.length : zichtbaar, 'inzending', 'inzendingen') + ' · ' + instAantal(bestanden, 'bestand', 'bestanden') + (instAfgekapt ? ' (de ' + instRijen.length + ' nieuwste)' : '');
+        $('inst-teller').textContent = leeg ? '' : samenvatting(
+          instRijen.length ? instAantal(instRijen.length, 'inzending', 'inzendingen') + ' · ' + instAantal(bestanden, 'bestand', 'bestanden') : 'niets open',
+          instKlaar.length ? instKlaar.length + ' weggezet' : ''
+        ) + (instAfgekapt ? ' (de ' + (instRijen.length + instKlaar.length) + ' nieuwste)' : '');
       };
-      instFilter.addEventListener('change', () => {
-        if (sluitInstBevestiging && !instBezig) sluitInstBevestiging(false);
-        instTellen();
-      });
 
       // Losse bestanden: mappen in de bucket zonder inzending (bv. een upload die halverwege stopte).
       const instWisLosse = async (map, regels, li, melding) => {
@@ -1201,28 +1248,23 @@
       const laadInsturingen = async (versie) => {
         try {
           const { data, error } = await auth.client.from('insturingen')
-            .select('id,map,richting,vak,email,bestanden,gemaakt,school_id,school_tekst,richting_id,richting_tekst')
+            .select('id,map,richting,vak,email,bestanden,gemaakt,school_id,school_tekst,richting_id,richting_tekst,gearchiveerd_op')
             .order('gemaakt', { ascending: false })
             .limit(INST_MAX);
           if (versie !== laadVersie) return;
           if (error) throw error;
           const rijen = Array.isArray(data) ? data : [];
           instAfgekapt = rijen.length >= INST_MAX;
-          instRijen = rijen.map(instKaart);
-          $('inst-lijst').replaceChildren(...instRijen.map((item) => item.li));
-          instFilterVullen();
+          const items = rijen.map(instKaart);
+          items.forEach((item) => instItemVan.set(item.li, item));
+          instRijen = items.filter((item) => !item.rij.gearchiveerd_op);
+          instKlaar = items.filter((item) => item.rij.gearchiveerd_op);
           instTellen();
-          instRijen.forEach((item) => {
-            instItemVan.set(item.li, item);
-            if (instKijker) instKijker.observe(item.li); else instWachtrij.push([item, versie]);
-          });
-          instVolgende();
           schermNaLaden();
         } catch {
           if (versie !== laadVersie) return;
           instRijen = [];
-          $('inst-lijst').replaceChildren();
-          $('inst-balk').hidden = true;
+          instKlaar = [];
           $('inst-scherm-rij').hidden = true;
           schermNaLaden();
           $('inst-teller').textContent = '';
@@ -1230,29 +1272,31 @@
           $('inst-leeg').textContent = 'Ingestuurd materiaal laden is niet gelukt. Staat de SQL voor insturingen al in het project? Vernieuw anders de pagina om het opnieuw te proberen.';
           return;
         }
-        await laadLosse(versie, new Set(instRijen.map((item) => item.map)));
+        await laadLosse(versie, new Set([...instRijen, ...instKlaar].map((item) => item.map)));
       };
       const instLeegmaken = () => {
         instKijker?.disconnect();
         instWachtrij.length = 0;
         instRijen = [];
+        instKlaar = [];
         instAfgekapt = false;
         sluitInstBevestiging = null;
-        $('inst-lijst').replaceChildren();
         $('inst-losse-lijst').replaceChildren();
         $('inst-losse').hidden = true;
-        $('inst-balk').hidden = true;
         $('inst-scherm-rij').hidden = true;
         sluitScherm(false);
+        schermOpen.clear();
         $('inst-teller').textContent = '';
         instStatus.textContent = '';
         instLosseStatus.textContent = '';
+        schermStatus.textContent = '';
         $('inst-leeg').hidden = false;
         $('inst-leeg').textContent = 'Even laden.';
       };
 
       // Instuurscherm: een eigen scherm binnen Beheer, achter de knop bij Ingestuurd materiaal. Eerst alle scholen die iets
-      // instuurden, dan per school de vakken (per richting) en per vak de inzendingen met hun bestanden. Wissen blijft in de lijst op Beheer.
+      // instuurden, dan per school de vakken (per richting) en per vak de inzendingen met hun bestanden. Alleen hier staan de
+      // inzendingen zelf: downloaden, wegzetten als je klaar bent, en wissen. Weggezette staan onderaan bij de scholen.
       // De terugknop van de browser gaat een stap terug (history.state.instScherm). Alles wat studenten intypten gaat via textContent.
       const CAT = window.BES_CATALOGUS || null;
       const wrap = document.querySelector('.beheer-wrap');
@@ -1269,6 +1313,8 @@
       let scholenScroll = 0;
       // Hoeveel wissels er nu lopen; zolang er een loopt, telt een tik op een school of terug niet mee.
       let schermWissels = 0;
+      // Welke vakken (en Weggezet) openstaan, zodat ze open blijven als het scherm zich opnieuw tekent.
+      const schermOpen = new Set();
 
       // De schrijfwijze die het vaakst voorkomt; bij gelijke stand de nieuwste (de rijen staan nieuwste eerst).
       const meesteNaam = (namen) => { let naam = ''; let meeste = 0; namen.forEach((aantal, variant) => { if (aantal > meeste) { meeste = aantal; naam = variant; } }); return naam; };
@@ -1322,8 +1368,8 @@
         const scholen = [...schermGroepen().values()].map((school) => ({ ...school, naam: meesteNaam(school.namen) }))
           .sort((a, b) => b.inzendingen - a.inzendingen || opNaam(a, b));
         schermTitel.textContent = 'Instuurscherm';
-        schermSub.textContent = 'Alle scholen die iets instuurden, met het meeste materiaal bovenaan. Tik op een school om te zien welke vakken er binnenkwamen.'
-          + (instAfgekapt ? ' Alleen de ' + instRijen.length + ' nieuwste inzendingen tellen mee.' : '');
+        schermSub.textContent = 'Alle scholen met open inzendingen, met het meeste materiaal bovenaan. Tik op een school om te zien welke vakken er binnenkwamen. Klaar met een inzending? Zet haar weg, dan staat ze onderaan bij Weggezet.'
+          + (instAfgekapt ? ' Alleen de ' + (instRijen.length + instKlaar.length) + ' nieuwste inzendingen tellen mee.' : '');
         const lijst = el('ul', 'beheer-scherm-lijst');
         lijst.setAttribute('aria-label', 'Scholen');
         scholen.forEach((school) => {
@@ -1339,72 +1385,99 @@
           li.append(knop);
           lijst.append(li);
         });
-        schermInhoud.replaceChildren(lijst);
+        const delen = [scholen.length ? lijst : el('p', 'beheer-scherm-geen', 'Alles is weggezet. Er staat niets meer open.')];
+        if (instKlaar.length) {
+          const weg = el('section', 'beheer-scherm-weggezet');
+          weg.setAttribute('aria-label', 'Weggezet');
+          const wegLijst = el('ul', 'beheer-scherm-lijst');
+          wegLijst.append(schermVouw('weggezet', 'Weggezet', samenvatting(instAantal(instKlaar.length, 'inzending', 'inzendingen'), 'klaar, niets gewist'), instKlaar, ' is-weggezet'));
+          weg.append(wegLijst);
+          delen.push(weg);
+        }
+        schermInhoud.replaceChildren(...delen);
       };
 
-      // Eén inzending in een opengeklapt vak: datum, e-mail en de bestanden met hun downloadknop (zelfde code als de lijst op Beheer).
-      const schermInzending = (item) => {
-        const rij = item.rij;
-        const blok = el('div', 'beheer-scherm-inzending');
-        const melding = el('p', 'beheer-inst-melding');
-        melding.setAttribute('role', 'status');
-        const kop = el('div', 'beheer-scherm-inzending-kop');
-        const moment = rij.gemaakt ? new Date(rij.gemaakt) : null;
-        const geldig = moment && !Number.isNaN(moment.getTime());
-        const tijd = el('time', 'beheer-inst-datum', geldig ? instDatum.format(moment) : 'Datum onbekend');
-        if (geldig) tijd.dateTime = moment.toISOString();
-        kop.append(tijd);
-        const email = instToon(rij.email);
-        if (email && instMailVorm.test(email)) {
-          const mail = el('a', 'beheer-account-mail', email);
-          mail.href = 'mailto:' + email;
-          kop.append(mail);
-        }
-        const map = typeof rij.map === 'string' ? rij.map.toLowerCase() : '';
-        const lijst = Array.isArray(rij.bestanden) ? rij.bestanden.filter((bestand) => bestand && typeof bestand === 'object') : [];
-        const bestanden = el('ul', 'beheer-inst-bestanden');
-        bestanden.setAttribute('aria-label', 'Bestanden');
-        lijst.forEach((bestand) => {
-          const pad = typeof bestand.pad === 'string' && map && bestand.pad.startsWith(map + '/') ? bestand.pad : null;
-          bestanden.append(instBestand(pad, bestand.naam, bestand.grootte, melding, true).li);
-        });
-        if (!lijst.length) bestanden.append(el('li', 'beheer-inst-bestand is-leeg', 'Geen bestanden in deze inzending.'));
-        blok.append(kop, bestanden, melding);
-        return blok;
-      };
-      // Een vak klapt open met zijn inzendingen, nieuwste eerst. De bestanden komen pas bij het eerste openen.
-      const schermVak = (vak) => {
-        const li = el('li', 'kaart beheer-scherm-vak');
+      // Een vak (of Weggezet) klapt open met zijn inzendingen, nieuwste eerst: per inzending de gegevens, de bestanden met hun
+      // downloadknop, wegzetten en wissen. De kaarten komen pas bij het eerste openen in de pagina. sleutel: om open te blijven na hertekenen.
+      const schermVouw = (sleutel, titel, sub, items, klasse = '') => {
+        const li = el('li', 'kaart beheer-scherm-vak' + klasse);
+        li.dataset.vak = sleutel;
         const id = 'scherm-vak-' + (++instVolgnummer);
+        const open = schermOpen.has(sleutel);
         const knop = el('button', 'beheer-scherm-vakknop');
         knop.type = 'button';
-        knop.setAttribute('aria-expanded', 'false');
+        knop.setAttribute('aria-expanded', String(open));
         knop.setAttribute('aria-controls', id);
         const tekst = el('span', 'kaart-tekst');
-        const naam = el('span', 'kaart-titel' + (vak.naam ? '' : ' beheer-inst-geen'), vak.naam || 'Geen vak opgegeven');
-        tekst.append(naam, el('span', 'kaart-sub', samenvatting(instAantal(vak.items.length, 'inzending', 'inzendingen'), instAantal(vak.bestanden, 'bestand', 'bestanden'), laatste(vak.laatste))));
+        tekst.append(el('span', 'kaart-titel' + (titel ? '' : ' beheer-inst-geen'), titel || 'Geen vak opgegeven'), el('span', 'kaart-sub', sub));
         knop.append(tekst, pijl());
         const paneel = el('div', 'beheer-scherm-paneel');
         paneel.id = id;
-        paneel.hidden = true;
+        paneel.hidden = !open;
+        const lijst = el('ul', 'beheer-inst-lijst');
+        lijst.setAttribute('aria-label', 'Inzendingen');
+        paneel.append(lijst);
         let gevuld = false;
+        const vul = () => {
+          if (gevuld) return;
+          gevuld = true;
+          lijst.append(...items.map((item) => item.li));
+          items.forEach(instMeet);
+        };
+        if (open) vul();
         knop.addEventListener('click', () => {
-          const open = knop.getAttribute('aria-expanded') !== 'true';
-          knop.setAttribute('aria-expanded', String(open));
-          if (open) {
-            if (!gevuld) { paneel.append(...vak.items.map(schermInzending)); gevuld = true; }
+          const nuOpen = knop.getAttribute('aria-expanded') !== 'true';
+          knop.setAttribute('aria-expanded', String(nuOpen));
+          if (nuOpen) {
+            schermOpen.add(sleutel);
+            vul();
             toonBlok(paneel);
-          } else verbergBlok(paneel, () => { if (knop.getAttribute('aria-expanded') === 'true') paneel.hidden = false; });
+          } else {
+            schermOpen.delete(sleutel);
+            if (sluitInstBevestiging && !instBezig && paneel.contains(document.activeElement)) sluitInstBevestiging(false);
+            verbergBlok(paneel, () => { if (knop.getAttribute('aria-expanded') === 'true') paneel.hidden = false; });
+          }
         });
         li.append(knop, paneel);
         return li;
+      };
+      const schermVak = (school, richting, vak) => schermVouw(school + '|' + richting + '|' + vak.sleutel, vak.naam,
+        samenvatting(instAantal(vak.items.length, 'inzending', 'inzendingen'), instAantal(vak.bestanden, 'bestand', 'bestanden'), laatste(vak.laatste)), vak.items);
+      // Na wegzetten of wissen: de kaart (of het vak of de richting die er leeg door wordt) schuift weg, dan tekent het scherm
+      // zich opnieuw op dezelfde hoogte en krijgt het vak waar de kaart stond de focus. Is de school leeg, dan fadet het naar de scholen.
+      const schermWegBlok = (li) => {
+        const vak = li.closest('[data-vak]');
+        if (!vak || vak.querySelectorAll('.beheer-inst').length > 1) return li;
+        const groep = vak.closest('.beheer-scherm-richting, .beheer-scherm-weggezet');
+        return groep && groep.querySelectorAll('[data-vak]').length === 1 ? groep : vak;
+      };
+      const schermHerteken = (plekVak) => {
+        if (!wrap.classList.contains('toont-scherm')) return;
+        const stand = schermStand() || { view: 'scholen' };
+        const van = schermView;
+        const teken = () => {
+          const plek = window.scrollY;
+          schermView = tekenView(stand);
+          if (van === schermView) window.scrollTo(0, plek);
+          else {
+            // De school is leeg: het scherm staat weer bij de scholen, en de geschiedenis zegt dat dan ook.
+            zetStand({ view: 'scholen' }, false);
+            window.scrollTo(0, scholenScroll);
+          }
+          const vak = plekVak && [...schermInhoud.querySelectorAll('[data-vak]')].find((blok) => blok.dataset.vak === plekVak);
+          (vak?.querySelector('.beheer-scherm-vakknop') || schermTitel).focus({ preventScroll: true });
+        };
+        if (van === 'school' && stand.view === 'school' && !schermGroepen().has(stand.school)) {
+          schermWissels += 1;
+          wissel(scherm, teken).finally(() => { schermWissels -= 1; });
+        } else teken();
       };
       // Geeft false als de school er niet meer is (bv. alles gewist); dan toont het scherm de scholen.
       const tekenSchool = (sleutel) => {
         const school = schermGroepen().get(sleutel);
         if (!school) return false;
         schermTitel.textContent = meesteNaam(school.namen);
-        schermSub.textContent = instAantal(school.inzendingen, 'inzending', 'inzendingen') + ' met samen ' + instAantal(school.bestanden, 'bestand', 'bestanden') + '. Tik op een vak om de bestanden te zien.';
+        schermSub.textContent = instAantal(school.inzendingen, 'open inzending', 'open inzendingen') + ' met samen ' + instAantal(school.bestanden, 'bestand', 'bestanden') + '. Tik op een vak om de bestanden te zien.';
         const richtingen = [...school.richtingen.values()].map((richting) => ({ ...richting, naam: meesteNaam(richting.namen) }))
           .sort((a, b) => b.inzendingen - a.inzendingen || opNaam(a, b));
         schermInhoud.replaceChildren(...richtingen.map((richting) => {
@@ -1417,7 +1490,7 @@
           [...richting.vakken.values()].map((vak) => ({ ...vak, naam: meesteNaam(vak.namen) }))
             // Vakken met het meeste materiaal eerst; inzendingen zonder vak onderaan.
             .sort((a, b) => (a.sleutel === '') - (b.sleutel === '') || b.items.length - a.items.length || opNaam(a, b))
-            .forEach((vak) => lijst.append(schermVak(vak)));
+            .forEach((vak) => lijst.append(schermVak(sleutel, richting.sleutel, vak)));
           blok.append(kop, lijst);
           return blok;
         }));
@@ -1457,6 +1530,7 @@
             const van = schermView;
             await wissel(scherm, () => {
               if (van === 'scholen') scholenScroll = window.scrollY;
+              schermStatus.textContent = '';
               schermView = tekenView(stand);
               if (van !== schermView) window.scrollTo(0, schermView === 'scholen' ? scholenScroll : 0);
             });
@@ -1481,6 +1555,7 @@
           document.title = paginaTitel;
           schermView = null;
           schermInhoud.replaceChildren();
+          schermStatus.textContent = '';
           if (herstel) window.scrollTo(0, beheerScroll);
         };
         if (!herstel) { terug(); return; }
@@ -1492,7 +1567,7 @@
       }
       // Na het laden: een open scherm krijgt de nieuwe cijfers. Kom je binnen met #instuurscherm (vernieuwen, terugknop), dan gaat het open.
       function schermNaLaden() {
-        if (!instRijen.length) {
+        if (!instRijen.length && !instKlaar.length) {
           if (location.hash === '#instuurscherm') history.replaceState(zonderScherm(), '', location.pathname + location.search);
           sluitScherm();
           return;
@@ -1517,7 +1592,7 @@
       });
       window.addEventListener('popstate', () => {
         const stand = schermStand();
-        if (stand && beheerderId && instRijen.length) toonStand(stand);
+        if (stand && beheerderId && (instRijen.length || instKlaar.length)) toonStand(stand);
         else sluitScherm();
       });
 
