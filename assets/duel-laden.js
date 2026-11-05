@@ -293,7 +293,7 @@
       googleKnop = maakEl('button', 'knop-secundair knop-google dl-google');
       googleKnop.type = 'button';
       googleKnop.innerHTML = SVG_GOOGLE;
-      googleKnop.append(maakEl('span', '', 'Doe mee met Google'));
+      googleKnop.append(maakEl('span', '', 'Log in met Google'));
       googleFout = maakEl('p', 'dl-fout');
       googleFout.id = kopId + '-fout';
       googleFout.setAttribute('role', 'alert');
