@@ -356,14 +356,14 @@ window.BES_VAK = {
         "Merton wees met het Mattheus-effect op het cumulatieve karakter van wetenschappelijke erkenning: gereputeerde wetenschappers krijgen meer aandacht en middelen voor hun onderzoek.",
         "Het stelt dat welgestelde mensen, mits ze rationeel handelen, intelligenter en zorgvuldiger met hun geld omspringen dan minder welgestelden.",
         "Het toont aan dat individueel redelijk gedrag steeds tot redelijke uitkomsten leidt.",
-        "Het wijst op de onbedoelde herverdelende invloed van veel sociaal beleid ('aan wie weinig heeft, zal genomen worden').",
+        "Het wijst op de onbedoelde herverdelende invloed van veel sociaal beleid ('aan wie weinig heeft, zal gegeven worden, van wie veel heeft, zal genomen worden').",
         "Het Mattheus-effect is een voorbeeld van een onbedoeld, soms zelfs pervers effect."
       ],
       "a": [
         0,
         4
       ],
-      "u": "Bij deze vraag hoort nog geen extra uitleg. Kijk het na in je cursus of vraag het in de WhatsApp-groep."
+      "u": "Het Mattheus-effect betekent: wie al heeft, krijgt nog meer, en wie weinig heeft, verliest nog meer. Merton zag dat bij wetenschappelijke erkenning. Ook in sociaal beleid speelt het: voorzieningen die je zelf moet aanvragen, zoals studiebeurzen, worden vaak meer gebruikt door de beter gestelden. Het is dus een onbedoeld, soms pervers effect. De uitspraak over herverdeling draait het citaat om: geven aan wie weinig heeft en nemen van wie veel heeft is net het omgekeerde van het Mattheus-effect."
     },
     {
       "h": "h3",
@@ -599,19 +599,19 @@ window.BES_VAK = {
     },
     {
       "h": "h5",
-      "q": "Welke verschillen kunnen we onderscheiden tussen de conflictsociologie en de functionalistische sociologie? (variant)",
+      "q": "Welke verschillen kunnen we onderscheiden tussen de conflictsociologie en de functionalistische sociologie?",
       "o": [
         "Functionalisten maken volgens conflictsociologen te vaak gebruik van samenhang als legitimerend verhaal.",
         "Conflictsociologen hebben doorgaans meer oog voor de rol van dwang in het sturen van het menselijk gedrag dan functionalisten.",
         "Functionalisten zullen meer dan conflictsociologen veel aandacht hebben voor sociale ongelijkheid.",
-        "Functionalisten zijn meer geneigd de verklaring van menselijk gedrag te zoeken in de socialisatie en internalisatie van opvattingen en houdingen.",
+        "Conflictsociologen zijn meer geneigd de verklaring van menselijk gedrag te zoeken in de socialisatie en internalisatie van opvattingen en houdingen.",
         "Conflictsociologen hebben geen aandacht voor het belang van rollen in de samenleving."
       ],
       "a": [
         0,
         1
       ],
-      "u": "Bij deze vraag hoort nog geen extra uitleg. Kijk het na in je cursus of vraag het in de WhatsApp-groep."
+      "u": "Conflictsociologen verwijten functionalisten dat ze te snel naar de samenhang van het geheel grijpen om te verklaren waarom iets bestaat, waardoor de bestaande orde gelegitimeerd wordt. Zelf leggen ze de nadruk op macht en dwang. Het zijn net de functionalisten die gedrag verklaren via socialisatie en verinnerlijkte verwachtingen, niet de conflictsociologen. De aandacht voor sociale ongelijkheid ligt eerder bij de conflictsociologie, en dat conflictsociologen geen aandacht hebben voor rollen is te absoluut."
     },
     {
       "h": "h5",
@@ -810,9 +810,9 @@ window.BES_VAK = {
       ],
       "a": [
         0,
-        3
+        4
       ],
-      "u": "Tweede sleutel (schuldgevoelens horen volgens het schema bij waardengetrouwheid, niet beïnvloeding), nakijken met cursus."
+      "u": "Volgens het sanctieschema veronderstelt beïnvloeden (een positieve sanctie die inspeelt op overtuigingen, via het medium invloed) solidariteit, en het resultaat is verbondenheid. Bij een positieve sanctie wordt de belofte uitgevoerd als de verwachting wordt ingelost. Schuldgevoelens horen niet bij beïnvloeding maar bij het activeren van waardengetrouwheid (een negatieve sanctie op overtuigingen, via veralgemeende waarden); daar bevestigt men dus geen verbondenheid. Geld is het medium van belonen, niet van bestraffen: dat is reguliere macht."
     },
     {
       "h": "h7",
@@ -938,10 +938,10 @@ window.BES_VAK = {
         "Positief versus negatief sanctioneren."
       ],
       "a": [
-        0,
-        1
+        1,
+        4
       ],
-      "u": "Verificatie betwist 'cognitief vs emotioneel', wellicht 'positief vs negatief'. Nakijken met cursus."
+      "u": "De vier typen ontstaan door twee tegenstellingen te kruisen: inspelen op de materiële omstandigheden versus inspelen op overtuigingen en gevoelens, en positief versus negatief sanctioneren. Zo krijg je belonen (materieel, positief), bestraffen (materieel, negatief), beïnvloeden (overtuigingen, positief) en het activeren van waardengetrouwheid (overtuigingen, negatief). Belonen versus bestraffen is geen indelende tegenstelling: dat zijn twee van de vier typen, allebei aan de materiële kant. Cognitieve versus emotionele sancties komt in dit schema niet voor."
     },
     {
       "h": "h8",
@@ -1737,10 +1737,10 @@ window.BES_VAK = {
         "de mate van politieke centralisatie afgenomen."
       ],
       "a": [
-        0,
-        1
+        1,
+        4
       ],
-      "u": "Volgens de bron is 'internationale handel toegenomen' fout, maar dat is sociologisch juist een ware trend, mogelijk boekfout. Nakijken met cursus.",
+      "u": "Tijdens de modernisering nam de internationale handel net toe: vroeger ging het om een beperkt aantal luxeproducten, nu verloopt ook de ruil van dagelijkse goederen op internationale schaal. Ook de rol van wetenschap tegenover landbouw en de levensverwachting stegen. Fout zijn dus: het gezin is niet verdwenen als basiseenheid van de maatschappij, en de politieke centralisatie nam toe in plaats van af, met nationale machtscentra in plaats van lokale elites.",
       "kies": "fout"
     },
     {
