@@ -23,7 +23,9 @@
 
   const CODE = /^[A-Z0-9]{4,12}$/i;
   const ONDERWEG = 'Op naar de nieuwe wachtkamer…';
-  const AANTALLEN = [5, 10, 15, 20];
+  const AANTALLEN = [5, 10, 20, 30, 50];
+  // Nog een keer houdt hetzelfde aantal, ook 15 van een kamer van voor 05-11-2026 (de database staat dat toe).
+  const ZELFDE_MAG = [5, 10, 15, 20, 30, 50];
   // Teksten uit plannen/duel-teksten.md (podium en foutcodes).
   const FOUTEN = {
     niet_ingelogd: 'Log eerst in om mee te doen.',
@@ -184,7 +186,7 @@
 
   async function nieuweVragen(staat) {
     const kamer = staat.kamer;
-    const aantal = AANTALLEN.includes(Number(kamer.aantal)) ? Number(kamer.aantal) : 10;
+    const aantal = ZELFDE_MAG.includes(Number(kamer.aantal)) ? Number(kamer.aantal) : 10;
     const gespeeld = new Set(Object.values(staat.vragen || {}).map(v => String((v && v.vraag) || '').trim()).filter(Boolean));
     let vragen = [];
     if (testModus()) {

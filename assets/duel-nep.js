@@ -30,7 +30,7 @@
   const TEKENS = 'ABCDEFGHJKMNPQRSTUVWXYZ23456789';
   const CODE_VORM = /^[ABCDEFGHJKMNPQRSTUVWXYZ23456789]{6}$/;
   const MAX_SPELERS = 10;
-  const AANTALLEN = [5, 10, 15, 20]; // zoals duel_intern_vragen_ok in duel-live.sql
+  const AANTALLEN = [5, 10, 15, 20, 30, 50]; // zoals duel_intern_vragen_ok in duel-50.sql (15 alleen voor oude kamers)
 
   const zoek = new URLSearchParams(window.location.search);
   const spelerRuw = zoek.get('speler');

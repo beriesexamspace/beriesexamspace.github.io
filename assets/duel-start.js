@@ -12,7 +12,7 @@
   const params = new URLSearchParams(window.location.search);
   // Met ?test=duel speelt alles op de nep-database (duel-nep.js), zonder account.
   const testDuel = params.get('test') === 'duel';
-  const AANTALLEN = [5, 10, 15, 20];
+  const AANTALLEN = [5, 10, 20, 30, 50];
   const STANDAARD = 10;
   const MINIMUM = 5;
 
@@ -77,8 +77,8 @@
 .duel-venster-label { margin: 0; color: var(--accent); font-size: .875rem; font-weight: 600; letter-spacing: .01em; }
 .duel-aantal { min-width: 0; margin: 0 0 16px; padding: 0; border: 0; }
 .duel-aantal-kop { margin: 0 0 10px; color: var(--ink); font-size: .9375rem; font-weight: 600; }
-.duel-segment { position: relative; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 4px; padding: 4px; border: 1px solid var(--line); border-radius: var(--radius-pill); background: var(--surface); --i: 1; }
-.duel-schuif { position: absolute; top: 4px; bottom: 4px; left: 4px; width: calc((100% - 20px) / 4); border: 1px solid var(--line); border-radius: var(--radius-pill); background: var(--card); box-shadow: var(--shadow-soft); transform: translateX(calc(var(--i) * (100% + 4px))); transition: transform 280ms var(--ease); pointer-events: none; }
+.duel-segment { position: relative; display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 4px; padding: 4px; border: 1px solid var(--line); border-radius: var(--radius-pill); background: var(--surface); --i: 1; }
+.duel-schuif { position: absolute; top: 4px; bottom: 4px; left: 4px; width: calc((100% - 24px) / 5); border: 1px solid var(--line); border-radius: var(--radius-pill); background: var(--card); box-shadow: var(--shadow-soft); transform: translateX(calc(var(--i) * (100% + 4px))); transition: transform 280ms var(--ease); pointer-events: none; }
 .duel-segment button { position: relative; z-index: 1; min-height: 44px; padding: 8px 4px; border: 0; border-radius: var(--radius-pill); background: var(--transparent); color: var(--ink-soft); font: inherit; font-size: 1rem; font-weight: 600; font-variant-numeric: tabular-nums; cursor: pointer; touch-action: manipulation; transition: color 180ms var(--ease), transform 150ms var(--ease), opacity 180ms var(--ease); }
 .duel-segment button[aria-checked="true"] { color: var(--ink); }
 :where(html.has-hover) .duel-segment button:not(:disabled):not([aria-checked="true"]):hover { color: var(--ink); }
@@ -182,7 +182,7 @@
     if (laadBelofte) return laadBelofte;
     const script = document.createElement('script');
     laadBelofte = new Promise((klaar, mislukt) => {
-      script.src = new URL(testDuel ? 'duel-nep.js?v=1' : 'duel.js?v=1', bron).href;
+      script.src = new URL(testDuel ? 'duel-nep.js?v=2' : 'duel.js?v=1', bron).href;
       script.onload = () => (typeof BES.duel?.maak === 'function' ? klaar(BES.duel) : mislukt(new Error('geen duel')));
       script.onerror = () => mislukt(new Error('niet geladen'));
       document.head.append(script);
@@ -393,7 +393,9 @@
       const n = stand.lijst.length;
       if (!stand.keuze.hoofdstukken.length) delen.push('Kies eerst minstens één hoofdstuk.');
       else if (n < MINIMUM) delen.push(`Je hoofdstukken hebben ${vragenTekst(n)}. Een duel heeft er minstens ${MINIMUM} nodig, dus kies meer hoofdstukken.`);
-      else if (stand.max < AANTALLEN[AANTALLEN.length - 1]) delen.push(`Je hoofdstukken hebben ${vragenTekst(n)}. Kies meer hoofdstukken voor een langer duel.`);
+      else if (stand.max < AANTALLEN[AANTALLEN.length - 1]) delen.push(stand.keuze.hoofdstukken.length >= stand.keuze.beschikbaar
+        ? `Dit vak heeft ${vragenTekst(n)} voor een duel.`
+        : `Je hoofdstukken hebben ${vragenTekst(n)}. Kies meer hoofdstukken voor een langer duel.`);
       if (ingelogd === null) delen.push('Je logt eerst in, daarna kom je hier terug.');
       return delen.join(' ');
     }
