@@ -11,7 +11,8 @@
 
   const CODE = /^[ABCDEFGHJKMNPQRSTUVWXYZ23456789]{6}$/;
   const ONLINE_MS = 20000;      // online = laatst gezien minder dan 20 seconden geleden
-  const LANG_WEG_MS = 60000;    // wachtkamer: de maker is zo lang niet gezien, dan mag iedereen starten
+  const LANG_WEG_MS = 60000;    // de maker is zo lang niet gezien: iedereen mag starten en na niemand verder
+  const VERS_MS = 25000;        // zo lang na het laatste gelukte ophalen telt laatst_gezien nog als vers
   const HIER_MS = 10000;        // duel_hier elke 10 seconden
   const OPEN_MS = 30000;        // niemand drukt: na 30 seconden
   const SPELING_MS = 1000;      // een antwoord telt nog tot 1 seconde na de deadline (zoals duel_antwoord)
@@ -204,6 +205,7 @@
     let pogingen = [];
     let geladen = false;
     let laadOk = false;
+    let versOp = 0;            // servertijd van het laatste gelukte ophalen van de deelnemers
     let laatsteLaad = 0;
     let snelTot = 0;
     let vorigeJson = '';
@@ -236,6 +238,9 @@
 
     function bouwStaat() {
       const tijdNu = nu();
+      // Lang weg alleen op verse gegevens. Na slapen of zonder net blijft deze klok staan op het laatste ophalen
+      // (+ VERS_MS): een oude laatst_gezien maakt de maker dan niet ineens "weg". Na het volgende ophalen klopt het weer.
+      const peil = Math.min(tijdNu, versOp + VERS_MS);
       const lijst = {};
       Object.keys(vragen).forEach(nr => {
         const vraag = vragen[nr];
@@ -248,7 +253,7 @@
           naam: d.naam,
           punten: d.punten,
           online: Number.isFinite(d.gezien) && tijdNu - d.gezien < ONLINE_MS,
-          lang_weg: Number.isFinite(d.gezien) && tijdNu - d.gezien >= LANG_WEG_MS
+          lang_weg: Number.isFinite(d.gezien) && peil - d.gezien >= LANG_WEG_MS
         })),
         vragen: lijst,
         pogingen: pogingen.map(p => ({ nr: p.nr, speler: p.speler, keuze: p.keuze, goed: p.goed })),
@@ -369,6 +374,7 @@
       if (d.error || p.error || (q && q.error)) { laadMislukt(); return; }
 
       kamer = kamerRij(k.data);
+      versOp = nu();
       deelnemers = (Array.isArray(d.data) ? d.data : [])
         .filter(rij => rij && rij.speler)
         .map(deelnemerRij)

@@ -1,6 +1,7 @@
-// Duel starten vanaf de vakpagina (contract deel 5): een knop onder Start, een venster met het aantal vragen,
+// Duel starten vanaf de vakpagina (contract deel 5): een derde kaartje "Duel met vrienden" naast Examensimulatie.
+// Met dat kaartje gekozen opent Maak een duel (vak.js) een venster met het aantal vragen,
 // dan de kamer maken met BES.duel.maak en door naar duel.html?c=CODE.
-// vak.js laadt dit bestand en geeft het vak en de gekozen hoofdstukken via BES.vakKeuze().
+// vak.js laadt dit bestand, regelt de stappen voor de modus 'duel' en geeft het vak en de gekozen hoofdstukken via BES.vakKeuze().
 (() => {
   'use strict';
 
@@ -42,11 +43,13 @@
     new Promise(klaar => window.setTimeout(() => klaar(undefined), ms))
   ]);
 
-  const icoon = () => {
+  // De bliksem van het duel: in het venster en (24 bij 24, zoals de andere modi) op het kaartje.
+  const icoon = maat => {
     const ns = 'http://www.w3.org/2000/svg';
     const svg = document.createElementNS(ns, 'svg');
     svg.setAttribute('viewBox', '0 0 24 24');
     svg.setAttribute('aria-hidden', 'true');
+    if (maat) { svg.setAttribute('width', String(maat)); svg.setAttribute('height', String(maat)); }
     const pad = document.createElementNS(ns, 'path');
     pad.setAttribute('d', 'M13 2.5 4.5 13.5H11l-1 8 8.5-11H12l1-8Z');
     svg.append(pad);
@@ -58,14 +61,12 @@
     const css = maak('style');
     css.id = 'duel-start-stijl';
     css.textContent = `
-.duel-knoppen { display: flex; flex-direction: column; align-items: stretch; min-width: 0; }
-.duel-knop-blok { margin-top: 12px; }
-.vak-pagina .duel-knop.knop-secundair { display: inline-flex; width: 100%; max-width: none; min-width: 0; margin: 0; gap: 10px; padding: 10px 24px; font-size: 1rem; line-height: 1.3; white-space: normal; text-align: center; }
-.duel-knop svg, .duel-venster-icoon svg { flex-shrink: 0; fill: none; stroke: var(--accent); stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
-.duel-knop svg { width: 20px; height: 20px; transition: transform 220ms var(--ease); }
-:where(html.has-hover) .duel-knop:not(:disabled):hover svg { transform: rotate(-10deg) scale(1.1); }
-.duel-knop:not(:disabled):active svg { transform: scale(.9); }
-.duel-knop[aria-expanded="true"] svg { transform: rotate(-10deg) scale(1.1); }
+/* Drie kaartjes (Training, Simulatie, Duel): naast elkaar als er plaats is, anders onder elkaar. */
+#modus-keuzes.met-duel { position: relative; }
+@media (min-width: 768px) and (max-width: 899px) { #modus-keuzes.met-duel { grid-template-columns: minmax(0, 1fr); } }
+@media (min-width: 900px) { #modus-keuzes.met-duel { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+
+.duel-venster-icoon svg { flex-shrink: 0; fill: none; stroke: var(--accent); stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
 
 .duel-venster.kies-plan { width: min(480px, calc(100% - 32px)); }
 .duel-venster-top { display: flex; align-items: center; gap: 12px; margin: 0 0 16px; }
@@ -99,9 +100,9 @@
   .duel-venster .kies-plan-voet .knop, .duel-venster .kies-plan-later { width: 100%; justify-content: center; }
 }
 @media (prefers-reduced-motion: reduce) {
-  .duel-schuif, .duel-segment button, .duel-knop svg { transition: none !important; }
+  .duel-schuif, .duel-segment button { transition: none !important; }
   .duel-venster .duel-venster-icoon svg { animation: none !important; }
-  .duel-segment button:active, .duel-knop svg { transform: none !important; }
+  .duel-segment button:active { transform: none !important; }
 }`;
     document.head.append(css);
   }
@@ -154,16 +155,15 @@
     });
   }
 
-  // Wat de maker nu gekozen heeft. Bij Examensimulatie doen alle hoofdstukken mee, net als op de pagina.
+  // Wat de maker nu gekozen heeft: het vak en de hoofdstukken die bij Duel met vrienden aangevinkt staan.
   function keuze() {
     const vak = window.BES_VAK;
     const gekozen = typeof BES.vakKeuze === 'function' ? BES.vakKeuze() : null;
     if (!vak || !gekozen || !Array.isArray(vak.hoofdstukken)) return null;
     const metVragen = new Set((vak.vragen || []).filter(bruikbaar).map(vraag => vraag.h));
     const beschikbaar = vak.hoofdstukken.filter(hoofdstuk => metVragen.has(hoofdstuk.id));
-    const simulatie = document.querySelector('#modus-keuzes [data-modus="simulatie"]')?.getAttribute('aria-checked') === 'true';
     const set = new Set(gekozen.hoofdstukken);
-    const hoofdstukken = beschikbaar.filter(hoofdstuk => simulatie || set.has(hoofdstuk.id));
+    const hoofdstukken = beschikbaar.filter(hoofdstuk => set.has(hoofdstuk.id));
     return { vak: gekozen.vak, hoofdstukken: hoofdstukken.map(hoofdstuk => hoofdstuk.id), namen: hoofdstukken.map(hoofdstuk => hoofdstuk.naam), beschikbaar: beschikbaar.length };
   }
 
@@ -222,48 +222,86 @@
     ongeldig: 'De vragen konden niet mee. Probeer het opnieuw.'
   })[fout] || 'Het duel maken lukte niet. Probeer het zo opnieuw.';
 
+  // Het kaartje Duel met vrienden, in dezelfde vorm als Examen Training en Examensimulatie (een keuze in de radiogroep).
+  function maakKaart() {
+    const kaart = maak('button', 'kaart modus');
+    kaart.type = 'button';
+    kaart.setAttribute('role', 'radio');
+    kaart.setAttribute('aria-checked', 'false');
+    kaart.tabIndex = -1;
+    kaart.dataset.modus = 'duel';
+    const boven = maak('span', 'modus-boven');
+    boven.setAttribute('aria-hidden', 'true');
+    const plaatje = maak('span', 'modus-icoon');
+    plaatje.append(icoon(24));
+    boven.append(plaatje, maak('span', 'modus-vink'));
+    kaart.append(boven,
+      maak('span', 'kaart-titel', 'Duel met vrienden'),
+      maak('span', 'kaart-sub', 'Speel live tegen je vrienden. Wie het eerst drukt, mag antwoorden.'),
+      maak('span', 'modus-detail', '2 tot 10 spelers'));
+    return kaart;
+  }
+
+  // Het kaartje komt achter Examensimulatie. Staat de pagina al in beeld, dan gaat dat rustig: de bestaande kaartjes
+  // schuiven naar hun nieuwe plek en breedte (naast elkaar, of van twee kolommen naar onder elkaar), het rooster groeit
+  // in hoogte en het nieuwe kaartje komt erin. Anders (deur nog dicht, tabblad op de achtergrond, minder beweging) staat het er meteen.
+  function plaatsKaart(groep, kaart) {
+    const oud = [...groep.querySelectorAll('[data-modus]')];
+    const beweeg = document.visibilityState === 'visible' && !document.documentElement.classList.contains('deur-check')
+      && groep.getClientRects().length > 0 && oud.length > 0 && typeof kaart.animate === 'function'
+      && !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const maat = el => el.getBoundingClientRect();
+    const voor = beweeg ? oud.map(maat) : [];
+    const hoogte = beweeg ? maat(groep).height : 0;
+    groep.classList.add('met-duel');
+    groep.append(kaart);
+    if (!beweeg) return;
+    const na = oud.map(maat);
+    const plek = maat(kaart);
+    const vak = maat(groep);
+    const verloop = getComputedStyle(groep).getPropertyValue('--ease').trim() || 'ease-out';
+    const duur = 320;
+    const opties = { duration: duur, easing: verloop, fill: 'forwards' };
+    // De hoogte van het rooster loopt mee, zodat de stappen eronder rustig opschuiven.
+    const animaties = [groep.animate([{ height: `${hoogte}px` }, { height: `${vak.height}px` }], opties)];
+    // De bestaande kaartjes gaan vanaf hun oude plek en breedte naar de nieuwe (ook als ze van rij wisselen).
+    oud.forEach((el, i) => {
+      if (Math.abs(voor[i].left - na[i].left) < 1 && Math.abs(voor[i].top - na[i].top) < 1 && Math.abs(voor[i].width - na[i].width) < 1) return;
+      animaties.push(el.animate([
+        { width: `${voor[i].width}px`, transform: `translate(${voor[i].left - na[i].left}px, ${voor[i].top - na[i].top}px)` },
+        { width: `${na[i].width}px`, transform: 'none' }
+      ], opties));
+    });
+    const naast = plek.top < na[na.length - 1].bottom;
+    if (naast) {
+      // Naast elkaar: het nieuwe kaartje staat even los van het rooster, zodat alleen de krimpende kaartjes de hoogte bepalen.
+      Object.assign(kaart.style, { position: 'absolute', top: `${plek.top - vak.top}px`, left: `${plek.left - vak.left}px`, width: `${plek.width}px`, height: `${plek.height}px` });
+      animaties.push(kaart.animate([{ opacity: 0, transform: 'translateX(24px)' }, { opacity: 1, transform: 'none' }], { ...opties, duration: 260, delay: 120, fill: 'both' }));
+    } else {
+      // Onder elkaar: wat nog buiten het groeiende rooster valt, blijft verborgen (de schaduw van de kaartjes niet).
+      const tussen = parseFloat(getComputedStyle(groep).rowGap) || 0;
+      groep.style.clipPath = `inset(-40px -40px -${tussen}px -40px)`;
+      animaties.push(kaart.animate([{ opacity: 0, transform: 'translateY(8px)' }, { opacity: 1, transform: 'none' }], { ...opties, delay: 80, fill: 'both' }));
+    }
+    // Alles klaar: eerst de losse plek en het knippen weg, dan pas de animaties (die de eindstand vasthouden).
+    // Werd een kaartje intussen hoger of lager (bijvoorbeeld doordat een lettertype later laadde), dan schuift het
+    // rooster ook dat laatste stukje rustig, in plaats van in één beeld te verspringen.
+    Promise.all(animaties.map(animatie => animatie.finished)).catch(() => {}).then(() => {
+      kaart.style.cssText = '';
+      groep.style.clipPath = '';
+      animaties.forEach(animatie => animatie.cancel());
+      const echt = maat(groep).height;
+      if (Math.abs(echt - vak.height) > 1) groep.animate([{ height: `${vak.height}px` }, { height: `${echt}px` }], { duration: 200, easing: verloop });
+    });
+  }
+
   function begin() {
     const start = document.getElementById('start-oefening');
-    if (!start || document.getElementById('duel-start') || typeof BES.vakKeuze !== 'function') return;
+    const groep = document.getElementById('modus-keuzes');
+    if (!start || !groep || groep.querySelector('[data-modus="duel"]') || typeof BES.vakKeuze !== 'function') return;
     stijl();
-
-    // De Start-knop en de duel-knop staan samen in één kolom; de afstand zit in het blok dat openschuift.
-    const groep = maak('div', 'duel-knoppen');
-    start.before(groep);
-    groep.append(start);
-    const blok = maak('div', 'duel-knop-blok');
-    const knop = maak('button', 'knop-secundair duel-knop');
-    knop.type = 'button';
-    knop.id = 'duel-start';
-    knop.setAttribute('aria-haspopup', 'dialog');
-    knop.setAttribute('aria-expanded', 'false');
-    knop.append(icoon(), maak('span', '', 'Speel een duel met vrienden'));
-    blok.append(knop);
-    // Staat de pagina al in beeld, dan schuift de knop rustig open; anders (deur nog dicht, tabblad op de achtergrond) staat hij er meteen.
-    const inBeeld = document.visibilityState === 'visible' && !document.documentElement.classList.contains('deur-check') && start.getClientRects().length > 0;
-    blok.hidden = inBeeld;
-    groep.append(blok);
-    if (inBeeld) {
-      // Op een computer staan Start en de duel-knop in de smalle kolom van een grid. Is de duel-knop breder dan Start,
-      // dan groeit die kolom eerst rustig mee in breedte en schuift de knop daarna open. Zo springt de Start-knop niet.
-      const van = groep.getBoundingClientRect().width;
-      // Even onzichtbaar meten op volle breedte (max-content), los van de plek in de kolom.
-      blok.style.cssText = 'position:absolute;visibility:hidden;width:max-content';
-      blok.hidden = false;
-      const naar = knop.getBoundingClientRect().width;
-      blok.hidden = true;
-      blok.style.cssText = '';
-      const rustig = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-      const openen = () => { toon(blok); groep.style.minWidth = ''; };
-      if (naar - van > 1 && !rustig && groep.animate) {
-        const verloop = getComputedStyle(document.documentElement).getPropertyValue('--ease').trim() || 'ease-out';
-        const breder = groep.animate([{ minWidth: `${van}px` }, { minWidth: `${naar}px` }], { duration: 240, easing: verloop, fill: 'forwards' });
-        // Eerst de knop zichtbaar (die houdt de kolom breed), dan pas de animatie weg: geen frame terug naar smal.
-        breder.onfinish = () => { openen(); breder.cancel(); };
-      } else {
-        openen();
-      }
-    }
+    const kaart = maakKaart();
+    plaatsKaart(groep, kaart);
 
     // Het venster
     const venster = maak('dialog', 'kies-plan duel-venster');
@@ -378,11 +416,6 @@
       zetTekst(info, infoTekst());
     }
 
-    function werkKnopBij() {
-      const k = keuze();
-      knop.disabled = !k || !k.hoofdstukken.length;
-    }
-
     function zetBezig(aan) {
       bezig = aan;
       maakKnop.disabled = aan || !stand?.max;
@@ -392,8 +425,9 @@
       else venster.removeAttribute('aria-busy');
     }
 
+    // Zonder hoofdstukken staat Maak een duel uit (vak.js); het venster zegt het dan ook zelf.
     function open() {
-      if (venster.open || knop.disabled) return;
+      if (venster.open) return;
       fout.hidden = true;
       fout.textContent = '';
       info.hidden = true;
@@ -401,7 +435,6 @@
       werkVensterBij();
       // Het venster is nog dicht: de schuif staat meteen goed, zonder te bewegen.
       venster.showModal();
-      knop.setAttribute('aria-expanded', 'true');
       (keuzeKnoppen.find(optie => optie.getAttribute('aria-checked') === 'true') || (maakKnop.disabled ? annuleer : maakKnop)).focus({ preventScroll: true });
       // Alvast laden, zodat Maak duel meteen werkt.
       laadDuel().catch(() => {});
@@ -457,7 +490,6 @@
       }
     }
 
-    knop.addEventListener('click', open);
     annuleer.addEventListener('click', sluit);
     maakKnop.addEventListener('click', maakDuel);
     keuzeKnoppen.forEach(optie => optie.addEventListener('click', () => {
@@ -481,19 +513,12 @@
       const r = venster.getBoundingClientRect();
       if (event.clientX < r.left || event.clientX > r.right || event.clientY < r.top || event.clientY > r.bottom) sluit();
     });
+    // Dicht: de focus terug op Maak een duel.
     venster.addEventListener('close', () => {
-      knop.setAttribute('aria-expanded', 'false');
-      if (knop.isConnected && knop.getClientRects().length) knop.focus({ preventScroll: true });
+      if (start.isConnected && start.getClientRects().length) start.focus({ preventScroll: true });
     });
 
-    // De knop volgt de keuzes op de pagina: zonder hoofdstukken staat hij uit, net als Start.
-    const instellingen = document.getElementById('vak-instellingen');
-    if (instellingen && 'MutationObserver' in window) {
-      new MutationObserver(werkKnopBij).observe(instellingen, { subtree: true, attributes: true, attributeFilter: ['aria-checked'] });
-    }
-    werkKnopBij();
-
-    // Terug van inloggen (?duel=10): het venster gaat weer open met hetzelfde aantal.
+    // Terug van inloggen (?duel=10): Duel met vrienden weer gekozen en het venster open met hetzelfde aantal.
     if (params.has('duel')) {
       const terugAantal = Number(params.get('duel'));
       try {
@@ -506,7 +531,7 @@
         Promise.resolve(BES.auth?.gereed).then(() => BES.auth?.gebruiker?.()).then(gebruiker => {
           if (!gebruiker) return;
           ingelogd = true;
-          werkKnopBij();
+          if (kaart.getAttribute('aria-checked') !== 'true') kaart.click();
           open();
         }).catch(() => {});
       }
@@ -522,7 +547,7 @@
     BES.duelStart = { open, vragenUit, maakVragen, keuze };
   }
 
-  // De knop komt er alleen voor accounts die het duel mogen zien (duel-toegang.js). Laadde dat bestand niet: geen knop.
+  // Het kaartje komt er alleen voor accounts die het duel mogen zien (duel-toegang.js). Laadde dat bestand niet: geen kaartje.
   const beginAlsHetMag = async () => {
     const mag = BES.duelToegang ? await BES.duelToegang() : false;
     if (mag === true) begin();

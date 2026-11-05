@@ -43,7 +43,7 @@
     open: 30000 / DEEL,        // zolang mag je drukken
     antwoord: 15000 / DEEL,    // zolang heeft de drukker
     onthulling: 3000 / DEEL,   // zolang blijft goed of iedereen_fout staan
-    maker: 60000 / DEEL,       // maker zo lang niet gezien (wachtkamer): iedereen mag starten
+    maker: 60000 / DEEL,       // maker zo lang niet gezien: iedereen mag starten en na niemand verder
     hier: 10000 / DEEL,        // zo vaak laatst_gezien bijwerken
     online: 20000 / DEEL,      // online = laatst_gezien korter geleden dan dit
     speling: 1000 / DEEL,      // antwoord mag nog tot deadline + speling
@@ -552,6 +552,11 @@
     if (n === null) return fout('ongeldig');
     const kamer = p.k.kamer;
     if (kamer.status !== 'onthulling' || kamer.uitkomst !== 'niemand' || kamer.vraag_nr !== n) return fout('verkeerde_stand');
+    // Alleen de maker klikt verder, tenzij die langer dan T.maker niet gezien is (zelfde regel als start).
+    if (kamer.maker !== IK) {
+      const maker = p.k.deelnemers.find(d => d.speler === kamer.maker);
+      if (maker && tijd - tijdVan(maker.laatst_gezien) <= T.maker) return fout('niet_jouw_beurt');
+    }
     naarVraag(p.k, n + 1, tijd);
     return klaar({ ok: true, versie: kamer.versie }, [p.c]);
   }));

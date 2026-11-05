@@ -582,7 +582,7 @@
 
       const hint = maak('p', 'invoer-hint kamer-in');
       hint.style.setProperty('--i', '1');
-      hint.append(document.createTextNode('Zelf een duel maken? Open een vak, kies je hoofdstukken en tik op Speel een duel met vrienden. '));
+      hint.append(document.createTextNode('Zelf een duel maken? Open een vak, kies Duel met vrienden en tik op Maak een duel. '));
       const naarVakken = maak('a', 'tekstlink', 'Naar je vakken →');
       naarVakken.href = 'hub.html';
       hint.append(naarVakken);

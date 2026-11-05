@@ -1,10 +1,10 @@
-/* Duel: spelscherm. Vraag, grote knop met ring, slot, onthulling en stand.
+/* Duel: spelscherm. Vraag, de knop met de tijdstreep, slot, onthulling en stand.
    Alleen de bestaande kleuren en tokens uit style.css. Niets springt: wissels vervagen, hoogtes schuiven mee,
    en bij "minder beweging" staat alle beweging uit. */
 
 .ds {
-  --ds-knop: 120px;
-  --ds-inset: 14px;
+  --ds-knop: 248px;
+  --ds-knop-h: 52px;
   --ds-rand: 20px;
   position: relative;
   display: flex;
@@ -41,6 +41,7 @@
 
 .ds-veld {
   position: relative;
+  container: ds-veld / inline-size;
   padding: 24px var(--ds-rand) 0;
   border: 1px solid var(--line);
   border-radius: 24px;
@@ -155,17 +156,19 @@ html[data-theme="dark"] .ds-veld.is-rood::before { opacity: .16; }
 .ds-uitleg h3 { margin: 0 0 6px; font-size: .9375rem; font-weight: 600; line-height: 1.4; }
 .ds-uitleg p { margin: 0; color: var(--ink-soft); font-size: .9375rem; line-height: 1.6; overflow-wrap: anywhere; }
 
-/* ---------- Dok: tekst en de grote knop. Blijft onderaan in beeld zolang het veld zichtbaar is. ---------- */
+/* ---------- Dok: tekst, de knop en de tijdstreep. Blijft onderaan in beeld zolang het veld zichtbaar is. ---------- */
+/* Smal: de knop over de volle breedte onder de tekst. Breed genoeg: de knop ernaast (zie @container onderaan).
+   Het dok is in elke stand even hoog: de tekst heeft vaste ruimte en de streep een eigen plek onderaan. */
 .ds-dok {
   position: sticky;
   bottom: 0;
   z-index: 2;
   display: grid;
-  grid-template-columns: minmax(0, 1fr) var(--ds-knop);
+  grid-template-columns: minmax(0, 1fr);
   align-items: center;
-  gap: 16px;
+  gap: 12px;
   margin: 0 calc(var(--ds-rand) * -1);
-  padding: 16px var(--ds-rand) calc(16px + env(safe-area-inset-bottom, 0px));
+  padding: 16px var(--ds-rand) calc(34px + env(safe-area-inset-bottom, 0px));
   border-top: 1px solid var(--line);
   border-radius: 0 0 23px 23px;
   background: var(--nav-bg);
@@ -186,110 +189,168 @@ html[data-theme="dark"] .ds-veld.is-rood::before { opacity: .16; }
 .ds-veld.is-rood .ds-dok { border-top-color: color-mix(in srgb, var(--fout) 35%, var(--line)); }
 .ds-veld.is-rood .ds-dok::before { opacity: .08; }
 
-.ds-status { display: grid; gap: 4px; min-width: 0; }
-.ds-status-titel { margin: 0; font-size: 1.0625rem; font-weight: 600; line-height: 1.3; overflow-wrap: anywhere; text-wrap: balance; transition: color 250ms var(--ease); }
-.ds-status-sub { min-height: 1.45em; margin: 0; color: var(--ink-soft); font-size: .875rem; line-height: 1.45; font-variant-numeric: tabular-nums; overflow-wrap: anywhere; transition: color 250ms var(--ease); }
+/* Ruimte voor twee regels titel en een regel uitleg (of andersom), zodat het dok niet groeit of krimpt.
+   De klem houdt titel en uitleg samen op hoogstens drie regels (lange naam, grote letters): nooit hoger dan deze ruimte. */
+.ds-status {
+  --ds-titel: 1.0625rem;
+  --ds-sub: .875rem;
+  container: ds-status / inline-size;
+  display: grid;
+  align-content: center;
+  min-width: 0;
+  min-height: calc(2.6 * var(--ds-titel) + 4px + 1.45 * var(--ds-sub));
+}
+.ds-status-klem { display: -webkit-box; min-width: 0; overflow: hidden; -webkit-box-orient: vertical; -webkit-line-clamp: 3; }
+.ds-status-titel { margin: 0; font-size: var(--ds-titel); font-weight: 600; line-height: 1.3; overflow-wrap: anywhere; text-wrap: balance; transition: color 250ms var(--ease); }
+.ds-status-sub { min-height: 1.45em; margin: 4px 0 0; color: var(--ink-soft); font-size: var(--ds-sub); line-height: 1.45; font-variant-numeric: tabular-nums; overflow-wrap: anywhere; transition: color 250ms var(--ease); }
+/* Smalle tekstkolom (telefoon van 320 px, of de knop ernaast op een smal veld): de uitleg een tikje kleiner,
+   zodat ook een titel van twee regels met de langste uitleg op drie regels past. */
+@container ds-status (max-width: 259px) {
+  .ds-status-sub { font-size: .8125rem; }
+}
 .ds-status-titel.is-nieuw, .ds-status-sub.is-nieuw { animation: ds-op 240ms var(--ease) both; }
 .ds-status-sub.is-dringend, .ds-status-sub.is-melding { color: var(--fout); }
 .ds-veld.is-rood .ds-status-titel { color: var(--fout); }
 .ds-veld[data-stand="goed"] .ds-status-titel { color: var(--teal-tekst); }
 
-/* ---------- De knop met de ring ---------- */
-.ds-knopvak { position: relative; width: var(--ds-knop); height: var(--ds-knop); justify-self: end; }
-.ds-ring { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; transform: rotate(-90deg); pointer-events: none; }
-.ds-ring circle { fill: none; stroke-width: 5; }
-.ds-ring-spoor { stroke: var(--line); }
-.ds-ring-boog { stroke: var(--accent); stroke-linecap: round; transition: stroke 250ms var(--ease), opacity 250ms var(--ease); }
-.ds-ring.is-slot .ds-ring-boog { stroke: var(--grey-title); }
-.ds-ring.is-dringend .ds-ring-boog { stroke: var(--fout); }
-.ds-ring.is-goed .ds-ring-boog { stroke: var(--teal); }
-.ds-ring.is-fout .ds-ring-boog { stroke: var(--grey-title); }
-.ds-ring:is(.is-leeg, .is-uit) .ds-ring-boog { opacity: 0; }
+/* ---------- De knop: een gewone .knop van de site, drie lagen op dezelfde plek ---------- */
+.ds-knopvak { container: ds-knopvak / inline-size; display: grid; min-width: 0; height: var(--ds-knop-h); }
+.ds-knopvak > * { grid-area: 1 / 1; }
 
 /* Golf rond de knop bij het drukken */
-.ds-knopvak::after { content: ''; position: absolute; inset: var(--ds-inset); border: 2px solid var(--accent); border-radius: 50%; opacity: 0; pointer-events: none; }
+.ds-knopvak::after { content: ''; grid-area: 1 / 1; border-radius: var(--pill); opacity: 0; pointer-events: none; }
 .ds-knopvak.is-gedrukt::after { animation: ds-golf 560ms var(--ease) both; }
 
-.ds-buzzer, .ds-volgende {
-  position: absolute;
-  inset: var(--ds-inset);
-  display: grid;
-  place-items: center;
+/* Vaste maat: breedte en hoogte wisselen nooit, alleen inhoud en kleur. */
+.ds .ds-knopvak .knop {
+  width: 100%;
+  min-width: 0;
+  max-width: none;
+  height: 100%;
+  min-height: 0;
   margin: 0;
-  padding: 0;
-  border: 0;
-  border-radius: 50%;
-  background: var(--accent-vlak);
-  color: var(--white);
-  cursor: pointer;
-  touch-action: manipulation;
+  padding: 0 20px;
   -webkit-tap-highlight-color: var(--transparent);
   user-select: none;
   -webkit-user-select: none;
   -webkit-touch-callout: none;
-  box-shadow: inset 0 2px 0 rgba(255,255,255,.22), 0 5px 0 var(--accent-vlak-hover), 0 10px 22px var(--shadow-primary-color);
-  transform: translateY(-2px);
-  transition: transform 140ms var(--ease), box-shadow 140ms var(--ease), background-color 220ms var(--ease), color 220ms var(--ease), opacity 220ms var(--ease), visibility 0s linear 0s;
 }
-.ds .ds-knopvak :is(.ds-buzzer, .ds-volgende):focus-visible { outline: 2px solid var(--accent); outline-offset: 5px; }
-:where(html.has-hover) .ds-buzzer[data-g="druk"]:hover:not(.is-ingedrukt):not(:active),
-:where(html.has-hover) .ds-volgende:not([aria-disabled="true"]):hover:not(:active) {
-  background: var(--accent-vlak-hover);
-  box-shadow: inset 0 2px 0 rgba(255,255,255,.22), 0 6px 0 var(--accent-vlak-hover), 0 0 0 6px var(--accent-zacht), 0 12px 26px var(--shadow-primary-hover-color);
-  transform: translateY(-3px);
+
+/* Wisselen tussen de lagen: de ene vervaagt, de andere komt op. Wie weg is, is ook niet aan te raken. */
+.ds-knopvak > :is(.ds-buzzer, .ds-volgende, .ds-wachtmaker) {
+  opacity: 0;
+  visibility: hidden;
+  transform: scale(.97);
+  transition: opacity 200ms var(--ease), transform 240ms var(--ease), background-color 220ms var(--ease), color 220ms var(--ease), box-shadow 220ms var(--ease), visibility 0s linear 240ms;
 }
-/* Indrukken: de knop zakt in zijn voet, zoals een echte buzzer. */
-.ds .ds-knopvak .ds-buzzer:is(.is-ingedrukt, [data-g="druk"]:active),
-.ds .ds-knopvak .ds-volgende:not([aria-disabled="true"]):active {
-  opacity: 1;
-  transform: translateY(3px) scale(.98);
-  box-shadow: inset 0 2px 0 rgba(255,255,255,.12), 0 0 0 var(--accent-vlak-hover), 0 3px 8px var(--shadow-primary-color);
+.ds-knopvak[data-laag="buzzer"] > .ds-buzzer,
+.ds-knopvak[data-laag="volgende"] > .ds-volgende,
+.ds-knopvak[data-laag="wacht"] > .ds-wachtmaker { opacity: 1; visibility: visible; transform: none; transition-delay: 0s; }
+
+/* Ik weet het: indrukken voelt kort en stevig, zoals bij een gameshow. */
+.ds .ds-buzzer { display: grid; place-items: center; }
+.ds .ds-knopvak[data-laag="buzzer"] > .ds-buzzer:is(.is-ingedrukt, [data-g="druk"]:active) {
+  transform: scale(.96);
+  box-shadow: 0 2px 8px var(--shadow-primary-color);
   transition-duration: 70ms;
 }
 .ds-buzzer:not([data-g="druk"]) { cursor: default; }
 .ds-buzzer[data-g="wacht"] { cursor: progress; }
-.ds-buzzer:is([data-g="slot"], [data-g="goed"], [data-g="fout"]) {
-  background: var(--surface);
-  color: var(--ink-soft);
-  box-shadow: inset 0 0 0 1px var(--line);
-  transform: none;
+/* accent-dark: genoeg contrast (4,5:1) op de zachte achtergrond, licht en donker. */
+.ds .ds-buzzer[data-g="tijd"] {
+  background: var(--accent-zacht);
+  color: var(--accent-dark);
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--accent) 45%, var(--transparent));
+  animation: ds-gloed 1400ms var(--ease) infinite;
 }
-.ds-buzzer[data-g="goed"] { background: var(--teal-zacht); color: var(--teal-tekst); box-shadow: inset 0 0 0 1px var(--teal); }
-.ds-buzzer[data-g="fout"] { background: var(--fout-zacht); color: var(--fout); box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--fout) 40%, var(--transparent)); }
-.ds-buzzer[data-g="tijd"] { animation: ds-gloed 1400ms var(--ease) infinite; }
+.ds .ds-buzzer[data-g="slot"] { background: var(--surface); color: var(--ink-soft); box-shadow: inset 0 0 0 1px var(--line); }
+.ds .ds-buzzer[data-g="goed"] { background: var(--teal-zacht); color: var(--teal-tekst); box-shadow: inset 0 0 0 1px var(--teal); }
+.ds .ds-buzzer[data-g="fout"] { background: var(--fout-zacht); color: var(--fout); box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--fout) 40%, var(--transparent)); }
 
 /* Gezichten van de knop: er is er altijd een zichtbaar, de wissel vervaagt. */
-.ds-gezicht { grid-area: 1 / 1; display: grid; place-items: center; align-content: center; gap: 2px; padding: 0 10px; text-align: center; opacity: 0; transform: scale(.8); transition: opacity 180ms var(--ease), transform 240ms var(--ease); pointer-events: none; }
+.ds-gezicht { grid-area: 1 / 1; display: inline-flex; align-items: center; justify-content: center; gap: 8px; max-width: 100%; white-space: nowrap; opacity: 0; transform: translateY(6px); transition: opacity 200ms var(--ease), transform 220ms var(--ease); pointer-events: none; }
 .ds-buzzer[data-g="druk"] [data-gezicht="druk"],
 .ds-buzzer[data-g="wacht"] [data-gezicht="wacht"],
 .ds-buzzer[data-g="tijd"] [data-gezicht="tijd"],
 .ds-buzzer[data-g="slot"] [data-gezicht="slot"],
 .ds-buzzer[data-g="goed"] [data-gezicht="goed"],
 .ds-buzzer[data-g="fout"] [data-gezicht="fout"] { opacity: 1; transform: none; }
-.ds-g-druk { font-size: 1rem; font-weight: 700; line-height: 1.15; letter-spacing: -.01em; text-wrap: balance; }
-.ds-g-tijd b { font-size: 2rem; font-weight: 700; line-height: 1; font-variant-numeric: tabular-nums; }
-.ds-g-tijd small, .ds-g-slot small { font-size: .75rem; font-weight: 600; line-height: 1.2; }
-.ds-gezicht svg { width: 30px; height: 30px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
-.ds-g-goed svg, .ds-g-fout svg { width: 36px; height: 36px; stroke-width: 2.4; }
+.ds-gezicht svg { flex: none; width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+.ds-g-goed svg, .ds-g-fout svg { width: 24px; height: 24px; stroke-width: 2.4; }
 .ds-puntjes { display: flex; gap: 5px; }
 .ds-puntjes i { width: 7px; height: 7px; border-radius: 50%; background: currentColor; animation: ds-puntje 900ms var(--ease) infinite; }
 .ds-puntjes i:nth-child(2) { animation-delay: 150ms; }
 .ds-puntjes i:nth-child(3) { animation-delay: 300ms; }
 
-/* Volgende vraag: neemt de plek van de knop over als niemand drukte. */
-.ds-volgende { align-content: center; gap: 4px; padding: 0 12px; font-size: .875rem; font-weight: 700; line-height: 1.2; text-align: center; }
+/* Volgende vraag: dezelfde knop, voor de maker (of iedereen als de maker lang weg is). */
+.ds .ds-volgende { gap: 8px; }
+.ds-volgende-pijl { display: inline-flex; }
 .ds-volgende-pijl svg { display: block; width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round; transition: transform 200ms var(--ease); }
 :where(html.has-hover) .ds-volgende:not([aria-disabled="true"]):hover .ds-volgende-pijl svg { transform: translateX(3px); }
-.ds-volgende[aria-disabled="true"] { cursor: progress; }
-.ds-volgende,
-.ds-knopvak.is-volgende .ds-buzzer {
-  opacity: 0;
-  visibility: hidden;
-  transform: scale(.85);
-  transition: transform 240ms var(--ease), box-shadow 140ms var(--ease), background-color 220ms var(--ease), opacity 200ms var(--ease), visibility 0s linear 240ms;
+.ds .ds-knopvak[data-laag="volgende"] > .ds-volgende[aria-disabled="true"] { opacity: .75; cursor: progress; }
+
+/* Wachten op de maker: zelfde pil en maat als de knop, rustig en niet klikbaar (zoals op het podium). */
+.ds-wachtmaker {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  min-width: 0;
+  margin: 0;
+  padding: 0 20px;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: var(--pill);
+  background: var(--surface);
+  color: var(--ink-soft);
+  font-size: .9375rem;
+  font-weight: 500;
+  line-height: 1.4;
+  white-space: nowrap;
+  cursor: default;
 }
-.ds-knopvak.is-volgende .ds-volgende { opacity: 1; visibility: visible; transform: translateY(-2px); transition-delay: 0s; }
-.ds-knopvak.is-volgende .ds-volgende[aria-disabled="true"] { opacity: .75; }
+.ds-wachtmaker .ds-puntjes { flex: none; gap: 4px; color: var(--accent); }
+.ds-wachtmaker .ds-puntjes i { width: 6px; height: 6px; }
+.ds-wachtmaker > span:last-child { min-width: 0; overflow: hidden; text-overflow: ellipsis; }
+/* Krijgt de focus alleen om hem niet te verliezen: geen knop, dus ook geen focusrand (zoals op het podium). */
+.ds-wachtmaker:focus, .ds-wachtmaker:focus-visible { outline: none; box-shadow: none; }
+/* Smal knopvak (telefoon van 320 px, of de knop naast de tekst): iets compacter, zodat de tekst heel past. */
+@container ds-knopvak (max-width: 259px) {
+  .ds-wachtmaker { gap: 8px; padding: 0 14px; font-size: .875rem; }
+}
+
+/* ---------- De tijdstreep: dun, onderaan het dok, loopt van links naar rechts vol ---------- */
+.ds-dok > .ds-klok {
+  position: absolute;
+  right: var(--ds-rand);
+  bottom: calc(14px + env(safe-area-inset-bottom, 0px));
+  left: var(--ds-rand);
+  height: 4px;
+  overflow: hidden;
+  border-radius: var(--pill);
+  background: color-mix(in srgb, var(--ink) 8%, var(--transparent));
+  pointer-events: none;
+}
+.ds-klok-vul {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border-radius: inherit;
+  background: var(--accent);
+  transform: translateX(-100%);
+  transition: background-color 250ms var(--ease), opacity 300ms var(--ease);
+}
+/* Een nieuwe klok: de streep schuift kort terug in plaats van te springen. */
+.ds-klok.is-terug .ds-klok-vul { transition: transform 320ms var(--ease), background-color 250ms var(--ease), opacity 300ms var(--ease); }
+.ds-klok.is-slot .ds-klok-vul { background: var(--grey-title); }
+.ds-klok.is-dringend .ds-klok-vul { background: var(--fout); }
+.ds-klok.is-goed .ds-klok-vul { background: var(--teal); }
+.ds-klok.is-uit .ds-klok-vul { opacity: 0; }
+
+/* Breed genoeg: de knop staat naast de tekst. */
+@container ds-veld (min-width: 560px) {
+  .ds-dok { grid-template-columns: minmax(0, 1fr) var(--ds-knop); gap: 24px; }
+}
 
 /* ---------- Stand ---------- */
 .ds-stand { min-width: 0; padding: 16px; border: 1px solid var(--line); border-radius: 20px; background: var(--card); box-shadow: var(--shadow-soft); }
@@ -324,26 +385,21 @@ html[data-theme="dark"] .ds-veld.is-rood::before { opacity: .16; }
 .ds-punten { flex: 0 0 auto; min-width: 2ch; font-size: 1rem; font-weight: 700; text-align: right; }
 .ds-plus { position: absolute; top: 50%; right: 12px; color: var(--teal-tekst); font-size: .8125rem; font-weight: 700; pointer-events: none; animation: ds-plus 1200ms var(--ease) both; }
 
-/* ---------- Laptop: stand opzij, grotere knop ---------- */
+/* ---------- Laptop: stand opzij, grotere tekst ---------- */
 @media (min-width: 960px) {
-  .ds { --ds-knop: 144px; --ds-inset: 16px; --ds-rand: 32px; gap: 24px; }
+  .ds { --ds-rand: 32px; gap: 24px; }
   .ds-lijf { grid-template-columns: minmax(0, 1fr) 280px; gap: 28px; }
   .ds-veld { padding-top: 32px; }
   .ds-vraagblok { padding-bottom: 28px; }
   .ds-mijn { display: none; }
   .ds-stand { position: sticky; top: 88px; padding: 20px; }
-  .ds-dok { padding-top: 18px; padding-bottom: 18px; gap: 24px; }
-  .ds-status-titel { font-size: 1.25rem; }
-  .ds-status-sub { font-size: .9375rem; }
-  .ds-g-druk { font-size: 1.1875rem; }
-  .ds-g-tijd b { font-size: 2.5rem; }
-  .ds-volgende { font-size: 1rem; }
+  .ds-dok { padding-top: 18px; }
+  .ds-status { --ds-titel: 1.25rem; --ds-sub: .9375rem; }
 }
 
-/* Smalle telefoon: iets kleinere knop zodat de tekst ernaast past. */
+/* Smalle telefoon: iets minder rand, zodat de tekst meer plaats heeft. */
 @media (max-width: 359px) {
-  .ds { --ds-knop: 108px; --ds-inset: 12px; --ds-rand: 16px; }
-  .ds-g-druk { font-size: .9375rem; }
+  .ds { --ds-rand: 16px; }
 }
 
 /* ---------- Bewegingen ---------- */
@@ -352,10 +408,13 @@ html[data-theme="dark"] .ds-veld.is-rood::before { opacity: .16; }
 @keyframes ds-laden { from { opacity: .5; } to { opacity: 1; } }
 @keyframes ds-rol-in { from { opacity: 0; transform: translateY(90%); } to { opacity: 1; transform: none; } }
 @keyframes ds-rol-uit { from { opacity: 1; transform: none; } to { opacity: 0; transform: translateY(-90%); } }
-@keyframes ds-golf { from { opacity: .6; transform: scale(1); } to { opacity: 0; transform: scale(1.35); } }
+@keyframes ds-golf {
+  from { opacity: 1; box-shadow: 0 0 0 0 color-mix(in srgb, var(--accent) 45%, var(--transparent)); }
+  to { opacity: 1; box-shadow: 0 0 0 14px color-mix(in srgb, var(--accent) 0%, var(--transparent)); }
+}
 @keyframes ds-gloed {
-  0%, 100% { box-shadow: inset 0 2px 0 rgba(255,255,255,.22), 0 5px 0 var(--accent-vlak-hover), 0 0 0 0 color-mix(in srgb, var(--accent) 28%, var(--transparent)); }
-  50% { box-shadow: inset 0 2px 0 rgba(255,255,255,.22), 0 5px 0 var(--accent-vlak-hover), 0 0 0 10px color-mix(in srgb, var(--accent) 0%, var(--transparent)); }
+  0%, 100% { box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--accent) 45%, var(--transparent)), 0 0 0 0 color-mix(in srgb, var(--accent) 24%, var(--transparent)); }
+  50% { box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--accent) 45%, var(--transparent)), 0 0 0 8px color-mix(in srgb, var(--accent) 0%, var(--transparent)); }
 }
 @keyframes ds-beurt {
   0% { box-shadow: 0 0 0 0 color-mix(in srgb, var(--accent) 30%, var(--transparent)); }
@@ -375,6 +434,6 @@ html[data-theme="dark"] .ds-veld.is-rood::before { opacity: .16; }
 
 @media (prefers-reduced-motion: reduce) {
   .ds, .ds *, .ds *::before, .ds *::after { animation: none !important; transition: none !important; }
-  .ds .ds-knopvak :is(.ds-buzzer, .ds-volgende), .ds .ds-optie { transform: none !important; }
+  .ds .ds-knopvak > *, .ds .ds-optie { transform: none !important; }
   .ds-puntjes i { opacity: .8; }
 }
