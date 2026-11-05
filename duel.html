@@ -43,7 +43,7 @@
   <script src="assets/activiteit.js?v=90" defer></script>
   <script src="assets/vakken.js?v=91"></script>
   <script src="assets/duel-kamer.js?v=2" defer></script>
-  <script src="assets/duel-toegang.js?v=1" defer></script>
+  <script src="assets/duel-toegang.js?v=2" defer></script>
   <!-- Geen deur.js: wie een duel-link opent zonder account, krijgt het laadscherm met inloggen in plaats van een doorverwijzing. -->
 </head>
 <body class="duel-body">
@@ -499,7 +499,7 @@
         document.body.append(script);
       });
 
-      // Zolang het duel in stilte live staat (duel-toegang.js): alleen de testaccounts maken een duel.
+      // Zolang het duel in stilte live staat (duel-toegang.js): alleen het beheerdersaccount maakt een duel.
       // Wie een uitnodiging heeft (link met ?c=CODE), mag met elk account meedoen. Een ander account zonder code gaat naar de hub.
       // Niet ingelogd: het gewone laadscherm met inloggen; na het inloggen komt deze controle opnieuw.
       const naarHub = () => window.location.replace('hub.html');
