@@ -38,11 +38,12 @@
   <script src="assets/app.js?v=95"></script>
   <script src="assets/config.js?v=89" defer></script>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js" defer></script>
-  <script src="assets/auth.js?v=95" defer></script>
+  <script src="assets/auth.js?v=96" defer></script>
   <script src="assets/plan.js?v=90" defer></script>
   <script src="assets/activiteit.js?v=90" defer></script>
   <script src="assets/vakken.js?v=91"></script>
   <script src="assets/duel-kamer.js?v=1" defer></script>
+  <script src="assets/duel-toegang.js?v=1" defer></script>
   <!-- Geen deur.js: wie een duel-link opent zonder account, krijgt het laadscherm met inloggen in plaats van een doorverwijzing. -->
 </head>
 <body class="duel-body">
@@ -498,7 +499,12 @@
         document.body.append(script);
       });
 
+      // Zolang het duel in stilte live staat (duel-toegang.js): een account dat niet mag, gaat naar de hub.
+      // Niet ingelogd: het gewone laadscherm met inloggen; na het inloggen komt deze controle opnieuw.
+      const naarHub = () => window.location.replace('hub.html');
       const start = async () => {
+        const toegang = BES.duelToegang ? await BES.duelToegang() : false;
+        if (toegang === false) { naarHub(); return; }
         const bron = testModus ? 'assets/duel-nep.js' : 'assets/duel.js';
         const schermScripts = [['laden', 'assets/duel-laden.js'], ['spel', 'assets/duel-spel.js'], ['podium', 'assets/duel-podium.js']];
         const geladen = await Promise.all([bron, ...schermScripts.map(([, src]) => src)].map(src => laadScript(src + VERSIE)));
@@ -520,8 +526,9 @@
         acties = maakActies();
         window.addEventListener('popstate', route);
         // Ingelogd of uitgelogd (ook in een ander tabblad): opnieuw volgen met het nieuwe account.
-        window.addEventListener('bes:auth', event => {
+        window.addEventListener('bes:auth', async event => {
           if (testModus || event.detail?.uitloggen) return;
+          if (event.detail?.user && BES.duelMagAccount && (await BES.duelMagAccount(event.detail.user)) === false) { naarHub(); return; }
           const id = event.detail?.user?.id || null;
           if (ikNu === undefined) { ikNu = id; return; }
           if (id === ikNu) return;

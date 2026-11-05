@@ -442,7 +442,10 @@
     // Start het inloggen via Google; Supabase stuurt de gebruiker daarna terug naar de hub
     async metGoogle() {
       const redirectTo = new URL(pagePrefix + 'inloggen.html?google=terug', window.location.href).href;
-      const data = await request(api => api.signInWithOAuth({ provider: 'google', options: { redirectTo, skipBrowserRedirect: true } }));
+      // Met ?kies=1 (bv. inloggen.html?kies=1) toont Google altijd de accountkeuze, ook als je al met een Google-account bent ingelogd.
+      const options = { redirectTo, skipBrowserRedirect: true };
+      if (new URLSearchParams(window.location.search).get('kies') === '1') options.queryParams = { prompt: 'select_account' };
+      const data = await request(api => api.signInWithOAuth({ provider: 'google', options }));
       if (!data?.url) throw failure('unknown');
       // Eerst controleren of Google aanstaat; zolang de provider uit staat geeft Supabase een 400 in plaats van een doorverwijzing
       try {

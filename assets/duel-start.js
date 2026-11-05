@@ -243,7 +243,27 @@
     const inBeeld = document.visibilityState === 'visible' && !document.documentElement.classList.contains('deur-check') && start.getClientRects().length > 0;
     blok.hidden = inBeeld;
     groep.append(blok);
-    if (inBeeld) toon(blok);
+    if (inBeeld) {
+      // Op een computer staan Start en de duel-knop in de smalle kolom van een grid. Is de duel-knop breder dan Start,
+      // dan groeit die kolom eerst rustig mee in breedte en schuift de knop daarna open. Zo springt de Start-knop niet.
+      const van = groep.getBoundingClientRect().width;
+      // Even onzichtbaar meten op volle breedte (max-content), los van de plek in de kolom.
+      blok.style.cssText = 'position:absolute;visibility:hidden;width:max-content';
+      blok.hidden = false;
+      const naar = knop.getBoundingClientRect().width;
+      blok.hidden = true;
+      blok.style.cssText = '';
+      const rustig = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      const openen = () => { toon(blok); groep.style.minWidth = ''; };
+      if (naar - van > 1 && !rustig && groep.animate) {
+        const verloop = getComputedStyle(document.documentElement).getPropertyValue('--ease').trim() || 'ease-out';
+        const breder = groep.animate([{ minWidth: `${van}px` }, { minWidth: `${naar}px` }], { duration: 240, easing: verloop, fill: 'forwards' });
+        // Eerst de knop zichtbaar (die houdt de kolom breed), dan pas de animatie weg: geen frame terug naar smal.
+        breder.onfinish = () => { openen(); breder.cancel(); };
+      } else {
+        openen();
+      }
+    }
 
     // Het venster
     const venster = maak('dialog', 'kies-plan duel-venster');
@@ -502,6 +522,12 @@
     BES.duelStart = { open, vragenUit, maakVragen, keuze };
   }
 
-  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', begin, { once: true });
-  else begin();
+  // De knop komt er alleen voor accounts die het duel mogen zien (duel-toegang.js). Laadde dat bestand niet: geen knop.
+  const beginAlsHetMag = async () => {
+    const mag = BES.duelToegang ? await BES.duelToegang() : false;
+    if (mag === true) begin();
+  };
+
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', beginAlsHetMag, { once: true });
+  else beginAlsHetMag();
 })();
