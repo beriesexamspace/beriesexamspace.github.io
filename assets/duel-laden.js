@@ -147,6 +147,9 @@
     const kaart = maakEl('div', 'dl-kaart');
     const lijst = maakEl('ol', 'dl-stappen');
     lijst.setAttribute('aria-label', 'Stappen');
+    // De lijst met stappen blijft onzichtbaar (Berat, 06-11-2026): de rand om het embleem toont de voortgang
+    // en voorlezers horen elke stap via de statusregel.
+    lijst.hidden = true;
     const netwerk = maakEl('p', 'dl-netwerk', 'Geen verbinding. We proberen het opnieuw…');
     netwerk.hidden = true;
     kaart.append(lijst, netwerk);
@@ -290,7 +293,7 @@
       googleKnop = maakEl('button', 'knop-secundair knop-google dl-google');
       googleKnop.type = 'button';
       googleKnop.innerHTML = SVG_GOOGLE;
-      googleKnop.append(maakEl('span', '', 'Doe mee met Google'));
+      googleKnop.append(maakEl('span', '', 'Log in met Google'));
       googleFout = maakEl('p', 'dl-fout');
       googleFout.id = kopId + '-fout';
       googleFout.setAttribute('role', 'alert');
