@@ -1,0 +1,380 @@
+/* Duel: spelscherm. Vraag, grote knop met ring, slot, onthulling en stand.
+   Alleen de bestaande kleuren en tokens uit style.css. Niets springt: wissels vervagen, hoogtes schuiven mee,
+   en bij "minder beweging" staat alle beweging uit. */
+
+.ds {
+  --ds-knop: 120px;
+  --ds-inset: 14px;
+  --ds-rand: 20px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  width: 100%;
+  min-width: 0;
+  color: var(--ink);
+  font-family: var(--font-family);
+}
+.ds button { font-family: inherit; }
+.ds-sr { position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0; overflow: hidden; clip-path: inset(50%); white-space: nowrap; border: 0; }
+
+/* ---------- Kop: vraag x van y, jouw punten, voortgang ---------- */
+.ds-kop { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; gap: 12px 16px; }
+.ds-teller { margin: 0; font-size: 1rem; font-weight: 600; line-height: 1.4; font-variant-numeric: tabular-nums; }
+.ds-teller-tekst { display: inline-block; }
+.ds-teller-tekst.is-nieuw { animation: ds-op 280ms var(--ease) both; }
+.ds-teller b { font-weight: 700; }
+.ds-van { color: var(--ink-soft); font-weight: 500; }
+.ds-mijn { display: inline-flex; align-items: center; gap: 8px; margin: 0; padding: 5px 12px; border-radius: var(--pill); background: var(--accent-zacht); color: var(--ink-soft); font-size: .8125rem; font-weight: 500; line-height: 1.3; }
+.ds-mijn .ds-rol { color: var(--ink); font-size: .9375rem; font-weight: 700; }
+.ds-balk { grid-column: 1 / -1; height: 4px; overflow: hidden; border-radius: var(--pill); background: var(--surface); }
+.ds-balk > span { display: block; width: 0; height: 100%; border-radius: inherit; background: var(--accent); transition: width 500ms var(--ease); }
+
+/* Getal dat omhoog rolt (punten) */
+.ds-rol { position: relative; display: inline-grid; height: 1.3em; overflow: hidden; line-height: 1.3; vertical-align: bottom; font-variant-numeric: tabular-nums; }
+.ds-rol > span { grid-area: 1 / 1; text-align: right; }
+.ds-rol > span.is-in { animation: ds-rol-in 380ms var(--ease) both; }
+.ds-rol > span.is-uit { animation: ds-rol-uit 380ms var(--ease) both; }
+
+/* ---------- Lijf: speelveld en stand ---------- */
+.ds-lijf { display: grid; grid-template-columns: minmax(0, 1fr); align-items: start; gap: 24px; }
+
+.ds-veld {
+  position: relative;
+  padding: 24px var(--ds-rand) 0;
+  border: 1px solid var(--line);
+  border-radius: 24px;
+  background: var(--card);
+  box-shadow: var(--shadow-soft);
+  transition: border-color 350ms var(--ease), box-shadow 350ms var(--ease);
+}
+/* Het rode vlak bij "niemand drukte": een laag in de foutkleur die zacht opkomt. */
+.ds-veld::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: var(--fout);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 400ms var(--ease);
+}
+.ds-veld > * { position: relative; }
+.ds-veld.is-rood { border-color: var(--fout); }
+.ds-veld.is-rood::before { opacity: .1; }
+html[data-theme="dark"] .ds-veld.is-rood::before { opacity: .16; }
+
+/* ---------- Vraag en opties ---------- */
+/* numeric-only: style.css zet interpolate-size: allow-keywords op :root. Dan zou de hoogte vanaf 'auto' (dat al de
+   nieuwe hoogte is) animeren en springt het vak. Hier loopt de overgang altijd van px naar px. */
+.ds-vraagvak { container-type: inline-size; interpolate-size: numeric-only; transition: height 340ms var(--ease); }
+.ds-vraagvak.is-wissel { overflow: clip; overflow-clip-margin: 14px; }
+.ds-vraagblok { padding-bottom: 24px; }
+.ds-vraagblok.is-in { animation: ds-op 320ms var(--ease) both; }
+.ds-vraagblok.is-uit { animation: ds-af 180ms var(--ease) both; }
+
+.ds-vraag { margin: 0 0 24px; font-size: clamp(1.25rem, 2.4vw, 1.75rem); font-weight: 600; line-height: 1.35; letter-spacing: -.01em; text-wrap: pretty; overflow-wrap: anywhere; }
+.ds-vraag.is-laden { color: var(--ink-soft); animation: ds-laden 900ms var(--ease) infinite alternate; }
+
+.ds-opties { display: grid; grid-template-columns: minmax(0, 1fr); gap: 16px; }
+@container (min-width: 540px) {
+  .ds-opties.is-raster { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+.ds-optie {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  width: 100%;
+  min-height: 60px;
+  margin: 0;
+  padding: 14px 18px;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  background: var(--card);
+  color: var(--ink);
+  font-size: 1rem;
+  line-height: 1.5;
+  text-align: left;
+  cursor: default;
+  -webkit-tap-highlight-color: var(--transparent);
+  transition: border-color 200ms var(--ease), background-color 200ms var(--ease), box-shadow 200ms var(--ease), transform 150ms var(--ease), opacity 200ms var(--ease);
+}
+.ds-optie:disabled { opacity: 1; color: var(--ink); }
+.ds-optie-tekst { flex: 1; min-width: 0; overflow-wrap: anywhere; }
+
+.ds-letter { position: relative; display: grid; place-items: center; flex: 0 0 32px; width: 32px; height: 32px; border-radius: 50%; background: var(--surface); color: var(--ink-soft); font-size: .875rem; font-weight: 600; transition: background-color 200ms var(--ease), color 200ms var(--ease), box-shadow 200ms var(--ease); }
+.ds-letter > * { grid-area: 1 / 1; transition: opacity 200ms var(--ease), transform 240ms var(--ease); }
+.ds-letter svg { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 2.4; stroke-linecap: round; stroke-linejoin: round; opacity: 0; transform: scale(.5); }
+
+/* Jij mag antwoorden: de opties worden klikbaar en lichten kort op. */
+.ds-optie.is-klikbaar { border-color: color-mix(in srgb, var(--accent) 45%, var(--line)); box-shadow: var(--shadow-soft); cursor: pointer; }
+.ds-opties.is-beurt .ds-optie { animation: ds-beurt 800ms var(--ease) both; animation-delay: calc(var(--i, 0) * 70ms); }
+:where(html.has-hover) .ds-optie.is-klikbaar:hover { border-color: var(--accent); background: linear-gradient(var(--accent-zacht), var(--accent-zacht)), var(--card); transform: translateY(-1px); }
+.ds .ds-opties .ds-optie.is-klikbaar:active { opacity: 1; transform: scale(.99); }
+.ds-optie.is-klikbaar .ds-letter { background: var(--accent-zacht); color: var(--accent); }
+
+.ds-optie.is-gekozen { border-color: var(--accent); background: linear-gradient(var(--accent-zacht), var(--accent-zacht)), var(--card); }
+.ds-optie.is-gekozen .ds-letter { background: var(--accent-vlak); color: var(--white); }
+
+.ds-optie.is-goed { border-color: var(--teal); background: linear-gradient(var(--teal-zacht), var(--teal-zacht)), var(--card); animation: ds-goed 900ms var(--ease) 1; }
+.ds-optie.is-goed .ds-letter { background: var(--card); color: var(--teal-tekst); box-shadow: inset 0 0 0 1.5px var(--teal); }
+.ds-optie.is-goed .ds-letter-a, .ds-optie.is-fout .ds-letter-a { opacity: 0; transform: scale(.5); }
+.ds-optie.is-goed .ds-letter-goed, .ds-optie.is-fout .ds-letter-fout { opacity: 1; transform: none; }
+
+.ds-optie.is-fout { border-color: var(--fout); background: linear-gradient(var(--fout-zacht), var(--fout-zacht)), var(--card); }
+.ds-optie.is-fout .ds-letter { background: var(--card); color: var(--fout); box-shadow: inset 0 0 0 1.5px var(--fout); }
+.ds-optie.is-fout .ds-optie-tekst { color: var(--ink-soft); }
+
+/* Wie koos dit: een klein label op de rand, zodat de optie zelf niet van hoogte verandert. */
+.ds-optie-wie {
+  position: absolute;
+  top: -11px;
+  right: 14px;
+  max-width: calc(100% - 28px);
+  padding: 1px 10px;
+  overflow: hidden;
+  border: 1px solid var(--fout);
+  border-radius: var(--pill);
+  background: var(--card);
+  color: var(--fout);
+  font-size: .75rem;
+  font-weight: 600;
+  line-height: 1.5;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  pointer-events: none;
+}
+.ds-optie-wie.is-goed { border-color: var(--teal); color: var(--teal-tekst); }
+.ds-optie-wie:empty { display: none; }
+.ds-optie-wie.is-nieuw { animation: ds-op 240ms var(--ease) both; }
+
+.ds-uitleg { margin-top: 20px; padding: 16px 18px; border-radius: 14px; background: var(--surface); }
+.ds-uitleg:not([hidden]) { animation: ds-op 320ms var(--ease) both; }
+.ds-uitleg h3 { margin: 0 0 6px; font-size: .9375rem; font-weight: 600; line-height: 1.4; }
+.ds-uitleg p { margin: 0; color: var(--ink-soft); font-size: .9375rem; line-height: 1.6; overflow-wrap: anywhere; }
+
+/* ---------- Dok: tekst en de grote knop. Blijft onderaan in beeld zolang het veld zichtbaar is. ---------- */
+.ds-dok {
+  position: sticky;
+  bottom: 0;
+  z-index: 2;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) var(--ds-knop);
+  align-items: center;
+  gap: 16px;
+  margin: 0 calc(var(--ds-rand) * -1);
+  padding: 16px var(--ds-rand) calc(16px + env(safe-area-inset-bottom, 0px));
+  border-top: 1px solid var(--line);
+  border-radius: 0 0 23px 23px;
+  background: var(--nav-bg);
+  -webkit-backdrop-filter: saturate(180%) blur(20px);
+  backdrop-filter: saturate(180%) blur(20px);
+}
+.ds-dok::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: var(--fout);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 400ms var(--ease);
+}
+.ds-dok > * { position: relative; }
+.ds-veld.is-rood .ds-dok { border-top-color: color-mix(in srgb, var(--fout) 35%, var(--line)); }
+.ds-veld.is-rood .ds-dok::before { opacity: .08; }
+
+.ds-status { display: grid; gap: 4px; min-width: 0; }
+.ds-status-titel { margin: 0; font-size: 1.0625rem; font-weight: 600; line-height: 1.3; overflow-wrap: anywhere; text-wrap: balance; transition: color 250ms var(--ease); }
+.ds-status-sub { min-height: 1.45em; margin: 0; color: var(--ink-soft); font-size: .875rem; line-height: 1.45; font-variant-numeric: tabular-nums; overflow-wrap: anywhere; transition: color 250ms var(--ease); }
+.ds-status-titel.is-nieuw, .ds-status-sub.is-nieuw { animation: ds-op 240ms var(--ease) both; }
+.ds-status-sub.is-dringend, .ds-status-sub.is-melding { color: var(--fout); }
+.ds-veld.is-rood .ds-status-titel { color: var(--fout); }
+.ds-veld[data-stand="goed"] .ds-status-titel { color: var(--teal-tekst); }
+
+/* ---------- De knop met de ring ---------- */
+.ds-knopvak { position: relative; width: var(--ds-knop); height: var(--ds-knop); justify-self: end; }
+.ds-ring { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; transform: rotate(-90deg); pointer-events: none; }
+.ds-ring circle { fill: none; stroke-width: 5; }
+.ds-ring-spoor { stroke: var(--line); }
+.ds-ring-boog { stroke: var(--accent); stroke-linecap: round; transition: stroke 250ms var(--ease), opacity 250ms var(--ease); }
+.ds-ring.is-slot .ds-ring-boog { stroke: var(--grey-title); }
+.ds-ring.is-dringend .ds-ring-boog { stroke: var(--fout); }
+.ds-ring.is-goed .ds-ring-boog { stroke: var(--teal); }
+.ds-ring.is-fout .ds-ring-boog { stroke: var(--grey-title); }
+.ds-ring:is(.is-leeg, .is-uit) .ds-ring-boog { opacity: 0; }
+
+/* Golf rond de knop bij het drukken */
+.ds-knopvak::after { content: ''; position: absolute; inset: var(--ds-inset); border: 2px solid var(--accent); border-radius: 50%; opacity: 0; pointer-events: none; }
+.ds-knopvak.is-gedrukt::after { animation: ds-golf 560ms var(--ease) both; }
+
+.ds-buzzer, .ds-volgende {
+  position: absolute;
+  inset: var(--ds-inset);
+  display: grid;
+  place-items: center;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: var(--accent-vlak);
+  color: var(--white);
+  cursor: pointer;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: var(--transparent);
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-touch-callout: none;
+  box-shadow: inset 0 2px 0 rgba(255,255,255,.22), 0 5px 0 var(--accent-vlak-hover), 0 10px 22px var(--shadow-primary-color);
+  transform: translateY(-2px);
+  transition: transform 140ms var(--ease), box-shadow 140ms var(--ease), background-color 220ms var(--ease), color 220ms var(--ease), opacity 220ms var(--ease), visibility 0s linear 0s;
+}
+.ds .ds-knopvak :is(.ds-buzzer, .ds-volgende):focus-visible { outline: 2px solid var(--accent); outline-offset: 5px; }
+:where(html.has-hover) .ds-buzzer[data-g="druk"]:hover:not(.is-ingedrukt):not(:active),
+:where(html.has-hover) .ds-volgende:not([aria-disabled="true"]):hover:not(:active) {
+  background: var(--accent-vlak-hover);
+  box-shadow: inset 0 2px 0 rgba(255,255,255,.22), 0 6px 0 var(--accent-vlak-hover), 0 0 0 6px var(--accent-zacht), 0 12px 26px var(--shadow-primary-hover-color);
+  transform: translateY(-3px);
+}
+/* Indrukken: de knop zakt in zijn voet, zoals een echte buzzer. */
+.ds .ds-knopvak .ds-buzzer:is(.is-ingedrukt, [data-g="druk"]:active),
+.ds .ds-knopvak .ds-volgende:not([aria-disabled="true"]):active {
+  opacity: 1;
+  transform: translateY(3px) scale(.98);
+  box-shadow: inset 0 2px 0 rgba(255,255,255,.12), 0 0 0 var(--accent-vlak-hover), 0 3px 8px var(--shadow-primary-color);
+  transition-duration: 70ms;
+}
+.ds-buzzer:not([data-g="druk"]) { cursor: default; }
+.ds-buzzer[data-g="wacht"] { cursor: progress; }
+.ds-buzzer:is([data-g="slot"], [data-g="goed"], [data-g="fout"]) {
+  background: var(--surface);
+  color: var(--ink-soft);
+  box-shadow: inset 0 0 0 1px var(--line);
+  transform: none;
+}
+.ds-buzzer[data-g="goed"] { background: var(--teal-zacht); color: var(--teal-tekst); box-shadow: inset 0 0 0 1px var(--teal); }
+.ds-buzzer[data-g="fout"] { background: var(--fout-zacht); color: var(--fout); box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--fout) 40%, var(--transparent)); }
+.ds-buzzer[data-g="tijd"] { animation: ds-gloed 1400ms var(--ease) infinite; }
+
+/* Gezichten van de knop: er is er altijd een zichtbaar, de wissel vervaagt. */
+.ds-gezicht { grid-area: 1 / 1; display: grid; place-items: center; align-content: center; gap: 2px; padding: 0 10px; text-align: center; opacity: 0; transform: scale(.8); transition: opacity 180ms var(--ease), transform 240ms var(--ease); pointer-events: none; }
+.ds-buzzer[data-g="druk"] [data-gezicht="druk"],
+.ds-buzzer[data-g="wacht"] [data-gezicht="wacht"],
+.ds-buzzer[data-g="tijd"] [data-gezicht="tijd"],
+.ds-buzzer[data-g="slot"] [data-gezicht="slot"],
+.ds-buzzer[data-g="goed"] [data-gezicht="goed"],
+.ds-buzzer[data-g="fout"] [data-gezicht="fout"] { opacity: 1; transform: none; }
+.ds-g-druk { font-size: 1rem; font-weight: 700; line-height: 1.15; letter-spacing: -.01em; text-wrap: balance; }
+.ds-g-tijd b { font-size: 2rem; font-weight: 700; line-height: 1; font-variant-numeric: tabular-nums; }
+.ds-g-tijd small, .ds-g-slot small { font-size: .75rem; font-weight: 600; line-height: 1.2; }
+.ds-gezicht svg { width: 30px; height: 30px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+.ds-g-goed svg, .ds-g-fout svg { width: 36px; height: 36px; stroke-width: 2.4; }
+.ds-puntjes { display: flex; gap: 5px; }
+.ds-puntjes i { width: 7px; height: 7px; border-radius: 50%; background: currentColor; animation: ds-puntje 900ms var(--ease) infinite; }
+.ds-puntjes i:nth-child(2) { animation-delay: 150ms; }
+.ds-puntjes i:nth-child(3) { animation-delay: 300ms; }
+
+/* Volgende vraag: neemt de plek van de knop over als niemand drukte. */
+.ds-volgende { align-content: center; gap: 4px; padding: 0 12px; font-size: .875rem; font-weight: 700; line-height: 1.2; text-align: center; }
+.ds-volgende-pijl svg { display: block; width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round; transition: transform 200ms var(--ease); }
+:where(html.has-hover) .ds-volgende:not([aria-disabled="true"]):hover .ds-volgende-pijl svg { transform: translateX(3px); }
+.ds-volgende[aria-disabled="true"] { cursor: progress; }
+.ds-volgende,
+.ds-knopvak.is-volgende .ds-buzzer {
+  opacity: 0;
+  visibility: hidden;
+  transform: scale(.85);
+  transition: transform 240ms var(--ease), box-shadow 140ms var(--ease), background-color 220ms var(--ease), opacity 200ms var(--ease), visibility 0s linear 240ms;
+}
+.ds-knopvak.is-volgende .ds-volgende { opacity: 1; visibility: visible; transform: translateY(-2px); transition-delay: 0s; }
+.ds-knopvak.is-volgende .ds-volgende[aria-disabled="true"] { opacity: .75; }
+
+/* ---------- Stand ---------- */
+.ds-stand { min-width: 0; padding: 16px; border: 1px solid var(--line); border-radius: 20px; background: var(--card); box-shadow: var(--shadow-soft); }
+.ds-stand-kop { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; margin: 0 0 12px; font-size: 1rem; font-weight: 600; line-height: 1.3; }
+.ds-stand-kop > span:last-child { color: var(--ink-soft); font-size: .8125rem; font-weight: 500; }
+.ds-stand-lijst { display: grid; gap: 6px; margin: 0; padding: 0; list-style: none; }
+.ds-speler {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 40px;
+  padding: 6px 12px;
+  border-radius: 12px;
+  background: var(--surface);
+  transition: background-color 250ms var(--ease), box-shadow 250ms var(--ease), transform 420ms var(--ease);
+}
+.ds-speler.is-ik { background: var(--accent-zacht); box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--accent) 30%, var(--transparent)); }
+.ds-speler.is-drukker { box-shadow: inset 0 0 0 1.5px var(--accent); }
+.ds-speler.is-flits { animation: ds-flits 1100ms var(--ease); }
+.ds-plek { flex: 0 0 18px; color: var(--ink-soft); font-size: .8125rem; font-weight: 600; text-align: center; font-variant-numeric: tabular-nums; }
+.ds-stip { flex: 0 0 8px; width: 8px; height: 8px; border-radius: 50%; background: var(--grey-title); opacity: .45; transition: background-color 300ms var(--ease), opacity 300ms var(--ease); }
+.ds-speler.is-online .ds-stip { background: var(--teal); opacity: 1; }
+.ds-naam { flex: 1; min-width: 0; overflow: hidden; font-size: .9375rem; font-weight: 500; line-height: 1.4; white-space: nowrap; text-overflow: ellipsis; }
+.ds-naam small { color: var(--ink-soft); font-size: .8125rem; font-weight: 500; }
+.ds-chip { flex: 0 0 auto; padding: 2px 8px; border-radius: var(--pill); font-size: .75rem; font-weight: 600; line-height: 1.5; }
+.ds-chip:empty { display: none; }
+.ds-chip.is-drukt { background: var(--accent-vlak); color: var(--white); }
+.ds-chip.is-fout { background: var(--fout-zacht); color: var(--fout); }
+.ds-chip.is-goed { background: var(--teal-zacht); color: var(--teal-tekst); }
+.ds-chip.is-nieuw { animation: ds-op 220ms var(--ease) both; }
+.ds-punten { flex: 0 0 auto; min-width: 2ch; font-size: 1rem; font-weight: 700; text-align: right; }
+.ds-plus { position: absolute; top: 50%; right: 12px; color: var(--teal-tekst); font-size: .8125rem; font-weight: 700; pointer-events: none; animation: ds-plus 1200ms var(--ease) both; }
+
+/* ---------- Laptop: stand opzij, grotere knop ---------- */
+@media (min-width: 960px) {
+  .ds { --ds-knop: 144px; --ds-inset: 16px; --ds-rand: 32px; gap: 24px; }
+  .ds-lijf { grid-template-columns: minmax(0, 1fr) 280px; gap: 28px; }
+  .ds-veld { padding-top: 32px; }
+  .ds-vraagblok { padding-bottom: 28px; }
+  .ds-mijn { display: none; }
+  .ds-stand { position: sticky; top: 88px; padding: 20px; }
+  .ds-dok { padding-top: 18px; padding-bottom: 18px; gap: 24px; }
+  .ds-status-titel { font-size: 1.25rem; }
+  .ds-status-sub { font-size: .9375rem; }
+  .ds-g-druk { font-size: 1.1875rem; }
+  .ds-g-tijd b { font-size: 2.5rem; }
+  .ds-volgende { font-size: 1rem; }
+}
+
+/* Smalle telefoon: iets kleinere knop zodat de tekst ernaast past. */
+@media (max-width: 359px) {
+  .ds { --ds-knop: 108px; --ds-inset: 12px; --ds-rand: 16px; }
+  .ds-g-druk { font-size: .9375rem; }
+}
+
+/* ---------- Bewegingen ---------- */
+@keyframes ds-op { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+@keyframes ds-af { from { opacity: 1; transform: none; } to { opacity: 0; transform: translateY(-6px); } }
+@keyframes ds-laden { from { opacity: .5; } to { opacity: 1; } }
+@keyframes ds-rol-in { from { opacity: 0; transform: translateY(90%); } to { opacity: 1; transform: none; } }
+@keyframes ds-rol-uit { from { opacity: 1; transform: none; } to { opacity: 0; transform: translateY(-90%); } }
+@keyframes ds-golf { from { opacity: .6; transform: scale(1); } to { opacity: 0; transform: scale(1.35); } }
+@keyframes ds-gloed {
+  0%, 100% { box-shadow: inset 0 2px 0 rgba(255,255,255,.22), 0 5px 0 var(--accent-vlak-hover), 0 0 0 0 color-mix(in srgb, var(--accent) 28%, var(--transparent)); }
+  50% { box-shadow: inset 0 2px 0 rgba(255,255,255,.22), 0 5px 0 var(--accent-vlak-hover), 0 0 0 10px color-mix(in srgb, var(--accent) 0%, var(--transparent)); }
+}
+@keyframes ds-beurt {
+  0% { box-shadow: 0 0 0 0 color-mix(in srgb, var(--accent) 30%, var(--transparent)); }
+  100% { box-shadow: 0 0 0 10px color-mix(in srgb, var(--accent) 0%, var(--transparent)); }
+}
+@keyframes ds-goed {
+  0% { box-shadow: 0 0 0 0 color-mix(in srgb, var(--teal) 45%, var(--transparent)); }
+  100% { box-shadow: 0 0 0 12px color-mix(in srgb, var(--teal) 0%, var(--transparent)); }
+}
+@keyframes ds-flits { 0%, 35% { background-color: var(--teal-zacht); } }
+@keyframes ds-plus {
+  0% { opacity: 0; transform: translateY(-30%); }
+  20% { opacity: 1; transform: translateY(-90%); }
+  100% { opacity: 0; transform: translateY(-200%); }
+}
+@keyframes ds-puntje { 0%, 80%, 100% { opacity: .35; transform: scale(.8); } 40% { opacity: 1; transform: none; } }
+
+@media (prefers-reduced-motion: reduce) {
+  .ds, .ds *, .ds *::before, .ds *::after { animation: none !important; transition: none !important; }
+  .ds .ds-knopvak :is(.ds-buzzer, .ds-volgende), .ds .ds-optie { transform: none !important; }
+  .ds-puntjes i { opacity: .8; }
+}

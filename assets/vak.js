@@ -2107,6 +2107,15 @@
       get laatsteSimulatie() { return context.simulation ? { ...context.simulation } : null; },
       schud: shuffle
     };
+    // Duel met vrienden (assets/duel-start.js): het vak en de gekozen hoofdstukken van het huidige niveau.
+    window.BES.vakKeuze = () => ({ vak: data.id, hoofdstukken: [...selected] });
+    // duel-toegang.js eerst: die zegt of dit account het duel mag zien (async = false houdt de volgorde vast).
+    ['duel-toegang.js?v=1', 'duel-start.js?v=2'].forEach(bestand => {
+      const duelScript = document.createElement('script');
+      duelScript.src = new URL(bestand, scriptBron).href;
+      duelScript.async = false;
+      document.head.append(duelScript);
+    });
   }
 
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', initialize, { once: true });

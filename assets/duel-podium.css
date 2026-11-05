@@ -1,0 +1,380 @@
+/* Duel: podiumscherm (status einde). Plaats 1, 2 en 3 op een podium, de rest eronder, daarna Nog een keer.
+   Alles staat vanaf het begin op zijn plek in de opmaak; de animaties spelen alleen met transform en opacity,
+   zodat er niets verschuift. De eindstand is de gewone stijl: zonder animatie (minder beweging) staat alles meteen goed. */
+.dp {
+  --dp-h1: 128px;
+  --dp-h2: 96px;
+  --dp-h3: 72px;
+  --dp-groei: 650ms;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 8px 0 24px;
+  color: var(--ink);
+  text-align: center;
+}
+
+.dp-sr {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* Kop */
+.dp-kop-blok { display: grid; justify-items: center; gap: 10px; width: 100%; animation: dp-op 500ms var(--ease) both; }
+.dp-eyebrow { margin: 0; }
+.dp-titel {
+  margin: 0;
+  font-size: clamp(2rem, 7vw, 3rem);
+  font-weight: 700;
+  line-height: 1.08;
+  letter-spacing: -.02em;
+  text-wrap: balance;
+  overflow-wrap: anywhere;
+}
+/* De kop krijgt de focus alleen voor schermlezers (tabindex -1, niet via Tab): geen zichtbare focusrand. */
+.dp-titel:focus, .dp-titel:focus-visible { outline: none; box-shadow: none; }
+.dp-sub {
+  max-width: 30rem;
+  margin: 2px 0 0;
+  color: var(--ink-soft);
+  font-size: 1.0625rem;
+  line-height: 1.5;
+  text-wrap: pretty;
+}
+
+/* Podium: in de code staat plaats 1 eerst (voor schermlezers), op het scherm 2, 1, 3. */
+.dp-podium {
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  gap: 10px;
+  width: 100%;
+  max-width: 560px;
+  margin: 36px 0 0;
+  padding: 0;
+  list-style: none;
+}
+.dp-plek {
+  position: relative;
+  display: flex;
+  flex: 1 1 0;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 12px;
+  min-width: 0;
+  max-width: 180px;
+}
+.dp-plek[data-pos="0"] { order: 2; }
+.dp-plek[data-pos="1"] { order: 1; }
+.dp-plek[data-pos="2"] { order: 3; }
+
+.dp-speler {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  min-width: 0;
+  padding: 0 2px;
+  animation: dp-op 360ms var(--ease) both;
+  animation-delay: calc(var(--dp-wacht, 0ms) + 480ms);
+}
+.dp-avatar {
+  position: relative;
+  display: inline-grid;
+  place-items: center;
+  flex: 0 0 auto;
+  width: 48px;
+  height: 48px;
+  border: 1px solid var(--line);
+  border-radius: 50%;
+  background: var(--surface);
+  color: var(--ink);
+  font-size: 1.125rem;
+  font-weight: 700;
+  line-height: 1;
+}
+.dp-plek[data-plaats="1"] .dp-avatar { width: 60px; height: 60px; border-color: var(--transparent); background: var(--accent-vlak); color: var(--white); font-size: 1.375rem; box-shadow: var(--shadow-primary); }
+.dp-plek[data-plaats="2"] .dp-avatar { border-color: var(--teal); background: var(--teal-zacht); color: var(--teal-tekst); }
+.dp-naam {
+  display: -webkit-box;
+  max-width: 100%;
+  overflow: hidden;
+  font-size: .9375rem;
+  font-weight: 600;
+  line-height: 1.3;
+  overflow-wrap: anywhere;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+}
+/* Jouw eigen plek: een ring om de letter en een labeltje "jij" eronder (los van de naam, valt nooit weg). */
+.dp-avatar.is-ik { outline: 2px solid var(--teal); outline-offset: 3px; }
+.dp-speler .dp-avatar.is-ik { margin-bottom: 8px; }
+.dp-jij {
+  position: absolute;
+  left: 50%;
+  bottom: -11px;
+  padding: 0 7px;
+  border: 1px solid var(--teal);
+  border-radius: var(--pill);
+  background: var(--card);
+  color: var(--teal-tekst);
+  font-size: .75rem;
+  font-weight: 600;
+  line-height: 16px;
+  white-space: nowrap;
+  transform: translateX(-50%);
+}
+.dp-rij .dp-jij { bottom: -10px; padding: 0 6px; font-size: .75rem; line-height: 15px; }
+.dp-punten { color: var(--ink-soft); font-size: .8125rem; font-weight: 500; line-height: 1.3; }
+.dp-getal { color: var(--ink); font-weight: 700; font-variant-numeric: tabular-nums; }
+
+/* Kroon boven de winnaar: komt zacht op, zonder stuiter. */
+.dp-kroon {
+  display: block;
+  width: 26px;
+  height: 18px;
+  margin-bottom: -2px;
+  color: var(--accent);
+  animation: dp-zacht-op 420ms var(--ease) both;
+  animation-delay: calc(var(--dp-wacht, 0ms) + 900ms);
+}
+.dp-kroon path { fill: currentColor; }
+
+/* De blokken groeien van onder naar boven (alleen transform), de hoogte zelf staat vast. */
+.dp-blok {
+  position: relative;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  height: var(--dp-h3);
+  padding-top: 12px;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-bottom: 0;
+  border-radius: 16px 16px 0 0;
+  background: var(--surface);
+  transform-origin: 50% 100%;
+  animation: dp-groei var(--dp-groei) var(--ease) both;
+  animation-delay: var(--dp-wacht, 0ms);
+}
+.dp-plek[data-plaats="1"] .dp-blok {
+  height: var(--dp-h1);
+  border-color: var(--transparent);
+  background: linear-gradient(180deg, var(--accent-vlak) 0%, var(--accent-vlak-hover) 100%);
+  box-shadow: var(--shadow-primary);
+}
+.dp-plek[data-plaats="2"] .dp-blok { height: var(--dp-h2); background: var(--teal-zacht); }
+.dp-nr {
+  font-size: 1.75rem;
+  font-weight: 700;
+  line-height: 1;
+  color: var(--ink-soft);
+  font-variant-numeric: tabular-nums;
+  animation: dp-zacht-op 300ms var(--ease) both;
+  animation-delay: calc(var(--dp-wacht, 0ms) + 420ms);
+}
+.dp-plek[data-plaats="1"] .dp-nr { font-size: 2.25rem; color: var(--white); }
+.dp-plek[data-plaats="2"] .dp-nr { color: var(--teal-tekst); }
+
+/* Glans over het blok van de winnaar, één keer. */
+.dp-plek.is-winnaar .dp-blok::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(105deg, var(--transparent) 35%, color-mix(in srgb, var(--white) 32%, transparent) 50%, var(--transparent) 65%);
+  transform: translateX(-120%);
+  animation: dp-glans 900ms var(--ease) both;
+  animation-delay: calc(var(--dp-wacht, 0ms) + 1000ms);
+  pointer-events: none;
+}
+
+/* Klein feest bij de winnaar: een zachte ring en vonkjes die uitwaaieren en vervagen. Niets stuitert. */
+.dp-plek.is-winnaar .dp-avatar::after {
+  content: '';
+  position: absolute;
+  inset: -2px;
+  border-radius: 50%;
+  box-shadow: 0 0 0 0 color-mix(in srgb, var(--accent) 45%, transparent);
+  opacity: 0;
+  animation: dp-ring 1400ms var(--ease) both;
+  animation-delay: calc(var(--dp-wacht, 0ms) + 950ms);
+  pointer-events: none;
+}
+/* De vonkjes staan in het rondje van de winnaar en waaieren uit vanuit het midden. */
+.dp-feest { position: absolute; top: 50%; left: 50%; width: 0; height: 0; pointer-events: none; }
+.dp-feest i {
+  position: absolute;
+  top: -3px;
+  left: -3px;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--accent);
+  opacity: 0;
+  transform: rotate(var(--hoek)) translateY(calc(var(--afstand) * -1)) scale(.9);
+  animation: dp-vonk 1100ms cubic-bezier(.16,.84,.3,1) both;
+  animation-delay: calc(var(--dp-wacht, 0ms) + 980ms + var(--extra, 0ms));
+}
+.dp-feest i:nth-child(3n+2) { background: var(--teal); }
+.dp-feest i:nth-child(3n) { width: 4px; height: 4px; top: -2px; left: -2px; background: var(--sig); }
+.dp-feest i:nth-child(4n+1) { border-radius: 2px; }
+
+/* Rest van de groep, onder het podium */
+.dp-rest {
+  display: grid;
+  width: 100%;
+  max-width: 560px;
+  margin: 24px 0 0;
+  padding: 6px 0;
+  overflow: hidden;
+  list-style: none;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  background: var(--card);
+  box-shadow: var(--shadow-soft);
+  text-align: left;
+  animation: dp-op 360ms var(--ease) both;
+  animation-delay: var(--dp-wacht, 0ms);
+}
+.dp-rij {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-height: 56px;
+  padding: 8px 16px;
+  animation: dp-op 320ms var(--ease) both;
+  animation-delay: var(--dp-wacht, 0ms);
+}
+.dp-rij + .dp-rij { border-top: 1px solid var(--line); }
+/* Je eigen rij valt zacht op. */
+.dp-rij.is-ik { background: var(--teal-zacht); }
+.dp-rij.is-ik .dp-rij-naam { font-weight: 600; }
+.dp-rij-plaats {
+  flex: 0 0 28px;
+  color: var(--ink-soft);
+  font-size: .9375rem;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  text-align: center;
+}
+.dp-rij .dp-avatar { width: 34px; height: 34px; font-size: .875rem; }
+.dp-rij-naam { flex: 1 1 auto; min-width: 0; overflow: hidden; font-size: .9375rem; font-weight: 500; text-overflow: ellipsis; white-space: nowrap; }
+.dp-rij-punten { flex: 0 0 auto; color: var(--ink-soft); font-size: .875rem; font-variant-numeric: tabular-nums; white-space: nowrap; }
+/* De vloer onder het podium: een rustige lijn die vanuit het midden open trekt. */
+.dp-voet { width: 100%; max-width: 600px; height: 1px; background: var(--line); transform-origin: 50% 50%; animation: dp-vloer 500ms var(--ease) both; animation-delay: 120ms; }
+@keyframes dp-vloer { from { transform: scaleX(0); opacity: 0; } to { transform: none; opacity: 1; } }
+
+/* Acties */
+.dp-acties {
+  display: grid;
+  justify-items: center;
+  width: 100%;
+  margin-top: 36px;
+  animation: dp-op 360ms var(--ease) both;
+  animation-delay: var(--dp-wacht, 0ms);
+}
+.dp-wacht {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  margin: 0 0 20px;
+  padding: 10px 16px;
+  border: 1px solid var(--line);
+  border-radius: var(--pill);
+  background: var(--surface);
+  color: var(--ink);
+  font-size: .9375rem;
+  font-weight: 500;
+  line-height: 1.4;
+  max-width: 100%;
+  overflow: hidden;
+  white-space: nowrap;
+}
+.dp-wacht-tekst { transition: opacity 200ms var(--ease); }
+.dp-wacht.is-wissel .dp-wacht-tekst { opacity: 0; }
+.dp-stippen { display: inline-flex; gap: 4px; }
+.dp-stippen i { width: 6px; height: 6px; border-radius: 50%; background: var(--accent); opacity: .35; animation: dp-stip 1200ms var(--ease) infinite; }
+.dp-stippen i:nth-child(2) { animation-delay: 160ms; }
+.dp-stippen i:nth-child(3) { animation-delay: 320ms; }
+.dp-wacht.is-onderweg .dp-stippen i { background: var(--teal); }
+
+.dp-knoppen { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 12px; width: 100%; }
+.dp-knoppen .knop, .dp-knoppen .knop-secundair { margin: 0; }
+.dp-nog, .dp-terug { gap: 8px; }
+.dp-nog svg, .dp-terug svg { width: 18px; height: 18px; flex-shrink: 0; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; transition: transform 300ms var(--ease); }
+:where(html.has-hover) .dp-nog:not(:disabled):hover svg { transform: rotate(-60deg); }
+.dp-nog[aria-busy="true"] svg { animation: dp-draai 900ms linear infinite; }
+.dp-nog:disabled { cursor: default; }
+:where(html.has-hover) .dp-terug:hover svg { transform: translateY(-1px); }
+
+/* Uitklapregels (hint en melding): de hoogte loopt vloeiend mee, de afstand zit binnen het bewegende blok. */
+.dp-uitklap { display: grid; grid-template-rows: 0fr; width: 100%; opacity: 0; transition: grid-template-rows 260ms var(--ease), opacity 200ms var(--ease); }
+.dp-uitklap.is-open { grid-template-rows: 1fr; opacity: 1; }
+.dp-uitklap > div { min-height: 0; overflow: hidden; }
+.dp-uitklap p { max-width: 26rem; margin: 0 auto; padding-top: 16px; font-size: .875rem; line-height: 1.5; text-wrap: pretty; transition: opacity 180ms var(--ease); }
+.dp-uitklap p.is-wissel { opacity: 0; }
+.dp-hint { color: var(--ink-soft); }
+.dp-melding { color: var(--fout); font-weight: 500; }
+
+/* Een nieuwe stand na het opkomen (zelden): meteen goed, zonder alles opnieuw te laten opkomen. */
+.dp.is-stil :is(.dp-kop-blok, .dp-speler, .dp-kroon, .dp-blok, .dp-nr, .dp-voet, .dp-rest, .dp-rij, .dp-acties),
+.dp.is-stil .dp-blok::after, .dp.is-stil .dp-avatar::after, .dp.is-stil .dp-feest i { animation: none; }
+
+@keyframes dp-op { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
+@keyframes dp-zacht-op { from { opacity: 0; transform: scale(.92); } to { opacity: 1; transform: none; } }
+@keyframes dp-groei { from { transform: scaleY(0); } to { transform: scaleY(1); } }
+@keyframes dp-glans { from { transform: translateX(-120%); } to { transform: translateX(120%); } }
+@keyframes dp-ring {
+  0% { opacity: 1; box-shadow: 0 0 0 0 color-mix(in srgb, var(--accent) 45%, transparent); }
+  100% { opacity: 0; box-shadow: 0 0 0 18px color-mix(in srgb, var(--accent) 0%, transparent); }
+}
+@keyframes dp-vonk {
+  0% { opacity: 0; transform: rotate(var(--hoek)) translateY(0) scale(.4); }
+  20% { opacity: 1; }
+  100% { opacity: 0; transform: rotate(var(--hoek)) translateY(calc(var(--afstand) * -1)) scale(.9); }
+}
+@keyframes dp-stip { 0%, 100% { opacity: .35; transform: none; } 40% { opacity: 1; transform: scale(1.15); } }
+@keyframes dp-draai { to { transform: rotate(-360deg); } }
+
+@media (min-width: 768px) {
+  .dp { --dp-h1: 168px; --dp-h2: 124px; --dp-h3: 92px; padding-top: 16px; }
+  .dp-podium { gap: 16px; margin-top: 44px; }
+  .dp-avatar { width: 56px; height: 56px; font-size: 1.25rem; }
+  .dp-plek[data-plaats="1"] .dp-avatar { width: 72px; height: 72px; font-size: 1.625rem; }
+  .dp-naam { font-size: 1rem; }
+  .dp-punten { font-size: .875rem; }
+  .dp-nr { font-size: 2rem; }
+  .dp-plek[data-plaats="1"] .dp-nr { font-size: 2.75rem; }
+  .dp-blok { padding-top: 16px; }
+  .dp-acties { margin-top: 44px; }
+  .dp-knoppen .knop, .dp-knoppen .knop-secundair { min-width: 230px; }
+}
+
+@media (max-width: 767px) {
+  .dp-knoppen { flex-direction: column; align-items: stretch; }
+  .dp-knoppen .knop, .dp-knoppen .knop-secundair { width: 100%; max-width: 320px; margin-inline: auto; }
+}
+
+@media (max-width: 360px) {
+  .dp-podium { gap: 6px; }
+  .dp-naam { font-size: .875rem; }
+  .dp-rij { gap: 10px; padding-inline: 12px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .dp *, .dp *::before, .dp *::after { animation: none !important; transition: none !important; }
+  .dp-feest, .dp-plek.is-winnaar .dp-blok::after, .dp-plek.is-winnaar .dp-avatar::after { display: none; }
+  .dp-stippen i { opacity: .7; }
+}
