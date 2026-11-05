@@ -470,7 +470,20 @@
     async uitloggen() {
       logoutInProgress = true;
       try {
-        await request(api => api.signOut());
+        await request(async api => {
+          const result = await api.signOut();
+          const fout = result?.error;
+          // Uitgelogd op een ander toestel (uitloggen geldt voor al je toestellen): de server kent deze sessie dan niet meer
+          // en supabase-js geeft "Auth session missing" zonder de sessie hier weg te halen. Dan ruimen we ze hier zelf op.
+          if (!fout || !(fout.name === 'AuthSessionMissingError' || [401, 403, 404].includes(fout.status))) return result;
+          try { await api.signOut({ scope: 'local' }); } catch {}
+          try {
+            Object.keys(window.localStorage)
+              .filter(sleutel => /^sb-.+-auth-token(-code-verifier)?$/.test(sleutel))
+              .forEach(sleutel => window.localStorage.removeItem(sleutel));
+          } catch {}
+          return { data: null, error: null };
+        });
         recoveryUserId = null;
         // Na uitloggen beslist het account weer of de kennismaking al gezien is (user_metadata.versie_gezien),
         // niet meer dit toestel. Zo kan een volgend account op hetzelfde toestel de kennismaking wel krijgen.
