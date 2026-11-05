@@ -15,7 +15,7 @@
 
   // Van een adres blijven alleen deze zoekwoorden over (bijvoorbeeld de QR-code van een poster). De rest valt weg, en ook alles na #:
   // daar staat na het bevestigen van je e-mail soms een inlogcode.
-  const TOEGESTAAN = ['school', 'utm_source', 'utm_medium', 'utm_campaign'];
+  const TOEGESTAAN = ['school', 'richting', 'utm_source', 'utm_medium', 'utm_campaign'];
   const schoonAdres = waarde => {
     if (typeof waarde !== 'string' || !/^https?:\/\//i.test(waarde)) return waarde;
     try {

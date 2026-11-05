@@ -956,8 +956,16 @@
       if (CATALOGUS) {
         vulScholen();
         const gevraagd = new URLSearchParams(window.location.search).get('school');
-        if (gevraagd && CATALOGUS.school(gevraagd)) zetSchool(gevraagd, 'qr');
-        else werkSchoolBij();
+        if (gevraagd && CATALOGUS.school(gevraagd)) {
+          zetSchool(gevraagd, 'qr');
+          // Een link met ook de richting (?school=vub&richting=criminologie) vinkt die meteen aan.
+          const kort = new URLSearchParams(window.location.search).get('richting');
+          const gevraagdeRichting = kort && [kort, gevraagd + '-' + kort].find(id => Array.from(richting.options).some(o => o.value === id));
+          if (gevraagdeRichting && richtingLijst) {
+            richting.value = gevraagdeRichting;
+            werkRichtingBij();
+          }
+        } else werkSchoolBij();
       } else {
         // Zonder catalogus: alleen de tekstvelden.
         school.append(optie(ANDERS, 'Typ je school hieronder'));
