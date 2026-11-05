@@ -336,8 +336,15 @@
       const maker = k.maker ? (s.deelnemers || []).find(d => d.speler === k.maker) : null;
       const benMaker = !!ik && ik === k.maker;
       const makerWeg = !maker || (maker.lang_weg === undefined ? maker.online === false : maker.lang_weg === true);
+      // Met z'n tweeën: had de een het fout (of was zijn tijd op), dan krijgt de ander meteen de beurt.
+      // Dit is de poging van wie het eerst fout had; null als de beurt niet zo is doorgeschoven.
+      const tweeSpelers = (s.deelnemers || []).length === 2;
+      const doorPoging = tweeSpelers && k.status === 'antwoord'
+        ? pogingen.find(p => p.speler !== k.drukker && !p.goed) || null
+        : null;
       return {
         st, nr, aantal, ik, namen, pogingen, geprobeerd, vraag, winnaar, benMaker,
+        door: doorPoging ? { speler: doorPoging.speler, tijdOp: doorPoging.keuze == null } : null,
         magVerder: benMaker || makerWeg,
         code: k.code,
         drukker: k.drukker || null,
@@ -522,8 +529,8 @@
       switch (a.st) {
         case 'open': return drukBezig ? 'Even kijken…' : 'Weet jij het?';
         case 'open-slot': return 'Je mag bij deze vraag niet meer';
-        case 'antwoord-ik': return 'Jij mag!';
-        case 'antwoord-ander': return naamVan(a, a.drukker) + ' antwoordt…';
+        case 'antwoord-ik': return a.door ? 'Jij mag nu antwoorden' : 'Jij mag!';
+        case 'antwoord-ander': return naamVan(a, a.drukker) + (a.door ? ' mag nu antwoorden' : ' antwoordt…');
         case 'goed': return a.winnaar === a.ik ? 'Goed zo, jij had het!' : naamVan(a, a.winnaar) + ' had het goed';
         case 'iedereen-fout': return 'Niemand had het goed';
         // Drukte er wel iemand (fout of tijd op) en bleef de rest weg, dan klopt "niemand drukte" niet.
@@ -542,9 +549,19 @@
         case 'open-slot':
           return klaar ? { tekst: 'De tijd is om.', sleutel: 'slot-0' } : { tekst: `De anderen hebben nog\u00a0${sec}\u00a0s.`, sleutel: 'slot' };
         case 'antwoord-ik':
-          return klaar ? { tekst: 'De tijd is om.', sleutel: 'ik-0' } : { tekst: `Nog\u00a0${sec}\u00a0s. Tik op een antwoord.`, sleutel: 'ik', dringend: rest <= DRINGEND };
+          if (klaar) return { tekst: 'De tijd is om.', sleutel: 'ik-0' };
+          // De beurt kwam vanzelf: eerst zeggen waarom, dan de klok.
+          if (a.door) {
+            const wie = naamVan(a, a.door.speler);
+            return { tekst: (a.door.tijdOp ? `${wie} was te laat.` : `${wie} had het fout.`) + ` Nog\u00a0${sec}\u00a0s.`, sleutel: 'ik-door', dringend: rest <= DRINGEND };
+          }
+          return { tekst: `Nog\u00a0${sec}\u00a0s. Tik op een antwoord.`, sleutel: 'ik', dringend: rest <= DRINGEND };
         case 'antwoord-ander':
           // Zonder naam: die staat al in de titel, en zo blijft het bij lange namen bij een regel.
+          if (a.door && a.door.speler === a.ik) {
+            if (klaar) return { tekst: 'De tijd is om.', sleutel: 'ander-door-0' };
+            return { tekst: (a.door.tijdOp ? 'Je tijd was om.' : 'Jij had het fout.') + ` Nog\u00a0${sec}\u00a0s.`, sleutel: 'ander-door' };
+          }
           if (teLaatNr === a.nr) return { tekst: 'Net te laat.', sleutel: 'te-laat' };
           if (a.geprobeerd) return { tekst: 'Je mag bij deze vraag niet meer.', sleutel: 'ander-slot' };
           return klaar ? { tekst: 'De tijd is om.', sleutel: 'ander-0' } : { tekst: `Nog\u00a0${sec}\u00a0s om te kiezen.`, sleutel: 'ander' };
@@ -787,10 +804,12 @@
       let tekst = '';
       switch (a.st) {
         case 'antwoord-ik':
-          tekst = `Jij mag antwoorden. Je hebt ${Math.round(DUUR.antwoord / 1000)} seconden. Kies met de letters A tot ${LETTERS[Math.max(0, optieKnoppen.length - 1)] || 'D'}.`;
+          if (a.door) tekst = a.door.tijdOp ? `De tijd van ${naamVan(a, a.door.speler)} is om. ` : `${naamVan(a, a.door.speler)} had het fout. `;
+          tekst += `Jij mag antwoorden. Je hebt ${Math.round(DUUR.antwoord / 1000)} seconden. Kies met de letters A tot ${LETTERS[Math.max(0, optieKnoppen.length - 1)] || 'D'}.`;
           break;
         case 'antwoord-ander':
-          tekst = (teLaatNr === a.nr ? 'Net te laat. ' : '') + `${naamVan(a, a.drukker)} antwoordt.`;
+          if (a.door && a.door.speler === a.ik) tekst = (a.door.tijdOp ? 'Je tijd is om. ' : 'Fout. ') + `${naamVan(a, a.drukker)} mag nu antwoorden.`;
+          else tekst = (teLaatNr === a.nr ? 'Net te laat. ' : '') + `${naamVan(a, a.drukker)} antwoordt.`;
           break;
         case 'open':
         case 'open-slot':

@@ -23,14 +23,14 @@
   const stil = () => minderBeweging.matches;
   const VERLOOP = 'cubic-bezier(.2,.8,.2,1)';
   const TEKENS = 'ABCDEFGHJKMNPQRSTUVWXYZ23456789';
-  const OMTREK = 2 * Math.PI * 54;
+  const OMTREK = 100; // de rand om het embleem heeft pathLength 100
   // Elke stap blijft even in beeld, zodat je hem kunt lezen. Meedoen wacht kort voor de aanroep:
   // zodra meedoen lukt, komt "Je zit erin" meteen, want duel.html opent de wachtkamer kort daarna.
   const MIN_VERBINDEN = 750;
   const ADEM_MEEDOEN = 500;
   const SLEUTEL_GOOGLE = 'bes_duel_google';
 
-  const KOP_UITNODIGING = 'Je bent uitgenodigd voor een duel';
+  const KOP_UITNODIGING = 'Je bent uitgenodigd';
   const STAPPEN = {
     account: 'Account maken…',
     verbinden: 'Verbinden…',
@@ -111,18 +111,14 @@
     sectie.setAttribute('aria-labelledby', kopId);
     sectie.dataset.licht = 'rust';
 
-    // Het beeld: een knop zoals in een quizshow, met een ring die per stap vult en lampjes die rondlopen.
+    // Het beeld: een rustig embleem met de bliksem van Duel. De rand eromheen vult per stap,
+    // bij "Je zit erin" wordt het groenblauw met een vinkje, bij een fout grijs met een uitroepteken.
     const embleem = maakEl('div', 'dl-embleem');
     embleem.setAttribute('aria-hidden', 'true');
-    for (let i = 0; i < 16; i++) {
-      const lamp = maakEl('i', 'dl-lamp');
-      lamp.style.setProperty('--i', String(i));
-      embleem.append(lamp);
-    }
-    embleem.insertAdjacentHTML('beforeend', '<svg class="dl-ring" viewBox="0 0 120 120" focusable="false"><circle class="dl-ring-baan" cx="60" cy="60" r="54"/><circle class="dl-ring-vul" cx="60" cy="60" r="54"/></svg>');
+    embleem.innerHTML = '<svg class="dl-ring" viewBox="0 0 92 92" focusable="false"><rect class="dl-ring-baan" x="1.5" y="1.5" width="89" height="89" rx="30" pathLength="100"/><rect class="dl-ring-vul" x="1.5" y="1.5" width="89" height="89" rx="30" pathLength="100"/></svg>';
     const golf = maakEl('span', 'dl-golf');
     const knopBeeld = maakEl('span', 'dl-knop');
-    knopBeeld.innerHTML = '<svg class="dl-knop-vink" viewBox="0 0 24 24" focusable="false"><path d="M6 12.5l4 4 8-8.5"/></svg><svg class="dl-knop-let" viewBox="0 0 24 24" focusable="false"><path d="M12 6.5v7"/><path d="M12 17.5v.01"/></svg>';
+    knopBeeld.innerHTML = '<svg class="dl-knop-flits" viewBox="0 0 24 24" focusable="false"><path d="M13 2.5 4.5 13.5H11l-1 8 8.5-11H12l1-8Z"/></svg><svg class="dl-knop-vink" viewBox="0 0 24 24" focusable="false"><path d="M6 12.5l4 4 8-8.5"/></svg><svg class="dl-knop-let" viewBox="0 0 24 24" focusable="false"><path d="M12 6.5v7"/><path d="M12 17.5v.01"/></svg>';
     embleem.append(golf, knopBeeld);
     const ringVul = embleem.querySelector('.dl-ring-vul');
 
@@ -133,6 +129,20 @@
     kop.tabIndex = -1;
     const sub = maakEl('p', 'dl-sub');
     tekstBlok.append(kop, sub);
+
+    // De code als losse tegels. Voorleesprogramma's horen "Code ABC123" in een keer.
+    const tegels = maakEl('p', 'dl-tegels');
+    tegels.hidden = true;
+    function zetTegels() {
+      tegels.replaceChildren(maakEl('span', 'dl-voorlees', 'Code ' + code));
+      Array.from(code).forEach((teken, i) => {
+        const tegel = maakEl('span', 'dl-tegel', teken);
+        tegel.setAttribute('aria-hidden', 'true');
+        tegel.style.setProperty('--n', String(i));
+        tegels.append(tegel);
+      });
+      tegels.hidden = !code;
+    }
 
     const kaart = maakEl('div', 'dl-kaart');
     const lijst = maakEl('ol', 'dl-stappen');
@@ -145,7 +155,7 @@
     const voorlees = maakEl('p', 'dl-voorlees');
     voorlees.setAttribute('role', 'status');
     voorlees.setAttribute('aria-live', 'polite');
-    sectie.append(embleem, boven, tekstBlok, actie, kaart, voorlees);
+    sectie.append(embleem, boven, tekstBlok, tegels, actie, kaart, voorlees);
 
     const zegVoor = tekst => {
       voorlees.textContent = '';
@@ -262,7 +272,6 @@
 
     // ---------- Inhoud per fase ----------
 
-    const codeTekst = () => maakEl('strong', 'dl-code', code);
     const zetTekst = (kopTekst, subInhoud) => {
       kop.textContent = kopTekst;
       sub.replaceChildren(...[].concat(subInhoud));
@@ -320,10 +329,11 @@
       const vanGoogle = !testmodus && opslag.lees(SLEUTEL_GOOGLE) === code;
       const sleutels = (vanGoogle || stapEl.has('account') ? ['account'] : []).concat(['verbinden', 'meedoen', 'binnen']);
       const vorige = fase;
+      const kaartWasWeg = kaart.hidden;
       const verander = () => {
         fase = 'bezig';
         sectie.dataset.licht = 'jaag';
-        zetTekst(KOP_UITNODIGING, ['Code ', codeTekst(), '. Nog even en je staat in de wachtkamer.']);
+        zetTekst(KOP_UITNODIGING, 'Nog even en je staat in de wachtkamer.');
         bouwStappen(sleutels);
         // Wie hier na Google terugkomt, heeft zijn account: die stap is klaar.
         stapEl.forEach((li, sleutel) => zetStap(sleutel, sleutel === 'account' ? 'klaar' : 'wacht', { stilletjes: true }));
@@ -332,7 +342,7 @@
         actie.replaceChildren();
       };
       if (vorige === 'start' || vorige === 'bezig') { verander(); zetVoortgang(); return null; }
-      return wisselStand(verander, { teksten: vorige === 'fout' ? [tekstBlok] : [sub], kaartIn: vorige === 'fout' });
+      return wisselStand(verander, { teksten: vorige === 'fout' ? [tekstBlok] : [sub], kaartIn: kaartWasWeg });
     }
 
     function naarLogin() {
@@ -341,15 +351,16 @@
         fase = 'login';
         bezigMetGoogle = false;
         sectie.dataset.licht = 'rust';
-        zetTekst(KOP_UITNODIGING, ['Code ', codeTekst(), '. Log in en je staat meteen in de wachtkamer.']);
+        zetTekst(KOP_UITNODIGING, 'Log in en je staat meteen in de wachtkamer.');
         bouwStappen(['account', 'verbinden', 'meedoen', 'binnen']);
         stapEl.forEach((li, sleutel) => zetStap(sleutel, 'wacht', { stilletjes: true }));
         netwerk.hidden = true;
-        kaart.hidden = false;
+        // De stappen komen pas in beeld zodra het meedoen echt begint.
+        kaart.hidden = true;
         actie.replaceChildren(maakLogin());
       };
       if (vorige === 'start') { verander(); zetVoortgang(); return null; }
-      return wisselStand(verander, { teksten: vorige === 'fout' ? [tekstBlok] : [sub], kaartIn: vorige === 'fout' });
+      return wisselStand(verander, { teksten: vorige === 'fout' ? [tekstBlok] : [sub], uit: [kaart] });
     }
 
     function naarFout(soort) {
@@ -582,6 +593,7 @@
       }
       if (getoond) { porren(); return; }
       if (!code) code = normaliseer(laatsteStaat && (laatsteStaat.code || (laatsteStaat.kamer && laatsteStaat.kamer.code)));
+      zetTegels();
       eersteWeergave();
       if (!sectie.isConnected) root.append(sectie);
       getoond = true;
