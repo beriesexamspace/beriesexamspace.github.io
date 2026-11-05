@@ -261,15 +261,15 @@ window.BES_VAK = {
   },
   {
    "h": "h2",
-   "q": "Wanneer gebruik je bij het toetsen van de normaliteit van een verdeling eerder de Shapiro-Wilcoxon test dan de Kolmogorov-Smirnov test?",
+   "q": "Wanneer gebruik je bij het toetsen van de normaliteit van een verdeling eerder de Shapiro-Wilk test dan de Kolmogorov-Smirnov test?",
    "o": [
     "Bij grote steekproeven",
     "Wanneer de AV dichotoom is",
     "Wanneer er multicollineariteit optreedt",
     "Bij kleine n"
    ],
-   "a": 0,
-   "u": "De Shapiro-Wilcoxon test wordt gebruikt om de normaliteit na te gaan bij grote steekproeven, terwijl Kolmogorov-Smirnov bedoeld is voor kleine n. Bij beide geldt: normaal verdeeld indien p groter dan 0,05."
+   "a": 3,
+   "u": "De Shapiro-Wilk test is de aangewezen normaliteitstoets bij kleine steekproeven, terwijl je Kolmogorov-Smirnov eerder gebruikt bij grotere n. Bij beide geldt: normaal verdeeld indien p groter dan 0,05."
   },
   {
    "h": "h3",
@@ -776,7 +776,7 @@ window.BES_VAK = {
     "Hosmer test: een goodness of fit test voor logistische regressiemodellen.",
     "Parsimonie: de AV zo goed mogelijk voorspellen met zo min mogelijk OV.",
     "Statistische versus klinische significantie: statistisch bij p kleiner dan 0,05, klinisch wanneer het effect klinisch relevant is met een grote effectgrootte.",
-    "Normaliteitstoetsen: Kolmogorov-Smirnov bij kleine n en Shapiro-Wilcoxon bij grote steekproeven, normaal verdeeld indien p groter dan 0,05."
+    "Normaliteitstoetsen: Shapiro-Wilk bij kleine n en Kolmogorov-Smirnov bij grotere steekproeven, normaal verdeeld indien p groter dan 0,05."
    ]
   },
   {

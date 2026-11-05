@@ -432,7 +432,21 @@
       else window.sessionStorage.removeItem(insturenSleutel);
     } catch {}
     if (insturenTerug && !/^\/insturen\/[^/]*$/.test(insturenTerug.split('?')[0])) insturenTerug = null;
-    if (insturenTerug) document.querySelectorAll('a.terug').forEach(link => { link.href = insturenTerug; });
+    if (insturenTerug) {
+      // Kwam je met ?van=insturen van het verhaal op Insturen (Lees meer over mij), dan landt Terug weer bij het verhaal.
+      const naarVerhaal = /[?&]van=insturen(&|$)/.test(window.location.search) && /^\/insturen\/(index\.html)?$/.test(insturenTerug.split('?')[0]);
+      document.querySelectorAll('a.terug').forEach(link => { link.href = insturenTerug + (naarVerhaal ? '#verhaal' : ''); });
+    }
+    // Met data-terug-vorige (de voorwaarden, die je opent vanaf het abonnement, aanmelden of de privacy) brengt Terug je naar
+    // de pagina van de site waar je vandaan kwam. Open je de pagina rechtstreeks of van buiten de site, dan geldt data-terug.
+    if (!insturenTerug) {
+      let vorige = null;
+      try {
+        const van = new URL(document.referrer);
+        if (van.origin === window.location.origin && van.pathname !== pad) vorige = van.href;
+      } catch {}
+      if (vorige) document.querySelectorAll('a.terug[data-terug-vorige]').forEach(link => { link.href = vorige; });
+    }
     if (!heeftSessie && (opInsturen || insturenTerug)) {
       const naar = insturenTerug || pad.replace(/[^/]*$/, '') + window.location.search;
       const toegestaan = /\/(insturen\/[^/]*|privacy\.html|voorwaarden\.html|over-mij\.html|whatsapp\.html|inloggen\.html|aanmelden\.html|wachtwoord\.html)$/;

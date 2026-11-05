@@ -335,13 +335,13 @@ window.BES_VAK = {
    "h": "h3",
    "q": "Welke functie vervult het Decreet Rechtspositie Minderjarige in de Jeugdhulp (DRMJH)?",
    "o": [
-    "Het dient als verdedigingsdocument van de rechter voor minderjarigen en meerderjarigen die in jeugdhulpinstellingen dienstdoen",
+    "Het legt de rechten vast van minderjarigen die jeugdhulp krijgen, zodat zij die rechten kunnen laten gelden",
     "Het regelt de kostenvergoeding en de opleiding van pleegzorgers en legt vast hoeveel pleegkinderen een gezin tegelijk mag opvangen",
     "Het legt de monitoring van het jeugdhulplandschap in de regio vast",
     "Het bepaalt de prioriteiten voor de toewijzing van niet-rechtstreeks toegankelijke jeugdhulp"
    ],
    "a": 0,
-   "u": "Het Decreet Rechtspositie Minderjarige in de Jeugdhulp (DRMJH) dient als verdedigingsdocument van de rechter voor minderjarigen en meerderjarigen die in jeugdhulpinstellingen dienstdoen."
+   "u": "Het Decreet Rechtspositie Minderjarige in de Jeugdhulp (DRMJH) beschrijft de rechten van de minderjarige cliënt in de jeugdhulp, zoals het recht op informatie, inspraak, inzage in het dossier, bijstand door een vertrouwenspersoon en het klachtrecht. Het is dus een document dat de rechten van de minderjarige beschermt, geen document van de rechter."
   },
   {
    "h": "h3",
@@ -903,7 +903,7 @@ window.BES_VAK = {
     "Pleegzorg: zorg waarbij een pleegzorger vrijwillig, onder begeleiding en tegen een kostenvergoeding, pleegkinderen of pleeggasten opvangt.",
     "Rechtstreeks Toegankelijke Jeugdhulp (RTJ): jeugdhulp die zonder tussenkomst van de toegangspoort toegankelijk is.",
     "Centrum Kindzorg en Gezinsondersteuning (CKG): RT staat er voor ambulant, NRT voor residentieel.",
-    "Decreet Rechtspositie Minderjarige in de Jeugdhulp (DRMJH): dient als verdedigingsdocument van de rechter voor minderjarigen en meerderjarigen in jeugdhulpinstellingen.",
+    "Decreet Rechtspositie Minderjarige in de Jeugdhulp (DRMJH): legt de rechten vast van minderjarigen die jeugdhulp krijgen, zoals het recht op informatie, inspraak, inzage in het dossier, bijstand door een vertrouwenspersoon en het klachtrecht.",
     "Sociale Dienst Jeugdrechtbank (SDJ): de consulent voert er een maatschappelijk onderzoek uit.",
     "Intersectorale Toegangspoort (ITP): de instantie die de toegang tot niet-rechtstreeks toegankelijke jeugdhulp regelt.",
     "Onthaal-, Oriëntatie- en Observatiecentra (OOOC): voorzieningen die jongeren onthalen, oriënteren en observeren.",
