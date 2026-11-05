@@ -169,7 +169,8 @@
     const dicht = { height: '0px', marginTop: '0px', marginBottom: '0px', paddingTop: '0px', paddingBottom: '0px', opacity: 0 };
     const open = { height: element.getBoundingClientRect().height + 'px', ...marges, opacity: 1 };
     element.style.overflow = 'hidden';
-    const animatie = element.animate([nu || (van === 'dicht' ? dicht : open), naar === 'dicht' ? dicht : open], { duration: 220, easing: zachtVerloop(element) });
+    // fill backwards: ook in het allereerste beeld (net voor de animatie echt loopt) staat het blok al op de beginhoogte.
+    const animatie = element.animate([nu || (van === 'dicht' ? dicht : open), naar === 'dicht' ? dicht : open], { duration: 220, easing: zachtVerloop(element), fill: 'backwards' });
     animatie.sluit = naar === 'dicht';
     lopend.set(element, animatie);
     const opruimen = () => { if (lopend.get(element) !== animatie) return; lopend.delete(element); element.style.overflow = ''; klaar?.(); };

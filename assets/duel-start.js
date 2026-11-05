@@ -242,9 +242,9 @@
     return kaart;
   }
 
-  // Het kaartje komt achter Examensimulatie. Staat de pagina al in beeld, dan gaat dat rustig: naast elkaar maken de
-  // twee kaartjes plaats (breedte en plek lopen mee) en schuift het nieuwe erin; onder elkaar groeit het rooster in hoogte.
-  // Anders (deur nog dicht, tabblad op de achtergrond, minder beweging) staat het er meteen.
+  // Het kaartje komt achter Examensimulatie. Staat de pagina al in beeld, dan gaat dat rustig: de bestaande kaartjes
+  // schuiven naar hun nieuwe plek en breedte (naast elkaar, of van twee kolommen naar onder elkaar), het rooster groeit
+  // in hoogte en het nieuwe kaartje komt erin. Anders (deur nog dicht, tabblad op de achtergrond, minder beweging) staat het er meteen.
   function plaatsKaart(groep, kaart) {
     const oud = [...groep.querySelectorAll('[data-modus]')];
     const beweeg = document.visibilityState === 'visible' && !document.documentElement.classList.contains('deur-check')
@@ -264,25 +264,34 @@
     const opties = { duration: duur, easing: verloop, fill: 'forwards' };
     // De hoogte van het rooster loopt mee, zodat de stappen eronder rustig opschuiven.
     const animaties = [groep.animate([{ height: `${hoogte}px` }, { height: `${vak.height}px` }], opties)];
-    if (plek.top < na[na.length - 1].bottom) {
+    // De bestaande kaartjes gaan vanaf hun oude plek en breedte naar de nieuwe (ook als ze van rij wisselen).
+    oud.forEach((el, i) => {
+      if (Math.abs(voor[i].left - na[i].left) < 1 && Math.abs(voor[i].top - na[i].top) < 1 && Math.abs(voor[i].width - na[i].width) < 1) return;
+      animaties.push(el.animate([
+        { width: `${voor[i].width}px`, transform: `translate(${voor[i].left - na[i].left}px, ${voor[i].top - na[i].top}px)` },
+        { width: `${na[i].width}px`, transform: 'none' }
+      ], opties));
+    });
+    const naast = plek.top < na[na.length - 1].bottom;
+    if (naast) {
       // Naast elkaar: het nieuwe kaartje staat even los van het rooster, zodat alleen de krimpende kaartjes de hoogte bepalen.
       Object.assign(kaart.style, { position: 'absolute', top: `${plek.top - vak.top}px`, left: `${plek.left - vak.left}px`, width: `${plek.width}px`, height: `${plek.height}px` });
-      oud.forEach((el, i) => animaties.push(el.animate([
-        { width: `${voor[i].width}px`, transform: `translateX(${voor[i].left - na[i].left}px)` },
-        { width: `${na[i].width}px`, transform: 'none' }
-      ], opties)));
       animaties.push(kaart.animate([{ opacity: 0, transform: 'translateX(24px)' }, { opacity: 1, transform: 'none' }], { ...opties, duration: 260, delay: 120, fill: 'both' }));
     } else {
       // Onder elkaar: wat nog buiten het groeiende rooster valt, blijft verborgen (de schaduw van de kaartjes niet).
       const tussen = parseFloat(getComputedStyle(groep).rowGap) || 0;
       groep.style.clipPath = `inset(-40px -40px -${tussen}px -40px)`;
-      animaties.push(kaart.animate([{ opacity: 0, transform: 'translateY(8px)' }, { opacity: 1, transform: 'none' }], opties));
+      animaties.push(kaart.animate([{ opacity: 0, transform: 'translateY(8px)' }, { opacity: 1, transform: 'none' }], { ...opties, delay: 80, fill: 'both' }));
     }
     // Alles klaar: eerst de losse plek en het knippen weg, dan pas de animaties (die de eindstand vasthouden).
+    // Werd een kaartje intussen hoger of lager (bijvoorbeeld doordat een lettertype later laadde), dan schuift het
+    // rooster ook dat laatste stukje rustig, in plaats van in één beeld te verspringen.
     Promise.all(animaties.map(animatie => animatie.finished)).catch(() => {}).then(() => {
       kaart.style.cssText = '';
       groep.style.clipPath = '';
       animaties.forEach(animatie => animatie.cancel());
+      const echt = maat(groep).height;
+      if (Math.abs(echt - vak.height) > 1) groep.animate([{ height: `${vak.height}px` }, { height: `${echt}px` }], { duration: 200, easing: verloop });
     });
   }
 
