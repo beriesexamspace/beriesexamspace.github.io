@@ -66,7 +66,7 @@
   <script src="assets/meten.js?v=2"></script>
   <script src="assets/app.js?v=97"></script>
   <script src="assets/intro.js?v=95"></script>
-  <script src="assets/vakken.js?v=91"></script>
+  <script src="assets/vakken.js?v=93"></script>
   <script src="assets/config.js?v=89" defer></script>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js" defer></script>
   <script src="assets/auth.js?v=98" defer></script>
@@ -93,9 +93,9 @@
     .hub-richting { display: grid; gap: 14px; }
     .hub-richting[hidden] { display: none; }
     .hub-richting-kop { margin: 0; color: var(--ink-soft); font-size: .9375rem; font-weight: 600; }
-    .jaar:is([data-jaar="1ba"], [data-jaar="um1"]) { --jaar: #3FB9B2; --jaar-licht: #8FDAD5; }
-    .jaar:is([data-jaar="2ba"], [data-jaar="um2"]) { --jaar: #8B7CF6; --jaar-licht: #C4BAFF; }
-    .jaar:is([data-jaar="3ba"], [data-jaar="um3"]) { --jaar: #E0A030; --jaar-licht: #F5D08A; }
+    .jaar:is([data-jaar="1ba"], [data-jaar="um1"], [data-jaar="crim1"]) { --jaar: #3FB9B2; --jaar-licht: #8FDAD5; }
+    .jaar:is([data-jaar="2ba"], [data-jaar="um2"], [data-jaar="crim2"]) { --jaar: #8B7CF6; --jaar-licht: #C4BAFF; }
+    .jaar:is([data-jaar="3ba"], [data-jaar="um3"], [data-jaar="crim3"]) { --jaar: #E0A030; --jaar-licht: #F5D08A; }
 
     html[data-theme="dark"] .kaart.jaar {
       --jaar-schaduw: 0 14px 30px var(--shadow-far-color), 0 2px 6px var(--shadow-near-color);
@@ -333,6 +333,45 @@
             </a>
           </div>
         </div>
+        <!-- Criminologische Wetenschappen, VUB: alleen voor wie die richting koos (zie BES.auth.richting). -->
+        <div class="hub-richting" id="hub-crim" hidden>
+          <p class="hub-richting-kop">Criminologische Wetenschappen · VUB</p>
+          <div class="rooster-3">
+            <a class="kaart jaar" href="jaar-crim1.html" data-jaar="crim1">
+              <span class="jaar-band">
+                <span class="jaar-nummer">1</span>
+                <span class="label">Laatst gekozen</span>
+              </span>
+              <span class="kaart-tekst jaar-body">
+                <span class="kaart-titel">1ste bachelor</span>
+                <span class="kaart-sub">4 vakken</span>
+                <span class="jaar-link">Bekijk vakken <span class="jaar-pijl" aria-hidden="true">→</span></span>
+              </span>
+            </a>
+            <a class="kaart jaar" href="jaar-crim2.html" data-jaar="crim2">
+              <span class="jaar-band">
+                <span class="jaar-nummer">2</span>
+                <span class="label">Laatst gekozen</span>
+              </span>
+              <span class="kaart-tekst jaar-body">
+                <span class="kaart-titel">2de bachelor</span>
+                <span class="kaart-sub">Nog geen vakken</span>
+                <span class="jaar-link">Bekijk vakken <span class="jaar-pijl" aria-hidden="true">→</span></span>
+              </span>
+            </a>
+            <a class="kaart jaar" href="jaar-crim3.html" data-jaar="crim3">
+              <span class="jaar-band">
+                <span class="jaar-nummer">3</span>
+                <span class="label">Laatst gekozen</span>
+              </span>
+              <span class="kaart-tekst jaar-body">
+                <span class="kaart-titel">3de bachelor</span>
+                <span class="kaart-sub">Nog geen vakken</span>
+                <span class="jaar-link">Bekijk vakken <span class="jaar-pijl" aria-hidden="true">→</span></span>
+              </span>
+            </a>
+          </div>
+        </div>
         <div class="hub-comit">
           <a class="hub-comit-knop" href="comit.html">
             <span class="hub-comit-logo" data-hub-comit-logo aria-hidden="true"></span>
@@ -467,8 +506,10 @@
       // Welke vakken je ziet, hangt af van je richting. Eerst de bewaarde keuze van dit toestel (zodat niets verspringt), daarna die van je account.
       const toonRichting = richting => {
         const um = richting === 'um-rechtsgeleerdheid';
-        document.getElementById('hub-jaren').hidden = um;
+        const crim = richting === 'vub-criminologie';
+        document.getElementById('hub-jaren').hidden = um || crim;
         document.getElementById('hub-um').hidden = !um;
+        document.getElementById('hub-crim').hidden = !crim;
       };
       let bewaard = null;
       try { bewaard = window.localStorage.getItem('bes_richting'); } catch {}

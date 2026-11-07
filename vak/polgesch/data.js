@@ -2,6 +2,8 @@
 // Formaat: zie README, kop "Vakpagina". Aanpassen kan hier; de pagina (index.html) hoeft niet te veranderen.
 window.BES_VAK = {
  "id": "polgesch",
+ "label": "Criminologische Wetenschappen · VUB",
+ "terug": "jaar-crim1.html",
  "jaar": "1ba",
  "naam": "Politieke geschiedenis van België",
  "hoofdstukken": [
