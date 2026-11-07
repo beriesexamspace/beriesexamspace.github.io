@@ -247,18 +247,6 @@
       plekVlak.append(plekAvatar, plekTekst, plekStippen);
       plek.append(plekVlak);
       lijst.append(plek);
-      // Daaronder de andere vrije plekken, genummerd tot 10: zo zie je meteen hoeveel er nog bij kunnen.
-      const vrijePlekken = [];
-      const maakVrij = () => {
-        const li = maak('li', 'kamer-rij kamer-vrij');
-        li.setAttribute('aria-hidden', 'true');
-        const vlak = maak('div', 'kamer-rij-vlak');
-        const nr = maak('span', 'kamer-avatar kamer-vrij-nr');
-        vlak.append(nr, maak('span', 'kamer-vrij-tekst', 'Vrije plek'));
-        li.append(vlak);
-        li.nr = nr;
-        return li;
-      };
       spelersKaart.append(spelersKopRij, lijst);
 
       // --- Starten ---
@@ -490,16 +478,6 @@
           if (!eerste) rijIn(plek);
         }
         zetStil(plekTekst, aantal < 2 ? 'Wachten op een tweede speler' : 'Wachten op meer spelers');
-        // Samen altijd 10 plekken: spelers, de wachtende plek en de vrije plekken.
-        const vrij = vol ? 0 : MAX - aantal - 1;
-        while (vrijePlekken.length > vrij) vrijePlekken.pop().remove();
-        while (vrijePlekken.length < vrij) {
-          const li = maakVrij();
-          lijst.append(li);
-          vrijePlekken.push(li);
-          if (!eerste && zacht(li)) li.animate([{ opacity: 0 }, { opacity: 1 }], { duration: 240, easing: verloop() });
-        }
-        vrijePlekken.forEach((li, i) => { li.nr.textContent = String(aantal + 2 + i); });
       };
 
       // --- Aanpassen (alleen de maker, in de wachtkamer) ---
