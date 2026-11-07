@@ -691,8 +691,15 @@
       form.noValidate = true;
       const label = maak('label', 'invoer-label', 'Code van 6 tekens');
       label.htmlFor = 'duel-code-veld';
-      const veld = maak('input', 'auth-input invoer-veld');
-      Object.assign(veld, { id: 'duel-code-veld', name: 'code', type: 'text', autocomplete: 'off', spellcheck: false, placeholder: 'ABC234' });
+      const veld = maak('input', 'invoer-veld');
+      Object.assign(veld, { id: 'duel-code-veld', name: 'code', type: 'text', autocomplete: 'off', spellcheck: false, maxLength: 200 });
+      const vakjes = maak('div', 'invoer-vakjes');
+      const vakken = Array.from({ length: 6 }, () => {
+        const vak = maak('span', 'invoer-vak');
+        vak.setAttribute('aria-hidden', 'true');
+        return vak;
+      });
+      vakjes.append(...vakken, veld);
       veld.setAttribute('autocapitalize', 'characters');
       veld.setAttribute('autocorrect', 'off');
       veld.setAttribute('enterkeyhint', 'go');
@@ -703,7 +710,7 @@
       fout.hidden = true;
       const knop = maak('button', 'knop invoer-knop', 'Doe mee');
       knop.type = 'submit';
-      form.append(label, veld, fout, knop);
+      form.append(label, vakjes, fout, knop);
 
       kaart.append(merk, eyebrow, titel, sub, form);
 
@@ -752,6 +759,20 @@
         const link = String(waarde).match(/[?&]c=([A-Za-z0-9]{6})/);
         return (link ? link[1] : String(waarde)).toUpperCase().replace(/[^A-Z0-9]/g, '').slice(0, 6);
       };
+      // Elk teken in zijn eigen vakje; het volgende lege vakje knippert als je typt.
+      const tekenVakjes = () => {
+        const tekens = veld.value.slice(0, 6);
+        vakken.forEach((vak, i) => {
+          const teken = tekens[i] || '';
+          if (vak.textContent !== teken) {
+            vak.textContent = teken;
+            vak.classList.remove('is-vol');
+            if (teken) { void vak.offsetWidth; vak.classList.add('is-vol'); }
+          }
+          vak.classList.toggle('is-actief', i === tekens.length);
+        });
+        vakjes.classList.toggle('is-compleet', tekens.length === 6 && veld.getAttribute('aria-invalid') !== 'true');
+      };
       const zetFout = tekst => {
         if (tekst) {
           if (fout.textContent !== tekst) fout.textContent = tekst;
@@ -761,12 +782,21 @@
           veld.removeAttribute('aria-invalid');
           verberg(fout);
         }
+        vakjes.classList.toggle('is-fout', Boolean(tekst));
+        tekenVakjes();
       };
+      // Je typt altijd achteraan: klikken of pijltjes zetten de cursor terug aan het eind.
+      const naarEind = () => { const n = veld.value.length; try { veld.setSelectionRange(n, n); } catch {} };
+      veld.addEventListener('focus', () => { vakjes.classList.add('is-focus'); requestAnimationFrame(naarEind); });
+      veld.addEventListener('blur', () => vakjes.classList.remove('is-focus'));
+      veld.addEventListener('click', naarEind);
+      veld.addEventListener('keyup', event => { if (/^(Arrow|Home|End)/.test(event.key)) naarEind(); });
 
       veld.addEventListener('input', () => {
         const nieuw = schoon(veld.value);
         if (veld.value !== nieuw) veld.value = nieuw;
         if (veld.getAttribute('aria-invalid') === 'true') zetFout('');
+        else tekenVakjes();
       });
 
       form.addEventListener('submit', event => {
