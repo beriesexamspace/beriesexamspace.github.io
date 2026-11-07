@@ -113,7 +113,8 @@
 /* Max toont het aantal eronder; Zelf kiezen wordt "Zelf" als de rij smal is. */
 .duel-segment button { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 1px; min-width: 0; line-height: 1.15; white-space: nowrap; }
 .duel-seg-sub { color: var(--ink-soft); font-size: .6875rem; font-weight: 500; line-height: 1.1; }
-.duel-seg-sub:empty { display: none; }
+/* Leeg (te weinig vragen): de regel houdt zijn plek, zodat de rij niet verspringt. */
+.duel-seg-sub:empty::before { content: "\\00a0"; }
 .duel-seg-kort { display: none; }
 .duel-aantal { container-type: inline-size; }
 @container (max-width: 440px) {
@@ -122,17 +123,17 @@
   .duel-seg-kort { display: inline; }
 }
 /* Zelf kiezen: een rustige teller onder de pil (min, getal, plus). */
-.duel-zelf { display: flex; align-items: center; justify-content: center; gap: 10px; margin: 10px 0 0; }
+.duel-zelf { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 10px; margin: 10px 0 0; }
 .duel-zelf[hidden] { display: none; }
 .duel-zelf-knop { display: inline-grid; place-items: center; flex: 0 0 44px; width: 44px; height: 44px; padding: 0; border: 1px solid var(--line); border-radius: 50%; background: var(--surface); color: var(--ink); font: inherit; font-size: 1.25rem; font-weight: 600; line-height: 1; cursor: pointer; touch-action: manipulation; transition: border-color 160ms var(--ease), background-color 160ms var(--ease), transform 150ms var(--ease), opacity 160ms var(--ease); }
 :where(html.has-hover) .duel-zelf-knop:not(:disabled):hover { border-color: var(--accent); background: var(--card); }
 .duel-zelf-knop:not(:disabled):active { transform: scale(.92); }
 .duel-zelf-knop:disabled { opacity: .4; cursor: default; }
 .duel-zelf-knop:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
-.duel-zelf-getal { width: 84px; min-width: 0; height: 44px; padding: 0 8px; border: 1px solid var(--line); border-radius: 14px; background: var(--card); color: var(--ink); font: inherit; font-size: 1.125rem; font-weight: 600; font-variant-numeric: tabular-nums; text-align: center; transition: border-color 160ms var(--ease), box-shadow 160ms var(--ease); }
+.duel-zelf-getal { flex: 0 0 auto; width: 84px; min-width: 0; height: 44px; padding: 0 8px; border: 1px solid var(--line); border-radius: 14px; background: var(--card); color: var(--ink); font: inherit; font-size: 1.125rem; font-weight: 600; font-variant-numeric: tabular-nums; text-align: center; transition: border-color 160ms var(--ease), box-shadow 160ms var(--ease); }
 .duel-zelf-getal:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-zacht); }
 .duel-zelf-uitleg { flex: 0 1 auto; min-width: 0; color: var(--ink-soft); font-size: .8125rem; font-variant-numeric: tabular-nums; white-space: nowrap; }
-@container (max-width: 300px) { .duel-zelf { gap: 8px; } .duel-zelf-getal { width: 64px; } }
+@container (max-width: 300px) { .duel-zelf { gap: 8px; } .duel-zelf-getal { width: 64px; } .duel-zelf-uitleg { flex-basis: 100%; text-align: center; } }
 
 /* Beginscherm: eerst meedoen met een code, dan een rustige "of"-lijn en de keuze om zelf een duel te maken. */
 .duel-venster .duel-mee-knop { display: flex; width: 100%; max-width: none; min-width: 0; min-height: 52px; margin: 16px 0 0; justify-content: center; align-items: center; }
@@ -214,6 +215,12 @@
   .duel-venster-icoon { flex-basis: 44px; width: 44px; height: 44px; border-radius: 14px; }
   .duel-voet-knop { flex: 1; }
   .duel-voet-knop .knop { width: 100%; min-width: 0; }
+}
+/* Kleine telefoons: iets minder rand, zodat elke keuze minstens 44px breed blijft. */
+@media (max-width: 360px) {
+  .duel-venster.kies-plan { --duel-pad: 14px; }
+  .duel-segment { gap: 3px; padding: 3px; }
+  .duel-schuif { top: 3px; bottom: 3px; left: 3px; width: calc((100% - 18px) / 5); transform: translateX(calc(var(--i) * (100% + 3px))); }
 }
 @media (max-width: 400px) {
   .duel-kop-rij { gap: 8px; }
@@ -578,7 +585,8 @@
     function uitVoorkeur(max) {
       if (voorkeur.soort === 'getal') {
         const n = voorkeur.aantal;
-        if (AANTALLEN.includes(n) && n <= max) voorkeur = { soort: 'vast', aantal: n };
+        // Een vast aantal blijft vast, ook als het nu niet past: dan toont de kiezer Max tot er hoofdstukken bijkomen.
+        if (AANTALLEN.includes(n)) voorkeur = { soort: 'vast', aantal: n };
         else if (n >= max) voorkeur = { soort: 'max' };
         else { zelfGetal = n; voorkeur = { soort: 'zelf' }; }
       }
