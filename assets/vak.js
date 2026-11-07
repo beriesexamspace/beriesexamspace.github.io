@@ -2115,7 +2115,7 @@
     // Duel met vrienden (assets/duel-start.js): het vak en de gekozen hoofdstukken, als begin van de keuze in het venster.
     window.BES.vakKeuze = () => ({ vak: data.id, hoofdstukken: [...selected] });
     // duel-toegang.js eerst: die zegt of dit account het duel mag zien (async = false houdt de volgorde vast).
-    ['duel-toegang.js?v=2', 'duel-start.js?v=7'].forEach(bestand => {
+    ['duel-toegang.js?v=2', 'duel-start.js?v=8'].forEach(bestand => {
       const duelScript = document.createElement('script');
       duelScript.src = new URL(bestand, scriptBron).href;
       duelScript.async = false;
