@@ -133,7 +133,7 @@
     element.replaceChildren(image);
   }
 
-  // Profielmenu in de nav: een knop die een lijstje uitklapt (Profiel, Weekoverzicht, Foutenlijst, Examenplan, Uitloggen).
+  // Profielmenu in de nav: een knop die een lijstje uitklapt. Bovenaan je naam als link naar Profiel, dan Weekoverzicht, Foutenlijst, Examenplan, Uitloggen).
   // Abonnement staat niet in het menu: dat pas je aan via Profiel (blok Jouw abonnement).
   function zetProfielMenu(menu, open) {
     const knop = menu.querySelector('.profiel-knop');
@@ -178,18 +178,25 @@
     lijst.className = 'profiel-menu-lijst';
     lijst.id = lijstId;
     lijst.hidden = true;
-    const kop = document.createElement('p');
+    // Je naam is de knop naar je profiel.
+    const pagina = window.location.pathname.split('/').pop() || 'index.html';
+    const kop = document.createElement('a');
     kop.className = 'profiel-menu-kop';
+    kop.href = pagePrefix + 'profiel.html';
+    if (pagina === 'profiel.html') kop.setAttribute('aria-current', 'page');
     const naam = document.createElement('strong');
     const gegevens = nameDetails(currentUser);
     naam.textContent = gegevens.aanspreeknaam || gegevens.volledig || 'Jouw account';
     const plan = document.createElement('span');
     plan.className = 'profiel-menu-plan';
     plan.hidden = true;
-    kop.append(naam, plan);
-    lijst.append(kop);
-    const pagina = window.location.pathname.split('/').pop() || 'index.html';
-    [['Profiel', 'profiel.html'], ['Weekoverzicht', 'voortgang.html'], ['Foutenlijst', 'fouten.html'], ['Examenplan', 'examenplan.html'], ['Feedback', 'feedback.html']].forEach(([tekst, pad]) => {
+    const kopPijl = document.createElement('span');
+    kopPijl.className = 'profiel-menu-kop-pijl';
+    kopPijl.setAttribute('aria-hidden', 'true');
+    kopPijl.textContent = '→';
+    kop.append(naam, plan, kopPijl);
+    lijst.append(kop, document.createElement('hr'));
+    [['Weekoverzicht', 'voortgang.html'], ['Foutenlijst', 'fouten.html'], ['Examenplan', 'examenplan.html'], ['Feedback', 'feedback.html']].forEach(([tekst, pad]) => {
       const link = document.createElement('a');
       link.href = pagePrefix + pad;
       link.textContent = tekst;

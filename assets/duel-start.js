@@ -153,12 +153,22 @@
 
 .duel-aantal { min-width: 0; margin: 0; }
 
-/* Meedoen met code: één groot veld met ruimte tussen de tekens. */
+/* Meedoen met code: zes vakjes. Eén onzichtbaar veld ligt erover, zodat je gewoon doortypt, plakt en wist. */
 .duel-code-label { display: block; margin: 0 0 8px; color: var(--ink); font-size: .9375rem; font-weight: 600; }
-.duel-code { display: block; width: 100%; min-height: 64px; margin: 0; padding: 10px 12px 10px calc(12px + .4em); border: 1px solid var(--line); border-radius: 16px; background: var(--surface); color: var(--ink); font: 600 1.75rem/1.2 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; letter-spacing: .4em; text-align: center; text-transform: uppercase; caret-color: var(--accent); transition: border-color 160ms var(--ease), box-shadow 160ms var(--ease), background-color 160ms var(--ease); }
-.duel-code::placeholder { color: var(--ink-soft); opacity: .45; }
-.duel-code:focus { outline: none; border-color: var(--accent); background: var(--card); box-shadow: 0 0 0 4px var(--accent-zacht); }
-.duel-code.is-compleet { border-color: var(--accent); }
+.duel-code-vakjes { position: relative; display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 8px; max-width: 420px; margin: 0 auto; }
+.duel-code-vak { position: relative; display: flex; align-items: center; justify-content: center; aspect-ratio: 5 / 6; min-height: 52px; max-height: 72px; border: 1px solid var(--line); border-radius: 14px; background: var(--surface); color: var(--ink); font: 700 1.625rem/1 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; transition: border-color 160ms var(--ease), box-shadow 160ms var(--ease), background-color 160ms var(--ease), transform 160ms var(--ease); }
+.duel-code-vak.is-vol { background: var(--card); animation: duel-vak-erin 180ms var(--ease); }
+.duel-code-vakjes.is-focus .duel-code-vak.is-actief { border-color: var(--accent); background: var(--card); box-shadow: 0 0 0 4px var(--accent-zacht); }
+.duel-code-vakjes.is-focus .duel-code-vak.is-actief::after { content: ""; position: absolute; left: 50%; top: 26%; bottom: 26%; width: 2px; margin-left: -1px; border-radius: 1px; background: var(--accent); animation: duel-vak-cursor 1s steps(1) infinite; }
+.duel-code-vakjes.is-compleet .duel-code-vak { border-color: var(--accent); }
+.duel-code-vakjes.is-fout .duel-code-vak.is-actief { border-color: var(--fout); box-shadow: 0 0 0 4px color-mix(in srgb, var(--fout) 18%, transparent); }
+.duel-code { position: absolute; inset: 0; z-index: 1; width: 100%; height: 100%; margin: 0; padding: 0; border: 0; border-radius: 14px; background: transparent; color: transparent; caret-color: transparent; font-size: 16px; letter-spacing: 0; text-indent: -9999px; opacity: .01; cursor: text; -webkit-text-fill-color: transparent; }
+.duel-code::selection { background: transparent; }
+.duel-code:focus { outline: none; }
+.duel-code:focus-visible { outline: none; }
+@keyframes duel-vak-erin { from { transform: scale(.92); } to { transform: scale(1); } }
+@keyframes duel-vak-cursor { 0%, 49% { opacity: 1; } 50%, 100% { opacity: 0; } }
+@media (max-width: 400px) { .duel-code-vakjes { gap: 6px; } .duel-code-vak { min-height: 46px; border-radius: 12px; font-size: 1.375rem; } }
 .duel-code-hulp { margin: 10px 0 0; color: var(--ink-soft); font-size: .875rem; line-height: 1.5; }
 
 .duel-info, .duel-fout { margin: 0; padding-top: 14px; font-size: .875rem; line-height: 1.5; }
@@ -186,8 +196,8 @@
   .duel-hs-aantal { grid-column: 2; }
 }
 @media (prefers-reduced-motion: reduce) {
-  .duel-schuif, .duel-segment button, .duel-hs, .duel-tekstknop, .duel-code, .duel-venster .kies-plan-later, .duel-naar-maak, .duel-naar-maak-pijl { transition: none !important; }
-  .duel-venster .duel-venster-icoon svg { animation: none !important; }
+  .duel-schuif, .duel-segment button, .duel-hs, .duel-tekstknop, .duel-code-vak, .duel-venster .kies-plan-later, .duel-naar-maak, .duel-naar-maak-pijl { transition: none !important; }
+  .duel-venster .duel-venster-icoon svg, .duel-code-vak, .duel-code-vak::after { animation: none !important; }
   .duel-segment button:active, .duel-hs:active, .duel-tekstknop:active, .modus.duel-kaart:active, .duel-venster .kies-plan-later:active, .duel-naar-maak:active, .duel-naar-maak:hover .duel-naar-maak-pijl { transform: none !important; }
 }`;
     document.head.append(css);
@@ -654,13 +664,21 @@
     const codeVeld = maak('input', 'duel-code');
     codeVeld.id = 'duel-code';
     codeVeld.type = 'text';
-    codeVeld.placeholder = '······';
+    codeVeld.maxLength = 200; // ruim: een geplakte link wordt de code
+    codeVeld.setAttribute('inputmode', 'text');
     codeVeld.autocomplete = 'off';
     codeVeld.spellcheck = false;
     codeVeld.setAttribute('autocapitalize', 'characters');
     codeVeld.setAttribute('autocorrect', 'off');
     codeVeld.setAttribute('enterkeyhint', 'go');
     codeVeld.setAttribute('aria-describedby', 'duel-code-hulp');
+    const codeVakjes = maak('div', 'duel-code-vakjes');
+    const codeVakken = Array.from({ length: CODE_LENGTE }, () => {
+      const vak = maak('span', 'duel-code-vak');
+      vak.setAttribute('aria-hidden', 'true');
+      return vak;
+    });
+    codeVakjes.append(...codeVakken, codeVeld);
     const codeHulp = maak('p', 'duel-code-hulp', 'Vraag de code aan wie het duel maakte.');
     codeHulp.id = 'duel-code-hulp';
     codeHulp.setAttribute('aria-live', 'polite');
@@ -684,7 +702,7 @@
     const naarMaakPijl = maak('span', 'duel-naar-maak-pijl', '→');
     naarMaakPijl.setAttribute('aria-hidden', 'true');
     naarMaak.append(naarMaakIcoon, naarMaakTekst, naarMaakPijl);
-    paneelBegin.append(codeLabel, codeVeld, codeHulp, meeKnop, of, naarMaak);
+    paneelBegin.append(codeLabel, codeVakjes, codeHulp, meeKnop, of, naarMaak);
 
     let ingelogd = testDuel ? true : undefined;
     let bezig = false;
@@ -750,8 +768,21 @@
     function werkCodeBij(verkeerd = false, code = codeVeld.value) {
       const compleet = code.length === CODE_LENGTE;
       meeKnop.disabled = !compleet;
-      codeVeld.classList.toggle('is-compleet', compleet);
+      codeVakjes.classList.toggle('is-compleet', compleet);
+      codeVakjes.classList.toggle('is-fout', verkeerd);
       codeVeld.setAttribute('aria-invalid', String(verkeerd));
+      // De vakjes: elk teken in zijn eigen vakje; het volgende lege vakje knippert als je typt.
+      const tekens = String(code).slice(0, CODE_LENGTE);
+      codeVakken.forEach((vak, i) => {
+        const teken = tekens[i] || '';
+        const was = vak.textContent;
+        if (was !== teken) {
+          vak.textContent = teken;
+          vak.classList.remove('is-vol');
+          if (teken) { void vak.offsetWidth; vak.classList.add('is-vol'); }
+        }
+        vak.classList.toggle('is-actief', i === tekens.length);
+      });
       const tekst = verkeerd ? 'Een code heeft 6 tekens, zonder I, L, O, 0 of 1.' : 'Vraag de code aan wie het duel maakte.';
       if (codeHulp.textContent !== tekst) {
         if (BES.wissel && venster.open) BES.wissel(codeHulp, () => { codeHulp.textContent = tekst; });
@@ -934,6 +965,13 @@
     };
     codeVeld.addEventListener('input', schoonCode);
     codeVeld.addEventListener('compositionend', () => schoonCode());
+    // Je typt altijd achteraan: klikken of pijltjes zetten de cursor terug aan het eind (wissen gaat zo van achteren).
+    const naarEind = () => { const n = codeVeld.value.length; try { codeVeld.setSelectionRange(n, n); } catch {} };
+    codeVeld.addEventListener('focus', () => { codeVakjes.classList.add('is-focus'); requestAnimationFrame(naarEind); });
+    codeVeld.addEventListener('blur', () => codeVakjes.classList.remove('is-focus'));
+    codeVeld.addEventListener('click', naarEind);
+    codeVeld.addEventListener('select', () => { if (codeVeld.selectionStart !== 0 || codeVeld.selectionEnd !== codeVeld.value.length) naarEind(); });
+    codeVeld.addEventListener('keyup', event => { if (/^(Arrow|Home|End)/.test(event.key)) naarEind(); });
     codeVeld.addEventListener('keydown', event => {
       if (event.key !== 'Enter') return;
       event.preventDefault();

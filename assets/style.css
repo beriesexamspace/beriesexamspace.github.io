@@ -356,12 +356,17 @@ button.profiel-knop { font: inherit; font-size: .875rem; font-weight: 500; curso
 }
 .profiel-menu-lijst[hidden] { display: none; opacity: 0; transform: translateY(-4px); }
 @starting-style { .profiel-menu-lijst { opacity: 0; transform: translateY(-4px); } }
-.profiel-menu-kop { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin: 0; padding: 8px 10px 10px; border-bottom: 1px solid var(--line); }
-.profiel-menu-kop strong { min-width: 0; overflow: hidden; font-size: .9375rem; text-overflow: ellipsis; white-space: nowrap; }
+.profiel-menu-lijst a.profiel-menu-kop { gap: 8px; min-height: 48px; margin: 0; transition: background-color 150ms var(--ease); }
+.profiel-menu-kop strong { flex: 1; min-width: 0; overflow: hidden; font-size: .9375rem; text-overflow: ellipsis; white-space: nowrap; }
+.profiel-menu-lijst a.profiel-menu-kop[aria-current="page"] { color: var(--ink); font-weight: inherit; }
+.profiel-menu-lijst a.profiel-menu-kop[aria-current="page"] strong { color: var(--accent); }
+.profiel-menu-kop-pijl { flex-shrink: 0; color: var(--ink-soft); transition: transform 150ms var(--ease), color 150ms var(--ease); }
+:where(html.has-hover) .profiel-menu-kop:hover .profiel-menu-kop-pijl { color: var(--accent); transform: translateX(3px); }
+.profiel-menu-kop:active { transform: scale(.98); }
+@media (prefers-reduced-motion: reduce) { .profiel-menu-kop-pijl, .profiel-menu-kop:active { transition: none; transform: none !important; } }
 .profiel-menu-plan { flex-shrink: 0; padding: 3px 9px; border-radius: var(--pill); background: var(--surface); color: var(--ink-soft); font-size: .75rem; font-weight: 600; }
 .profiel-menu-plan[data-plan="plus"] { background: var(--teal-zacht); color: var(--teal-tekst); }
 .profiel-menu-lijst a, .profiel-menu-uitloggen { display: flex; align-items: center; min-height: 44px; padding: 8px 10px; border: 0; border-radius: 10px; background: none; color: var(--ink); font: inherit; font-size: .9375rem; text-align: left; text-decoration: none; cursor: pointer; }
-.profiel-menu-lijst a:first-of-type { margin-top: 6px; }
 .profiel-menu-lijst a[aria-current="page"] { color: var(--accent); font-weight: 600; }
 :where(html.has-hover) .profiel-menu-lijst a:hover, :where(html.has-hover) .profiel-menu-uitloggen:hover { background: var(--surface); }
 .profiel-menu-lijst hr { width: 100%; height: 1px; margin: 6px 0; border: 0; background: var(--line); }
