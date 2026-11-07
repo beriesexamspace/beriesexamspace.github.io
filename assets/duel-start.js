@@ -81,7 +81,7 @@
 
 .duel-venster-icoon svg { flex-shrink: 0; fill: none; stroke: var(--accent); stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
 
-.duel-venster.kies-plan { --duel-pad: clamp(20px, 4vw, 32px); width: min(500px, calc(100% - 32px)); padding: var(--duel-pad); }
+.duel-venster.kies-plan { --duel-pad: clamp(20px, 4vw, 32px); width: min(640px, calc(100% - 32px)); padding: var(--duel-pad); }
 .duel-venster-top { display: flex; align-items: center; gap: 14px; margin: 0 0 12px; }
 .duel-venster-top > div { min-width: 0; }
 .duel-venster.kies-plan h2 { margin: 0; font-size: 1.375rem; line-height: 1.25; }
@@ -124,6 +124,7 @@
 /* Hoofdstukken: een korte lijst die zelf scrolt, zodat Start altijd dichtbij blijft.
    Op een laag scherm scrolt alleen het venster (geen scrollvak in een scrollvak) en blijft de voet met Start staan. */
 .duel-hs-lijst { display: grid; gap: 8px; max-height: min(300px, 30dvh); margin: 0 -4px 20px; padding: 4px; overflow-y: auto; overscroll-behavior: contain; scrollbar-width: thin; }
+@media (min-width: 600px) { .duel-hs-lijst { max-height: min(440px, 42dvh); } }
 .duel-hs { display: flex; align-items: center; gap: 12px; width: 100%; min-height: 48px; padding: 10px 14px; border: 1px solid var(--line); border-radius: 14px; background: var(--card); color: var(--ink); font: inherit; text-align: left; cursor: pointer; touch-action: manipulation; transition: background-color 160ms var(--ease), border-color 160ms var(--ease), transform 150ms var(--ease); }
 .duel-hs[aria-checked="true"] { border-color: var(--accent); background: var(--accent-zacht); }
 :where(html.has-hover) .duel-hs:not(:disabled):not([aria-checked="true"]):hover { border-color: var(--ink-soft); }
