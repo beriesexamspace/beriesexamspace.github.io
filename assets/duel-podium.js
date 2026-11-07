@@ -23,9 +23,10 @@
 
   const CODE = /^[A-Z0-9]{4,12}$/i;
   const ONDERWEG = 'Op naar de nieuwe wachtkamer…';
-  const AANTALLEN = [5, 10, 20, 30, 50];
-  // Nog een keer houdt hetzelfde aantal, ook 15 van een kamer van voor 05-11-2026 (de database staat dat toe).
-  const ZELFDE_MAG = [5, 10, 15, 20, 30, 50];
+  // Nog een keer houdt hetzelfde aantal: elk geheel aantal van 5 tot en met 200 (zoals de database, duel-aantal.sql).
+  const MIN_VRAGEN = 5;
+  const MAX_VRAGEN = 200;
+  const aantalOk = n => Number.isInteger(n) && n >= MIN_VRAGEN && n <= MAX_VRAGEN;
   // Teksten uit plannen/duel-teksten.md (podium en foutcodes).
   const FOUTEN = {
     niet_ingelogd: 'Log eerst in om mee te doen.',
@@ -140,9 +141,8 @@
     const oud = schud(pool.filter(v => gespeeld.has(v.vraag.trim())));
     const alles = nieuw.concat(oud);
     if (alles.length >= aantal) return alles.slice(0, aantal);
-    // Te weinig voor hetzelfde aantal: het grootste toegestane aantal dat wel kan (minstens 5).
-    const kan = AANTALLEN.filter(n => n <= alles.length).pop();
-    return kan ? alles.slice(0, kan) : [];
+    // Te weinig voor hetzelfde aantal: zoveel als er zijn (minstens 5).
+    return alles.length >= MIN_VRAGEN ? alles.slice(0, Math.min(alles.length, MAX_VRAGEN)) : [];
   }
 
   // De vragen van het vak: window.BES_VAK als die van dit vak is, anders data.js van het vak laden.
@@ -186,7 +186,7 @@
 
   async function nieuweVragen(staat) {
     const kamer = staat.kamer;
-    const aantal = ZELFDE_MAG.includes(Number(kamer.aantal)) ? Number(kamer.aantal) : 10;
+    const aantal = aantalOk(Number(kamer.aantal)) ? Number(kamer.aantal) : 10;
     const gespeeld = new Set(Object.values(staat.vragen || {}).map(v => String((v && v.vraag) || '').trim()).filter(Boolean));
     let vragen = [];
     if (testModus()) {
@@ -194,8 +194,14 @@
       if (nep && nep.length) {
         vragen = kiesVragen(nep, kamer.hoofdstukken, aantal, gespeeld);
         // Voorbeeldvragen horen soms bij andere hoofdstuk-id's: dan maakt het hoofdstuk in de test niet uit.
-        if (vragen.length < Math.min(aantal, 5)) vragen = kiesVragen(nep, kamer.hoofdstukken, aantal, gespeeld, true);
+        if (vragen.length < Math.min(aantal, MIN_VRAGEN)) vragen = kiesVragen(nep, kamer.hoofdstukken, aantal, gespeeld, true);
       }
+    }
+    // In de testmodus zijn er maar een paar voorbeeldvragen: een groter duel haalt ze uit het vak zelf (als dat er is).
+    if (vragen.length && vragen.length < aantal) {
+      const bron = await vakVragen(kamer.vak);
+      const uitVak = bron && bron.length ? kiesVragen(bron, kamer.hoofdstukken, aantal, gespeeld) : [];
+      if (uitVak.length > vragen.length) vragen = uitVak;
     }
     if (!vragen.length) {
       const bron = await vakVragen(kamer.vak);

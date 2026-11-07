@@ -31,7 +31,10 @@
   const TEKENS = 'ABCDEFGHJKMNPQRSTUVWXYZ23456789';
   const CODE_VORM = /^[ABCDEFGHJKMNPQRSTUVWXYZ23456789]{6}$/;
   const MAX_SPELERS = 10;
-  const AANTALLEN = [5, 10, 15, 20, 30, 50]; // zoals duel_intern_vragen_ok in duel-50.sql (15 alleen voor oude kamers)
+  // Zoals duel_intern_vragen_ok in duel-aantal.sql: elk geheel aantal van 5 tot en met 200 vragen.
+  const MIN_VRAGEN = 5;
+  const MAX_VRAGEN = 200;
+  const aantalOk = n => Number.isInteger(n) && n >= MIN_VRAGEN && n <= MAX_VRAGEN;
 
   const zoek = new URLSearchParams(window.location.search);
   const spelerRuw = zoek.get('speler');
@@ -308,7 +311,7 @@
   };
 
   const schoonVragen = vragen => {
-    if (!Array.isArray(vragen) || !AANTALLEN.includes(vragen.length)) return null;
+    if (!Array.isArray(vragen) || !aantalOk(vragen.length)) return null;
     const uit = [];
     for (const v of vragen) {
       if (!v || typeof v.vraag !== 'string' || !v.vraag.trim()) return null;

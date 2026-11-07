@@ -17,9 +17,13 @@
   const params = new URLSearchParams(window.location.search);
   // Met ?test=duel speelt alles op de nep-database (duel-nep.js), zonder account.
   const testDuel = params.get('test') === 'duel';
-  const AANTALLEN = [5, 10, 20, 30, 50];
+  // De vaste keuzes in de pil; daarnaast Max (alle bruikbare vragen) en Zelf kiezen (elk getal van MINIMUM tot MAXIMUM).
+  // MINIMUM en MAXIMUM zijn dezelfde grenzen als in de database (duel-aantal.sql).
+  const AANTALLEN = [10, 20, 30];
   const STANDAARD = 10;
   const MINIMUM = 5;
+  const MAXIMUM = 200;
+  const geldigAantal = n => Number.isInteger(n) && n >= MINIMUM && n <= MAXIMUM;
   // Zelfde tekens als de codes van duel_maak (geen I, L, O, 0 of 1).
   const TEKENS = 'ABCDEFGHJKMNPQRSTUVWXYZ23456789';
   const CODE_LENGTE = 6;
@@ -106,6 +110,29 @@
 .duel-segment button:not(:disabled):active { transform: scale(.95); }
 .duel-segment button:disabled { opacity: .4; cursor: default; }
 .duel-segment button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+/* Max toont het aantal eronder; Zelf kiezen wordt "Zelf" als de rij smal is. */
+.duel-segment button { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 1px; min-width: 0; line-height: 1.15; white-space: nowrap; }
+.duel-seg-sub { color: var(--ink-soft); font-size: .6875rem; font-weight: 500; line-height: 1.1; }
+.duel-seg-sub:empty { display: none; }
+.duel-seg-kort { display: none; }
+.duel-aantal { container-type: inline-size; }
+@container (max-width: 440px) {
+  .duel-segment button { font-size: .9375rem; }
+  .duel-seg-lang { display: none; }
+  .duel-seg-kort { display: inline; }
+}
+/* Zelf kiezen: een rustige teller onder de pil (min, getal, plus). */
+.duel-zelf { display: flex; align-items: center; justify-content: center; gap: 10px; margin: 10px 0 0; }
+.duel-zelf[hidden] { display: none; }
+.duel-zelf-knop { display: inline-grid; place-items: center; flex: 0 0 44px; width: 44px; height: 44px; padding: 0; border: 1px solid var(--line); border-radius: 50%; background: var(--surface); color: var(--ink); font: inherit; font-size: 1.25rem; font-weight: 600; line-height: 1; cursor: pointer; touch-action: manipulation; transition: border-color 160ms var(--ease), background-color 160ms var(--ease), transform 150ms var(--ease), opacity 160ms var(--ease); }
+:where(html.has-hover) .duel-zelf-knop:not(:disabled):hover { border-color: var(--accent); background: var(--card); }
+.duel-zelf-knop:not(:disabled):active { transform: scale(.92); }
+.duel-zelf-knop:disabled { opacity: .4; cursor: default; }
+.duel-zelf-knop:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.duel-zelf-getal { width: 84px; min-width: 0; height: 44px; padding: 0 8px; border: 1px solid var(--line); border-radius: 14px; background: var(--card); color: var(--ink); font: inherit; font-size: 1.125rem; font-weight: 600; font-variant-numeric: tabular-nums; text-align: center; transition: border-color 160ms var(--ease), box-shadow 160ms var(--ease); }
+.duel-zelf-getal:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-zacht); }
+.duel-zelf-uitleg { flex: 0 1 auto; min-width: 0; color: var(--ink-soft); font-size: .8125rem; font-variant-numeric: tabular-nums; white-space: nowrap; }
+@container (max-width: 300px) { .duel-zelf { gap: 8px; } .duel-zelf-getal { width: 64px; } }
 
 /* Beginscherm: eerst meedoen met een code, dan een rustige "of"-lijn en de keuze om zelf een duel te maken. */
 .duel-venster .duel-mee-knop { display: flex; width: 100%; max-width: none; min-width: 0; min-height: 52px; margin: 16px 0 0; justify-content: center; align-items: center; }
@@ -196,9 +223,9 @@
   .duel-hs-aantal { grid-column: 2; }
 }
 @media (prefers-reduced-motion: reduce) {
-  .duel-schuif, .duel-segment button, .duel-hs, .duel-tekstknop, .duel-code-vak, .duel-venster .kies-plan-later, .duel-naar-maak, .duel-naar-maak-pijl { transition: none !important; }
+  .duel-schuif, .duel-segment button, .duel-zelf-knop, .duel-zelf-getal, .duel-hs, .duel-tekstknop, .duel-code-vak, .duel-venster .kies-plan-later, .duel-naar-maak, .duel-naar-maak-pijl { transition: none !important; }
   .duel-venster .duel-venster-icoon svg, .duel-code-vak, .duel-code-vak::after { animation: none !important; }
-  .duel-segment button:active, .duel-hs:active, .duel-tekstknop:active, .modus.duel-kaart:active, .duel-venster .kies-plan-later:active, .duel-naar-maak:active, .duel-naar-maak:hover .duel-naar-maak-pijl { transform: none !important; }
+  .duel-segment button:active, .duel-zelf-knop:active, .duel-hs:active, .duel-tekstknop:active, .modus.duel-kaart:active, .duel-venster .kies-plan-later:active, .duel-naar-maak:active, .duel-naar-maak:hover .duel-naar-maak-pijl { transform: none !important; }
 }`;
     document.head.append(css);
   }
@@ -291,7 +318,7 @@
     if (laadBelofte) return laadBelofte;
     const script = document.createElement('script');
     laadBelofte = new Promise((klaar, mislukt) => {
-      script.src = new URL(testDuel ? 'duel-nep.js?v=3' : 'duel.js?v=2', bron).href;
+      script.src = new URL(testDuel ? 'duel-nep.js?v=4' : 'duel.js?v=2', bron).href;
       script.onload = () => (typeof BES.duel?.maak === 'function' ? klaar(BES.duel) : mislukt(new Error('geen duel')));
       script.onerror = () => mislukt(new Error('niet geladen'));
       document.head.append(script);
@@ -427,9 +454,12 @@
   //   v: begin van de id's (uniek per pagina), zichtbaar(): staat het venster open (dan rustig wisselen),
   //   extraTekst(): een zin achter de uitleg, bijStand({ max, bezig }): na elke wijziging (bv. Start aan of uit).
   function maakKiezer({ v = 'duel', hoofdstukken = beschikbareHoofdstukken(), zichtbaar = () => true, extraTekst = () => '', bijStand = () => {} } = {}) {
-    let voorkeur = STANDAARD; // wat de maker koos
-    let gekozen = STANDAARD;  // wat nu kan met de vragen van zijn hoofdstukken
-    let stand = null;         // { lijst, max }
+    // Wat de maker koos: een vast aantal (10, 20, 30), max (alle bruikbare vragen) of zelf (een eigen getal).
+    // Soort 'getal' komt van buiten (wachtkamer, ?duel=): bij de eerste stand wordt dat een vast aantal, max of zelf.
+    let voorkeur = { soort: 'vast', aantal: STANDAARD };
+    let zelfGetal = STANDAARD; // het laatste eigen getal (blijft staan als je even een andere keuze probeert)
+    let gekozen = STANDAARD;   // wat nu kan met de vragen van zijn hoofdstukken
+    let stand = null;          // { lijst, max }
     let kies = new Set(hoofdstukken.map(hoofdstuk => hoofdstuk.id));
     let bezig = false;
 
@@ -475,16 +505,51 @@
     const schuif = maak('span', 'duel-schuif');
     schuif.setAttribute('aria-hidden', 'true');
     segment.append(schuif);
-    const keuzeKnoppen = AANTALLEN.map(aantal => {
-      const optie = maak('button', '', String(aantal));
+    const keuzeKnoppen = [...AANTALLEN.map(aantal => ({ soort: 'vast', aantal })), { soort: 'max' }, { soort: 'zelf' }].map(({ soort, aantal }) => {
+      const optie = maak('button');
       optie.type = 'button';
       optie.setAttribute('role', 'radio');
-      optie.dataset.aantal = String(aantal);
-      optie.setAttribute('aria-label', `${aantal} vragen`);
+      optie.dataset.soort = soort;
+      if (soort === 'vast') {
+        optie.dataset.aantal = String(aantal);
+        optie.textContent = String(aantal);
+        optie.setAttribute('aria-label', `${aantal} vragen`);
+      } else if (soort === 'max') {
+        optie.append(maak('span', 'duel-seg-label', 'Max'), maak('span', 'duel-seg-sub'));
+      } else {
+        optie.append(maak('span', 'duel-seg-lang', 'Zelf kiezen'), maak('span', 'duel-seg-kort', 'Zelf'));
+        optie.setAttribute('aria-label', 'Zelf kiezen');
+        optie.setAttribute('aria-controls', `${v}-zelf`);
+      }
       segment.append(optie);
       return optie;
     });
-    aantalVak.append(aantalRij, segment);
+    const maxKnop = keuzeKnoppen.find(optie => optie.dataset.soort === 'max');
+    const zelfKnop = keuzeKnoppen.find(optie => optie.dataset.soort === 'zelf');
+
+    // Zelf kiezen: min, een getal en plus. Tijdens het typen telt elk geldig getal; bij verlaten wordt het binnen de grenzen gezet.
+    const zelfRij = maak('div', 'duel-zelf');
+    zelfRij.id = `${v}-zelf`;
+    zelfRij.hidden = true;
+    const minKnop = maak('button', 'duel-zelf-knop', '−');
+    minKnop.type = 'button';
+    minKnop.setAttribute('aria-label', 'Een vraag minder');
+    const zelfVeld = maak('input', 'duel-zelf-getal');
+    zelfVeld.type = 'text';
+    zelfVeld.inputMode = 'numeric';
+    zelfVeld.autocomplete = 'off';
+    zelfVeld.maxLength = 3;
+    zelfVeld.id = `${v}-zelf-getal`;
+    zelfVeld.setAttribute('aria-label', 'Aantal vragen');
+    zelfVeld.setAttribute('enterkeyhint', 'done');
+    const plusKnop = maak('button', 'duel-zelf-knop', '+');
+    plusKnop.type = 'button';
+    plusKnop.setAttribute('aria-label', 'Een vraag meer');
+    const zelfUitleg = maak('span', 'duel-zelf-uitleg');
+    zelfUitleg.id = `${v}-zelf-uitleg`;
+    zelfVeld.setAttribute('aria-describedby', zelfUitleg.id);
+    zelfRij.append(minKnop, zelfVeld, plusKnop, zelfUitleg);
+    aantalVak.append(aantalRij, segment, zelfRij);
     const info = maak('p', 'duel-info');
     info.setAttribute('role', 'status');
     info.hidden = true;
@@ -505,17 +570,52 @@
       return new Set(uit.length ? uit : ids);
     }
 
-    function kiesAantal(aantal, focus = false) {
-      const optie = keuzeKnoppen.find(knopje => Number(knopje.dataset.aantal) === aantal);
-      if (!optie || optie.disabled) return;
-      gekozen = aantal;
+    // Het grootste aantal dat nu kan: alle bruikbare vragen, tot MAXIMUM. 0 als er te weinig zijn voor een duel.
+    const maxVan = n => (n >= MINIMUM ? Math.min(n, MAXIMUM) : 0);
+    const binnen = (getal, max) => Math.min(max, Math.max(MINIMUM, getal));
+
+    // Welke knop en welk aantal horen bij de voorkeur, nu er `max` vragen kunnen.
+    function uitVoorkeur(max) {
+      if (voorkeur.soort === 'getal') {
+        const n = voorkeur.aantal;
+        if (AANTALLEN.includes(n) && n <= max) voorkeur = { soort: 'vast', aantal: n };
+        else if (n >= max) voorkeur = { soort: 'max' };
+        else { zelfGetal = n; voorkeur = { soort: 'zelf' }; }
+      }
+      if (voorkeur.soort === 'max') return { optie: maxKnop, aantal: max };
+      if (voorkeur.soort === 'zelf') return { optie: zelfKnop, aantal: binnen(zelfGetal, max) };
+      // Een vast aantal dat (nog) niet kan: dan zoveel als er zijn. Komen er hoofdstukken bij, dan komt het vaste aantal terug.
+      if (voorkeur.aantal > max) return { optie: maxKnop, aantal: max };
+      return { optie: keuzeKnoppen.find(optie => Number(optie.dataset.aantal) === voorkeur.aantal), aantal: voorkeur.aantal };
+    }
+
+    function toonKeuze(optie, focus = false) {
       keuzeKnoppen.forEach(knopje => {
         const aan = knopje === optie;
         knopje.setAttribute('aria-checked', String(aan));
         knopje.tabIndex = aan ? 0 : -1;
       });
-      segment.style.setProperty('--i', String(keuzeKnoppen.indexOf(optie)));
-      if (focus) optie.focus();
+      segment.style.setProperty('--i', String(Math.max(0, keuzeKnoppen.indexOf(optie))));
+      if (focus && optie) optie.focus();
+    }
+
+    // De teller van Zelf kiezen bijwerken (zonder het veld te overschrijven terwijl iemand typt).
+    function werkZelfBij(max, open) {
+      const aan = open && max > 0;
+      if (aan && zelfRij.hidden) toon(zelfRij);
+      else if (!aan && !zelfRij.hidden) { if (zichtbaar()) verberg(zelfRij); else zelfRij.hidden = true; }
+      const waarde = max ? binnen(zelfGetal, max) : zelfGetal;
+      if (document.activeElement !== zelfVeld) zelfVeld.value = String(waarde);
+      zelfVeld.disabled = bezig || !max;
+      minKnop.disabled = bezig || !max || waarde <= MINIMUM;
+      plusKnop.disabled = bezig || !max || waarde >= max;
+      zelfUitleg.textContent = max ? `van ${MINIMUM} tot ${max}` : '';
+    }
+
+    function kiesSoort(nieuw, focus = false) {
+      voorkeur = nieuw;
+      werkBij();
+      if (focus) toonKeuze(uitVoorkeur(stand ? stand.max : 0).optie, true);
     }
 
     function infoTekst() {
@@ -524,9 +624,10 @@
       const n = stand.lijst.length;
       if (!kies.size) delen.push('Kies minstens één hoofdstuk.');
       else if (n < MINIMUM) delen.push(`Deze hoofdstukken hebben ${vragenTekst(n)}. Een duel heeft er minstens ${MINIMUM} nodig, dus kies meer hoofdstukken.`);
-      else if (stand.max < AANTALLEN[AANTALLEN.length - 1]) delen.push(kies.size >= hoofdstukken.length
+      else if (n < AANTALLEN[AANTALLEN.length - 1]) delen.push(kies.size >= hoofdstukken.length
         ? `Dit vak heeft ${vragenTekst(n)} voor een duel.`
         : `Deze hoofdstukken hebben ${vragenTekst(n)}. Kies meer hoofdstukken voor een langer duel.`);
+      else if (n > MAXIMUM) delen.push(`Een duel heeft hoogstens ${MAXIMUM} vragen.`);
       const extra = extraTekst();
       if (extra) delen.push(extra);
       return delen.join(' ');
@@ -534,7 +635,7 @@
 
     function werkBij() {
       const lijst = vragenUit([...kies]);
-      const max = AANTALLEN.filter(aantal => aantal <= lijst.length).pop() || 0;
+      const max = maxVan(lijst.length);
       stand = { lijst, max };
       hsKnoppen.forEach(rij => {
         rij.setAttribute('aria-checked', String(kies.has(rij.dataset.hoofdstuk)));
@@ -542,16 +643,37 @@
       });
       allesKnop.disabled = bezig || kies.size >= hoofdstukken.length;
       nietsKnop.disabled = bezig || !kies.size;
-      keuzeKnoppen.forEach(optie => { optie.disabled = bezig || Number(optie.dataset.aantal) > lijst.length; });
-      if (max) kiesAantal(Math.min(voorkeur, max));
-      else {
+      keuzeKnoppen.forEach(optie => {
+        optie.disabled = bezig || !max || (optie.dataset.soort === 'vast' && Number(optie.dataset.aantal) > lijst.length);
+      });
+      maxKnop.querySelector('.duel-seg-sub').textContent = max ? String(max) : '';
+      maxKnop.setAttribute('aria-label', max ? `Max, ${max} vragen` : 'Max');
+      let open = false;
+      if (max) {
+        const { optie, aantal } = uitVoorkeur(max);
+        gekozen = aantal;
+        open = optie === zelfKnop;
+        toonKeuze(optie);
+      } else {
         keuzeKnoppen.forEach(optie => { optie.setAttribute('aria-checked', 'false'); optie.tabIndex = -1; });
         segment.style.setProperty('--i', '0');
       }
+      werkZelfBij(max, open);
       schuif.hidden = !max;
       beschikbaarTekst.textContent = `${lijst.length} beschikbaar`;
       zetTekst(info, infoTekst());
       bijStand({ max, bezig });
+    }
+
+    // Zelf kiezen: een getal zetten (binnen de grenzen als `vast`, anders zoals getypt; dat is dan al geldig).
+    function zetZelf(getal, vast) {
+      const max = stand ? stand.max : 0;
+      if (!max || !Number.isFinite(getal)) return;
+      const nieuw = vast ? binnen(Math.round(getal), max) : getal;
+      zelfGetal = nieuw;
+      voorkeur = { soort: 'zelf' };
+      if (vast) zelfVeld.value = String(nieuw);
+      werkBij();
     }
 
     hsKnoppen.forEach(rij => rij.addEventListener('click', () => {
@@ -572,10 +694,10 @@
       werkBij();
       allesKnop.focus({ preventScroll: true });
     });
+    const soortVan = optie => (optie.dataset.soort === 'vast' ? { soort: 'vast', aantal: Number(optie.dataset.aantal) } : { soort: optie.dataset.soort });
     keuzeKnoppen.forEach(optie => optie.addEventListener('click', () => {
       if (optie.disabled) return;
-      voorkeur = Number(optie.dataset.aantal);
-      kiesAantal(voorkeur);
+      kiesSoort(soortVan(optie));
     }));
     segment.addEventListener('keydown', event => {
       const actief = keuzeKnoppen.filter(optie => !optie.disabled);
@@ -584,19 +706,50 @@
       event.preventDefault();
       const stap = ['ArrowLeft', 'ArrowUp'].includes(event.key) ? -1 : 1;
       const doel = event.key === 'Home' ? 0 : event.key === 'End' ? actief.length - 1 : (nu + stap + actief.length) % actief.length;
-      voorkeur = Number(actief[doel].dataset.aantal);
-      kiesAantal(voorkeur, true);
+      kiesSoort(soortVan(actief[doel]), true);
+    });
+    zelfVeld.addEventListener('input', () => {
+      const schoon = zelfVeld.value.replace(/\D/g, '').slice(0, 3);
+      if (schoon !== zelfVeld.value) zelfVeld.value = schoon;
+      const getal = Number(schoon);
+      const max = stand ? stand.max : 0;
+      // Alleen een getal binnen de grenzen telt meteen; de rest wordt goed gezet bij het verlaten van het veld.
+      if (schoon && getal >= MINIMUM && getal <= max) zetZelf(getal, false);
+    });
+    const zelfVast = () => zetZelf(zelfVeld.value.trim() ? Number(zelfVeld.value) : zelfGetal, true);
+    zelfVeld.addEventListener('change', zelfVast);
+    zelfVeld.addEventListener('blur', zelfVast);
+    zelfVeld.addEventListener('keydown', event => {
+      if (event.key === 'Enter') { event.preventDefault(); zelfVast(); }
+      else if (event.key === 'ArrowUp' || event.key === 'ArrowDown') {
+        event.preventDefault();
+        stapZelf(event.key === 'ArrowUp' ? 1 : -1);
+      }
+    });
+    function stapZelf(stap) {
+      const max = stand ? stand.max : 0;
+      if (!max) return;
+      zetZelf(binnen(zelfGetal, max) + stap, true);
+    }
+    minKnop.addEventListener('click', () => {
+      stapZelf(-1);
+      if (minKnop.disabled) plusKnop.focus({ preventScroll: true });
+    });
+    plusKnop.addEventListener('click', () => {
+      stapZelf(1);
+      if (plusKnop.disabled) minKnop.focus({ preventScroll: true });
     });
 
     const gekozenIds = () => hoofdstukken.map(hoofdstuk => hoofdstuk.id).filter(id => kies.has(id));
     return {
       delen: [hsRij, hsLijst, aantalVak, info],
       // Begin met deze hoofdstukken en (als het kan) dit aantal.
+      // Elk geldig aantal (5 tot en met 200) kan: een vast aantal, Max (als het alles is) of anders Zelf kiezen.
       zet(lijst, aantal) {
         kies = beginKeuze(lijst);
-        if (AANTALLEN.includes(aantal)) voorkeur = aantal;
+        if (geldigAantal(aantal)) voorkeur = { soort: 'getal', aantal };
       },
-      zetAantal(aantal) { if (AANTALLEN.includes(aantal)) voorkeur = aantal; },
+      zetAantal(aantal) { if (geldigAantal(aantal)) voorkeur = { soort: 'getal', aantal }; },
       werkBij,
       infoBij() { zetTekst(info, infoTekst()); },
       leegInfo() { info.hidden = true; info.textContent = ''; },
@@ -606,14 +759,14 @@
       keuze() {
         werkBij();
         if (!stand || !stand.max) return null;
-        return { hoofdstukken: gekozenIds(), aantal: Math.min(gekozen, stand.max), lijst: stand.lijst };
+        return { hoofdstukken: gekozenIds(), aantal: binnen(gekozen, stand.max), lijst: stand.lijst };
       },
       focus() { (hsKnoppen.find(rij => !rij.disabled) || allesKnop).focus({ preventScroll: true }); }
     };
   }
 
   // Hulp voor de wachtkamer (duel-kamer.js) en voor tests. begin() voegt open en keuze toe op een vakpagina.
-  BES.duelStart = { vragenUit, maakVragen, leesCode, bruikbaar, beschikbareHoofdstukken, kiezer: maakKiezer, stijl, icoon, AANTALLEN };
+  BES.duelStart = { vragenUit, maakVragen, leesCode, bruikbaar, beschikbareHoofdstukken, kiezer: maakKiezer, stijl, icoon, AANTALLEN, MINIMUM, MAXIMUM, geldigAantal };
 
   function begin() {
     const start = document.getElementById('start-oefening');
@@ -1006,7 +1159,7 @@
         kiezer.zet(bewaard.hoofdstukken);
         gekozenGezet = true;
       }
-      if (AANTALLEN.includes(terugAantal)) {
+      if (geldigAantal(terugAantal)) {
         kiezer.zetAantal(terugAantal);
         Promise.resolve(BES.auth?.gereed).then(() => BES.auth?.gebruiker?.()).then(gebruiker => {
           if (!gebruiker) return;
