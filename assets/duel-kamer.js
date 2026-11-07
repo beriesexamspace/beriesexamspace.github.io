@@ -128,7 +128,7 @@
 
   const vakNaam = id => {
     if (!id) return '';
-    const vak = (window.BES_VAKKEN || []).find(item => item.id === id);
+    const vak = [...(window.BES_VAKKEN || []), ...(window.BES_VAKKEN_STIL || [])].find(item => item.id === id);
     if (vak) return vak.naam;
     return id === 'voorbeeld' || id === 'test' ? 'Testduel' : '';
   };

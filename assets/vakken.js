@@ -60,6 +60,16 @@
     { id: 'um-ier', jaar: 'um2', naam: 'Internationaal en Europees recht', tekst: '129 oefenvragen over 9 hoofdstukken, met uitleg.', v2: true }
   ];
 
+  // Vakken die al op de site staan maar nog nergens gekoppeld zijn (Criminologie, VUB).
+  // Alleen het Duel kent ze, zodat je ze met vrienden kunt testen. Ze staan niet op de jaarpagina's of in Voortgang.
+  // Koppelen = de regel naar BES_VAKKEN verplaatsen.
+  window.BES_VAKKEN_STIL = [
+    { id: 'wwd', jaar: 'crim1', naam: 'Wijsbegeerte van het wetenschappelijk denken', v2: true },
+    { id: 'inlcrim', jaar: 'crim1', naam: 'Inleiding tot de criminologie', v2: true },
+    { id: 'polgesch', jaar: 'crim1', naam: 'Politieke geschiedenis van België', v2: true },
+    { id: 'inlrecht', jaar: 'crim1', naam: 'Inleiding tot het recht', v2: true }
+  ];
+
   // Link naar een vak: in v2 zodra het is omgezet, anders de bestaande tool.
   // 'basis' is het pad van de huidige pagina naar de map van v2 ('' op de jaarpagina's, '../../' vanuit vak/<id>/).
   window.BES_VAKLINK = (vak, basis) => vak.v2 ? (basis || '') + 'vak/' + vak.id + '/' : window.BES_LIVE + vak.id + '/';
