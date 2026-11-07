@@ -316,17 +316,20 @@ html[data-theme="dark"] .kamer-rij.is-ik .kamer-avatar { color: var(--ink); }
 .invoer-sub { max-width: 26rem; margin: 10px auto 0; color: var(--ink-soft); font-size: 1rem; line-height: 1.5; text-wrap: pretty; }
 .invoer-form { display: grid; margin: 28px 0 0; text-align: left; }
 .invoer-label { margin: 0 0 8px; font-size: .875rem; font-weight: 500; }
-.invoer-veld.auth-input {
-  min-height: 64px;
-  padding-left: calc(18px + .3em);
-  text-align: center;
-  font-size: 1.5rem;
-  font-weight: 700;
-  letter-spacing: .3em;
-  text-transform: uppercase;
-  font-variant-numeric: tabular-nums;
-}
-.invoer-veld.auth-input::placeholder { color: var(--muted); font-weight: 600; opacity: .45; }
+/* De code in zes vakjes. Eén onzichtbaar veld ligt erover, zodat je gewoon doortypt, plakt en wist. */
+.invoer-vakjes { position: relative; display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 8px; }
+.invoer-vak { position: relative; display: flex; align-items: center; justify-content: center; aspect-ratio: 5 / 6; min-height: 52px; max-height: 72px; border: 1px solid var(--line); border-radius: 14px; background: var(--surface); color: var(--ink); font: 700 1.625rem/1 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; transition: border-color 160ms var(--ease), box-shadow 160ms var(--ease), background-color 160ms var(--ease); }
+.invoer-vak.is-vol { background: var(--card); animation: invoer-vak-erin 180ms var(--ease); }
+.invoer-vakjes.is-focus .invoer-vak.is-actief { border-color: var(--accent); background: var(--card); box-shadow: 0 0 0 4px var(--accent-zacht); }
+.invoer-vakjes.is-focus .invoer-vak.is-actief::after { content: ""; position: absolute; left: 50%; top: 26%; bottom: 26%; width: 2px; margin-left: -1px; border-radius: 1px; background: var(--accent); animation: invoer-vak-cursor 1s steps(1) infinite; }
+.invoer-vakjes.is-compleet .invoer-vak { border-color: var(--accent); }
+.invoer-vakjes.is-fout .invoer-vak { border-color: var(--fout); }
+.invoer-vakjes.is-fout.is-focus .invoer-vak.is-actief { box-shadow: 0 0 0 4px color-mix(in srgb, var(--fout) 18%, transparent); }
+.invoer-veld { position: absolute; inset: 0; z-index: 1; width: 100%; height: 100%; margin: 0; padding: 0; border: 0; border-radius: 14px; background: transparent; color: transparent; caret-color: transparent; font-size: 16px; text-indent: -9999px; opacity: .01; cursor: text; -webkit-text-fill-color: transparent; }
+.invoer-veld::selection { background: transparent; }
+.invoer-veld:focus, .invoer-veld:focus-visible { outline: none; }
+@keyframes invoer-vak-erin { from { transform: scale(.92); } to { transform: scale(1); } }
+@keyframes invoer-vak-cursor { 0%, 49% { opacity: 1; } 50%, 100% { opacity: 0; } }
 .invoer-form .invoer-knop { width: 100%; max-width: none; min-height: 52px; margin: 20px 0 0; }
 .invoer-test { display: grid; justify-items: center; gap: 10px; margin-top: 24px; padding-top: 22px; border-top: 1px solid var(--line); }
 .invoer-test-label { margin: 0; color: var(--ink-soft); font-size: .75rem; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; }
@@ -339,10 +342,12 @@ html[data-theme="dark"] .kamer-rij.is-ik .kamer-avatar { color: var(--ink); }
 
 @media (max-width: 420px) {
   .invoer-kaart { padding: 28px 20px 24px; }
-  .invoer-veld.auth-input { font-size: 1.375rem; letter-spacing: .24em; padding-left: calc(18px + .24em); }
+  .invoer-vakjes { gap: 6px; }
+  .invoer-vak { min-height: 46px; border-radius: 12px; font-size: 1.375rem; }
 }
 
 @media (prefers-reduced-motion: reduce) {
+  .invoer-vak, .invoer-vak::after { animation: none !important; transition: none !important; }
   .duel-wacht-stippen i, .kamer-stippen i { opacity: .6; }
   .kamer-stip::after { display: none; }
   .kamer-stapel-deel { transform: none !important; }
