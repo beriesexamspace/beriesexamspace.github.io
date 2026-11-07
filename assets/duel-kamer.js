@@ -33,6 +33,7 @@
   };
   const ICOON_KOPIE = '<rect x="8.5" y="8.5" width="11" height="11" rx="2.5"/><path d="M15.5 8.5V6.8A2.3 2.3 0 0 0 13.2 4.5H6.8A2.3 2.3 0 0 0 4.5 6.8v6.4a2.3 2.3 0 0 0 2.3 2.3h1.7"/>';
   const ICOON_VINK = '<path d="m5.5 12.5 4 4 9-9"/>';
+  const ICOON_POTLOOD = '<path d="M4.5 19.5h4l10-10a2.83 2.83 0 0 0-4-4l-10 10v4Z"/><path d="m13.5 6.5 4 4"/>';
   const ICOON_WHATSAPP = '<path class="is-vol" d="M20.52 3.48A11.87 11.87 0 0 0 12.06 0C5.5 0 .16 5.34.16 11.9c0 2.1.55 4.15 1.6 5.95L.07 24l6.3-1.65a11.9 11.9 0 0 0 5.69 1.45h.01c6.55 0 11.89-5.34 11.89-11.9a11.82 11.82 0 0 0-3.44-8.42ZM12.07 21.8a9.85 9.85 0 0 1-5.03-1.38l-.36-.22-3.74.98 1-3.64-.24-.38a9.86 9.86 0 0 1-1.52-5.26c0-5.45 4.44-9.89 9.89-9.89 2.64 0 5.12 1.03 6.99 2.9a9.81 9.81 0 0 1 2.89 6.99c0 5.46-4.43 9.9-9.88 9.9Zm5.42-7.41c-.3-.15-1.76-.87-2.04-.97-.27-.1-.47-.15-.67.15-.2.3-.77.97-.94 1.17-.18.2-.35.22-.65.07-.3-.15-1.26-.46-2.4-1.48-.88-.78-1.48-1.75-1.65-2.05-.18-.3-.02-.46.13-.61.13-.13.3-.35.45-.52.15-.17.2-.3.3-.5.1-.19.05-.36-.03-.51-.07-.15-.67-1.61-.92-2.2-.24-.59-.48-.51-.67-.52H7.8c-.2 0-.52.07-.8.37-.27.3-1.04 1.01-1.04 2.47s1.06 2.87 1.21 3.07c.15.2 2.1 3.21 5.08 4.5.71.31 1.26.49 1.69.63.71.22 1.36.19 1.87.11.57-.08 1.76-.72 2.01-1.42.25-.69.25-1.29.18-1.41-.08-.13-.28-.2-.58-.35Z"/>';
 
   // Een knop met twee teksten op dezelfde plek: de breedte blijft gelijk als de tekst wisselt.
@@ -189,7 +190,16 @@
       const chipVragen = maak('li', 'label kamer-chip');
       const chipHoofdstukken = maak('li', 'label gedimd kamer-chip');
       const chipSpelers = maak('li', 'label gedimd kamer-chip', '2 tot ' + MAX + ' spelers');
-      chips.append(chipVragen, chipHoofdstukken, chipSpelers);
+      // Alleen de maker, zolang de kamer in de wachtkamer staat: hoofdstukken en aantal nog aanpassen.
+      const aanpasPlek = maak('li', 'kamer-chip-knop');
+      aanpasPlek.hidden = true;
+      const aanpasKnop = maak('button', 'kamer-aanpas');
+      aanpasKnop.type = 'button';
+      aanpasKnop.setAttribute('aria-haspopup', 'dialog');
+      aanpasKnop.append(svg(ICOON_POTLOOD, 15), maak('span', '', 'Aanpassen'));
+      aanpasKnop.setAttribute('aria-label', 'Hoofdstukken en aantal vragen aanpassen');
+      aanpasPlek.append(aanpasKnop);
+      chips.append(chipVragen, chipHoofdstukken, chipSpelers, aanpasPlek);
       kop.append(eyebrow, titel, sub, chips);
 
       // --- Code en delen ---
@@ -345,10 +355,12 @@
         const k = s.kamer;
         const naam = vakNaam(k.vak);
         const aantal = Number(k.aantal) || Object.keys(s.vragen || {}).length;
-        zetStil(chipVragen, aantal ? aantal + ' vragen' : '');
+        // Past de maker de keuze aan, dan wisselen de chips met een korte fade (eerste keer stil).
+        const zetChip = eerste ? zetStil : zetTekst;
+        zetChip(chipVragen, aantal ? aantal + ' vragen' : '');
         chipVragen.hidden = !aantal;
         const hoofdstukken = Array.isArray(k.hoofdstukken) ? k.hoofdstukken.length : 0;
-        zetStil(chipHoofdstukken, hoofdstukken === 1 ? '1 hoofdstuk' : hoofdstukken + ' hoofdstukken');
+        zetChip(chipHoofdstukken, hoofdstukken === 1 ? '1 hoofdstuk' : hoofdstukken + ' hoofdstukken');
         chipHoofdstukken.hidden = !hoofdstukken;
         zetStil(eyebrow, naam ? 'Duel · ' + naam : 'Duel');
       };
@@ -468,6 +480,150 @@
         zetStil(plekTekst, aantal < 2 ? 'Wachten op een tweede speler' : 'Wachten op meer spelers');
       };
 
+      // --- Aanpassen (alleen de maker, in de wachtkamer) ---
+      // De lijst met hoofdstukken komt uit duel-start.js (dezelfde als op de vakpagina) en de vragen uit window.BES_VAK,
+      // die duel.html voor de maker laadt. Zolang een van de twee er niet is, blijft de knop weg.
+      const kanAanpassen = s => Boolean(s && s.kamer && s.ik && s.ik === s.kamer.maker && s.kamer.status === 'wachtkamer'
+        && BES.duelStart && typeof BES.duelStart.kiezer === 'function'
+        && window.BES_VAK && window.BES_VAK.id === s.kamer.vak
+        && BES.duelStart.beschikbareHoofdstukken().length > 0);
+
+      const werkAanpasBij = () => {
+        const mag = kanAanpassen(staat);
+        if (mag === !aanpasPlek.hidden) return;
+        aanpasPlek.hidden = !mag;
+        if (mag && !eerste && zacht(aanpasPlek)) {
+          aanpasPlek.animate([{ opacity: 0, transform: 'scale(.92)' }, { opacity: 1, transform: 'none' }], { duration: 240, easing: verloop() });
+        }
+        if (!mag && venster && venster.open && !aanpasBezig) venster.close();
+      };
+      const bijVak = () => { if (!gestopt) werkAanpasBij(); };
+      document.addEventListener('bes:vak-geladen', bijVak);
+
+      let venster = null;
+      let kiezer = null;
+      let aanpasBezig = false;
+      let opslaanKnop = null;
+      let aanpasFout = null;
+
+      const AANPAS_FOUTEN = {
+        verkeerde_stand: 'Het duel is al begonnen.',
+        niet_jouw_beurt: 'Alleen de maker kan het duel aanpassen.',
+        verlopen: 'Deze kamer is verlopen. Maak een nieuw duel.',
+        geen_verbinding: 'Geen verbinding. Probeer het opnieuw.'
+      };
+
+      const zetAanpasFout = tekst => {
+        if (!aanpasFout) return;
+        if (!tekst) { verberg(aanpasFout); return; }
+        if (aanpasFout.hidden) { aanpasFout.textContent = tekst; toon(aanpasFout); return; }
+        if (aanpasFout.textContent !== tekst) {
+          if (BES.wissel) BES.wissel(aanpasFout, () => { aanpasFout.textContent = tekst; });
+          else aanpasFout.textContent = tekst;
+        }
+      };
+
+      const zetAanpasBezig = aan => {
+        aanpasBezig = aan;
+        opslaanKnop.textContent = aan ? 'Opslaan…' : 'Opslaan';
+        kiezer.zetBezig(aan);
+        if (aan) venster.setAttribute('aria-busy', 'true');
+        else venster.removeAttribute('aria-busy');
+      };
+
+      const sluitVenster = () => {
+        if (!venster || aanpasBezig) return;
+        if (BES.sluitDialoog) BES.sluitDialoog(venster);
+        else venster.close();
+      };
+
+      // Het venster: zelfde vorm als "Duel met vrienden" op de vakpagina, met Annuleren en Opslaan.
+      const maakVenster = () => {
+        const ds = BES.duelStart;
+        ds.stijl();
+        venster = maak('dialog', 'kies-plan duel-venster kamer-aanpas-venster');
+        venster.setAttribute('aria-labelledby', 'kamer-aanpas-kop');
+        venster.setAttribute('aria-describedby', 'kamer-aanpas-uitleg');
+        const top = maak('div', 'duel-venster-top');
+        const badge = maak('span', 'duel-venster-icoon');
+        badge.append(ds.icoon());
+        const titels = maak('div');
+        const kopTekst = maak('h2', '', 'Duel aanpassen');
+        kopTekst.id = 'kamer-aanpas-kop';
+        titels.append(maak('p', 'duel-venster-label', 'Wachtkamer'), kopTekst);
+        top.append(badge, titels);
+        const uitleg = maak('p', 'kies-plan-reden', 'Kies andere hoofdstukken of een ander aantal vragen. Wie in de wachtkamer zit, ziet het meteen.');
+        uitleg.id = 'kamer-aanpas-uitleg';
+        kiezer = ds.kiezer({
+          v: 'kamer-aanpas',
+          zichtbaar: () => Boolean(venster && venster.open),
+          bijStand: ({ max }) => { if (opslaanKnop) opslaanKnop.disabled = !max || aanpasBezig; }
+        });
+        aanpasFout = maak('p', 'duel-fout');
+        aanpasFout.setAttribute('role', 'alert');
+        aanpasFout.hidden = true;
+        const voet = maak('div', 'kies-plan-voet');
+        const annuleer = maak('button', 'kies-plan-later', 'Annuleren');
+        annuleer.type = 'button';
+        const voetKnop = maak('div', 'duel-voet-knop');
+        opslaanKnop = maak('button', 'knop', 'Opslaan');
+        opslaanKnop.type = 'button';
+        opslaanKnop.id = 'kamer-aanpas-opslaan';
+        voetKnop.append(opslaanKnop);
+        voet.append(annuleer, voetKnop);
+        venster.append(top, uitleg, ...kiezer.delen, aanpasFout, voet);
+        document.body.append(venster);
+
+        annuleer.addEventListener('click', sluitVenster);
+        opslaanKnop.addEventListener('click', slaOp);
+        venster.addEventListener('cancel', event => { event.preventDefault(); sluitVenster(); });
+        venster.addEventListener('click', event => {
+          if (event.target !== venster) return;
+          const r = venster.getBoundingClientRect();
+          if (event.clientX < r.left || event.clientX > r.right || event.clientY < r.top || event.clientY > r.bottom) sluitVenster();
+        });
+        venster.addEventListener('close', () => {
+          if (!gestopt && !aanpasPlek.hidden) aanpasKnop.focus({ preventScroll: true });
+        });
+      };
+
+      const openVenster = () => {
+        if (gestopt || !kanAanpassen(staat)) return;
+        if (!venster) maakVenster();
+        if (venster.open) return;
+        // Voorgevuld met wat de kamer nu heeft.
+        kiezer.zet(staat.kamer.hoofdstukken, Number(staat.kamer.aantal));
+        kiezer.leegInfo();
+        aanpasFout.hidden = true;
+        aanpasFout.textContent = '';
+        kiezer.werkBij();
+        venster.showModal();
+        kiezer.focus();
+      };
+
+      async function slaOp() {
+        if (aanpasBezig || !staat || !code) return;
+        const keuze = kiezer.keuze();
+        if (!keuze) return;
+        zetAanpasBezig(true);
+        zetAanpasFout('');
+        let antwoord = null;
+        try {
+          const vragen = BES.duelStart.maakVragen(keuze.lijst, keuze.aantal);
+          antwoord = typeof acties.wijzig === 'function' ? await acties.wijzig(code, keuze.hoofdstukken, vragen) : null;
+        } catch { antwoord = null; }
+        if (gestopt) return;
+        zetAanpasBezig(false);
+        if (antwoord && antwoord.ok) {
+          sluitVenster();
+          return;
+        }
+        // Bestaat de functie nog niet in de database (SQL nog niet uitgevoerd), dan komt hier ongeldig: de kamer blijft zoals hij was.
+        zetAanpasFout(AANPAS_FOUTEN[antwoord && antwoord.fout] || 'Aanpassen lukt nu niet. Probeer het later opnieuw.');
+      }
+
+      aanpasKnop.addEventListener('click', openVenster);
+
       return {
         toon(nieuweStaat) {
           if (gestopt || !nieuweStaat || !nieuweStaat.kamer) return;
@@ -492,12 +648,15 @@
               return zachtWissel(startInhoud, () => vulStart(staat));
             });
           } else werkStartBij(staat);
+          werkAanpasBij();
           eerste = false;
         },
         weg() {
           gestopt = true;
           window.clearTimeout(kopieerTimer);
           window.clearTimeout(startTimer);
+          document.removeEventListener('bes:vak-geladen', bijVak);
+          if (venster) { if (venster.open) venster.close(); venster.remove(); }
         }
       };
     }

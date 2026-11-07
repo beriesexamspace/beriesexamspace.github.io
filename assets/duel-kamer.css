@@ -112,6 +112,13 @@
 .kamer-sub { max-width: 34rem; margin: 12px 0 0; color: var(--muted); font-size: clamp(1rem, 1.4vw, 1.125rem); line-height: 1.5; text-wrap: pretty; }
 .kamer-chips { display: flex; flex-wrap: wrap; gap: 8px; margin: 18px 0 0; padding: 0; list-style: none; }
 .kamer-chip { padding: 6px 12px; font-size: .8125rem; }
+/* Aanpassen (alleen de maker): een kleine knop naast de chips, even hoog, met een eigen tikvlak van 44 px. */
+.kamer-chip-knop { display: inline-flex; }
+.kamer-aanpas { position: relative; display: inline-flex; align-items: center; gap: 6px; padding: 5px 12px; border: 1px solid var(--line); border-radius: var(--pill); background: var(--card); color: var(--accent); font: inherit; font-size: .8125rem; font-weight: 600; line-height: 1.2; cursor: pointer; touch-action: manipulation; transition: border-color 160ms var(--ease), color 160ms var(--ease), transform 150ms var(--ease); }
+.kamer-aanpas::after { content: ''; position: absolute; inset: -8px -4px; }
+:where(html.has-hover) .kamer-aanpas:hover { border-color: var(--accent); }
+.kamer-aanpas:active { transform: scale(.96); }
+.kamer-aanpas:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
 
 /* Code */
 .kamer-tegels { display: grid; grid-template-columns: repeat(6, minmax(0, 60px)); justify-content: center; gap: 8px; margin: 18px 0 22px; }
@@ -265,6 +272,7 @@ html[data-theme="dark"] .kamer-rij.is-ik .kamer-avatar { color: var(--ink); }
   .kamer-kaart { padding: 20px; }
   .kamer-chips { gap: 6px; margin-top: 14px; }
   .kamer-chip { padding: 5px 10px; font-size: .75rem; }
+  .kamer-aanpas { padding: 4px 10px; font-size: .75rem; }
   .kamer-tegels { gap: 6px; margin: 14px 0 18px; }
   .kamer-tegel { aspect-ratio: 1; border-radius: 12px; }
 }
@@ -338,4 +346,6 @@ html[data-theme="dark"] .kamer-rij.is-ik .kamer-avatar { color: var(--ink); }
   .duel-wacht-stippen i, .kamer-stippen i { opacity: .6; }
   .kamer-stip::after { display: none; }
   .kamer-stapel-deel { transform: none !important; }
+  .kamer-aanpas { transition: none; }
+  .kamer-aanpas:active { transform: none; }
 }

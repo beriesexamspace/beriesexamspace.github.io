@@ -1,8 +1,12 @@
 // Duel starten vanaf de vakpagina (contract deel 5): een derde kaartje "Duel met vrienden" naast Examensimulatie.
-// Het kaartje is geen modus: het opent meteen een venster met twee tabbladen.
-//   Duel maken: hoofdstukken en aantal vragen kiezen, dan de kamer maken met BES.duel.maak en door naar duel.html?c=CODE.
-//   Meedoen met code: een code van 6 tekens (of een geplakte link) en door naar duel.html?c=CODE, waar duel-laden.js het overneemt.
+// Het kaartje is geen modus: het opent meteen een venster met een beginscherm en twee keuzes.
+//   Meedoen met een code (bovenaan, meteen in beeld): een code van 6 tekens (of een geplakte link) en door naar
+//   duel.html?c=CODE, waar duel-laden.js het overneemt.
+//   Maak een duel (onder een "of"-lijn): schuift naar het kiesscherm met hoofdstukken en aantal vragen; Start maakt de
+//   kamer met BES.duel.maak en gaat door naar duel.html?c=CODE. Terug brengt je naar het beginscherm.
 // vak.js laadt dit bestand en geeft via BES.vakKeuze() het vak en de hoofdstukken die op de pagina gekozen staan (het begin van de keuze).
+// De wachtkamer op duel.html laadt dit bestand ook: de maker kan daar de keuze aanpassen met dezelfde lijst
+// (BES.duelStart.kiezer, vragenUit en maakVragen). Het kaartje komt er alleen op een vakpagina.
 (() => {
   'use strict';
 
@@ -85,6 +89,7 @@
 .duel-venster-top { display: flex; align-items: center; gap: 14px; margin: 0 0 12px; }
 .duel-venster-top > div { min-width: 0; }
 .duel-venster.kies-plan h2 { margin: 0; font-size: 1.375rem; line-height: 1.25; }
+.duel-venster.kies-plan h2:focus { outline: none; }
 .duel-venster-icoon { display: inline-grid; place-items: center; flex: 0 0 48px; width: 48px; height: 48px; border-radius: 15px; background: var(--accent-zacht); }
 .duel-venster-icoon svg { width: 24px; height: 24px; }
 .duel-venster[open] .duel-venster-icoon svg { animation: duel-icoon-in 420ms var(--ease) 120ms both; }
@@ -92,22 +97,32 @@
 .duel-venster-label { margin: 0 0 2px; color: var(--accent); font-size: .8125rem; font-weight: 600; letter-spacing: .01em; }
 .duel-venster .kies-plan-reden { margin: 0 0 18px; font-size: .9375rem; }
 
-/* Tabbladen Duel maken / Meedoen met code en de keuze van het aantal: een schuivende pil. */
-.duel-tabs, .duel-segment { position: relative; display: grid; gap: 4px; padding: 4px; border: 1px solid var(--line); border-radius: var(--radius-pill); background: var(--surface); }
-.duel-tabs { grid-template-columns: repeat(2, minmax(0, 1fr)); margin: 0 0 20px; --t: 0; }
-.duel-segment { grid-template-columns: repeat(5, minmax(0, 1fr)); --i: 1; }
-.duel-schuif, .duel-tabs-schuif { position: absolute; top: 4px; bottom: 4px; left: 4px; border: 1px solid var(--line); border-radius: var(--radius-pill); background: var(--card); box-shadow: var(--shadow-soft); transition: transform 280ms var(--ease); pointer-events: none; }
-.duel-schuif { width: calc((100% - 24px) / 5); transform: translateX(calc(var(--i) * (100% + 4px))); }
-.duel-tabs-schuif { width: calc((100% - 12px) / 2); transform: translateX(calc(var(--t) * (100% + 4px))); }
-.duel-tabs button, .duel-segment button { position: relative; z-index: 1; min-height: 44px; padding: 8px 4px; border: 0; border-radius: var(--radius-pill); background: var(--transparent); color: var(--ink-soft); font: inherit; font-weight: 600; cursor: pointer; touch-action: manipulation; transition: color 180ms var(--ease), transform 150ms var(--ease), opacity 180ms var(--ease); }
-.duel-tabs button { font-size: .9375rem; line-height: 1.2; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.duel-tab-kort { display: none; }
-.duel-segment button { font-size: 1rem; font-variant-numeric: tabular-nums; }
-.duel-segment button[aria-checked="true"], .duel-tabs button[aria-selected="true"] { color: var(--ink); }
-:where(html.has-hover) :is(.duel-segment, .duel-tabs) button:not(:disabled):not([aria-checked="true"]):not([aria-selected="true"]):hover { color: var(--ink); }
-:is(.duel-segment, .duel-tabs) button:not(:disabled):active { transform: scale(.95); }
-:is(.duel-segment, .duel-tabs) button:disabled { opacity: .4; cursor: default; }
-:is(.duel-segment, .duel-tabs) button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+/* De keuze van het aantal vragen: een schuivende pil. */
+.duel-segment { position: relative; display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 4px; padding: 4px; border: 1px solid var(--line); border-radius: var(--radius-pill); background: var(--surface); --i: 1; }
+.duel-schuif { position: absolute; top: 4px; bottom: 4px; left: 4px; width: calc((100% - 24px) / 5); border: 1px solid var(--line); border-radius: var(--radius-pill); background: var(--card); box-shadow: var(--shadow-soft); transform: translateX(calc(var(--i) * (100% + 4px))); transition: transform 280ms var(--ease); pointer-events: none; }
+.duel-segment button { position: relative; z-index: 1; min-height: 44px; padding: 8px 4px; border: 0; border-radius: var(--radius-pill); background: var(--transparent); color: var(--ink-soft); font: inherit; font-size: 1rem; font-weight: 600; font-variant-numeric: tabular-nums; cursor: pointer; touch-action: manipulation; transition: color 180ms var(--ease), transform 150ms var(--ease), opacity 180ms var(--ease); }
+.duel-segment button[aria-checked="true"] { color: var(--ink); }
+:where(html.has-hover) .duel-segment button:not(:disabled):not([aria-checked="true"]):hover { color: var(--ink); }
+.duel-segment button:not(:disabled):active { transform: scale(.95); }
+.duel-segment button:disabled { opacity: .4; cursor: default; }
+.duel-segment button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+/* Beginscherm: eerst meedoen met een code, dan een rustige "of"-lijn en de keuze om zelf een duel te maken. */
+.duel-venster .duel-mee-knop { display: flex; width: 100%; max-width: none; min-width: 0; min-height: 52px; margin: 16px 0 0; justify-content: center; align-items: center; }
+.duel-of { display: flex; align-items: center; gap: 14px; margin: 24px 0 20px; color: var(--ink-soft); font-size: .8125rem; font-weight: 500; letter-spacing: .02em; }
+.duel-of::before, .duel-of::after { content: ""; flex: 1; height: 1px; background: var(--line); }
+.duel-naar-maak { display: flex; align-items: center; gap: 14px; width: 100%; min-height: 72px; padding: 14px 16px; border: 1px solid var(--line); border-radius: 18px; background: var(--surface); color: var(--ink); font: inherit; text-align: left; cursor: pointer; touch-action: manipulation; transition: border-color 160ms var(--ease), background-color 160ms var(--ease), transform 150ms var(--ease), box-shadow 160ms var(--ease); }
+:where(html.has-hover) .duel-naar-maak:not(:disabled):hover { border-color: var(--accent); background: var(--card); box-shadow: var(--shadow-soft); }
+.duel-naar-maak:not(:disabled):active { transform: scale(.985); }
+.duel-naar-maak:disabled { opacity: .5; cursor: default; }
+.duel-naar-maak:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.duel-naar-maak-icoon { display: inline-grid; place-items: center; flex: 0 0 40px; width: 40px; height: 40px; border-radius: 12px; background: var(--accent-zacht); }
+.duel-naar-maak-icoon svg { width: 20px; height: 20px; fill: none; stroke: var(--accent); stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+.duel-naar-maak-tekst { display: grid; flex: 1; gap: 2px; min-width: 0; }
+.duel-naar-maak-titel { font-size: 1rem; font-weight: 600; line-height: 1.3; }
+.duel-naar-maak-sub { color: var(--ink-soft); font-size: .8125rem; line-height: 1.4; }
+.duel-naar-maak-pijl { flex: 0 0 auto; color: var(--accent); font-size: 1.125rem; transition: transform 180ms var(--ease); }
+:where(html.has-hover) .duel-naar-maak:not(:disabled):hover .duel-naar-maak-pijl { transform: translateX(3px); }
 
 .duel-panelen { position: relative; }
 .duel-paneel[hidden] { display: none; }
@@ -152,7 +167,7 @@
 .duel-venster .kies-plan-voet { position: sticky; bottom: calc(-1 * var(--duel-pad)); z-index: 2; flex-wrap: nowrap; gap: 12px; margin: 12px calc(-1 * var(--duel-pad)) calc(-1 * var(--duel-pad)); padding: 12px var(--duel-pad) var(--duel-pad); background: var(--card); }
 .duel-venster .kies-plan-voet::before { content: ""; position: absolute; left: 0; right: 0; bottom: 100%; height: 12px; background: linear-gradient(to bottom, transparent, var(--card)); pointer-events: none; }
 @media (max-height: 760px) { .duel-hs-lijst { max-height: none; overflow: visible; } }
-.duel-venster .kies-plan-later { border-radius: 12px; transition: color 150ms var(--ease), transform 150ms var(--ease); }
+.duel-venster .kies-plan-later { display: inline-flex; align-items: center; gap: 6px; border-radius: 12px; transition: color 150ms var(--ease), transform 150ms var(--ease); }
 .duel-venster .kies-plan-later:active { transform: scale(.96); }
 .duel-venster .kies-plan-later:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
 .duel-voet-knop { display: flex; justify-content: flex-end; min-width: 0; }
@@ -162,11 +177,6 @@
   .duel-venster-icoon { flex-basis: 44px; width: 44px; height: 44px; border-radius: 14px; }
   .duel-voet-knop { flex: 1; }
   .duel-voet-knop .knop { width: 100%; min-width: 0; }
-  .duel-tabs button { font-size: .875rem; }
-}
-@media (max-width: 379px) {
-  .duel-tab-lang { display: none; }
-  .duel-tab-kort { display: inline; }
 }
 @media (max-width: 400px) {
   .duel-kop-rij { gap: 8px; }
@@ -176,9 +186,9 @@
   .duel-hs-aantal { grid-column: 2; }
 }
 @media (prefers-reduced-motion: reduce) {
-  .duel-schuif, .duel-tabs-schuif, .duel-tabs button, .duel-segment button, .duel-hs, .duel-tekstknop, .duel-code, .duel-venster .kies-plan-later { transition: none !important; }
+  .duel-schuif, .duel-segment button, .duel-hs, .duel-tekstknop, .duel-code, .duel-venster .kies-plan-later, .duel-naar-maak, .duel-naar-maak-pijl { transition: none !important; }
   .duel-venster .duel-venster-icoon svg { animation: none !important; }
-  :is(.duel-segment, .duel-tabs) button:active, .duel-hs:active, .duel-tekstknop:active, .modus.duel-kaart:active, .duel-venster .kies-plan-later:active { transform: none !important; }
+  .duel-segment button:active, .duel-hs:active, .duel-tekstknop:active, .modus.duel-kaart:active, .duel-venster .kies-plan-later:active, .duel-naar-maak:active, .duel-naar-maak:hover .duel-naar-maak-pijl { transform: none !important; }
 }`;
     document.head.append(css);
   }
@@ -271,7 +281,7 @@
     if (laadBelofte) return laadBelofte;
     const script = document.createElement('script');
     laadBelofte = new Promise((klaar, mislukt) => {
-      script.src = new URL(testDuel ? 'duel-nep.js?v=2' : 'duel.js?v=1', bron).href;
+      script.src = new URL(testDuel ? 'duel-nep.js?v=3' : 'duel.js?v=2', bron).href;
       script.onload = () => (typeof BES.duel?.maak === 'function' ? klaar(BES.duel) : mislukt(new Error('geen duel')));
       script.onerror = () => mislukt(new Error('niet geladen'));
       document.head.append(script);
@@ -402,81 +412,32 @@
   }
 
 
-  function begin() {
-    const start = document.getElementById('start-oefening');
-    const groep = document.getElementById('modus-keuzes');
-    if (!start || !groep || groep.querySelector('[data-actie="duel"]') || typeof BES.vakKeuze !== 'function') return;
-    stijl();
-    const kaart = maakKaart();
-    scheidRadiogroep(groep);
-    plaatsKaart(groep, kaart);
+  // De keuze van hoofdstukken en aantal vragen: op de vakpagina (Maak een duel) en in de wachtkamer (Aanpassen).
+  // Geeft de blokken terug (lijst met hoofdstukken, aantal, uitleg) en houdt zelf bij wat kan met de gekozen hoofdstukken.
+  //   v: begin van de id's (uniek per pagina), zichtbaar(): staat het venster open (dan rustig wisselen),
+  //   extraTekst(): een zin achter de uitleg, bijStand({ max, bezig }): na elke wijziging (bv. Start aan of uit).
+  function maakKiezer({ v = 'duel', hoofdstukken = beschikbareHoofdstukken(), zichtbaar = () => true, extraTekst = () => '', bijStand = () => {} } = {}) {
+    let voorkeur = STANDAARD; // wat de maker koos
+    let gekozen = STANDAARD;  // wat nu kan met de vragen van zijn hoofdstukken
+    let stand = null;         // { lijst, max }
+    let kies = new Set(hoofdstukken.map(hoofdstuk => hoofdstuk.id));
+    let bezig = false;
 
-    const hoofdstukken = beschikbareHoofdstukken();
-    const vakId = BES.vakKeuze()?.vak || window.BES_VAK?.id || '';
-
-    // Het venster
-    const venster = maak('dialog', 'kies-plan duel-venster');
-    venster.setAttribute('aria-labelledby', 'duel-venster-kop');
-    venster.setAttribute('aria-describedby', 'duel-venster-uitleg');
-    const top = maak('div', 'duel-venster-top');
-    const badge = maak('span', 'duel-venster-icoon');
-    badge.append(icoon());
-    const titels = maak('div');
-    const kop = maak('h2', '', 'Duel met vrienden');
-    kop.id = 'duel-venster-kop';
-    titels.append(maak('p', 'duel-venster-label', 'Live met vrienden'), kop);
-    top.append(badge, titels);
-    const uitleg = maak('p', 'kies-plan-reden', 'Speel live met 2 tot 10 spelers. Wie het eerst drukt, mag antwoorden.');
-    uitleg.id = 'duel-venster-uitleg';
-
-    // Tabbladen
-    const tabs = maak('div', 'duel-tabs');
-    tabs.setAttribute('role', 'tablist');
-    tabs.setAttribute('aria-label', 'Wat wil je doen?');
-    const tabSchuif = maak('span', 'duel-tabs-schuif');
-    tabSchuif.setAttribute('aria-hidden', 'true');
-    tabs.append(tabSchuif);
-    const panelen = maak('div', 'duel-panelen');
-    // Op een smal scherm (onder 380 pixels) heet het tweede tabblad kort Met code, zodat het op één regel past.
-    const tabKnoppen = [['maak', 'Duel maken'], ['mee', 'Meedoen met code', 'Met code']].map(([naam, tekst, kort]) => {
-      const tab = maak('button', '', kort ? undefined : tekst);
-      if (kort) tab.append(maak('span', 'duel-tab-lang', tekst), maak('span', 'duel-tab-kort', kort));
-      tab.type = 'button';
-      tab.id = `duel-tab-${naam}`;
-      tab.dataset.tab = naam;
-      tab.setAttribute('role', 'tab');
-      tab.setAttribute('aria-controls', `duel-paneel-${naam}`);
-      tabs.append(tab);
-      return tab;
-    });
-    const maakPaneel = naam => {
-      const paneel = maak('div', 'duel-paneel');
-      paneel.id = `duel-paneel-${naam}`;
-      paneel.dataset.paneel = naam;
-      paneel.setAttribute('role', 'tabpanel');
-      paneel.setAttribute('aria-labelledby', `duel-tab-${naam}`);
-      return paneel;
-    };
-    const paneelMaak = maakPaneel('maak');
-    const paneelMee = maakPaneel('mee');
-    paneelMee.hidden = true;
-
-    // Duel maken: hoofdstukken
     const hsRij = maak('div', 'duel-kop-rij');
     const hsKop = maak('p', 'duel-kop', 'Hoofdstukken');
-    hsKop.id = 'duel-hs-kop';
+    hsKop.id = `${v}-hs-kop`;
     const acties = maak('div', 'duel-acties');
     const allesKnop = maak('button', 'duel-tekstknop', 'Alles kiezen');
     allesKnop.type = 'button';
-    allesKnop.id = 'duel-hs-alles';
+    allesKnop.id = `${v}-hs-alles`;
     const nietsKnop = maak('button', 'duel-tekstknop', 'Niets');
     nietsKnop.type = 'button';
-    nietsKnop.id = 'duel-hs-niets';
+    nietsKnop.id = `${v}-hs-niets`;
     acties.append(allesKnop, nietsKnop);
     hsRij.append(hsKop, acties);
     const hsLijst = maak('div', 'duel-hs-lijst');
     hsLijst.setAttribute('role', 'group');
-    hsLijst.setAttribute('aria-labelledby', 'duel-hs-kop');
+    hsLijst.setAttribute('aria-labelledby', hsKop.id);
     const hsKnoppen = hoofdstukken.map(hoofdstuk => {
       const rij = maak('button', 'duel-hs');
       rij.type = 'button';
@@ -490,18 +451,17 @@
       return rij;
     });
 
-    // Duel maken: aantal vragen
     const aantalVak = maak('div', 'duel-aantal');
     const aantalRij = maak('div', 'duel-kop-rij');
     const aantalKop = maak('p', 'duel-kop', 'Aantal vragen');
-    aantalKop.id = 'duel-aantal-kop';
+    aantalKop.id = `${v}-aantal-kop`;
     const beschikbaarTekst = maak('span', 'duel-kop-extra');
-    beschikbaarTekst.id = 'duel-beschikbaar';
+    beschikbaarTekst.id = `${v}-beschikbaar`;
     aantalRij.append(aantalKop, beschikbaarTekst);
     const segment = maak('div', 'duel-segment');
     segment.setAttribute('role', 'radiogroup');
-    segment.setAttribute('aria-labelledby', 'duel-aantal-kop');
-    segment.setAttribute('aria-describedby', 'duel-beschikbaar');
+    segment.setAttribute('aria-labelledby', aantalKop.id);
+    segment.setAttribute('aria-describedby', beschikbaarTekst.id);
     const schuif = maak('span', 'duel-schuif');
     schuif.setAttribute('aria-hidden', 'true');
     segment.append(schuif);
@@ -518,67 +478,17 @@
     const info = maak('p', 'duel-info');
     info.setAttribute('role', 'status');
     info.hidden = true;
-    paneelMaak.append(hsRij, hsLijst, aantalVak, info);
-
-    // Meedoen met code
-    const codeLabel = maak('label', 'duel-code-label', 'Code van het duel');
-    codeLabel.htmlFor = 'duel-code';
-    const codeVeld = maak('input', 'duel-code');
-    codeVeld.id = 'duel-code';
-    codeVeld.type = 'text';
-    codeVeld.placeholder = '······';
-    codeVeld.autocomplete = 'off';
-    codeVeld.spellcheck = false;
-    codeVeld.setAttribute('autocapitalize', 'characters');
-    codeVeld.setAttribute('autocorrect', 'off');
-    codeVeld.setAttribute('enterkeyhint', 'go');
-    codeVeld.setAttribute('aria-describedby', 'duel-code-hulp');
-    const codeHulp = maak('p', 'duel-code-hulp', 'Vraag de code aan wie het duel maakte.');
-    codeHulp.id = 'duel-code-hulp';
-    codeHulp.setAttribute('aria-live', 'polite');
-    paneelMee.append(codeLabel, codeVeld, codeHulp);
-    panelen.append(paneelMaak, paneelMee);
-
-    const fout = maak('p', 'duel-fout');
-    fout.setAttribute('role', 'alert');
-    fout.hidden = true;
-
-    const voet = maak('div', 'kies-plan-voet');
-    const annuleer = maak('button', 'kies-plan-later', 'Annuleren');
-    annuleer.type = 'button';
-    const voetKnop = maak('div', 'duel-voet-knop');
-    const maakKnop = maak('button', 'knop', 'Start');
-    maakKnop.type = 'button';
-    maakKnop.id = 'duel-maak';
-    const meeKnop = maak('button', 'knop', 'Meedoen');
-    meeKnop.type = 'button';
-    meeKnop.id = 'duel-meedoen';
-    meeKnop.disabled = true;
-    meeKnop.hidden = true;
-    voetKnop.append(maakKnop, meeKnop);
-    voet.append(annuleer, voetKnop);
-    venster.append(top, uitleg, tabs, panelen, fout, voet);
-    document.body.append(venster);
-
-    // voorkeur: wat de maker koos; gekozen: wat nu kan met de vragen van zijn hoofdstukken.
-    let voorkeur = STANDAARD;
-    let gekozen = STANDAARD;
-    let stand = null; // { lijst, max }
-    let kies = null; // Set met de gekozen hoofdstukken; null tot het venster de eerste keer opengaat.
-    let tab = 'maak';
-    let ingelogd = testDuel ? true : undefined;
-    let bezig = false;
 
     // Een tekst rustig tonen, wisselen of weghalen.
     function zetTekst(el, tekst) {
       if (!tekst) { if (!el.hidden) verberg(el, () => { el.textContent = ''; }); return; }
-      if (el.hidden || !venster.open) { el.textContent = tekst; toon(el); return; }
+      if (el.hidden || !zichtbaar()) { el.textContent = tekst; toon(el); return; }
       if (el.textContent === tekst) { toon(el); return; }
       if (BES.wissel) BES.wissel(el, () => { el.textContent = tekst; });
       else el.textContent = tekst;
     }
 
-    // Het begin van de keuze: wat op de pagina gekozen staat (alleen hoofdstukken met duelvragen), anders alles.
+    // Het begin van de keuze: deze hoofdstukken (alleen die met duelvragen), anders alles.
     function beginKeuze(lijst) {
       const ids = new Set(hoofdstukken.map(hoofdstuk => hoofdstuk.id));
       const uit = (Array.isArray(lijst) ? lijst : []).filter(id => ids.has(id));
@@ -607,17 +517,17 @@
       else if (stand.max < AANTALLEN[AANTALLEN.length - 1]) delen.push(kies.size >= hoofdstukken.length
         ? `Dit vak heeft ${vragenTekst(n)} voor een duel.`
         : `Deze hoofdstukken hebben ${vragenTekst(n)}. Kies meer hoofdstukken voor een langer duel.`);
-      if (ingelogd === null) delen.push('Je logt eerst in, daarna kom je hier terug.');
+      const extra = extraTekst();
+      if (extra) delen.push(extra);
       return delen.join(' ');
     }
 
-    function werkVensterBij() {
+    function werkBij() {
       const lijst = vragenUit([...kies]);
       const max = AANTALLEN.filter(aantal => aantal <= lijst.length).pop() || 0;
       stand = { lijst, max };
       hsKnoppen.forEach(rij => {
-        const aan = kies.has(rij.dataset.hoofdstuk);
-        rij.setAttribute('aria-checked', String(aan));
+        rij.setAttribute('aria-checked', String(kies.has(rij.dataset.hoofdstuk)));
         rij.disabled = bezig;
       });
       allesKnop.disabled = bezig || kies.size >= hoofdstukken.length;
@@ -630,201 +540,28 @@
       }
       schuif.hidden = !max;
       beschikbaarTekst.textContent = `${lijst.length} beschikbaar`;
-      maakKnop.disabled = !max || bezig;
       zetTekst(info, infoTekst());
+      bijStand({ max, bezig });
     }
-
-    function zetBezig(aan) {
-      bezig = aan;
-      maakKnop.textContent = aan ? 'Duel maken…' : 'Start';
-      tabKnoppen.forEach(knop => { knop.disabled = aan; });
-      werkVensterBij();
-      if (aan) venster.setAttribute('aria-busy', 'true');
-      else venster.removeAttribute('aria-busy');
-    }
-
-    // Meedoen kan pas met een volledige code. Stond er iets in dat geen code kan zijn, dan staat de uitleg eronder.
-    function werkCodeBij(fout = false, code = codeVeld.value) {
-      const compleet = code.length === CODE_LENGTE;
-      meeKnop.disabled = !compleet;
-      codeVeld.classList.toggle('is-compleet', compleet);
-      codeVeld.setAttribute('aria-invalid', String(fout));
-      const tekst = fout ? 'Een code heeft 6 tekens, zonder I, L, O, 0 of 1.' : 'Vraag de code aan wie het duel maakte.';
-      if (codeHulp.textContent !== tekst) {
-        if (BES.wissel && venster.open) BES.wissel(codeHulp, () => { codeHulp.textContent = tekst; });
-        else codeHulp.textContent = tekst;
-      }
-    }
-
-    // Wisselen tussen de tabbladen: het oude paneel faadt weg, de hoogte schuift rustig mee en het nieuwe komt erin.
-    let paneelAnimaties = [];
-    function kiesTab(naam, { focus = false, beweeg = true } = {}) {
-      const index = naam === 'mee' ? 1 : 0;
-      tabKnoppen.forEach((knop, i) => {
-        knop.setAttribute('aria-selected', String(i === index));
-        knop.tabIndex = i === index ? 0 : -1;
-      });
-      tabs.style.setProperty('--t', String(index));
-      if (focus) tabKnoppen[index].focus();
-      if (naam === tab) return;
-      // Een melding van het andere tabblad (bijvoorbeeld een mislukt duel) hoort hier niet.
-      zetTekst(fout, '');
-      const richting = index === 1 ? 1 : -1;
-      tab = naam;
-      const nieuw = naam === 'mee' ? paneelMee : paneelMaak;
-      const oud = naam === 'mee' ? paneelMaak : paneelMee;
-      // Eerst de hoogte van nu (ook midden in een vorige wissel), dan pas de vorige wissel stoppen.
-      const van = panelen.getBoundingClientRect().height;
-      paneelAnimaties.forEach(animatie => animatie.cancel());
-      paneelAnimaties = [];
-      [paneelMaak, paneelMee].forEach(paneel => { paneel.style.cssText = ''; paneel.removeAttribute('inert'); });
-      panelen.style.overflow = '';
-      const animeer = beweeg && venster.open && typeof panelen.animate === 'function' && !minderBeweging();
-      const verloop = getComputedStyle(venster).getPropertyValue('--ease').trim() || 'ease-out';
-      nieuw.hidden = false;
-      if (!animeer) {
-        oud.hidden = true;
-        maakKnop.hidden = naam !== 'maak';
-        meeKnop.hidden = naam !== 'mee';
-        return;
-      }
-      // Het oude paneel staat even los bovenop, zodat alleen het nieuwe de hoogte bepaalt.
-      Object.assign(oud.style, { position: 'absolute', top: '0', left: '0', right: '0', pointerEvents: 'none' });
-      oud.setAttribute('inert', '');
-      const naar = panelen.getBoundingClientRect().height;
-      panelen.style.overflow = 'hidden';
-      const hoogte = panelen.animate([{ height: `${van}px` }, { height: `${naar}px` }], { duration: 280, easing: verloop });
-      const weg = oud.animate([{ opacity: 1, transform: 'none' }, { opacity: 0, transform: `translateX(${-16 * richting}px)` }], { duration: 160, easing: verloop, fill: 'forwards' });
-      const erin = nieuw.animate([{ opacity: 0, transform: `translateX(${16 * richting}px)` }, { opacity: 1, transform: 'none' }], { duration: 240, delay: 80, easing: verloop, fill: 'backwards' });
-      const lopend = paneelAnimaties = [hoogte, weg, erin];
-      if (BES.wissel) BES.wissel(voetKnop, () => { maakKnop.hidden = tab !== 'maak'; meeKnop.hidden = tab !== 'mee'; });
-      else { maakKnop.hidden = naam !== 'maak'; meeKnop.hidden = naam !== 'mee'; }
-      Promise.all(lopend.map(animatie => animatie.finished)).catch(() => {}).then(() => {
-        if (paneelAnimaties !== lopend) return;
-        oud.hidden = true;
-        oud.style.cssText = '';
-        oud.removeAttribute('inert');
-        panelen.style.overflow = '';
-        lopend.forEach(animatie => animatie.cancel());
-        paneelAnimaties = [];
-      });
-    }
-
-    function open(naam = 'maak') {
-      if (venster.open) return;
-      if (!kies) kies = beginKeuze(BES.vakKeuze()?.hoofdstukken);
-      fout.hidden = true;
-      fout.textContent = '';
-      info.hidden = true;
-      info.textContent = '';
-      // Het venster is nog dicht: het juiste tabblad en de schuif staan meteen goed, zonder te bewegen.
-      kiesTab(naam, { beweeg: false });
-      paneelMaak.hidden = naam !== 'maak';
-      paneelMee.hidden = naam !== 'mee';
-      [paneelMaak, paneelMee].forEach(paneel => { paneel.style.cssText = ''; paneel.removeAttribute('inert'); });
-      maakKnop.hidden = naam !== 'maak';
-      meeKnop.hidden = naam !== 'mee';
-      werkVensterBij();
-      werkCodeBij();
-      venster.showModal();
-      (naam === 'mee' ? codeVeld : tabKnoppen[0]).focus({ preventScroll: true });
-      // Alvast laden, zodat Start meteen werkt.
-      laadDuel().catch(() => {});
-      if (!testDuel && ingelogd === undefined) {
-        metTijd(BES.auth?.gebruiker?.(), 4000).then(gebruiker => {
-          if (gebruiker === undefined) return;
-          ingelogd = gebruiker ? true : null;
-          if (venster.open) zetTekst(info, infoTekst());
-        });
-      }
-    }
-
-    function sluit() {
-      if (bezig) return;
-      if (BES.sluitDialoog) BES.sluitDialoog(venster);
-      else venster.close();
-    }
-
-    async function maakDuel() {
-      if (bezig) return;
-      werkVensterBij();
-      if (!stand || !stand.max) return;
-      const aantal = Math.min(gekozen, stand.max);
-      const gekozenHoofdstukken = hoofdstukken.map(hoofdstuk => hoofdstuk.id).filter(id => kies.has(id));
-      zetBezig(true);
-      zetTekst(fout, '');
-      try {
-        if (!testDuel) {
-          const gebruiker = await metTijd(BES.auth?.gebruiker?.(), 6000);
-          if (gebruiker === null) { naarInloggen(aantal, vakId, gekozenHoofdstukken); return; }
-          if (gebruiker) ingelogd = true;
-        }
-        let duel;
-        try {
-          duel = await laadDuel();
-        } catch {
-          throw Object.assign(new Error('laden'), { tekst: 'Het duel kon niet laden. Controleer je internet en probeer het opnieuw.' });
-        }
-        const vragen = maakVragen(stand.lijst, aantal);
-        const antwoord = await duel.maak({ vak: vakId, hoofdstukken: gekozenHoofdstukken, vragen });
-        if (antwoord?.ok && typeof antwoord.code === 'string' && /^[A-Za-z0-9]{4,12}$/.test(antwoord.code)) {
-          window.location.assign(duelAdres(antwoord.code.toUpperCase()));
-          return;
-        }
-        if (antwoord?.fout === 'niet_ingelogd' && !testDuel) { naarInloggen(aantal, vakId, gekozenHoofdstukken); return; }
-        throw Object.assign(new Error('maak'), { tekst: foutTekst(antwoord?.fout) });
-      } catch (probleem) {
-        zetBezig(false);
-        const tekst = probleem?.tekst || (window.navigator.onLine === false
-          ? 'Je bent niet verbonden. Controleer je internet en probeer het opnieuw.'
-          : 'Het duel maken lukte niet. Probeer het zo opnieuw.');
-        zetTekst(fout, tekst);
-      }
-    }
-
-    // Meedoen: naar duel.html?c=CODE; daar regelt duel-laden.js inloggen, een verkeerde code of een vol duel.
-    function meedoen() {
-      const { code } = leesCode(codeVeld.value);
-      if (code.length !== CODE_LENGTE || bezig) return;
-      bezig = true;
-      meeKnop.disabled = true;
-      venster.setAttribute('aria-busy', 'true');
-      window.location.assign(duelAdres(code));
-    }
-
-    kaart.addEventListener('click', () => open());
-    annuleer.addEventListener('click', sluit);
-    maakKnop.addEventListener('click', maakDuel);
-    meeKnop.addEventListener('click', meedoen);
-
-    tabKnoppen.forEach(knop => knop.addEventListener('click', () => { if (!knop.disabled) kiesTab(knop.dataset.tab); }));
-    tabs.addEventListener('keydown', event => {
-      const nu = tabKnoppen.indexOf(document.activeElement);
-      if (nu < 0 || bezig || !['ArrowLeft', 'ArrowRight', 'Home', 'End'].includes(event.key)) return;
-      event.preventDefault();
-      const doel = event.key === 'Home' ? 0 : event.key === 'End' ? 1 : (nu + 1) % 2;
-      kiesTab(tabKnoppen[doel].dataset.tab, { focus: true });
-    });
 
     hsKnoppen.forEach(rij => rij.addEventListener('click', () => {
       if (rij.disabled) return;
       const id = rij.dataset.hoofdstuk;
       if (kies.has(id)) kies.delete(id);
       else kies.add(id);
-      werkVensterBij();
+      werkBij();
     }));
     allesKnop.addEventListener('click', () => {
       hoofdstukken.forEach(hoofdstuk => kies.add(hoofdstuk.id));
-      werkVensterBij();
+      werkBij();
       // De knop staat nu uit: de focus naar de buurknop, zodat hij niet verloren gaat.
       nietsKnop.focus({ preventScroll: true });
     });
     nietsKnop.addEventListener('click', () => {
       kies.clear();
-      werkVensterBij();
+      werkBij();
       allesKnop.focus({ preventScroll: true });
     });
-
     keuzeKnoppen.forEach(optie => optie.addEventListener('click', () => {
       if (optie.disabled) return;
       voorkeur = Number(optie.dataset.aantal);
@@ -840,6 +577,352 @@
       voorkeur = Number(actief[doel].dataset.aantal);
       kiesAantal(voorkeur, true);
     });
+
+    const gekozenIds = () => hoofdstukken.map(hoofdstuk => hoofdstuk.id).filter(id => kies.has(id));
+    return {
+      delen: [hsRij, hsLijst, aantalVak, info],
+      // Begin met deze hoofdstukken en (als het kan) dit aantal.
+      zet(lijst, aantal) {
+        kies = beginKeuze(lijst);
+        if (AANTALLEN.includes(aantal)) voorkeur = aantal;
+      },
+      zetAantal(aantal) { if (AANTALLEN.includes(aantal)) voorkeur = aantal; },
+      werkBij,
+      infoBij() { zetTekst(info, infoTekst()); },
+      leegInfo() { info.hidden = true; info.textContent = ''; },
+      zetBezig(aan) { bezig = aan; werkBij(); },
+      hoofdstukken: gekozenIds,
+      // Wat nu gekozen is: hoofdstukken, aantal en de bruikbare vragen; null als er te weinig vragen zijn.
+      keuze() {
+        werkBij();
+        if (!stand || !stand.max) return null;
+        return { hoofdstukken: gekozenIds(), aantal: Math.min(gekozen, stand.max), lijst: stand.lijst };
+      },
+      focus() { (hsKnoppen.find(rij => !rij.disabled) || allesKnop).focus({ preventScroll: true }); }
+    };
+  }
+
+  // Hulp voor de wachtkamer (duel-kamer.js) en voor tests. begin() voegt open en keuze toe op een vakpagina.
+  BES.duelStart = { vragenUit, maakVragen, leesCode, bruikbaar, beschikbareHoofdstukken, kiezer: maakKiezer, stijl, icoon, AANTALLEN };
+
+  function begin() {
+    const start = document.getElementById('start-oefening');
+    const groep = document.getElementById('modus-keuzes');
+    if (!start || !groep || groep.querySelector('[data-actie="duel"]') || typeof BES.vakKeuze !== 'function') return;
+    stijl();
+    const kaart = maakKaart();
+    scheidRadiogroep(groep);
+    plaatsKaart(groep, kaart);
+
+    const hoofdstukken = beschikbareHoofdstukken();
+    const vakId = BES.vakKeuze()?.vak || window.BES_VAK?.id || '';
+
+    // Het venster
+    const venster = maak('dialog', 'kies-plan duel-venster');
+    venster.setAttribute('aria-labelledby', 'duel-venster-kop');
+    venster.setAttribute('aria-describedby', 'duel-venster-uitleg');
+    const top = maak('div', 'duel-venster-top');
+    const badge = maak('span', 'duel-venster-icoon');
+    badge.append(icoon());
+    const titels = maak('div');
+    const kop = maak('h2', '', 'Duel met vrienden');
+    kop.id = 'duel-venster-kop';
+    // Eerste focusplek in het venster: op een telefoon springt zo niet meteen het toetsenbord open.
+    kop.tabIndex = -1;
+    titels.append(maak('p', 'duel-venster-label', 'Live met vrienden'), kop);
+    top.append(badge, titels);
+    const uitleg = maak('p', 'kies-plan-reden', 'Speel live met 2 tot 10 spelers. Wie het eerst drukt, mag antwoorden.');
+    uitleg.id = 'duel-venster-uitleg';
+
+    // Twee schermen in één vak: het beginscherm (meedoen of maken) en het kiesscherm (Maak een duel).
+    const panelen = maak('div', 'duel-panelen');
+    const maakPaneel = (naam, label) => {
+      const paneel = maak('div', 'duel-paneel');
+      paneel.id = `duel-paneel-${naam}`;
+      paneel.dataset.paneel = naam;
+      paneel.setAttribute('role', 'group');
+      paneel.setAttribute('aria-label', label);
+      return paneel;
+    };
+    const paneelBegin = maakPaneel('begin', 'Meedoen of een duel maken');
+    const paneelMaak = maakPaneel('maak', 'Maak een duel');
+    paneelMaak.hidden = true;
+
+    // Beginscherm: meedoen met een code
+    const codeLabel = maak('label', 'duel-code-label', 'Meedoen met een code');
+    codeLabel.htmlFor = 'duel-code';
+    const codeVeld = maak('input', 'duel-code');
+    codeVeld.id = 'duel-code';
+    codeVeld.type = 'text';
+    codeVeld.placeholder = '······';
+    codeVeld.autocomplete = 'off';
+    codeVeld.spellcheck = false;
+    codeVeld.setAttribute('autocapitalize', 'characters');
+    codeVeld.setAttribute('autocorrect', 'off');
+    codeVeld.setAttribute('enterkeyhint', 'go');
+    codeVeld.setAttribute('aria-describedby', 'duel-code-hulp');
+    const codeHulp = maak('p', 'duel-code-hulp', 'Vraag de code aan wie het duel maakte.');
+    codeHulp.id = 'duel-code-hulp';
+    codeHulp.setAttribute('aria-live', 'polite');
+    const meeKnop = maak('button', 'knop duel-mee-knop', 'Meedoen');
+    meeKnop.type = 'button';
+    meeKnop.id = 'duel-meedoen';
+    meeKnop.disabled = true;
+
+    // Beginscherm: of zelf een duel maken
+    const of = maak('p', 'duel-of', 'of');
+    of.setAttribute('aria-hidden', 'true');
+    const naarMaak = maak('button', 'duel-naar-maak');
+    naarMaak.type = 'button';
+    naarMaak.id = 'duel-naar-maak';
+    naarMaak.setAttribute('aria-controls', 'duel-paneel-maak');
+    const naarMaakIcoon = maak('span', 'duel-naar-maak-icoon');
+    naarMaakIcoon.setAttribute('aria-hidden', 'true');
+    naarMaakIcoon.append(icoon());
+    const naarMaakTekst = maak('span', 'duel-naar-maak-tekst');
+    naarMaakTekst.append(maak('span', 'duel-naar-maak-titel', 'Maak een duel'), maak('span', 'duel-naar-maak-sub', 'Kies de hoofdstukken en deel de code met je vrienden.'));
+    const naarMaakPijl = maak('span', 'duel-naar-maak-pijl', '→');
+    naarMaakPijl.setAttribute('aria-hidden', 'true');
+    naarMaak.append(naarMaakIcoon, naarMaakTekst, naarMaakPijl);
+    paneelBegin.append(codeLabel, codeVeld, codeHulp, meeKnop, of, naarMaak);
+
+    let ingelogd = testDuel ? true : undefined;
+    let bezig = false;
+    let scherm = 'begin';
+    let gekozenGezet = false; // de keuze komt pas bij het eerste openen (of bij terugkomen van inloggen)
+
+    const voet = maak('div', 'kies-plan-voet');
+    const annuleer = maak('button', 'kies-plan-later', 'Annuleren');
+    annuleer.type = 'button';
+    const terug = maak('button', 'kies-plan-later duel-terug');
+    terug.type = 'button';
+    terug.id = 'duel-terug';
+    const terugPijl = maak('span', '', '←');
+    terugPijl.setAttribute('aria-hidden', 'true');
+    terug.append(terugPijl, 'Terug');
+    terug.hidden = true;
+    const voetKnop = maak('div', 'duel-voet-knop');
+    const maakKnop = maak('button', 'knop', 'Start');
+    maakKnop.type = 'button';
+    maakKnop.id = 'duel-maak';
+    voetKnop.append(maakKnop);
+    voetKnop.hidden = true;
+    voet.append(annuleer, terug, voetKnop);
+
+    // Kiesscherm: hoofdstukken en aantal vragen (dezelfde kiezer als in de wachtkamer)
+    const kiezer = maakKiezer({
+      v: 'duel',
+      hoofdstukken,
+      zichtbaar: () => venster.open,
+      extraTekst: () => (ingelogd === null ? 'Je logt eerst in, daarna kom je hier terug.' : ''),
+      bijStand: ({ max }) => { maakKnop.disabled = !max || bezig; }
+    });
+    paneelMaak.append(...kiezer.delen);
+    panelen.append(paneelBegin, paneelMaak);
+
+    const fout = maak('p', 'duel-fout');
+    fout.setAttribute('role', 'alert');
+    fout.hidden = true;
+
+    venster.append(top, uitleg, panelen, fout, voet);
+    document.body.append(venster);
+
+    // Een melding rustig tonen, wisselen of weghalen.
+    function zetFout(tekst) {
+      if (!tekst) { if (!fout.hidden) verberg(fout, () => { fout.textContent = ''; }); return; }
+      if (fout.hidden || !venster.open) { fout.textContent = tekst; toon(fout); return; }
+      if (fout.textContent === tekst) { toon(fout); return; }
+      if (BES.wissel) BES.wissel(fout, () => { fout.textContent = tekst; });
+      else fout.textContent = tekst;
+    }
+
+    function zetBezig(aan) {
+      bezig = aan;
+      maakKnop.textContent = aan ? 'Duel maken…' : 'Start';
+      terug.disabled = aan;
+      naarMaak.disabled = aan;
+      kiezer.zetBezig(aan);
+      if (aan) venster.setAttribute('aria-busy', 'true');
+      else venster.removeAttribute('aria-busy');
+    }
+
+    // Meedoen kan pas met een volledige code. Stond er iets in dat geen code kan zijn, dan staat de uitleg eronder.
+    function werkCodeBij(verkeerd = false, code = codeVeld.value) {
+      const compleet = code.length === CODE_LENGTE;
+      meeKnop.disabled = !compleet;
+      codeVeld.classList.toggle('is-compleet', compleet);
+      codeVeld.setAttribute('aria-invalid', String(verkeerd));
+      const tekst = verkeerd ? 'Een code heeft 6 tekens, zonder I, L, O, 0 of 1.' : 'Vraag de code aan wie het duel maakte.';
+      if (codeHulp.textContent !== tekst) {
+        if (BES.wissel && venster.open) BES.wissel(codeHulp, () => { codeHulp.textContent = tekst; });
+        else codeHulp.textContent = tekst;
+      }
+    }
+
+    // De voet past bij het scherm: Annuleren op het beginscherm, Terug en Start op het kiesscherm.
+    function zetVoet(naam) {
+      annuleer.hidden = naam !== 'begin';
+      terug.hidden = naam !== 'maak';
+      voetKnop.hidden = naam !== 'maak';
+    }
+
+    // Wisselen tussen de schermen: het oude faadt weg, de hoogte schuift rustig mee en het nieuwe schuift erin
+    // (vooruit naar links, terug naar rechts).
+    let paneelAnimaties = [];
+    function kiesScherm(naam, { beweeg = true } = {}) {
+      if (naam === scherm) return;
+      // Een melding van het andere scherm (bijvoorbeeld een mislukt duel) hoort hier niet.
+      zetFout('');
+      const richting = naam === 'maak' ? 1 : -1;
+      scherm = naam;
+      const nieuw = naam === 'maak' ? paneelMaak : paneelBegin;
+      const oud = naam === 'maak' ? paneelBegin : paneelMaak;
+      // Eerst de hoogte van nu (ook midden in een vorige wissel), dan pas de vorige wissel stoppen.
+      const van = panelen.getBoundingClientRect().height;
+      paneelAnimaties.forEach(animatie => animatie.cancel());
+      paneelAnimaties = [];
+      [paneelBegin, paneelMaak].forEach(paneel => { paneel.style.cssText = ''; paneel.removeAttribute('inert'); });
+      panelen.style.overflow = '';
+      const animeer = beweeg && venster.open && typeof panelen.animate === 'function' && !minderBeweging();
+      const verloop = getComputedStyle(venster).getPropertyValue('--ease').trim() || 'ease-out';
+      nieuw.hidden = false;
+      if (!animeer) {
+        oud.hidden = true;
+        zetVoet(naam);
+        return;
+      }
+      // Het oude scherm staat even los bovenop, zodat alleen het nieuwe de hoogte bepaalt.
+      Object.assign(oud.style, { position: 'absolute', top: '0', left: '0', right: '0', pointerEvents: 'none' });
+      oud.setAttribute('inert', '');
+      const naar = panelen.getBoundingClientRect().height;
+      panelen.style.overflow = 'hidden';
+      const hoogte = panelen.animate([{ height: `${van}px` }, { height: `${naar}px` }], { duration: 300, easing: verloop });
+      const weg = oud.animate([{ opacity: 1, transform: 'none' }, { opacity: 0, transform: `translateX(${-24 * richting}px)` }], { duration: 170, easing: verloop, fill: 'forwards' });
+      const erin = nieuw.animate([{ opacity: 0, transform: `translateX(${24 * richting}px)` }, { opacity: 1, transform: 'none' }], { duration: 260, delay: 90, easing: verloop, fill: 'backwards' });
+      const lopend = paneelAnimaties = [hoogte, weg, erin];
+      if (BES.wissel) BES.wissel(voet, () => zetVoet(scherm));
+      else zetVoet(naam);
+      Promise.all(lopend.map(animatie => animatie.finished)).catch(() => {}).then(() => {
+        if (paneelAnimaties !== lopend) return;
+        oud.hidden = true;
+        oud.style.cssText = '';
+        oud.removeAttribute('inert');
+        panelen.style.overflow = '';
+        lopend.forEach(animatie => animatie.cancel());
+        paneelAnimaties = [];
+      });
+    }
+
+    function fijneMuis() {
+      try { return window.matchMedia('(pointer: fine)').matches; } catch { return true; }
+    }
+
+    function naarKiesscherm() {
+      if (bezig || scherm === 'maak') return;
+      kiezer.werkBij();
+      kiesScherm('maak');
+      kiezer.focus();
+    }
+
+    function naarBegin() {
+      if (bezig || scherm === 'begin') return;
+      kiesScherm('begin');
+      naarMaak.focus({ preventScroll: true });
+    }
+
+    // Open op het beginscherm; terug van inloggen meteen op het kiesscherm.
+    function open(naam = 'begin') {
+      if (venster.open) return;
+      if (naam !== 'maak') naam = 'begin';
+      if (!gekozenGezet) { kiezer.zet(BES.vakKeuze()?.hoofdstukken); gekozenGezet = true; }
+      fout.hidden = true;
+      fout.textContent = '';
+      kiezer.leegInfo();
+      // Het venster is nog dicht: het juiste scherm staat meteen goed, zonder te bewegen.
+      paneelAnimaties.forEach(animatie => animatie.cancel());
+      paneelAnimaties = [];
+      [paneelBegin, paneelMaak].forEach(paneel => { paneel.style.cssText = ''; paneel.removeAttribute('inert'); });
+      panelen.style.overflow = '';
+      scherm = naam;
+      paneelBegin.hidden = naam !== 'begin';
+      paneelMaak.hidden = naam !== 'maak';
+      zetVoet(naam);
+      kiezer.werkBij();
+      werkCodeBij();
+      venster.showModal();
+      if (naam === 'maak') kiezer.focus();
+      // Met muis meteen typen; bij aanraken de titel, zodat het toetsenbord Maak een duel niet bedekt.
+      else if (fijneMuis()) codeVeld.focus({ preventScroll: true });
+      else kop.focus({ preventScroll: true });
+      // Alvast laden, zodat Start meteen werkt.
+      laadDuel().catch(() => {});
+      if (!testDuel && ingelogd === undefined) {
+        metTijd(BES.auth?.gebruiker?.(), 4000).then(gebruiker => {
+          if (gebruiker === undefined) return;
+          ingelogd = gebruiker ? true : null;
+          if (venster.open) kiezer.infoBij();
+        });
+      }
+    }
+
+    function sluit() {
+      if (bezig) return;
+      if (BES.sluitDialoog) BES.sluitDialoog(venster);
+      else venster.close();
+    }
+
+    async function maakDuel() {
+      if (bezig) return;
+      const keuze = kiezer.keuze();
+      if (!keuze) return;
+      const { aantal, hoofdstukken: gekozenHoofdstukken } = keuze;
+      zetBezig(true);
+      zetFout('');
+      try {
+        if (!testDuel) {
+          const gebruiker = await metTijd(BES.auth?.gebruiker?.(), 6000);
+          if (gebruiker === null) { naarInloggen(aantal, vakId, gekozenHoofdstukken); return; }
+          if (gebruiker) ingelogd = true;
+        }
+        let duel;
+        try {
+          duel = await laadDuel();
+        } catch {
+          throw Object.assign(new Error('laden'), { tekst: 'Het duel kon niet laden. Controleer je internet en probeer het opnieuw.' });
+        }
+        const vragen = maakVragen(keuze.lijst, aantal);
+        const antwoord = await duel.maak({ vak: vakId, hoofdstukken: gekozenHoofdstukken, vragen });
+        if (antwoord?.ok && typeof antwoord.code === 'string' && /^[A-Za-z0-9]{4,12}$/.test(antwoord.code)) {
+          window.location.assign(duelAdres(antwoord.code.toUpperCase()));
+          return;
+        }
+        if (antwoord?.fout === 'niet_ingelogd' && !testDuel) { naarInloggen(aantal, vakId, gekozenHoofdstukken); return; }
+        throw Object.assign(new Error('maak'), { tekst: foutTekst(antwoord?.fout) });
+      } catch (probleem) {
+        zetBezig(false);
+        const tekst = probleem?.tekst || (window.navigator.onLine === false
+          ? 'Je bent niet verbonden. Controleer je internet en probeer het opnieuw.'
+          : 'Het duel maken lukte niet. Probeer het zo opnieuw.');
+        zetFout(tekst);
+      }
+    }
+
+    // Meedoen: naar duel.html?c=CODE; daar regelt duel-laden.js inloggen, een verkeerde code of een vol duel.
+    function meedoen() {
+      const { code } = leesCode(codeVeld.value);
+      if (code.length !== CODE_LENGTE || bezig) return;
+      bezig = true;
+      meeKnop.disabled = true;
+      venster.setAttribute('aria-busy', 'true');
+      window.location.assign(duelAdres(code));
+    }
+
+    kaart.addEventListener('click', () => open());
+    annuleer.addEventListener('click', sluit);
+    terug.addEventListener('click', naarBegin);
+    naarMaak.addEventListener('click', naarKiesscherm);
+    maakKnop.addEventListener('click', maakDuel);
+    meeKnop.addEventListener('click', meedoen);
 
     // De code: hoofdletters, alleen geldige tekens, en een geplakte link wordt de code uit die link.
     // Toetsenborden op Android typen in een "compositie": dan de tekst nog niet aanpassen (anders loopt het typen mis),
@@ -868,7 +951,7 @@
       if (kaart.isConnected && kaart.getClientRects().length) kaart.focus({ preventScroll: true });
     });
 
-    // Terug van inloggen (?duel=10): het venster weer open met hetzelfde aantal en dezelfde hoofdstukken.
+    // Terug van inloggen (?duel=10): het venster weer open op het kiesscherm, met hetzelfde aantal en dezelfde hoofdstukken.
     if (params.has('duel')) {
       const terugAantal = Number(params.get('duel'));
       try {
@@ -881,13 +964,16 @@
         bewaard = JSON.parse(window.sessionStorage.getItem(KEUZE_SLEUTEL) || 'null');
         window.sessionStorage.removeItem(KEUZE_SLEUTEL);
       } catch {}
-      if (bewaard && bewaard.vak === vakId && Array.isArray(bewaard.hoofdstukken)) kies = beginKeuze(bewaard.hoofdstukken);
+      if (bewaard && bewaard.vak === vakId && Array.isArray(bewaard.hoofdstukken)) {
+        kiezer.zet(bewaard.hoofdstukken);
+        gekozenGezet = true;
+      }
       if (AANTALLEN.includes(terugAantal)) {
-        voorkeur = terugAantal;
+        kiezer.zetAantal(terugAantal);
         Promise.resolve(BES.auth?.gereed).then(() => BES.auth?.gebruiker?.()).then(gebruiker => {
           if (!gebruiker) return;
           ingelogd = true;
-          open();
+          open('maak');
         }).catch(() => {});
       }
     }
@@ -900,14 +986,16 @@
       if (venster.open) venster.close();
     });
 
-    BES.duelStart = {
-      open, vragenUit, maakVragen, leesCode,
-      keuze: () => (kies ? { vak: vakId, hoofdstukken: hoofdstukken.map(hoofdstuk => hoofdstuk.id).filter(id => kies.has(id)) } : null)
-    };
+    Object.assign(BES.duelStart, {
+      open,
+      keuze: () => (gekozenGezet ? { vak: vakId, hoofdstukken: kiezer.hoofdstukken() } : null)
+    });
   }
 
-  // Het kaartje komt er alleen voor accounts die het duel mogen zien (duel-toegang.js). Laadde dat bestand niet: geen kaartje.
+  // Het kaartje komt er alleen op een vakpagina, en alleen voor accounts die het duel mogen zien (duel-toegang.js).
+  // Laadde dat bestand niet: geen kaartje.
   const beginAlsHetMag = async () => {
+    if (!document.getElementById('start-oefening')) return;
     const mag = BES.duelToegang ? await BES.duelToegang() : false;
     if (mag === true) begin();
   };
