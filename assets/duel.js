@@ -202,6 +202,10 @@
     let deelnemers = [];       // { speler, naam, punten, binnen, gezien }
     let vragen = {};
     let vragenCompleet = false;
+    // In de wachtkamer kan de maker de vragen nog vervangen (duel_wijzig, versie + 1). Vragen die in de wachtkamer
+    // geladen zijn, gelden daarom alleen voor die versie, en na de start halen we ze nog één keer op.
+    let vragenVersie = null;
+    let vragenUitWachtkamer = false;
     let pogingen = [];
     let geladen = false;
     let laadOk = false;
@@ -277,6 +281,8 @@
       deelnemers = [];
       vragen = {};
       vragenCompleet = false;
+      vragenVersie = null;
+      vragenUitWachtkamer = false;
       pogingen = [];
       wasDeelnemer = false;
       wisVerder();
@@ -365,10 +371,12 @@
         stuur();
         return;
       }
+      const vragenGoed = vragenCompleet
+        && !(vragenUitWachtkamer && (k.data.status !== 'wachtkamer' || k.data.versie !== vragenVersie));
       const [d, p, q] = await Promise.all([
         lees(client.from('duel_deelnemers').select('speler,naam,punten,binnen,laatst_gezien').eq('kamer', code)),
         lees(client.from('duel_pogingen').select('nr,speler,keuze,goed,op').eq('kamer', code)),
-        vragenCompleet ? Promise.resolve(null) : lees(client.from('duel_vragen').select('nr,vraag,opties,hoofdstuk').eq('kamer', code).order('nr', { ascending: true }))
+        vragenGoed ? Promise.resolve(null) : lees(client.from('duel_vragen').select('nr,vraag,opties,hoofdstuk').eq('kamer', code).order('nr', { ascending: true }))
       ]);
       if (gestopt || ik !== id) return;
       if (d.error || p.error || (q && q.error)) { laadMislukt(); return; }
@@ -403,6 +411,8 @@
         vragen = nieuw;
         const aantal = Object.keys(nieuw).length;
         vragenCompleet = aantal > 0 && aantal >= (Number(kamer.aantal) || 0);
+        vragenVersie = kamer.versie;
+        vragenUitWachtkamer = kamer.status === 'wachtkamer';
       }
       laadOk = true;
       geladen = true;
@@ -723,6 +733,12 @@
     async opnieuw(code, vragen) {
       return metCode(code, c => (Array.isArray(vragen)
         ? roep('duel_opnieuw', { p_code: c, p_vragen: vragen }, { wek: c })
+        : mislukt('ongeldig')));
+    },
+    // Alleen de maker, zolang de kamer in de wachtkamer staat: andere hoofdstukken en nieuwe vragen (duel-wijzig.sql).
+    async wijzig(code, hoofdstukken, vragen) {
+      return metCode(code, c => (Array.isArray(hoofdstukken) && Array.isArray(vragen)
+        ? roep('duel_wijzig', { p_code: c, p_hoofdstukken: hoofdstukken, p_vragen: vragen }, { wek: c })
         : mislukt('ongeldig')));
     },
     volg,

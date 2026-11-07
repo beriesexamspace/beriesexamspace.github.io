@@ -18,6 +18,7 @@
     A:            await BES.duel.start(code);  daarna druk(code, 1) en antwoord(code, 1, keuze).
 
   Extra parameters: ?speler=0 is niet ingelogd, ?vertraging=0 haalt de nep-netwerktijd weg.
+  Ook wijzig(code, hoofdstukken, vragen) zoals duel-wijzig.sql (alleen de maker, in de wachtkamer).
   Hulp voor tests (async): await BES.duelNep.juist(code, nr), .stand(code), .laatsteKamer(), .pasAan(code, k => ...), .wis().
   BES.duelNep.offline(true/false) doet alsof het internet wegvalt (staat.verbonden wordt false).
 */
@@ -600,6 +601,29 @@
     return klaar({ ok: true, code: nieuw }, [p.c, nieuw]);
   }));
 
+  // Zoals duel_wijzig (duel-wijzig.sql): alleen de maker, alleen in de wachtkamer. Nieuwe vragen en geheim,
+  // hoofdstukken en aantal, versie + 1 en de kamer blijft weer 24 uur open.
+  const wijzigKamer = (code, hoofdstukken, vragen) => rpc(() => wijzig((stand, tijd) => {
+    const p = pak(stand, code, tijd);
+    if (p.fout) return fout(p.fout);
+    const kamer = p.k.kamer;
+    if (kamer.maker !== IK) return fout('niet_jouw_beurt');
+    if (kamer.status !== 'wachtkamer') return fout('verkeerde_stand');
+    if (!Array.isArray(hoofdstukken) || hoofdstukken.length > 100
+      || hoofdstukken.some(h => typeof h !== 'string' || !h.length || h.length > 60)) return fout('ongeldig');
+    const schoon = schoonVragen(vragen);
+    if (!schoon) return fout('ongeldig');
+    const nieuw = nieuweKamer(p.c, kamer.vak, hoofdstukken.slice(), schoon, tijd);
+    kamer.hoofdstukken = nieuw.kamer.hoofdstukken;
+    kamer.aantal = nieuw.kamer.aantal;
+    kamer.verloopt = nieuw.kamer.verloopt;
+    p.k.vragen = nieuw.vragen;
+    p.k.geheim = nieuw.geheim;
+    p.k.pogingen = [];
+    verhoog(p.k);
+    return klaar({ ok: true, aantal: kamer.aantal }, [p.c]);
+  }));
+
   // duel_hier: niet in de lijst van BES.duel, volg() roept het zelf aan.
   const hier = code => rpc(() => wijzig((stand, tijd) => {
     const p = pak(stand, code, tijd);
@@ -815,7 +839,7 @@
   // ---------- naar buiten ----------
 
   window.BES = window.BES || {};
-  window.BES.duel = { maak, doeMee, start, druk, antwoord, verder, volgende, uitleg, opnieuw, volg, nu };
+  window.BES.duel = { maak, doeMee, start, druk, antwoord, verder, volgende, uitleg, opnieuw, wijzig: wijzigKamer, volg, nu };
 
   window.BES.duelNep = {
     ik: IK,
