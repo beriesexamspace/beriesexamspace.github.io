@@ -214,11 +214,6 @@ html[data-theme="dark"] .kamer-rij.is-ik .kamer-avatar { color: var(--ink); }
 .kamer-plek .kamer-rij-vlak { border-style: dashed; border-color: color-mix(in srgb, var(--ink) 16%, var(--transparent)); background: var(--transparent); color: var(--ink-soft); }
 .kamer-plek .kamer-avatar { border: 1.5px dashed color-mix(in srgb, var(--ink) 22%, var(--transparent)); background: var(--transparent); }
 .kamer-plek-tekst { flex: 1; min-width: 0; font-size: .9375rem; line-height: 1.4; }
-/* Vrije plekken: kleiner en stiller, met het nummer van de plek. */
-.kamer-vrij { padding: 3px 0; }
-.kamer-vrij .kamer-rij-vlak { min-height: 44px; padding: 6px 14px 6px 8px; border: 1px dashed color-mix(in srgb, var(--ink) 10%, var(--transparent)); background: var(--transparent); }
-.kamer-vrij-nr { flex-basis: 28px; width: 28px; height: 28px; margin-left: 6px; border: 1.5px dashed color-mix(in srgb, var(--ink) 18%, var(--transparent)); background: var(--transparent); color: var(--ink-soft); font-size: .75rem; font-weight: 600; font-variant-numeric: tabular-nums; }
-.kamer-vrij-tekst { color: var(--ink-soft); font-size: .875rem; opacity: .7; }
 
 /* Starten */
 .kamer-start {
@@ -295,10 +290,8 @@ html[data-theme="dark"] .kamer-rij.is-ik .kamer-avatar { color: var(--ink); }
   }
   .kamer-kop { grid-area: kop; margin-bottom: 4px; }
   .kamer-code-kaart { grid-area: code; }
-  /* Spelers is even hoog als code en starten samen; starten rekt mee, met de inhoud in het midden. */
-  .kamer-spelers { grid-area: spelers; align-self: stretch; display: flex; flex-direction: column; }
-  .kamer-spelers .kamer-lijst { flex: 1; display: flex; flex-direction: column; justify-content: space-between; }
-  .kamer-start { grid-area: start; align-self: stretch; align-content: center; }
+  .kamer-spelers { grid-area: spelers; }
+  .kamer-start { grid-area: start; }
   .kamer-kaart, .kamer-start { padding: 28px; }
 }
 
