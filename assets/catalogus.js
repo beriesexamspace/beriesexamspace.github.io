@@ -59,7 +59,7 @@
     r('vub', 'agogische', 'Agogische Wetenschappen'),
     // VUB, Recht en Criminologie
     r('vub', 'rechten', 'Rechten'),
-    r('vub', 'criminologie', 'Criminologische Wetenschappen', 'binnenkort'),
+    r('vub', 'criminologie', 'Criminologische Wetenschappen', 'live'),
     // VUB, Lichamelijke Opvoeding en Kinesitherapie
     r('vub', 'lobw', 'Lichamelijke Opvoeding en Bewegingswetenschappen'),
     r('vub', 'revaki', 'Revalidatiewetenschappen en Kinesitherapie'),

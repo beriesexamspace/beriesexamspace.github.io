@@ -57,18 +57,17 @@
     { id: 'um-staatsrecht', jaar: 'um1', naam: 'Staatsrecht', tekst: '87 oefenvragen over 8 hoofdstukken, met uitleg.', v2: true },
     { id: 'um-privaat', jaar: 'um1', naam: 'Privaatrecht: verbintenissen en goederen', tekst: '44 oefenvragen over 7 hoofdstukken, met uitleg.', v2: true },
     { id: 'um-belasting', jaar: 'um1', naam: 'Inleiding belastingrecht', tekst: '36 oefenvragen over 7 hoofdstukken, met uitleg.', v2: true },
-    { id: 'um-ier', jaar: 'um2', naam: 'Internationaal en Europees recht', tekst: '129 oefenvragen over 9 hoofdstukken, met uitleg.', v2: true }
+    { id: 'um-ier', jaar: 'um2', naam: 'Internationaal en Europees recht', tekst: '129 oefenvragen over 9 hoofdstukken, met uitleg.', v2: true },
+    // Criminologische Wetenschappen, VUB (eigen jaren crim1 tot crim3, zie jaar-crim1.html)
+    { id: 'wwd', jaar: 'crim1', naam: 'Wijsbegeerte van het wetenschappelijk denken', tekst: '109 oefenvragen over 7 hoofdstukken, met uitleg.', v2: true },
+    { id: 'inlcrim', jaar: 'crim1', naam: 'Inleiding tot de criminologie', tekst: '69 oefenvragen over 4 hoofdstukken, met uitleg.', v2: true },
+    { id: 'polgesch', jaar: 'crim1', naam: 'Politieke geschiedenis van België', tekst: '67 oefenvragen over 3 hoofdstukken, met uitleg.', v2: true },
+    { id: 'inlrecht', jaar: 'crim1', naam: 'Inleiding tot het recht', tekst: '98 oefenvragen over 3 hoofdstukken, met uitleg.', v2: true }
   ];
 
-  // Vakken die al op de site staan maar nog nergens gekoppeld zijn (Criminologie, VUB).
-  // Alleen het Duel kent ze, zodat je ze met vrienden kunt testen. Ze staan niet op de jaarpagina's of in Voortgang.
+  // Vakken die al op de site staan maar nog nergens gekoppeld zijn. Alleen het Duel kent ze.
   // Koppelen = de regel naar BES_VAKKEN verplaatsen.
-  window.BES_VAKKEN_STIL = [
-    { id: 'wwd', jaar: 'crim1', naam: 'Wijsbegeerte van het wetenschappelijk denken', v2: true },
-    { id: 'inlcrim', jaar: 'crim1', naam: 'Inleiding tot de criminologie', v2: true },
-    { id: 'polgesch', jaar: 'crim1', naam: 'Politieke geschiedenis van België', v2: true },
-    { id: 'inlrecht', jaar: 'crim1', naam: 'Inleiding tot het recht', v2: true }
-  ];
+  window.BES_VAKKEN_STIL = [];
 
   // Link naar een vak: in v2 zodra het is omgezet, anders de bestaande tool.
   // 'basis' is het pad van de huidige pagina naar de map van v2 ('' op de jaarpagina's, '../../' vanuit vak/<id>/).
