@@ -1242,5 +1242,15 @@
       });
     })();
   </script>
+  <script>
+    // Met een account brengt Terug je naar de site (de hub), niet naar de pagina van de QR-code.
+    document.addEventListener('click', event => {
+      const terug = event.target.closest('a.terug');
+      if (!terug || document.documentElement.classList.contains('zonder-account')) return;
+      if (event.button !== 0 || event.ctrlKey || event.metaKey || event.shiftKey || event.altKey) return;
+      event.preventDefault();
+      window.location.assign('../hub.html');
+    });
+  </script>
 </body>
 </html>
