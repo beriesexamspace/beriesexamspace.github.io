@@ -89,6 +89,7 @@
 .duel-venster-top { display: flex; align-items: center; gap: 14px; margin: 0 0 12px; }
 .duel-venster-top > div { min-width: 0; }
 .duel-venster.kies-plan h2 { margin: 0; font-size: 1.375rem; line-height: 1.25; }
+.duel-venster.kies-plan h2:focus { outline: none; }
 .duel-venster-icoon { display: inline-grid; place-items: center; flex: 0 0 48px; width: 48px; height: 48px; border-radius: 15px; background: var(--accent-zacht); }
 .duel-venster-icoon svg { width: 24px; height: 24px; }
 .duel-venster[open] .duel-venster-icoon svg { animation: duel-icoon-in 420ms var(--ease) 120ms both; }
@@ -626,6 +627,8 @@
     const titels = maak('div');
     const kop = maak('h2', '', 'Duel met vrienden');
     kop.id = 'duel-venster-kop';
+    // Eerste focusplek in het venster: op een telefoon springt zo niet meteen het toetsenbord open.
+    kop.tabIndex = -1;
     titels.append(maak('p', 'duel-venster-label', 'Live met vrienden'), kop);
     top.append(badge, titels);
     const uitleg = maak('p', 'kies-plan-reden', 'Speel live met 2 tot 10 spelers. Wie het eerst drukt, mag antwoorden.');
@@ -810,6 +813,10 @@
       });
     }
 
+    function fijneMuis() {
+      try { return window.matchMedia('(pointer: fine)').matches; } catch { return true; }
+    }
+
     function naarKiesscherm() {
       if (bezig || scherm === 'maak') return;
       kiezer.werkBij();
@@ -844,7 +851,9 @@
       werkCodeBij();
       venster.showModal();
       if (naam === 'maak') kiezer.focus();
-      else codeVeld.focus({ preventScroll: true });
+      // Met muis meteen typen; bij aanraken de titel, zodat het toetsenbord Maak een duel niet bedekt.
+      else if (fijneMuis()) codeVeld.focus({ preventScroll: true });
+      else kop.focus({ preventScroll: true });
       // Alvast laden, zodat Start meteen werkt.
       laadDuel().catch(() => {});
       if (!testDuel && ingelogd === undefined) {
