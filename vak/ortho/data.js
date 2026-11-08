@@ -943,13 +943,13 @@ window.BES_VAK = {
    "h": "h7",
    "q": "De conatieve as in het orthopedagogisch classificatiesysteem van Kok is de as van de eigenheid. Hij heeft twee polen:",
    "o": [
-    "De h-pool (harmonisatie) en de z-pool (Zelf).",
+    "De h-pool waar het kind zich bevindt als het goed aangepast is en de z-pool waar het kind zich bevindt als het een sterk Zelf heeft.",
     "De z-pool waar zich een gebrek aan eigenheid bevindt en de h-pool.",
     "De h-pool waar de vraag naar harmonisering met de omgeving moet worden gesitueerd en de z-pool waar we de vraag naar ondersteuning van het Zelf moeten lokaliseren.",
     "De h-pool waar de vraag naar houvast en vaste regels moet worden gesitueerd en de z-pool waar we de vraag naar zelf beslissen over de dagindeling moeten lokaliseren."
    ],
    "a": 2,
-   "u": "Het juiste antwoord is: De h-pool waar de vraag naar harmonisering met de omgeving moet worden gesitueerd en de z-pool waar we de vraag naar ondersteuning van het Zelf moeten lokaliseren.."
+   "u": "Het juiste antwoord is: De h-pool waar de vraag naar harmonisering met de omgeving moet worden gesitueerd en de z-pool waar we de vraag naar ondersteuning van het Zelf moeten lokaliseren."
   },
   {
    "h": "h7",
