@@ -1,4 +1,4 @@
-// Wie mag het duel zien? Zolang het duel in stilte live staat, alleen het beheerdersaccount (knop en duel maken).
+// Wie mag het duel zien? Sinds 08-11-2026 iedereen met een account (VOOR_IEDEREEN = true).
 // Meedoen via een uitnodigingslink (duel.html?c=CODE) mag met elk account; dat regelt duel.html.
 // Voor iedereen open: VOOR_IEDEREEN op true zetten.
 // Gebruikt door duel-start.js (de knop op de vakpagina) en duel.html (de pagina zelf).
@@ -8,7 +8,7 @@
   const BES = window.BES = window.BES || {};
   if (BES.duelToegang) return;
 
-  const VOOR_IEDEREEN = false;
+  const VOOR_IEDEREEN = true;
 
   // true = dit account mag het duel zien, false = niet, null = niet ingelogd (nog onbekend).
   BES.duelMagAccount = async gebruiker => {
