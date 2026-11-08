@@ -1779,25 +1779,25 @@ window.BES_VAK = {
    "h": "h10",
    "q": "Welke combinatie is onjuist?",
    "o": [
-    "Prolactine – melkklieren",
-    "ADH – eierstokken",
-    "Oxytocine – melkklieren",
-    "ACTH – bijniercortex"
+    "Prolactine - melkklieren",
+    "ADH - eierstokken",
+    "Oxytocine - melkklieren",
+    "ACTH - bijniercortex"
    ],
    "a": 1,
-   "u": "Het juiste antwoord is: ADH – eierstokken."
+   "u": "Het juiste antwoord is: ADH - eierstokken."
   },
   {
    "h": "h10",
    "q": "Welke hormoonparen hebben GEEN tegengestelde werking?",
    "o": [
-    "Oestrogeen – progesteron",
-    "Insuline – glucagon",
-    "PTH – calcitonine",
-    "Insuline – groeihormoon"
+    "Oestrogeen - progesteron",
+    "Insuline - glucagon",
+    "PTH - calcitonine",
+    "Insuline - groeihormoon"
    ],
    "a": 0,
-   "u": "Het juiste antwoord is: Oestrogeen – progesteron."
+   "u": "Het juiste antwoord is: Oestrogeen - progesteron."
   },
   {
    "h": "h10",
@@ -2163,13 +2163,13 @@ window.BES_VAK = {
    "h": "h12",
    "q": "Welke structuur is onjuist gekoppeld aan zijn functie?",
    "o": [
-    "Urethra – transport van urine",
-    "Nefron – productie van urine",
-    "Blaas – opslag van urine",
-    "Ureter – concentratie van urine"
+    "Urethra - transport van urine",
+    "Nefron - productie van urine",
+    "Blaas - opslag van urine",
+    "Ureter - concentratie van urine"
    ],
    "a": 3,
-   "u": "Het juiste antwoord is: Ureter – concentratie van urine."
+   "u": "Het juiste antwoord is: Ureter - concentratie van urine."
   },
   {
    "h": "h12",
@@ -9783,13 +9783,13 @@ window.BES_VAK = {
    "h": "hX",
    "q": "Wanneer we de vrouwelijke anatomie in het bekken van voor (anterieur) naar achter (posterieur) bekijken, in welke volgorde liggen de belangrijkste organen dan?",
    "o": [
-    "Urineblaas – Rectum – Baarmoeder",
-    "Urineblaas – Baarmoeder/Vagina – Rectum",
-    "Baarmoeder – Urineblaas – Rectum",
-    "Rectum – Urineblaas – Baarmoeder/Vagina"
+    "Urineblaas - Rectum - Baarmoeder",
+    "Urineblaas - Baarmoeder/Vagina - Rectum",
+    "Baarmoeder - Urineblaas - Rectum",
+    "Rectum - Urineblaas - Baarmoeder/Vagina"
    ],
    "a": 1,
-   "u": "Het juiste antwoord is: Urineblaas – Baarmoeder/Vagina – Rectum."
+   "u": "Het juiste antwoord is: Urineblaas - Baarmoeder/Vagina - Rectum."
   },
   {
    "h": "hX",
@@ -9939,13 +9939,13 @@ window.BES_VAK = {
    "h": "hX",
    "q": "Welke van de volgende reeksen botten behoort in zijn geheel tot het 'appendiculair skelet' (de botten van de ledematen en de schouder/bekkengordel)?",
    "o": [
-    "Scapula (schouderblad) – Clavicula (sleutelbeen) – Fibula (kuitbeen)",
-    "Mandibula (onderkaak) – Femur (dijbeen) – Patella (knieschijf)",
-    "Sacrum (heiligbeen) – Coccyx (staartbeen) – Tibia (scheenbeen)",
-    "Sternum (borstbeen) – Humerus (opperarmbeen) – Radius (spaakbeen)"
+    "Scapula (schouderblad) - Clavicula (sleutelbeen) - Fibula (kuitbeen)",
+    "Mandibula (onderkaak) - Femur (dijbeen) - Patella (knieschijf)",
+    "Sacrum (heiligbeen) - Coccyx (staartbeen) - Tibia (scheenbeen)",
+    "Sternum (borstbeen) - Humerus (opperarmbeen) - Radius (spaakbeen)"
    ],
    "a": 0,
-   "u": "Het juiste antwoord is: Scapula (schouderblad) – Clavicula (sleutelbeen) – Fibula (kuitbeen)."
+   "u": "Het juiste antwoord is: Scapula (schouderblad) - Clavicula (sleutelbeen) - Fibula (kuitbeen)."
   },
   {
    "h": "hX",
@@ -11511,13 +11511,13 @@ window.BES_VAK = {
    "h": "hX",
    "q": "Op welke chemische veranderingen in het bloed reageert het ademhalingscentrum in de hersenstam primair om de ademhalingsfrequentie aan te passen?",
    "o": [
-    "Een stijging van de concentratie CO",
+    "Een stijging van de concentratie CO₂ in het bloed.",
     "Een daling van de stikstofconcentratie in het bloed.",
     "Veranderingen in de luchttemperatuur in de longen.",
     "De aanwezigheid van allergenen in de ingeademde lucht."
    ],
    "a": 0,
-   "u": "Het juiste antwoord is: Een stijging van de concentratie CO."
+   "u": "Het juiste antwoord is: Een stijging van de concentratie CO₂ in het bloed. Het ademhalingscentrum reageert vooral op een hogere CO₂-druk (en de daling van de pH die daarbij hoort)."
   },
   {
    "h": "hX",
@@ -15920,7 +15920,7 @@ window.BES_VAK = {
     "Koolhydraten: monosacharide (glucose, fructose, ribose) → polysacharide (zetmeel, glycogeen, cellulose). Zetmeel hydrolyseren → glucose.",
     "Eiwitten: aminozuren → eiwit. Primaire structuur = covalente peptidebindingen. Denaturatie = vormverandering (bv. ei koken, hitte). Enzymen = eiwitten die reacties versnellen (katalysator) zonder zelf verbruikt te worden en zonder het eindproduct te veranderen.",
     "Lipiden: vetachtig, onoplosbaar in water. Triglyceride = opslagvorm van vet. Steroïden (uit cholesterol).",
-    "Nucleïnezuren: DNA & RNA, opgebouwd uit nucleotiden (covalente bindingen). DNA = instructies voor eiwitten. Complementair: A–T, C–G (in RNA: A–U)."
+    "Nucleïnezuren: DNA & RNA, opgebouwd uit nucleotiden (covalente bindingen). DNA = instructies voor eiwitten. Complementair: A-T, C-G (in RNA: A-U)."
    ]
   },
   {
@@ -16243,7 +16243,7 @@ window.BES_VAK = {
    "kop": "Vrouwelijk stelsel & cyclus",
    "items": [
     "Ovaria (eicelrijping, oestrogeen/progesteron) → oviduct/eileider (verbindt ovarium en uterus; bevruchting hier) → uterus (endometrium binnen, myometrium = spierlaag voor uitdrijving, perimetrium buiten) → cervix → vagina.",
-    "FSH & LH (hypofyse) worden gestuurd door GnRH (hypothalamus). De LH-piek lokt de ovulatie uit; daarbij komt een secundaire eicel + poollichaampje vrij. Corpus luteum maakt hormonen die de vroege zwangerschap ondersteunen. Proliferatiefase = dag 6–14."
+    "FSH & LH (hypofyse) worden gestuurd door GnRH (hypothalamus). De LH-piek lokt de ovulatie uit; daarbij komt een secundaire eicel + poollichaampje vrij. Corpus luteum maakt hormonen die de vroege zwangerschap ondersteunen. Proliferatiefase = dag 6-14."
    ]
   },
   {
@@ -16313,7 +16313,7 @@ window.BES_VAK = {
    "items": [
     "Ectoderm: epidermis, zenuwstelsel, bijniermerg. Mesoderm: spieren, bot, bloed, lymfevaten, gonaden (testes & ovaria). Endoderm: bekleding spijsvertering/ademhaling, lever. (De lever komt NIET uit het ectoderm.)",
     "Placenta = embryonaal + maternaal weefsel; scheidt hCG, progesteron en oestrogeen af. Navelstreng = 1 ader + 2 slagaders. Chorion voedt via diffusie. Amnion + amnionvocht (breken van de vliezen = vocht). Vernix caseosa beschermt de foetushuid. hCG houdt het corpus luteum in leven (zwangerschapstest).",
-    "Maand 3–4: lever functioneert, geslacht zichtbaar, nieren maken urine (surfactant komt pas later).",
+    "Maand 3-4: lever functioneert, geslacht zichtbaar, nieren maken urine (surfactant komt pas later).",
     "Geboorte: oxytocine (weeën, positieve feedback) + prolactine (melkproductie); colostrum = eerste melk, rijk aan antilichamen. Foetale structuren sluiten af (ductus arteriosus, foramen ovale); foetale vaten worden bindweefsel."
    ]
   },

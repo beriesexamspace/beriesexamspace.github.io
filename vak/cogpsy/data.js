@@ -758,7 +758,7 @@ window.BES_VAK = {
     "Flitslichtherinneringen blijven door de sterke emotie jarenlang accuraat, waardoor de details ervan niet vervagen zoals bij gewone herinneringen",
     "Flitslichtherinneringen verdwijnen sneller dan gewone herinneringen",
     "De accuraatheid van flitslichtherinneringen nam toe met de tijd",
-    "Flitslichtherinneringen zijn qua detailverlies gewone herinneringen, maar mensen zijn er wel zekerder en levendiger over"
+    "Flitslichtherinneringen zijn qua detailverlies gelijk aan gewone herinneringen, maar mensen zijn er wel zekerder en levendiger over"
    ],
    "a": 3,
    "u": "De detailaccuraatheid daalt bij zowel gewone als flitslichtherinneringen. Alleen de levendigheid en zekerheid blijven bij flitslichtherinneringen constant, dus het zijn eigenlijk normale herinneringen waar men zekerder over is."
