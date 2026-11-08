@@ -282,15 +282,71 @@
           <h2 class="sectie-kop" id="bekijk-kop">Bekijk als student</h2>
           <p class="sub" id="bekijk-nu">Je ziet de site nu als je eigen richting.</p>
           <div style="display:flex;flex-wrap:wrap;gap:12px;margin-top:12px">
-            <a class="knop" href="kaart.html?bekijk=1">Kies een richting op de kaart</a>
+            <button class="knop" id="bekijk-kies-knop" type="button" aria-expanded="false" aria-controls="bekijk-kies">Richting veranderen</button>
             <button class="knop" id="bekijk-stop" type="button" hidden>Terug naar mijn eigen richting</button>
           </div>
+          <div class="bekijk-kies" id="bekijk-kies" hidden>
+            <p class="bekijk-kies-vraag" id="bekijk-kies-vraag">Kies een school.</p>
+            <div class="bekijk-kies-lijst" id="bekijk-kies-lijst"></div>
+          </div>
+          <style>
+            .bekijk-kies { margin-top: 20px; padding: 20px; border: 1px solid var(--line); border-radius: 16px; background: var(--surface); }
+            .bekijk-kies.is-erin { animation: bekijk-erin 220ms var(--ease, ease-out); }
+            .bekijk-kies-vraag { margin: 0 0 14px; color: var(--ink-soft); font-size: .9375rem; }
+            .bekijk-kies-lijst { display: flex; flex-wrap: wrap; gap: 10px; }
+            .bekijk-kies-lijst.is-wissel { animation: bekijk-erin 200ms var(--ease, ease-out); }
+            .bekijk-kies-lijst button { min-height: 44px; padding: 8px 18px; border: 1px solid var(--line); border-radius: var(--pill, 999px); background: var(--card, var(--surface)); color: var(--ink); font: inherit; font-size: .9375rem; font-weight: 600; cursor: pointer; transition: border-color 160ms, transform 160ms; }
+            .bekijk-kies-lijst button:active { transform: scale(.97); }
+            :where(html.has-hover) .bekijk-kies-lijst button:hover { border-color: var(--accent); }
+            .bekijk-kies-lijst button .bekijk-kies-extra { margin-left: 8px; color: var(--ink-soft); font-weight: 400; }
+            .bekijk-kies-lijst button.is-terug { border-style: dashed; }
+            @keyframes bekijk-erin { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+            @media (prefers-reduced-motion: reduce) { .bekijk-kies.is-erin, .bekijk-kies-lijst.is-wissel { animation: none; } }
+          </style>
           <script>
             (() => {
+              const cat = window.BES_CATALOGUS;
               let r = null; try { r = localStorage.getItem('bes_bekijk_als'); } catch {}
               const stop = document.getElementById('bekijk-stop');
-              if (r) { document.getElementById('bekijk-nu').textContent = 'Je bekijkt de site nu als: ' + r + '.'; stop.hidden = false; }
+              if (r) {
+                const x = cat && cat.richting(r); const s = x && cat.school(x.school);
+                document.getElementById('bekijk-nu').textContent = 'Je bekijkt de site nu als: ' + (x ? x.naam + (s ? ' (' + (s.kort[0] || s.naam) + ')' : '') : r) + '.';
+                stop.hidden = false;
+              }
               stop.addEventListener('click', () => { try { localStorage.removeItem('bes_bekijk_als'); } catch {} location.reload(); });
+
+              // Richting veranderen: eerst de school, dan de richting. Alleen hier in Beheer, zonder de kaart.
+              const knop = document.getElementById('bekijk-kies-knop');
+              const paneel = document.getElementById('bekijk-kies');
+              const vraag = document.getElementById('bekijk-kies-vraag');
+              const lijst = document.getElementById('bekijk-kies-lijst');
+              if (!cat) { knop.hidden = true; return; }
+              const knopje = (tekst, extra, klik, klas) => {
+                const b = document.createElement('button'); b.type = 'button'; b.textContent = tekst;
+                if (klas) b.className = klas;
+                if (extra) { const e = document.createElement('span'); e.className = 'bekijk-kies-extra'; e.textContent = extra; b.append(e); }
+                b.addEventListener('click', klik); return b;
+              };
+              const vul = (tekst, knoppen) => {
+                vraag.textContent = tekst; lijst.replaceChildren(...knoppen);
+                lijst.classList.remove('is-wissel'); void lijst.offsetWidth; lijst.classList.add('is-wissel');
+              };
+              const aantalLive = (id) => cat.richtingen.filter((x) => x.school === id && x.status === 'live').length;
+              const toonScholen = () => vul('Kies een school.', cat.scholen.slice()
+                .sort((a, b) => (aantalLive(b.id) - aantalLive(a.id)) || a.naam.localeCompare(b.naam, 'nl'))
+                .map((s) => { const n = aantalLive(s.id); return knopje(s.naam, n ? n + ' live' : '', () => toonRichtingen(s)); }));
+              const toonRichtingen = (s) => vul('Kies een richting van ' + s.naam + '.', [
+                knopje('← Andere school', '', toonScholen, 'is-terug'),
+                ...cat.richtingenVan(s.id).map((x) => knopje(x.naam, x.status === 'live' ? '' : (x.status === 'binnenkort' ? 'binnenkort' : 'nog leeg'), () => {
+                  try { localStorage.setItem('bes_bekijk_als', x.id); } catch {}
+                  location.href = 'hub.html';
+                }))
+              ]);
+              knop.addEventListener('click', () => {
+                const open = paneel.hidden;
+                paneel.hidden = !open; knop.setAttribute('aria-expanded', String(open));
+                if (open) { toonScholen(); paneel.classList.remove('is-erin'); void paneel.offsetWidth; paneel.classList.add('is-erin'); }
+              });
             })();
           </script>
         </section>
