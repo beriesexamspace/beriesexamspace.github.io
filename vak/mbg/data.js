@@ -15030,11 +15030,11 @@ window.BES_VAK = {
    "o": [
     "Dat genetica een rol kan spelen in het ontwikkelen van borstkanker.",
     "Dat op jonge leeftijd kinderen krijgen een vrouw helemaal niet beschermt tegen borstkanker.",
-    "Dat borstkanker meestal voorkomt bij vrouwen tussen de 40 en 60 jaar.",
+    "Dat het risico op borstkanker toeneemt met de leeftijd, vooral vanaf 50 jaar.",
     "Dat een bevolkingsonderzoek met mammografie tumoren in een vroeg stadium kan opsporen."
    ],
    "a": 1,
-   "u": "Het juiste antwoord is: Dat op jonge leeftijd kinderen krijgen een vrouw helemaal niet beschermt tegen borstkanker.."
+   "u": "Het juiste antwoord is: Dat op jonge leeftijd kinderen krijgen een vrouw helemaal niet beschermt tegen borstkanker."
   },
   {
    "h": "hX",
