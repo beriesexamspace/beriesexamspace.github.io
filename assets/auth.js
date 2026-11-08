@@ -445,6 +445,25 @@
       return typeof data[0].richting === 'string' ? data[0].richting : null;
     },
 
+    // Zelf je richting veranderen (Profiel). Bestaat je rij al, dan wijzigen; anders een nieuwe maken.
+    // Daarna telt een oude kaartkeuze van dit tabblad niet meer, en onthoudt dit toestel de nieuwe richting.
+    async richtingWijzigen(school, richting) {
+      const user = await auth.gebruiker();
+      if (!user || !client) throw failure('signed_out');
+      const id = /^[a-z0-9]+(-[a-z0-9]+)*$/;
+      if (typeof school !== 'string' || typeof richting !== 'string' || school.length > 40 || richting.length > 80
+        || !id.test(school) || !id.test(richting) || !richting.startsWith(school + '-')) throw failure('invalid_choice');
+      forgetMapChoice();
+      const { data, error } = await client.from('studiekeuze').update({ school, richting }).eq('user_id', user.id).select('richting');
+      if (error) throw error;
+      if (!data?.length) {
+        const { error: fout } = await client.from('studiekeuze').insert({ school, richting });
+        if (fout) throw fout;
+      }
+      try { window.localStorage.setItem('bes_richting', richting); } catch {}
+      return richting;
+    },
+
     async gebruikerVerversen() {
       const owner = currentUser?.id;
       if (!owner) return null;
