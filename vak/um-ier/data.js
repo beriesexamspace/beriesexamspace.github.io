@@ -1451,7 +1451,7 @@ window.BES_VAK = {
   },
   {
    "h": "h8",
-   "q": "Een Tsjechische regel verklaart het in het Duits opgestelde arbeidscontract van een Duitse grensarbeider nietig, omdat het niet in het Tsjechisch is. Hoe oordeelt het Hof volgens Las (C-202/11)?",
+   "q": "Een Vlaams decreet verklaarde het Engelstalige arbeidscontract van een Nederlandse werknemer bij PSA Antwerp nietig, omdat het niet in het Nederlands was opgesteld. Hoe oordeelde het Hof in Las (C-202/11)?",
    "o": [
     "Geen belemmering, want de regel geldt voor iedereen en beschermt de landstaal",
     "Directe discriminatie die niet te rechtvaardigen is, omdat zij op nationaliteit ziet",
@@ -1459,7 +1459,7 @@ window.BES_VAK = {
     "Gerechtvaardigd, omdat nietigheid het meest geschikte middel is om de taal te beschermen"
    ],
    "a": 2,
-   "u": "Taalbevordering, werknemersbescherming en toezicht zijn legitieme doelen, maar de regel gaat verder dan nodig. Een rechtsgeldige versie in een taal die beide partijen begrijpen moet naast de Tsjechische mogelijk zijn."
+   "u": "De regel belemmert art. 45 VWEU. Taalbevordering, werknemersbescherming en toezicht zijn legitieme doelen, maar de regel gaat verder dan nodig. Partijen moeten naast de Nederlandse versie ook een rechtsgeldige versie kunnen opstellen in een taal die zij allebei begrijpen."
   },
   {
    "h": "h8",
@@ -1592,6 +1592,438 @@ window.BES_VAK = {
    ],
    "a": 0,
    "u": "Je kunt pas over dominantie oordelen als duidelijk is om welke markt het gaat: de productmarkt en de geografische markt. Daarna kijk je naar marktaandeel en andere voorsprong."
+  },
+  {
+   "h": "h1",
+   "q": "Een regio houdt een referendum en een meerderheid stemt voor aansluiting bij een andere staat. Waarom verandert de internationale grens daardoor nog niet?",
+   "o": [
+    "Een referendum veroorzaakt op zichzelf geen rechtsgeldige territoriale wijziging",
+    "Een referendum telt pas mee na goedkeuring door de Algemene Vergadering",
+    "Een referendum is alleen geldig als minstens twee derde van de kiezers voor stemt",
+    "Alleen de Veiligheidsraad mag een referendum over grondgebied organiseren"
+   ],
+   "a": 0,
+   "u": "De bevolking kan niet zomaar door een stemming een internationaalrechtelijke grens veranderen. Een referendum brengt op zichzelf geen rechtsgeldige territoriale wijziging tot stand."
+  },
+  {
+   "h": "h1",
+   "q": "De Krim had in 2014 een duidelijk afgebakend gebied. Waarom volstond het criterium grondgebied toch niet om een staat aan te nemen?",
+   "o": [
+    "Het gebied had geen permanente bevolking",
+    "Het gebied maakte juridisch deel uit van Oekraïne",
+    "De grenzen waren nooit op een kaart vastgelegd",
+    "Het gebied was kleiner dan een vereiste minimumoppervlakte"
+   ],
+   "a": 1,
+   "u": "Er was wel een territorium, maar dat hoorde juridisch bij Oekraïne. Het criterium grondgebied is dan niet automatisch voldoende om staat-zijn aan te nemen."
+  },
+  {
+   "h": "h1",
+   "q": "Op welke verhoudingen ziet het beginsel van territoriale integriteit volgens het IGH in het Kosovo-advies (2010)?",
+   "o": [
+    "Op de verhouding tussen een staat en zijn burgers",
+    "Op de verhouding tussen regio's binnen één staat",
+    "Op de betrekkingen tussen staten onderling",
+    "Op de verhouding tussen staten en de VN-organen"
+   ],
+   "a": 2,
+   "u": "Het Hof benadrukte dat territoriale integriteit over de betrekkingen tussen staten gaat. Daarom verbiedt het een onafhankelijkheidsverklaring niet. Dat maakt een latere annexatie van andermans grondgebied nog niet rechtmatig."
+  },
+  {
+   "h": "h3",
+   "q": "Wat bevestigt het Lotus-arrest (PCIJ 1927) over rechtsmacht?",
+   "o": [
+    "Een staat heeft alleen rechtsmacht over daden die volledig op zijn eigen grondgebied plaatsvinden",
+    "Een staat mag een verdachte zonder toestemming op vreemd grondgebied laten arresteren",
+    "Een staat mag pas vervolgen als de staat van de dader daar uitdrukkelijk mee instemt",
+    "Een staat kan rechtsmacht hebben als een daad in het buitenland gevolgen op zijn grondgebied heeft"
+   ],
+   "a": 3,
+   "u": "Lotus bevestigt dat een staat rechtsmacht kan uitoefenen als een handeling op vreemd grondgebied wordt verricht en de gevolgen op eigen grondgebied intreden. Dat is het objectieve territorialiteitsbeginsel (gevolgentheorie)."
+  },
+  {
+   "h": "h4",
+   "q": "Een erkend vluchteling met een verblijfsvergunning vraagt de ambassade van zijn gastland om diplomatieke bescherming. Wat is het klassieke uitgangspunt?",
+   "o": [
+    "Een staat treedt in beginsel alleen op voor zijn eigen onderdanen",
+    "Een staat beschermt iedereen die wettig op zijn grondgebied verblijft",
+    "Een erkend vluchteling valt automatisch onder bescherming van het gastland",
+    "Een staat mag pas optreden nadat het IGH daarvoor toestemming gaf"
+   ],
+   "a": 0,
+   "u": "De klassieke regel van gewoonterecht, en de basis van diplomatieke bescherming, is dat een staat alleen optreedt voor zijn eigen onderdanen. Een erkend vluchteling valt daar niet automatisch onder. Artikel 8 ILC Draft Articles maakt wel een uitzondering mogelijk."
+  },
+  {
+   "h": "h4",
+   "q": "Welk artikel van het IVBPR (ICCPR) geeft in de casus van Amir volgens de leerstof het recht op toegang tot een advocaat?",
+   "o": [
+    "Artikel 9(1) IVBPR",
+    "Artikel 14(3)(b) IVBPR",
+    "Artikel 17 IVBPR",
+    "Artikel 6(3)(c) IVBPR"
+   ],
+   "a": 1,
+   "u": "De leerstof koppelt het recht op toegang tot een advocaat aan artikel 14(3)(b) IVBPR. Artikel 17 gaat over familiecontact. Artikel 6(3)(c) is de bepaling uit het EVRM."
+  },
+  {
+   "h": "h4",
+   "q": "Welk artikel van het EVRM bevat het recht op juridische bijstand?",
+   "o": [
+    "Artikel 5(2) EVRM",
+    "Artikel 6(1) EVRM",
+    "Artikel 6(3)(c) EVRM",
+    "Artikel 5(4) EVRM"
+   ],
+   "a": 2,
+   "u": "Artikel 6(3)(c) EVRM geeft het recht op juridische bijstand: herhaaldelijk geen contact met een advocaat is een schending. Artikel 5(2) gaat over informatie over de reden van arrestatie, artikel 6(1) over behandeling binnen een redelijke termijn."
+  },
+  {
+   "h": "h4",
+   "q": "De Britse rechter kan de zaak van Lisa pas in 2027 behandelen, ruim twee jaar na haar arrestatie. Waarom hoeft zij dat niet af te wachten voor zij naar het EHRM stapt?",
+   "o": [
+    "De uitputtingsregel geldt niet voor klachten tegen het VK",
+    "Nederland kan haar zaak automatisch van haar overnemen",
+    "De termijn van vier maanden loopt al vanaf de arrestatie",
+    "De vertraging kan zelf een schending van artikel 6(1) EVRM zijn"
+   ],
+   "a": 3,
+   "u": "Een buitensporig lange wachttijd voor toegang tot de rechter kan zelf een schending van artikel 6(1) EVRM zijn (denial of justice). Volgens het EHRM omzeilt zo'n vertraging dan de uitputtingsregel."
+  },
+  {
+   "h": "h5",
+   "q": "Wat verbiedt artikel 2 lid 4 VN-Handvest?",
+   "o": [
+    "De dreiging met of het gebruik van geweld tegen de territoriale integriteit of politieke onafhankelijkheid van een staat",
+    "Alleen het daadwerkelijke gebruik van geweld, maar niet de dreiging ermee, tegen een andere staat",
+    "Alleen geweld dat de Algemene Vergadering vooraf uitdrukkelijk als agressie heeft aangemerkt",
+    "Alleen conventioneel militair geweld, met uitsluiting van elke vorm van cyberoperatie"
+   ],
+   "a": 0,
+   "u": "Staten moeten zich onthouden van de dreiging met of het gebruik van geweld tegen de territoriale integriteit of politieke onafhankelijkheid van een staat. Volgens de heersende opvatting vallen ook cyberoperaties met vergelijkbare effecten eronder."
+  },
+  {
+   "h": "h5",
+   "q": "Staat A financiert en bewapent een rebellengroep in staat B. Kan B zich daartegen volgens Nicaragua op zelfverdediging (art. 51 VN-Handvest) beroepen?",
+   "o": [
+    "Ja, elke vorm van steun aan rebellen geldt als een gewapende aanval",
+    "Nee, dat is een minder ernstige vorm van geweld en geen gewapende aanval",
+    "Ja, maar alleen als de Veiligheidsraad daarvoor vooraf toestemming geeft",
+    "Nee, zelfverdediging kan alleen tegen een aanval met reguliere troepen"
+   ],
+   "a": 1,
+   "u": "Het IGH onderscheidde in Nicaragua de most grave forms (zoals de klassieke gewapende aanval) van de less grave forms (zoals bewapenen of financieren van gewapende groepen). Alleen de eerste categorie rechtvaardigt zelfverdediging."
+  },
+  {
+   "h": "h5",
+   "q": "Welke factor weegt mee bij de vraag of een cyberaanval de drempel van een gewapende aanval haalt (Tallinn Manual 2.0)?",
+   "o": [
+    "Het aantal landen via wier servers de aanval werd uitgevoerd",
+    "De vraag of de aanvaller de aanval vooraf publiek aankondigde",
+    "De aard van de getroffen vitale infrastructuur, zoals energie of water",
+    "De vraag of de aanvaller zelfgeschreven software gebruikte"
+   ],
+   "a": 2,
+   "u": "Rule 69 kijkt naar scale and effects, niet naar het middel. Relevante factoren zijn het aantal doden en gewonden, de aard van de getroffen infrastructuur, de duur en schaal van de verstoring en de directe link met de dodelijke gevolgen."
+  },
+  {
+   "h": "h5",
+   "q": "Welke eis stelt de Caroline-doctrine (1837) aan de noodzaak van zelfverdediging?",
+   "o": [
+    "De noodzaak moet vooraf door de Veiligheidsraad zijn vastgesteld in een bindende resolutie",
+    "De noodzaak ontstaat pas als de aanval helemaal voorbij is en de schade vaststaat",
+    "De noodzaak moet blijken uit een verdrag tussen de aangevallen staat en zijn bondgenoten",
+    "De noodzaak moet onmiddellijk en overweldigend zijn, zonder keuze van middelen en zonder tijd voor overleg"
+   ],
+   "a": 3,
+   "u": "Caroline eist dat de noodzaak \"instant, overwhelming, leaving no choice of means, and no moment for deliberation\" is. Het noodzakelijkheidsvereiste komt uit het gewoonterecht."
+  },
+  {
+   "h": "h5",
+   "q": "Een staat antwoordt met militair geweld op een gewapende aanval. Wat vraagt de proportionaliteitseis?",
+   "o": [
+    "Het optreden mag niet verder gaan dan nodig om de aanval te stoppen en nieuwe aanvallen te voorkomen",
+    "Het optreden moet met precies dezelfde soort middelen gebeuren als de aanval zelf",
+    "Het optreden moet in omvang gelijk zijn aan de schade die de aanval veroorzaakte",
+    "Het optreden mag alleen gericht zijn op doelen die de aanvaller zelf heeft gebruikt"
+   ],
+   "a": 0,
+   "u": "Proportioneel betekent niet dat de middelen gelijk moeten zijn. Het optreden mag niet verder gaan dan noodzakelijk is om de aanval te stoppen en toekomstige aanvallen te voorkomen."
+  },
+  {
+   "h": "h5",
+   "q": "Een staat oefent zelfverdediging uit, maar meldt dat niet aan de Veiligheidsraad. Wat is volgens de leerstof het gevolg?",
+   "o": [
+    "Het optreden wordt daardoor onrechtmatig en geldt dan als verboden geweld",
+    "De rechtmatigheid blijft in beginsel overeind, maar het beroep op artikel 51 verzwakt",
+    "De staat verliest zijn recht op zelfverdediging tot de Veiligheidsraad instemt",
+    "Er is geen enkel gevolg, want artikel 51 kent voor staten geen meldingsplicht"
+   ],
+   "a": 1,
+   "u": "Artikel 51 verplicht tot onmiddellijke melding aan de Veiligheidsraad. Het ontbreken daarvan tast de rechtmatigheid in beginsel niet aan, maar verzwakt de geloofwaardigheid van het beroep op artikel 51."
+  },
+  {
+   "h": "h5",
+   "q": "Welk standpunt over humanitaire interventie neemt de meerderheid van de staten in?",
+   "o": [
+    "Erkenning bij elke ernstige schending van de mensenrechten, ook zonder VN",
+    "Erkenning zodra het ingrijpen gebeurt onder de noemer van R2P",
+    "Verwerping: zij heeft geen basis in het Handvest en botst met artikel 2 lid 4",
+    "Erkenning als laatste redmiddel, ook zonder enige rol voor de VN"
+   ],
+   "a": 2,
+   "u": "De meerderheid van de staten verwerpt humanitaire interventie: zij heeft geen basis in het VN-Handvest en is in strijd met artikel 2 lid 4 en het soevereiniteitsbeginsel. Een minderheid aanvaardt haar voorzichtig bij extreme situaties, met VR-autorisatie of als laatste redmiddel."
+  },
+  {
+   "h": "h6",
+   "q": "Welke van deze punten is GEEN grond voor nietigverklaring volgens art. 263 lid 2 VWEU?",
+   "o": [
+    "Onbevoegdheid van de instelling die het besluit nam",
+    "Misbruik van bevoegdheid door de instelling",
+    "Schending van wezenlijke vormvoorschriften",
+    "Strijd met de grondwet van de lidstaat van de verzoeker"
+   ],
+   "a": 3,
+   "u": "Art. 263 lid 2 VWEU kent vier gronden: onbevoegdheid, schending van wezenlijke vormvoorschriften, schending van de Verdragen of een uitvoeringsregel, en misbruik van bevoegdheid. Nationaal grondwettelijk recht hoort daar niet bij."
+  },
+  {
+   "h": "h6",
+   "q": "Waar staat de plicht van EU-instellingen om hun besluiten te motiveren?",
+   "o": [
+    "Art. 296 lid 2 VWEU, voor burgers ook art. 41 lid 2 sub c Handvest",
+    "Art. 256 lid 1 VWEU, voor burgers ook art. 47 Handvest",
+    "Art. 263 lid 6 VWEU, voor burgers ook art. 41 lid 1 Handvest",
+    "Art. 267 lid 3 VWEU, voor burgers ook art. 52 Handvest"
+   ],
+   "a": 0,
+   "u": "De motiveringsplicht staat in art. 296 lid 2 VWEU en voor burgers ook in art. 41 lid 2 sub c Handvest (behoorlijk bestuur). De motivering moet de redenering duidelijk tonen, zodat de rechter het besluit kan toetsen. De rechter mag een motiveringsgebrek ambtshalve opwerpen."
+  },
+  {
+   "h": "h6",
+   "q": "Moet Frankrijk een belang aantonen om een besluit van de Commissie aan te vechten met een beroep tot nietigverklaring?",
+   "o": [
+    "Ja, Frankrijk moet rechtstreeks en individueel geraakt zijn",
+    "Nee, als lidstaat is Frankrijk een bevoorrechte verzoeker",
+    "Ja, tenzij het besluit tot Frankrijk zelf is gericht",
+    "Nee, maar alleen als het Parlement het beroep steunt"
+   ],
+   "a": 1,
+   "u": "Lidstaten zijn bevoorrechte verzoekers (art. 263 lid 2 VWEU), net als het Parlement, de Raad en de Commissie. Zij hoeven geen belang aan te tonen."
+  },
+  {
+   "h": "h6",
+   "q": "GlorySeed vecht het CPVO-besluit over haar eigen aanvraag aan. Moet zij daarvoor de Plaumann-toets doorstaan?",
+   "o": [
+    "Ja, elke onderneming moet individueel geraakt zijn",
+    "Ja, omdat het CPVO een agentschap is en geen instelling",
+    "Nee, zij is de geadresseerde en mag dus altijd procederen",
+    "Nee, omdat ondernemingen bevoorrechte verzoekers zijn"
+   ],
+   "a": 2,
+   "u": "Het besluit is tot GlorySeed gericht, want zij deed zelf de aanvraag. Een geadresseerde mag altijd procederen (art. 263 lid 4, eerste variant VWEU). De Plaumann-toets is dan niet nodig."
+  },
+  {
+   "h": "h6",
+   "q": "Waarom kunnen de Franse telers zich tegen het CPVO-besluit niet op de variant van de regelgevingshandeling (art. 263 lid 4 VWEU) beroepen?",
+   "o": [
+    "Het is een wetgevingshandeling van het Parlement en de Raad",
+    "Het besluit vraagt nog uitvoeringsmaatregelen van de lidstaten",
+    "Het CPVO kan geen handelingen met bindende gevolgen vaststellen",
+    "Het is een individueel besluit over één ras van één bedrijf"
+   ],
+   "a": 3,
+   "u": "Een regelgevingshandeling is een handeling van algemene strekking die geen wetgevingshandeling is (Microban, Inuit). Een besluit over één ras van één bedrijf heeft geen algemene strekking. De telers moeten dus rechtstreeks en individueel geraakt zijn."
+  },
+  {
+   "h": "h7",
+   "q": "Welke omschrijving van een maatregel van gelijke werking komt uit Dassonville (8/74)?",
+   "o": [
+    "Elke handelsregeling die de handel tussen lidstaten direct of indirect, feitelijk of mogelijk kan belemmeren",
+    "Alleen regelingen die ingevoerde producten openlijk anders behandelen dan binnenlandse producten",
+    "Elke geldelijke last die eenzijdig wordt opgelegd omdat een goed de grens passeert",
+    "Elke verkoopregel die voor alle marktdeelnemers in de lidstaat op dezelfde manier geldt"
+   ],
+   "a": 0,
+   "u": "Volgens Dassonville vallen onder art. 34 VWEU handelsregelingen die de intracommunautaire handel rechtstreeks of indirect, daadwerkelijk of potentieel kunnen belemmeren. Een geldelijke last bij de grens is een heffing (art. 30 VWEU)."
+  },
+  {
+   "h": "h7",
+   "q": "Welk beginsel volgt uit Cassis de Dijon (120/78)?",
+   "o": [
+    "Een product mag pas in alle lidstaten verkocht worden als de Unie er gemeenschappelijke regels voor heeft",
+    "Een product dat rechtmatig in een lidstaat op de markt is, mag in beginsel ook elders verkocht worden",
+    "Een product moet altijd aan alle productregels voldoen van de lidstaat waar het verkocht wordt",
+    "Een product mag alleen worden geweerd als de lidstaat van herkomst daarmee instemt"
+   ],
+   "a": 1,
+   "u": "Cassis de Dijon legt het beginsel van wederzijdse erkenning vast: een product dat rechtmatig in een andere lidstaat op de markt is, moet in beginsel ook elders verkocht kunnen worden."
+  },
+  {
+   "h": "h7",
+   "q": "Wanneer valt een verkoopmodaliteit volgens Keck (C-267/91 en C-268/91) in beginsel buiten art. 34 VWEU?",
+   "o": [
+    "Als de regel voor alle marktdeelnemers geldt, ook wanneer hij ingevoerde producten feitelijk zwaarder treft",
+    "Als de regel eisen stelt aan de samenstelling, de verpakking of de benaming van het product zelf",
+    "Als de regel voor iedereen geldt en binnenlandse en ingevoerde producten in rechte en feitelijk gelijk raakt",
+    "Als de lidstaat aantoont dat de regel nodig is om de volksgezondheid te beschermen"
+   ],
+   "a": 2,
+   "u": "Keck onderscheidt producteisen van verkoopmodaliteiten. Een verkoopmodaliteit valt buiten art. 34 VWEU als zij voor alle marktdeelnemers geldt en juridisch en feitelijk dezelfde invloed heeft op binnenlandse en ingevoerde producten."
+  },
+  {
+   "h": "h7",
+   "q": "Wat bepaalt art. 85c Richtlijn 2001/83/EG, ingevoerd na DocMorris, over online verkoop van medicijnen?",
+   "o": [
+    "Online verkoop zonder recept mag worden verboden, die van receptmedicijnen moet worden toegestaan",
+    "Online verkoop mag voor alle medicijnen worden verboden, ook voor die zonder recept",
+    "Online verkoop moet voor alle medicijnen worden toegestaan, ook voor die op recept",
+    "Online verkoop zonder recept moet worden toegestaan, die van receptmedicijnen mag worden verboden"
+   ],
+   "a": 3,
+   "u": "Volgens art. 85c Richtlijn 2001/83/EG moeten lidstaten online verkoop van medicijnen zonder recept toestaan. Voor receptmedicijnen mogen zij online verkoop verbieden. Dat sluit aan bij DocMorris."
+  },
+  {
+   "h": "h7",
+   "q": "Hoe omschrijft art. 57 VWEU een dienst?",
+   "o": [
+    "Een prestatie tegen betaling die niet onder goederen, kapitaal of personen valt",
+    "Een prestatie zonder winstoogmerk die over de grens wordt geleverd",
+    "Een prestatie waarbij een tastbaar product naar een andere lidstaat gaat",
+    "Een prestatie die een duurzame vestiging in het gastland vereist"
+   ],
+   "a": 0,
+   "u": "Art. 57 VWEU: een dienst is een prestatie tegen betaling die niet onder goederen, kapitaal of personen valt. Het controleren van recepten en het geven van gebruiksinstructies door een online apotheek zijn voorbeelden."
+  },
+  {
+   "h": "h7",
+   "q": "Waarom is een eis dat een dienstverlener zich in het gastland vestigt een zware beperking van art. 56 VWEU (Van Binsbergen)?",
+   "o": [
+    "Een vestigingseis is een heffing van gelijke werking op diensten",
+    "Wie zich moet vestigen, kan geen grensoverschrijdende dienst meer verlenen",
+    "Een vestigingseis geldt alleen voor buitenlanders en is dus altijd verboden",
+    "Een vestigingseis maakt van de dienst een goed dat onder art. 34 VWEU valt"
+   ],
+   "a": 1,
+   "u": "Het Hof heeft vaak gezegd dat een vestigingseis het vrij verkeer van diensten in feite onmogelijk maakt (onder meer Van Binsbergen). Wie zich moet vestigen, verleent geen grensoverschrijdende dienst meer."
+  },
+  {
+   "h": "h8",
+   "q": "Waarom wordt Richtlijn 2004/38 wel een lift genoemd?",
+   "o": [
+    "Familieleden krijgen een eigen verblijfsrecht, los van dat van de Unieburger",
+    "Familieleden krijgen na de verhuizing automatisch de nationaliteit van het gastland",
+    "Familieleden hebben een afgeleid recht en liften mee op het recht van de Unieburger",
+    "Alleen familieleden die zelf Unieburger zijn, mogen met de Unieburger meeverhuizen"
+   ],
+   "a": 2,
+   "u": "Een Unieburger die naar een ander EU-land verhuist, mag zijn gezin meenemen, ook als die gezinsleden zelf geen Unieburger zijn. Zij hebben geen eigen recht, maar een afgeleid recht: ze liften mee."
+  },
+  {
+   "h": "h8",
+   "q": "Voor wie geldt Richtlijn 2004/38 volgens art. 3 lid 1?",
+   "o": [
+    "Voor alle Unieburgers, ook als zij nooit hun eigen lidstaat hebben verlaten, en hun familieleden",
+    "Voor alle onderdanen van derde landen die legaal in een lidstaat van de Unie verblijven",
+    "Alleen voor familieleden die zelf de nationaliteit van een van de lidstaten hebben",
+    "Voor Unieburgers die naar of in een andere lidstaat dan die van hun nationaliteit gaan, en hun familieleden"
+   ],
+   "a": 3,
+   "u": "Art. 3 lid 1: de richtlijn geldt alleen voor Unieburgers die zich naar of in een andere lidstaat begeven dan die waarvan zij onderdaan zijn, en voor hun familieleden die hen begeleiden of zich bij hen voegen."
+  },
+  {
+   "h": "h8",
+   "q": "Mevrouw McCarthy (Brits en Iers) had altijd in het VK gewoond. Waarom kon zij zich daar niet op Richtlijn 2004/38 beroepen?",
+   "o": [
+    "Zij had nooit gebruikgemaakt van vrij verkeer, en haar tweede nationaliteit veranderde dat niet",
+    "Zij verloor haar Britse nationaliteit op het moment dat zij de Ierse aannam",
+    "De richtlijn geldt nooit voor personen met de nationaliteit van twee lidstaten",
+    "Zij had haar recht verloren omdat zij langer dan vijf jaar in het VK woonde"
+   ],
+   "a": 0,
+   "u": "In McCarthy (C-434/09) was de richtlijn niet van toepassing: er was geen gebruik van vrij verkeer, ook niet door haar tweede nationaliteit. Art. 21 VWEU hielp evenmin, zolang zij niet het effectieve genot van de kern van haar rechten verloor (Ruiz Zambrano)."
+  },
+  {
+   "h": "h8",
+   "q": "Een familielid uit een derde land heeft toch een visum nodig om de lidstaat binnen te komen. Wat moet die lidstaat volgens art. 5 lid 2 Richtlijn 2004/38 doen?",
+   "o": [
+    "Het visum afgeven na een wachttijd van drie maanden",
+    "Het visum snel en gratis afgeven",
+    "Het visum afgeven tegen de gewone leges voor visa",
+    "Het visum pas afgeven na een inburgeringstoets"
+   ],
+   "a": 1,
+   "u": "Een visum mag alleen worden geëist als het land van herkomst visumplichtig is. Is er toch een visum nodig, dan moet de lidstaat het snel en gratis afgeven (art. 5 lid 2)."
+  },
+  {
+   "h": "h8",
+   "q": "Binnen welke termijn krijgt een familielid zonder EU-nationaliteit de verblijfskaart van familielid van een burger van de Unie?",
+   "o": [
+    "Binnen vier weken",
+    "Binnen drie maanden",
+    "Binnen zes maanden",
+    "Binnen een jaar"
+   ],
+   "a": 2,
+   "u": "Volgens art. 9 en 10 Richtlijn 2004/38 wordt de verblijfskaart binnen zes maanden afgegeven. De kaart is declaratoir: hij bevestigt het recht, maar maakt het niet (MRAX)."
+  },
+  {
+   "h": "h8",
+   "q": "Waarom mocht Ierland in Groener (C-379/87) kennis van het Iers eisen van een kunstdocente die in het Engels zou lesgeven?",
+   "o": [
+    "Engels is in Ierland geen officiële taal, het Iers is dat wel",
+    "Een docente moet altijd de moedertaal van haar leerlingen spreken",
+    "Taaleisen vallen volledig buiten het vrij verkeer van werknemers",
+    "Ierland voerde een bewust taalbeleid en docenten spelen daarin een rol"
+   ],
+   "a": 3,
+   "u": "Het Hof vond de eis toegestaan: Ierland voerde een bewust beleid om het Iers te beschermen, docenten hebben daarin een voorbeeldfunctie, en de eis was evenredig en werd niet discriminerend toegepast (het examen mocht opnieuw)."
+  },
+  {
+   "h": "h8",
+   "q": "Wat is de hoofdregel van art. 3 lid 1 Verordening 492/2011, en welke uitzondering kent die?",
+   "o": [
+    "Regels die het werk van buitenlanders beperken gelden niet, behalve taaleisen die bij de aard van de functie passen",
+    "Regels die het werk van buitenlanders beperken gelden niet, behalve eisen over de woonplaats van de werknemer",
+    "Buitenlanders mogen extra eisen krijgen zolang zij korter dan vijf jaar in het land wonen",
+    "Taaleisen zijn altijd verboden, behalve voor functies bij de overheid of in het onderwijs"
+   ],
+   "a": 0,
+   "u": "De hoofdregel: nationale regels die het werk van buitenlanders beperken of aan extra voorwaarden binden, gelden niet. De laatste alinea laat taaleisen toe als ze verband houden met de aard van de functie."
+  },
+  {
+   "h": "h8",
+   "q": "Welke twee vragen stel je bij de evenredigheidstoets in het vrij verkeer?",
+   "o": [
+    "Is de maatregel geschikt om het doel te halen, en geldt hij ook voor eigen onderdanen?",
+    "Is de maatregel geschikt om het doel te halen, en kan het niet met een lichtere maatregel?",
+    "Heeft de maatregel een wettelijke basis, en is hij vooraf gemeld aan de Commissie?",
+    "Is de maatregel discriminerend, en heeft een nationale rechter hem al getoetst?"
+   ],
+   "a": 1,
+   "u": "Evenredigheid bestaat uit twee vragen: is de maatregel geschikt (werkt hij?) en is hij noodzakelijk (kan het lichter?). Bestaat er een minder strenge maatregel die hetzelfde doel haalt, dan is de maatregel niet evenredig."
+  },
+  {
+   "h": "h8",
+   "q": "Wat volgt uit Martínez Sala (C-85/96) voor een Unieburger die rechtmatig in een andere lidstaat woont?",
+   "o": [
+    "Hij heeft alleen recht op gelijke behandeling als hij er werkt",
+    "Hij heeft pas recht op gelijke behandeling na tien jaar verblijf",
+    "Hij heeft recht op gelijke behandeling op grond van art. 18 VWEU",
+    "Hij heeft geen recht op gelijke behandeling bij uitkeringen"
+   ],
+   "a": 2,
+   "u": "Volgens Martínez Sala heeft een Unieburger die rechtmatig in een andere lidstaat woont recht op gelijke behandeling (art. 18 VWEU). Rechtmatig verblijf is hier het sleutelwoord."
+  },
+  {
+   "h": "h8",
+   "q": "Een Roemeen werkte vier jaar als zelfstandig stukadoor in Ierland en stopte omdat er geen werk meer was. Behoudt hij zijn status als zelfstandige (Gusa, C-442/16)?",
+   "o": [
+    "Nee, omdat art. 7 lid 3 alleen voor werknemers in loondienst geldt",
+    "Nee, omdat hij nog geen vijf jaar rechtmatig in Ierland woonde",
+    "Ja, omdat een zelfstandige zijn status in alle gevallen behoudt",
+    "Ja, omdat hij meer dan een jaar werkte en buiten zijn wil stopte"
+   ],
+   "a": 3,
+   "u": "Het Hof oordeelde dat hij zijn status behield op grond van art. 7 lid 3 sub b Richtlijn 2004/38: hij had meer dan een jaar gewerkt en was buiten zijn wil gestopt. Wie nooit echt zelfstandig werkte, heeft daar niets aan."
   }
  ],
  "hacks": [
@@ -1659,6 +2091,36 @@ window.BES_VAK = {
    "h": "h9",
    "kop": "Doel of effect?",
    "t": "Vraag bij art. 101 eerst: doel of effect? Een doelbeperking zoals een prijsafspraak of marktverdeling is meteen verboden; bij een effectbeperking toets je merkbaarheid en de de-minimisdrempels."
+  },
+  {
+   "h": "h1",
+   "kop": "Stemming is geen grens",
+   "t": "Een referendum verandert geen internationale grens. Territoriale integriteit gaat over staten onderling: het verbiedt een onafhankelijkheidsverklaring niet, maar maakt een annexatie ook niet rechtmatig."
+  },
+  {
+   "h": "h3",
+   "kop": "Gevolgen maken de plaats",
+   "t": "Bij het objectieve territorialiteitsbeginsel telt niet waar de dader zat, maar waar de gevolgen intreden. De aanval start in het buitenland, de schade landt hier, dus hier mag vervolgd worden (Lotus)."
+  },
+  {
+   "h": "h4",
+   "kop": "Twee verdragen, twee nummers",
+   "t": "Toegang tot een advocaat: in het IVBPR artikel 14(3)(b), in het EVRM artikel 6(3)(c). Informatie over de reden van arrestatie: artikel 5(2) EVRM. Redelijke termijn: artikel 6(1) EVRM."
+  },
+  {
+   "h": "h5",
+   "kop": "Most grave of less grave",
+   "t": "Most grave forms zijn de echte gewapende aanval: genoeg voor artikel 51. Less grave forms, zoals rebellen bewapenen of financieren, geven geen recht op zelfverdediging."
+  },
+  {
+   "h": "h7",
+   "kop": "Product of prestatie?",
+   "t": "Gaat het product over de grens, dan denk je aan goederen (art. 34 VWEU). Gaat de prestatie over de grens, zoals advies van een online apotheek, dan denk je aan diensten (art. 56 VWEU)."
+  },
+  {
+   "h": "h8",
+   "kop": "Groener of Las",
+   "t": "Groener: een taaleis voor de werknemer mag bij een nationaal taalbeleid en een functie die erom vraagt. Las: een verplichte taal voor het contract, op straffe van nietigheid, gaat te ver."
   }
  ],
  "theorie": [
