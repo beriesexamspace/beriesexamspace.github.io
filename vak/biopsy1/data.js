@@ -1347,10 +1347,10 @@ window.BES_VAK = {
    "h": "h2",
    "q": "Welke combinatie in verband met thalamische projecties is JUIST?",
    "o": [
-    "Anterieure nucleus – primaire auditieve cortex",
-    "Ventraal laterale kern – primaire visuele cortex",
-    "Mediale knievormige kern – somatosensorische cortex",
-    "Laterale knievormige kern – primaire visuele cortex"
+    "Anterieure nucleus - primaire auditieve cortex",
+    "Ventraal laterale kern - primaire visuele cortex",
+    "Mediale knievormige kern - somatosensorische cortex",
+    "Laterale knievormige kern - primaire visuele cortex"
    ],
    "a": 3,
    "u": "Laterale knievormige kern gaat naar primair visueel. Mediale = auditief. Ventraal lateraal = motorisch."
@@ -1587,10 +1587,10 @@ window.BES_VAK = {
    "h": "h4",
    "q": "Bij EEG-onderzoek kijkt men vaak naar specifieke frequentiebanden (hersengolven). Welke combinatie van frequentieband en mentale toestand is JUIST?",
    "o": [
-    "Delta-golven – Actieve concentratie",
-    "Bèta-golven – Diepe slaap",
-    "Alpha-golven – Ontspanning/Rust",
-    "Theta-golven – Hoge cognitieve functies"
+    "Delta-golven - Actieve concentratie",
+    "Bèta-golven - Diepe slaap",
+    "Alpha-golven - Ontspanning/Rust",
+    "Theta-golven - Hoge cognitieve functies"
    ],
    "a": 2,
    "u": "Delta = diepe slaap. Bèta = actieve concentratie/alertheid. Theta = slaperig/dagdromen."

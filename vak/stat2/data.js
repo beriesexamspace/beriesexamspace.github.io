@@ -637,7 +637,7 @@ window.BES_VAK = {
   },
   {
    "h": "h3",
-   "q": "4 ballen (zwart, geel, rood, groen). Je trekt ze alle 4 zonder teruglegging. Wat is de kans dat je zwart–geel–rood in die volgorde trekt (de eerste drie)?",
+   "q": "4 ballen (zwart, geel, rood, groen). Je trekt ze alle 4 zonder teruglegging. Wat is de kans dat je zwart-geel-rood in die volgorde trekt (de eerste drie)?",
    "o": [
     "0,25",
     "0,0166",

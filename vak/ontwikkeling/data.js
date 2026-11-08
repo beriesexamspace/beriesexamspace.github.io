@@ -1098,7 +1098,7 @@ window.BES_VAK = {
     "Ontwikkelingspsychologie = de wetenschappelijke studie van veranderingsprocessen én stabiliteit bij individuen, van conceptie tot dood, op verschillende domeinen, in wisselwerking met de omgeving.",
     "Correlationeel onderzoek: samenhang tussen 2 variabelen, geen ingrijpen → GEEN oorzaak-gevolg (een derde variabele kan meespelen).",
     "Experimenteel onderzoek: de onderzoeker grijpt in (controlegroep vs experimentele groep, idealiter 1 verschillende factor) → kan wél causaliteit aantonen.",
-    "Levensfases: prenataal · babytijd (0–18 mnd) · peutertijd (18 mnd–3 j) · kleutertijd (3–6 j) · kindertijd (6–12 j) · adolescentie (12–18 j) · emerging adulthood (18–25 j) · vroege (18–30) · midden (30–60) · late volwassenheid (60+).",
+    "Levensfases: prenataal · babytijd (0-18 mnd) · peutertijd (18 mnd-3 j) · kleutertijd (3-6 j) · kindertijd (6-12 j) · adolescentie (12-18 j) · emerging adulthood (18-25 j) · vroege (18-30) · midden (30-60) · late volwassenheid (60+).",
     "Basisthema's: continu (gradueel) vs discontinu (stadia/sprongen) · universeel vs individueel · nature (aangeboren) vs nurture (omgeving). Nature én nurture bepalen samen de levensloop."
    ]
   },
@@ -1122,7 +1122,7 @@ window.BES_VAK = {
     "Gen-omgeving: interactie (aanleg komt enkel tot uiting in bepaalde context, diathese-stress) vs correlatie (passief/evocatief/actief = niche-picking).",
     "Epigenetica: de omgeving beïnvloedt de genexpressie, niet de code zelf (vb. hongerwinter).",
     "Teratogenen / risicofactoren: roken, alcohol, drugs, ziektes (timing!), voeding/leeftijd/gezondheid van de moeder.",
-    "Geboorte: APGAR-score (1/5/10 min; <4 reanimatie, 4–7 mogelijk, >7 normaal) · hielprik/Guthrie-test (genetische screening) · geboortegewicht = sterke voorspeller (verbonden met SES) · postpartum depressie (~10%, hormonaal)."
+    "Geboorte: APGAR-score (1/5/10 min; <4 reanimatie, 4-7 mogelijk, >7 normaal) · hielprik/Guthrie-test (genetische screening) · geboortegewicht = sterke voorspeller (verbonden met SES) · postpartum depressie (~10%, hormonaal)."
    ]
   },
   {
@@ -1133,7 +1133,7 @@ window.BES_VAK = {
     "Hersenen: myelinisatie, synaptic pruning, grote plasticiteit (maar kwetsbaar: shaken baby). Reflexen (rooting, grasping, Moro, Babinski) verdwijnen.",
     "Zintuigen: zicht beperkt (best ~20 cm; visual cliff = dieptezicht); gehoor al prenataal; voorkeur voor zoet; tast best ontwikkeld.",
     "Piaget sensomotorisch (6 subfases) → eindigt met objectpermanentie. Kritiek: vaardigheden eerder aanwezig (Baillargeon, violation-of-expectation).",
-    "Taal: brabbelen (universeel, ook bij dove kinderen) → eerste woorden (9–14 mnd, holofrase) → telegramstijl. Theorieën: leertheorie, nativisme, interactionisme.",
+    "Taal: brabbelen (universeel, ook bij dove kinderen) → eerste woorden (9-14 mnd, holofrase) → telegramstijl. Theorieën: leertheorie, nativisme, interactionisme.",
     "Hechting (Bowlby/Ainsworth): veilig / vermijdend / angstig-ambivalent / gedesorganiseerd. Harlow's apen: geborgenheid > voeding. Ainsworth: vreemde situatie."
    ]
   },
@@ -1166,11 +1166,11 @@ window.BES_VAK = {
    "kop": "Kernpunten",
    "items": [
     "Puberteit (storm and stress): menarche (~11 j) & spermarche (~12 j); vroeg rijpen vooral negatief voor meisjes.",
-    "Piaget formeel-operationeel: abstract, propositioneel & hypothetisch denken (40–60% bereikt het volledig).",
+    "Piaget formeel-operationeel: abstract, propositioneel & hypothetisch denken (40-60% bereikt het volledig).",
     "Adolescent egocentrisme: imaginair publiek + persoonlijke fabel (\"mij overkomt dat niet\" → risicogedrag).",
     "Identiteit, Erikson (crisis + moratorium); Marcia: crisis × commitment → achievement / moratorium / foreclosure / diffusion; Luyckx (exploratie in breedte/diepte).",
     "Acculturatie (Berry): integratie (beste) / assimilatie / separatie / marginalisatie.",
-    "Emerging adulthood (Arnett, 18–25 j): identiteitsexploratie, instabiliteit, zelf-focus, 'tussenin' voelen, mogelijkheden. Sterk sociologisch bepaald, niet universeel."
+    "Emerging adulthood (Arnett, 18-25 j): identiteitsexploratie, instabiliteit, zelf-focus, 'tussenin' voelen, mogelijkheden. Sterk sociologisch bepaald, niet universeel."
    ]
   },
   {
