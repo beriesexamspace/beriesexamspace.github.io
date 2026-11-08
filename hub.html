@@ -344,7 +344,7 @@
               </span>
               <span class="kaart-tekst jaar-body">
                 <span class="kaart-titel">1ste bachelor</span>
-                <span class="kaart-sub">4 vakken</span>
+                <span class="kaart-sub">8 vakken</span>
                 <span class="jaar-link">Bekijk vakken <span class="jaar-pijl" aria-hidden="true">→</span></span>
               </span>
             </a>
@@ -355,7 +355,7 @@
               </span>
               <span class="kaart-tekst jaar-body">
                 <span class="kaart-titel">2de bachelor</span>
-                <span class="kaart-sub">Nog geen vakken</span>
+                <span class="kaart-sub">3 vakken</span>
                 <span class="jaar-link">Bekijk vakken <span class="jaar-pijl" aria-hidden="true">→</span></span>
               </span>
             </a>
@@ -623,6 +623,20 @@
       if (richting && richting !== 'vub-psychologie') return;
       window.BES?.geenAboMelding?.();
     }, 1500));
+  </script>
+  <script>
+    // Het aantal vakken op de jaarkaartjes van een richting telt vanzelf mee met assets/vakken.js.
+    (function () {
+      var vakken = window.BES_VAKKEN || [];
+      document.querySelectorAll('a.kaart.jaar[data-jaar]').forEach(function (kaart) {
+        var jaar = kaart.getAttribute('data-jaar');
+        if (/^[123]ba$/.test(jaar)) return;
+        var sub = kaart.querySelector('.kaart-sub');
+        if (!sub) return;
+        var n = vakken.filter(function (v) { return v.jaar === jaar; }).length;
+        sub.textContent = n === 0 ? 'Nog geen vakken' : n === 1 ? '1 vak' : n + ' vakken';
+      });
+    })();
   </script>
 </body>
 </html>
