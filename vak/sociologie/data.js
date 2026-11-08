@@ -643,7 +643,7 @@ window.BES_VAK = {
         1,
         3
       ],
-      "u": "Bij deze vraag hoort nog geen extra uitleg. Kijk het na in je cursus of vraag het in de WhatsApp-groep."
+      "u": "Let op wie wat zegt. Het zijn de conflictsociologen die functionalisten verwijten dat ze samenhang gebruiken om de bestaande orde te verklaren, niet andersom. Conflictsociologen leggen de nadruk op macht en dwang. Functionalisten verklaren gedrag via socialisatie en verinnerlijkte verwachtingen."
     },
     {
       "h": "h5",
