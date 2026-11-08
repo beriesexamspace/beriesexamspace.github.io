@@ -604,18 +604,6 @@ window.BES_VAK = {
    "u": "Het juiste antwoord is: Omdat hij de aandacht niet toespitst op dat waarin het kind teleurstelt maar op dat wat we voor het kind kunnen doen.."
   },
   {
-   "h": "h2",
-   "q": "Wat verstaat Wim Ter Horst precies onder problematische opvoedingssituatie (POS)?",
-   "o": [
-    "Het is een opvoedingssituatie waarin de opvoeders de zogenaamde grondvormen moeten toepassen.",
-    "Het is een opvoedingssituatie waarin de openheid van de opvoeders wordt beperkt door een tekort aan vitaliteit.",
-    "Het is een opvoedingssituatie waarin bij het kind een stoornis is vastgesteld door een specialist, waardoor de opvoeding zwaarder verloopt.",
-    "Het is een opvoedingssituatie die door de betrokkenen als uitzichtloos, zinloos, bedreigend wordt ervaren. Er is geen perspectief meer."
-   ],
-   "a": 3,
-   "u": "Het juiste antwoord is: Het is een opvoedingssituatie die door de betrokkenen als uitzichtloos, zinloos, bedreigend wordt ervaren. Er is geen perspectief meer.."
-  },
-  {
    "h": "h1",
    "q": "De uitgangspunten en theoretische inzichten overziend, kunnen we concluderen dat:",
    "o": [
@@ -770,30 +758,6 @@ window.BES_VAK = {
    ],
    "a": 3,
    "u": "Het juiste antwoord is: enerzijds de primaire leerproblemen die het gevolg zijn van problemen in het leren zelf, en anderzijds secundaire leerproblemen die het gevolg zijn van de omgeving of van een ander probleem.."
-  },
-  {
-   "h": "h7",
-   "q": "Ghesquière en Ruijssenaars (2001) schrijven dat handelingsgerichte diagnostiek verschillende niveaus kent, namelijk:",
-   "o": [
-    "het taakniveau, het niveau van de probleemgeschiedenis en het niveau van de algemene cognitieve processen;",
-    "het taakniveau, het niveau van de probleemanalyse en het niveau van de foutenanalyse;",
-    "het verklarende niveau, het niveau van de ontwikkelingsanamnese en het niveau van het cognitief en psychosociaal functioneren;",
-    "het niveau van de probleemgeschiedenis, het niveau van de ontwikkelingsanamnese en het niveau van het taakgedrag."
-   ],
-   "a": 1,
-   "u": "Het juiste antwoord is: het taakniveau, het niveau van de probleemanalyse en het niveau van de foutenanalyse;."
-  },
-  {
-   "h": "h3",
-   "q": "Maes (2001) schrijft dat onderzoek naar de etiologie van verstandelijke handicap vooral van belang is in het kader van preventie. Wat is de juiste omschrijving van de niveaus?",
-   "o": [
-    "Primaire preventie is erop gericht de stoornis te voorkomen, secundaire wil door vroegtijdige onderkenning en interventie de ernst verminderen en tertiaire probeert de negatieve gevolgen van de stoornis zoveel mogelijk te vermijden.",
-    "Primaire preventie betekent genetisch advies; secundaire omvat vaccinaties; tertiaire is opname.",
-    "Preventie verloopt in drie stappen die elkaar opvolgen: eerst wordt de erfelijke aanleg in kaart gebracht, daarna volgt de medische behandeling van de stoornis en pas als laatste stap komt de begeleiding van het gezin aan bod.",
-    "Primaire voorkomt de geboorte; secundaire voorkomt problemen; tertiaire haalt het kind uit het gezin."
-   ],
-   "a": 0,
-   "u": "Het juiste antwoord is: Primaire preventie is erop gericht de stoornis te voorkomen, secundaire wil door vroegtijdige onderkenning en interventie de ernst verminderen en tertiaire probeert de negatieve gevolgen van de stoornis zoveel mogelijk te vermijden.."
   },
   {
    "h": "h3",
@@ -998,18 +962,6 @@ window.BES_VAK = {
    ],
    "a": 0,
    "u": "Het juiste antwoord is: problemen in de visueel-ruimtelijke en de tactiele processen, psychomotorische problemen, rekenproblemen, gedrags- en emotionele problemen;."
-  },
-  {
-   "h": "h3",
-   "q": "Nakken e.a. (1998) maakten een overzicht van frequent gebruikte therapieën en programma's in de zorg voor mensen met ernstig meervoudige beperkingen:",
-   "o": [
-    "snoezelen, basale stimulatie van Andreas Fröhlich en het programma van Veronica Sherborne;",
-    "cognitieve gedragstherapie, beeldcommunicatie en gentle teaching;",
-    "gentle teaching, snoezelen, speltherapie en ruilversterking;",
-    "het programma van Veronica Sherborne, basale stimulatie, gentle teaching en ruilversterking."
-   ],
-   "a": 0,
-   "u": "Het juiste antwoord is: snoezelen, basale stimulatie van Andreas Fröhlich en het programma van Veronica Sherborne;."
   },
   {
    "h": "h1",
