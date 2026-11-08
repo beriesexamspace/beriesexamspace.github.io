@@ -9373,18 +9373,6 @@ window.BES_VAK = {
   },
   {
    "h": "hX",
-   "q": "Wat is de gevaarlijkste en meest agressieve vorm van huidkanker?",
-   "o": [
-    "Plaveiselcelcarcinoom",
-    "Basaalcelcarcinoom",
-    "Melanoom",
-    "Sarcoom"
-   ],
-   "a": 2,
-   "u": "Het juiste antwoord is: Melanoom."
-  },
-  {
-   "h": "hX",
    "q": "In welke specifieke structuur in de teelballen (testes) worden spermacellen daadwerkelijk geproduceerd?",
    "o": [
     "Interstitiële cellen (van Leydig)",
@@ -9406,18 +9394,6 @@ window.BES_VAK = {
    ],
    "a": 3,
    "u": "Het juiste antwoord is: Vezelkraakbeen (Fibrocartilage)."
-  },
-  {
-   "h": "hX",
-   "q": "Uit welk type weefsel bestaat de opperhuid (epidermis) voornamelijk?",
-   "o": [
-    "Bindweefsel",
-    "Gestratificeerd plaveiselepitheel",
-    "Kubisch epitheel",
-    "Eenlagig (simple) plaveiselepitheel"
-   ],
-   "a": 1,
-   "u": "Het juiste antwoord is: Gestratificeerd plaveiselepitheel."
   },
   {
    "h": "hX",
@@ -9550,18 +9526,6 @@ window.BES_VAK = {
    ],
    "a": 2,
    "u": "Het juiste antwoord is: Trabeculae."
-  },
-  {
-   "h": "hX",
-   "q": "Welke van de onderstaande eigenschappen of ziekten is GEEN polygenetisch kenmerk (bepaald door meerdere genen), maar kent een monogene basis (één enkel gen)?",
-   "o": [
-    "Huidskleur",
-    "Schizofrenie",
-    "Ziekte van Huntington",
-    "Essentiële hypertensie"
-   ],
-   "a": 2,
-   "u": "Het juiste antwoord is: Ziekte van Huntington."
   },
   {
    "h": "hX",
@@ -10486,18 +10450,6 @@ window.BES_VAK = {
    ],
    "a": 1,
    "u": "Het juiste antwoord is: Melanoom."
-  },
-  {
-   "h": "hX",
-   "q": "Welk proces in de aerobe celademhaling levert veruit de meeste ATP (energie) per afgebroken glucosemolecuul op?",
-   "o": [
-    "De glycolyse in het cytoplasma (splitsing van glucose)",
-    "De elektronentransportketen (oxidatieve fosforylering)",
-    "De citroenzuurcyclus (Krebs cyclus)",
-    "Fermentatie"
-   ],
-   "a": 1,
-   "u": "Het juiste antwoord is: De elektronentransportketen (oxidatieve fosforylering)."
   },
   {
    "h": "hX",
@@ -11506,18 +11458,6 @@ window.BES_VAK = {
    ],
    "a": 3,
    "u": "Het juiste antwoord is: Troponine."
-  },
-  {
-   "h": "hX",
-   "q": "Welk seksueel overdraagbare aandoening (SOA) staat erom bekend een direct oorzakelijk verband te hebben met de ontwikkeling van bepaalde vormen van kanker?",
-   "o": [
-    "Humaan Papillomavirus (HPV)",
-    "Trichomonas vaginalis-infectie",
-    "Syfilis",
-    "Chlamydia"
-   ],
-   "a": 0,
-   "u": "Het juiste antwoord is: Humaan Papillomavirus (HPV)."
   },
   {
    "h": "hX",
@@ -15035,30 +14975,6 @@ window.BES_VAK = {
    ],
    "a": 1,
    "u": "Het juiste antwoord is: Dat op jonge leeftijd kinderen krijgen een vrouw helemaal niet beschermt tegen borstkanker."
-  },
-  {
-   "h": "hX",
-   "q": "Welke structuur is NIET aanwezig in de ongedifferentieerde (zeer vroege) foetale geslachtsorganen?",
-   "o": [
-    "De labioscrotale zwelling.",
-    "De testis (teelbal).",
-    "De urogenitale groeve.",
-    "De genitale knop."
-   ],
-   "a": 1,
-   "u": "Het juiste antwoord is: De testis (teelbal).."
-  },
-  {
-   "h": "hX",
-   "q": "Welk specifiek hormoon wordt uitgescheiden door de foetale testes om vrouwelijke ontwikkeling af te remmen?",
-   "o": [
-    "Choriongonadotrofine (hCG).",
-    "Progesteron.",
-    "Oxytocine.",
-    "Anti-Mülleriaans hormoon (AMH)."
-   ],
-   "a": 3,
-   "u": "Het juiste antwoord is: Anti-Mülleriaans hormoon (AMH).."
   },
   {
    "h": "hX",
