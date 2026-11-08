@@ -286,6 +286,7 @@
             <button class="knop" id="bekijk-stop" type="button" hidden>Terug naar mijn eigen richting</button>
           </div>
           <div class="bekijk-kies" id="bekijk-kies" hidden>
+            <input class="bekijk-kies-zoek" id="bekijk-kies-zoek" type="search" placeholder="Zoek een school of richting" autocomplete="off" aria-label="Zoek een school of richting">
             <p class="bekijk-kies-vraag" id="bekijk-kies-vraag">Kies een school.</p>
             <div class="bekijk-kies-lijst" id="bekijk-kies-lijst"></div>
           </div>
@@ -293,13 +294,16 @@
             .bekijk-kies { margin-top: 20px; padding: 20px; border: 1px solid var(--line); border-radius: 16px; background: var(--surface); }
             .bekijk-kies.is-erin { animation: bekijk-erin 220ms var(--ease, ease-out); }
             .bekijk-kies-vraag { margin: 0 0 14px; color: var(--ink-soft); font-size: .9375rem; }
-            .bekijk-kies-lijst { display: flex; flex-wrap: wrap; gap: 10px; }
+            .bekijk-kies-zoek { width: 100%; min-height: 48px; margin: 0 0 14px; padding: 10px 16px; border: 1px solid var(--line); border-radius: 12px; background: var(--card, var(--bg)); color: var(--ink); font: inherit; font-size: 16px; transition: border-color 160ms, box-shadow 160ms; }
+            .bekijk-kies-zoek:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 4px var(--accent-zacht, rgba(63,185,178,.18)); }
+            .bekijk-kies-lijst { display: flex; flex-direction: column; gap: 6px; max-height: 440px; overflow-y: auto; overscroll-behavior: contain; }
             .bekijk-kies-lijst.is-wissel { animation: bekijk-erin 200ms var(--ease, ease-out); }
-            .bekijk-kies-lijst button { min-height: 44px; padding: 8px 18px; border: 1px solid var(--line); border-radius: var(--pill, 999px); background: var(--card, var(--surface)); color: var(--ink); font: inherit; font-size: .9375rem; font-weight: 600; cursor: pointer; transition: border-color 160ms, transform 160ms; }
-            .bekijk-kies-lijst button:active { transform: scale(.97); }
+            .bekijk-kies-lijst button { display: flex; align-items: center; justify-content: space-between; gap: 12px; width: 100%; min-height: 48px; padding: 10px 16px; border: 1px solid var(--line); border-radius: 12px; background: var(--card, var(--surface)); color: var(--ink); font: inherit; font-size: .9375rem; font-weight: 600; text-align: left; cursor: pointer; transition: border-color 160ms, transform 160ms; }
+            .bekijk-kies-lijst button:active { transform: scale(.99); }
             :where(html.has-hover) .bekijk-kies-lijst button:hover { border-color: var(--accent); }
-            .bekijk-kies-lijst button .bekijk-kies-extra { margin-left: 8px; color: var(--ink-soft); font-weight: 400; }
+            .bekijk-kies-lijst button .bekijk-kies-extra { flex: none; color: var(--ink-soft); font-size: .875rem; font-weight: 400; }
             .bekijk-kies-lijst button.is-terug { border-style: dashed; }
+            .bekijk-kies-leeg { margin: 4px 0; color: var(--ink-soft); font-size: .9375rem; }
             @keyframes bekijk-erin { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
             @media (prefers-reduced-motion: reduce) { .bekijk-kies.is-erin, .bekijk-kies-lijst.is-wissel { animation: none; } }
           </style>
@@ -327,25 +331,39 @@
                 if (extra) { const e = document.createElement('span'); e.className = 'bekijk-kies-extra'; e.textContent = extra; b.append(e); }
                 b.addEventListener('click', klik); return b;
               };
-              const vul = (tekst, knoppen) => {
-                vraag.textContent = tekst; lijst.replaceChildren(...knoppen);
-                lijst.classList.remove('is-wissel'); void lijst.offsetWidth; lijst.classList.add('is-wissel');
-              };
+              const zoek = document.getElementById('bekijk-kies-zoek');
+              const plat = (t) => (cat.plat ? cat.plat(t) : String(t).toLowerCase()).trim();
+              let school = null;
               const aantalLive = (id) => cat.richtingen.filter((x) => x.school === id && x.status === 'live').length;
-              const toonScholen = () => vul('Kies een school.', cat.scholen.slice()
-                .sort((a, b) => (aantalLive(b.id) - aantalLive(a.id)) || a.naam.localeCompare(b.naam, 'nl'))
-                .map((s) => { const n = aantalLive(s.id); return knopje(s.naam, n ? n + ' live' : '', () => toonRichtingen(s)); }));
-              const toonRichtingen = (s) => vul('Kies een richting van ' + s.naam + '.', [
-                knopje('← Andere school', '', toonScholen, 'is-terug'),
-                ...cat.richtingenVan(s.id).map((x) => knopje(x.naam, x.status === 'live' ? '' : (x.status === 'binnenkort' ? 'binnenkort' : 'nog leeg'), () => {
-                  try { localStorage.setItem('bes_bekijk_als', x.id); } catch {}
-                  location.href = 'hub.html';
-                }))
-              ]);
+              const statusTekst = (x) => x.status === 'live' ? 'live' : (x.status === 'binnenkort' ? 'binnenkort' : 'nog leeg');
+              const kiesRichting = (x) => () => { try { localStorage.setItem('bes_bekijk_als', x.id); } catch {} location.href = 'hub.html'; };
+              const kiesSchool = (s) => () => { school = s; zoek.value = ''; teken(); zoek.focus({ preventScroll: true }); };
+              const kort = (s) => (s.kort && s.kort[0]) || s.naam;
+              // Eén lijst onder elkaar. Zonder school: scholen (en bij zoeken ook richtingen van alle scholen). Met school: de richtingen ervan.
+              const teken = () => {
+                const q = plat(zoek.value);
+                const rijen = [];
+                if (school) {
+                  vraag.textContent = 'Kies een richting van ' + school.naam + '.';
+                  rijen.push(knopje('← Andere school', '', () => { school = null; zoek.value = ''; teken(); }, 'is-terug'));
+                  cat.richtingenVan(school.id).filter((x) => !q || plat(x.naam).includes(q)).forEach((x) => rijen.push(knopje(x.naam, statusTekst(x), kiesRichting(x))));
+                } else {
+                  vraag.textContent = q ? 'Scholen en richtingen die passen.' : 'Kies een school.';
+                  cat.scholen.filter((s) => !q || [s.naam, s.stad, ...(s.kort || [])].some((v) => plat(v).includes(q)))
+                    .sort((a, b) => (aantalLive(b.id) - aantalLive(a.id)) || a.naam.localeCompare(b.naam, 'nl'))
+                    .forEach((s) => { const n = aantalLive(s.id); rijen.push(knopje(s.naam, n ? n + ' live' : '', kiesSchool(s))); });
+                  if (q) cat.richtingen.filter((x) => plat(x.naam).includes(q))
+                    .sort((a, b) => ((a.status === 'live' ? 0 : 1) - (b.status === 'live' ? 0 : 1)) || a.naam.localeCompare(b.naam, 'nl'))
+                    .forEach((x) => { const s = cat.school(x.school); rijen.push(knopje(x.naam + (s ? ' · ' + kort(s) : ''), statusTekst(x), kiesRichting(x))); });
+                }
+                if (rijen.length === (school ? 1 : 0)) { const p = document.createElement('p'); p.className = 'bekijk-kies-leeg'; p.textContent = 'Niets gevonden.'; rijen.push(p); }
+                lijst.replaceChildren(...rijen);
+              };
+              zoek.addEventListener('input', teken);
               knop.addEventListener('click', () => {
                 const open = paneel.hidden;
                 paneel.hidden = !open; knop.setAttribute('aria-expanded', String(open));
-                if (open) { toonScholen(); paneel.classList.remove('is-erin'); void paneel.offsetWidth; paneel.classList.add('is-erin'); }
+                if (open) { school = null; zoek.value = ''; teken(); lijst.classList.remove('is-wissel'); void lijst.offsetWidth; lijst.classList.add('is-wissel'); zoek.focus({ preventScroll: true }); paneel.classList.remove('is-erin'); void paneel.offsetWidth; paneel.classList.add('is-erin'); }
               });
             })();
           </script>
