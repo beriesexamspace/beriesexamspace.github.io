@@ -339,7 +339,7 @@ window.BES_VAK = {
   },
   {
    "h": "h2",
-   "q": "Hoe kan vermoeden van de minimale schuldvorm worden weerlegd?",
+   "q": "Hoe kan het vermoeden van de minimale schuldvorm worden weerlegd?",
    "o": [
     "Door aan te tonen dat de dader onder onweerstaanbare dwang of onder onoverkomelijke dwaling handelde.",
     "Door te bewijzen dat de dader met bijzonder opzet handelde.",
@@ -551,7 +551,7 @@ window.BES_VAK = {
     "Het schaft het vermoeden van wederrechtelijkheid af"
    ],
    "a": 1,
-   "u": "De algemene grond gebod of toelating bij wet biedt de grondslag om bij wet specifieke rechtvaardigingsgronden te creeren. De lijst van artikel 10 moet daarvoor niet worden uitgebreid."
+   "u": "De algemene grond gebod of toelating bij wet biedt de grondslag om bij wet specifieke rechtvaardigingsgronden te creëren. De lijst van artikel 10 moet daarvoor niet worden uitgebreid."
   },
   {
    "h": "h4",
@@ -1451,7 +1451,7 @@ window.BES_VAK = {
     "Wanneer de veroordeelde 18 maanden in de gevangenis heeft doorgebracht"
    ],
    "a": 0,
-   "u": "Beperkte detentie kan worden toegekend om professionele, opleidings of familiale belangen te behartigen. Dat kan enkel als de veroordeelde zich op zes maanden van zijn voorwaardelijke invrijheidsstelling bevindt."
+   "u": "Beperkte detentie kan worden toegekend om professionele, opleidings- of familiale belangen te behartigen. Dat kan enkel als de veroordeelde zich op zes maanden van zijn voorwaardelijke invrijheidsstelling bevindt."
   }
  ],
  "hacks": [

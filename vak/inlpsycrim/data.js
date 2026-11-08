@@ -1449,13 +1449,13 @@ window.BES_VAK = {
    "h": "h12",
    "q": "Waarop richt antidepressieve medicatie zich vooral in de hersenen?",
    "o": [
-    "De amygdala",
+    "Het cerebellum",
     "De frontale kwab",
     "De visuele cortex",
     "Het limbisch systeem"
    ],
    "a": 3,
-   "u": "In het limbisch systeem wordt het grootste deel van de emoties geregeld. De amygdala is maar een deeltje van dat systeem."
+   "u": "In het limbisch systeem wordt het grootste deel van de emoties geregeld. Daarom richt antidepressieve medicatie zich vooral op dat systeem."
   },
   {
    "h": "h12",

@@ -123,7 +123,7 @@ window.BES_VAK = {
   },
   {
    "h": "h1",
-   "q": "Welke les trekt Churchill,, cynisch uit de geschiedenis?",
+   "q": "Welke les trekt Churchill cynisch uit de geschiedenis?",
    "o": [
     "Geschiedenis herhaalt zich nooit op dezelfde manier",
     "Geschiedenis is alleen nuttig voor historici",
@@ -159,7 +159,7 @@ window.BES_VAK = {
   },
   {
    "h": "h1",
-   "q": "Waar werkt een historicus mee,?",
+   "q": "Waar werkt een historicus mee?",
    "o": [
     "Met de feiten zelf, die al vaststaan en niet geïnterpreteerd hoeven te worden",
     "Met sporen van het verleden zoals brieven, documenten en voorwerpen, die eerst geïnterpreteerd moeten worden",
@@ -1407,15 +1407,15 @@ window.BES_VAK = {
   },
   {
    "h": "h10",
-   "q": "De Europawijd stijgende moordcijfers vanaf de jaren 1960:",
+   "q": "Wat gebeurde er volgens de bron met de moordcijfers in West-Europa en de VS na de piek rond 1990-1993?",
    "o": [
-    "waren het gevolg van toenemende armoede",
-    "betekenden de omkering van een lange-termijn afname van dodelijk geweld",
-    "waren slechts een tijdelijke piek",
-    "bewijzen dat er een proces van decivilisatie werd ingezet"
+    "Ze stegen verder door een proces van decivilisatie",
+    "Ze daalden opnieuw, wat lijkt op een herstel van de lange-termijndaling sinds de middeleeuwen",
+    "Ze bleven stabiel op het hoge niveau van de jaren 1990",
+    "Ze daalden alleen in landen met een strenger strafbeleid"
    ],
    "a": 1,
-   "u": "De stijgende moordcijfers vanaf de jaren 1960 betekenden de omkering van een lange-termijn afname van dodelijk geweld. Ze waren dus geen tijdelijke piek."
+   "u": "Na de piek rond 1990-1993 dalen de moordcijfers in de meeste West-Europese landen en de VS opnieuw. Dat lijkt op een herstel van de lange-termijndaling. Strenger strafbeleid verklaart die daling niet."
   },
   {
    "h": "h10",

@@ -1451,7 +1451,7 @@ window.BES_VAK = {
   },
   {
    "h": "h8",
-   "q": "Een Tsjechische regel verklaart het in het Duits opgestelde arbeidscontract van een Duitse grensarbeider nietig, omdat het niet in het Tsjechisch is. Hoe oordeelt het Hof volgens Las (C-202/11)?",
+   "q": "Een Vlaams decreet verklaarde het Engelstalige arbeidscontract van een Nederlandse werknemer bij PSA Antwerp nietig, omdat het niet in het Nederlands was opgesteld. Hoe oordeelde het Hof in Las (C-202/11)?",
    "o": [
     "Geen belemmering, want de regel geldt voor iedereen en beschermt de landstaal",
     "Directe discriminatie die niet te rechtvaardigen is, omdat zij op nationaliteit ziet",
@@ -1459,7 +1459,7 @@ window.BES_VAK = {
     "Gerechtvaardigd, omdat nietigheid het meest geschikte middel is om de taal te beschermen"
    ],
    "a": 2,
-   "u": "Taalbevordering, werknemersbescherming en toezicht zijn legitieme doelen, maar de regel gaat verder dan nodig. Een rechtsgeldige versie in een taal die beide partijen begrijpen moet naast de Tsjechische mogelijk zijn."
+   "u": "De regel belemmert art. 45 VWEU. Taalbevordering, werknemersbescherming en toezicht zijn legitieme doelen, maar de regel gaat verder dan nodig. Partijen moeten naast de Nederlandse versie ook een rechtsgeldige versie kunnen opstellen in een taal die zij allebei begrijpen."
   },
   {
    "h": "h8",

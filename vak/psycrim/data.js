@@ -283,7 +283,7 @@ window.BES_VAK = {
     "Ouders geven na een uitbarsting altijd extra positieve aandacht"
    ],
    "a": 0,
-   "u": "Negatieve bekrachtiging is ook bekrachtiging. Doordat ouders blijven reageren, zelfs negatief, leert het kind dat het gedrag effect heeft en blijft het dat herhalen."
+   "u": "Kwaad worden of het kind overstemmen is negatieve aandacht, maar het blijft aandacht. Doordat ouders blijven reageren, ook negatief, leert het kind dat zijn gedrag effect heeft en blijft het dat herhalen."
   },
   {
    "h": "h1",
