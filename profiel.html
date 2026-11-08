@@ -36,11 +36,12 @@
   <script src="assets/app.js?v=97" defer></script>
   <script src="assets/config.js?v=89" defer></script>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js" defer></script>
-  <script src="assets/auth.js?v=99" defer></script>
+  <script src="assets/auth.js?v=100" defer></script>
   <script src="assets/over-jezelf.js?v=89" defer></script>
   <script src="assets/plan.js?v=90" defer></script>
   <script src="assets/activiteit.js?v=90" defer></script>
   <script src="assets/vakken.js?v=95"></script>
+  <script src="assets/catalogus.js?v=93"></script>
   <script src="assets/inzichten.js?v=90" defer></script>
   <style>
     .profiel-wrap { max-width: 640px; }
@@ -60,6 +61,36 @@
     #studiekalender { margin-top: 20px; }
     /* Jouw abonnement: tussen profielkaart en studiekalender. Nu heeft iedereen Free; het plan komt later uit Supabase. */
     #over-jezelf { margin-top: 20px; }
+    /* Jouw studierichting: de keuze van de kaart, hier zelf te veranderen (alleen richtingen met leerstof). */
+    #studierichting { margin-top: 20px; }
+    #studierichting + #over-jezelf { margin-top: 40px; }
+    .richting-kaart { padding: clamp(20px, 5vw, 28px); transition: border-color 300ms var(--ease, ease-out); }
+    .richting-kaart.is-opgeslagen { border-color: var(--accent); }
+    .richting-rij { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; gap: 16px; }
+    .richting-naam { margin: 0; font-family: var(--serif, Georgia, serif); font-size: 1.25rem; overflow-wrap: anywhere; }
+    .richting-school { margin: 4px 0 0; color: var(--ink-soft); font-size: .9375rem; }
+    .richting-rij .knop-secundair { width: auto; min-width: 0; margin: 0; padding: 10px 20px; }
+    .richting-uitleg { margin: 12px 2px 0; color: var(--ink-soft); font-size: .875rem; }
+    .richting-status { margin: 12px 0 0; color: var(--accent); font-size: .9375rem; }
+    .richting-status.is-fout { color: var(--fout); }
+    .richting-kies { margin-top: 18px; }
+    .richting-kies.is-erin { animation: richting-erin 220ms var(--ease, ease-out); }
+    .richting-kies-vraag { margin: 0 0 12px; color: var(--ink-soft); font-size: .9375rem; }
+    .richting-kies-zoek { width: 100%; min-height: 48px; margin: 0 0 12px; padding: 10px 16px; border: 1px solid var(--line); border-radius: 12px; background: var(--card, var(--bg)); color: var(--ink); font: inherit; font-size: 16px; transition: border-color 160ms, box-shadow 160ms; }
+    .richting-kies-zoek:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 4px var(--accent-zacht, rgba(63,185,178,.18)); }
+    .richting-kies-lijst { display: flex; flex-direction: column; gap: 6px; max-height: 360px; overflow-x: hidden; overflow-y: auto; overscroll-behavior: contain; }
+    .richting-kies-lijst.is-wissel { animation: richting-erin 200ms var(--ease, ease-out); }
+    .richting-kies-lijst button { display: flex; align-items: center; justify-content: space-between; gap: 12px; width: 100%; min-height: 48px; padding: 10px 16px; border: 1px solid var(--line); border-radius: 12px; background: var(--card, var(--surface)); color: var(--ink); font: inherit; font-size: .9375rem; font-weight: 600; text-align: left; overflow-wrap: anywhere; hyphens: auto; cursor: pointer; transition: border-color 160ms, transform 160ms, opacity 160ms; }
+    .richting-kies-lijst button:not(:disabled):active { transform: scale(.99); }
+    :where(html.has-hover) .richting-kies-lijst button:not(:disabled):hover { border-color: var(--accent); }
+    .richting-kies-lijst button.is-huidig { border-color: var(--accent); }
+    .richting-kies-lijst button.is-terug { border-style: dashed; }
+    .richting-kies-lijst button:disabled { cursor: default; opacity: .55; }
+    .richting-kies-extra { flex: none; max-width: 45%; color: var(--ink-soft); font-size: .875rem; font-weight: 400; text-align: right; overflow-wrap: normal; }
+    .richting-kies-leeg { margin: 4px 0; color: var(--ink-soft); font-size: .9375rem; }
+    @keyframes richting-erin { from { opacity: 0; transform: translateY(-4px); } to { opacity: 1; transform: none; } }
+    @media (prefers-reduced-motion: reduce) { .richting-kies.is-erin, .richting-kies-lijst.is-wissel { animation: none; } }
+    @media (max-width: 480px) { .richting-rij { grid-template-columns: 1fr; } }
     #abonnement { margin-top: 20px; scroll-margin-top: 88px; }
     #over-jezelf + #abonnement { margin-top: 40px; }
     #abonnement + #studiekalender { margin-top: 40px; }
@@ -275,6 +306,26 @@
           </span>
         </div>
       </form>
+
+      <section id="studierichting" class="sectie" aria-labelledby="richting-kop" hidden>
+        <h2 id="richting-kop">Jouw studierichting</h2>
+        <div class="kaart richting-kaart" id="richting-kaart">
+          <div class="richting-rij">
+            <div>
+              <p class="richting-naam" id="richting-naam">Even laden.</p>
+              <p class="richting-school" id="richting-school"></p>
+            </div>
+            <button class="knop-secundair" id="richting-knop" type="button" aria-expanded="false" aria-controls="richting-kies">Richting veranderen</button>
+          </div>
+          <div class="richting-kies" id="richting-kies" hidden>
+            <input class="richting-kies-zoek" id="richting-kies-zoek" type="search" placeholder="Zoek een school of richting" autocomplete="off" aria-label="Zoek een school of richting">
+            <p class="richting-kies-vraag" id="richting-kies-vraag"></p>
+            <div class="richting-kies-lijst" id="richting-kies-lijst"></div>
+          </div>
+          <p class="richting-status" id="richting-status" role="status" aria-live="polite" hidden></p>
+        </div>
+        <p class="richting-uitleg">Je ziet op de site alleen de vakken van je eigen richting. Studeer je iets anders? Pas het hier aan.</p>
+      </section>
 
       <section id="over-jezelf" class="sectie" aria-labelledby="over-kop" hidden>
         <h2 id="over-kop">Over jezelf</h2>
@@ -736,6 +787,113 @@
       }).catch(() => {
         if (authRevision === initialAuthRevision) render(null);
       });
+    });
+  </script>
+  <script>
+    // Jouw studierichting: toont de keuze van de kaart (BES.auth.richting) en laat je zelf wisselen (BES.auth.richtingWijzigen).
+    // Alleen richtingen met leerstof (status live) zijn te kiezen; de hub kent alleen die.
+    document.addEventListener('DOMContentLoaded', () => {
+      const auth = window.BES?.auth;
+      const cat = window.BES_CATALOGUS;
+      const sectie = document.getElementById('studierichting');
+      if (!auth || !cat || typeof auth.richtingWijzigen !== 'function') return;
+      const kaart = document.getElementById('richting-kaart');
+      const naam = document.getElementById('richting-naam');
+      const schoolRegel = document.getElementById('richting-school');
+      const knop = document.getElementById('richting-knop');
+      const paneel = document.getElementById('richting-kies');
+      const zoek = document.getElementById('richting-kies-zoek');
+      const vraag = document.getElementById('richting-kies-vraag');
+      const lijst = document.getElementById('richting-kies-lijst');
+      const status = document.getElementById('richting-status');
+      // Welke jaarkaarten bij een richting horen (assets/vakken.js), om het aantal vakken te tellen.
+      const JAREN = { 'vub-psychologie': ['1ba', '2ba', '3ba'], 'vub-criminologie': ['crim1', 'crim2', 'crim3'], 'um-rechtsgeleerdheid': ['um1', 'um2', 'um3'] };
+      const aantalVakken = (id) => (window.BES_VAKKEN || []).filter((v) => (JAREN[id] || []).includes(v.jaar)).length;
+      const plat = (t) => (cat.plat ? cat.plat(t) : String(t).toLowerCase()).trim();
+      const kort = (s) => (s.kort && s.kort[0]) || s.naam;
+      const kiesbaar = (x) => x.status === 'live' && !!JAREN[x.id];
+      let huidig = null, school = null, bezig = false, statusTimer = 0;
+
+      const toon = (id) => {
+        huidig = id;
+        const x = id && cat.richting(id);
+        const s = x && cat.school(x.school);
+        if (paneel.hidden) knop.textContent = x ? 'Richting veranderen' : 'Kies je richting';
+        if (!x) { naam.textContent = 'Nog geen richting gekozen'; schoolRegel.textContent = 'Kies je richting, dan zie je de vakken die bij jou horen.'; return; }
+        naam.textContent = x.naam;
+        const n = aantalVakken(x.id);
+        schoolRegel.textContent = (s ? s.naam + ' (' + kort(s) + ')' : '') + (n ? ' · ' + n + (n === 1 ? ' vak' : ' vakken') : '');
+      };
+      const meld = (tekst, fout) => {
+        window.clearTimeout(statusTimer);
+        status.textContent = tekst; status.classList.toggle('is-fout', !!fout); status.hidden = false;
+        kaart.classList.toggle('is-opgeslagen', !fout);
+        if (!fout) statusTimer = window.setTimeout(() => { status.hidden = true; kaart.classList.remove('is-opgeslagen'); }, 4000);
+      };
+      const sluit = () => { paneel.hidden = true; knop.setAttribute('aria-expanded', 'false'); toon(huidig); };
+      const knopje = (tekst, extra, klik, klas, uit) => {
+        const b = document.createElement('button'); b.type = 'button'; b.textContent = tekst;
+        if (klas) b.className = klas;
+        if (uit) b.disabled = true;
+        if (extra) { const e = document.createElement('span'); e.className = 'richting-kies-extra'; e.textContent = extra; b.append(e); }
+        if (klik && !uit) b.addEventListener('click', klik);
+        return b;
+      };
+      const kies = (x) => async () => {
+        if (bezig) return;
+        if (x.id === huidig) { sluit(); return; }
+        bezig = true; lijst.setAttribute('aria-busy', 'true');
+        try {
+          await auth.richtingWijzigen(x.school, x.id);
+          sluit(); toon(x.id);
+          meld('Opgeslagen. Je hub toont nu de vakken van ' + x.naam + '.');
+        } catch {
+          meld('Opslaan lukte niet. Controleer je verbinding en probeer het opnieuw.', true);
+        } finally { bezig = false; lijst.removeAttribute('aria-busy'); }
+      };
+      const extraVan = (x) => !kiesbaar(x) ? 'Nog geen leerstof' : (x.id === huidig ? 'Jouw richting' : aantalVakken(x.id) + ' vakken');
+      const richtingKnop = (x, tekst) => knopje(tekst, extraVan(x), kies(x), x.id === huidig ? 'is-huidig' : '', !kiesbaar(x));
+      const kiesSchool = (s) => () => { school = s; zoek.value = ''; teken(true); zoek.focus({ preventScroll: true }); };
+      const aantalLive = (id) => cat.richtingen.filter((x) => x.school === id && kiesbaar(x)).length;
+      const teken = (wissel) => {
+        const q = plat(zoek.value);
+        const rijen = [];
+        if (school) {
+          vraag.textContent = 'Kies je richting aan ' + school.naam + '.';
+          rijen.push(knopje('← Andere school', '', () => { school = null; zoek.value = ''; teken(true); }, 'is-terug'));
+          cat.richtingenVan(school.id).filter((x) => !q || plat(x.naam).includes(q)).forEach((x) => rijen.push(richtingKnop(x, x.naam)));
+        } else {
+          vraag.textContent = q ? 'Scholen en richtingen die passen.' : 'Kies je school.';
+          cat.scholen.filter((s) => !q || [s.naam, s.stad, ...(s.kort || [])].some((v) => plat(v).includes(q)))
+            .sort((a, b) => (aantalLive(b.id) - aantalLive(a.id)) || a.naam.localeCompare(b.naam, 'nl'))
+            .forEach((s) => { const n = aantalLive(s.id); rijen.push(knopje(s.naam, n ? n + (n === 1 ? ' richting' : ' richtingen') : 'Nog geen leerstof', kiesSchool(s))); });
+          if (q) cat.richtingen.filter((x) => plat(x.naam).includes(q))
+            .sort((a, b) => ((kiesbaar(a) ? 0 : 1) - (kiesbaar(b) ? 0 : 1)) || a.naam.localeCompare(b.naam, 'nl'))
+            .forEach((x) => { const s = cat.school(x.school); rijen.push(richtingKnop(x, x.naam + (s ? ' · ' + kort(s) : ''))); });
+        }
+        if (rijen.length === (school ? 1 : 0)) { const p = document.createElement('p'); p.className = 'richting-kies-leeg'; p.textContent = 'Niets gevonden.'; rijen.push(p); }
+        lijst.replaceChildren(...rijen);
+        if (wissel) { lijst.classList.remove('is-wissel'); void lijst.offsetWidth; lijst.classList.add('is-wissel'); }
+      };
+      zoek.addEventListener('input', () => teken(false));
+      knop.addEventListener('click', () => {
+        if (!paneel.hidden) { sluit(); return; }
+        const x = huidig && cat.richting(huidig);
+        school = x ? cat.school(x.school) : null;
+        zoek.value = ''; teken(true);
+        paneel.hidden = false; knop.setAttribute('aria-expanded', 'true'); knop.textContent = 'Sluiten';
+        paneel.classList.remove('is-erin'); void paneel.offsetWidth; paneel.classList.add('is-erin');
+      });
+
+      let versie = 0;
+      const laad = (user) => {
+        const mijn = ++versie;
+        if (!user) { sectie.hidden = true; if (!paneel.hidden) sluit(); return; }
+        sectie.hidden = false;
+        auth.richting().then((id) => { if (mijn === versie) toon(id); }, () => { if (mijn === versie) toon(null); });
+      };
+      window.addEventListener('bes:auth', (event) => laad(event.detail?.user || null));
+      auth.gebruiker().then(laad, () => laad(null));
     });
   </script>
   <script>
