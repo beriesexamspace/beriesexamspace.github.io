@@ -3,8 +3,8 @@
 window.BES_VAK = {
  "id": "histcrim",
  "label": "Criminologische Wetenschappen · VUB",
- "terug": "jaar-crim2.html",
- "jaar": "2ba",
+ "terug": "jaar-crim1.html",
+ "jaar": "1ba",
  "naam": "Historische criminologie",
  "hoofdstukken": [
   {

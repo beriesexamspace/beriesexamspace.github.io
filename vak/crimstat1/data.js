@@ -1,11 +1,11 @@
-// Vak "Statistiek I", gemaakt op 2026-11-08 uit een ingestuurde samenvatting (Criminologische Wetenschappen, VUB).
+// Vak "Statistiek I voor de sociale wetenschappen", gemaakt op 2026-11-08 uit een ingestuurde samenvatting (Criminologische Wetenschappen, VUB).
 // Formaat: zie README, kop "Vakpagina". Aanpassen kan hier; de pagina (index.html) hoeft niet te veranderen.
 window.BES_VAK = {
  "id": "crimstat1",
  "label": "Criminologische Wetenschappen · VUB",
  "terug": "jaar-crim1.html",
  "jaar": "1ba",
- "naam": "Statistiek I",
+ "naam": "Statistiek I voor de sociale wetenschappen",
  "hoofdstukken": [
   {
    "id": "h1",

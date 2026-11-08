@@ -1,11 +1,11 @@
-// Vak "Psychologische criminologie", gemaakt op 2026-11-08 uit een samenvatting (Criminologische Wetenschappen, VUB).
+// Vak "Criminologische psychologie", gemaakt op 2026-11-08 uit een samenvatting (Criminologische Wetenschappen, VUB).
 // Formaat: zie README, kop "Vakpagina". Aanpassen kan hier; de pagina (index.html) hoeft niet te veranderen.
 window.BES_VAK = {
  "id": "psycrim",
  "label": "Criminologische Wetenschappen · VUB",
  "terug": "jaar-crim2.html",
  "jaar": "2ba",
- "naam": "Psychologische criminologie",
+ "naam": "Criminologische psychologie",
  "hoofdstukken": [
   {
    "id": "h1",

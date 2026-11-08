@@ -1,11 +1,11 @@
-// Vak "Inleiding tot de psychologie", gemaakt op 2026-11-08 uit samenvattingen en oefenvragen (Criminologische Wetenschappen, VUB).
+// Vak "Psychologie", gemaakt op 2026-11-08 uit samenvattingen en oefenvragen (Criminologische Wetenschappen, VUB).
 // Formaat: zie README, kop "Vakpagina". Aanpassen kan hier; de pagina (index.html) hoeft niet te veranderen.
 window.BES_VAK = {
  "id": "inlpsycrim",
  "label": "Criminologische Wetenschappen · VUB",
  "terug": "jaar-crim1.html",
  "jaar": "1ba",
- "naam": "Inleiding tot de psychologie",
+ "naam": "Psychologie",
  "hoofdstukken": [
   {
    "id": "h1",
