@@ -15,7 +15,7 @@
   <meta property="og:image:height" content="630">
   <meta property="og:url" content="https://beriesexamspace.com/hub.html">
   <meta name="twitter:card" content="summary_large_image">
-  <script src="assets/updates.js?v=94"></script>
+  <script src="assets/updates.js?v=95"></script>
   <script>
     // Welkomstscherm (Wat is nieuw) één keer per persoon per versie.
     // Op dit toestel al gezien: meteen door. Anders even wachten op het account (misschien al gezien op een ander toestel).
@@ -70,6 +70,7 @@
   <script src="assets/config.js?v=89" defer></script>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js" defer></script>
   <script src="assets/auth.js?v=100" defer></script>
+  <script src="assets/duel-nieuws.js?v=1" defer></script>
   <script src="assets/plan.js?v=90" defer></script>
   <script src="assets/comit.js?v=90" defer></script>
   <script src="assets/activiteit.js?v=90" defer></script>
@@ -623,6 +624,8 @@
       if (richting && richting !== 'vub-psychologie') return;
       window.BES?.geenAboMelding?.();
     }, 1500));
+    // Eén keer per toestel, alleen ingelogd: de pop-up Nieuwe feature: Duel (assets/duel-nieuws.js).
+    window.addEventListener("load", () => window.setTimeout(() => window.BES?.duelNieuws?.(), 2500));
   </script>
   <script>
     // Het aantal vakken op de jaarkaartjes van een richting telt vanzelf mee met assets/vakken.js.
