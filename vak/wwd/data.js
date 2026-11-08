@@ -1344,6 +1344,270 @@ window.BES_VAK = {
    ],
    "a": 1,
    "u": "Volgens Arendt is niet denken geen kwestie van lef: wie nalaat te denken terwijl hij het zou moeten doen, is laakbaar. Dat verwijt ze Eichmann."
+  },
+  {
+   "h": "h2",
+   "q": "Thales zag dat waar de Nijl niet komt, meteen de woestijn begint. Welke archè leidde hij daaruit af?",
+   "o": [
+    "Water, want zonder water is er geen leven",
+    "Lucht, want al het leven hangt af van lucht",
+    "Het apeiron, want de oorsprong is onzichtbaar",
+    "Aarde, want alle planten groeien uit de bodem"
+   ],
+   "a": 0,
+   "u": "Thales stelde vast dat er zonder water geen leven is en herleidde de hele werkelijkheid tot water. Een archè is wat altijd, onveranderlijk en overal in alles aanwezig is."
+  },
+  {
+   "h": "h2",
+   "q": "Welke archè kiest Anaximenes, en waarom?",
+   "o": [
+    "Water, omdat zonder water geen leven kan bestaan",
+    "Lucht, omdat leven afhankelijk is van lucht",
+    "Vuur, omdat alles voortdurend in beweging is",
+    "Het getal, omdat de natuur wiskundig is opgebouwd"
+   ],
+   "a": 1,
+   "u": "Voor Anaximenes is lucht de archè: leven is afhankelijk van lucht, dus ligt lucht onder alles."
+  },
+  {
+   "h": "h2",
+   "q": "Hoe noemt Anaximander de archè?",
+   "o": [
+    "De physis: de natuur die je met je zintuigen waarneemt",
+    "De telos: het doel waarnaar alles in de natuur streeft",
+    "Het apeiron: het onbepaalde, onzichtbaar maar wel aanwezig",
+    "De doxa: de mening die mensen over de oorsprong hebben"
+   ],
+   "a": 2,
+   "u": "Volgens Anaximander kunnen we de archè niet zien, maar is ze er wel. Hij noemt ze het onbepaalde, in het Grieks apeiron."
+  },
+  {
+   "h": "h2",
+   "q": "Hoeveel archès onderscheidt Empedokles, en hoe verklaart hij welke combinaties wel of niet lukken?",
+   "o": [
+    "Eén (water), met een herleiding van alle veelheid tot één eenheid",
+    "Twee (vuur en water), met een reductie naar het absurde",
+    "Vier (vuur, aarde, water, lucht), met de wet van de niet-contradictie",
+    "Vier (vuur, aarde, water, lucht), met een analogie van aantrekking en afstoting"
+   ],
+   "a": 3,
+   "u": "Empedokles noemt vuur, aarde, water en lucht. Waarom sommige combinaties niet samengaan, verklaart hij met een analogie: ze trekken elkaar aan of stoten elkaar af."
+  },
+  {
+   "h": "h2",
+   "q": "Welke uitspraak hoort bij Herakleitos?",
+   "o": [
+    "Alles is constant in beweging, zoals een rivier die van hoog toch één geheel lijkt",
+    "Alles wat is, is en kan nooit niet zijn, dus verandering is maar schijn",
+    "De aarde staat stil, want een beweging in eender welke richting maakt geen verschil",
+    "Alles is te herleiden tot water, want zonder water is er nergens leven"
+   ],
+   "a": 0,
+   "u": "Herakleitos stelt dat alles constant in beweging is. Een rivier beweegt voortdurend, maar van op een hoogte zie je ze als één eenheid. De andere uitspraken horen bij Parmenides, Anaximander en Thales."
+  },
+  {
+   "h": "h2",
+   "q": "Zeno van Elea verdedigt Parmenides met tientallen paradoxen. Hoe heet de structuur van zijn redenering?",
+   "o": [
+    "Antilogie: voor elke uitspraak gewoon het tegengestelde verdedigen",
+    "Reductio ad absurdum: tonen dat een veronderstelling tot iets absurds leidt",
+    "Taxonomie: dingen indelen volgens hun uiterlijke kenmerken",
+    "Maieutiek: de ander met vragen zelf tot het inzicht brengen"
+   ],
+   "a": 1,
+   "u": "Zeno toont aan dat de veronderstelling dat ruimte en tijd deelbaar zijn, tot paradoxen leidt. Die structuur heet reductio ad absurdum, reductie naar het absurde."
+  },
+  {
+   "h": "h2",
+   "q": "Wat maakt de leugenaarsparadox van Eubulides ('de leugenaar zegt dat hij liegt') zo bijzonder?",
+   "o": [
+    "Je neemt beetje per beetje iets weg tot een begrip onduidelijk wordt",
+    "Elke gedachte steunt op een vorige gedachte, zonder ooit te stoppen",
+    "De uitspraak verwijst naar zichzelf: de leugenaar zegt iets over zichzelf",
+    "Er zijn twee uitspraken die allebei tot iets negatiefs leiden"
+   ],
+   "a": 2,
+   "u": "Bij de leugenaarsparadox gaat het om een verwijzing naar zichzelf. Beetje per beetje wegnemen hoort bij de sorites-paradox, de eindeloze reeks bij de regressus ad infinitum en de twee negatieve uitkomsten bij een dilemma."
+  },
+  {
+   "h": "h2",
+   "q": "Waar komt kennis vandaan volgens Plato?",
+   "o": [
+    "Kennis komt pas na de geboorte binnen via zintuiglijke ervaringen",
+    "Kennis wordt door de goden aan elke mens geschonken bij de dood",
+    "Kennis ontstaat door beetje per beetje waarnemingen op te stapelen",
+    "De ziel zag de ware kennis in de ideeënwereld en moet ze zich herinneren"
+   ],
+   "a": 3,
+   "u": "Volgens Plato leerde de ziel de ware kennis in de wereld van de ideeën. Bij de geboorte verdwijnt die kennis, en via het socratisch gesprek herinnert de ziel ze zich opnieuw. Na de dood gaat de ziel terug naar de ideeënwereld: zielsverhuizing of metempsychosis."
+  },
+  {
+   "h": "h2",
+   "q": "Xenophanes zegt dat paarden hun goden als paarden zouden afbeelden. Wat wil hij daarmee aantonen?",
+   "o": [
+    "Mensen projecteren hun eigen beeld in de goden die ze zich voorstellen",
+    "Dieren hebben net als mensen een eigen geloof en hun eigen goden",
+    "Goden bestaan niet, omdat elk volk ze op een andere manier afbeeldt",
+    "Wie wijs genoeg is, kan de volledige waarheid over de goden kennen"
+   ],
+   "a": 0,
+   "u": "Wij creëren het beeld van de goden: goden kunnen bestaan, maar we projecteren ons eigen beeld erin. Volgens Xenophanes kent niemand de volledige waarheid over de goden, en wie ze zou vinden, zou het zelf niet weten."
+  },
+  {
+   "h": "h2",
+   "q": "Wat leidde Pythagoras af uit zijn ervaringen met muziek?",
+   "o": [
+    "Muziek klinkt mooi omdat ze elke vaste verhouding tussen tonen vermijdt",
+    "De natuur heeft een wiskundige structuur, dus je begrijpt ze via wiskunde",
+    "De natuur is te begrijpen zonder wiskunde, alleen met een goed gehoor",
+    "Alle verhoudingen tussen tonen klinken even mooi in het menselijk oor"
+   ],
+   "a": 1,
+   "u": "Pythagoras merkte dat bepaalde verhoudingen mooi klonken en andere niet. Hij besloot dat de natuur een wiskundige structuur heeft en dat je de natuur pas begrijpt door wiskunde te beoefenen."
+  },
+  {
+   "h": "h2",
+   "q": "Volgens Aristoteles heeft alles een doel waarvoor het bestaat. Wat is de telos van de mens?",
+   "o": [
+    "Het opschorten van elk oordeel",
+    "Het herinneren van de ideeënwereld",
+    "Het streven naar het opperste geluk",
+    "Het zelf bepalen van de eigen essentie"
+   ],
+   "a": 2,
+   "u": "Voor Aristoteles heeft alles in de natuur een doel (teleologie). Het doel of de telos van de mens is het opperste geluk vinden."
+  },
+  {
+   "h": "h3",
+   "q": "Welke drie stromingen bestonden volgens de les ongeveer tegelijk, tussen 300 voor en 300 na Christus?",
+   "o": [
+    "Sceptici, scholastici en nominalisten",
+    "Epicureeërs, sofisten en existentialisten",
+    "Stoïcijnen, realisten en positivisten",
+    "Sceptici, epicureeërs en stoïcijnen"
+   ],
+   "a": 3,
+   "u": "Sceptici, epicureeërs en stoïcijnen waren gelijktijdig, ruwweg tussen 300 voor en 300 na Christus."
+  },
+  {
+   "h": "h3",
+   "q": "Wat zeggen de sceptici over de Waarheid met grote W, de absolute waarheid?",
+   "o": [
+    "Je kan ze niet bereiken, je geraakt er nooit aan",
+    "Je bereikt ze door je zintuigen systematisch te gebruiken",
+    "Je bereikt ze door oude teksten nauwkeurig te interpreteren",
+    "Je bereikt ze door alles af te leiden uit enkele axioma's"
+   ],
+   "a": 0,
+   "u": "Volgens de sceptici ga je de absolute Waarheid nooit vinden: je geraakt er niet aan. Daarom schorten ze hun oordeel op."
+  },
+  {
+   "h": "h3",
+   "q": "Wat is een dogma, als een van de uitkomsten van het trilemma?",
+   "o": [
+    "Een stelling bewijzen met een redenering die op die stelling steunt",
+    "Iets aannemen zonder bewijs, omdat iemand zei dat het zo is",
+    "Elke gedachte laten steunen op een vorige, zonder beginpunt",
+    "Een stelling pas aannemen als de zintuigen ze bevestigen"
+   ],
+   "a": 1,
+   "u": "Een dogma neem je aan zonder bewijs, gewoon omdat iemand zei dat het zo is. De tweede optie is een cirkelredenering, de derde een regressus ad infinitum."
+  },
+  {
+   "h": "h3",
+   "q": "Sextus Empiricus stelt dat elke gedachte op een andere gedachte steunt. Op welke drie uitkomsten loopt kennis volgens zijn trilemma uit?",
+   "o": [
+    "Een axioma, een postulaat of een theorema",
+    "Epochè, ataraxia of genot",
+    "Een dogma, een regressus ad infinitum of een cirkelredenering",
+    "Een analogie, een paradox of een dilemma"
+   ],
+   "a": 2,
+   "u": "Volgens het trilemma steunt onze kennis ofwel op een dogma, ofwel op een oneindige reeks stellingen (regressus ad infinitum), ofwel op een cirkelredenering."
+  },
+  {
+   "h": "h3",
+   "q": "Welke opvatting schrijft de les naast het afwijzen van instituten nog toe aan Zeno van Kition?",
+   "o": [
+    "Hij zag genot als het hoogste goed in het leven van de mens",
+    "Hij ordende alle wiskundige kennis door afleiding uit axioma's",
+    "Hij herleidde de hele werkelijkheid tot één onderliggende archè",
+    "Hij beschouwde als eerste mannen en vrouwen als gelijkwaardig"
+   ],
+   "a": 3,
+   "u": "Zeno van Kition stelde dat de mens geen instituten zoals geld, onderwijs en kerken nodig heeft. Hij stelde ook als eerste voor om mannen en vrouwen gelijkwaardig te beschouwen, met dezelfde rechten en plichten."
+  },
+  {
+   "h": "h4",
+   "q": "Welke rol speelde Augustinus volgens de les?",
+   "o": [
+    "Hij hielp de overstap van vroegchristelijk denken naar het katholicisme",
+    "Hij verzoende als eerste het geloof met de theorie van de big bang",
+    "Hij voerde de scholastische methode in aan de eerste universiteiten",
+    "Hij wees speculatieve begrippen in de filosofie af met het scheermes"
+   ],
+   "a": 0,
+   "u": "Augustinus speelde een belangrijke rol in de overstap van het vroegchristelijk denken naar het katholicisme. Hij ging het geloof reguleren en structureren, werd priester en uiteindelijk kerkvader."
+  },
+  {
+   "h": "h4",
+   "q": "Hoeveel waarheden zijn er volgens de leer van de dubbele weg van Averroës?",
+   "o": [
+    "Twee waarheden: één voor het geloof en één voor de wetenschap",
+    "Eén waarheid, die je via het geloof of via de wetenschap kan benaderen",
+    "Eén waarheid, die je alleen via geopenbaarde teksten kan bereiken",
+    "Geen vaste waarheid, enkel meningen van gelovigen en geleerden"
+   ],
+   "a": 1,
+   "u": "De naam doet aan twee waarheden denken, maar Averroës stelt dat er één waarheid is. Die kan je op verschillende wijzen benaderen: via het geloof of via de wetenschap."
+  },
+  {
+   "h": "h4",
+   "q": "Waarom wees George Lemaître, de bedenker van de big bang theorie, de paus terecht?",
+   "o": [
+    "Hij vond dat zijn theorie het scheppingsverhaal uit de Bijbel letterlijk bevestigde",
+    "Hij wilde dat de Kerk zijn theorie als officieel dogma zou aanvaarden",
+    "Zijn theorie mocht niet als bewijs voor de Bijbel dienen: ze staan los van elkaar",
+    "Hij vond dat de Bijbel als bron voor de natuurkunde moest blijven gelden"
+   ],
+   "a": 2,
+   "u": "Lemaître, Belgisch priester, wiskundige, natuurkundige en kosmoloog, was boos dat zijn theorie gebruikt werd om de Bijbel te bewijzen. Volgens hem hebben die twee niets met elkaar te maken."
+  },
+  {
+   "h": "h4",
+   "q": "Wat is het uitgangspunt van de scholastische methode van Thomas van Aquino?",
+   "o": [
+    "De waarheid moet nog ontdekt worden: je doet zelf nieuwe waarnemingen",
+    "De waarheid is onbereikbaar: je schort elk oordeel over oude teksten op",
+    "De waarheid volgt uit enkele axioma's: je leidt er alle stellingen uit af",
+    "De waarheid is al in het verleden gevonden: je leest en interpreteert oude teksten"
+   ],
+   "a": 3,
+   "u": "Bij de scholastische methode lees en interpreteer je bestaande teksten, zoals de Bijbel en Aristoteles. Je gaat ervan uit dat de waarheid al gevonden is en je probeert ze te begrijpen en te vatten."
+  },
+  {
+   "h": "h4",
+   "q": "Je interpreteert een oude tekst door te zoeken naar de religieuze betekenis erachter. Welke manier van lezen is dat?",
+   "o": [
+    "Anagogisch",
+    "Allegorisch",
+    "Taxonomisch",
+    "Axiomatisch"
+   ],
+   "a": 0,
+   "u": "De les noemt twee manieren om te interpreteren: allegorisch (kijken naar de symboliek erachter) en anagogisch (kijken naar de religieuze betekenis erachter)."
+  },
+  {
+   "h": "h4",
+   "q": "Waarvoor gebruikte Willem van Ockham het scheermes volgens de les?",
+   "o": [
+    "Om het bestaan van God logisch te bewijzen",
+    "Om speculatieve begrippen in de filosofie af te wijzen",
+    "Om zo veel mogelijk hypothesen tegelijk te toetsen",
+    "Om oude teksten allegorisch te interpreteren"
+   ],
+   "a": 1,
+   "u": "Het scheermes zegt: maak niet meer veronderstellingen dan het minimum dat nodig is, en scheer alle onnodige ingewikkeldheden weg. Ockham gebruikte het om speculatieve begrippen in de filosofie af te wijzen."
   }
  ],
  "hacks": [
@@ -1416,6 +1680,31 @@ window.BES_VAK = {
    "h": "h7",
    "kop": "Labour, work, action: eten, maken, stemmen",
    "t": "Zie de drie vormen als een trap van laag naar hoog: eerst eten om te overleven (labour), dan iets duurzaams maken (work), en bovenaan samen beslissen in de politiek (action)."
+  },
+  {
+   "h": "h2",
+   "kop": "Archè: wat heeft leven nodig?",
+   "t": "Thales kijkt naar de Nijl: zonder water geen leven, dus water. Anaximenes denkt aan lucht: zonder lucht geen leven, dus lucht. Anaximander ziet het niet, dus het onbepaalde (apeiron). Empedokles neemt ze gewoon alle vier."
+  },
+  {
+   "h": "h2",
+   "kop": "Leugenaar of sorites?",
+   "t": "Praat de uitspraak over zichzelf, dan is het de leugenaar. Neem je beetje per beetje iets weg of voeg je toe (haar per haar), dan is het de sorites."
+  },
+  {
+   "h": "h3",
+   "kop": "Waarheid met grote W",
+   "t": "Kleine waarheden kom je wel tegen, maar de grote W blijft voor de sceptici altijd buiten bereik. Daarom schorten ze hun oordeel op: nooit over één nacht ijs."
+  },
+  {
+   "h": "h4",
+   "kop": "Allegorisch of anagogisch?",
+   "t": "Allegorisch: denk aan de allegorie van de grot, een beeld vol symboliek. Anagogisch is dan de andere lezing: de religieuze betekenis achter de tekst."
+  },
+  {
+   "h": "h4",
+   "kop": "Eén waarheid, geen bewijsmiddel",
+   "t": "Averroës: één waarheid langs twee wegen. Lemaître trekt de lijn door: zijn big bang mag niet dienen als bewijs voor de Bijbel, want die twee hebben niets met elkaar te maken."
   }
  ],
  "theorie": [
