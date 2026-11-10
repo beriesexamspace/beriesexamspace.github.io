@@ -127,7 +127,10 @@
       vragen: raw.vragen.map((question, id) => ({ ...question, id })),
       hardVragen: (hardQuestions.length ? hardQuestions : placeholders).map((question, id) => ({ ...question, id: `hard:${id}` })),
       hacks: (Array.isArray(raw.hacks) ? raw.hacks : []).filter(item => item && (item.h === 'algemeen' || chapters.has(item.h)) && typeof item.t === 'string'),
-      theorie: (Array.isArray(raw.theorie) ? raw.theorie : []).filter(item => item && (item.h === 'algemeen' || chapters.has(item.h)) && typeof item.kop === 'string' && Array.isArray(item.items) && item.items.every(point => typeof point === 'string'))
+      theorie: (Array.isArray(raw.theorie) ? raw.theorie : []).filter(item => item && (item.h === 'algemeen' || chapters.has(item.h)) && typeof item.kop === 'string' && Array.isArray(item.items) && item.items.every(point => typeof point === 'string')),
+      // Open vragen (modus Open vragen): vraag q, modelantwoord m en 3 tot 6 kernpunten k. Een ongeldige open vraag valt weg, het vak blijft werken.
+      open: (Array.isArray(raw.open) ? raw.open : []).filter(item => item && chapters.has(item.h) && typeof item.q === 'string' && item.q.trim() && typeof item.m === 'string' && item.m.trim()
+        && Array.isArray(item.k) && item.k.length >= 3 && item.k.length <= 6 && item.k.every(point => typeof point === 'string' && point.trim()) && new Set(item.k.map(point => point.trim())).size === item.k.length)
     };
   }
 
@@ -152,7 +155,11 @@
     const showLevelStep = hasLevels && data.hardVragen.length > 0;
     const levels = hasLevels ? ['normaal', 'hard'] : ['normaal'];
     const levelLabel = value => value === 'hard' ? 'Hard mode' : 'Normaal';
-    const modeLabel = value => value === 'simulatie' ? 'Examensimulatie' : 'Examen Training';
+    const modeLabel = value => value === 'simulatie' ? 'Examensimulatie' : value === 'open' ? 'Open vragen' : 'Examen Training';
+    // Open vragen (assets/open-vragen.js): alleen als het vak geldige open vragen heeft en het script geladen is.
+    const heeftOpen = data.open.length > 0 && typeof BES.openVragen === 'function';
+    const openCounts = Object.fromEntries(data.hoofdstukken.map(chapter => [chapter.id, data.open.filter(vraag => vraag.h === chapter.id).length]));
+    const openSelected = new Set(data.open.map(vraag => vraag.h));
     const courseKey = value => value === 'hard' ? `${data.id}__hard` : data.id;
     const questionsFor = value => value === 'hard' && hasLevels ? data.hardVragen : data.vragen;
     const countsFor = value => Object.fromEntries(data.hoofdstukken.map(chapter => [chapter.id, questionsFor(value).filter(question => question.h === chapter.id).length]));
@@ -364,9 +371,15 @@
     });
 
     const steps = ['modus', ...(showLevelStep ? ['niveau'] : []), 'tijd', 'hoofdstukken'];
-    steps.forEach((name, index) => {
-      byId(`stap-${name}`).querySelector('.keuze-stap').textContent = `Stap ${index + 1}`;
-    });
+    // Bij Open vragen vallen niveau en tijd weg; de nummers van de stappen lopen dan gewoon door.
+    const nummerStappen = () => {
+      steps.filter(name => mode !== 'open' || !['niveau', 'tijd'].includes(name)).forEach((name, index) => {
+        byId(`stap-${name}`).querySelector('.keuze-stap').textContent = `Stap ${index + 1}`;
+      });
+    };
+    nummerStappen();
+    // Stappen die Open vragen tijdelijk verbergt, komen terug bij een andere modus.
+    const verborgenDoorOpen = new Set();
 
     function revealStep(name, scroll = true) {
       const step = byId(`stap-${name}`);
@@ -385,6 +398,11 @@
       if (value === 'simulatie' && simulatieOp()) { toonSimSlot(true); return; }
       if (byId('sim-slot')) verbergBlok(byId('sim-slot'));
       setMode(value);
+      if (value === 'open') {
+        revealStep('hoofdstukken');
+        revealStep('start', false);
+        return;
+      }
       revealStep(showLevelStep ? 'niveau' : 'tijd');
     }
 
@@ -522,17 +540,26 @@
 
     const foutVragen = () => questionsFor(level).filter(question => openFouten.has(vraagSleutel(question)));
 
+    // Sleutel per kernpunt van een open vraag: o: + hash van de vraag + . + hash van het kernpunt.
+    // Botst niet met n: en h:, en blijft gelijk als de volgorde van de kernpunten verandert.
+    function openSleutel(vraag, kernpunt) {
+      return `o:${tekstHash(vraag.q)}.${tekstHash(kernpunt.trim())}`;
+    }
+    const openFoutVragen = () => heeftOpen ? data.open.filter(vraag => vraag.k.some(kernpunt => openFouten.has(openSleutel(vraag, kernpunt)))) : [];
+    const openFoutKernpunten = () => openFoutVragen().reduce((som, vraag) => som + vraag.k.filter(kernpunt => openFouten.has(openSleutel(vraag, kernpunt))).length, 0);
+
     function toonFoutenKnop() {
       const vragen = foutVragen();
+      const openVragen = openFoutVragen();
       let blok = byId('fouten-blok');
-      if (!vragen.length) { if (blok) verbergBlok(blok); return; }
+      if (!vragen.length && !openVragen.length) { if (blok) verbergBlok(blok); return; }
       if (!blok) {
         blok = create('div', 'kaart fouten-blok');
         blok.id = 'fouten-blok';
         blok.hidden = true;
         const tekst = create('div', 'fouten-tekst');
         tekst.append(create('p', 'kaart-titel', 'Je foutenlijst'), create('p', 'kaart-sub'));
-        const knop = create('button', 'knop-secundair', 'Oefen je fouten');
+        const knop = create('button', 'knop-secundair fouten-knop-mc', 'Oefen je fouten');
         knop.type = 'button';
         knop.addEventListener('click', () => {
           const lijst = foutVragen();
@@ -540,13 +567,46 @@
           setMode('training');
           start(shuffle(lijst), 'training', level, 0);
         });
-        blok.append(tekst, knop);
+        // Open vragen met een ontbrekend of onjuist kernpunt: apart, want die oefen je in de modus Open vragen.
+        const openKnop = create('button', 'knop-secundair fouten-knop-open', 'Oefen je open vragen');
+        openKnop.type = 'button';
+        openKnop.addEventListener('click', () => startOpenFouten());
+        blok.append(tekst, knop, openKnop);
         // Onder de Klaar-meter als die er staat, anders bovenaan de keuzes.
         if (byId('klaar-meter')) byId('klaar-meter').after(blok);
         else byId('vak-instellingen').prepend(blok);
       }
-      blok.querySelector('.kaart-sub').textContent = `${countText(vragen.length)}${hasLevels ? ` in ${levelLabel(level)}` : ''} die je fout had en nog niet goed beantwoordde.`;
+      const delen = [];
+      if (vragen.length) delen.push(`${countText(vragen.length)}${hasLevels ? ` in ${levelLabel(level)}` : ''} die je fout had en nog niet goed beantwoordde.`);
+      if (openVragen.length) {
+        const aantal = openFoutKernpunten();
+        delen.push(`${aantal} ${aantal === 1 ? 'kernpunt' : 'kernpunten'} uit Open vragen die nog ontbraken.`);
+      }
+      blok.querySelector('.kaart-sub').textContent = delen.join(' ');
+      blok.querySelector('.fouten-knop-mc').hidden = !vragen.length;
+      blok.querySelector('.fouten-knop-open').hidden = !openVragen.length;
       toonBlok(blok);
+    }
+
+    function startOpenFouten() {
+      const lijst = openFoutVragen();
+      if (!lijst.length || !heeftOpen) return false;
+      setMode('open');
+      startOpen(lijst);
+      return true;
+    }
+
+    // Na het nakijken van een open vraag: ontbrekende of onjuiste kernpunten op de lijst, aanwezige eraf.
+    function bewaarOpenFouten(vraag, fout, goed) {
+      const client = BES.auth?.client;
+      if (!context.owner || !client) return;
+      const pFout = fout.map(kernpunt => ({ s: openSleutel(vraag, kernpunt), h: vraag.h }));
+      const pGoed = goed.map(kernpunt => openSleutel(vraag, kernpunt)).filter(sleutel => !pFout.some(item => item.s === sleutel));
+      if (!pFout.length && !pGoed.length) return;
+      pFout.forEach(item => openFouten.add(item.s));
+      pGoed.forEach(sleutel => openFouten.delete(sleutel));
+      toonFoutenKnop();
+      client.rpc('fouten_bijwerken', { p_vak: data.id, p_fout: pFout, p_goed: pGoed }).then(() => {}, () => {});
     }
 
     async function laadFouten() {
@@ -573,6 +633,8 @@
         if (!foutVragen().length && hasLevels && data.hardVragen.some(question => openFouten.has(vraagSleutel(question)))) setLevel(level === 'hard' ? 'normaal' : 'hard');
         const lijst = foutVragen();
         if (lijst.length) { setMode('training'); start(shuffle(lijst), 'training', level, 0); }
+        // Alleen fouten uit Open vragen: dan meteen die open vragen.
+        else startOpenFouten();
       }
     }
 
@@ -925,7 +987,7 @@
         row.classList.toggle('is-gekozen', chosen);
         row.classList.toggle('is-afgerond', progress.update(record));
         row.classList.toggle('is-leeg', !total);
-        amount.textContent = total ? countText(total) : level === 'hard' ? 'Nog geen Hard mode-vragen' : 'Nog geen vragen';
+        amount.textContent = total ? countText(total) : mode === 'open' ? 'Nog geen open vragen' : level === 'hard' ? 'Nog geen Hard mode-vragen' : 'Nog geen vragen';
       });
       renderHoofdstukken();
     }
@@ -1055,7 +1117,7 @@
     function updateStart() {
       const emptySelection = mode !== 'simulatie' && !selected.size;
       const pool = questionsFor(level);
-      const amount = mode === 'simulatie' ? Math.min(20, pool.length) : pool.filter(question => selected.has(question.h)).length;
+      const amount = mode === 'simulatie' ? Math.min(20, pool.length) : (mode === 'open' ? data.open : pool).filter(question => selected.has(question.h)).length;
       // Hard mode heeft weinig vragen per hoofdstuk: een training vraagt daar minstens 8 vragen (nu 4 hoofdstukken)
       const minimumHard = 8;
       const tooFewHard = level === 'hard' && mode === 'training' && selected.size > 0 && amount > 0 && amount < minimumHard && pool.length >= minimumHard;
@@ -1082,15 +1144,31 @@
       byId('tijd-waarde').textContent = perQuestion;
       byId('tijd-per-vraag').setAttribute('aria-valuetext', perQuestion);
       byId('tijd-totaal').textContent = `${countText(amount)}, ${duration}`;
-      const summary = [['Modus', modeLabel(mode)], ['Niveau', levelLabel(level)], ['Tijd', timed ? `${duration}, ${perQuestion}` : 'Zonder tijd'], ['Hoofdstukken', chapters]];
+      const summary = mode === 'open'
+        ? [['Modus', modeLabel(mode)], ['Hoofdstukken', chapters]]
+        : [['Modus', modeLabel(mode)], ['Niveau', levelLabel(level)], ['Tijd', timed ? `${duration}, ${perQuestion}` : 'Zonder tijd'], ['Hoofdstukken', chapters]];
       byId('keuze-samenvatting').replaceChildren(...summary.flatMap(([label, value]) => [create('dt', '', label), create('dd', '', value)]));
-      byId('keuze-aantal').textContent = `${countText(amount)}${mode === 'simulatie' ? ' · Uitslag en uitleg aan het einde.' : ' · Uitleg na ieder antwoord.'}`;
+      byId('keuze-aantal').textContent = `${countText(amount)}${mode === 'simulatie' ? ' · Uitslag en uitleg aan het einde.' : mode === 'open' ? ' · Comit kijkt elk antwoord na.' : ' · Uitleg na ieder antwoord.'}`;
       byId('simulatie-uitleg').textContent = `De simulatie kiest ${countText(amount)} uit alle hoofdstukken, in ${levelLabel(level)}. Je uitslag en uitleg krijg je aan het einde.`;
     }
 
     function setMode(value) {
+      if (value === 'open' && !heeftOpen) value = 'training';
       mode = value;
       const simulation = mode === 'simulatie';
+      const open = mode === 'open';
+      // Open vragen heeft eigen aantallen en een eigen keuze van hoofdstukken; niveau en tijd doen dan niet mee.
+      counts = open ? openCounts : countsFor(level);
+      selected = open ? openSelected : selections.get(level);
+      ['niveau', 'tijd'].forEach(name => {
+        const stap = byId(`stap-${name}`);
+        if (!stap) return;
+        if (open && !stap.hidden) { verborgenDoorOpen.add(name); stap.hidden = true; }
+        else if (!open && verborgenDoorOpen.has(name)) { verborgenDoorOpen.delete(name); stap.hidden = false; }
+      });
+      nummerStappen();
+      byId('hoofdstukken').classList.toggle('is-open-modus', open);
+      if (byId('voortgang-niveau')) byId('voortgang-niveau').hidden = open;
       byId('modus-keuzes').querySelectorAll('[data-modus]').forEach(button => {
         button.setAttribute('aria-checked', String(button.dataset.modus === mode));
         button.tabIndex = button.dataset.modus === mode ? 0 : -1;
@@ -1112,9 +1190,10 @@
       screen = value;
       byId('stop-bevestiging').hidden = true;
       // Tijdens het oefenen alleen de vraag en Stop in beeld; bij een simulatie ook zonder navigatiebalk.
-      document.documentElement.classList.toggle('is-oefenen', value === 'oefenen');
+      document.documentElement.classList.toggle('is-oefenen', value === 'oefenen' || value === 'open');
       document.documentElement.classList.toggle('is-examen', value === 'oefenen' && session?.mode === 'simulatie');
-      [['keuzes', 'vak-keuzes'], ['oefenen', 'oefenscherm'], ['einde', 'eindscherm']].forEach(([name, id]) => {
+      [['keuzes', 'vak-keuzes'], ['oefenen', 'oefenscherm'], ['einde', 'eindscherm'], ['open', 'openscherm']].forEach(([name, id]) => {
+        if (!byId(id)) return;
         byId(id).hidden = name !== value;
         if (name === value) fade(byId(id));
       });
@@ -2055,6 +2134,7 @@
     byId('kies-niets').addEventListener('click', () => { selected.clear(); renderChapters(); updateStart(); });
     byId('start-oefening').addEventListener('click', () => {
       const pool = questionsFor(level);
+      if (mode === 'open') { startOpen(data.open.filter(vraag => selected.has(vraag.h))); return; }
       const questions = mode === 'simulatie' ? shuffle(pool).slice(0, 20) : pool.filter(question => selected.has(question.h));
       start(questions);
     });
@@ -2091,6 +2171,48 @@
         else next();
       }
     });
+
+    // Derde modus Open vragen: alleen bij een vak met open vragen. Vakken zonder open vragen krijgen geen extra knop.
+    let openApi = null;
+    function startOpen(vragen) {
+      if (!heeftOpen || !vragen.length || !context.authReady) return;
+      if (!openApi) {
+        openApi = BES.openVragen({
+          data, create, shuffle, fade, toonBlok, verbergBlok, scrollNaar, reducedMotion,
+          hoofdstukNaam: id => chapterNames[id],
+          toonScherm: naam => showScreen(naam),
+          naarKeuzes: () => { showScreen('keuzes'); byId('start-oefening').focus(); },
+          bewaar: bewaarOpenFouten,
+          ingelogd: () => Boolean(context.owner)
+        });
+      }
+      if (context.owner) {
+        try { window.localStorage.setItem(`bes_laatst_geoefend_${context.owner}`, JSON.stringify({ vak: data.id, t: new Date().toISOString() })); } catch {}
+      }
+      openApi.start(shuffle(vragen));
+    }
+    if (heeftOpen) {
+      const groep = byId('modus-keuzes');
+      const knop = create('button', 'kaart modus modus-open');
+      knop.type = 'button';
+      knop.setAttribute('role', 'radio');
+      knop.setAttribute('aria-checked', 'false');
+      knop.tabIndex = -1;
+      knop.dataset.modus = 'open';
+      const boven = create('span', 'modus-boven');
+      boven.setAttribute('aria-hidden', 'true');
+      const icoon = create('span', 'modus-icoon');
+      icoon.innerHTML = '<svg viewBox="0 0 24 24" width="24" height="24"><path d="M4 20h4L19 9l-4-4L4 16v4M13.5 6.5l4 4"/></svg>';
+      boven.append(icoon, create('span', 'modus-vink'));
+      knop.append(boven,
+        create('span', 'kaart-titel', 'Open vragen'),
+        create('span', 'kaart-sub', 'Schrijf je antwoord uit het hoofd. Comit kijkt het na tegen de kernpunten van een modelantwoord.'),
+        create('span', 'modus-detail', `${countText(data.open.length)}, zonder keuzes`));
+      const simulatieKnop = groep.querySelector('[data-modus="simulatie"]');
+      if (simulatieKnop) simulatieKnop.after(knop);
+      else groep.append(knop);
+      groep.classList.add('met-open');
+    }
 
     renderChapters();
     renderSimulation();
