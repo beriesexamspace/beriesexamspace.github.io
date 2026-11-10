@@ -1,0 +1,2497 @@
+/* =========================================================
+   Berie's mindmap - css/app.css
+   Donker thema, glazige panelen, vloeiende beweging.
+   Alle classnamen beginnen met bm-.
+
+   KLASSENOVERZICHT (gebruik deze namen in de js-modules)
+
+   Canvas en basis
+   .bm-canvas              volledig scherm canvas (fixed, inset 0)
+   .bm-is-dragging         canvas tijdens pannen of slepen van een punt
+   .bm-is-over-node        canvas boven een punt (cursor pointer)
+   .bm-app                 wrapper om alle UI-lagen (klikt door op canvas)
+   .bm-hidden              utility: display none
+   .bm-hint                lege staat-hint "Dubbelklik op het witte puntje..."
+   .bm-hint--hide          hint wegfaden (toevoegen na eerste dubbelklik)
+
+   Projectbalk (linksboven)
+   .bm-projects            container
+   .bm-projects--open      menu is open
+   .bm-projects__trigger    knop met huidige projectnaam
+   .bm-projects__name      projectnaam (afkappen met ...)
+   .bm-projects__caret   pijltje in de toggle-knop
+   .bm-projects__panel      uitklapbaar paneel
+   .bm-projects__list      scrollbare lijst met projecten
+   .bm-projects__row      een project in de lijst
+   .bm-projects__row--current  huidig project (ook .bm-is-active)
+   .bm-projects__meta     aantal punten bij een project
+   .bm-projects__actions   2x2 raster: hernoemen, verwijderen, exporteren, importeren
+   .bm-projects__empty     tekst als er geen projecten zijn
+
+   Popup (dubbelklik op een punt)
+   .bm-popup               pop-up container (positie via inline left/top)
+   .bm-popup--open         zichtbaar (met animatie)
+   .bm-popup__head         kop: titel links, sluitknop rechts
+   .bm-popup__titlebox       blok met titel en meta
+   .bm-popup__title        titel van het punt
+   .bm-popup__meta         klein tekstje (aantal branches)
+   .bm-popup__actions      raster met Add branch / Rename / Delete branch / Open
+   .bm-popup__rename       inline hernoem-rij (gebruik ook .bm-row)
+   .bm-popup__sep          scheidingslijn (gebruik ook .bm-sep)
+   .bm-popup__label        kopje boven het overzicht
+   .bm-popup__body         scrollbaar deel met overzicht (BM.overview)
+
+   Gedeeld
+   .bm-row                 rij: invoerveld + knoppen naast elkaar, 8px ertussen
+   .bm-sep                 horizontale scheidingslijn
+   .bm-popup__confirm             bevestigingsblok (verwijderen)
+   .bm-popup__confirm-text        tekst in het bevestigingsblok
+   .bm-confirm--danger     bevestiging met rode accent
+
+   Knoppen
+   .bm-btn                 basisknop
+   .bm-btn--primary        accentkleur (Add branch, Opslaan)
+   .bm-btn--danger         rood (Delete branch)
+   .bm-btn--ghost          transparant (Annuleren, Ongedaan maken)
+   .bm-btn--small          kleiner formaat
+   .bm-btn--block          volle breedte
+   .bm-btn--icon           vierkante icoonknop (sluiten)
+   .bm-btn:disabled        uitgeschakeld (Root verwijderen)
+
+   Invoer
+   .bm-input               tekstveld
+   .bm-input--small        kleiner tekstveld
+   .bm-input--invalid      foutstand (lege naam)
+
+   Overzicht (gesorteerde boom)
+   .bm-overview            container
+   .bm-search              zoekveld bovenaan (gebruik ook .bm-input)
+   .bm-ov-list             lijst met regels
+   .bm-ov-row              een regel; inspringing via style --depth (getal)
+   .bm-ov-row--root        regel van het punt zelf
+   .bm-ov-row--active      geselecteerd of gefocust (ook .bm-is-active)
+   .bm-ov-toggle           inklap-pijltje (knop)
+   .bm-ov-toggle--open     uitgeklapt
+   .bm-ov-toggle--spacer     geen kinderen (pijltje verborgen)
+   .bm-ov-name            titel van de regel
+   .bm-ov-count            aantal onderliggende punten
+   .bm-ov-snip             stukje notitie
+   .bm-ov-empty            melding bij lege of niets-gevonden lijst
+   .bm-ov-hidden           regel verborgen door zoeken of inklappen (ook .bm-hidden)
+   Tip: zet style="--i:N" op de eerste regels voor een zachte instap-animatie.
+
+   Editor-paneel (rechts)
+   .bm-editor              zijpaneel
+   .bm-editor--open        zichtbaar
+   .bm-editor-head        kop met titel en sluitknop
+   .bm-editor-title       titelveld (bewerkbaar)
+   .bm-editor-crumbs      broodkruimel van root naar dit punt
+   .bm-editor-crumb       een stap in de broodkruimel (knop)
+   .bm-editor-crumb.is-current  laatste stap (huidig punt)
+   .bm-editor-sep         scheidingsteken tussen stappen
+   .bm-editor-body        inhoud van het paneel
+   .bm-editor-text        grote textarea voor de notitie
+   .bm-editor-foot        voettekst
+   .bm-editor-status      status van autosave ("Opgeslagen")
+   .bm-editor-status[data-state="busy"]  bezig met opslaan (pulserend puntje)
+
+   Toast en ongedaan maken
+   .bm-toast               meldingsbalk onderin
+   .bm-toast--show         zichtbaar
+   .bm-toast__text          tekst van de melding
+   .bm-toast__action         knop Ongedaan maken (gebruik ook .bm-btn--ghost)
+
+   Schaalbare tokens staan op :root (kleuren, radius, schaduw, beweging).
+   Let op: js zet left/top inline op .bm-popup; gebruik daar geen transform.
+   ========================================================= */
+
+:root {
+  --bm-bg: #0e0e10;
+  --bm-panel: rgba(24, 24, 29, 0.72);
+  --bm-panel-strong: rgba(28, 28, 34, 0.92);
+  --bm-line: rgba(255, 255, 255, 0.08);
+  --bm-line-strong: rgba(255, 255, 255, 0.14);
+  --bm-text: #ecebf1;
+  --bm-text-dim: rgba(236, 235, 241, 0.64);
+  --bm-text-faint: rgba(236, 235, 241, 0.40);
+  --bm-accent: #8b7cf6;
+  --bm-accent-hover: #9d91f8;
+  --bm-accent-soft: rgba(139, 124, 246, 0.16);
+  --bm-danger: #f0646e;
+  --bm-danger-soft: rgba(240, 100, 110, 0.14);
+  --bm-ok: #6fd39a;
+  --bm-radius: 12px;
+  --bm-radius-lg: 14px;
+  --bm-shadow: 0 18px 48px rgba(0, 0, 0, 0.45), 0 2px 8px rgba(0, 0, 0, 0.3);
+  --bm-shadow-soft: 0 8px 24px -12px rgba(0, 0, 0, 0.6);
+  --bm-ease: cubic-bezier(0.2, 0.8, 0.2, 1);
+  --bm-dur: 200ms;
+  --bm-gutter: 12px;
+  --bm-font: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto,
+    Helvetica, Arial, sans-serif;
+}
+
+/* ---------- Basis ---------- */
+
+html,
+body {
+  margin: 0;
+  height: 100%;
+  background: var(--bm-bg);
+  color: var(--bm-text);
+  font-family: var(--bm-font);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow: hidden;
+}
+
+::selection {
+  background: var(--bm-accent-soft);
+  color: var(--bm-text);
+}
+
+.bm-hidden {
+  display: none !important;
+}
+
+.bm-canvas {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+  background: var(--bm-bg);
+  touch-action: none;
+  cursor: grab;
+  outline: none;
+}
+
+.bm-canvas.bm-is-dragging {
+  cursor: grabbing;
+}
+
+.bm-canvas.bm-is-over-node {
+  cursor: pointer;
+}
+
+.bm-app {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+}
+
+.bm-app > * {
+  pointer-events: auto;
+}
+
+/* ---------- Keyframes ---------- */
+
+@keyframes bm-pop-in {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 6px, 0) scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes bm-fade-up {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 6px, 0);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes bm-row-in {
+  from {
+    opacity: 0;
+    transform: translate3d(-4px, 0, 0);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes bm-hint-in {
+  from {
+    opacity: 0;
+    transform: translate(-50%, calc(-50% + 8px));
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, -50%);
+  }
+}
+
+@keyframes bm-shake {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+  25% {
+    transform: translate3d(-4px, 0, 0);
+  }
+  75% {
+    transform: translate3d(4px, 0, 0);
+  }
+}
+
+@keyframes bm-pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.35;
+  }
+}
+
+/* ---------- Lege staat-hint ---------- */
+
+/* Gewone hint-tekst (popup, overzicht, editor, projectbalk) */
+.bm-hint {
+  margin: 6px 0 0;
+  font-size: 12px;
+  line-height: 1.5;
+  color: var(--bm-text-faint);
+}
+
+/* Zwevende startmelding onderaan het beeld (js/app.js) */
+.bm-intro {
+  position: fixed;
+  left: 50%;
+  top: calc(50% + 64px);
+  transform: translate(-50%, -50%);
+  padding: 10px 18px;
+  font-size: 14px;
+  letter-spacing: 0.01em;
+  color: var(--bm-text-dim);
+  white-space: nowrap;
+  background: var(--bm-panel);
+  backdrop-filter: blur(12px) saturate(140%);
+  -webkit-backdrop-filter: blur(12px) saturate(140%);
+  border: 1px solid var(--bm-line);
+  border-radius: 999px;
+  box-shadow: var(--bm-shadow-soft);
+  pointer-events: none;
+  animation: bm-hint-in 700ms var(--bm-ease) backwards;
+  transition: opacity 400ms var(--bm-ease), transform 400ms var(--bm-ease);
+}
+
+.bm-intro--hide {
+  opacity: 0;
+  transform: translate(-50%, calc(-50% + 6px));
+}
+
+/* ---------- Knoppen ---------- */
+
+.bm-btn {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  min-height: 36px;
+  padding: 0 14px;
+  border-radius: 10px;
+  border: 1px solid var(--bm-line-strong);
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--bm-text);
+  font: inherit;
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0.005em;
+  white-space: nowrap;
+  cursor: pointer;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+  transition: background-color 160ms var(--bm-ease), border-color 160ms var(--bm-ease),
+    color 160ms var(--bm-ease), transform 150ms var(--bm-ease),
+    box-shadow 200ms var(--bm-ease), opacity 160ms var(--bm-ease);
+}
+
+.bm-btn:hover {
+  background: rgba(255, 255, 255, 0.09);
+  border-color: rgba(255, 255, 255, 0.22);
+}
+
+.bm-btn:active {
+  transform: scale(0.97);
+}
+
+.bm-btn:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 2px var(--bm-bg), 0 0 0 4px var(--bm-accent);
+}
+
+.bm-btn:disabled,
+.bm-btn[aria-disabled="true"] {
+  opacity: 0.4;
+  cursor: not-allowed;
+  transform: none;
+  background: rgba(255, 255, 255, 0.03);
+  border-color: var(--bm-line);
+}
+
+.bm-btn svg {
+  width: 15px;
+  height: 15px;
+  flex: none;
+}
+
+.bm-btn--primary {
+  background: var(--bm-accent);
+  border-color: transparent;
+  color: #fff;
+  box-shadow: 0 8px 20px -10px rgba(139, 124, 246, 0.9);
+}
+
+.bm-btn--primary:hover {
+  background: var(--bm-accent-hover);
+  border-color: transparent;
+  box-shadow: 0 10px 24px -10px rgba(139, 124, 246, 1);
+}
+
+.bm-btn--danger {
+  color: #ffb3b8;
+  background: var(--bm-danger-soft);
+  border-color: rgba(240, 100, 110, 0.28);
+}
+
+.bm-btn--danger:hover {
+  color: #fff;
+  background: rgba(240, 100, 110, 0.22);
+  border-color: rgba(240, 100, 110, 0.45);
+}
+
+.bm-btn--ghost {
+  background: transparent;
+  border-color: transparent;
+  color: var(--bm-text-dim);
+}
+
+.bm-btn--ghost:hover {
+  background: rgba(255, 255, 255, 0.06);
+  border-color: transparent;
+  color: var(--bm-text);
+}
+
+.bm-btn--small {
+  min-height: 28px;
+  padding: 0 10px;
+  font-size: 12px;
+  border-radius: 8px;
+}
+
+.bm-btn--block {
+  width: 100%;
+}
+
+.bm-btn--icon {
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  border-radius: 9px;
+  flex: none;
+}
+
+/* ---------- Invoer ---------- */
+
+.bm-input {
+  display: block;
+  width: 100%;
+  box-sizing: border-box;
+  min-height: 38px;
+  padding: 9px 12px;
+  border-radius: 10px;
+  border: 1px solid var(--bm-line-strong);
+  background: rgba(0, 0, 0, 0.25);
+  color: var(--bm-text);
+  font: inherit;
+  font-size: 14px;
+  outline: none;
+  transition: border-color 160ms var(--bm-ease), box-shadow 200ms var(--bm-ease),
+    background-color 160ms var(--bm-ease);
+}
+
+.bm-input::placeholder {
+  color: var(--bm-text-faint);
+}
+
+.bm-input:hover {
+  border-color: rgba(255, 255, 255, 0.22);
+}
+
+.bm-input:focus {
+  border-color: rgba(139, 124, 246, 0.7);
+  background: rgba(0, 0, 0, 0.35);
+  box-shadow: 0 0 0 3px var(--bm-accent-soft);
+}
+
+.bm-input--small {
+  min-height: 32px;
+  padding: 6px 10px;
+  font-size: 13px;
+  border-radius: 8px;
+}
+
+.bm-input--invalid,
+.bm-input--invalid:focus {
+  border-color: rgba(240, 100, 110, 0.8);
+  box-shadow: 0 0 0 3px var(--bm-danger-soft);
+  animation: bm-shake 320ms var(--bm-ease);
+}
+
+/* ---------- Gedeelde blokken ---------- */
+
+.bm-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+}
+
+.bm-row > .bm-input {
+  flex: 1;
+  min-width: 0;
+}
+
+.bm-sep,
+.bm-popup__sep {
+  height: 1px;
+  margin: 12px 0 10px;
+  background: var(--bm-line);
+}
+
+.bm-popup__confirm {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 12px;
+  margin-bottom: 10px;
+  border-radius: var(--bm-radius);
+  border: 1px solid rgba(240, 100, 110, 0.22);
+  background: var(--bm-danger-soft);
+  animation: bm-fade-up 220ms var(--bm-ease) both;
+}
+
+.bm-popup__confirm-text {
+  font-size: 13px;
+  line-height: 1.5;
+  color: var(--bm-text-dim);
+}
+
+.bm-popup__confirm-text strong {
+  color: var(--bm-text);
+  font-weight: 600;
+}
+
+.bm-confirm--danger .bm-popup__confirm-text {
+  color: #ffc2c6;
+}
+
+.bm-popup__confirm .bm-row {
+  justify-content: flex-end;
+}
+
+/* ---------- Popup ---------- */
+
+.bm-popup {
+  position: fixed;
+  left: 0;
+  top: 0;
+  z-index: 30;
+  box-sizing: border-box;
+  width: 292px;
+  max-width: calc(100vw - 24px);
+  max-height: min(72vh, 560px);
+  display: flex;
+  flex-direction: column;
+  padding: 14px;
+  color: var(--bm-text);
+  background: var(--bm-panel-strong);
+  backdrop-filter: blur(18px) saturate(140%);
+  -webkit-backdrop-filter: blur(18px) saturate(140%);
+  border: 1px solid var(--bm-line-strong);
+  border-radius: var(--bm-radius-lg);
+  box-shadow: var(--bm-shadow);
+  opacity: 0;
+  visibility: hidden;
+  transform-origin: top left;
+  transition: opacity 200ms var(--bm-ease), visibility 0s linear 200ms;
+}
+
+.bm-popup--open {
+  opacity: 1;
+  visibility: visible;
+  transition: opacity 200ms var(--bm-ease), visibility 0s;
+  animation: bm-pop-in 220ms var(--bm-ease) both;
+}
+
+.bm-popup__head {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+
+.bm-popup__titlebox {
+  flex: 1;
+  min-width: 0;
+}
+
+.bm-popup__title {
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.bm-popup__meta {
+  margin-top: 2px;
+  font-size: 12px;
+  color: var(--bm-text-faint);
+  font-variant-numeric: tabular-nums;
+}
+
+.bm-popup__head .bm-btn--icon {
+  margin: -4px -6px 0 0;
+}
+
+.bm-popup__actions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-bottom: 4px;
+}
+
+.bm-popup__actions .bm-btn {
+  width: 100%;
+}
+
+.bm-popup__rename {
+  margin-bottom: 10px;
+  animation: bm-fade-up 220ms var(--bm-ease) both;
+}
+
+.bm-popup__label {
+  margin: 0 0 6px;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--bm-text-faint);
+}
+
+.bm-popup__body {
+  flex: 1;
+  min-height: 0;
+  margin: 0 -6px;
+  padding: 0 6px;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+
+/* ---------- Overzicht (boom) ---------- */
+
+.bm-overview {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-height: 0;
+}
+
+.bm-search {
+  margin-bottom: 2px;
+}
+
+.bm-ov-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+
+.bm-ov-row {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 30px;
+  padding: 4px 8px 4px calc(var(--depth, 0) * 16px + 4px);
+  border-radius: 8px;
+  font-size: 13px;
+  color: var(--bm-text);
+  cursor: pointer;
+  user-select: none;
+  transition: background-color 150ms var(--bm-ease), color 150ms var(--bm-ease);
+  animation: bm-row-in 220ms var(--bm-ease) backwards;
+  animation-delay: min(calc(var(--i, 0) * 12ms), 160ms);
+}
+
+.bm-ov-row:hover {
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.bm-ov-row--root .bm-ov-name {
+  font-weight: 600;
+}
+
+.bm-ov-row--active,
+.bm-ov-row.bm-is-active {
+  background: var(--bm-accent-soft);
+  box-shadow: inset 2px 0 0 var(--bm-accent);
+}
+
+.bm-ov-toggle {
+  flex: none;
+  position: relative;
+  width: 20px;
+  height: 20px;
+  padding: 0;
+  border: 0;
+  border-radius: 6px;
+  background: transparent;
+  color: var(--bm-text-faint);
+  cursor: pointer;
+  transition: background-color 150ms var(--bm-ease), color 150ms var(--bm-ease);
+}
+
+.bm-ov-toggle::before {
+  content: "";
+  position: absolute;
+  left: 7px;
+  top: 6px;
+  width: 0;
+  height: 0;
+  border-left: 4px solid currentColor;
+  border-top: 3.5px solid transparent;
+  border-bottom: 3.5px solid transparent;
+  transition: transform 220ms var(--bm-ease);
+}
+
+.bm-ov-toggle:hover {
+  background: rgba(255, 255, 255, 0.08);
+  color: var(--bm-text);
+}
+
+.bm-ov-toggle--open::before {
+  transform: rotate(90deg) translate(-2px, 0);
+}
+
+.bm-ov-toggle--spacer {
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.bm-ov-name {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.bm-ov-count {
+  flex: none;
+  padding: 1px 7px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.06);
+  font-size: 11px;
+  color: var(--bm-text-faint);
+  font-variant-numeric: tabular-nums;
+}
+
+.bm-ov-snip {
+  flex: 0 1 38%;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 12px;
+  color: var(--bm-text-faint);
+}
+
+.bm-ov-empty {
+  padding: 14px 8px;
+  text-align: center;
+  font-size: 13px;
+  color: var(--bm-text-faint);
+}
+
+.bm-ov-hidden {
+  display: none !important;
+}
+
+/* ---------- Projectbalk (linksboven) ---------- */
+
+.bm-projects {
+  position: fixed;
+  top: var(--bm-gutter);
+  left: var(--bm-gutter);
+  z-index: 25;
+  box-sizing: border-box;
+  width: min(264px, calc(100vw - var(--bm-gutter) * 2));
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.bm-projects__trigger {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  min-height: 38px;
+  box-sizing: border-box;
+  padding: 0 12px;
+  border-radius: var(--bm-radius);
+  border: 1px solid var(--bm-line-strong);
+  background: var(--bm-panel);
+  backdrop-filter: blur(16px) saturate(140%);
+  -webkit-backdrop-filter: blur(16px) saturate(140%);
+  box-shadow: var(--bm-shadow-soft);
+  color: var(--bm-text);
+  font: inherit;
+  font-size: 14px;
+  font-weight: 500;
+  text-align: left;
+  cursor: pointer;
+  user-select: none;
+  transition: background-color 160ms var(--bm-ease), border-color 160ms var(--bm-ease),
+    transform 150ms var(--bm-ease);
+}
+
+.bm-projects__trigger:hover {
+  background: rgba(34, 34, 40, 0.86);
+  border-color: rgba(255, 255, 255, 0.22);
+}
+
+.bm-projects__trigger:active {
+  transform: scale(0.98);
+}
+
+.bm-projects__trigger:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 2px var(--bm-bg), 0 0 0 4px var(--bm-accent);
+}
+
+.bm-projects__name {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.bm-projects__caret {
+  flex: none;
+  width: 7px;
+  height: 7px;
+  margin-right: 2px;
+  border-right: 1.5px solid currentColor;
+  border-bottom: 1.5px solid currentColor;
+  opacity: 0.6;
+  transform: rotate(45deg);
+  transition: transform 220ms var(--bm-ease);
+}
+
+.bm-projects--open .bm-projects__caret {
+  transform: rotate(-135deg);
+}
+
+.bm-projects__panel {
+  display: none;
+  flex-direction: column;
+  gap: 8px;
+  box-sizing: border-box;
+  max-height: min(70vh, 540px);
+  padding: 8px;
+  background: var(--bm-panel-strong);
+  backdrop-filter: blur(18px) saturate(140%);
+  -webkit-backdrop-filter: blur(18px) saturate(140%);
+  border: 1px solid var(--bm-line-strong);
+  border-radius: var(--bm-radius-lg);
+  box-shadow: var(--bm-shadow);
+}
+
+.bm-projects--open .bm-projects__panel {
+  display: flex;
+  animation: bm-pop-in 220ms var(--bm-ease) both;
+  transform-origin: top left;
+}
+
+.bm-projects__list {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  max-height: 260px;
+  margin: 0 -2px;
+  padding: 0 2px;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+
+.bm-projects__row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 34px;
+  padding: 0 8px;
+  border-radius: 9px;
+  font-size: 13px;
+  color: var(--bm-text-dim);
+  cursor: pointer;
+  user-select: none;
+  transition: background-color 150ms var(--bm-ease), color 150ms var(--bm-ease);
+}
+
+.bm-projects__row:hover {
+  background: rgba(255, 255, 255, 0.06);
+  color: var(--bm-text);
+}
+
+.bm-projects__row--current,
+.bm-projects__row.bm-is-active {
+  background: var(--bm-accent-soft);
+  color: var(--bm-text);
+  box-shadow: inset 2px 0 0 var(--bm-accent);
+}
+
+.bm-projects__row .bm-projects__name {
+  font-size: 13px;
+}
+
+.bm-projects__meta {
+  flex: none;
+  font-size: 11px;
+  color: var(--bm-text-faint);
+  font-variant-numeric: tabular-nums;
+}
+
+.bm-projects__empty {
+  padding: 10px 8px;
+  font-size: 13px;
+  color: var(--bm-text-faint);
+  text-align: center;
+}
+
+.bm-projects__actions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+
+.bm-projects__actions .bm-btn {
+  width: 100%;
+  min-height: 32px;
+  font-size: 12px;
+}
+
+/* ---------- Editor-paneel (rechts) ---------- */
+
+.bm-editor {
+  position: fixed;
+  top: var(--bm-gutter);
+  right: var(--bm-gutter);
+  bottom: var(--bm-gutter);
+  z-index: 20;
+  box-sizing: border-box;
+  width: min(384px, calc(100vw - var(--bm-gutter) * 2));
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 16px;
+  background: var(--bm-panel-strong);
+  backdrop-filter: blur(20px) saturate(140%);
+  -webkit-backdrop-filter: blur(20px) saturate(140%);
+  border: 1px solid var(--bm-line-strong);
+  border-radius: 16px;
+  box-shadow: var(--bm-shadow);
+  opacity: 0;
+  visibility: hidden;
+  transform: translate3d(calc(100% + 24px), 0, 0);
+  transition: transform 320ms var(--bm-ease), opacity 240ms var(--bm-ease),
+    visibility 0s linear 320ms;
+}
+
+.bm-editor--open {
+  opacity: 1;
+  visibility: visible;
+  transform: none;
+  transition: transform 320ms var(--bm-ease), opacity 240ms var(--bm-ease),
+    visibility 0s;
+}
+
+.bm-editor-head {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.bm-editor-title {
+  flex: 1;
+  min-width: 0;
+  box-sizing: border-box;
+  padding: 6px 8px;
+  margin-left: -8px;
+  border: 1px solid transparent;
+  border-radius: 8px;
+  background: transparent;
+  color: var(--bm-text);
+  font: inherit;
+  font-size: 17px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  outline: none;
+  transition: border-color 160ms var(--bm-ease), background-color 160ms var(--bm-ease),
+    box-shadow 200ms var(--bm-ease);
+}
+
+.bm-editor-title:hover {
+  border-color: var(--bm-line);
+}
+
+.bm-editor-title:focus {
+  border-color: rgba(139, 124, 246, 0.6);
+  background: rgba(0, 0, 0, 0.25);
+  box-shadow: 0 0 0 3px var(--bm-accent-soft);
+}
+
+.bm-editor-crumbs {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 2px;
+  font-size: 12px;
+  line-height: 1.4;
+  color: var(--bm-text-faint);
+}
+
+.bm-editor-crumb {
+  max-width: 140px;
+  padding: 2px 4px;
+  border: 0;
+  border-radius: 6px;
+  background: none;
+  color: var(--bm-text-dim);
+  font: inherit;
+  font-size: 12px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: color 150ms var(--bm-ease), background-color 150ms var(--bm-ease);
+}
+
+.bm-editor-crumb:hover {
+  color: var(--bm-text);
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.bm-editor-crumb.is-current {
+  color: var(--bm-text);
+  cursor: default;
+}
+
+.bm-editor-crumb.is-current:hover {
+  background: none;
+}
+
+.bm-editor-sep {
+  color: var(--bm-text-faint);
+  opacity: 0.6;
+  padding: 0 1px;
+}
+
+.bm-editor-body {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.bm-editor-text {
+  flex: 1;
+  min-height: 160px;
+  width: 100%;
+  box-sizing: border-box;
+  padding: 12px 14px;
+  border: 1px solid var(--bm-line);
+  border-radius: var(--bm-radius);
+  background: rgba(0, 0, 0, 0.22);
+  color: var(--bm-text);
+  font: inherit;
+  font-size: 14px;
+  line-height: 1.6;
+  resize: none;
+  outline: none;
+  transition: border-color 160ms var(--bm-ease), box-shadow 200ms var(--bm-ease),
+    background-color 160ms var(--bm-ease);
+}
+
+.bm-editor-text::placeholder {
+  color: var(--bm-text-faint);
+}
+
+.bm-editor-text:hover {
+  border-color: rgba(255, 255, 255, 0.14);
+}
+
+.bm-editor-text:focus {
+  border-color: rgba(139, 124, 246, 0.6);
+  background: rgba(0, 0, 0, 0.32);
+  box-shadow: 0 0 0 3px var(--bm-accent-soft);
+}
+
+.bm-editor-foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  font-size: 12px;
+  color: var(--bm-text-faint);
+}
+
+.bm-editor-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  transition: color 200ms var(--bm-ease);
+}
+
+.bm-editor-status::before {
+  content: "";
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--bm-ok);
+  box-shadow: 0 0 0 3px rgba(111, 211, 154, 0.15);
+  transition: background-color 200ms var(--bm-ease), box-shadow 200ms var(--bm-ease);
+}
+
+.bm-editor-status[data-state="busy"]::before {
+  background: var(--bm-accent);
+  box-shadow: 0 0 0 3px var(--bm-accent-soft);
+  animation: bm-pulse 1.1s ease-in-out infinite;
+}
+
+/* ---------- Toast en ongedaan maken ---------- */
+
+.bm-toast {
+  position: fixed;
+  left: 50%;
+  bottom: 20px;
+  z-index: 50;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  max-width: calc(100vw - var(--bm-gutter) * 2);
+  padding: 6px 6px 6px 16px;
+  background: var(--bm-panel-strong);
+  backdrop-filter: blur(16px) saturate(140%);
+  -webkit-backdrop-filter: blur(16px) saturate(140%);
+  border: 1px solid var(--bm-line-strong);
+  border-radius: 999px;
+  box-shadow: var(--bm-shadow);
+  color: var(--bm-text);
+  font-size: 13px;
+  opacity: 0;
+  visibility: hidden;
+  transform: translate3d(-50%, 16px, 0);
+  transition: transform 280ms var(--bm-ease), opacity 220ms var(--bm-ease),
+    visibility 0s linear 280ms;
+  pointer-events: none;
+}
+
+.bm-toast--show {
+  opacity: 1;
+  visibility: visible;
+  transform: translate3d(-50%, 0, 0);
+  pointer-events: auto;
+  transition: transform 280ms var(--bm-ease), opacity 220ms var(--bm-ease),
+    visibility 0s;
+}
+
+.bm-toast__text {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.bm-toast__action {
+  flex: none;
+  color: #c9bfff;
+}
+
+.bm-toast__action:hover {
+  color: #fff;
+}
+
+/* ---------- Scrollbars ---------- */
+
+.bm-popup__body,
+.bm-projects__list,
+.bm-projects__panel,
+.bm-editor,
+.bm-editor-text {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 255, 255, 0.14) transparent;
+}
+
+/* ---------- Telefoon ---------- */
+
+@media (max-width: 640px) {
+  :root {
+    --bm-gutter: 16px;
+  }
+
+  .bm-editor {
+    top: auto;
+    left: var(--bm-gutter);
+    right: var(--bm-gutter);
+    bottom: var(--bm-gutter);
+    width: auto;
+    max-height: 72vh;
+    transform: translate3d(0, calc(100% + 24px), 0);
+  }
+
+  .bm-editor--open {
+    transform: none;
+  }
+
+  .bm-toast {
+    bottom: calc(var(--bm-gutter) + env(safe-area-inset-bottom, 0px));
+  }
+
+  .bm-popup {
+    width: 272px;
+  }
+
+  .bm-intro {
+    white-space: normal;
+    width: max-content;
+    max-width: calc(100vw - 48px);
+    text-align: center;
+  }
+}
+
+@media (max-width: 420px) {
+  .bm-ov-snip {
+    display: none;
+  }
+}
+
+/* ---------- Beweging verminderen ---------- */
+
+@media (prefers-reduced-motion: reduce) {
+  [class*="bm-"],
+  [class*="bm-"]::before,
+  [class*="bm-"]::after {
+    animation-duration: 1ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 1ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* =========================================================
+   Aanvulling op de js-koppeling
+   Klassen die de js-modules gebruiken en die hierboven nog
+   niet (of anders) stonden. Deze regels winnen van de
+   eerdere blokken hierboven.
+   ========================================================= */
+
+/* ---------- Popup ---------- */
+
+.bm-popup__titlebox {
+  flex: 1;
+  min-width: 0;
+}
+
+.bm-popup__close {
+  flex: none;
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  margin: -4px -6px 0 0;
+  font-size: 20px;
+  line-height: 1;
+  border-radius: 9px;
+}
+
+.bm-popup__meta {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.bm-popup__rename .bm-input {
+  margin-bottom: 2px;
+}
+
+.bm-popup__rename .bm-hint {
+  margin-top: 4px;
+}
+
+.bm-popup__confirm-text {
+  margin: 0;
+  font-size: 13px;
+  line-height: 1.5;
+  color: var(--bm-text-dim);
+}
+
+.bm-popup__confirm-btns {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+}
+
+.bm-popup__confirm-btns .bm-btn {
+  min-height: 32px;
+}
+
+.bm-popup .bm-overview {
+  flex: 1 1 auto;
+  min-height: 0;
+}
+
+.bm-popup .bm-ov-list {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  margin: 0 -6px;
+  padding: 0 6px;
+}
+
+.bm-popup > .bm-hint {
+  margin-top: 8px;
+  text-align: center;
+}
+
+.bm-input--in {
+  animation: bm-row-in 220ms var(--bm-ease) both;
+}
+
+/* ---------- Overzicht ---------- */
+
+.bm-ov-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 0 2px;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--bm-text-faint);
+}
+
+.bm-ov-head .bm-ov-name {
+  flex: 0 1 auto;
+  font-size: 11px;
+  font-weight: 600;
+}
+
+.bm-ov-total {
+  font-weight: 500;
+  letter-spacing: 0;
+  text-transform: none;
+  font-variant-numeric: tabular-nums;
+}
+
+.bm-ov-searchbox {
+  display: block;
+}
+
+.bm-ov-search {
+  min-height: 32px;
+  padding: 6px 10px;
+  font-size: 13px;
+  border-radius: 8px;
+}
+
+.bm-ov-row {
+  animation: none;
+}
+
+.bm-ov-row:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 2px var(--bm-accent);
+}
+
+.bm-ov-main {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+
+.bm-ov-top {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+}
+
+.bm-ov-row--parent .bm-ov-name {
+  font-weight: 500;
+}
+
+.bm-ov-snip {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 12px;
+  color: var(--bm-text-faint);
+}
+
+.bm-ov-caret {
+  display: none;
+}
+
+.bm-ov-toggle--spacer {
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.bm-ov-toggle--spacer::before {
+  display: none;
+}
+
+/* ---------- Editor ---------- */
+
+.bm-editor-crumbs {
+  min-width: 0;
+  flex: 1;
+}
+
+.bm-editor-close {
+  flex: none;
+  min-height: 30px;
+  padding: 0 12px;
+  font-size: 12px;
+}
+
+.bm-editor-gap {
+  padding: 0 2px;
+  color: var(--bm-text-faint);
+}
+
+.bm-editor-foot .bm-hint,
+.bm-editor-note {
+  margin: 0;
+  font-size: 12px;
+}
+
+.bm-editor-note {
+  text-align: right;
+}
+
+/* ---------- Projectbalk ---------- */
+
+.bm-projects__dot {
+  flex: none;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--bm-accent);
+  box-shadow: 0 0 0 3px var(--bm-accent-soft);
+}
+
+.bm-projects__current {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.bm-projects__head {
+  padding: 2px 6px 0;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--bm-text-faint);
+}
+
+.bm-projects__list {
+  list-style: none;
+  margin: 0 -2px;
+  padding: 0 2px;
+}
+
+.bm-projects__row {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 6px;
+  min-height: 0;
+  padding: 6px;
+  border-radius: 10px;
+  font-size: 13px;
+  color: var(--bm-text-dim);
+  cursor: default;
+  transition: background-color 150ms var(--bm-ease), color 150ms var(--bm-ease);
+}
+
+.bm-projects__row:hover {
+  background: rgba(255, 255, 255, 0.04);
+  color: var(--bm-text);
+}
+
+.bm-projects__row--current {
+  background: var(--bm-accent-soft);
+  color: var(--bm-text);
+  box-shadow: inset 2px 0 0 var(--bm-accent);
+}
+
+.bm-projects__pick {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  width: 100%;
+  min-height: 28px;
+  padding: 0 4px;
+  border: 0;
+  background: none;
+  color: inherit;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.bm-projects__pick:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 2px var(--bm-accent);
+  border-radius: 6px;
+}
+
+.bm-projects__pick .bm-projects__name {
+  flex: 1;
+  min-width: 0;
+  font-size: 13px;
+}
+
+.bm-projects__meta {
+  flex: none;
+  font-size: 11px;
+  color: var(--bm-text-faint);
+  font-variant-numeric: tabular-nums;
+}
+
+.bm-projects__row .bm-projects__actions {
+  gap: 6px;
+}
+
+.bm-projects__rename {
+  margin: 0;
+}
+
+.bm-projects__confirm {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.bm-projects__confirm-text {
+  margin: 0;
+  font-size: 12px;
+  line-height: 1.5;
+  color: var(--bm-text-dim);
+}
+
+.bm-projects__confirm-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 6px;
+}
+
+.bm-projects__confirm-actions .bm-btn {
+  min-height: 30px;
+  font-size: 12px;
+}
+
+.bm-projects__new {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 0 2px;
+}
+
+.bm-projects__new .bm-input {
+  flex: 1;
+  min-width: 0;
+  min-height: 34px;
+}
+
+.bm-projects__new .bm-btn {
+  flex: none;
+  min-height: 34px;
+}
+
+.bm-projects__io {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6px;
+}
+
+.bm-projects__io .bm-btn {
+  width: 100%;
+  min-height: 30px;
+  font-size: 12px;
+}
+
+.bm-projects__panel > .bm-hint {
+  margin: 0;
+  padding: 0 4px;
+  white-space: normal;
+}
+
+.bm-btn--add {
+  color: #ddd6ff;
+  background: var(--bm-accent-soft);
+  border-color: rgba(139, 124, 246, 0.35);
+}
+
+.bm-btn--io {
+  min-height: 30px;
+}
+
+.bm-btn--small {
+  min-height: 28px;
+}
+
+/* ---------- Toast ---------- */
+
+.bm-toast--in {
+  opacity: 1;
+  visibility: visible;
+  transform: translate3d(-50%, 0, 0);
+  pointer-events: auto;
+  transition: transform 280ms var(--bm-ease), opacity 220ms var(--bm-ease),
+    visibility 0s;
+}
+
+.bm-toast--error {
+  color: #ffb3b8;
+  border-color: rgba(240, 100, 110, 0.35);
+}
+
+.bm-toast__text {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* =========================================================
+   Fix-ronde 1: meldingenstapel, overzicht, startmelding
+   ========================================================= */
+
+/* ---------- Meldingen (stapel onderin) ---------- */
+
+.bm-toasts {
+  position: fixed;
+  left: 50%;
+  bottom: calc(20px + env(safe-area-inset-bottom, 0px));
+  z-index: 50;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: max-content;
+  max-width: calc(100vw - 32px);
+  pointer-events: none;
+}
+
+.bm-toasts .bm-toast {
+  position: relative;
+  left: auto;
+  bottom: auto;
+  margin-top: 8px;
+  max-width: 100%;
+  min-height: 40px;
+  padding: 6px 16px;
+  transform: translate3d(0, 14px, 0) scale(0.98);
+  transition: transform 280ms var(--bm-ease), opacity 220ms var(--bm-ease),
+    margin-top 280ms var(--bm-ease), visibility 0s linear 280ms;
+}
+
+.bm-toasts .bm-toast--action {
+  padding-right: 6px;
+}
+
+.bm-toasts .bm-toast--show {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+  transform: none;
+  transition: transform 280ms var(--bm-ease), opacity 220ms var(--bm-ease),
+    margin-top 280ms var(--bm-ease), visibility 0s;
+}
+
+.bm-toast__action {
+  margin-left: 4px;
+  border-radius: 999px;
+}
+
+/* ---------- Overzicht ---------- */
+
+.bm-ov-searchbox {
+  overflow: hidden;
+  max-height: 48px;
+  opacity: 1;
+  transition: max-height 220ms var(--bm-ease), opacity 180ms var(--bm-ease);
+}
+
+.bm-ov-searchbox--hidden {
+  max-height: 0;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.bm-ov-row {
+  gap: 6px;
+  padding-right: 4px;
+}
+
+.bm-ov-row--enter {
+  animation: bm-row-in 240ms var(--bm-ease) backwards;
+  animation-delay: calc(var(--i, 0) * 14ms);
+}
+
+.bm-ov-row--context .bm-ov-name {
+  color: var(--bm-text-faint);
+}
+
+.bm-ov-name {
+  min-width: 0;
+}
+
+.bm-ov-depth {
+  flex: none;
+  padding: 1px 6px;
+  border-radius: 999px;
+  border: 1px solid var(--bm-line);
+  font-size: 10px;
+  color: var(--bm-text-faint);
+  font-variant-numeric: tabular-nums;
+}
+
+.bm-ov-open {
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 26px;
+  height: 26px;
+  margin-left: 2px;
+  padding: 0;
+  border: 1px solid transparent;
+  border-radius: 7px;
+  background: transparent;
+  color: var(--bm-text-faint);
+  cursor: pointer;
+  opacity: 0;
+  transform: scale(0.9);
+  transition: opacity 150ms var(--bm-ease), transform 150ms var(--bm-ease),
+    background-color 150ms var(--bm-ease), color 150ms var(--bm-ease);
+}
+
+.bm-ov-row:hover .bm-ov-open,
+.bm-ov-row:focus-within .bm-ov-open,
+.bm-ov-row--active .bm-ov-open {
+  opacity: 1;
+  transform: none;
+}
+
+.bm-ov-open:hover {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: var(--bm-line);
+  color: var(--bm-text);
+}
+
+.bm-ov-open:active {
+  transform: scale(0.92);
+}
+
+@media (hover: none) {
+  .bm-ov-open {
+    opacity: 0.7;
+    transform: none;
+  }
+}
+
+.bm-ov-toggle:active {
+  transform: scale(0.9);
+}
+
+.bm-ov-empty {
+  padding: 12px 8px;
+  line-height: 1.5;
+}
+
+/* Popup: het overzicht scrollt binnen de pop-up */
+.bm-popup .bm-overview {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.bm-popup .bm-ov-list {
+  max-height: 44vh;
+}
+
+.bm-popup__actions {
+  margin-bottom: 14px;
+}
+
+/* ---------- Startmelding ---------- */
+
+.bm-intro--hide {
+  animation: none;
+}
+
+/* Overzicht: chevron en uitlijning op de titelregel */
+.bm-ov-row {
+  align-items: flex-start;
+  min-height: 32px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+}
+
+.bm-ov-toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 0;
+}
+
+.bm-ov-toggle::before {
+  display: none;
+}
+
+.bm-ov-toggle svg {
+  transition: transform 220ms var(--bm-ease);
+}
+
+.bm-ov-toggle--open svg {
+  transform: rotate(90deg);
+}
+
+.bm-ov-main {
+  padding-top: 1px;
+}
+
+.bm-ov-top {
+  min-height: 20px;
+}
+
+.bm-ov-open {
+  width: 24px;
+  height: 24px;
+  margin-top: -2px;
+}
+
+.bm-ov-row {
+  flex: none;
+}
+
+.bm-ov-row,
+.bm-ov-row * {
+  box-sizing: border-box;
+}
+
+@media (max-width: 640px) {
+  .bm-popup {
+    width: min(360px, calc(100vw - 32px));
+    max-width: calc(100vw - 32px);
+  }
+}
+
+/* ---------- Eindfix ---------- */
+
+/* Notitiepaneel: het titelveld groeit niet mee in de hoogte; de textarea vult de rest. */
+.bm-editor > .bm-editor-title {
+  flex: none;
+}
+
+.bm-editor-status[data-state="error"] {
+  color: var(--bm-danger, #f87171);
+}
+
+/* Pop-up: kantwissel met een zachte overgang in plaats van een sprong. */
+.bm-popup--open.bm-popup--sliding {
+  transition: opacity 200ms var(--bm-ease), visibility 0s,
+    left 220ms var(--bm-ease), top 220ms var(--bm-ease);
+}
+
+/* Pop-up: het overzicht vult de vrije ruimte (pop-up zelf is max. schermhoogte - 32px). */
+.bm-popup .bm-ov-list {
+  max-height: none;
+}
+
+/* Snel bij honderden regels: regels buiten beeld worden niet opgemaakt. */
+.bm-ov-row {
+  content-visibility: auto;
+  contain-intrinsic-size: auto 32px;
+}
+
+/* Inklappen: onderliggende regels faden uit voordat ze verdwijnen. */
+.bm-ov-row--leave {
+  max-height: 0 !important;
+  min-height: 0;
+  padding-top: 0;
+  padding-bottom: 0;
+  opacity: 0;
+  overflow: hidden;
+  transition: max-height 160ms var(--bm-ease), opacity 120ms var(--bm-ease),
+    padding 160ms var(--bm-ease), min-height 160ms var(--bm-ease);
+}
+
+.bm-ov-more {
+  align-self: center;
+  margin: 8px 0 4px;
+}
+
+/* Projectmenu: invoerveld boven, knop eronder over de volle breedte. */
+.bm-projects__new {
+  flex-direction: column;
+  align-items: stretch;
+  gap: 8px;
+}
+
+.bm-projects__new .bm-input,
+.bm-projects__new .bm-btn {
+  width: 100%;
+  flex: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .bm-popup--open.bm-popup--sliding,
+  .bm-ov-row--leave {
+    transition: none;
+  }
+}
+
+.bm-editor-status[data-state="error"]::before {
+  background: var(--bm-danger);
+  box-shadow: 0 0 0 3px var(--bm-danger-soft);
+}
+
+/* Minder beweging: open panelen meteen zichtbaar (ook de visibility-overgang overslaan). */
+@media (prefers-reduced-motion: reduce) {
+  .bm-popup--open,
+  .bm-editor--open {
+    transition: none !important;
+  }
+}
+
+/* De pop-up zelf krijgt focus voor het toetsenbord (Esc, Tab); geen rand om het hele paneel. */
+.bm-popup:focus,
+.bm-popup:focus-visible {
+  outline: none;
+}
+
+/* =========================================================
+   Kleuren en weergave (afstand)
+   ========================================================= */
+
+/* ---------- Kleurpalet in de pop-up ---------- */
+
+.bm-popup__colors {
+  position: relative;
+  margin: 0 0 14px;
+  padding: 10px 10px 11px;
+  border-radius: var(--bm-radius);
+  border: 1px solid var(--bm-line);
+  background: rgba(255, 255, 255, 0.025);
+}
+
+.bm-popup__colorhead {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 9px;
+  min-width: 0;
+}
+
+.bm-popup__colorlabel {
+  flex: none;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--bm-text-faint);
+}
+
+.bm-popup__colorstate {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 12px;
+  color: var(--bm-text-dim);
+}
+
+.bm-popup__colorstate::before {
+  content: "";
+  flex: none;
+  width: 0;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--sw, transparent);
+  transition: width 200ms var(--bm-ease), background-color 200ms var(--bm-ease);
+}
+
+.bm-popup__colorstate--dot::before {
+  width: 7px;
+}
+
+.bm-swatches {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 9px 8px;
+}
+
+.bm-swatch {
+  position: relative;
+  flex: none;
+  width: 22px;
+  height: 22px;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: var(--sw, transparent);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.16);
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  transition: transform 160ms var(--bm-ease), box-shadow 220ms var(--bm-ease),
+    background-color 160ms var(--bm-ease), color 160ms var(--bm-ease);
+}
+
+.bm-swatch:hover {
+  transform: scale(1.14);
+}
+
+.bm-swatch:active {
+  transform: scale(0.9);
+}
+
+.bm-swatch:focus-visible {
+  outline: none;
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.16), 0 0 0 2px var(--bm-bg), 0 0 0 4px var(--bm-accent);
+}
+
+.bm-swatch.is-selected {
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.2), 0 0 0 2px #1c1c22, 0 0 0 4px var(--sw, rgba(255, 255, 255, 0.75));
+}
+
+.bm-swatch.is-selected:focus-visible {
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.2), 0 0 0 2px #1c1c22,
+    0 0 0 4px var(--sw, rgba(255, 255, 255, 0.75)), 0 0 0 6px var(--bm-accent-soft);
+}
+
+/* Geen kleur: leeg rondje met een schuine streep */
+.bm-swatch--none {
+  --sw: rgba(255, 255, 255, 0.75);
+  background: transparent;
+  box-shadow: inset 0 0 0 1px var(--bm-line-strong);
+}
+
+.bm-swatch--none::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 14px;
+  height: 1.5px;
+  border-radius: 2px;
+  background: rgba(240, 100, 110, 0.85);
+  transform: translate(-50%, -50%) rotate(-45deg);
+}
+
+/* Plus: eigen kleur toevoegen */
+.bm-swatch--add {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  color: var(--bm-text-dim);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.28);
+}
+
+.bm-swatch--add:hover {
+  color: var(--bm-text);
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.bm-swatch--add svg {
+  width: 12px;
+  height: 12px;
+  transition: transform 220ms var(--bm-ease);
+}
+
+.bm-swatch--add:hover svg {
+  transform: rotate(90deg);
+}
+
+/* Eigen kleur: klein kruisje om hem weer uit het palet te halen */
+.bm-swatch-wrap {
+  position: relative;
+  display: inline-flex;
+  flex: none;
+}
+
+.bm-swatch-wrap--new .bm-swatch {
+  animation: bm-swatch-in 320ms var(--bm-ease) both;
+}
+
+@keyframes bm-swatch-in {
+  from {
+    opacity: 0;
+    transform: scale(0.4);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.bm-swatch__x {
+  position: absolute;
+  top: -6px;
+  right: -6px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 15px;
+  height: 15px;
+  padding: 0;
+  border: 1px solid var(--bm-line-strong);
+  border-radius: 50%;
+  background: #26262d;
+  color: var(--bm-text-dim);
+  font: inherit;
+  font-size: 11px;
+  line-height: 1;
+  cursor: pointer;
+  opacity: 0;
+  transform: scale(0.6);
+  pointer-events: none;
+  transition: opacity 150ms var(--bm-ease), transform 160ms var(--bm-ease),
+    background-color 150ms var(--bm-ease), color 150ms var(--bm-ease);
+}
+
+.bm-swatch-wrap:hover .bm-swatch__x,
+.bm-swatch-wrap:focus-within .bm-swatch__x {
+  opacity: 1;
+  transform: none;
+  pointer-events: auto;
+}
+
+.bm-swatch__x:hover {
+  background: var(--bm-danger);
+  border-color: transparent;
+  color: #fff;
+}
+
+.bm-swatch__x:active {
+  transform: scale(0.88);
+}
+
+@media (hover: none) {
+  .bm-swatch__x {
+    opacity: 0.85;
+    transform: none;
+    pointer-events: auto;
+  }
+}
+
+/* De kleurkiezer van het systeem: onzichtbaar, opent via de plus */
+.bm-swatch-picker {
+  position: absolute;
+  right: 12px;
+  bottom: 10px;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  border: 0;
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* De pop-up is hoger door het palet: kop en zoekveld van het overzicht nooit laten
+   krimpen, alleen de lijst scrollt. */
+.bm-popup .bm-ov-head,
+.bm-popup .bm-ov-searchbox {
+  flex: none;
+}
+
+/* ---------- Kleur in het overzicht ---------- */
+
+.bm-ov-dot {
+  flex: none;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--sw);
+  opacity: 0.55;
+}
+
+.bm-ov-dot--own {
+  width: 8px;
+  height: 8px;
+  opacity: 1;
+  box-shadow: 0 0 8px -1px var(--sw);
+}
+
+/* ---------- Kleur in het notitiepaneel ---------- */
+
+.bm-editor-dot {
+  flex: none;
+  width: 0;
+  height: 10px;
+  margin-right: -8px;
+  border-radius: 50%;
+  background: var(--sw, transparent);
+  opacity: 0;
+  transform: scale(0.4);
+  transition: width 220ms var(--bm-ease), margin 220ms var(--bm-ease), opacity 200ms var(--bm-ease),
+    transform 260ms var(--bm-ease), background-color 300ms var(--bm-ease);
+}
+
+.bm-editor-dot--on {
+  width: 10px;
+  margin-right: 0;
+  opacity: 0.6;
+  transform: none;
+}
+
+.bm-editor-dot--own {
+  opacity: 1;
+  box-shadow: 0 0 10px -1px var(--sw);
+}
+
+/* ---------- Weergave (linksonder) ---------- */
+
+.bm-view {
+  position: fixed;
+  left: var(--bm-gutter);
+  bottom: calc(var(--bm-gutter) + env(safe-area-inset-bottom, 0px));
+  z-index: 18;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
+  pointer-events: none;
+}
+
+.bm-view > * {
+  pointer-events: auto;
+}
+
+.bm-view__trigger {
+  min-height: 38px;
+  padding: 0 14px 0 12px;
+  border-radius: var(--bm-radius);
+  background: var(--bm-panel);
+  backdrop-filter: blur(16px) saturate(140%);
+  -webkit-backdrop-filter: blur(16px) saturate(140%);
+  box-shadow: var(--bm-shadow-soft);
+  color: var(--bm-text-dim);
+}
+
+.bm-view__trigger:hover {
+  background: rgba(34, 34, 40, 0.86);
+  color: var(--bm-text);
+}
+
+.bm-view__trigger svg {
+  transition: transform 260ms var(--bm-ease);
+}
+
+.bm-view--open .bm-view__trigger {
+  color: var(--bm-text);
+  border-color: rgba(139, 124, 246, 0.45);
+}
+
+.bm-view--open .bm-view__trigger svg {
+  transform: rotate(180deg);
+}
+
+.bm-view__panel {
+  box-sizing: border-box;
+  width: min(272px, calc(100vw - var(--bm-gutter) * 2));
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 14px;
+  background: var(--bm-panel-strong);
+  backdrop-filter: blur(18px) saturate(140%);
+  -webkit-backdrop-filter: blur(18px) saturate(140%);
+  border: 1px solid var(--bm-line-strong);
+  border-radius: var(--bm-radius-lg);
+  box-shadow: var(--bm-shadow);
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transform: translate3d(0, 8px, 0) scale(0.97);
+  transform-origin: bottom left;
+  transition: opacity 200ms var(--bm-ease), transform 240ms var(--bm-ease), visibility 0s linear 240ms;
+}
+
+.bm-view--open .bm-view__panel {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+  transform: none;
+  transition: opacity 200ms var(--bm-ease), transform 240ms var(--bm-ease), visibility 0s;
+}
+
+.bm-view__head {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--bm-text-faint);
+}
+
+.bm-view__field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.bm-view__labelrow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.bm-view__label {
+  font-size: 13px;
+  color: var(--bm-text);
+}
+
+.bm-view__value {
+  flex: none;
+  min-width: 46px;
+  padding: 2px 8px;
+  border-radius: 999px;
+  background: var(--bm-accent-soft);
+  color: #ddd6ff;
+  font-size: 12px;
+  font-weight: 600;
+  text-align: center;
+  font-variant-numeric: tabular-nums;
+}
+
+.bm-view__scale {
+  display: flex;
+  justify-content: space-between;
+  font-size: 11px;
+  color: var(--bm-text-faint);
+}
+
+.bm-view__actions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+
+.bm-view__actions .bm-btn {
+  width: 100%;
+  min-height: 32px;
+}
+
+.bm-view__hint {
+  margin: 0;
+}
+
+/* Schuif */
+.bm-range {
+  --fill: 20%;
+  width: 100%;
+  height: 22px;
+  margin: 0;
+  padding: 0;
+  background: transparent;
+  -webkit-appearance: none;
+  appearance: none;
+  cursor: pointer;
+  outline: none;
+}
+
+.bm-range::-webkit-slider-runnable-track {
+  height: 4px;
+  border-radius: 999px;
+  background: linear-gradient(to right, var(--bm-accent) var(--fill), rgba(255, 255, 255, 0.12) var(--fill));
+}
+
+.bm-range::-moz-range-track {
+  height: 4px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.12);
+}
+
+.bm-range::-moz-range-progress {
+  height: 4px;
+  border-radius: 999px;
+  background: var(--bm-accent);
+}
+
+.bm-range::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 16px;
+  height: 16px;
+  margin-top: -6px;
+  border: 0;
+  border-radius: 50%;
+  background: #fff;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.45);
+  transition: transform 160ms var(--bm-ease), box-shadow 200ms var(--bm-ease);
+}
+
+.bm-range::-moz-range-thumb {
+  width: 16px;
+  height: 16px;
+  border: 0;
+  border-radius: 50%;
+  background: #fff;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.45);
+  transition: transform 160ms var(--bm-ease), box-shadow 200ms var(--bm-ease);
+}
+
+.bm-range:hover::-webkit-slider-thumb {
+  transform: scale(1.1);
+}
+
+.bm-range:active::-webkit-slider-thumb {
+  transform: scale(1.18);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.45), 0 0 0 6px var(--bm-accent-soft);
+}
+
+.bm-range:focus-visible::-webkit-slider-thumb {
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.45), 0 0 0 2px var(--bm-bg), 0 0 0 4px var(--bm-accent);
+}
+
+.bm-range:active::-moz-range-thumb {
+  transform: scale(1.18);
+}
+
+/* Telefoon: Weergave rechtsboven als rond knopje, zodat het niet onder meldingen
+   of het notitiepaneel valt. */
+@media (max-width: 640px) {
+  .bm-view {
+    top: var(--bm-gutter);
+    right: var(--bm-gutter);
+    left: auto;
+    bottom: auto;
+    flex-direction: column-reverse;
+    align-items: flex-end;
+  }
+
+  .bm-view__trigger {
+    width: 38px;
+    padding: 0;
+  }
+
+  .bm-view__trigger .bm-btn__label {
+    display: none;
+  }
+
+  .bm-view__panel {
+    transform-origin: top right;
+    transform: translate3d(0, -8px, 0) scale(0.97);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .bm-view--open .bm-view__panel,
+  .bm-view__panel {
+    transition: none !important;
+  }
+
+  .bm-swatch-wrap--new .bm-swatch {
+    animation: none;
+  }
+}
+
+/* Kleurgolf bekijken: na het kiezen van een kleur wordt de pop-up even bijna
+   doorzichtig, zodat je de golf door de tak ziet lopen. Muis erop of een toets
+   brengt hem meteen terug. (!important wint van de vul-stand van de open-animatie.) */
+.bm-popup--open.bm-popup--kijk {
+  opacity: 0.12 !important;
+  pointer-events: none;
+  transition: opacity 320ms var(--bm-ease), visibility 0s;
+}
+
+.bm-popup--open.bm-popup--terug {
+  transition: opacity 260ms var(--bm-ease), visibility 0s;
+}
+
+/* Afstand-knop: percentage als klein label als het niet 100% is. */
+.bm-view__badge {
+  display: inline-block;
+  margin-left: 6px;
+  padding: 1px 6px;
+  border-radius: 999px;
+  font-size: 11px;
+  line-height: 16px;
+  color: var(--bm-text);
+  background: rgba(139, 124, 246, 0.22);
+  transform-origin: center;
+  transition: opacity 200ms var(--bm-ease), transform 200ms var(--bm-ease);
+}
+
+.bm-view__badge[hidden] {
+  display: none;
+}
+
+@media (max-width: 640px) {
+  .bm-view__trigger {
+    position: relative;
+  }
+
+  .bm-view__badge {
+    position: absolute;
+    top: -7px;
+    right: -9px;
+    margin: 0;
+    padding: 0 5px;
+    font-size: 10px;
+    line-height: 15px;
+    box-shadow: 0 0 0 2px var(--bm-bg, #0b0b0f);
+    background: rgb(78, 70, 140);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .bm-popup--open.bm-popup--kijk,
+  .bm-popup--open.bm-popup--terug {
+    transition: none !important;
+  }
+}

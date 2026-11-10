@@ -1,0 +1,966 @@
+/* =========================================================
+   Berie's mindmap - css/auth.css
+   Inloggen, codescherm, account-knop, menu en dialogen.
+   Zelfde donkere look en tokens als css/app.css (:root --bm-*).
+   Geen serif-lettertype, geen inline stijl, geen innerHTML nodig.
+
+   KLASSENOVERZICHT (gebruik deze namen in js/auth.js en js/cloud.js)
+
+   Overlay en kaart
+   #bm-auth                    volledige overlay (aanwezig = zichtbaar; [hidden] verbergt)
+   #bm-auth.is-weg             overlay wegfaden (daarna hidden zetten)
+   .bm-auth__kaart             kaart in het midden
+   .bm-auth__logo              klein blokje bovenaan de kaart
+   .bm-auth__titel             kop van het scherm
+   .bm-auth__tekst             uitleg onder de kop
+   .bm-auth__scherm            één scherm (verborgen tenzij .is-actief)
+   .bm-auth__scherm.is-actief  zichtbaar scherm (met fade en verschuiving)
+   .bm-auth__fout              foutregel (vaste hoogte, leeg = onzichtbaar)
+   .bm-auth__melding           meldingsregel (vaste hoogte, leeg = onzichtbaar)
+   .bm-auth__links             rij tekstknoppen onderaan
+   .bm-auth__aftel             aftelling "Nieuwe code over N s" (vaste hoogte), ook de standregel op het wachtscherm
+   .bm-auth__mail              klein mailadres op het wacht- en afgewezen-scherm
+
+   Velden
+   .bm-veld                    wrapper: label, invoer, en optioneel .bm-veld__oog als laatste kind
+   .bm-veld__label             label boven het veld
+   .bm-veld__invoer            input of textarea
+   .bm-veld__oog              oogje (tonen/verbergen), laatste kind van .bm-veld
+
+   Codeinvoer (6 vakjes)
+   .bm-code                    rij met 6 vakjes
+   .bm-code__vak               een vakje (input)
+   .bm-code.is-fout            schudt bij een foute code
+
+   Knoppen
+   .bm-knop                    basisknop (volle breedte)
+   .bm-knop--primair           accentkleur
+   .bm-knop--tekst             tekstknop (links)
+   .bm-knop.is-bezig           bezig: spinner, niet klikbaar
+
+   Account (rechtsboven, op telefoon linksonder)
+   #bm-account                 container van de knop en het menu
+   #bm-account > button        rond knopje met de eerste letter van de e-mail
+   .bm-account__menu           klein menu (verborgen met [hidden])
+   .bm-account__mail           e-mail (ellipsis)
+   .bm-account__status         status; data-state="ok" | "bezig" | "fout"
+   .bm-account__uit            knop Uitloggen
+
+   Dialoog (bv. "Je hebt al een mindmap op deze computer")
+   .bm-dialog                  overlay (verborgen met [hidden])
+   .bm-dialog__kaart           kaart in het midden
+   .bm-dialog__titel           kop
+   .bm-dialog__tekst           uitleg
+   .bm-dialog__knoppen         rij knoppen onderaan
+
+   Schermen wisselen met een korte fade en verschuiving (240 ms). Vaste hoogtes
+   voor foutregels en aftelling zorgen dat niets springt. Beweging wordt
+   uitgeschakeld bij prefers-reduced-motion.
+   ========================================================= */
+
+/* ---------- Overlay ---------- */
+
+#bm-auth {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  background: rgba(8, 8, 11, 0.72);
+  backdrop-filter: blur(10px) saturate(120%);
+  -webkit-backdrop-filter: blur(10px) saturate(120%);
+  /* backwards: de fade-in houdt geen opacity vast na afloop, zodat .is-weg kan uitfaden */
+  animation: bm-auth-fade 260ms var(--bm-ease) backwards;
+  transition: opacity 260ms var(--bm-ease), visibility 0s linear 260ms;
+}
+
+#bm-auth[hidden] {
+  display: none;
+}
+
+#bm-auth.is-weg {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.bm-auth__kaart {
+  position: relative;
+  box-sizing: border-box;
+  width: min(380px, 100%);
+  margin: auto;
+  padding: 28px 26px 22px;
+  background: var(--bm-panel-strong);
+  backdrop-filter: blur(20px) saturate(140%);
+  -webkit-backdrop-filter: blur(20px) saturate(140%);
+  border: 1px solid var(--bm-line-strong);
+  border-radius: 18px;
+  box-shadow: var(--bm-shadow);
+  color: var(--bm-text);
+  animation: bm-auth-kaart 320ms var(--bm-ease) both;
+}
+
+/* Vaste minimale hoogte (desktop en telefoon), zodat de kaart niet springt tussen schermen. */
+.bm-auth__kaart {
+  min-height: 400px;
+}
+
+/* Logo: wit puntje (zoals het middenpunt van de mindmap) met de naam ernaast. */
+.bm-auth__logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 0 0 18px;
+  color: var(--bm-text, #ececf1);
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  white-space: nowrap;
+}
+
+.bm-auth__logo::before {
+  content: "";
+  flex: none;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: #fff;
+  box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.08), 0 0 18px rgba(255, 255, 255, 0.35);
+}
+
+.bm-auth__titel {
+  margin: 0 0 6px;
+  font-size: 20px;
+  font-weight: 600;
+  letter-spacing: -0.015em;
+  line-height: 1.25;
+  color: var(--bm-text);
+}
+
+.bm-auth__tekst {
+  margin: 0 0 20px;
+  font-size: 14px;
+  line-height: 1.55;
+  color: var(--bm-text-dim);
+  overflow-wrap: anywhere;
+}
+
+/* Mailadres van de ingelogde gebruiker (wacht- en afgewezen-scherm), klein onder de uitleg */
+.bm-auth__mail {
+  margin: -20px 0 6px;
+  font-size: 12px;
+  line-height: 1.45;
+  color: var(--bm-text-faint);
+  overflow-wrap: anywhere;
+  transition: opacity 200ms var(--bm-ease);
+}
+
+.bm-auth__mail:empty {
+  display: none;
+}
+
+/* ---------- Schermen ---------- */
+
+.bm-auth__scherm {
+  display: none;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.bm-auth__scherm.is-actief {
+  display: flex;
+  animation: bm-auth-scherm 240ms var(--bm-ease) both;
+}
+
+/* Formulier: velden, foutregel, hoofdknop en extra knop met tussenruimte */
+.bm-auth__form {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+/* Verborgen formulier (hidden) mag niet door display:flex weer zichtbaar worden */
+.bm-auth__form[hidden] {
+  display: none;
+}
+
+/* ---------- Velden ---------- */
+
+.bm-veld {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 0;
+}
+
+.bm-veld__label {
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+  color: var(--bm-text-dim);
+}
+
+.bm-veld__invoer {
+  display: block;
+  width: 100%;
+  box-sizing: border-box;
+  min-height: 44px;
+  margin: 0;
+  padding: 10px 14px;
+  border-radius: 11px;
+  border: 1px solid var(--bm-line-strong);
+  background: rgba(0, 0, 0, 0.25);
+  color: var(--bm-text);
+  font: inherit;
+  font-size: 16px; /* 16px voorkomt inzoomen op iPhone */
+  outline: none;
+  transition: border-color 160ms var(--bm-ease), box-shadow 200ms var(--bm-ease),
+    background-color 160ms var(--bm-ease);
+}
+
+textarea.bm-veld__invoer {
+  min-height: 88px;
+  resize: vertical;
+  line-height: 1.5;
+}
+
+.bm-veld__invoer::placeholder {
+  color: var(--bm-text-faint);
+}
+
+.bm-veld__invoer:hover {
+  border-color: rgba(255, 255, 255, 0.22);
+}
+
+.bm-veld__invoer:focus {
+  border-color: rgba(139, 124, 246, 0.7);
+  background: rgba(0, 0, 0, 0.35);
+  box-shadow: 0 0 0 3px var(--bm-accent-soft);
+}
+
+.bm-veld__invoer:disabled {
+  opacity: 0.6;
+}
+
+/* Ruimte voor het oogje rechts in het veld */
+.bm-veld:has(.bm-veld__oog) .bm-veld__invoer {
+  padding-right: 54px;
+}
+
+/* Oogje: staat onderaan het veld, dus gelijk met het invoerveld */
+.bm-veld__oog {
+  position: absolute;
+  right: 5px;
+  bottom: 5px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  padding: 0;
+  border: 0;
+  border-radius: 9px;
+  background: transparent;
+  color: var(--bm-text-faint);
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  transition: background-color 150ms var(--bm-ease), color 150ms var(--bm-ease),
+    transform 150ms var(--bm-ease);
+}
+
+.bm-veld__oog:hover {
+  background: rgba(255, 255, 255, 0.07);
+  color: var(--bm-text);
+}
+
+.bm-veld__oog:active {
+  transform: scale(0.9);
+}
+
+.bm-veld__oog:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 2px var(--bm-panel-strong), 0 0 0 4px var(--bm-accent);
+}
+
+.bm-veld__oog svg {
+  width: 17px;
+  height: 17px;
+}
+
+/* ---------- Foutregel en melding (vaste hoogte) ---------- */
+
+.bm-auth__fout,
+.bm-auth__melding {
+  min-height: 42px;
+  box-sizing: border-box;
+  margin: 0;
+  padding: 10px 12px;
+  border-radius: 10px;
+  font-size: 13px;
+  line-height: 1.45;
+  transition: opacity 200ms var(--bm-ease), background-color 200ms var(--bm-ease),
+    border-color 200ms var(--bm-ease);
+  border: 1px solid transparent;
+}
+
+.bm-auth__fout {
+  color: #ffb3b8;
+  background: var(--bm-danger-soft);
+  border-color: rgba(240, 100, 110, 0.22);
+}
+
+.bm-auth__melding {
+  color: #bff0d4;
+  background: rgba(111, 211, 154, 0.1);
+  border-color: rgba(111, 211, 154, 0.22);
+}
+
+.bm-auth__fout:empty,
+.bm-auth__melding:empty {
+  opacity: 0;
+  background: transparent;
+  border-color: transparent;
+}
+
+/* ---------- Aftelling ---------- */
+
+.bm-auth__aftel {
+  min-height: 20px;
+  margin: 0;
+  font-size: 12px;
+  color: var(--bm-text-faint);
+  font-variant-numeric: tabular-nums;
+  transition: opacity 200ms var(--bm-ease);
+}
+
+.bm-auth__aftel:empty {
+  opacity: 0;
+}
+
+/* ---------- Links onderaan ---------- */
+
+.bm-auth__links {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 4px 6px;
+  margin-top: 4px;
+  padding-top: 14px;
+  border-top: 1px solid var(--bm-line);
+}
+
+.bm-auth__links .bm-knop--tekst {
+  width: auto;
+}
+
+/* ---------- Codeinvoer ---------- */
+
+.bm-code {
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.bm-code__vak {
+  display: block;
+  box-sizing: border-box;
+  width: 100%;
+  min-width: 0;
+  height: 54px;
+  margin: 0;
+  padding: 0;
+  border-radius: 11px;
+  border: 1px solid var(--bm-line-strong);
+  background: rgba(0, 0, 0, 0.25);
+  color: var(--bm-text);
+  font: inherit;
+  font-size: 22px;
+  font-weight: 600;
+  text-align: center;
+  font-variant-numeric: tabular-nums;
+  outline: none;
+  caret-color: var(--bm-accent);
+  transition: border-color 160ms var(--bm-ease), box-shadow 200ms var(--bm-ease),
+    background-color 160ms var(--bm-ease), transform 150ms var(--bm-ease);
+}
+
+.bm-code__vak:hover {
+  border-color: rgba(255, 255, 255, 0.22);
+}
+
+.bm-code__vak:focus {
+  border-color: rgba(139, 124, 246, 0.8);
+  background: rgba(0, 0, 0, 0.35);
+  box-shadow: 0 0 0 3px var(--bm-accent-soft);
+  transform: translateY(-1px);
+}
+
+.bm-code__vak:not(:placeholder-shown) {
+  border-color: rgba(139, 124, 246, 0.45);
+}
+
+.bm-code.is-fout .bm-code__vak {
+  border-color: rgba(240, 100, 110, 0.8);
+  box-shadow: 0 0 0 3px var(--bm-danger-soft);
+  animation: bm-auth-schud 340ms var(--bm-ease);
+}
+
+/* ---------- Knoppen ---------- */
+
+.bm-knop {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  box-sizing: border-box;
+  width: 100%;
+  min-height: 44px;
+  margin: 0;
+  padding: 0 16px;
+  border-radius: 11px;
+  border: 1px solid var(--bm-line-strong);
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--bm-text);
+  font: inherit;
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: 0.005em;
+  white-space: nowrap;
+  cursor: pointer;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+  transition: background-color 160ms var(--bm-ease), border-color 160ms var(--bm-ease),
+    color 160ms var(--bm-ease), transform 150ms var(--bm-ease),
+    box-shadow 200ms var(--bm-ease), opacity 160ms var(--bm-ease);
+}
+
+.bm-knop:hover {
+  background: rgba(255, 255, 255, 0.09);
+  border-color: rgba(255, 255, 255, 0.22);
+  transform: translateY(-1px);
+}
+
+.bm-knop:active {
+  transform: scale(0.98);
+}
+
+.bm-knop:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 2px var(--bm-panel-strong), 0 0 0 4px var(--bm-accent);
+}
+
+.bm-knop:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+  background: rgba(255, 255, 255, 0.03);
+  border-color: var(--bm-line);
+}
+
+.bm-knop--primair {
+  background: var(--bm-accent);
+  border-color: transparent;
+  color: #fff;
+  box-shadow: 0 10px 22px -12px rgba(139, 124, 246, 1);
+}
+
+.bm-knop--primair:hover {
+  background: var(--bm-accent-hover);
+  border-color: transparent;
+  box-shadow: 0 12px 26px -12px rgba(139, 124, 246, 1);
+}
+
+.bm-knop--primair:disabled {
+  background: rgba(139, 124, 246, 0.35);
+  box-shadow: none;
+}
+
+.bm-knop--tekst {
+  width: auto;
+  min-height: 34px;
+  padding: 0 10px;
+  border-color: transparent;
+  background: transparent;
+  color: var(--bm-text-dim);
+  font-size: 13px;
+}
+
+.bm-knop--tekst:hover {
+  background: rgba(255, 255, 255, 0.06);
+  border-color: transparent;
+  color: var(--bm-text);
+  transform: none;
+}
+
+.bm-knop--tekst:active {
+  transform: scale(0.96);
+}
+
+.bm-knop--tekst:disabled {
+  background: transparent;
+  border-color: transparent;
+}
+
+/* Bezig: spinner links van de tekst, knop niet klikbaar */
+.bm-knop.is-bezig {
+  pointer-events: none;
+  cursor: progress;
+  opacity: 0.8;
+  transform: none;
+}
+
+.bm-knop.is-bezig::before {
+  content: "";
+  flex: none;
+  width: 14px;
+  height: 14px;
+  box-sizing: border-box;
+  border-radius: 50%;
+  border: 2px solid currentColor;
+  border-right-color: transparent;
+  animation: bm-auth-draai 700ms linear infinite;
+}
+
+/* ---------- Account (rechtsboven) ---------- */
+
+#bm-account {
+  position: fixed;
+  top: var(--bm-gutter);
+  right: var(--bm-gutter);
+  z-index: 22;
+  box-sizing: border-box;
+  transition: right 320ms var(--bm-ease), top 200ms var(--bm-ease),
+    bottom 200ms var(--bm-ease), left 200ms var(--bm-ease);
+}
+
+#bm-account[hidden] {
+  display: none;
+}
+
+/* Editor is open (desktop): knop schuift links van het paneel mee, zodat hij niet overlapt. */
+@media (min-width: 641px) {
+  body:has(.bm-editor--open) #bm-account {
+    right: calc(var(--bm-gutter) + min(384px, 100vw - var(--bm-gutter) * 2) + 12px);
+  }
+}
+
+#bm-account > button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  border-radius: 50%;
+  border: 1px solid var(--bm-line-strong);
+  background: var(--bm-panel);
+  backdrop-filter: blur(16px) saturate(140%);
+  -webkit-backdrop-filter: blur(16px) saturate(140%);
+  box-shadow: var(--bm-shadow-soft);
+  color: #ddd6ff;
+  font: inherit;
+  font-size: 14px;
+  font-weight: 600;
+  text-transform: uppercase;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  transition: background-color 160ms var(--bm-ease), border-color 160ms var(--bm-ease),
+    transform 150ms var(--bm-ease), box-shadow 200ms var(--bm-ease);
+}
+
+#bm-account > button:hover {
+  background: rgba(34, 34, 40, 0.92);
+  border-color: rgba(139, 124, 246, 0.5);
+  transform: translateY(-1px);
+}
+
+#bm-account > button:active {
+  transform: scale(0.94);
+}
+
+#bm-account > button:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 2px var(--bm-bg), 0 0 0 4px var(--bm-accent);
+}
+
+#bm-account > button[aria-expanded="true"] {
+  border-color: rgba(139, 124, 246, 0.55);
+  background: rgba(34, 34, 40, 0.92);
+}
+
+.bm-account__menu {
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  box-sizing: border-box;
+  width: min(248px, calc(100vw - var(--bm-gutter) * 2));
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 12px;
+  background: var(--bm-panel-strong);
+  backdrop-filter: blur(18px) saturate(140%);
+  -webkit-backdrop-filter: blur(18px) saturate(140%);
+  border: 1px solid var(--bm-line-strong);
+  border-radius: var(--bm-radius-lg);
+  box-shadow: var(--bm-shadow);
+  animation: bm-auth-menu 220ms var(--bm-ease) both;
+  transform-origin: top right;
+}
+
+.bm-account__menu[hidden] {
+  display: none;
+}
+
+.bm-account__mail {
+  min-width: 0;
+  padding: 2px 2px 0;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--bm-text);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.bm-account__status {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  min-width: 0;
+  padding: 0 2px 8px;
+  font-size: 12px;
+  color: var(--bm-text-faint);
+  border-bottom: 1px solid var(--bm-line);
+}
+
+.bm-account__status::before {
+  content: "";
+  flex: none;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--bm-ok);
+  box-shadow: 0 0 0 3px rgba(111, 211, 154, 0.15);
+  transition: background-color 200ms var(--bm-ease), box-shadow 200ms var(--bm-ease);
+}
+
+.bm-account__status[data-state="bezig"] {
+  color: var(--bm-text-dim);
+}
+
+.bm-account__status[data-state="bezig"]::before {
+  background: var(--bm-accent);
+  box-shadow: 0 0 0 3px var(--bm-accent-soft);
+  animation: bm-auth-puls 1.1s ease-in-out infinite;
+}
+
+.bm-account__status[data-state="fout"] {
+  color: #ffb3b8;
+}
+
+.bm-account__status[data-state="fout"]::before {
+  background: var(--bm-danger);
+  box-shadow: 0 0 0 3px var(--bm-danger-soft);
+}
+
+.bm-account__uit {
+  width: 100%;
+  min-height: 36px;
+  margin: 0;
+  border-radius: 10px;
+  border: 1px solid transparent;
+  background: transparent;
+  color: var(--bm-text-dim);
+  font: inherit;
+  font-size: 13px;
+  font-weight: 500;
+  text-align: left;
+  padding: 0 10px;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  transition: background-color 160ms var(--bm-ease), color 160ms var(--bm-ease),
+    transform 150ms var(--bm-ease);
+}
+
+.bm-account__uit:hover {
+  background: rgba(255, 255, 255, 0.06);
+  color: var(--bm-text);
+}
+
+.bm-account__uit:active {
+  transform: scale(0.98);
+}
+
+.bm-account__uit:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 2px var(--bm-accent);
+}
+
+/* ---------- Statusregel tijdens het laden (bovenaan, midden) ---------- */
+
+.bm-laad {
+  position: fixed;
+  top: var(--bm-gutter);
+  right: 0;
+  left: 0;
+  z-index: 21;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: min(360px, calc(100vw - var(--bm-gutter) * 2));
+  margin: 0 auto;
+  padding: 4px 4px 4px 14px;
+  border-radius: 999px;
+  border: 1px solid var(--bm-line-strong);
+  background: var(--bm-panel-strong);
+  backdrop-filter: blur(16px) saturate(140%);
+  -webkit-backdrop-filter: blur(16px) saturate(140%);
+  box-shadow: var(--bm-shadow-soft);
+  color: var(--bm-text-dim);
+  font-size: 13px;
+  animation: bm-auth-menu 220ms var(--bm-ease) both;
+}
+
+.bm-laad__tekst {
+  flex: 1 1 auto;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.bm-laad__uit {
+  flex: none;
+  width: auto;
+  min-height: 32px;
+}
+
+/* ---------- Dialoog (meenemen of leeg beginnen) ---------- */
+
+.bm-dialog {
+  position: fixed;
+  inset: 0;
+  z-index: 70;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  background: rgba(8, 8, 11, 0.6);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  animation: bm-auth-fade 220ms var(--bm-ease) both;
+}
+
+.bm-dialog[hidden] {
+  display: none;
+}
+
+.bm-dialog__kaart {
+  box-sizing: border-box;
+  width: min(360px, 100%);
+  padding: 24px 22px 20px;
+  background: var(--bm-panel-strong);
+  backdrop-filter: blur(20px) saturate(140%);
+  -webkit-backdrop-filter: blur(20px) saturate(140%);
+  border: 1px solid var(--bm-line-strong);
+  border-radius: 16px;
+  box-shadow: var(--bm-shadow);
+  color: var(--bm-text);
+  animation: bm-auth-kaart 260ms var(--bm-ease) both;
+}
+
+.bm-dialog__titel {
+  margin: 0 0 8px;
+  font-size: 17px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  color: var(--bm-text);
+}
+
+.bm-dialog__tekst {
+  margin: 0 0 20px;
+  font-size: 14px;
+  line-height: 1.55;
+  color: var(--bm-text-dim);
+  overflow-wrap: anywhere;
+}
+
+.bm-dialog__knoppen {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.bm-dialog__knoppen .bm-knop {
+  min-height: 42px;
+  padding: 0 10px;
+  font-size: 13px;
+}
+
+/* ---------- Animaties ---------- */
+
+@keyframes bm-auth-fade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes bm-auth-kaart {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 10px, 0) scale(0.97);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes bm-auth-scherm {
+  from {
+    opacity: 0;
+    transform: translate3d(14px, 0, 0);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes bm-auth-menu {
+  from {
+    opacity: 0;
+    transform: translate3d(0, -6px, 0) scale(0.97);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes bm-auth-schud {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+  25% {
+    transform: translate3d(-4px, 0, 0);
+  }
+  75% {
+    transform: translate3d(4px, 0, 0);
+  }
+}
+
+@keyframes bm-auth-draai {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes bm-auth-puls {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.35;
+  }
+}
+
+/* ---------- Telefoon (360 px en breder) ---------- */
+
+@media (max-width: 640px) {
+  .bm-auth__kaart {
+    padding: 24px 20px 18px;
+    border-radius: 16px;
+  }
+
+  .bm-code {
+    gap: 6px;
+  }
+
+  .bm-code__vak {
+    height: 50px;
+    font-size: 20px;
+  }
+
+  /* Telefoon: de knop staat linksonder, de editor is een onderpaneel en ligt erboven. */
+  #bm-account {
+    top: auto;
+    right: auto;
+    left: var(--bm-gutter);
+    bottom: calc(var(--bm-gutter) + env(safe-area-inset-bottom, 0px));
+    z-index: 19;
+  }
+
+  .bm-account__menu {
+    top: auto;
+    bottom: calc(100% + 8px);
+    right: auto;
+    left: 0;
+    transform-origin: bottom left;
+  }
+
+  .bm-dialog__knoppen {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 360px) {
+  .bm-auth__titel {
+    font-size: 18px;
+  }
+
+  .bm-code {
+    gap: 4px;
+  }
+
+  .bm-code__vak {
+    font-size: 18px;
+  }
+}
+
+/* ---------- Beweging verminderen ---------- */
+
+@media (prefers-reduced-motion: reduce) {
+  #bm-auth,
+  #bm-auth *,
+  #bm-account,
+  #bm-account *,
+  .bm-dialog,
+  .bm-dialog *,
+  .bm-auth__scherm,
+  .bm-auth__scherm *,
+  .bm-account__menu,
+  .bm-account__menu * {
+    animation-duration: 1ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 1ms !important;
+  }
+
+  .bm-knop.is-bezig::before,
+  .bm-account__status[data-state="bezig"]::before {
+    animation: none !important;
+  }
+}
+
+/* Zolang het inlogscherm open is: de startmelding van de mindmap niet laten doorschemeren. */
+body:has(#bm-auth:not([hidden])) .bm-intro {
+  visibility: hidden;
+}

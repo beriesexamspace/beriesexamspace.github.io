@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="nl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex">
+  <meta name="referrer" content="no-referrer">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; connect-src https://*.supabase.co; style-src 'self' 'unsafe-inline'; img-src 'self' data:; object-src 'none'; base-uri 'none'; form-action 'none'">
+  <title>Aanvraag beoordelen</title>
+  <style>
+    :root { color-scheme: dark; }
+    * { box-sizing: border-box; }
+    body { margin: 0; min-height: 100vh; background: #0f1115; color: #e8eaf0;
+      font-family: system-ui, -apple-system, "Segoe UI", Arial, sans-serif; padding: 0 16px; }
+    .kaart { max-width: 440px; margin: 12vh auto 0; padding: 28px 24px; background: #171a21;
+      border-radius: 16px; box-shadow: 0 12px 40px rgba(0,0,0,.35);
+      animation: in .35s ease both; }
+    @keyframes in { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+    .logo { display: flex; align-items: center; gap: 10px; margin: 0 0 18px; font-size: 14px; font-weight: 600; }
+    .logo::before { content: ""; width: 14px; height: 14px; border-radius: 50%; background: #fff;
+      box-shadow: 0 0 0 4px rgba(255,255,255,.08), 0 0 18px rgba(255,255,255,.35); }
+    h1 { margin: 0 0 12px; font-size: 20px; line-height: 1.3; word-break: break-word; }
+    p { margin: 0 0 10px; color: #9aa3b2; line-height: 1.5; }
+    p strong { color: #e8eaf0; }
+    .knop { display: block; width: 100%; margin-top: 16px; padding: 13px 18px; border: 0;
+      border-radius: 10px; font: inherit; font-weight: 600; cursor: pointer; color: #0f1115;
+      background: #7c9cff; transition: transform .15s ease, opacity .15s ease; }
+    .knop:hover { opacity: .92; }
+    .knop:active { transform: scale(.98); }
+    .knop.nee { background: #2a2f3a; color: #e8eaf0; }
+    .knop[disabled] { opacity: .6; cursor: default; }
+    [hidden] { display: none !important; }
+    @media (prefers-reduced-motion: reduce) { .kaart, .knop { animation: none; transition: none; } }
+  </style>
+  <script src="js/config.js"></script>
+  <script src="js/beslis.js" defer></script>
+</head>
+<body>
+  <main class="kaart">
+    <div class="logo">Berie's mindmap</div>
+    <h1 id="titel">Even laden...</h1>
+    <p id="uitleg"></p>
+    <button id="knop" class="knop" type="button" hidden></button>
+  </main>
+</body>
+</html>
