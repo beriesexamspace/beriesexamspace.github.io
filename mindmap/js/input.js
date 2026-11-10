@@ -17,6 +17,8 @@
   var downNodeId = null;   // punt onder de pointer bij pointerdown
   var dragNodeId = null;   // punt dat nu gesleept wordt
   var dragOff = { x: 0, y: 0 };
+  var dragTak = [];        // alles onder het gesleepte punt
+  var dragMax = 0;         // maximale afstand tot de ouder tijdens het slepen
   var lastX = 0, lastY = 0;
   var downX = 0, downY = 0;
   var pinch = null;        // {dist, mx, my}
@@ -97,6 +99,18 @@
     if (BM.camera && typeof BM.camera.stop === 'function') BM.camera.stop();
     dragOff.x = (n.x || 0) - w.x;
     dragOff.y = (n.y || 0) - w.y;
+    // Alles wat onder dit punt hangt, schuift mee (geen uitgerekte lijnen).
+    dragTak = [];
+    var stapel = (n.children || []).slice();
+    while (stapel.length) {
+      var kid = getNode(stapel.pop());
+      if (!kid) continue;
+      dragTak.push(kid);
+      if (kid.children) stapel.push.apply(stapel, kid.children);
+    }
+    // Hoe ver het punt van zijn ouder mag: 2,5 keer de afstand bij het oppakken (minstens 220).
+    var ouder = n.parentId ? getNode(n.parentId) : null;
+    dragMax = ouder ? Math.max(220, 2.5 * Math.hypot((n.x || 0) - (ouder.x || 0), (n.y || 0) - (ouder.y || 0))) : 0;
     mode = 'node';
     clearTap();
     callFirst(BM.layout, ['pin'], [id]);
@@ -113,16 +127,34 @@
       return;
     }
     var w = toWorld(p.x, p.y);
-    n.x = w.x + dragOff.x;
-    n.y = w.y + dragOff.y;
+    var nx = w.x + dragOff.x;
+    var ny = w.y + dragOff.y;
+    var ouder = n.parentId ? getNode(n.parentId) : null;
+    if (ouder && dragMax > 0) {
+      var ox = nx - (ouder.x || 0), oy = ny - (ouder.y || 0);
+      var d = Math.hypot(ox, oy);
+      if (d > dragMax) { nx = (ouder.x || 0) + ox * dragMax / d; ny = (ouder.y || 0) + oy * dragMax / d; }
+    }
+    var dx = nx - (n.x || 0);
+    var dy = ny - (n.y || 0);
+    n.x = nx;
+    n.y = ny;
     n.vx = 0;
     n.vy = 0;
+    for (var i = 0; i < dragTak.length; i++) {
+      var k = dragTak[i];
+      k.x = (k.x || 0) + dx;
+      k.y = (k.y || 0) + dy;
+      k.vx = 0;
+      k.vy = 0;
+    }
   }
 
   function releaseDrag() {
     if (!dragNodeId) return;
     var id = dragNodeId;
     dragNodeId = null;
+    dragTak = [];
     callFirst(BM.layout, ['unpin'], [id]);
     saveStore();
   }

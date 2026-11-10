@@ -6,6 +6,12 @@
   var CLOSE_MS = 180;      // close animation length
   var TOAST_MS = 3200;
   var UNDO_MS = 6000;
+  var SIDE_MIN_W = 721;    // vanaf deze breedte (px) staat de pop-up vast rechts
+  var SIDE_RIGHT = 16;     // vaste plek rechts
+  var SIDE_TOP = 76;       // onder de ronde accountknop rechtsboven
+  var SIDE_BOTTOM = 16;    // ruimte onder de pop-up (max. hoogte = venster - 92px)
+  var COUNT_MIN = 1;       // teller naast Add branch
+  var COUNT_MAX = 10;
 
   var state = null;        // the open popup session, or null
   var refreshQueued = false;
@@ -104,11 +110,29 @@
     var actions = el('div', 'bm-popup__actions');
     actions.setAttribute('role', 'group');
     actions.setAttribute('aria-label', 'Acties');
+    // Add branch met de teller "− 1 +" (hoeveel branches er in één keer bijkomen).
+    var addRow = el('div', 'bm-popup__addrow');
     var bAdd = mkBtn('Add branch', 'add', 'bm-popup__btn--add');
+    var counter = el('div', 'bm-popup__counter');
+    var bMinus = el('button', 'bm-btn bm-popup__step bm-popup__step--minus', '−');
+    bMinus.type = 'button';
+    bMinus.setAttribute('aria-label', 'Minder');
+    bMinus.title = 'Minder branches';
+    var count = el('span', 'bm-popup__count', '1');
+    count.setAttribute('aria-live', 'polite');
+    var bPlus = el('button', 'bm-btn bm-popup__step bm-popup__step--plus', '+');
+    bPlus.type = 'button';
+    bPlus.setAttribute('aria-label', 'Meer');
+    bPlus.title = 'Meer branches';
+    counter.appendChild(bMinus);
+    counter.appendChild(count);
+    counter.appendChild(bPlus);
+    addRow.appendChild(bAdd);
+    addRow.appendChild(counter);
     var bRen = mkBtn('Rename', 'rename', 'bm-popup__btn--rename');
     var bDel = mkBtn('Delete branch', 'trash', 'bm-btn--danger bm-popup__btn--delete');
     var bOpen = mkBtn('Open', 'open', 'bm-popup__btn--open');
-    actions.appendChild(bAdd);
+    actions.appendChild(addRow);
     actions.appendChild(bRen);
     actions.appendChild(bDel);
     actions.appendChild(bOpen);
@@ -167,7 +191,8 @@
 
     return {
       root: root, title: title, meta: meta, closeBtn: closeBtn, actions: actions,
-      bAdd: bAdd, bRen: bRen, bDel: bDel, bOpen: bOpen,
+      bAdd: bAdd, bMinus: bMinus, bPlus: bPlus, count: count,
+      bRen: bRen, bDel: bDel, bOpen: bOpen,
       renameRow: renameRow, input: input, renameHint: renameHint,
       confirmRow: confirmRow, confirmText: confirmText, bCancel: bCancel, bConfirm: bConfirm,
       colors: colors, colorState: colorState, swatches: swatches, picker: picker,
@@ -297,6 +322,29 @@
     return safe(function () {
       return !!(window.matchMedia && window.matchMedia('(max-width: 640px)').matches);
     }, false);
+  }
+
+  // Brede schermen (> 720px): de pop-up staat vast rechts en volgt het punt niet.
+  function sideMode() {
+    return safe(function () {
+      if (window.matchMedia) return window.matchMedia('(min-width: ' + SIDE_MIN_W + 'px)').matches;
+      return window.innerWidth >= SIDE_MIN_W;
+    }, false);
+  }
+
+  function setCount(s, n) {
+    var v = clamp(n, COUNT_MIN, COUNT_MAX);
+    var ui = s.ui;
+    s.count = v;
+    if (ui.count.textContent !== String(v)) {
+      ui.count.textContent = String(v);
+      ui.count.classList.remove('bm-popup__count--bump');
+      void ui.count.offsetWidth;
+      ui.count.classList.add('bm-popup__count--bump');
+    }
+    // aria-disabled (niet disabled), zodat de knop de focus houdt aan de grens.
+    ui.bMinus.setAttribute('aria-disabled', v <= COUNT_MIN ? 'true' : 'false');
+    ui.bPlus.setAttribute('aria-disabled', v >= COUNT_MAX ? 'true' : 'false');
   }
 
   // Kleur kiezen en de golf laten zien. De pop-up staat vaak precies over de tak:
@@ -431,6 +479,8 @@
     var ui = s.ui;
     ui.closeBtn.addEventListener('click', function () { close(); });
     ui.bAdd.addEventListener('click', addBranch);
+    ui.bMinus.addEventListener('click', function () { setCount(s, s.count - 1); });
+    ui.bPlus.addEventListener('click', function () { setCount(s, s.count + 1); });
     ui.bRen.addEventListener('click', startRename);
     ui.bDel.addEventListener('click', startDelete);
     ui.bOpen.addEventListener('click', openEditor);
@@ -453,13 +503,21 @@
     var s = state;
     if (!s) return;
     var r = s.ui.root;
-    r.style.maxHeight = Math.max(200, window.innerHeight - MARGIN * 2) + 'px';
+    var room = s.side ? SIDE_TOP + SIDE_BOTTOM : MARGIN * 2;
+    r.style.maxHeight = Math.max(200, window.innerHeight - room) + 'px';
     s.size = { w: r.offsetWidth, h: r.offsetHeight };
   }
 
   function position() {
     var s = state;
     if (!s) return;
+    // Vaste plek rechts: de CSS-klasse bepaalt right/top, dus geen inline left/top.
+    if (s.side) {
+      s.ui.root.style.left = '';
+      s.ui.root.style.top = '';
+      s.ui.root.setAttribute('data-side', 'fixed-right');
+      return;
+    }
     var vw = window.innerWidth;
     var vh = window.innerHeight;
     var w = s.size.w;
@@ -510,6 +568,29 @@
     }, 240);
   }
 
+  // Vaste plek rechts (breed scherm) of naast het punt (smal scherm). Wisselt het
+  // scherm van breedte, dan wordt de volgende stand meteen toegepast.
+  function applySide(s) {
+    var want = sideMode();
+    if (want === !!s.side) return;
+    s.side = want;
+    var r = s.ui.root;
+    r.classList.toggle('bm-popup--side', want);
+    clearTimeout(s.slideTimer);
+    r.classList.remove('bm-popup--sliding');
+    if (want) {
+      if (s.raf) cancelAnimationFrame(s.raf);
+      s.raf = 0;
+    } else {
+      var n = getNode(s.nodeId);
+      var p = n ? toScreen(n.x, n.y) : null;
+      if (p) s.anchor = p;
+      startFollow(s);
+    }
+    measure();
+    position();
+  }
+
   function setMode(mode) {
     var s = state;
     if (!s) return;
@@ -517,7 +598,8 @@
     s.mode = mode; // set first, so a blur during hiding is ignored
     ui.root.classList.toggle('bm-popup--renaming', mode === 'rename');
     ui.root.classList.toggle('bm-popup--confirm', mode === 'confirm');
-    ui.actions.style.display = mode === 'menu' ? '' : 'none';
+    // Acties blijven zichtbaar bij het hernoemen, zodat Add branch ook dan werkt.
+    ui.actions.style.display = mode === 'confirm' ? 'none' : '';
     ui.colors.style.display = mode === 'menu' ? '' : 'none';
     ui.renameRow.style.display = mode === 'rename' ? '' : 'none';
     ui.confirmRow.style.display = mode === 'confirm' ? '' : 'none';
@@ -589,16 +671,47 @@
 
   // Nieuwe branch: meteen een naamveld, zodat niet alles "Nieuwe branch" heet.
   // Enter slaat de naam op, Esc laat "Nieuwe branch" staan.
+  // De pop-up blijft staan op het ouderpunt: de nieuwe branch krijgt alleen het naamveld.
+  function addNamed(parentId, name) {
+    return safe(function () { return BM.store.addNode(parentId, name); }, null);
+  }
+
   function addBranch() {
     var s = state;
     if (!s) return;
-    var node = safe(function () { return BM.store.addNode(s.nodeId, 'Nieuwe branch'); }, null);
+    // Stond er nog een naam open (ook als er op Add branch geklikt wordt): eerst bewaren.
+    if (s.mode === 'rename') {
+      applyRename(s);
+      exitRename(false);
+    }
+    var n = s.count || COUNT_MIN;
+    if (n > COUNT_MIN) {
+      addMany(s, n);
+      return;
+    }
+    var node = addNamed(s.nodeId, 'Nieuwe branch');
     if (!node) {
       toast('Kon geen branch toevoegen');
       return;
     }
     refreshHeader();
     startRename(node.id);
+  }
+
+  // Meerdere branches in één keer, zonder naamveld: "Nieuwe branch", "Nieuwe branch 2", ...
+  function addMany(s, n) {
+    var made = 0;
+    for (var k = 1; k <= n; k++) {
+      if (addNamed(s.nodeId, k === 1 ? 'Nieuwe branch' : 'Nieuwe branch ' + k)) made++;
+    }
+    setCount(s, COUNT_MIN);
+    if (!made) {
+      toast('Kon geen branch toevoegen', { error: true });
+      return;
+    }
+    refreshHeader();
+    toast(made === 1 ? '1 branch toegevoegd' : made + ' branches toegevoegd');
+    if (state === s) s.ui.bAdd.focus({ preventScroll: true });
   }
 
   function openEditor() {
@@ -935,7 +1048,7 @@
       }
       var group = s.mode === 'confirm'
         ? [s.ui.bCancel, s.ui.bConfirm]
-        : [s.ui.bAdd, s.ui.bRen, s.ui.bDel, s.ui.bOpen];
+        : [s.ui.bAdd, s.ui.bMinus, s.ui.bPlus, s.ui.bRen, s.ui.bDel, s.ui.bOpen];
       group = group.filter(function (b) { return !b.disabled && b.offsetParent !== null; });
       var idx = group.indexOf(document.activeElement);
       if (idx === -1) return;
@@ -956,6 +1069,7 @@
   }
 
   function startFollow(s) {
+    if (s.side) return; // vaste plek rechts: geen volgen
     if (!BM.camera || typeof BM.camera.worldToScreen !== 'function') return;
     var tick = function () {
       if (state !== s) return;
@@ -984,12 +1098,21 @@
       }
       var t = e.target;
       if (s.ui.root.contains(t)) return;
+      // Het accountmenu (rechtsboven) hoort bij de pagina: een klik erin sluit de pop-up niet.
+      if (t && t.closest && t.closest('#bm-account')) return;
+      // Meldingen (ook de knop Ongedaan maken) en elementen die door een herteken-actie
+      // al uit de pagina zijn gehaald, sluiten de pop-up niet.
+      if (t && t.closest && t.closest('.bm-toasts')) return;
+      if (t && t.isConnected === false) return;
       if (t && t.tagName === 'CANVAS') {
         var hit = safe(function () {
           return BM.render && typeof BM.render.hitTest === 'function'
             ? BM.render.hitTest(e.clientX, e.clientY) : null;
         }, null);
         if (hit && hit === s.nodeId) return; // pressing the same node keeps the popup
+        // Vaste pop-up (breed scherm): een klik op een ander punt laat hem staan;
+        // het klik-event (node:click) wisselt dan alleen de inhoud.
+        if (hit && s.side) return;
       }
       close();
     };
@@ -1003,6 +1126,7 @@
     };
     s.onResize = function () {
       if (state !== s) return;
+      applySide(s);
       measure();
       position();
     };
@@ -1054,14 +1178,37 @@
 
   // ---------- open / close ----------
 
+  // Breed scherm, pop-up al open: alleen de inhoud wisselt naar het andere punt
+  // (geen dicht- en weer opengaan).
+  function switchNode(s, nodeId) {
+    var hadFocus = s.ui.root.contains(document.activeElement);
+    s.nodeId = nodeId;
+    s.projectId = safe(function () { return BM.store.currentId(); }, null);
+    s.frozen = false;
+    s.pickTarget = null;
+    s.renameId = null;
+    s.renameIsNew = false;
+    if (s.kijk) stopWatch(s);
+    setCount(s, COUNT_MIN);
+    setMode('menu');
+    refreshAll();
+    if (hadFocus && !s.ui.root.contains(document.activeElement)) s.ui.root.focus({ preventScroll: true });
+    safe(function () { BM.bus.emit('ui:popup-opened', { nodeId: nodeId }); return true; }, false);
+  }
+
   function openAt(nodeId, sx, sy) {
     if (!nodeId || !getNode(nodeId)) return;
+    var side = sideMode();
 
     if (state && state.open) {
       if (state.nodeId === nodeId) {
         state.frozen = false;
         state.anchor = { x: sx || 0, y: sy || 0 };
         position();
+        return;
+      }
+      if (side && state.side) {
+        switchNode(state, nodeId);
         return;
       }
       close();
@@ -1073,6 +1220,8 @@
       nodeId: nodeId,
       projectId: safe(function () { return BM.store.currentId(); }, null),
       anchor: { x: sx || 0, y: sy || 0 },
+      side: side,          // vaste plek rechts (breed scherm)
+      count: COUNT_MIN,    // teller van Add branch
       mode: 'menu',
       size: { w: 0, h: 0 },
       right: null,         // gekozen kant (rechts van het punt), vast na het openen
@@ -1092,7 +1241,9 @@
     s.ui = build();
     state = s;
     wire(s);
+    s.ui.root.classList.toggle('bm-popup--side', side);
     document.body.appendChild(s.ui.root);
+    setCount(s, COUNT_MIN);
     setMode('menu');
     refreshAll();
     listen(s);
@@ -1105,6 +1256,7 @@
       if (!s.ui.root.contains(document.activeElement)) s.ui.root.focus({ preventScroll: true });
     });
     startFollow(s);
+    safe(function () { BM.bus.emit('ui:popup-opened', { nodeId: nodeId }); return true; }, false);
   }
 
   function close() {
@@ -1164,6 +1316,22 @@
   BM.bus.on('node:click', function (d) {
     if (!d || !d.nodeId) return;
     openAt(d.nodeId, d.screenX, d.screenY);
+  });
+  /* Vanuit andere onderdelen (bijv. het notitiepaneel): pop-up voor dit punt openen.
+     Breed scherm: vaste plek rechts. Smal scherm: naast het punt. */
+  BM.bus.on('ui:open-popup', function (d) {
+    if (!d || !d.nodeId) return;
+    var node = getNode(d.nodeId);
+    if (!node) return;
+    if (sideMode()) {
+      openAt(d.nodeId);
+      return;
+    }
+    var p = null;
+    if (typeof d.screenX === 'number' && typeof d.screenY === 'number') p = { x: d.screenX, y: d.screenY };
+    else p = toScreen(node.x, node.y);
+    if (!p) p = { x: window.innerWidth / 2, y: window.innerHeight / 2 };
+    openAt(d.nodeId, p.x, p.y);
   });
   /* Dubbelklik: lezen wat erin staat (notitiepaneel) */
   BM.bus.on('node:dblclick', function (d) {

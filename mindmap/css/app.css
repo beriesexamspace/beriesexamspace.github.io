@@ -114,9 +114,10 @@
   --bm-text: #ecebf1;
   --bm-text-dim: rgba(236, 235, 241, 0.64);
   --bm-text-faint: rgba(236, 235, 241, 0.40);
+  --bm-accent-rgb: 139, 124, 246;
   --bm-accent: #8b7cf6;
   --bm-accent-hover: #9d91f8;
-  --bm-accent-soft: rgba(139, 124, 246, 0.16);
+  --bm-accent-soft: rgba(var(--bm-accent-rgb), 0.16);
   --bm-danger: #f0646e;
   --bm-danger-soft: rgba(240, 100, 110, 0.14);
   --bm-ok: #6fd39a;
@@ -350,13 +351,13 @@ body {
   background: var(--bm-accent);
   border-color: transparent;
   color: #fff;
-  box-shadow: 0 8px 20px -10px rgba(139, 124, 246, 0.9);
+  box-shadow: 0 8px 20px -10px rgba(var(--bm-accent-rgb), 0.9);
 }
 
 .bm-btn--primary:hover {
   background: var(--bm-accent-hover);
   border-color: transparent;
-  box-shadow: 0 10px 24px -10px rgba(139, 124, 246, 1);
+  box-shadow: 0 10px 24px -10px rgba(var(--bm-accent-rgb), 1);
 }
 
 .bm-btn--danger {
@@ -430,7 +431,7 @@ body {
 }
 
 .bm-input:focus {
-  border-color: rgba(139, 124, 246, 0.7);
+  border-color: rgba(var(--bm-accent-rgb), 0.7);
   background: rgba(0, 0, 0, 0.35);
   box-shadow: 0 0 0 3px var(--bm-accent-soft);
 }
@@ -961,7 +962,7 @@ body {
 }
 
 .bm-editor-title:focus {
-  border-color: rgba(139, 124, 246, 0.6);
+  border-color: rgba(var(--bm-accent-rgb), 0.6);
   background: rgba(0, 0, 0, 0.25);
   box-shadow: 0 0 0 3px var(--bm-accent-soft);
 }
@@ -1047,7 +1048,7 @@ body {
 }
 
 .bm-editor-text:focus {
-  border-color: rgba(139, 124, 246, 0.6);
+  border-color: rgba(var(--bm-accent-rgb), 0.6);
   background: rgba(0, 0, 0, 0.32);
   box-shadow: 0 0 0 3px var(--bm-accent-soft);
 }
@@ -1566,7 +1567,7 @@ body {
 .bm-btn--add {
   color: #ddd6ff;
   background: var(--bm-accent-soft);
-  border-color: rgba(139, 124, 246, 0.35);
+  border-color: rgba(var(--bm-accent-rgb), 0.35);
 }
 
 .bm-btn--io {
@@ -2166,6 +2167,21 @@ body {
   box-shadow: 0 0 8px -1px var(--sw);
 }
 
+/* ---------- Bewerken-knop in het notitiepaneel ---------- */
+
+/* Zelfde hoogte en padding als Sluiten; het potlood-icoontje is 14px. */
+.bm-editor-edit {
+  flex: none;
+  min-height: 30px;
+  padding: 0 12px;
+  font-size: 12px;
+}
+
+.bm-editor-edit svg {
+  width: 14px;
+  height: 14px;
+}
+
 /* ---------- Kleur in het notitiepaneel ---------- */
 
 .bm-editor-dot {
@@ -2233,7 +2249,7 @@ body {
 
 .bm-view--open .bm-view__trigger {
   color: var(--bm-text);
-  border-color: rgba(139, 124, 246, 0.45);
+  border-color: rgba(var(--bm-accent-rgb), 0.45);
 }
 
 .bm-view--open .bm-view__trigger svg {
@@ -2462,7 +2478,7 @@ body {
   font-size: 11px;
   line-height: 16px;
   color: var(--bm-text);
-  background: rgba(139, 124, 246, 0.22);
+  background: rgba(var(--bm-accent-rgb), 0.22);
   transform-origin: center;
   transition: opacity 200ms var(--bm-ease), transform 200ms var(--bm-ease);
 }
@@ -2493,5 +2509,109 @@ body {
   .bm-popup--open.bm-popup--kijk,
   .bm-popup--open.bm-popup--terug {
     transition: none !important;
+  }
+}
+
+/* =========================================================
+   Pop-up: vaste plek rechts (breed scherm), Add branch-teller,
+   sluitknop. Smal scherm (<= 720px) houdt het gedrag naast het punt.
+   ========================================================= */
+
+/* Breed scherm: rechtsboven onder de accountknop, volgt het punt niet. */
+.bm-popup.bm-popup--side {
+  left: auto;
+  top: 76px;
+  right: 16px;
+}
+
+/* Notitiepaneel open (breed scherm): de vaste pop-up schuift links van het paneel,
+   net als de accountknop in auth.css, zodat hij het paneel niet bedekt. */
+@media (min-width: 721px) {
+  body:has(.bm-editor--open) .bm-popup.bm-popup--side {
+    right: calc(var(--bm-gutter) + min(384px, 100vw - var(--bm-gutter) * 2) + 12px);
+  }
+}
+
+/* Openen op breed scherm: zachte fade met een kleine slide van rechts. */
+.bm-popup.bm-popup--side.bm-popup--open {
+  animation: bm-side-in 220ms var(--bm-ease) both;
+}
+
+@keyframes bm-side-in {
+  from {
+    opacity: 0;
+    transform: translate3d(12px, 0, 0);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* Add branch naast de teller "− 1 +", over de volle breedte van de pop-up. */
+.bm-popup__actions .bm-popup__addrow {
+  grid-column: 1 / -1;
+  display: flex;
+  align-items: stretch;
+  gap: 8px;
+}
+
+.bm-popup__actions .bm-popup__addrow .bm-popup__btn--add {
+  flex: 1 1 auto;
+  width: auto;
+  min-width: 0;
+}
+
+.bm-popup__counter {
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.bm-popup__actions .bm-popup__step {
+  flex: none;
+  width: 28px;
+  min-width: 28px;
+  height: 28px;
+  padding: 0;
+  border-radius: 8px;
+  font-size: 15px;
+  line-height: 1;
+}
+
+.bm-popup__count {
+  min-width: 16px;
+  text-align: center;
+  font-size: 13px;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  color: var(--bm-text);
+}
+
+.bm-popup__count--bump {
+  animation: bm-count-bump 180ms var(--bm-ease);
+}
+
+@keyframes bm-count-bump {
+  from {
+    transform: scale(0.8);
+    opacity: 0.5;
+  }
+  to {
+    transform: none;
+    opacity: 1;
+  }
+}
+
+/* Open staat op de derde rij over de volle breedte; Rename en Delete naast elkaar. */
+.bm-popup__actions .bm-popup__btn--open {
+  grid-column: 1 / -1;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .bm-popup.bm-popup--side.bm-popup--open,
+  .bm-popup__count--bump {
+    animation: none;
   }
 }

@@ -45,6 +45,12 @@
    .bm-account__mail           e-mail (ellipsis)
    .bm-account__status         status; data-state="ok" | "bezig" | "fout"
    .bm-account__uit            knop Uitloggen
+   .bm-account__top / __naam   bovenkant: naam (vet), e-mail, status
+   .bm-account__deel           sectie met dunne lijn ertussen (Ik ben, Thema, Uitloggen, badge)
+   .bm-chip                    chip Student / Leerkracht / Anders (aria-pressed)
+   .bm-account__naamveld       naamveld "Je naam (mag leeg)"
+   .bm-swatch                  kleurbolletje van het thema (aria-pressed)
+   .bm-account__badge          badge "The Berie Foundation" (geen link)
 
    Dialoog (bv. "Je hebt al een mindmap op deze computer")
    .bm-dialog                  overlay (verborgen met [hidden])
@@ -239,7 +245,7 @@ textarea.bm-veld__invoer {
 }
 
 .bm-veld__invoer:focus {
-  border-color: rgba(139, 124, 246, 0.7);
+  border-color: rgba(var(--bm-accent-rgb), 0.7);
   background: rgba(0, 0, 0, 0.35);
   box-shadow: 0 0 0 3px var(--bm-accent-soft);
 }
@@ -396,14 +402,14 @@ textarea.bm-veld__invoer {
 }
 
 .bm-code__vak:focus {
-  border-color: rgba(139, 124, 246, 0.8);
+  border-color: rgba(var(--bm-accent-rgb), 0.8);
   background: rgba(0, 0, 0, 0.35);
   box-shadow: 0 0 0 3px var(--bm-accent-soft);
   transform: translateY(-1px);
 }
 
 .bm-code__vak:not(:placeholder-shown) {
-  border-color: rgba(139, 124, 246, 0.45);
+  border-color: rgba(var(--bm-accent-rgb), 0.45);
 }
 
 .bm-code.is-fout .bm-code__vak {
@@ -469,17 +475,17 @@ textarea.bm-veld__invoer {
   background: var(--bm-accent);
   border-color: transparent;
   color: #fff;
-  box-shadow: 0 10px 22px -12px rgba(139, 124, 246, 1);
+  box-shadow: 0 10px 22px -12px rgba(var(--bm-accent-rgb), 1);
 }
 
 .bm-knop--primair:hover {
   background: var(--bm-accent-hover);
   border-color: transparent;
-  box-shadow: 0 12px 26px -12px rgba(139, 124, 246, 1);
+  box-shadow: 0 12px 26px -12px rgba(var(--bm-accent-rgb), 1);
 }
 
 .bm-knop--primair:disabled {
-  background: rgba(139, 124, 246, 0.35);
+  background: rgba(var(--bm-accent-rgb), 0.35);
   box-shadow: none;
 }
 
@@ -535,7 +541,8 @@ textarea.bm-veld__invoer {
   position: fixed;
   top: var(--bm-gutter);
   right: var(--bm-gutter);
-  z-index: 22;
+  /* Boven de vaste pop-up (.bm-popup, z 30), zodat het menu ook op breed scherm klikbaar is. */
+  z-index: 31;
   box-sizing: border-box;
   transition: right 320ms var(--bm-ease), top 200ms var(--bm-ease),
     bottom 200ms var(--bm-ease), left 200ms var(--bm-ease);
@@ -580,7 +587,7 @@ textarea.bm-veld__invoer {
 
 #bm-account > button:hover {
   background: rgba(34, 34, 40, 0.92);
-  border-color: rgba(139, 124, 246, 0.5);
+  border-color: rgba(var(--bm-accent-rgb), 0.5);
   transform: translateY(-1px);
 }
 
@@ -594,7 +601,7 @@ textarea.bm-veld__invoer {
 }
 
 #bm-account > button[aria-expanded="true"] {
-  border-color: rgba(139, 124, 246, 0.55);
+  border-color: rgba(var(--bm-accent-rgb), 0.55);
   background: rgba(34, 34, 40, 0.92);
 }
 
@@ -603,12 +610,16 @@ textarea.bm-veld__invoer {
   top: calc(100% + 8px);
   right: 0;
   box-sizing: border-box;
-  width: min(248px, calc(100vw - var(--bm-gutter) * 2));
+  width: min(280px, calc(100vw - var(--bm-gutter) * 2));
+  max-height: calc(100vh - 96px);
+  overflow-y: auto;
+  overscroll-behavior: contain;
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  gap: 0;
   padding: 12px;
-  background: var(--bm-panel-strong);
+  /* Dicht, zodat de mindmap niet door het (grotere) menu heen schijnt. */
+  background: #1a1a20;
   backdrop-filter: blur(18px) saturate(140%);
   -webkit-backdrop-filter: blur(18px) saturate(140%);
   border: 1px solid var(--bm-line-strong);
@@ -633,15 +644,15 @@ textarea.bm-veld__invoer {
   white-space: nowrap;
 }
 
+/* Bovenkant van het menu: de scheidingslijn eronder komt van .bm-account__top */
 .bm-account__status {
   display: inline-flex;
   align-items: center;
   gap: 7px;
   min-width: 0;
-  padding: 0 2px 8px;
+  padding: 6px 2px 0;
   font-size: 12px;
   color: var(--bm-text-faint);
-  border-bottom: 1px solid var(--bm-line);
 }
 
 .bm-account__status::before {
@@ -983,4 +994,200 @@ body:has(#bm-auth:not([hidden])) .bm-intro {
 .bm-veld__hint.is-zichtbaar {
   opacity: 0.85;
   transform: none;
+}
+
+/* ============================================================
+   Accountmenu: thema en profiel
+   Onderdelen: .bm-account__top (naam, e-mail, status), .bm-account__deel
+   (een sectie met dunne scheidingslijn), .bm-chip, .bm-account__naamveld,
+   .bm-swatch, .bm-account__badge. Beweging: zie de reduced-motion regel hierboven.
+   ============================================================ */
+
+.bm-account__top {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 0 0 12px;
+  border-bottom: 1px solid var(--bm-line);
+}
+
+.bm-account__naam {
+  min-width: 0;
+  padding: 0 2px;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--bm-text);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Secties: ruimte boven en onder, dunne lijn eronder (de laatste sectie heeft geen lijn) */
+.bm-account__deel {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--bm-line);
+}
+
+.bm-account__deel--voet {
+  padding: 10px 0 2px;
+  border-bottom: 0;
+}
+
+.bm-account__kop {
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  color: var(--bm-text-faint);
+}
+
+/* Chips: Student, Leerkracht, Anders (één actief) */
+.bm-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.bm-chip {
+  min-height: 30px;
+  margin: 0;
+  padding: 0 12px;
+  border-radius: 999px;
+  border: 1px solid var(--bm-line-strong);
+  background: rgba(255, 255, 255, 0.04);
+  color: var(--bm-text-dim);
+  font: inherit;
+  font-size: 12.5px;
+  font-weight: 500;
+  line-height: 1;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  transition: background-color 160ms var(--bm-ease), border-color 160ms var(--bm-ease),
+    color 160ms var(--bm-ease), transform 150ms var(--bm-ease);
+}
+
+.bm-chip:hover {
+  background: rgba(255, 255, 255, 0.09);
+  border-color: rgba(255, 255, 255, 0.22);
+  color: var(--bm-text);
+  transform: translateY(-1px);
+}
+
+.bm-chip:active {
+  transform: scale(0.96);
+}
+
+.bm-chip:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 2px var(--bm-panel-strong), 0 0 0 4px var(--bm-accent);
+}
+
+.bm-chip[aria-pressed="true"] {
+  background: var(--bm-accent-soft);
+  border-color: rgba(var(--bm-accent-rgb), 0.6);
+  color: var(--bm-text);
+}
+
+.bm-chip[aria-pressed="true"]:hover {
+  background: rgba(var(--bm-accent-rgb), 0.24);
+}
+
+/* Klein tekstveld "Je naam (mag leeg)" */
+.bm-account__naamveld {
+  display: block;
+  width: 100%;
+  box-sizing: border-box;
+  min-height: 36px;
+  margin: 0;
+  padding: 0 12px;
+  border-radius: 10px;
+  border: 1px solid var(--bm-line-strong);
+  background: rgba(0, 0, 0, 0.25);
+  color: var(--bm-text);
+  font: inherit;
+  font-size: 16px; /* 16px voorkomt inzoomen op iPhone */
+  outline: none;
+  transition: border-color 160ms var(--bm-ease), box-shadow 200ms var(--bm-ease),
+    background-color 160ms var(--bm-ease);
+}
+
+.bm-account__naamveld::placeholder {
+  color: var(--bm-text-faint);
+}
+
+.bm-account__naamveld:hover {
+  border-color: rgba(255, 255, 255, 0.22);
+}
+
+.bm-account__naamveld:focus {
+  border-color: rgba(var(--bm-accent-rgb), 0.7);
+  background: rgba(0, 0, 0, 0.35);
+  box-shadow: 0 0 0 3px var(--bm-accent-soft);
+}
+
+/* Kleurbolletjes: 22 px, 8 px ruimte, actieve met witte ring */
+.bm-swatches {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.bm-swatch {
+  flex: none;
+  box-sizing: border-box;
+  width: 22px;
+  height: 22px;
+  margin: 0;
+  padding: 0;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  transition: transform 150ms var(--bm-ease), box-shadow 200ms var(--bm-ease);
+}
+
+.bm-swatch:hover {
+  transform: scale(1.12);
+}
+
+.bm-swatch:active {
+  transform: scale(0.92);
+}
+
+.bm-swatch:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 2px var(--bm-panel-strong), 0 0 0 4px var(--bm-accent);
+}
+
+.bm-swatch[aria-pressed="true"] {
+  box-shadow: 0 0 0 2px var(--bm-panel-strong), 0 0 0 3.5px #fff;
+}
+
+/* Badge onderaan: klein, gedimd, geen link */
+.bm-account__badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  align-self: flex-start;
+  padding: 4px 9px;
+  border-radius: 999px;
+  border: 1px solid var(--bm-line);
+  font-size: 11px;
+  line-height: 1.2;
+  letter-spacing: 0.01em;
+  color: var(--bm-text-faint);
+  white-space: nowrap;
+  user-select: none;
+}
+
+.bm-account__badge::before {
+  content: "";
+  flex: none;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--bm-accent);
+  box-shadow: 0 0 0 3px var(--bm-accent-soft);
 }
