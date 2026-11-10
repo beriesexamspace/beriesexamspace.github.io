@@ -680,5 +680,93 @@ window.BES_VAK = {
     "Door natrekking (art. 5:20 lid 1 sub e BW) worden opstallen eigendom van de grondeigenaar, tenzij er een recht van opstal (art. 5:101 BW) is."
    ]
   }
+ ],
+ "open": [
+  {
+   "h": "h1",
+   "concept": true,
+   "q": "Casus. Tijdens de vakantie van zijn buurman B laat A een gesprongen waterleiding in het huis van B repareren, zonder dat B daarom gevraagd heeft. Kan er tussen A en B een verbintenis ontstaan, en uit welke bron? Leg uit.",
+   "m": "Een verbintenis (art. 6:1 BW) is een vermogensrechtelijke band waarbij de een een prestatie mag vorderen van de ander, en zij ontstaat alleen als dat uit de wet voortvloeit. Een overeenkomst is er niet, want A en B hebben niets afgesproken: er is geen rechtshandeling. De verbintenis kan wel ontstaan uit de wet, omdat A als zaakwaarnemer het belang van B behartigt (art. 6:198 BW). Zaakwaarneming is een van de vier bronnen die de wet zelf aanwijst, naast onrechtmatige daad, onverschuldigde betaling en ongerechtvaardigde verrijking.",
+   "k": [
+    "Een verbintenis (art. 6:1 BW) ontstaat alleen als zij uit de wet voortvloeit",
+    "Er is geen overeenkomst, want A en B hebben niets afgesproken",
+    "De bron is de wet: zaakwaarneming (art. 6:198 BW), A behartigt het belang van B",
+    "Onderscheid tussen een gewilde bron (rechtshandeling) en een bron uit de wet"
+   ]
+  },
+  {
+   "h": "h2",
+   "concept": true,
+   "q": "Casus. B huurt een woning en zegt de huurovereenkomst op. Kwalificeer zowel de opzegging als de huurovereenkomst en leg uit hoe rechtshandeling, overeenkomst en verbintenis zich tot elkaar verhouden.",
+   "m": "De opzegging komt van één partij en is gericht tot een bepaalde persoon, de verhuurder: het is een eenzijdige gerichte rechtshandeling. De rechtshandeling (art. 3:33 BW) is het overkoepelende begrip en is gericht op een gewild rechtsgevolg. De huurovereenkomst is een overeenkomst, en een overeenkomst is de meerzijdige soort rechtshandeling (art. 6:213 lid 1 BW). Uit een overeenkomst ontstaan een of meer verbintenissen (art. 6:1 BW): de overeenkomst is de belangrijkste bron van verbintenissen.",
+   "k": [
+    "De opzegging is een eenzijdige gerichte rechtshandeling (gericht tot de verhuurder)",
+    "De rechtshandeling (art. 3:33 BW) is het overkoepelende begrip, gericht op een gewild rechtsgevolg",
+    "De huurovereenkomst is een meerzijdige rechtshandeling (art. 6:213 lid 1 BW)",
+    "Uit de overeenkomst ontstaan verbintenissen (art. 6:1 BW)"
+   ]
+  },
+  {
+   "h": "h3",
+   "concept": true,
+   "q": "Casus. A doet B zonder termijn een aanbod. B verstuurt op maandag een brief waarin hij aanvaardt. Op dinsdag, voordat de brief aankomt, herroept A zijn aanbod. Is er een overeenkomst? Zou het anders zijn als A had geschreven: \"u kunt tot vrijdag aanvaarden\"?",
+   "m": "Een overeenkomst komt tot stand door aanbod en aanvaarding (art. 6:217 lid 1 BW). Een aanbod kan alleen worden herroepen zolang het niet is aanvaard en voordat een mededeling van aanvaarding is verzonden (art. 6:219 lid 2 BW). B had zijn aanvaarding op maandag al verstuurd, dus de herroeping op dinsdag is te laat en de overeenkomst staat. Had A een termijn genoemd, dan was het aanbod onherroepelijk geweest (art. 6:219 lid 1 BW) en had A het helemaal niet kunnen herroepen.",
+   "k": [
+    "Een overeenkomst komt tot stand door aanbod en aanvaarding (art. 6:217 lid 1 BW)",
+    "Herroepen kan alleen voordat de aanvaarding is verzonden (art. 6:219 lid 2 BW)",
+    "De herroeping is te laat: de overeenkomst staat",
+    "Een aanbod met een termijn is onherroepelijk (art. 6:219 lid 1 BW)"
+   ]
+  },
+  {
+   "h": "h4",
+   "concept": true,
+   "q": "Casus. A koopt mondeling een fiets van B. Een week later heeft A spijt. Hij zegt dat er niets op papier staat en dat hij dus niet gebonden is. Welke klassieke beginselen spelen hier, en heeft A gelijk?",
+   "m": "Volgens het beginsel van vormvrijheid (consensualisme) berust een overeenkomst op wilsovereenstemming en vraagt zij in beginsel geen bepaalde vorm. Een mondelinge afspraak kan dus al binden. Daarnaast geldt gebondenheid: pacta sunt servanda, gemaakte afspraken moeten worden nagekomen. Spijt alleen is geen grond om onder een geldige overeenkomst uit te komen. A heeft dus geen gelijk. Wel zijn deze klassieke beginselen uitgangspunten waarop het recht veel uitzonderingen maakt.",
+   "k": [
+    "Vormvrijheid (consensualisme): wilsovereenstemming volstaat, geen vorm vereist",
+    "Een mondelinge afspraak kan dus al binden",
+    "Pacta sunt servanda: spijt is geen grond om onder de overeenkomst uit te komen",
+    "De klassieke beginselen zijn uitgangspunten met veel uitzonderingen"
+   ]
+  },
+  {
+   "h": "h5",
+   "concept": true,
+   "q": "Casus. Een webwinkel zet door een tikfout een laptop die normaal 1.500 euro kost online voor 15 euro. C bestelt er meteen drie. De webwinkel zegt dat er geen geldige overeenkomst is. Bespreek de positie van beide partijen.",
+   "m": "Art. 3:33 BW vereist een wil die zich door een verklaring heeft geopenbaard. De webwinkel wilde de laptop niet voor 15 euro verkopen, dus ontbreekt de wil en is de rechtshandeling in beginsel nietig. C kan zich beroepen op gerechtvaardigd vertrouwen (art. 3:35 BW). Beslissend is hoe C de verklaring onder de omstandigheden redelijkerwijs mocht begrijpen. Bij zo'n opvallend lage prijs had C moeten twijfelen en navragen of die prijs klopte (onderzoeksplicht, art. 3:11 BW). Daarom zal zijn beroep op art. 3:35 BW waarschijnlijk niet slagen.",
+   "k": [
+    "Art. 3:33 BW: wil en verklaring moeten overeenstemmen, anders in beginsel nietig",
+    "Art. 3:35 BW beschermt gerechtvaardigd vertrouwen van de wederpartij",
+    "Beslissend is hoe C de verklaring redelijkerwijs mocht begrijpen",
+    "Bij een opvallend lage prijs geldt een onderzoeksplicht (art. 3:11 BW)",
+    "Het beroep van C op art. 3:35 BW zal daarom waarschijnlijk niet slagen"
+   ]
+  },
+  {
+   "h": "h6",
+   "concept": true,
+   "q": "Casus. N geeft bank O een recht van hypotheek op zijn huis en de volgende dag bank P een recht van hypotheek op hetzelfde huis. Daarna verkoopt en levert N het huis aan S, die later failliet gaat. Bespreek de positie van O en P.",
+   "m": "Een recht van hypotheek is een absoluut recht: het werkt tegen eenieder, anders dan een relatief recht dat alleen tussen schuldeiser en schuldenaar werkt. Door het zaaksgevolg (droit de suite) blijft de hypotheek op het huis rusten, ook nu het huis van S is. Volgens het prioriteitsbeginsel (prior tempore, potior jure) gaat het oudere recht voor het jongere: O heeft de eerste hypotheek en P de tweede. Door separatisme kunnen O en P hun recht in het faillissement van S uitoefenen alsof er geen faillissement is.",
+   "k": [
+    "Hypotheek is een absoluut recht dat tegen eenieder werkt",
+    "Zaaksgevolg: de hypotheek blijft op het huis rusten bij S",
+    "Prioriteit (prior tempore, potior jure): O gaat voor P",
+    "Separatisme: de banken oefenen hun recht uit alsof er geen faillissement is"
+   ]
+  },
+  {
+   "h": "h7",
+   "concept": true,
+   "q": "Casus. K verkoopt zijn auto aan L en de volgende dag dezelfde auto aan M. K levert de auto als eerste aan M. Zijn beide koopovereenkomsten geldig, wie wordt eigenaar en wat heeft L?",
+   "m": "Knip de casus in twee: de afspraak (verbintenissenrecht) en de levering (goederenrecht). Beide koopovereenkomsten zijn geldig: het verbintenissenrecht kent geen prioriteitsregel, en K is tegenover beide kopers tot levering verplicht. Een koop geeft eerst alleen een vordering tot levering, een relatief recht. Eigenaar wordt degene aan wie K als eerste rechtsgeldig levert, hier dus M. L heeft alleen een relatief recht: een vordering op K tot levering.",
+   "k": [
+    "Beide koopovereenkomsten zijn geldig: er is geen prioriteitsregel in het verbintenissenrecht",
+    "Een koop geeft eerst alleen een vordering tot levering (relatief recht)",
+    "Eigenaar wordt wie als eerste rechtsgeldig geleverd krijgt: M",
+    "L heeft alleen een vordering op K tot levering",
+    "Afspraak (verbintenissenrecht) en levering (goederenrecht) los van elkaar bekijken"
+   ]
+  }
  ]
 };
