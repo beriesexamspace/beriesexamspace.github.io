@@ -76,6 +76,11 @@
 
   function markDirty(){ dirty = true; }
 
+  // ---- namen aan/uit (oogje bij Afstand) ----
+  var namenAan = true;       // doel: namen zichtbaar of niet
+  var namenF = 1;            // huidige zichtbaarheid 0..1, glijdt naar het doel
+  function zetNamen(aan){ namenAan = !!aan; if (reduceFlag) namenF = namenAan ? 1 : 0; dirty = true; }
+
   function cameraChanged(){
     var cam = BM.camera;
     if (!cam) return false;
@@ -469,6 +474,13 @@
     ctx.lineWidth = 3;
     ctx.strokeStyle = 'rgba(14, 14, 16, 0.9)';
     var lastFont = '';
+    // Namen glijden zacht weg of terug (ongeveer 200 ms).
+    var namenDoel = namenAan ? 1 : 0;
+    if (namenF !== namenDoel) {
+      namenF += (namenDoel - namenF) * Math.min(1, frameDt * 14);
+      if (Math.abs(namenDoel - namenF) < 0.01) namenF = namenDoel;
+      dirty = true;
+    }
     for (i = 0; i < ids.length; i++) {
       var lid = ids[i];
       var ln = nodes[lid];
@@ -476,7 +488,8 @@
       if (!l || !l.vis) continue;
       var lv = Math.min(l.d, 2);
       var lab = lv === 0 ? 0.95 : (lv === 1 ? Math.max(0.85, labelZ) : labelZ * 0.85);
-      lab = Math.max(lab, l.lit, l.glow);
+      // Namen uit: alleen het puntje onder de muis (of oplichtend) houdt zijn naam.
+      lab = Math.max(lab * namenF, l.lit, l.glow);
       lab *= l.a;
       if (lab < 0.02) continue;
       var font = lv === 0 ? '800 14px' : (lv === 1 ? '600 13px' : '500 12px');
@@ -663,6 +676,8 @@
     stop: stop,
     hitTest: hitTest,
     invalidate: markDirty,
+    namen: zetNamen,
+    namenAan: function(){ return namenAan; },
     getHoverId: function(){ return hoverId; }
   };
 })();

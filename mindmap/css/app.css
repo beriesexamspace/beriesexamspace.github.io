@@ -2469,6 +2469,67 @@ body {
   transition: opacity 260ms var(--bm-ease), visibility 0s;
 }
 
+/* Afstand-knop met het oogje ernaast (namen aan/uit). */
+.bm-view__rij {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.bm-view__oog {
+  width: 38px;
+  min-height: 38px;
+  padding: 0;
+  justify-content: center;
+  border-radius: var(--bm-radius);
+  background: var(--bm-panel);
+  backdrop-filter: blur(16px) saturate(140%);
+  -webkit-backdrop-filter: blur(16px) saturate(140%);
+  box-shadow: var(--bm-shadow-soft);
+  color: var(--bm-text-dim);
+  transition: background 200ms var(--bm-ease), color 200ms var(--bm-ease), border-color 200ms var(--bm-ease), transform 160ms var(--bm-ease);
+}
+
+.bm-view__oog:hover {
+  background: rgba(34, 34, 40, 0.86);
+  color: var(--bm-text);
+  transform: translateY(-1px);
+}
+
+.bm-view__oog:active {
+  transform: scale(0.94);
+}
+
+.bm-view__oog--uit {
+  color: var(--bm-text);
+  border-color: rgba(var(--bm-accent-rgb), 0.45);
+}
+
+.bm-view__oog--tik svg {
+  animation: bm-oog-tik 260ms var(--bm-ease);
+}
+
+@keyframes bm-oog-tik {
+  0% { transform: scale(0.7); opacity: 0.4; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+@media (max-width: 640px) {
+  .bm-view__rij {
+    flex-direction: row-reverse;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .bm-view__oog--tik svg {
+    animation: none;
+  }
+  .bm-view__oog:hover,
+  .bm-view__oog:active {
+    transform: none;
+  }
+}
+
 /* Afstand-knop: percentage als klein label als het niet 100% is. */
 .bm-view__badge {
   display: inline-block;
