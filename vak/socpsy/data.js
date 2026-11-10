@@ -1289,7 +1289,7 @@ window.BES_VAK = {
    "h": "h1",
    "concept": true,
    "q": "Leg uit wat de fundamentele attributiefout is en geef een voorbeeld van hoe ze je oordeel over iemands gedrag kan vertekenen.",
-   "m": "De fundamentele attributiefout is de neiging om gedrag te veel te verklaren vanuit interne factoren, zoals persoonlijkheid, en de rol van externe, situationele factoren te onderschatten. Ze speelt vooral wanneer we het gedrag van anderen verklaren. Voorbeeld: iemand komt te laat en je denkt meteen dat hij slordig is, terwijl zijn trein vertraging had. De les: bij twijfel kijk je eerst naar de situatie.",
+   "m": "De fundamentele attributiefout is de neiging om gedrag te veel te verklaren vanuit interne factoren, zoals persoonlijkheid, en de rol van externe, situationele factoren te onderschatten. Ze speelt vooral wanneer we het gedrag van anderen verklaren. Voorbeeld: iemand komt te laat en je denkt meteen dat die persoon slordig is, terwijl de trein vertraging had. De les: bij twijfel kijk je eerst naar de situatie.",
    "k": [
     "We overschatten interne factoren (persoonlijkheid) bij het verklaren van gedrag",
     "We onderschatten externe, situationele factoren (de kracht van de situatie)",
@@ -1301,7 +1301,7 @@ window.BES_VAK = {
    "h": "h2",
    "concept": true,
    "q": "Waarom kan alleen een experiment een oorzaak-gevolgrelatie aantonen, en waarom volstaat een correlatie daarvoor niet? Gebruik een voorbeeld.",
-   "m": "In een experiment manipuleert de onderzoeker systematisch de onafhankelijke variabele en meet hij het effect op de afhankelijke variabele. Daardoor is het de enige methode die oorzaak en gevolg kan vaststellen. Een correlatie laat alleen zien dat twee variabelen samenhangen en helpt voorspellen, maar zegt niets over de oorzaak. Een derde factor kan het verband verklaren: in het voorbeeld van Rosenberg hadden vrouwen die op condooms vertrouwden vaker soa's, maar dat kwam doordat vrouwen met andere anticonceptie vaak minder wisselende partners hadden.",
+   "m": "In een experiment manipuleert de onderzoeker systematisch de onafhankelijke variabele en meet het effect op de afhankelijke variabele. Daardoor is het de enige methode die oorzaak en gevolg kan vaststellen. Een correlatie laat alleen zien dat twee variabelen samenhangen en helpt voorspellen, maar zegt niets over de oorzaak. Een derde factor kan het verband verklaren: in het voorbeeld van Rosenberg hadden vrouwen die op condooms vertrouwden vaker soa's, maar dat kwam doordat vrouwen met andere anticonceptie vaak minder wisselende partners hadden.",
    "k": [
     "In een experiment wordt de onafhankelijke variabele systematisch gemanipuleerd",
     "Het effect wordt gemeten op de afhankelijke variabele",
@@ -1362,7 +1362,7 @@ window.BES_VAK = {
    "h": "h7",
    "concept": true,
    "q": "Vergelijk de centrale en de perifere route van het Elaboration Likelihood Model. Welke route leidt tot duurzame attitudeverandering, en wanneer?",
-   "m": "Bij de centrale route verwerken mensen de inhoud en de argumenten van een boodschap grondig. Dat leidt tot duurzame attitudeverandering, en het gebeurt wanneer mensen gemotiveerd zijn en het vermogen hebben om na te denken. Bij de perifere route letten mensen op oppervlakkige kenmerken en heuristieken. Dat leidt slechts tot kortdurende of oppervlakkige verandering. Hoe meer iemand afgeleid is, hoe eerder hij de perifere route volgt.",
+   "m": "Bij de centrale route verwerken mensen de inhoud en de argumenten van een boodschap grondig. Dat leidt tot duurzame attitudeverandering, en het gebeurt wanneer mensen gemotiveerd zijn en het vermogen hebben om na te denken. Bij de perifere route letten mensen op oppervlakkige kenmerken en heuristieken. Dat leidt slechts tot kortdurende of oppervlakkige verandering. Hoe meer iemand afgeleid is, hoe eerder iemand de perifere route volgt.",
    "k": [
     "Centrale route: grondige verwerking van de inhoud en de argumenten",
     "De centrale route leidt tot duurzame attitudeverandering",
@@ -1388,7 +1388,7 @@ window.BES_VAK = {
    "h": "h9",
    "concept": true,
    "q": "Hoe helpen het mentalizing systeem en de TPJ ons om anderen te begrijpen? Gebruik de Sally en Anne-taak als voorbeeld.",
-   "m": "Het mentalizing systeem helpt ons afleiden wat een ander denkt, voelt, gelooft of wil. De temporo-pariëtale junctie (TPJ) helpt bij het wisselen van perspectief: onderscheid maken tussen wat ik weet en wat de ander weet. In de Sally en Anne-taak moet je voorspellen waar Sally zal zoeken op basis van haar foute kennis, niet op basis van wat je zelf weet. De TPJ maakt het mogelijk om vanuit Sally te denken. Bij autisme zijn er vaak moeilijkheden met zulke false-belief taken.",
+   "m": "Het mentalizing systeem helpt ons afleiden wat een ander denkt, voelt, gelooft of wil. De temporo-pariëtale junctie (TPJ) helpt bij het wisselen van perspectief: onderscheid maken tussen wat ik weet en wat de ander weet. In de Sally en Anne-taak moet je voorspellen waar Sally zal zoeken op basis van haar foute kennis, niet op basis van wat je zelf weet. De TPJ maakt het mogelijk om vanuit Sally te denken. Bij autisme zijn er moeilijkheden met zulke false-belief taken.",
    "k": [
     "Mentalizing systeem: afleiden wat een ander denkt, voelt, gelooft of wil",
     "TPJ: onderscheid tussen het eigen perspectief en dat van een ander",
