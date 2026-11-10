@@ -729,6 +729,29 @@
     return (bron.charAt(0) || '?').toUpperCase();
   }
 
+  // ---- onthouden accounts (alleen mailadressen, op dit toestel) ----
+  var ACC_SLEUTEL = 'bm-accounts';
+  var ACC_MAX = 5;
+  function normMail(m) { return String(m || '').trim().toLowerCase(); }
+  function leesAccounts() {
+    try {
+      var l = JSON.parse(localStorage.getItem(ACC_SLEUTEL) || '[]');
+      return Array.isArray(l) ? l.filter(function (m) { return typeof m === 'string' && m.indexOf('@') > 0; }).slice(0, ACC_MAX) : [];
+    } catch (e) { return []; }
+  }
+  function bewaarAccounts(l) {
+    try { localStorage.setItem(ACC_SLEUTEL, JSON.stringify(l.slice(0, ACC_MAX))); } catch (e) { /* niet erg */ }
+  }
+  function onthoudAccount(m) {
+    m = normMail(m);
+    if (!m || m.indexOf('@') < 1) return;
+    bewaarAccounts([m].concat(leesAccounts().filter(function (x) { return x !== m; })));
+  }
+  function vergeetAccount(m) {
+    m = normMail(m);
+    bewaarAccounts(leesAccounts().filter(function (x) { return x !== m; }));
+  }
+
   function bouwKnop() {
     if (ui || !document.body) return;
     var mail = userEmail;
@@ -829,6 +852,47 @@
       uitlegDeel.appendChild(uitlegKnop);
       menu.appendChild(uitlegDeel);
     }
+
+    // Accounts: eerder gebruikte accounts op dit toestel en "Account toevoegen".
+    // Alleen het mailadres wordt onthouden. Wisselen = uitloggen en opnieuw inloggen
+    // met wachtwoord en mailcode, net als altijd.
+    onthoudAccount(mail);
+    var accDeel = el('div', 'bm-account__deel bm-account__accounts');
+    accDeel.appendChild(el('div', 'bm-account__kop', 'Accounts'));
+    var accLijst = el('div', 'bm-account__acclijst');
+    accDeel.appendChild(accLijst);
+    var toevoegen = el('button', 'bm-account__actie bm-account__toevoegen', '+ Account toevoegen');
+    toevoegen.type = 'button';
+    accDeel.appendChild(toevoegen);
+    menu.appendChild(accDeel);
+
+    function tekenAccounts() {
+      while (accLijst.firstChild) accLijst.removeChild(accLijst.firstChild);
+      leesAccounts().filter(function (m) { return m !== normMail(mail); }).forEach(function (m) {
+        var rij = el('div', 'bm-account__acc');
+        var wissel = el('button', 'bm-account__actie bm-account__wissel', m);
+        wissel.type = 'button';
+        wissel.title = 'Wisselen naar ' + m + ' (inloggen met wachtwoord en mailcode)';
+        wissel.addEventListener('click', function () { wisselNaar(m); });
+        var weg = el('button', 'bm-account__accweg', '');
+        weg.type = 'button';
+        weg.title = m + ' uit deze lijst halen';
+        weg.setAttribute('aria-label', m + ' uit deze lijst halen');
+        weg.innerHTML = '<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>';
+        weg.addEventListener('click', function () { vergeetAccount(m); tekenAccounts(); });
+        rij.appendChild(wissel);
+        rij.appendChild(weg);
+        accLijst.appendChild(rij);
+      });
+      accLijst.hidden = !accLijst.firstChild;
+    }
+    tekenAccounts();
+
+    function wisselNaar(m) {
+      try { sessionStorage.setItem('bm-wissel-mail', m || ''); } catch (e) { /* niet erg */ }
+      uit.click();
+    }
+    toevoegen.addEventListener('click', function () { wisselNaar(''); });
 
     // Uitloggen (gedrag ongewijzigd).
     var uitDeel = el('div', 'bm-account__deel');

@@ -457,3 +457,60 @@
     animation: none;
   }
 }
+
+/* ---------- Accountmenu: accounts wisselen en toevoegen ---------- */
+
+.bm-account__acclijst {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  margin-bottom: 4px;
+}
+
+.bm-account__acclijst[hidden] {
+  display: none;
+}
+
+.bm-account__acc {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.bm-account__wissel {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.bm-account__accweg {
+  flex: none;
+  width: 30px;
+  height: 30px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 0;
+  border-radius: 8px;
+  background: transparent;
+  color: var(--bm-text-dim);
+  cursor: pointer;
+  opacity: 0.6;
+  transition: opacity 160ms var(--bm-ease), background 160ms var(--bm-ease), color 160ms var(--bm-ease);
+}
+
+.bm-account__acc:hover .bm-account__accweg,
+.bm-account__accweg:focus-visible {
+  opacity: 1;
+}
+
+.bm-account__accweg:hover {
+  background: rgba(255, 255, 255, 0.06);
+  color: var(--bm-text);
+}
+
+.bm-account__toevoegen {
+  color: var(--bm-text);
+}
