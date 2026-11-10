@@ -22,11 +22,24 @@
   var lastHover = null;   // laatste hover, zodat de dim-overgang netjes uitloopt
   var hoverMix = 0;       // 0..1, loopt zacht mee met hover
 
-  var DIM = 0.16;               // basis-alpha van lijnen
+  // Kennisboom-stijl: in rust grijze puntjes; hover op een tak laat die hele tak
+  // wit oplichten (rest dimt), hover op het midden laat alles oplichten.
+  var lit = Object.create(null);   // id -> 0..1 (hoe wit/oplichtend)
+  var fade = Object.create(null);  // id -> 0..1 (1 = normaal, lager = gedimd)
+  var frameDt = 1 / 60;
+  var easing = false;              // nog een overgang bezig
+  var GREY = [230, 138, 74];       // kern-grijs voor root, eerste ring, dieper
+  var LABEL_GREY = ['230,230,230', '168,168,168', '143,143,143'];
+  function phaseOf(id){
+    var h = 0, s = String(id);
+    for (var i = 0; i < s.length; i++) h = (h * 31 + s.charCodeAt(i)) | 0;
+    return (h % 628) / 100;
+  }
+
+  var DIM = 0.12;               // basis-alpha van lijnen
   var LABEL_Z0 = 0.6;           // vanaf dit zoomniveau beginnen labels te verschijnen
   var LABEL_Z1 = 1.1;           // hier zijn labels volledig zichtbaar
   var LABEL_MAX = 28;           // labels langer dan dit worden ingekort
-  var ACCENT = '139, 124, 246'; // subtiele accentkleur, alleen voor focus/hover-ring
 
   function clamp(v, a, b){ return v < a ? a : (v > b ? b : v); }
 
@@ -249,22 +262,43 @@
 
     var nodes = proj.nodes;
     var zoom = zoomLevel();
-    var hov = hoverId || lastHover;
-    var hovNode = hov ? nodes[hov] : null;
-    var mix = hoverMix;
-
-    // Verbonden punten van de hover (ouder + kinderen + zichzelf).
-    var rel = null;
-    if (hovNode) {
-      rel = {};
-      rel[hov] = true;
-      if (hovNode.parentId != null) rel[hovNode.parentId] = true;
-      var hk = hovNode.children || [];
-      for (var h = 0; h < hk.length; h++) rel[hk[h]] = true;
-    }
-
     var labelZ = clamp((zoom - LABEL_Z0) / (LABEL_Z1 - LABEL_Z0), 0, 1);
     var ids = Object.keys(nodes);
+
+    // Diepte en tak (het punt in de eerste ring) per punt.
+    var depthOf = {}, branchOf = {};
+    function walk(id){
+      if (depthOf[id] != null) return;
+      var nn = nodes[id], dd = 0, b = id, cur = nn, guard = 0;
+      while (cur && cur.parentId != null && nodes[cur.parentId] && guard++ < 200) {
+        dd++;
+        if (nodes[cur.parentId].parentId != null) b = cur.parentId;
+        cur = nodes[cur.parentId];
+      }
+      depthOf[id] = dd;
+      branchOf[id] = dd === 0 ? null : b;
+    }
+    for (var w0 = 0; w0 < ids.length; w0++) walk(ids[w0]);
+
+    // Doel per punt: alles (hover op midden), een tak (hover op een tak) of rust.
+    var hovLive = hoverId && nodes[hoverId] ? hoverId : null;
+    var modeAll = hovLive && depthOf[hovLive] === 0;
+    var focusB = hovLive && !modeAll ? branchOf[hovLive] : null;
+    var rate = Math.min(1, frameDt * 7);
+    easing = false;
+    for (var w1 = 0; w1 < ids.length; w1++) {
+      var wid = ids[w1];
+      var inB = focusB && (branchOf[wid] === focusB || depthOf[wid] === 0);
+      var tl = modeAll ? 0.6 : (inB ? 1 : 0);
+      var tf = focusB && !inB ? 0.25 : 1;
+      var cl = lit[wid] == null ? tl : lit[wid];
+      var cf = fade[wid] == null ? tf : fade[wid];
+      cl += (tl - cl) * rate; cf += (tf - cf) * rate;
+      if (Math.abs(tl - cl) < 0.004) cl = tl; else easing = true;
+      if (Math.abs(tf - cf) < 0.004) cf = tf; else easing = true;
+      lit[wid] = cl; fade[wid] = cf;
+    }
+    var drift = !reduceFlag;
 
     // Kleuren: per punt de (geërfde) kleur, en eventueel een lopende kleurgolf.
     var COL = BM.colors || null;
@@ -284,12 +318,20 @@
       var a = BM.anim && typeof BM.anim.alphaOf === 'function' ? BM.anim.alphaOf(id) : 1;
       if (!isNum(k)) k = 1;
       if (!isNum(a)) a = 1;
-      var dimA = (rel && !rel[id]) ? (1 - 0.8 * mix) : 1;
+      var dimA = fade[id] == null ? 1 : fade[id];
       var look = COL ? COL.nodeLook(id, eff[id] || null, tNow) : null;
       var flash = look ? look.flash : 0;
+      var ox = 0, oy = 0;
+      if (drift) {
+        var ph = phaseOf(id);
+        ox = Math.sin(tNow * 0.0006 + ph) * 2.2;
+        oy = Math.cos(tNow * 0.0005 + ph * 1.3) * 2.2;
+      }
       sp[id] = {
-        x: s.x,
-        y: s.y,
+        x: s.x + ox,
+        y: s.y + oy,
+        d: depthOf[id] || 0,
+        lit: lit[id] || 0,
         r: radiusFor(kids, root, zoom) * clamp(0.2 + 0.8 * k, 0, 1.3) * (1 + 0.45 * flash),
         k: clamp(k, 0, 1.3),
         a: clamp(a, 0, 1) * dimA,
@@ -328,27 +370,20 @@
         (a.y < -M && b.y < -M) || (a.y > H + M && b.y > H + M);
     }
 
-    // Lijnen: eerst de gewone (grijs, dun; met een kleur iets sterker), dan de verbonden
-    // lijnen van de hover (lichter). Lijnen worden per kleur gebundeld getekend.
+    // Lijnen: in rust zwak; lijnen in een oplichtende tak worden helderder.
     // Een lijn heeft de kleur van het kind waar hij naartoe loopt.
-    var dimF = 1 - 0.7 * mix;
-    var normalA = DIM * dimF;
-    var groups = Object.create(null);
-    var groupKeys = [];
     var tips = [];   // voorkant van de lont: klein lichtpuntje
-    function seg(rgb, x1, y1, x2, y2){
-      var key = isWhite(rgb) ? 'w' : rgbKey(rgb);
-      var g0 = groups[key];
-      if (!g0) {
-        g0 = groups[key] = {
-          style: key === 'w'
-            ? 'rgba(255,255,255,' + normalA.toFixed(3) + ')'
-            : 'rgba(' + key + ',' + (COLOR_LINE_A * dimF).toFixed(3) + ')',
-          pts: []
-        };
-        groupKeys.push(key);
-      }
-      g0.pts.push(x1, y1, x2, y2);
+    function edge(rgb, l, a, x1, y1, x2, y2){
+      var al = isWhite(rgb) ? (DIM + (0.7 - DIM) * l) * a : (0.32 + 0.6 * l) * a;
+      if (al < 0.004) return;
+      ctx.strokeStyle = isWhite(rgb)
+        ? 'rgba(255,255,255,' + al.toFixed(3) + ')'
+        : 'rgba(' + rgbKey(rgb) + ',' + al.toFixed(3) + ')';
+      ctx.lineWidth = (isWhite(rgb) ? 1 : 1.25) + 0.3 * l;
+      ctx.beginPath();
+      ctx.moveTo(x1, y1);
+      ctx.lineTo(x2, y2);
+      ctx.stroke();
     }
     for (i = 0; i < ids.length; i++) {
       var cid = ids[i];
@@ -358,10 +393,11 @@
       var c = sp[cid];
       if (!p || !c) continue;
       if (!p.vis && !c.vis && offSameSide(p, c)) continue;
-      if (hov && (cid === hov || cn.parentId === hov)) continue;
+      var el0 = Math.min(p.lit, c.lit);
+      var ea0 = Math.min(fade[cn.parentId] == null ? 1 : fade[cn.parentId], fade[cid] == null ? 1 : fade[cid]);
       var el = COL ? COL.edgeLook(cid, tNow) : null;
       if (!el) {
-        seg(COL ? COL.rgb(eff[cid] || null) : null, p.x, p.y, c.x, c.y);
+        edge(COL ? COL.rgb(eff[cid] || null) : null, el0, ea0, p.x, p.y, c.x, c.y);
         continue;
       }
       // Kleurgolf over deze lijn: het gevulde stuk heeft de nieuwe kleur.
@@ -369,22 +405,9 @@
       var ax = el.rev ? c.x : p.x, ay = el.rev ? c.y : p.y;   // waar de lont begint
       var bx = el.rev ? p.x : c.x, by = el.rev ? p.y : c.y;
       var mxp = ax + (bx - ax) * f, myp = ay + (by - ay) * f;
-      if (f > 0) seg(el.to, ax, ay, mxp, myp);
-      if (f < 1) seg(el.from, mxp, myp, bx, by);
-      if (f > 0 && f < 1) tips.push({ x: mxp, y: myp, rgb: el.to, k: Math.sin(Math.PI * f) });
-    }
-    ctx.lineWidth = 1;
-    for (var gk = 0; gk < groupKeys.length; gk++) {
-      var grp = groups[groupKeys[gk]];
-      var pts = grp.pts;
-      ctx.strokeStyle = grp.style;
-      ctx.lineWidth = groupKeys[gk] === 'w' ? 1 : 1.25;
-      ctx.beginPath();
-      for (var pi = 0; pi < pts.length; pi += 4) {
-        ctx.moveTo(pts[pi], pts[pi + 1]);
-        ctx.lineTo(pts[pi + 2], pts[pi + 3]);
-      }
-      ctx.stroke();
+      if (f > 0) edge(el.to, el0, ea0, ax, ay, mxp, myp);
+      if (f < 1) edge(el.from, el0, ea0, mxp, myp, bx, by);
+      if (f > 0 && f < 1) tips.push({ x: mxp, y: myp, rgb: el.to, k: Math.sin(Math.PI * f), a: ea0 });
     }
     ctx.lineWidth = 1;
 
@@ -392,106 +415,73 @@
     for (var ti = 0; ti < tips.length; ti++) {
       var tp0 = tips[ti];
       var tsz = 16 + 10 * tp0.k;
-      ctx.globalAlpha = clamp(0.85 * tp0.k * dimF + 0.15, 0, 1);
+      ctx.globalAlpha = clamp((0.85 * tp0.k + 0.15) * tp0.a, 0, 1);
       ctx.drawImage(spriteFor(tp0.rgb), tp0.x - tsz / 2, tp0.y - tsz / 2, tsz, tsz);
     }
     ctx.globalAlpha = 1;
 
-    function hoverSeg(rgb, x1, y1, x2, y2){
-      ctx.strokeStyle = isWhite(rgb)
-        ? 'rgba(255,255,255,' + (0.55 * mix).toFixed(3) + ')'
-        : 'rgba(' + rgbKey(rgb) + ',' + (0.9 * mix).toFixed(3) + ')';
-      ctx.beginPath();
-      ctx.moveTo(x1, y1);
-      ctx.lineTo(x2, y2);
-      ctx.stroke();
-    }
-    if (hov && mix > 0.01) {
-      ctx.lineWidth = 1.2;
-      for (i = 0; i < ids.length; i++) {
-        var hid = ids[i];
-        var hn = nodes[hid];
-        if (hn.parentId == null) continue;
-        if (!(hid === hov || hn.parentId === hov)) continue;
-        var hp = sp[hn.parentId];
-        var hc = sp[hid];
-        if (!hp || !hc) continue;
-        var hel = COL ? COL.edgeLook(hid, tNow) : null;
-        if (!hel) {
-          hoverSeg(COL ? COL.rgb(eff[hid] || null) : null, hp.x, hp.y, hc.x, hc.y);
-          continue;
-        }
-        // Ook de hover-lijnen volgen de kleurgolf (lont), net als de gewone lijnen.
-        var hf = hel.f;
-        var hax = hel.rev ? hc.x : hp.x, hay = hel.rev ? hc.y : hp.y;
-        var hbx = hel.rev ? hp.x : hc.x, hby = hel.rev ? hp.y : hc.y;
-        var hmx = hax + (hbx - hax) * hf, hmy = hay + (hby - hay) * hf;
-        if (hf > 0) hoverSeg(hel.to, hax, hay, hmx, hmy);
-        if (hf < 1) hoverSeg(hel.from, hmx, hmy, hbx, hby);
-      }
-      ctx.lineWidth = 1;
-    }
-
-    // Gloed (halo) per punt. Root en hover krijgen de sterkste gloed; een gekleurd punt
-    // gloeit in zijn eigen kleur en licht kort op als de kleurgolf aankomt.
+    // Gloed: alleen bij oplichtende punten (zoals de kennisboom), plus de bestaande
+    // effecten (nieuw punt, kleurgolf). Gekleurde punten houden een zachte eigen gloed.
     for (i = 0; i < ids.length; i++) {
       var gid = ids[i];
       var g = sp[gid];
       if (!g || !g.vis) continue;
-      var hot = gid === hov ? mix : 0;
       var tinted = !isWhite(g.rgb);
-      var haloA = (g.root ? 0.28 : (tinted ? COLOR_HALO_A : 0.07)) + g.glow * 0.55 + hot * 0.4 + g.flash * 0.6;
+      var ring = g.d === 0 ? 1 : (g.d === 1 ? 0.8 : 0.45);
+      var haloA = 0.3 * g.lit * ring + (tinted ? COLOR_HALO_A * 0.6 : 0) + g.glow * 0.55 + g.flash * 0.6;
       haloA *= g.a;
       if (haloA > 0.005) {
-        var size = g.r * (g.root ? 10 : 7) + g.glow * g.r * 6 + hot * g.r * 4 + g.flash * g.r * 8;
+        var size = g.r * (g.root ? 9 : 7) + g.glow * g.r * 6 + g.flash * g.r * 8;
         ctx.globalAlpha = clamp(haloA, 0, 1);
         ctx.drawImage(tinted ? spriteFor(g.rgb) : glowSprite, g.x - size / 2, g.y - size / 2, size, size);
       }
     }
 
-    // Punten: wit of in hun kleur, root iets dikker. Hover krijgt een subtiele accentring.
-    var lastFill = '';
+    // Punten: in rust grijs (midden licht, verder donkerder), oplichtend wit.
+    // Een punt met een eigen kleur houdt die kleur en wordt feller als hij oplicht.
     for (i = 0; i < ids.length; i++) {
       var did = ids[i];
       var d = sp[did];
       if (!d || !d.vis) continue;
-      var fill = isWhite(d.rgb) ? '#ffffff' : 'rgb(' + rgbKey(d.rgb) + ')';
-      if (fill !== lastFill) { ctx.fillStyle = fill; lastFill = fill; }
+      var fill;
+      if (isWhite(d.rgb)) {
+        var gr = GREY[Math.min(d.d, 2)];
+        var v = Math.round(gr + (255 - gr) * clamp(d.lit + d.glow, 0, 1));
+        fill = 'rgb(' + v + ',' + v + ',' + v + ')';
+      } else {
+        var cm = 0.7 + 0.3 * d.lit;
+        fill = 'rgb(' + Math.round(d.rgb[0] * cm) + ',' + Math.round(d.rgb[1] * cm) + ',' + Math.round(d.rgb[2] * cm) + ')';
+      }
+      ctx.fillStyle = fill;
       ctx.globalAlpha = clamp(d.a * (0.45 + 0.55 * clamp(d.k, 0, 1)), 0, 1);
       ctx.beginPath();
       ctx.arc(d.x, d.y, Math.max(0.6, d.r), 0, Math.PI * 2);
       ctx.fill();
     }
-    if (hov && mix > 0.01 && sp[hov]) {
-      var ho = sp[hov];
-      ctx.globalAlpha = clamp(mix * 0.75 * ho.a, 0, 1);
-      ctx.strokeStyle = 'rgba(' + ACCENT + ', 1)';
-      ctx.lineWidth = 1.2;
-      ctx.beginPath();
-      ctx.arc(ho.x, ho.y, ho.r + 4, 0, Math.PI * 2);
-      ctx.stroke();
-      ctx.lineWidth = 1;
-    }
 
-    // Labels: verschijnen bij inzoomen, bij hover en bij verbonden punten.
-    ctx.font = '500 12px Inter, system-ui, -apple-system, "Segoe UI", sans-serif';
+    // Labels: midden en eerste ring altijd, dieper bij inzoomen of als de tak oplicht.
     ctx.textAlign = 'center';
     ctx.textBaseline = 'top';
     ctx.lineJoin = 'round';
     ctx.lineWidth = 3;
     ctx.strokeStyle = 'rgba(14, 14, 16, 0.9)';
-    ctx.fillStyle = '#f2f2f5';
+    var lastFont = '';
     for (i = 0; i < ids.length; i++) {
       var lid = ids[i];
       var ln = nodes[lid];
       var l = sp[lid];
       if (!l || !l.vis) continue;
-      var lab = labelZ * 0.85;
-      if (l.root) lab = Math.max(lab, 0.9);
-      if (rel && rel[lid]) lab = Math.max(lab, 0.95);
-      lab = Math.max(lab, l.glow);
+      var lv = Math.min(l.d, 2);
+      var lab = lv === 0 ? 0.95 : (lv === 1 ? Math.max(0.85, labelZ) : labelZ * 0.85);
+      lab = Math.max(lab, l.lit, l.glow);
       lab *= l.a;
       if (lab < 0.02) continue;
+      var font = lv === 0 ? '800 14px' : (lv === 1 ? '600 13px' : '500 12px');
+      font += ' Inter, system-ui, -apple-system, "Segoe UI", sans-serif';
+      if (font !== lastFont) { ctx.font = font; lastFont = font; }
+      var lg = LABEL_GREY[lv].split(',');
+      var lc = Math.round(+lg[0] + (255 - +lg[0]) * clamp(l.lit, 0, 1));
+      ctx.fillStyle = 'rgb(' + lc + ',' + lc + ',' + lc + ')';
       var text = labelText(ln);
       ctx.globalAlpha = clamp(lab, 0, 1);
       var ty = l.y + l.r + 8;
@@ -515,6 +505,7 @@
     var now = performance.now();
     var dt = lastT ? Math.min(0.05, (now - lastT) / 1000) : 1 / 60;
     lastT = now;
+    frameDt = dt;
 
     var proj = currentProject();
     var moving = false;
@@ -548,7 +539,7 @@
     pointerMoved = false;
 
     // Niets veranderd: deze frame overslaan (geen clearRect, geen tekenwerk).
-    if (dirty || moving || settledNow || camMoved || animOn || animWasOn || hoverChanged) {
+    if (dirty || moving || settledNow || camMoved || animOn || animWasOn || hoverChanged || easing || (!reduceFlag && proj)) {
       dirty = false;
       draw(proj);
     }
