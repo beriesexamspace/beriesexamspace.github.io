@@ -137,6 +137,25 @@
     actions.appendChild(bDel);
     actions.appendChild(bOpen);
 
+    // Zelf verplaatst punt: staat vast; met Losmaken gaat het weer vanzelf mee.
+    var vastRow = el('div', 'bm-popup__vast');
+    vastRow.appendChild(el('span', 'bm-popup__vast-tekst', 'Staat vast op zijn plek'));
+    var bLos = el('button', 'bm-btn bm-popup__vast-los', 'Losmaken');
+    bLos.type = 'button';
+    bLos.setAttribute('aria-label', 'Losmaken: het punt schikt zich weer vanzelf');
+    vastRow.appendChild(bLos);
+    vastRow.style.display = 'none';
+    bLos.addEventListener('click', function () {
+      var s = state;
+      var nd = s && getNode(s.nodeId);
+      if (!nd) return;
+      delete nd.vast;
+      safe(function () { BM.layout.reheat(s.projectId, 0.5); return true; }, false);
+      safe(function () { BM.store.save(); return true; }, false);
+      refreshVast();
+      if (s.ui.bAdd) s.ui.bAdd.focus({ preventScroll: true });
+    });
+
     // Kleur: palet met bolletjes, "Geen kleur" en een plus voor een eigen kleur.
     var colors = el('div', 'bm-popup__colors');
     var colorHead = el('div', 'bm-popup__colorhead');
@@ -183,6 +202,7 @@
 
     root.appendChild(head);
     root.appendChild(actions);
+    root.appendChild(vastRow);
     root.appendChild(colors);
     root.appendChild(renameRow);
     root.appendChild(confirmRow);
@@ -196,7 +216,7 @@
       renameRow: renameRow, input: input, renameHint: renameHint,
       confirmRow: confirmRow, confirmText: confirmText, bCancel: bCancel, bConfirm: bConfirm,
       colors: colors, colorState: colorState, swatches: swatches, picker: picker,
-      list: list
+      list: list, vastRow: vastRow
     };
   }
 
@@ -596,6 +616,7 @@
     if (!s) return;
     var ui = s.ui;
     s.mode = mode; // set first, so a blur during hiding is ignored
+    refreshVast();
     ui.root.classList.toggle('bm-popup--renaming', mode === 'rename');
     ui.root.classList.toggle('bm-popup--confirm', mode === 'confirm');
     // Acties blijven zichtbaar bij het hernoemen, zodat Add branch ook dan werkt.
@@ -622,6 +643,14 @@
     renderColors(node);
   }
 
+  function refreshVast() {
+    var s = state;
+    if (!s || !s.ui || !s.ui.vastRow) return;
+    var nd = getNode(s.nodeId);
+    var aan = !!(nd && nd.vast) && s.mode === 'menu';
+    s.ui.vastRow.style.display = aan ? '' : 'none';
+  }
+
   function refreshAll() {
     var s = state;
     if (!s || !s.open) return;
@@ -629,6 +658,7 @@
     if (!node) { close(); return; }
 
     renderHeader(node);
+    refreshVast();
 
     var root = s.ui.root;
     var hadFocus = root.contains(document.activeElement);

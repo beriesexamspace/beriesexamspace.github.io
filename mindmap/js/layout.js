@@ -393,7 +393,7 @@
     var friction = Math.pow(FRICTION, s);
     for (i = 0; i < n; i++) {
       var p = list[i];
-      if (pinned[p.id] || (local && !local[p.id])) { p.vx = 0; p.vy = 0; continue; }
+      if (pinned[p.id] || p.vast || (local && !local[p.id])) { p.vx = 0; p.vy = 0; continue; }
       var vx = (p.vx + fx[i] * s) * friction;
       var vy = (p.vy + fy[i] * s) * friction;
       var sp2 = Math.sqrt(vx * vx + vy * vy);
