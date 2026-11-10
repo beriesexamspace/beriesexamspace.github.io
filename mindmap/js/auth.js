@@ -35,6 +35,14 @@
   var gebruiker = null;     // {id, email} na een geslaagde code
   var wachtend = null;      // {id, email} tussen wachtwoord en code in
   var laatsteMail = '';     // e-mail die bij het wisselen van scherm meegaat
+  // Gewisseld vanuit het accountmenu: dat mailadres staat al klaar in het inlogscherm.
+  try {
+    var wisselMail = sessionStorage.getItem('bm-wissel-mail');
+    if (wisselMail !== null) {
+      sessionStorage.removeItem('bm-wissel-mail');
+      if (/^[^\s@]+@[^\s@]+$/.test(wisselMail)) laatsteMail = wisselMail;
+    }
+  } catch (e) { /* opslag kan geblokkeerd zijn */ }
   var herstel = false;      // bezoek via de herstel-link uit de mail
   var initKlaar = false;
   var aangemeld = false;
