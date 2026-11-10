@@ -18,7 +18,7 @@
   var dragNodeId = null;   // punt dat nu gesleept wordt
   var dragOff = { x: 0, y: 0 };
   var dragTak = [];        // alles onder het gesleepte punt
-  var dragMax = 0;         // maximale afstand tot de ouder tijdens het slepen
+  var dragVerplaatst = false; // is het punt echt verschoven
   var dragRoot = false;    // het hoofdpunt wordt gesleept
   var lastX = 0, lastY = 0;
   var downX = 0, downY = 0;
@@ -111,9 +111,6 @@
       dragTak.push(kid);
       if (kid.children) stapel.push.apply(stapel, kid.children);
     }
-    // Hoe ver het punt van zijn ouder mag: 2,5 keer de afstand bij het oppakken (minstens 220).
-    var ouder = n.parentId ? getNode(n.parentId) : null;
-    dragMax = ouder ? Math.max(300, 3 * Math.hypot((n.x || 0) - (ouder.x || 0), (n.y || 0) - (ouder.y || 0))) : 300;
     mode = 'node';
     clearTap();
     callFirst(BM.layout, ['pin'], [id]);
@@ -132,28 +129,13 @@
     var w = toWorld(p.x, p.y);
     var nx = w.x + dragOff.x;
     var ny = w.y + dragOff.y;
-    var ouder = n.parentId ? getNode(n.parentId) : null;
-    // Ankerpunt: de ouder, of bij het hoofdpunt het midden van zijn directe branches.
-    var anker = ouder ? { x: ouder.x || 0, y: ouder.y || 0 } : null;
-    if (!anker && n.children && n.children.length) {
-      var sx = 0, sy = 0, cnt = 0;
-      for (var j = 0; j < n.children.length; j++) {
-        var c = getNode(n.children[j]);
-        if (c) { sx += c.x || 0; sy += c.y || 0; cnt++; }
-      }
-      if (cnt) anker = { x: sx / cnt, y: sy / cnt };
-    }
-    if (anker && dragMax > 0) {
-      var ox = nx - anker.x, oy = ny - anker.y;
-      var d = Math.hypot(ox, oy);
-      if (d > dragMax) { nx = anker.x + ox * dragMax / d; ny = anker.y + oy * dragMax / d; }
-    }
     var dx = nx - (n.x || 0);
     var dy = ny - (n.y || 0);
     n.x = nx;
     n.y = ny;
     n.vx = 0;
     n.vy = 0;
+    if (dx || dy) dragVerplaatst = true;
     for (var i = 0; i < dragTak.length; i++) {
       var k = dragTak[i];
       k.x = (k.x || 0) + dx;
@@ -168,6 +150,10 @@
     var id = dragNodeId;
     dragNodeId = null;
     dragTak = [];
+    // Zelf verplaatst = blijft op die plek staan (losmaken kan in de pop-up).
+    var vn = getNode(id);
+    if (vn && dragVerplaatst) vn.vast = true;
+    dragVerplaatst = false;
     callFirst(BM.layout, ['unpin'], [id]);
     saveStore();
   }

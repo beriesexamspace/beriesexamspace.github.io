@@ -147,6 +147,7 @@
       created: n.created
     };
     if (n.color) c.color = n.color;
+    if (n.vast) c.vast = true;
     return c;
   }
 
@@ -283,6 +284,7 @@
       node.created = num(r.created, Date.now());
       var col = normalizeColor(r.color);
       if (col) node.color = col;
+      if (r.vast === true) node.vast = true;
       nodes[nid] = node;
       if (parentNid !== null) nodes[parentNid].children.push(nid);
     });
