@@ -711,6 +711,8 @@
     if (dirty) zetVlag(true);
     zetStatus();
     if (dirty) setTimer(push, DEBOUNCE_MS);
+    // De mindmap staat op het scherm: js/welkom.js start hierna de uitleg (de eerste keer).
+    try { BM.bus.emit('cloud:gestart', {}); } catch (e) { warn('melding gestart mislukt', e); }
   }
 
   // ---------- accountknop en menu ----------
@@ -809,6 +811,24 @@
     });
     themaDeel.appendChild(rij);
     menu.appendChild(themaDeel);
+
+    // Uitleg opnieuw bekijken (alleen als de uitleg geladen is). De tekst staat in BM.welkomTeksten.
+    if (BM.uitleg && typeof BM.uitleg.start === 'function' && Array.isArray(BM.uitlegStappen)) {
+      var uitlegDeel = el('div', 'bm-account__deel');
+      var uitlegTekst = (BM.welkomTeksten && BM.welkomTeksten.menu && BM.welkomTeksten.menu.uitleg) ||
+        'Uitleg opnieuw bekijken';
+      var uitlegKnop = el('button', 'bm-account__actie bm-account__uitleg', uitlegTekst);
+      uitlegKnop.type = 'button';
+      uitlegKnop.addEventListener('click', function () {
+        zetMenu(false);
+        try {
+          if (BM.welkom && typeof BM.welkom.uitlegOpnieuw === 'function') BM.welkom.uitlegOpnieuw();
+          else BM.uitleg.start(BM.uitlegStappen);
+        } catch (e) { warn('uitleg starten mislukt', e); }
+      });
+      uitlegDeel.appendChild(uitlegKnop);
+      menu.appendChild(uitlegDeel);
+    }
 
     // Uitloggen (gedrag ongewijzigd).
     var uitDeel = el('div', 'bm-account__deel');

@@ -1191,3 +1191,284 @@ body:has(#bm-auth:not([hidden])) .bm-intro {
   background: var(--bm-accent);
   box-shadow: 0 0 0 3px var(--bm-accent-soft);
 }
+
+/* =========================================================
+   Beheer (beslis.html): schakelaars "Berie kent jou" en "Toestemming"
+   voor scholen. Gebruikt de klassen .bm-veld en .bm-knop hierboven.
+   Geen extra lettertype; de kleuren komen uit de tokens van css/app.css.
+
+   .bm-beheer                 blok onder de aanvraagkaart
+   .bm-beheer__kaart          kaart met de inhoud
+   .bm-beheer__kop            kop "Beheer"
+   .bm-beheer__status         regel met de stand (ingelogd, niet ingelogd)
+   .bm-beheer__werk           alles met de bedieningsknoppen (verborgen tot beheerder)
+   .bm-beheer__blok           één onderdeel (bekend of scholen)
+   .bm-beheer__rij            rij met tekst links en schakelaar rechts
+   .bm-beheer__info           uitleg of "Typ minstens 2 tekens"
+   .bm-beheer__lijst          lijst met scholen
+   .bm-beheer__optie          één school in de lijst
+   .bm-beheer__optie-tekst    naam (vet) en plaats
+   .bm-beheer__melding        bevestiging of fout (is-ok / is-fout)
+   .bm-schakel                schakelaar (role="switch", aria-checked)
+   .bm-beheer__link           link naar de mindmap als je niet ingelogd bent
+   ========================================================= */
+
+.bm-beheer {
+  box-sizing: border-box;
+  width: 100%;
+  max-width: 440px;
+  margin: 18px auto 32px;
+  color: var(--bm-text);
+  font-family: var(--bm-font);
+  animation: bm-auth-kaart 320ms var(--bm-ease) both;
+}
+
+.bm-beheer__kaart {
+  box-sizing: border-box;
+  padding: 24px 24px 20px;
+  background: var(--bm-panel-strong);
+  border: 1px solid var(--bm-line-strong);
+  border-radius: 18px;
+  box-shadow: var(--bm-shadow-soft);
+}
+
+.bm-beheer__kop {
+  margin: 0 0 6px;
+  font-size: 16px;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  color: var(--bm-text);
+}
+
+.bm-beheer__status {
+  margin: 0 0 4px;
+  min-height: 20px;
+  font-size: 13px;
+  line-height: 1.5;
+  color: var(--bm-text-dim);
+}
+
+.bm-beheer__link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  width: 100%;
+  min-height: 44px;
+  margin-top: 12px;
+  padding: 0 16px;
+  border-radius: 11px;
+  border: 1px solid var(--bm-line-strong);
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--bm-text);
+  font-size: 14px;
+  font-weight: 500;
+  text-decoration: none;
+  transition: background-color 160ms var(--bm-ease), transform 150ms var(--bm-ease);
+}
+
+.bm-beheer__link:hover {
+  background: rgba(255, 255, 255, 0.09);
+  transform: translateY(-1px);
+}
+
+.bm-beheer__link:active {
+  transform: scale(0.98);
+}
+
+.bm-beheer__link:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 2px var(--bm-panel-strong), 0 0 0 4px var(--bm-accent);
+}
+
+.bm-beheer__werk {
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+  margin-top: 16px;
+}
+
+.bm-beheer__werk[hidden] {
+  display: none;
+}
+
+.bm-beheer__blok {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding-top: 18px;
+  border-top: 1px solid var(--bm-line);
+}
+
+.bm-beheer__blok-kop {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--bm-text);
+}
+
+.bm-beheer__rij {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  min-height: 44px;
+}
+
+.bm-beheer__rij-tekst {
+  font-size: 14px;
+  color: var(--bm-text);
+}
+
+.bm-beheer__info {
+  margin: 0;
+  min-height: 18px;
+  font-size: 12px;
+  line-height: 1.5;
+  color: var(--bm-text-faint);
+}
+
+.bm-beheer__lijst {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  max-height: 340px;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+
+.bm-beheer__optie {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  box-sizing: border-box;
+  padding: 10px 12px;
+  border-radius: 11px;
+  border: 1px solid var(--bm-line);
+  background: rgba(0, 0, 0, 0.18);
+}
+
+.bm-beheer__optie-tekst {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.bm-beheer__optie-naam {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--bm-text);
+  overflow-wrap: anywhere;
+}
+
+.bm-beheer__optie-plaats {
+  font-size: 12px;
+  color: var(--bm-text-dim);
+  overflow-wrap: anywhere;
+}
+
+.bm-beheer__leeg {
+  margin: 0;
+  font-size: 13px;
+  color: var(--bm-text-faint);
+}
+
+.bm-beheer__melding {
+  margin: 0;
+  min-height: 20px;
+  font-size: 13px;
+  line-height: 1.5;
+  color: var(--bm-text-dim);
+}
+
+.bm-beheer__melding.is-ok {
+  color: var(--bm-ok);
+}
+
+.bm-beheer__melding.is-fout {
+  color: var(--bm-danger);
+}
+
+/* Schakelaar: rond knopje, de bolletje schuift naar rechts als hij aan staat */
+.bm-schakel {
+  position: relative;
+  flex: none;
+  box-sizing: border-box;
+  width: 46px;
+  height: 28px;
+  margin: 0;
+  padding: 0;
+  border-radius: 999px;
+  border: 1px solid var(--bm-line-strong);
+  background: rgba(255, 255, 255, 0.1);
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  transition: background-color 200ms var(--bm-ease), border-color 200ms var(--bm-ease),
+    transform 150ms var(--bm-ease), box-shadow 200ms var(--bm-ease);
+}
+
+.bm-schakel::after {
+  content: "";
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: #fff;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.35);
+  transition: transform 220ms var(--bm-ease);
+}
+
+.bm-schakel[aria-checked="true"] {
+  background: var(--bm-accent);
+  border-color: transparent;
+}
+
+.bm-schakel[aria-checked="true"]::after {
+  transform: translateX(18px);
+}
+
+.bm-schakel:hover {
+  border-color: rgba(255, 255, 255, 0.28);
+}
+
+.bm-schakel[aria-checked="true"]:hover {
+  background: var(--bm-accent-hover);
+}
+
+.bm-schakel:active {
+  transform: scale(0.96);
+}
+
+.bm-schakel:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 2px var(--bm-panel-strong), 0 0 0 4px var(--bm-accent);
+}
+
+.bm-schakel:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+}
+
+@media (max-width: 360px) {
+  .bm-beheer__kaart {
+    padding: 20px 16px 16px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .bm-beheer,
+  .bm-beheer *,
+  .bm-schakel,
+  .bm-schakel::after {
+    animation-duration: 1ms !important;
+    transition-duration: 1ms !important;
+  }
+}
