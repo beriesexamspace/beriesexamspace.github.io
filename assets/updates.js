@@ -9,6 +9,7 @@
 window.BES_VERSIE = 1;
 
 window.BES_UPDATES = [
+  { versie: 1, soort: 'nieuw', datum: '10 november 2026', tekst: '**Taakverdeling** bij Sjablonen: verdeel samen de taken van je groepswerk, met afspraken, tussendoelen en een ingevuld voorbeeld.', link: 'sjablonen.html', tool: 'sjablonen' },
   { versie: 1, soort: 'nieuw', datum: '8 november 2026', tekst: '**Duel**: een buzzergame waarmee je ziet wie van je vrienden het beste heeft geleerd. Open een vak, kies je hoofdstukken en hoeveel vragen, en nodig tot 10 vrienden uit met een code.', link: 'duel.html', tool: null },
   { versie: 1, soort: 'verbeterd', datum: '4 november 2026', tekst: '**Er is geen abonnement meer.** Alles staat open voor iedereen: onbeperkt simulaties, 60 vragen per dag aan Comit, uitleg bij je foute antwoorden en ezelsbruggetjes. We werken aan een betere deal.', link: 'abonnement.html', tool: null },
   { versie: 1, soort: 'nieuw', datum: '1 november 2026', tekst: '**Games**: even pauze? Speel kruisje bolletje tegen de robot. Er komen meer games bij.', link: 'games.html', tool: 'games' },
