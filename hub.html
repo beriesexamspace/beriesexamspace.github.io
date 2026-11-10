@@ -211,8 +211,6 @@
       .update-meta { grid-auto-flow: column; align-items: center; gap: 8px; }
     }
 
-    .hub-intro { margin: 0 -24px; }
-
     html.versie-check body { visibility: hidden; }
 
     /* Na het welkomstscherm komt de navigatiebalk voor het eerst in beeld. */
@@ -243,7 +241,7 @@
       </a>
       <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="site-menu">Menu</button>
       <ul class="navigation-links" id="site-menu">
-        <li><a href="hub.html#hoe-werkt-het">Hoe werkt het</a></li>
+        <li><a href="hoe-werkt-het.html">Hoe werkt het</a></li>
         <li><a href="hub.html#wie-is-berie">Over mij</a></li>
         <li><a href="whatsapp.html">WhatsApp-groep</a></li>
         <li><a href="insturen/formulier.html">Insturen</a></li>
@@ -440,12 +438,6 @@
         </div>
       </section>
 
-      <section class="sectie hub-sectie" id="hoe-werkt-het" aria-labelledby="hoe-werkt-het-kop">
-        <h2 class="sectie-kop" id="hoe-werkt-het-kop">Hoe werkt het</h2>
-        <section class="hub-intro" id="hub-intro" aria-roledescription="carrousel" aria-label="Hoe werkt het"></section>
-
-      </section>
-
       <section class="sectie hub-sectie hub-wie" id="wie-is-berie" aria-labelledby="wie-kop">
         <div class="kaart hub-wie-kaart">
           <div class="hub-wie-tekst">
@@ -551,8 +543,6 @@
         });
       });
 
-      window.BES.carrousel(document.getElementById('hub-intro'), { soorten: ['uitleg'] });
-
       const updates = document.getElementById('hub-updates');
       const extraLijst = document.getElementById('hub-updates-extra');
       const updatesKnop = document.getElementById('hub-updates-knop');
@@ -568,8 +558,9 @@
         updatesKnop.textContent = uitgevouwen ? 'Minder tonen' : 'Alles bekijken →';
       });
 
+      if (window.location.hash === '#hoe-werkt-het') window.location.replace('hoe-werkt-het.html');
       const sectionForHash = hash => {
-        if (hash !== '#nieuw' && hash !== '#hoe-werkt-het' && hash !== '#wie-is-berie') return null;
+        if (hash !== '#nieuw' && hash !== '#wie-is-berie') return null;
         return document.getElementById(hash.slice(1));
       };
       let scrollRequest = 0;
