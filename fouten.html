@@ -74,7 +74,7 @@
       <a class="terug tekstlink" href="hub.html" data-terug="hub.html" data-terug-tekst="Terug">← Terug</a>
       <header class="pagina-kop">
         <h1 id="fl-titel">Foutenlijst</h1>
-        <p class="pagina-sub">De vragen die je fout had, per vak. Beantwoord je ze later goed, dan gaan ze vanzelf van de lijst.</p>
+        <p class="pagina-sub">De vragen die je fout had en de kernpunten die ontbraken in Open vragen, per vak. Beantwoord je ze later goed, dan gaan ze vanzelf van de lijst.</p>
       </header>
 
       <p class="fl-status" id="fl-status" role="status">Even laden.</p>
@@ -129,12 +129,13 @@
         if (error) { status.textContent = 'Je foutenlijst kon niet geladen worden. Probeer het later opnieuw.'; return; }
         const perVak = new Map();
         (data || []).forEach((rij) => {
-          const vak = perVak.get(rij.vak) || { normaal: 0, hard: 0 };
-          if (rij.sleutel.startsWith('h:')) vak.hard++; else vak.normaal++;
+          const vak = perVak.get(rij.vak) || { normaal: 0, hard: 0, open: 0 };
+          // o: is een kernpunt uit Open vragen, h: Hard mode, de rest Normaal.
+          if (rij.sleutel.startsWith('o:')) vak.open++; else if (rij.sleutel.startsWith('h:')) vak.hard++; else vak.normaal++;
           perVak.set(rij.vak, vak);
         });
         const namen = new Map((window.BES_VAKKEN || []).map((vak) => [vak.id, vak.naam]));
-        const vakken = [...perVak.entries()].filter(([id]) => namen.has(id)).sort((a, b) => (b[1].normaal + b[1].hard) - (a[1].normaal + a[1].hard));
+        const vakken = [...perVak.entries()].filter(([id]) => namen.has(id)).sort((a, b) => (b[1].normaal + b[1].hard + b[1].open) - (a[1].normaal + a[1].hard + a[1].open));
         wisStatus();
         if (!vakken.length) {
           const leeg = el('div', 'kaart fl-leeg');
@@ -151,6 +152,7 @@
           const delen = [];
           if (aantal.normaal) delen.push(vragenTekst(aantal.normaal) + ' in Normaal');
           if (aantal.hard) delen.push(vragenTekst(aantal.hard) + ' in Hard mode');
+          if (aantal.open) delen.push(aantal.open + ' ' + (aantal.open === 1 ? 'kernpunt' : 'kernpunten') + ' in Open vragen');
           tekst.append(el('h2', '', namen.get(id)), el('p', '', delen.join(', ')));
           const knop = el('a', 'knop-secundair', 'Oefen je fouten');
           knop.href = 'vak/' + encodeURIComponent(id) + '/?fouten=1';
