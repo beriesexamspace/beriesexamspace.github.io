@@ -87,9 +87,9 @@
     }
   }
 
-  function voegVensterToe(doel, type, fn) {
-    doel.addEventListener(type, fn);
-    vensterListeners.push({ doel: doel, type: type, fn: fn });
+  function voegVensterToe(doel, type, fn, vang) {
+    doel.addEventListener(type, fn, !!vang);
+    vensterListeners.push({ doel: doel, type: type, fn: fn, vang: !!vang });
   }
 
   // Een verzoek dat na TIMEOUT_MS nog niet klaar is, telt als netwerkfout.
@@ -715,9 +715,23 @@
 
   // ---------- accountknop en menu ----------
 
+  // Naam en rol uit BM.thema (leeg als het thema-bestand ontbreekt).
+  function profielNu() {
+    var p = (BM.thema && typeof BM.thema.profiel === 'function') ? BM.thema.profiel() : null;
+    return { naam: (p && p.naam) || '', rol: (p && p.rol) || null };
+  }
+
+  // Eerste letter van de naam, anders van het e-mailadres.
+  function beginletter(naam, mail) {
+    var bron = naam || mail || '';
+    return (bron.charAt(0) || '?').toUpperCase();
+  }
+
   function bouwKnop() {
     if (ui || !document.body) return;
     var mail = userEmail;
+    var profiel = profielNu();
+    var naamTimer = 0;
 
     // Container #bm-account: knop en menu zitten erin, zodat position:absolute van het menu klopt.
     var wrap = el('div');
@@ -725,25 +739,146 @@
 
     var knop = el('button');
     knop.type = 'button';
-    knop.textContent = (mail.charAt(0) || '?').toUpperCase();
+    knop.textContent = beginletter(profiel.naam, mail);
     knop.title = mail;
-    knop.setAttribute('aria-label', 'Account: ' + mail);
+    knop.setAttribute('aria-label', 'Account: ' + (profiel.naam || mail));
     knop.setAttribute('aria-haspopup', 'true');
     knop.setAttribute('aria-expanded', 'false');
 
     var menu = el('div', 'bm-account__menu');
     menu.hidden = true;
-    menu.appendChild(el('div', 'bm-account__mail', mail));
+
+    // Bovenaan: naam (als ingevuld, vet), e-mail en status.
+    var bovenkant = el('div', 'bm-account__top');
+    var naamEl = el('div', 'bm-account__naam', profiel.naam);
+    naamEl.hidden = !profiel.naam;
+    bovenkant.appendChild(naamEl);
+    bovenkant.appendChild(el('div', 'bm-account__mail', mail));
     var status = el('div', 'bm-account__status', 'Opgeslagen');
     status.setAttribute('data-state', 'ok');
-    menu.appendChild(status);
+    bovenkant.appendChild(status);
+    menu.appendChild(bovenkant);
+
+    // Sectie "Ik ben": drie chips en een naamveld.
+    var ikBen = el('div', 'bm-account__deel');
+    ikBen.appendChild(el('div', 'bm-account__kop', 'Ik ben'));
+    var chips = el('div', 'bm-chips');
+    chips.setAttribute('role', 'group');
+    chips.setAttribute('aria-label', 'Ik ben');
+    var chipKnoppen = {};
+    [['student', 'Student'], ['leerkracht', 'Leerkracht'], ['anders', 'Anders']].forEach(function (r) {
+      var c = el('button', 'bm-chip', r[1]);
+      c.type = 'button';
+      c.setAttribute('aria-pressed', 'false');
+      chipKnoppen[r[0]] = c;
+      chips.appendChild(c);
+    });
+    ikBen.appendChild(chips);
+
+    var naamVeld = el('input', 'bm-account__naamveld');
+    naamVeld.type = 'text';
+    naamVeld.maxLength = 40;
+    naamVeld.placeholder = 'Je naam (mag leeg)';
+    naamVeld.setAttribute('aria-label', 'Je naam');
+    naamVeld.setAttribute('autocomplete', 'off');
+    naamVeld.value = profiel.naam;
+    ikBen.appendChild(naamVeld);
+    menu.appendChild(ikBen);
+
+    // Sectie "Thema": acht kleurbolletjes.
+    var themaDeel = el('div', 'bm-account__deel');
+    themaDeel.appendChild(el('div', 'bm-account__kop', 'Thema'));
+    var rij = el('div', 'bm-swatches');
+    rij.setAttribute('role', 'group');
+    rij.setAttribute('aria-label', 'Thema');
+    var swatches = [];
+    var kleuren = (BM.thema && typeof BM.thema.lijst === 'function') ? BM.thema.lijst() : [];
+    kleuren.forEach(function (k) {
+      var b = el('button', 'bm-swatch');
+      b.type = 'button';
+      b.title = k.naam;
+      b.setAttribute('aria-label', k.naam);
+      b.setAttribute('aria-pressed', 'false');
+      b.style.background = k.hex;
+      b.addEventListener('click', function () {
+        if (BM.thema) BM.thema.kiezen(k.hex);
+        zetSwatches();
+      });
+      swatches.push({ el: b, hex: k.hex });
+      rij.appendChild(b);
+    });
+    themaDeel.appendChild(rij);
+    menu.appendChild(themaDeel);
+
+    // Uitloggen (gedrag ongewijzigd).
+    var uitDeel = el('div', 'bm-account__deel');
     var uit = el('button', 'bm-account__uit', 'Uitloggen');
     uit.type = 'button';
-    menu.appendChild(uit);
+    uitDeel.appendChild(uit);
+    menu.appendChild(uitDeel);
+
+    // Onderaan: de badge van The Berie Foundation (geen link).
+    var voet = el('div', 'bm-account__deel bm-account__deel--voet');
+    voet.appendChild(el('span', 'bm-account__badge', 'The Berie Foundation'));
+    menu.appendChild(voet);
+
+    function zetChips(rol) {
+      Object.keys(chipKnoppen).forEach(function (k) {
+        chipKnoppen[k].setAttribute('aria-pressed', k === rol ? 'true' : 'false');
+      });
+    }
+
+    function zetSwatches() {
+      var nu = (BM.thema && typeof BM.thema.huidige === 'function') ? BM.thema.huidige() : '';
+      swatches.forEach(function (s) {
+        s.el.setAttribute('aria-pressed', s.hex === nu ? 'true' : 'false');
+      });
+    }
+
+    function bewaar(naam, rol) {
+      if (BM.thema && typeof BM.thema.zetProfiel === 'function') BM.thema.zetProfiel({ naam: naam, rol: rol });
+    }
+
+    // Chip: nogmaals klikken zet hem uit.
+    Object.keys(chipKnoppen).forEach(function (k) {
+      chipKnoppen[k].addEventListener('click', function () {
+        var nieuw = (profielNu().rol === k) ? null : k;
+        clearTimeout(naamTimer);
+        naamTimer = 0;
+        bewaar(naamVeld.value, nieuw);
+        zetChips(nieuw);
+      });
+    });
+
+    // Naamveld: opslaan na korte pauze in het typen. Typen in het veld sluit het menu niet.
+    naamVeld.addEventListener('input', function () {
+      clearTimeout(naamTimer);
+      naamTimer = setTimeout(function () {
+        naamTimer = 0;
+        bewaar(naamVeld.value, profielNu().rol);
+      }, 400);
+    });
+    naamVeld.addEventListener('change', function () {
+      clearTimeout(naamTimer);
+      naamTimer = 0;
+      bewaar(naamVeld.value, profielNu().rol);
+    });
+    zetChips(profiel.rol);
+    zetSwatches();
 
     wrap.appendChild(knop);
     wrap.appendChild(menu);
     document.body.appendChild(wrap);
+
+    // Naam of thema wijzigt (ook elders): knop, naam en kleurbolletjes bijwerken.
+    offs.push(BM.bus.on('profiel:changed', function (p) {
+      var naam = (p && p.naam) || '';
+      naamEl.textContent = naam;
+      naamEl.hidden = !naam;
+      knop.textContent = beginletter(naam, mail);
+      knop.setAttribute('aria-label', 'Account: ' + (naam || mail));
+    }));
+    offs.push(BM.bus.on('thema:changed', zetSwatches));
 
     // Klik op de container (ook op de knop, die bubbelt hierheen) opent of sluit het menu.
     wrap.addEventListener('click', function (e) {
@@ -783,9 +918,17 @@
       if (wrap.contains(e.target)) return;
       zetMenu(false);
     });
+    // Escape met open menu sluit alleen het menu. Capture-fase: deze listener draait
+    // vóór de Escape-afhandeling van de pop-up (popup.js), die anders eerst de Escape opvangt.
+    // Staat de focus in het menu (ook het naamveld), dan komt hij terug op het accountknopje.
     voegVensterToe(document, 'keydown', function (e) {
-      if (e.key === 'Escape' && menuOpen()) zetMenu(false);
-    });
+      if (e.key !== 'Escape' || !menuOpen()) return;
+      e.preventDefault();
+      e.stopPropagation();
+      var inMenu = menu.contains(document.activeElement);
+      zetMenu(false);
+      if (inMenu) ui.knop.focus();
+    }, true);
 
     ui = { wrap: wrap, knop: knop, menu: menu, status: status };
   }
@@ -832,7 +975,7 @@
     });
     offs = [];
     vensterListeners.forEach(function (l) {
-      l.doel.removeEventListener(l.type, l.fn);
+      l.doel.removeEventListener(l.type, l.fn, !!l.vang);
     });
     vensterListeners = [];
     if (ui) {

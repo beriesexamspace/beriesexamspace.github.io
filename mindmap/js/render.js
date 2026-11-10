@@ -21,6 +21,7 @@
   var hoverId = null;     // id onder de muis (of null)
   var lastHover = null;   // laatste hover, zodat de dim-overgang netjes uitloopt
   var hoverMix = 0;       // 0..1, loopt zacht mee met hover
+  var selId = null;       // punt waarvan de pop-up open staat (blijft gemarkeerd, zie ui:popup-opened)
 
   // Kennisboom-stijl: in rust grijze puntjes; hover op een tak laat die hele tak
   // wit oplichten (rest dimt), hover op het midden laat alles oplichten.
@@ -281,7 +282,9 @@
     for (var w0 = 0; w0 < ids.length; w0++) walk(ids[w0]);
 
     // Doel per punt: alles (hover op midden), een tak (hover op een tak) of rust.
-    var hovLive = hoverId && nodes[hoverId] ? hoverId : null;
+    // Zonder muis op een punt blijft het punt van de open pop-up gemarkeerd.
+    var focusId = hoverId || selId;
+    var hovLive = focusId && nodes[focusId] ? focusId : null;
     var modeAll = hovLive && depthOf[hovLive] === 0;
     var focusB = hovLive && !modeAll ? branchOf[hovLive] : null;
     var rate = Math.min(1, frameDt * 7);
@@ -626,6 +629,11 @@
     if (!wired && BM.bus && typeof BM.bus.on === 'function') {
       wired = true;
       BM.bus.on('node:added', onAdded);
+      BM.bus.on('ui:popup-opened', function(d){
+        selId = d && d.nodeId ? d.nodeId : null;
+        markDirty();
+      });
+      BM.bus.on('ui:popup-closed', function(){ selId = null; markDirty(); });
       BM.bus.on('node:focus', function(d){
         if (d && d.nodeId && BM.anim && typeof BM.anim.pulse === 'function') BM.anim.pulse(d.nodeId);
         markDirty();

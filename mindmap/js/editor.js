@@ -259,6 +259,40 @@
     renderCrumbs();
   }
 
+  // ---------- bewerken (naar het pop-up-menu van dit punt) ----------
+
+  // Potlood-icoontje, inline SVG met stroke currentColor.
+  function pencilIcon() {
+    var NS = 'http://www.w3.org/2000/svg';
+    var svg = document.createElementNS(NS, 'svg');
+    svg.setAttribute('viewBox', '0 0 24 24');
+    svg.setAttribute('width', '14');
+    svg.setAttribute('height', '14');
+    svg.setAttribute('fill', 'none');
+    svg.setAttribute('stroke', 'currentColor');
+    svg.setAttribute('stroke-width', '2');
+    svg.setAttribute('stroke-linecap', 'round');
+    svg.setAttribute('stroke-linejoin', 'round');
+    svg.setAttribute('aria-hidden', 'true');
+    svg.setAttribute('focusable', 'false');
+    var p1 = document.createElementNS(NS, 'path');
+    p1.setAttribute('d', 'M12 20h9');
+    var p2 = document.createElementNS(NS, 'path');
+    p2.setAttribute('d', 'M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z');
+    svg.appendChild(p1);
+    svg.appendChild(p2);
+    return svg;
+  }
+
+  // Bewaar het punt, sluit het paneel en open de pop-up van hetzelfde punt.
+  function editStyle() {
+    if (!st.open || !st.nodeId) return;
+    var nodeId = st.nodeId;
+    flush();
+    closeNode();
+    emit('ui:open-popup', { nodeId: nodeId });
+  }
+
   // ---------- bouwen ----------
 
   function build() {
@@ -273,11 +307,19 @@
     dot.setAttribute('aria-hidden', 'true');
     var crumbs = h('nav', 'bm-editor-crumbs');
     crumbs.setAttribute('aria-label', 'Pad naar dit punt');
+    var editBtn = h('button', 'bm-btn bm-editor-edit');
+    editBtn.type = 'button';
+    editBtn.title = 'Kleur en branches aanpassen';
+    // Het zichtbare woord "Bewerken" blijft in de naam staan (WCAG 2.5.3: spraakbesturing).
+    editBtn.setAttribute('aria-label', 'Bewerken: kleur en branches aanpassen');
+    editBtn.appendChild(pencilIcon());
+    editBtn.appendChild(document.createTextNode('Bewerken'));
     var closeBtn = h('button', 'bm-btn bm-editor-close', 'Sluiten');
     closeBtn.type = 'button';
     closeBtn.setAttribute('aria-label', 'Sluit notitie');
     head.appendChild(dot);
     head.appendChild(crumbs);
+    head.appendChild(editBtn);
     head.appendChild(closeBtn);
 
     var titleEl = h('input', 'bm-input bm-editor-title');
@@ -319,6 +361,9 @@
     closeBtn.addEventListener('click', function () {
       closeNode();
     });
+    editBtn.addEventListener('click', function () {
+      editStyle();
+    });
 
     titleEl.addEventListener('input', function () {
       st.dirtyTitle = true;
@@ -359,6 +404,16 @@
     el.addEventListener('wheel', function (e) {
       e.stopPropagation();
     }, { passive: true });
+
+    // Ctrl+E (Cmd+E op Mac) in het paneel: hetzelfde als de knop Bewerken.
+    // In het titelveld laten we Ctrl+E met rust (op Mac is dat "naar einde van de regel").
+    el.addEventListener('keydown', function (e) {
+      if (!(e.ctrlKey || e.metaKey) || e.altKey || e.shiftKey) return;
+      if (e.key !== 'e' && e.key !== 'E') return;
+      if (e.target === titleEl) return;
+      e.preventDefault();
+      editStyle();
+    });
 
     document.addEventListener('keydown', function (e) {
       if (e.key === 'Escape' && st.open) {
