@@ -602,15 +602,7 @@
     concept.rol = 'leerkracht';
     concept.aanspreking = k;
     s.fout.textContent = '';
-    // Wie al toegang heeft (bestaand account) hoeft geen school en sleutel meer te geven.
-    if (ctx && ctx.status === 'toegang') {
-      knoppen.forEach(function (b) { if (b !== s.knoppen[k]) b.disabled = true; });
-      bewaarProfiel(s, s.knoppen[k]).then(function (ok) {
-        knoppen.forEach(function (b) { b.disabled = false; });
-        if (ok) sluitAf({ soort: 'verder' });
-      });
-      return;
-    }
+    // Iedere leerkracht kiest een school, ook wie al toegang heeft.
     toon('school');
   }
 
@@ -706,11 +698,17 @@
     }, ZOEK_WACHT);
   }
 
+  function heeftAlToegang() {
+    return !!(ctx && ctx.status === 'toegang');
+  }
+
   function doeSchool(s) {
     if (!concept.school) { s.fout.textContent = T.school.foutKies; return; }
     var school = concept.school;
     bewaarProfiel(s, s.knop).then(function (ok) {
       if (!ok) return;
+      // Wie al toegang heeft, heeft geen sleutel nodig: meteen verder.
+      if (heeftAlToegang()) { sluitAf({ soort: 'verder' }); return; }
       toon(school.toestemming ? 'sleutel' : 'geen');
     });
   }
@@ -718,7 +716,9 @@
   function doeGeenSchool(s, b) {
     concept.school = null;
     bewaarProfiel(s, b).then(function (ok) {
-      if (ok) toon('geen');
+      if (!ok) return;
+      if (heeftAlToegang()) { sluitAf({ soort: 'verder' }); return; }
+      toon('geen');
     });
   }
 
