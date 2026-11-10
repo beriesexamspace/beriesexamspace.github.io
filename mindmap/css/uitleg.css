@@ -1,0 +1,347 @@
+/* =========================================================
+   Berie's mindmap - css/uitleg.css
+   De uitleg (rondleiding): een donkere box met een schuine lijn naar het onderdeel.
+   Premium stijl in de huisstijl, in de geest van een Minecraft-tooltip
+   (donkere box, dunne paarse binnenrand, hier in de accentkleur).
+   Houd je aan het contract bovenaan js/uitleg.js:
+
+   - .bm-uitleg__box krijgt left/top inline van de motor. Geen transform, margin
+     of andere verschuiving op de box zelf voor de positie. De inschuif-animatie
+     op de box eindigt op transform: none (fill-mode backwards), dus in rust klopt
+     de positie altijd.
+   - De motor meet de box (offsetWidth / offsetHeight). Breedte en padding staan hier.
+   - .bm-uitleg.is-wissel = tussen twee stappen (lijn, punt, kader en box onzichtbaar).
+     De duur van die overgang is 170 ms in js/uitleg.js (WISSEL_MS); houd die gelijk.
+   - .bm-uitleg--midden = stap zonder doel (geen punt, lijn of kader).
+   - [hidden] moet verbergen (kader, overslaan-knop).
+
+   Klassen: .bm-uitleg, .bm-uitleg__svg, .bm-uitleg__lijn, .bm-uitleg__ring,
+   .bm-uitleg__punt, .bm-uitleg__kader, .bm-uitleg__box (data-plek),
+   .bm-uitleg__stap, .bm-uitleg__titel, .bm-uitleg__tekst, .bm-uitleg__voet,
+   .bm-uitleg__overslaan, .bm-uitleg__volgende
+   ========================================================= */
+
+.bm-uitleg {
+  position: fixed;
+  inset: 0;
+  z-index: 90; /* boven de app (pop-up 50, dialoog 70), onder het inlogscherm (100) */
+  cursor: pointer;
+  background: rgba(8, 8, 11, 0.38);
+  opacity: 0;
+  transition: opacity 240ms var(--bm-ease);
+  -webkit-tap-highlight-color: transparent;
+  touch-action: none;
+  font-family: var(--bm-font);
+}
+
+.bm-uitleg.is-zichtbaar {
+  opacity: 1;
+}
+
+.bm-uitleg.is-weg {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.bm-uitleg [hidden] {
+  display: none !important;
+}
+
+/* ---------- lijn en punt ---------- */
+
+.bm-uitleg__svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  pointer-events: none;
+  transition: opacity 170ms var(--bm-ease);
+}
+
+.bm-uitleg__lijn {
+  stroke: rgba(var(--bm-accent-rgb), 0.9);
+  stroke-width: 1.5;
+  stroke-linecap: round;
+}
+
+.bm-uitleg__punt {
+  fill: var(--bm-accent);
+  stroke: #fff;
+  stroke-width: 1.5;
+  filter: drop-shadow(0 0 5px rgba(var(--bm-accent-rgb), 0.9));
+}
+
+.bm-uitleg__ring {
+  fill: none;
+  stroke: rgba(var(--bm-accent-rgb), 0.55);
+  stroke-width: 1.5;
+  transform-box: fill-box;
+  transform-origin: center;
+}
+
+/* ---------- randje om een knop of paneel ---------- */
+
+.bm-uitleg__kader {
+  position: absolute;
+  box-sizing: border-box;
+  border: 1.5px solid rgba(var(--bm-accent-rgb), 0.85);
+  border-radius: 8px;
+  box-shadow: 0 0 0 4px var(--bm-accent-soft), 0 0 18px rgba(var(--bm-accent-rgb), 0.25);
+  pointer-events: none;
+  transition: opacity 170ms var(--bm-ease);
+}
+
+/* ---------- de box (tooltip) ---------- */
+
+.bm-uitleg__box {
+  position: absolute;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  width: min(296px, calc(100vw - 32px));
+  padding: 14px 16px 12px;
+  isolation: isolate; /* eigen stapeling: de binnenrand (::before) blijft altijd zichtbaar */
+  background: rgba(9, 9, 12, 0.86);
+  backdrop-filter: blur(14px) saturate(130%);
+  -webkit-backdrop-filter: blur(14px) saturate(130%);
+  border: 1px solid rgba(var(--bm-accent-rgb), 0.5);
+  border-radius: 6px;
+  box-shadow:
+    0 12px 32px rgba(0, 0, 0, 0.5),
+    0 0 0 1px rgba(0, 0, 0, 0.45),
+    0 0 26px rgba(var(--bm-accent-rgb), 0.14);
+  color: var(--bm-text);
+  cursor: default;
+  outline: none;
+  transition: opacity 170ms var(--bm-ease);
+}
+
+/* De dunne binnenrand, met een verloop zoals het paarse randje van een tooltip. */
+.bm-uitleg__box::before {
+  content: '';
+  position: absolute;
+  inset: 4px;
+  z-index: -1; /* binnen de stapeling van de box: boven de achtergrond, onder de tekst */
+  border: 1px solid transparent;
+  border-image: linear-gradient(
+      160deg,
+      rgba(var(--bm-accent-rgb), 0.75),
+      rgba(var(--bm-accent-rgb), 0.1) 45%,
+      rgba(var(--bm-accent-rgb), 0.5)
+    ) 1;
+  pointer-events: none;
+}
+
+.bm-uitleg__titel {
+  order: 0;
+  margin: 0 0 6px;
+  font-size: 15px;
+  font-weight: 700;
+  line-height: 1.3;
+  letter-spacing: -0.005em;
+  color: var(--bm-text);
+}
+
+.bm-uitleg__tekst {
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.5;
+  text-wrap: pretty;
+  color: var(--bm-text-dim);
+}
+
+/* Onderaan: eerst de knoppen, dan de stapteller. */
+.bm-uitleg__voet {
+  order: 2;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-top: 12px;
+}
+
+.bm-uitleg__stap {
+  order: 3;
+  margin: 8px 0 0;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  font-variant-numeric: tabular-nums;
+  color: var(--bm-text-dim);
+  opacity: 0.8;
+}
+
+.bm-uitleg__stap:empty {
+  display: none;
+}
+
+.bm-uitleg__overslaan,
+.bm-uitleg__volgende {
+  min-height: 34px;
+  margin: 0;
+  padding: 0 14px;
+  border-radius: 8px;
+  font: inherit;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  transition: background-color 160ms var(--bm-ease), color 160ms var(--bm-ease),
+    border-color 160ms var(--bm-ease), box-shadow 200ms var(--bm-ease),
+    transform 150ms var(--bm-ease);
+}
+
+.bm-uitleg__overslaan {
+  border: 1px solid transparent;
+  background: transparent;
+  color: var(--bm-text-dim);
+  font-weight: 500;
+  margin-left: -10px; /* tekst lijnt bijna uit met de titel, de hover-achtergrond blijft binnen de rand */
+}
+
+.bm-uitleg__overslaan:hover {
+  background: rgba(255, 255, 255, 0.06);
+  color: var(--bm-text);
+}
+
+.bm-uitleg__volgende {
+  margin-left: auto;
+  border: 1px solid transparent;
+  background: var(--bm-accent);
+  color: #fff; /* zelfde als de hoofdknop van het inlogscherm (.bm-knop--primair) */
+  box-shadow: 0 8px 20px -10px rgba(var(--bm-accent-rgb), 0.9);
+}
+
+.bm-uitleg__volgende:hover {
+  background: var(--bm-accent-hover);
+  box-shadow: 0 10px 24px -10px rgba(var(--bm-accent-rgb), 1), 0 0 14px rgba(var(--bm-accent-rgb), 0.3);
+  transform: translateY(-1px);
+}
+
+.bm-uitleg__overslaan:active,
+.bm-uitleg__volgende:active {
+  transform: scale(0.96);
+}
+
+.bm-uitleg__overslaan:focus-visible,
+.bm-uitleg__volgende:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(9, 9, 12, 0.9), 0 0 0 4px var(--bm-accent);
+}
+
+/* Laatste stap ("Veel succes!"): iets groter en feestelijker, zonder emoji. */
+.bm-uitleg__box:has(.bm-uitleg__overslaan[hidden]) {
+  border-color: rgba(var(--bm-accent-rgb), 0.85);
+  box-shadow:
+    0 12px 36px rgba(0, 0, 0, 0.5),
+    0 0 0 1px rgba(0, 0, 0, 0.45),
+    0 0 34px rgba(var(--bm-accent-rgb), 0.3);
+}
+
+.bm-uitleg__box:has(.bm-uitleg__overslaan[hidden]) .bm-uitleg__titel {
+  font-size: 17px;
+  color: var(--bm-accent);
+}
+
+.bm-uitleg__box:has(.bm-uitleg__overslaan[hidden]) .bm-uitleg__tekst {
+  font-size: 14px;
+  color: var(--bm-text);
+}
+
+/* ---------- standen ---------- */
+
+.bm-uitleg.is-wissel .bm-uitleg__svg,
+.bm-uitleg.is-wissel .bm-uitleg__kader,
+.bm-uitleg.is-wissel .bm-uitleg__box {
+  opacity: 0;
+}
+
+.bm-uitleg--midden .bm-uitleg__svg,
+.bm-uitleg--midden .bm-uitleg__kader {
+  visibility: hidden;
+}
+
+/* ---------- animaties (alleen als er geen minderBeweging is) ---------- */
+
+@media (prefers-reduced-motion: no-preference) {
+  /* De ring pulseert rond het punt. */
+  .bm-uitleg__ring {
+    animation: bm-uitleg-ring 1800ms var(--bm-ease) infinite;
+  }
+
+  /* Het punt springt zacht op. */
+  .bm-uitleg.is-zichtbaar:not(.is-wissel) .bm-uitleg__punt {
+    transform-box: fill-box;
+    transform-origin: center;
+    animation: bm-uitleg-punt 220ms var(--bm-ease) backwards;
+  }
+
+  /* De lijn wordt getekend vanaf het punt (~300 ms). De lijn is meestal ~75 px lang.
+     De streep staat alleen in de keyframes: na de animatie is de lijn altijd heel,
+     ook als hij eens langer is dan 100 px. Bij elke nieuwe stap opnieuw, omdat de
+     selector even niet klopt tijdens .is-wissel. */
+  .bm-uitleg.is-zichtbaar:not(.is-wissel) .bm-uitleg__lijn {
+    animation: bm-uitleg-teken 300ms var(--bm-ease) backwards;
+  }
+
+  /* De box schuift zacht in: opacity + 6 px. Eindigt op transform: none. */
+  .bm-uitleg.is-zichtbaar:not(.is-wissel) .bm-uitleg__box {
+    animation: bm-uitleg-box 220ms var(--bm-ease) backwards;
+  }
+}
+
+@keyframes bm-uitleg-ring {
+  0% { transform: scale(0.6); opacity: 0.9; }
+  100% { transform: scale(1.9); opacity: 0; }
+}
+
+@keyframes bm-uitleg-punt {
+  from { transform: scale(0); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+
+@keyframes bm-uitleg-teken {
+  from { stroke-dasharray: 100; stroke-dashoffset: 100; }
+  to { stroke-dasharray: 100; stroke-dashoffset: 0; }
+}
+
+@keyframes bm-uitleg-box {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: none; }
+}
+
+/* ---------- telefoon ---------- */
+
+@media (max-width: 480px) {
+  .bm-uitleg__box {
+    width: min(280px, calc(100vw - 32px));
+    padding: 12px 14px 10px;
+  }
+
+  .bm-uitleg__overslaan,
+  .bm-uitleg__volgende {
+    min-height: 40px; /* ruimere tikdoelen op de telefoon */
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .bm-uitleg,
+  .bm-uitleg__svg,
+  .bm-uitleg__kader,
+  .bm-uitleg__box,
+  .bm-uitleg__overslaan,
+  .bm-uitleg__volgende {
+    transition: none;
+  }
+
+  .bm-uitleg__ring {
+    animation: none;
+  }
+
+  .bm-uitleg__overslaan:active,
+  .bm-uitleg__volgende:active,
+  .bm-uitleg__volgende:hover {
+    transform: none;
+  }
+}

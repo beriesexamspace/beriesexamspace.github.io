@@ -435,11 +435,31 @@
     s.root.insertBefore(s.mail, s.form);
   }
 
+  // Teksten van de wachtkamer staan in BM.welkomTeksten (js/welkom.js); zonder dat bestand de oude tekst.
+  function wachtTeksten() {
+    var w = (BM.welkomTeksten && BM.welkomTeksten.wachtkamer) || null;
+    return {
+      titel: (w && w.titel) || 'Wacht op goedkeuring',
+      tekst: (w && w.tekst) || 'Berie moet je account eerst goedkeuren. Dit hoeft maar één keer.',
+      extra: (w && w.extra) || '',
+      sleutelLink: (w && w.sleutelLink) || 'Ik heb een sleutel'
+    };
+  }
+
   function bouwWacht() {
-    var s = scherm('wacht', 'Wacht op goedkeuring',
-      'Berie moet je account eerst goedkeuren. Je krijgt een mail zodra je erin kunt. Dit hoeft maar één keer.');
+    var wt = wachtTeksten();
+    var s = scherm('wacht', wt.titel, wt.tekst);
+    if (BM.welkomTeksten) s.root.classList.add('bm-auth__scherm--wachtkamer');
+    if (wt.extra) {
+      s.extra = el('p', 'bm-auth__extra', wt.extra);
+      s.root.insertBefore(s.extra, s.form);
+    }
     mailRegel(s);
     vulForm(s, [], 'Opnieuw controleren');
+    // Alleen zichtbaar voor een leerkracht (zie naarWacht): school kiezen en sleutel invullen.
+    s.sleutelLink = linkKnop(wt.sleutelLink, function () { doeSleutelLink(); });
+    s.sleutelLink.hidden = true;
+    s.links.appendChild(s.sleutelLink);
     s.uit = knop('Uitloggen', 'bm-knop', 'button');
     s.uit.addEventListener('click', function () {
       if (s.uit.disabled) return;
@@ -877,11 +897,79 @@
     s.box.classList.remove('is-bezig');
   }
 
+  var welkomKlaar = false;     // de welkomstflow is in dit bezoek al doorlopen
+  var welkomBezig = false;     // de welkomstflow staat nu op het scherm
+
+  // Verbergt het zichtbare scherm, zodat js/welkom.js zijn eigen scherm in de kaart kan tonen.
+  function verbergSchermen() {
+    if (huidig && schermen[huidig]) schermen[huidig].root.classList.remove('is-actief');
+    stopWachtTimer();
+    huidig = '';
+  }
+
+  // Draait een stuk van de welkomstflow (ingang = BM.welkom.voorToegang of sleutelVanafWacht).
+  // Geeft de status terug waarmee het verder moet, of null als er al een ander scherm staat.
+  async function doeWelkom(user, status, ingang) {
+    welkomBezig = true;
+    var uit = null;
+    try {
+      uit = await ingang({
+        client: client,
+        user: { id: user.id, email: user.email || '' },
+        status: status,
+        kaart: overlay ? overlay.querySelector('.bm-auth__kaart') : null,
+        verbergSchermen: verbergSchermen,
+        uitloggen: uitloggen
+      });
+    } catch (err) {
+      uit = null;
+      try { console.error('[BM.auth] welkom mislukt:', err); } catch (e) { /* console kan ontbreken */ }
+    }
+    welkomBezig = false;
+    if (uit && uit.soort === 'verlopen') {
+      naarInloggen('Je sessie is verlopen. Log opnieuw in.');
+      return null;
+    }
+    if (uit && uit.soort === 'opnieuw') {
+      // Alleen de database bepaalt of er nu toegang is.
+      toon('laden');
+      var nieuw = '';
+      try {
+        nieuw = await Promise.race([haalStatus(), wachtLimiet()]);
+      } catch (e) { nieuw = ''; }
+      if (typeof nieuw !== 'string' || !nieuw) {
+        laadFout(nieuw === LIMIET ? TE_LANG : VERBINDING_OP);
+        return null;
+      }
+      return nieuw;
+    }
+    return status;
+  }
+
+  // Link "Ik heb een sleutel" in de wachtkamer.
+  async function doeSleutelLink() {
+    if (!wachtend || welkomBezig || aangemeld) return;
+    if (!BM.welkom || typeof BM.welkom.sleutelVanafWacht !== 'function') return;
+    var user = wachtend;
+    var status = await doeWelkom(user, 'wacht', BM.welkom.sleutelVanafWacht);
+    if (status === null || aangemeld) return;
+    await volgStatus(user, status);
+  }
+
   // Gaat verder volgens de status: app starten, code vragen, aanvraag sturen, wachten of afgewezen.
   async function volgStatus(user, status) {
     if (aangemeld) return;
-    if (status === 'toegang') { afronden(user); return; }
     if (status === 'niet_geverifieerd') { naarCode(user); return; }
+    // Eerste keer na de code: wie ben je (js/welkom.js). Die flow geeft zelf geen toegang;
+    // na een gebruikte sleutel vraagt deze functie de status opnieuw aan de database.
+    if (!welkomKlaar && BM.welkom && typeof BM.welkom.voorToegang === 'function') {
+      if (welkomBezig) return;
+      status = await doeWelkom(user, status, BM.welkom.voorToegang);
+      if (status === null || aangemeld) return;
+      welkomKlaar = true;
+      if (status === 'niet_geverifieerd') { naarCode(user); return; }
+    }
+    if (status === 'toegang') { afronden(user); return; }
     if (status === 'afgewezen') { naarAfgewezen(user); return; }
     var foutTekst = '';
     if (status === 'geen') {
@@ -897,6 +985,15 @@
     naarWacht(user, foutTekst);
   }
 
+  // Naam uit het profiel (js/welkom.js) voor de aanvraagmail; zonder profiel een lege body.
+  function aanvraagBody() {
+    var naam = '';
+    try {
+      if (BM.welkom && typeof BM.welkom.aanvraagNaam === 'function') naam = BM.welkom.aanvraagNaam() || '';
+    } catch (e) { naam = ''; }
+    return naam ? { naam: naam } : {};
+  }
+
   // Stuurt de aanvraag naar Berie. Het mailadres bepaalt de server zelf (uit de sessie).
   async function vraagToegang() {
     if (aanvraagGedaan || aanvraagBezig) return { status: 'wacht' };
@@ -905,7 +1002,7 @@
     var res;
     try {
       res = await aanroep(schermen.wacht, schermen.wacht.knop, function () {
-        return client.functions.invoke('vraag-toegang', { body: {} });
+        return client.functions.invoke('vraag-toegang', { body: aanvraagBody() });
       });
     } finally {
       aanvraagBezig = false;
@@ -934,6 +1031,11 @@
     var s = schermen.wacht;
     zetMailRegel(s, wachtend);
     s.stand.textContent = STAND_TEKST;
+    var magSleutel = false;
+    try {
+      magSleutel = !!(BM.welkom && typeof BM.welkom.kanSleutel === 'function' && BM.welkom.kanSleutel());
+    } catch (e) { magSleutel = false; }
+    s.sleutelLink.hidden = !magSleutel;
     toon('wacht');
     if (foutTekst) meldFout(s, foutTekst);
     startWachtTimer();
@@ -1008,6 +1110,12 @@
       setTimeout(function () {
         if (o.parentNode) o.parentNode.removeChild(o);
       }, 320);
+    }
+    // Begroeting en uitleg (js/welkom.js) komen over de mindmap heen, de eerste keer.
+    try {
+      if (BM.welkom && typeof BM.welkom.naToegang === 'function') BM.welkom.naToegang();
+    } catch (err) {
+      try { console.error('[BM.auth] begroeting mislukt:', err); } catch (e) { /* console kan ontbreken */ }
     }
     try {
       BM.cloud.begin({ id: gebruiker.id, email: gebruiker.email });
