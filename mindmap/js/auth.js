@@ -269,7 +269,26 @@
       });
       wrap.appendChild(oog);
     }
+    if (opts.geenKopie) blokkeerKopie(input, lab);
     return { naam: naam, wrap: wrap, input: input };
+  }
+
+  // Nieuw wachtwoord: niet kopieren, knippen, plakken of slepen, zodat je het
+  // echt twee keer typt. Een korte melding naast het label legt uit waarom.
+  function blokkeerKopie(input, lab) {
+    var hint = el('span', 'bm-veld__hint', 'Typ het zelf, kopiëren en plakken kan hier niet');
+    hint.setAttribute('aria-live', 'polite');
+    input.parentNode.appendChild(hint);
+    var tijd = null;
+    function weiger(e) {
+      e.preventDefault();
+      hint.classList.add('is-zichtbaar');
+      clearTimeout(tijd);
+      tijd = setTimeout(function () { hint.classList.remove('is-zichtbaar'); }, 2200);
+    }
+    ['copy', 'cut', 'paste', 'drop', 'dragstart'].forEach(function (soort) {
+      input.addEventListener(soort, weiger);
+    });
   }
 
   // Zet een oogje-svg in de knop. zichtbaar = het wachtwoord staat nu in de leesbare stand
@@ -374,8 +393,8 @@
     var s = scherm('aanmaken', 'Account maken', 'Maak een account met je mailadres en een wachtwoord.');
     vulForm(s, [
       veld('email', 'E-mailadres', 'email', { auto: 'email', mail: true, max: 254, mode: 'email' }),
-      veld('ww', 'Wachtwoord (minstens 10 tekens)', 'password', { auto: 'new-password', max: 200 }),
-      veld('ww2', 'Wachtwoord herhalen', 'password', { auto: 'new-password', max: 200 })
+      veld('ww', 'Wachtwoord (minstens 10 tekens)', 'password', { auto: 'new-password', max: 200, geenKopie: true }),
+      veld('ww2', 'Wachtwoord herhalen', 'password', { auto: 'new-password', max: 200, geenKopie: true })
     ], 'Account maken');
     koppel(s, doeAanmaken);
     s.links.appendChild(linkKnop('Ik heb al een account', function () { toon('inloggen'); }));
@@ -458,8 +477,8 @@
   function bouwNieuw() {
     var s = scherm('nieuw', 'Nieuw wachtwoord', 'Kies een nieuw wachtwoord van minstens 10 tekens.');
     vulForm(s, [
-      veld('ww', 'Nieuw wachtwoord', 'password', { auto: 'new-password', max: 200 }),
-      veld('ww2', 'Nieuw wachtwoord herhalen', 'password', { auto: 'new-password', max: 200 })
+      veld('ww', 'Nieuw wachtwoord', 'password', { auto: 'new-password', max: 200, geenKopie: true }),
+      veld('ww2', 'Nieuw wachtwoord herhalen', 'password', { auto: 'new-password', max: 200, geenKopie: true })
     ], 'Wachtwoord opslaan');
     koppel(s, doeNieuw);
     return s;
