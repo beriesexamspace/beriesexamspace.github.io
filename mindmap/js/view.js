@@ -221,7 +221,10 @@
     trigger.appendChild(badge);
 
     root.appendChild(panel);
-    root.appendChild(trigger);
+    var rij = el('div', 'bm-view__rij');
+    rij.appendChild(trigger);
+    rij.appendChild(maakOog());
+    root.appendChild(rij);
     document.body.appendChild(root);
 
     // Events
@@ -254,6 +257,58 @@
       if (e.key === 'Escape' && isOpen) close();
     });
   }
+
+  // ---- Oogje: alle namen weg of terug (zoals F1 in een game) ----
+  var OOG_AAN = '<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" ' +
+    'stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' +
+    '<path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg>';
+  var OOG_UIT = '<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" ' +
+    'stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' +
+    '<path d="M2 12s3.6-7 10-7c1.6 0 3 .4 4.3 1M22 12s-3.6 7-10 7c-1.6 0-3-.4-4.3-1"/>' +
+    '<path d="M9.9 14.1a3 3 0 0 1 4.2-4.2"/><path d="M3 3l18 18"/></svg>';
+  var oog = null;
+  var namenZichtbaar = true;
+
+  function leesNamen() {
+    try { return localStorage.getItem('bm-namen') !== 'uit'; } catch (e) { return true; }
+  }
+  function bewaarNamen(aan) {
+    try { localStorage.setItem('bm-namen', aan ? 'aan' : 'uit'); } catch (e) { /* niet erg */ }
+  }
+  function toonNamen(aan, bewaar) {
+    namenZichtbaar = !!aan;
+    if (BM.render && typeof BM.render.namen === 'function') BM.render.namen(namenZichtbaar);
+    if (oog) {
+      oog.innerHTML = namenZichtbaar ? OOG_AAN : OOG_UIT;
+      var t = namenZichtbaar ? 'Namen verbergen (F1)' : 'Namen tonen (F1)';
+      oog.title = t;
+      oog.setAttribute('aria-label', t);
+      oog.setAttribute('aria-pressed', namenZichtbaar ? 'false' : 'true');
+      oog.classList.toggle('bm-view__oog--uit', !namenZichtbaar);
+    }
+    if (bewaar) bewaarNamen(namenZichtbaar);
+  }
+  function maakOog() {
+    oog = el('button', 'bm-btn bm-view__oog');
+    oog.type = 'button';
+    oog.addEventListener('click', function () {
+      toonNamen(!namenZichtbaar, true);
+      oog.classList.remove('bm-view__oog--tik');
+      void oog.offsetWidth;
+      oog.classList.add('bm-view__oog--tik');
+    });
+    toonNamen(leesNamen(), false);
+    return oog;
+  }
+  function typt(t) {
+    return !!(t && (t.isContentEditable || /^(INPUT|TEXTAREA|SELECT)$/.test(t.tagName)));
+  }
+  document.addEventListener('keydown', function (e) {
+    if (e.key !== 'F1' || e.ctrlKey || e.metaKey || e.altKey || typt(e.target)) return;
+    if (!oog || !document.body.contains(oog)) return;
+    e.preventDefault();
+    oog.click();
+  });
 
   function init() {
     if (inited) return;
