@@ -13,7 +13,7 @@ import Anthropic from "npm:@anthropic-ai/sdk";
 import { createClient } from "npm:@supabase/supabase-js@2";
 
 const TOEGESTAAN = ["https://beriesexamspace.com", "https://beriesexamspace.github.io"];
-const MODEL = "claude-opus-5-5"; // zie README: Claude Haiku 5.5 kost ongeveer 40 keer minder, keuze aan jullie
+const MODEL = "claude-sonnet-5-5"; // gekozen door Berat (11-11-2026), zie README voor de kosten
 const MAX_ANTWOORD = 3000;
 
 const cors = (origin: string | null) => ({
@@ -108,7 +108,10 @@ Deno.serve(async (req) => {
 
   const client = new Anthropic({ apiKey: Deno.env.get("ANTHROPIC_API_KEY") });
   try {
-    const response = await client.messages.create({
+    // Weigert het model een antwoord (refusal), dan probeert de API zelf een passend ander model.
+    const response = await client.beta.messages.create({
+      betas: ["server-side-fallback-2026-07-01"],
+      fallbacks: "default",
       model: MODEL,
       max_tokens: 4000,
       output_config: { effort: "low", format: { type: "json_schema", schema: SCHEMA } },

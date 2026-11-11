@@ -37,7 +37,7 @@ Daglimiet bereikt: `{ "limiet": true, "tekst": "..." }`. Elke andere fout (niet 
 1. **Nakijken of `fouten_bijwerken` sleutels met `o:` accepteert.** De SQL staat niet in de repo. Staat er in de functie of in een check op de tabel `fouten` een controle op het formaat (bijvoorbeeld `^[nh]:[0-9a-f]{8}$`), dan moet die `o:[0-9a-f]{8}\.[0-9a-f]{8}` toelaten. Een nieuwe kolom is niet nodig.
 2. **De functie aanmaken en deployen** (`supabase functions deploy comit-nakijken`) met JWT-controle aan, en de secret voor de AI-sleutel zetten (of de sleutel van `comit` hergebruiken).
 3. **Een daglimiet** per account toevoegen op dezelfde manier als in `comit` (die code staat niet in de repo).
-4. **Het model kiezen.** Het voorstel gebruikt `claude-opus-5-5` met effort `low`. Ook `claude-sonnet-5-5` of `claude-haiku-5-5` kan; test dan wel op een paar echte antwoorden.
+4. **Het model.** De functie gebruikt `claude-sonnet-5-5` met effort `low` (keuze van Berat). Weigert het model een antwoord, dan valt de API vanzelf terug op een ander model. Test eerst op een paar echte antwoorden.
 
 ## Kosten per nakijkbeurt (schatting)
 Ongeveer 1.500 tokens in (instructie, vraag, modelantwoord, kernpunten en antwoord) en 500 tot 1.500 tokens uit (JSON plus denken).
@@ -45,5 +45,5 @@ Ongeveer 1.500 tokens in (instructie, vraag, modelantwoord, kernpunten en antwoo
 | Model | Prijs per miljoen tokens (in / uit) | Per beurt | Per 1.000 beurten |
 |---|---|---|---|
 | Claude Opus 5.5 | $4 / $20 | ongeveer $0,02 tot $0,04 | ongeveer $20 tot $40 |
-| Claude Sonnet 5.5 | $2 / $10 | ongeveer $0,01 tot $0,02 | ongeveer $10 tot $20 |
+| **Claude Sonnet 5.5 (gekozen)** | $2 / $10 | ongeveer $0,01 tot $0,02 | ongeveer $10 tot $20 |
 | Claude Haiku 5.5 | $0,10 / $0,50 | minder dan $0,001 | ongeveer $1 |
