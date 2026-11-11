@@ -595,6 +595,9 @@
       var boven = diag && ln.children && ln.children.length > 0;
       var naast = diag && !boven;
       var lx = naast ? l.x + l.r + 8 : l.x;
+      // Linkerkant van het diagram: naam links naast het punt.
+      var rootSp = sp[proj.rootId];
+      if (naast && rootSp && l.x < rootSp.x - 1) lx = l.x - l.r - 8 - ctx.measureText(text).width;
       var ty = naast ? l.y : (boven ? l.y - l.r - 8 - fpx : l.y + l.r + 8);
       ctx.textAlign = naast ? 'left' : 'center';
       ctx.textBaseline = naast ? 'middle' : 'top';
