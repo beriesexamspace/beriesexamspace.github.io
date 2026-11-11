@@ -158,10 +158,21 @@
 
     // Kleur: palet met bolletjes, "Geen kleur" en een plus voor een eigen kleur.
     var colors = el('div', 'bm-popup__colors');
-    var colorHead = el('div', 'bm-popup__colorhead');
+    // Kop is een knop: klik klapt het palet open of dicht (staat wordt onthouden).
+    var colorHead = el('button', 'bm-popup__colorhead');
+    colorHead.type = 'button';
+    colorHead.setAttribute('aria-expanded', 'false');
+    colorHead.title = 'Kleuren tonen of verbergen';
     colorHead.appendChild(el('span', 'bm-popup__colorlabel', 'Kleur'));
     var colorState = el('span', 'bm-popup__colorstate', '');
     colorHead.appendChild(colorState);
+    var colorChev = el('span', 'bm-popup__colorchev');
+    colorChev.setAttribute('aria-hidden', 'true');
+    colorChev.innerHTML = '<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>';
+    colorHead.appendChild(colorChev);
+    var colorBody = el('div', 'bm-popup__colorbody');
+    var colorInner = el('div', 'bm-popup__colorinner');
+    colorBody.appendChild(colorInner);
     var swatches = el('div', 'bm-swatches');
     swatches.setAttribute('role', 'group');
     swatches.setAttribute('aria-label', 'Kleur van deze branch');
@@ -170,7 +181,8 @@
     picker.tabIndex = -1;
     picker.setAttribute('aria-hidden', 'true');
     colors.appendChild(colorHead);
-    colors.appendChild(swatches);
+    colorInner.appendChild(swatches);
+    colors.appendChild(colorBody);
     colors.appendChild(picker);
 
     var renameRow = el('div', 'bm-popup__rename');
@@ -215,12 +227,29 @@
       bRen: bRen, bDel: bDel, bOpen: bOpen,
       renameRow: renameRow, input: input, renameHint: renameHint,
       confirmRow: confirmRow, confirmText: confirmText, bCancel: bCancel, bConfirm: bConfirm,
-      colors: colors, colorState: colorState, swatches: swatches, picker: picker,
+      colors: colors, colorHead: colorHead, colorState: colorState, swatches: swatches, picker: picker,
       list: list, vastRow: vastRow
     };
   }
 
   // ---------- kleuren ----------
+
+  // Palet in- en uitklappen. Elke pop-up begint dicht; de knop Kleur klapt hem open.
+  function colorsOpen(ui) {
+    return ui.colors.classList.contains('bm-popup__colors--open');
+  }
+  function setColorsOpen(ui, open, remember) {
+    ui.colors.classList.toggle('bm-popup__colors--open', open);
+    ui.colorHead.setAttribute('aria-expanded', open ? 'true' : 'false');
+    var body = ui.colors.querySelector('.bm-popup__colorbody');
+    if (body) {
+      if (open) body.removeAttribute('inert'); else body.setAttribute('inert', '');
+    }
+    if (remember) {
+      // Pop-up groeit of krimpt mee: na de animatie opnieuw meten en plaatsen.
+      setTimeout(function () { if (state && state.ui === ui) { measure(); position(); } }, 260);
+    }
+  }
 
   var PLUS_SVG = '<svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" ' +
     'stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>';
@@ -514,6 +543,8 @@
     ui.input.addEventListener('blur', onInputBlur);
     ui.root.addEventListener('keydown', onRootKey);
     ui.swatches.addEventListener('click', onSwatchClick);
+    ui.colorHead.addEventListener('click', function () { setColorsOpen(ui, !colorsOpen(ui), true); });
+    setColorsOpen(ui, false, false);
     ui.picker.addEventListener('change', function () { onPicked(s); });
   }
 
