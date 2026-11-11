@@ -482,13 +482,17 @@
   }
 
   function bouwAfgewezen() {
-    var s = scherm('afgewezen', 'Niet goedgekeurd', 'Berie heeft je aanvraag niet goedgekeurd.');
+    var s = scherm('afgewezen', 'Niet goedgekeurd', 'Berie heeft je aanvraag niet goedgekeurd. Denk je dat dit niet klopt? Vraag dan om opheffing. Berie kijkt je aanvraag dan opnieuw na.');
     mailRegel(s);
-    vulForm(s, [], 'Uitloggen');
-    koppel(s, function () {
-      zetBezig(s.knop, true);
+    vulForm(s, [], 'Opheffing aanvragen');
+    s.uit = knop('Uitloggen', 'bm-knop', 'button');
+    s.uit.addEventListener('click', function () {
+      if (s.uit.disabled) return;
+      zetBezig(s.uit, true);
       uitloggen();
     });
+    s.form.appendChild(s.uit);
+    koppel(s, doeOpheffing);
     return s;
   }
 
@@ -1028,6 +1032,32 @@
     if (!d.ok) return { status: 'geen', tekst: NIET_VERSTUURD };
     aanvraagGedaan = true;
     return { status: (d.status === 'toegang' || d.status === 'afgewezen') ? d.status : 'wacht' };
+  }
+
+  // Vraagt Berie om de afwijzing op te heffen. De server zet dezelfde aanvraag weer open
+  // en stuurt Berie een mail; daarna wacht de gebruiker weer in de wachtkamer.
+  var OPHEFFING_NIET = 'Je vraag is nog niet verstuurd. Probeer het opnieuw.';
+  async function doeOpheffing(s) {
+    if (bezigAl(s) || !wachtend) return;
+    var body = aanvraagBody();
+    body.opheffing = true;
+    var res = await aanroep(s, s.knop, function () {
+      return client.functions.invoke('vraag-toegang', { body: body });
+    });
+    if (!res) return;
+    if (res.error) {
+      var u = await leesFout(res.error);
+      if (u.fout === 'niet_ingelogd') { uitloggen(); return; }
+      meldFout(s, u.status ? OPHEFFING_NIET : GEEN_VERBINDING);
+      return;
+    }
+    var d = res.data || {};
+    if (!d.ok) { meldFout(s, OPHEFFING_NIET); return; }
+    if (d.status === 'toegang') { afronden(wachtend); return; }
+    if (d.status === 'afgewezen') { meldFout(s, OPHEFFING_NIET); return; }
+    aanvraagGedaan = true;
+    naarWacht(wachtend);
+    meldOk(schermen.wacht, 'Je vraag om opheffing is verstuurd. Berie kijkt je aanvraag opnieuw na.');
   }
 
   function zetMailRegel(s, user) {
