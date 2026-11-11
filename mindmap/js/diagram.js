@@ -11,6 +11,9 @@
   // Basisafmetingen (wereldunits), vermenigvuldigd met de spacing-factor
   var COL_BASE = 220;
   var ROW_BASE = 46;
+  // Verticaal: afstand tussen de bladeren (links-rechts) en tussen de niveaus (boven-onder)
+  var LEAF_V = 150;
+  var DEPTH_V = 90;
 
   // Collator voor natuurlijke sortering van titels (Nederlands, cijfers in getallen)
   var collator = null;
@@ -122,6 +125,8 @@
       for (var q = 0; q < lk.length; q++) som += leaves[lk[q]] || 0;
       leaves[lid] = som;
     }
+    // Verticaal: alle takken naar beneden, dus één kant.
+    var eenZijde = project.richting === 'verticaal';
     var side = {};
     side[rootId] = 1;
     var top = kids[rootId] || [];
@@ -131,7 +136,7 @@
     for (k = 0; k < top.length; k++) {
       var tid = top[k];
       // Rechts vullen tot de helft; de rest gaat naar links. Eén tak: altijd rechts.
-      var naarRechts = top.length < 2 || k === 0 || rechts + (leaves[tid] || 1) / 2 <= totaal / 2;
+      var naarRechts = eenZijde || top.length < 2 || k === 0 || rechts + (leaves[tid] || 1) / 2 <= totaal / 2;
       side[tid] = naarRechts ? 1 : -1;
       if (naarRechts) rechts += leaves[tid] || 1;
     }
@@ -171,6 +176,13 @@
       var nid = order[k];
       if (nid === rootId) continue;
       var s = side[nid];
+      if (eenZijde) {
+        result[nid] = {
+          x: round2((rowOf[nid] - midden['1']) * LEAF_V * sp),
+          y: round2(depth[nid] * DEPTH_V * sp)
+        };
+        continue;
+      }
       result[nid] = {
         x: round2(s * depth[nid] * COL),
         y: round2((rowOf[nid] - midden[s]) * ROW)
