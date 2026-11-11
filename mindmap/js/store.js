@@ -103,9 +103,9 @@
   }
 
   // Modus van een project: alleen 'follow', 'freeze' of 'diagram'; anders 'follow'.
-  var MODI = ['follow', 'freeze', 'diagram'];
+  var MODI = ['follow', 'diagram'];
   function cleanModus(v) {
-    return (v === 'freeze' || v === 'diagram') ? v : 'follow';
+    return v === 'diagram' ? v : 'follow'; // freeze is weggehaald (11-11): wordt follow
   }
 
   // Vaste plek (freeze): alleen een object met twee eindige getallen x en y telt.
