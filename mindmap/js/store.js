@@ -102,6 +102,20 @@
     return out;
   }
 
+  // Modus van een project: alleen 'follow', 'freeze' of 'diagram'; anders 'follow'.
+  var MODI = ['follow', 'freeze', 'diagram'];
+  function cleanModus(v) {
+    return (v === 'freeze' || v === 'diagram') ? v : 'follow';
+  }
+
+  // Vaste plek (freeze): alleen een object met twee eindige getallen x en y telt.
+  function cleanFz(v) {
+    if (!v || typeof v !== 'object') return null;
+    if (typeof v.x !== 'number' || typeof v.y !== 'number') return null;
+    if (!isFinite(v.x) || !isFinite(v.y)) return null;
+    return { x: v.x, y: v.y };
+  }
+
   function makeId(prefix) {
     idSeq = (idSeq + 1) % 1679616;
     return prefix + Date.now().toString(36) + idSeq.toString(36) +
@@ -148,6 +162,7 @@
     };
     if (n.color) c.color = n.color;
     if (n.vast) c.vast = true;
+    if (n.fz) c.fz = { x: n.fz.x, y: n.fz.y };
     return c;
   }
 
@@ -285,6 +300,8 @@
       var col = normalizeColor(r.color);
       if (col) node.color = col;
       if (r.vast === true) node.vast = true;
+      var fz = cleanFz(r.fz);
+      if (fz) node.fz = fz;
       nodes[nid] = node;
       if (parentNid !== null) nodes[parentNid].children.push(nid);
     });
@@ -300,6 +317,7 @@
       created: num(raw.created, Date.now()),
       rootId: rootNid,
       spacing: cleanSpacing(raw.spacing),
+      modus: cleanModus(raw.modus),
       nodes: nodes
     };
   }
@@ -565,6 +583,7 @@
       created: Date.now(),
       rootId: rootId,
       spacing: 1,
+      modus: 'follow',
       nodes: Object.create(null)
     };
     project.nodes[rootId] = makeNode(rootId, null, pname, 0, 0, 0, 0);
@@ -812,6 +831,42 @@
     return true;
   }
 
+  // ---------- modus en vaste plekken ----------
+
+  function getModus(projectId) {
+    var p = getProject(projectId);
+    return p ? cleanModus(p.modus) : 'follow';
+  }
+
+  // Zet de modus. Geeft false bij een ongeldige modus of onbekend project.
+  // Emit alleen als de modus echt verandert.
+  function setModus(projectId, modus) {
+    var p = getProject(projectId);
+    if (!p) return false;
+    if (MODI.indexOf(modus) === -1) return false;
+    var vorige = cleanModus(p.modus);
+    if (vorige === modus) {
+      p.modus = modus;
+      return true;
+    }
+    p.modus = modus;
+    requestSave();
+    emit('project:modus', { projectId: p.id, modus: modus, vorige: vorige });
+    return true;
+  }
+
+  // Bewaart de vaste plek van een punt (node.fz), afgerond op 2 decimalen. Geen emit.
+  function setFreezePos(nodeId, x, y) {
+    var project = projectOf(nodeId);
+    if (!project) return false;
+    var node = project.nodes[nodeId];
+    if (typeof x !== 'number' || typeof y !== 'number') return false;
+    if (!isFinite(x) || !isFinite(y)) return false;
+    node.fz = { x: Math.round(x * 100) / 100, y: Math.round(y * 100) / 100 };
+    requestSave();
+    return true;
+  }
+
   // ---------- afstand ----------
 
   function getSpacing(projectId) {
@@ -984,6 +1039,9 @@
     lastSaveOk: function () { return lastSaveOk; },
     isReadOnly: function () { return readOnly; },
     isStale: function () { return stale; },
-    releaseReadOnly: releaseReadOnly
+    releaseReadOnly: releaseReadOnly,
+    getModus: getModus,
+    setModus: setModus,
+    setFreezePos: setFreezePos
   };
 })();

@@ -697,7 +697,7 @@
       return;
     }
     bouwKnop();
-    ['store:changed', 'store:save-ok', 'palette:changed', 'project:spacing', 'project:switched']
+    ['store:changed', 'store:save-ok', 'palette:changed', 'project:spacing', 'project:switched', 'project:modus', 'project:posities']
       .forEach(function (ev) {
         offs.push(BM.bus.on(ev, onWijziging));
       });

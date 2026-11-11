@@ -32,6 +32,23 @@
   function rnd(a, b){ return a + Math.random() * (b - a); }
   function isNum(v){ return typeof v === 'number' && isFinite(v); }
 
+  // Modus van een project via BM.modus. Werkt ook als modus.js ontbreekt of faalt
+  // (dan gedraagt het project zich als 'follow').
+  function modusOf(projectId){
+    try {
+      if (BM.modus && typeof BM.modus.get === 'function') return BM.modus.get(projectId) || 'follow';
+    } catch (e) {}
+    return 'follow';
+  }
+
+  // True zolang punten in modus.js naar een doelplek glijden.
+  function modusTweening(){
+    try {
+      if (BM.modus && typeof BM.modus.isTweening === 'function') return !!BM.modus.isTweening();
+    } catch (e) {}
+    return false;
+  }
+
   // Gewenste afstand-instelling van het project (1 = standaard).
   function targetSpacing(project){
     var v = project && project.spacing;
@@ -272,6 +289,13 @@
     }
     if (missing) st.alpha = Math.max(st.alpha, 0.6);
 
+    // Niet in follow, of tijdens een overgang: geen simulatie, alle punten staan stil.
+    // (Punten zonder positie hebben hierboven al een plek gekregen.)
+    if (modusOf(project.id) !== 'follow' || modusTweening()) {
+      for (i = 0; i < n; i++) { list[i].vx = 0; list[i].vy = 0; }
+      return false;
+    }
+
     // Vastgehouden punt: zorg dat de omgeving meebeweegt.
     if (anyPinned && st.alpha < PIN_ALPHA) st.alpha = PIN_ALPHA;
     if (anyPinned || missing) st.local = null;
@@ -393,7 +417,8 @@
     var friction = Math.pow(FRICTION, s);
     for (i = 0; i < n; i++) {
       var p = list[i];
-      if (pinned[p.id] || p.vast || (local && !local[p.id])) { p.vx = 0; p.vy = 0; continue; }
+      // In follow telt node.vast niet meer: alle punten bewegen mee.
+      if (pinned[p.id] || (local && !local[p.id])) { p.vx = 0; p.vy = 0; continue; }
       var vx = (p.vx + fx[i] * s) * friction;
       var vy = (p.vy + fy[i] * s) * friction;
       var sp2 = Math.sqrt(vx * vx + vy * vy);
@@ -451,6 +476,10 @@
     });
     BM.bus.on('node:removed', function(d){
       if (d) reheat(d.projectId, energyFor(d.projectId, 0.7));
+    });
+    // Terug naar follow: punten trekken weer naar elkaar.
+    BM.bus.on('project:modus', function(d){
+      if (d && d.modus === 'follow') reheat(d.projectId, 1);
     });
   }
 

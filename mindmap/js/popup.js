@@ -677,9 +677,8 @@
   function refreshVast() {
     var s = state;
     if (!s || !s.ui || !s.ui.vastRow) return;
-    var nd = getNode(s.nodeId);
-    var aan = !!(nd && nd.vast) && s.mode === 'menu';
-    s.ui.vastRow.style.display = aan ? '' : 'none';
+    // Vast bestaat niet meer in follow en freeze: de rij blijft altijd verborgen (code bewaard).
+    s.ui.vastRow.style.display = 'none';
   }
 
   function refreshAll() {
