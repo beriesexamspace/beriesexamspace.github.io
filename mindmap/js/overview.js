@@ -345,8 +345,19 @@
     return String(s).replace(/["\\]/g, '\\$&');
   }
 
+  function isRootId(id) {
+    var n = getNode(id);
+    return !!n && n.parentId == null;
+  }
+
+  // Zoekterm doorgeven aan de kaart: passende punten lichten op.
+  function zoekOpKaart(q) {
+    try { if (BM.render && typeof BM.render.zoek === 'function') BM.render.zoek(q || ''); } catch (e) { /* negeren */ }
+  }
+
   function refreshVisibility(state) {
-    var show = (state.total || 0) > SEARCH_THRESHOLD || !!state.query;
+    // Op het hoofdpunt staat de zoekbalk er altijd; elders vanaf veel regels.
+    var show = state.root || (state.total || 0) > SEARCH_THRESHOLD || !!state.query;
     state.search.classList.toggle('bm-ov-searchbox--hidden', !show);
   }
 
@@ -509,6 +520,8 @@
         state.limit = ROW_PAGE;
         redraw(state);
       }, SEARCH_DELAY);
+      // De kaart meteen bijwerken (zonder wachten), zodat elke letter direct oplicht.
+      zoekOpKaart(state.input.value);
     });
     state.input.addEventListener('keydown', function(e) {
       if (e.key === 'ArrowDown') {
@@ -520,6 +533,7 @@
         e.stopPropagation();
         clearTimeout(state.searchTimer);
         state.input.value = '';
+        zoekOpKaart('');
         state.query = '';
         state.limit = ROW_PAGE;
         redraw(state);
@@ -555,6 +569,7 @@
     clearTimeout(st.searchTimer);
     clearTimeout(st.leaveTimer);
     st.prevIds = null;
+    zoekOpKaart('');
   }
 
   // Overzicht in deze container loslaten (bijv. als de pop-up sluit).
@@ -614,8 +629,10 @@
       var search = el('div', 'bm-ov-searchbox bm-ov-searchbox--hidden');
       var input = el('input', 'bm-input bm-ov-search');
       input.type = 'search';
-      input.placeholder = 'Zoeken in deze tak';
-      input.setAttribute('aria-label', 'Zoeken in deze tak');
+      var opRoot = isRootId(nodeId);
+      input.placeholder = opRoot ? 'Zoek in je hele mindmap' : 'Zoeken in deze tak';
+      input.setAttribute('aria-label', opRoot ? 'Zoek in je hele mindmap' : 'Zoeken in deze tak');
+      if (opRoot) search.classList.add('bm-ov-searchbox--root');
       input.autocomplete = 'off';
       input.spellcheck = false;
       input.value = keepQuery;
@@ -630,6 +647,7 @@
       state = {
         container: container,
         nodeId: nodeId,
+        root: opRoot,
         query: keepQuery,
         activeId: null,
         drawn: false,

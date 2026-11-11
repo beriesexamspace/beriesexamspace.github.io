@@ -2707,3 +2707,97 @@ body {
 @media (prefers-reduced-motion: reduce) {
   .bm-popup__vast { animation: none; }
 }
+
+/* ---------- Kleur: inklapbaar palet (11-11) ---------- */
+.bm-popup__colors {
+  padding: 0;
+  overflow: hidden;
+  transition: border-color 200ms var(--bm-ease), background-color 200ms var(--bm-ease);
+}
+.bm-popup__colors:hover { border-color: rgba(255, 255, 255, 0.14); }
+.bm-popup__colorhead {
+  width: 100%;
+  margin: 0;
+  padding: 10px 10px;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  transition: background-color 160ms var(--bm-ease);
+}
+.bm-popup__colorhead:hover { background: rgba(255, 255, 255, 0.04); }
+.bm-popup__colorhead:active .bm-popup__colorchev { transform: scale(0.85); }
+.bm-popup__colorhead:focus-visible { outline: 2px solid rgba(255, 255, 255, 0.35); outline-offset: -2px; border-radius: var(--bm-radius); }
+.bm-popup__colorstate { margin-left: auto; }
+.bm-popup__colorchev {
+  flex: none;
+  display: inline-flex;
+  color: var(--bm-text-dim);
+  transition: transform 240ms var(--bm-ease), color 160ms var(--bm-ease);
+}
+.bm-popup__colorhead:hover .bm-popup__colorchev { color: var(--bm-text); }
+.bm-popup__colors--open .bm-popup__colorchev { transform: rotate(180deg); }
+.bm-popup__colorbody {
+  display: grid;
+  grid-template-rows: 0fr;
+  opacity: 0;
+  transition: grid-template-rows 240ms var(--bm-ease), opacity 180ms var(--bm-ease);
+}
+.bm-popup__colors--open .bm-popup__colorbody { grid-template-rows: 1fr; opacity: 1; }
+.bm-popup__colorinner { min-height: 0; overflow: hidden; }
+.bm-popup__colorinner .bm-swatches { padding: 2px 10px 11px; }
+@media (prefers-reduced-motion: reduce) {
+  .bm-popup__colorbody, .bm-popup__colorchev { transition: none; }
+}
+
+/* ---------- Overzicht duidelijker in de pop-up (11-11) ---------- */
+.bm-popup .bm-overview {
+  padding-top: 12px;
+  border-top: 1px solid var(--bm-line);
+}
+.bm-popup .bm-ov-head {
+  align-items: center;
+  font-size: 13px;
+  letter-spacing: 0;
+  text-transform: none;
+  color: var(--bm-text);
+}
+.bm-popup .bm-ov-head .bm-ov-name,
+.bm-popup .bm-ov-title { font-size: 13px; font-weight: 600; }
+.bm-popup .bm-ov-total {
+  font-size: 12px;
+  padding: 2px 8px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.06);
+  color: var(--bm-text-dim);
+}
+
+/* ---------- Zoekbalk op het hoofdpunt (11-11): zoekt op de kaart ---------- */
+.bm-ov-searchbox--root { position: relative; }
+.bm-ov-searchbox--root::before {
+  content: "";
+  position: absolute;
+  left: 11px;
+  top: 50%;
+  width: 14px;
+  height: 14px;
+  transform: translateY(-50%);
+  opacity: 0.55;
+  pointer-events: none;
+  background: no-repeat center / contain url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23ecebf1' stroke-width='2.2' stroke-linecap='round'%3E%3Ccircle cx='11' cy='11' r='7'/%3E%3Cpath d='M20 20l-3.5-3.5'/%3E%3C/svg%3E");
+  transition: opacity 160ms var(--bm-ease);
+}
+.bm-ov-searchbox--root:focus-within::before { opacity: 0.9; }
+.bm-ov-searchbox--root .bm-ov-search {
+  min-height: 36px;
+  padding-left: 32px;
+  font-size: 14px;
+  transition: border-color 160ms var(--bm-ease), box-shadow 200ms var(--bm-ease);
+}
+.bm-ov-searchbox--root .bm-ov-search:focus {
+  box-shadow: 0 0 0 3px rgba(255, 214, 102, 0.18);
+  border-color: rgba(255, 214, 102, 0.55);
+}

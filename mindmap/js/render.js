@@ -77,6 +77,7 @@
   function markDirty(){ dirty = true; }
 
   // ---- namen aan/uit (oogje bij Afstand) ----
+  var zoekQ = '';          // zoekterm: passende punten lichten op (zoals Ctrl+F)
   var namenAan = true;       // doel: namen zichtbaar of niet
   var namenF = 1;            // huidige zichtbaarheid 0..1, glijdt naar het doel
   function zetNamen(aan){ namenAan = !!aan; if (reduceFlag) namenF = namenAan ? 1 : 0; dirty = true; }
@@ -159,6 +160,34 @@
     var grow = Math.min(2.4, Math.sqrt(kids || 0) * 0.6);
     var z = clamp(zoom, 0.7, 1.6);
     return (base + grow) * (0.85 + 0.15 * z);
+  }
+
+  function zoekHit(n){
+    if (!zoekQ || !n) return false;
+    return String(n.title || '').toLowerCase().indexOf(zoekQ) >= 0 ||
+      String(n.text || '').toLowerCase().indexOf(zoekQ) >= 0;
+  }
+
+  // Zoekterm in het label: geel blokje achter de passende letters (zoals Ctrl+F).
+  function markeer(text, x, ty, fontPx){
+    var at = text.toLowerCase().indexOf(zoekQ);
+    if (at < 0) return;
+    var full = ctx.measureText(text).width;
+    var pre = ctx.measureText(text.slice(0, at)).width;
+    var part = text.slice(at, at + zoekQ.length);
+    var pw = ctx.measureText(part).width;
+    var left = x - full / 2 + pre;
+    var h = fontPx + 6;
+    ctx.save();
+    ctx.fillStyle = 'rgba(255, 214, 102, 0.95)';
+    ctx.beginPath();
+    var rx = left - 2, ry = ty - 3, rw = pw + 4, rr = 4;
+    if (ctx.roundRect) ctx.roundRect(rx, ry, rw, h, rr); else ctx.rect(rx, ry, rw, h);
+    ctx.fill();
+    ctx.textAlign = 'left';
+    ctx.fillStyle = '#1a1405';
+    ctx.fillText(part, left, ty);
+    ctx.restore();
   }
 
   function labelText(n){
@@ -299,6 +328,12 @@
       var inB = focusB && (branchOf[wid] === focusB || depthOf[wid] === 0);
       var tl = modeAll ? 0.6 : (inB ? 1 : 0);
       var tf = focusB && !inB ? 0.25 : 1;
+      if (zoekQ) {
+        // Zoeken wint van hover: passende punten wit, de rest dimt.
+        var hitZ = zoekHit(nodes[wid]);
+        tl = hitZ ? 1 : 0;
+        tf = hitZ ? 1 : (depthOf[wid] === 0 ? 0.45 : 0.16);
+      }
       var cl = lit[wid] == null ? tl : lit[wid];
       var cf = fade[wid] == null ? tf : fade[wid];
       cl += (tl - cl) * rate; cf += (tf - cf) * rate;
@@ -503,6 +538,7 @@
       var ty = l.y + l.r + 8;
       ctx.strokeText(text, l.x, ty);
       ctx.fillText(text, l.x, ty);
+      if (zoekQ && l.lit > 0.5) markeer(text, l.x, ty, lv === 0 ? 14 : (lv === 1 ? 13 : 12));
     }
 
     ctx.globalAlpha = 1;
@@ -678,6 +714,13 @@
     invalidate: markDirty,
     namen: zetNamen,
     namenAan: function(){ return namenAan; },
-    getHoverId: function(){ return hoverId; }
+    getHoverId: function(){ return hoverId; },
+    zoek: function(q){
+      var nq = String(q || '').trim().toLowerCase();
+      if (nq === zoekQ) return;
+      zoekQ = nq;
+      markDirty();
+    },
+    zoekTerm: function(){ return zoekQ; }
   };
 })();
