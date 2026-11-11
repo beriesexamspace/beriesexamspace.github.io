@@ -51,7 +51,7 @@
   }
 
   function isValid(m) {
-    return m === 'follow' || m === 'freeze' || m === 'diagram';
+    return m === 'follow' || m === 'diagram';
   }
 
   function currentId() {

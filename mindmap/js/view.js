@@ -312,14 +312,11 @@
     oog.click();
   });
 
-  // ---- Weergave-segment: Follow / Freeze / Diagram (rechts naast het oogje) ----
+  // ---- Weergave-segment: Follow / Diagram (rechts naast het oogje) ----
   var MODI = [
     { m: 'follow', label: 'Follow', title: 'Follow: punten volgen elkaar',
       icon: '<circle cx="5" cy="12" r="2.2"/><circle cx="19" cy="6" r="2.2"/><circle cx="19" cy="18" r="2.2"/>' +
         '<path d="M7 11l10-4M7 13l10 4"/>' },
-    { m: 'freeze', label: 'Freeze', title: 'Freeze: alles staat stil, sleep punten waar je wilt',
-      icon: '<path d="M12 3v18M4.2 7.5l15.6 9M19.8 7.5l-15.6 9"/>' +
-        '<path d="M9.5 4.8L12 6.8l2.5-2M9.5 19.2L12 17.2l2.5 2"/>' },
     { m: 'diagram', label: 'Diagram', title: 'Diagram: alles in rechte lijnen',
       icon: '<rect x="2.5" y="9.5" width="4.5" height="5" rx="1"/><rect x="15" y="3.5" width="6.5" height="5" rx="1"/>' +
         '<rect x="15" y="15.5" width="6.5" height="5" rx="1"/><path d="M7 12h2.5M9.5 6v12M9.5 6H15M9.5 18H15"/>' }
