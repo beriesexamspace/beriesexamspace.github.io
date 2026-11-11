@@ -450,6 +450,8 @@
       titel: (w && w.titel) || 'Wacht op goedkeuring',
       tekst: (w && w.tekst) || 'Berie moet je account eerst goedkeuren. Dit hoeft maar één keer.',
       extra: (w && w.extra) || '',
+      opheffingTitel: (w && w.opheffingTitel) || 'Opheffing aangevraagd',
+      opheffingTekst: (w && w.opheffingTekst) || 'Berie overweegt of je afwijzing wordt opgeheven.',
       sleutelLink: (w && w.sleutelLink) || 'Ik heb een sleutel'
     };
   }
@@ -1056,6 +1058,7 @@
     if (d.status === 'toegang') { afronden(wachtend); return; }
     if (d.status === 'afgewezen') { meldFout(s, OPHEFFING_NIET); return; }
     aanvraagGedaan = true;
+    zetOpheffing(wachtend.id);
     naarWacht(wachtend);
     meldOk(schermen.wacht, 'Je vraag om opheffing is verstuurd. Berie kijkt je aanvraag opnieuw na.');
   }
@@ -1064,9 +1067,23 @@
     if (s && s.mail) s.mail.textContent = (user && user.email) ? 'Ingelogd als ' + user.email : '';
   }
 
+  // Onthoudt op dit apparaat dat de wachtende om opheffing vroeg: dan toont de wachtkamer
+  // een andere tekst. Verdwijnt zodra Berie beslist (toegang of weer afgewezen).
+  var OPH_SLEUTEL = 'bm-opheffing';
+  function zetOpheffing(id) {
+    try { if (id) localStorage.setItem(OPH_SLEUTEL, id); else localStorage.removeItem(OPH_SLEUTEL); } catch (e) {}
+  }
+  function isOpheffing(id) {
+    try { return !!id && localStorage.getItem(OPH_SLEUTEL) === id; } catch (e) { return false; }
+  }
+
   function naarWacht(user, foutTekst) {
     wachtend = { id: user.id, email: user.email || '' };
     var s = schermen.wacht;
+    var wt = wachtTeksten();
+    var oph = isOpheffing(user.id);
+    s.titel.textContent = oph ? wt.opheffingTitel : wt.titel;
+    s.tekst.textContent = oph ? wt.opheffingTekst : wt.tekst;
     zetMailRegel(s, wachtend);
     s.stand.textContent = STAND_TEKST;
     var magSleutel = false;
@@ -1081,6 +1098,7 @@
 
   function naarAfgewezen(user) {
     wachtend = { id: user.id, email: user.email || '' };
+    zetOpheffing('');
     zetMailRegel(schermen.afgewezen, wachtend);
     toon('afgewezen');
   }
@@ -1135,6 +1153,7 @@
       return;
     }
     aangemeld = true;
+    zetOpheffing('');
     gebruiker = { id: user.id, email: user.email || '' };
     wachtend = null;
     herstel = false;

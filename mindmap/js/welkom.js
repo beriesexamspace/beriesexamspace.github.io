@@ -90,6 +90,8 @@
     wachtkamer: {
       titel: 'Je zit in de wachtkamer',
       tekst: 'Berie bekijkt wie je bent.',
+      opheffingTitel: 'Opheffing aangevraagd',
+      opheffingTekst: 'Berie overweegt of je afwijzing wordt opgeheven.',
       extra: '',
       sleutelLink: 'Ik heb een sleutel'
     },
