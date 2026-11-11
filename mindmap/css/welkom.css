@@ -185,6 +185,54 @@
   border-color: rgba(var(--bm-accent-rgb), 0.55);
 }
 
+/* School met toestemming: groen vinkje-label, en groen als hij gekozen is. */
+.bm-welkom__optie {
+  position: relative;
+}
+
+.bm-welkom__optie--ok {
+  padding-right: 108px;
+}
+
+.bm-welkom__optie-ok {
+  position: absolute;
+  top: 50%;
+  right: 10px;
+  transform: translateY(-50%);
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 2px 8px 2px 6px;
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 600;
+  line-height: 18px;
+  color: #4ade80;
+  background: rgba(74, 222, 128, 0.12);
+  transition: background-color 200ms var(--bm-ease), color 200ms var(--bm-ease);
+}
+
+.bm-welkom__optie-ok::before {
+  content: "";
+  width: 9px;
+  height: 5px;
+  margin-top: -2px;
+  border-left: 2px solid currentColor;
+  border-bottom: 2px solid currentColor;
+  transform: rotate(-45deg);
+}
+
+.bm-welkom__optie--ok[aria-selected="true"] {
+  background: rgba(74, 222, 128, 0.12);
+  border-color: rgba(74, 222, 128, 0.6);
+  box-shadow: 0 0 0 3px rgba(74, 222, 128, 0.12);
+}
+
+.bm-welkom__optie--ok[aria-selected="true"] .bm-welkom__optie-ok {
+  color: #0b1a10;
+  background: #4ade80;
+}
+
 .bm-welkom__optie-naam {
   font-size: 14px;
   font-weight: 500;
@@ -272,6 +320,10 @@
   line-height: 1.45;
   color: var(--bm-text);
   text-wrap: pretty;
+}
+
+.bm-auth__scherm--wachtkamer .bm-auth__mail {
+  margin-top: 6px;
 }
 
 .bm-auth__extra {

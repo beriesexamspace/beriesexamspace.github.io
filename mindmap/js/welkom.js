@@ -61,7 +61,8 @@
       foutKies: 'Kies eerst je school in de lijst.',
       nietInLijst: 'Mijn school staat er niet bij',
       terug: 'Terug',
-      terugWacht: 'Terug naar de wachtkamer'
+      terugWacht: 'Terug naar de wachtkamer',
+      goedgekeurd: 'Goedgekeurd'
     },
     sleutel: {
       titel: 'Vul je sleutel in',
@@ -653,6 +654,10 @@
       li.appendChild(el('span', 'bm-welkom__optie-naam', school.naam));
       var plaats = [school.gemeente, school.provincie].filter(function (x) { return !!x; }).join(', ');
       if (plaats) li.appendChild(el('span', 'bm-welkom__optie-plaats', plaats));
+      if (school.toestemming) {
+        li.classList.add('bm-welkom__optie--ok');
+        li.appendChild(el('span', 'bm-welkom__optie-ok', T.school.goedgekeurd));
+      }
       li.addEventListener('click', function () { kiesSchool(s, i); });
       s.lijst.appendChild(li);
       s.opties.push(li);
@@ -817,7 +822,10 @@
     concept.achternaam = profiel.achternaam;
     concept.rol = 'leerkracht';
     concept.aanspreking = profiel.aanspreking || 'geen';
-    concept.school = null;
+    // De school die al gekozen was, onthouden: dan hoeft hij niet opnieuw gezocht te worden.
+    concept.school = profiel.school_id
+      ? { id: profiel.school_id, naam: profiel.school_naam || '', toestemming: !!profiel.school_toestemming }
+      : null;
     return new Promise(function (resolve) {
       losMaken = resolve;
       vanafWacht = true;
@@ -825,7 +833,8 @@
       var s = schermen.school;
       s.zoek.input.value = '';
       zetLeeg(s, T.school.begin);
-      toon('school');
+      if (concept.school) toon(concept.school.toestemming ? 'sleutel' : 'geen');
+      else toon('school');
     });
   }
 
