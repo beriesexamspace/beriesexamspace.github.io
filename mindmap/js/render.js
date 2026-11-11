@@ -169,19 +169,20 @@
   }
 
   // Zoekterm in het label: geel blokje achter de passende letters (zoals Ctrl+F).
-  function markeer(text, x, ty, fontPx){
+  // mid = true: label links uitgelijnd op x met verticaal midden op ty (diagram).
+  function markeer(text, x, ty, fontPx, mid){
     var at = text.toLowerCase().indexOf(zoekQ);
     if (at < 0) return;
     var full = ctx.measureText(text).width;
     var pre = ctx.measureText(text.slice(0, at)).width;
     var part = text.slice(at, at + zoekQ.length);
     var pw = ctx.measureText(part).width;
-    var left = x - full / 2 + pre;
+    var left = mid ? x + pre : x - full / 2 + pre;
     var h = fontPx + 6;
     ctx.save();
     ctx.fillStyle = 'rgba(255, 214, 102, 0.95)';
     ctx.beginPath();
-    var rx = left - 2, ry = ty - 3, rw = pw + 4, rr = 4;
+    var rx = left - 2, ry = mid ? ty - h / 2 : ty - 3, rw = pw + 4, rr = 4;
     if (ctx.roundRect) ctx.roundRect(rx, ry, rw, h, rr); else ctx.rect(rx, ry, rw, h);
     ctx.fill();
     ctx.textAlign = 'left';
@@ -289,6 +290,25 @@
     return changed;
   }
 
+  // Diagram: het focuspunt, zijn voorouders tot het hoofdpunt en al zijn afstammelingen.
+  function verbondenIn(nodes, ids, focus){
+    var set = Object.create(null);
+    set[focus] = true;
+    var c = nodes[focus], g = 0;
+    while (c && c.parentId != null && nodes[c.parentId] && g++ < 200) {
+      set[c.parentId] = true;
+      c = nodes[c.parentId];
+    }
+    for (var i = 0; i < ids.length; i++) {
+      var cur = nodes[ids[i]], h = 0;
+      while (cur && cur.parentId != null && nodes[cur.parentId] && h++ < 200) {
+        if (String(cur.parentId) === String(focus)) { set[ids[i]] = true; break; }
+        cur = nodes[cur.parentId];
+      }
+    }
+    return set;
+  }
+
   // Tekenen van de hele scene.
   function draw(proj){
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
@@ -299,6 +319,10 @@
     var zoom = zoomLevel();
     var labelZ = clamp((zoom - LABEL_Z0) / (LABEL_Z1 - LABEL_Z0), 0, 1);
     var ids = Object.keys(nodes);
+
+    // Modus van dit project: 'diagram' tekent een boom in rechte lijnen (geen drift, haakse lijnen).
+    var diag = false;
+    try { diag = !!(BM.modus && typeof BM.modus.get === 'function' && BM.modus.get(proj.id) === 'diagram'); } catch (e) { diag = false; }
 
     // Diepte en tak (het punt in de eerste ring) per punt.
     var depthOf = {}, branchOf = {};
@@ -323,11 +347,18 @@
     var focusB = hovLive && !modeAll ? branchOf[hovLive] : null;
     var rate = Math.min(1, frameDt * 7);
     easing = false;
+    var verb = diag && hovLive ? verbondenIn(nodes, ids, hovLive) : null;
     for (var w1 = 0; w1 < ids.length; w1++) {
       var wid = ids[w1];
       var inB = focusB && (branchOf[wid] === focusB || depthOf[wid] === 0);
       var tl = modeAll ? 0.6 : (inB ? 1 : 0);
       var tf = focusB && !inB ? 0.25 : 1;
+      if (diag) {
+        // Diagram: verbonden punten helder, rest sterk gedimd; zonder focus alles normaal.
+        var vin = !!(verb && verb[wid]);
+        tl = verb ? (vin ? 1 : 0) : 0;
+        tf = verb ? (vin ? 1 : 0.12) : 1;
+      }
       if (zoekQ) {
         // Zoeken wint van hover: passende punten wit, de rest dimt.
         var hitZ = zoekHit(nodes[wid]);
@@ -341,7 +372,7 @@
       if (Math.abs(tf - cf) < 0.004) cf = tf; else easing = true;
       lit[wid] = cl; fade[wid] = cf;
     }
-    var drift = !reduceFlag;
+    var drift = !reduceFlag && !diag;
 
     // Kleuren: per punt de (geërfde) kleur, en eventueel een lopende kleurgolf.
     var COL = BM.colors || null;
@@ -416,15 +447,31 @@
     // Lijnen: in rust zwak; lijnen in een oplichtende tak worden helderder.
     // Een lijn heeft de kleur van het kind waar hij naartoe loopt.
     var tips = [];   // voorkant van de lont: klein lichtpuntje
-    function edge(rgb, l, a, x1, y1, x2, y2){
+    // Stijl van een lijn (kleur, dikte, alpha). false = niet tekenen.
+    function edgeStyle(rgb, l, a){
       var al = isWhite(rgb) ? (DIM + (0.7 - DIM) * l) * a : (0.32 + 0.6 * l) * a;
-      if (al < 0.004) return;
+      if (al < 0.004) return false;
       ctx.strokeStyle = isWhite(rgb)
         ? 'rgba(255,255,255,' + al.toFixed(3) + ')'
         : 'rgba(' + rgbKey(rgb) + ',' + al.toFixed(3) + ')';
       ctx.lineWidth = (isWhite(rgb) ? 1 : 1.25) + 0.3 * l;
+      return true;
+    }
+    function edge(rgb, l, a, x1, y1, x2, y2){
+      if (!edgeStyle(rgb, l, a)) return;
       ctx.beginPath();
       ctx.moveTo(x1, y1);
+      ctx.lineTo(x2, y2);
+      ctx.stroke();
+    }
+    // Diagram: haakse elleboog (horizontaal naar halverwege, verticaal, horizontaal naar het kind).
+    function edgeElbow(rgb, l, a, x1, y1, x2, y2){
+      if (!edgeStyle(rgb, l, a)) return;
+      var mx = (x1 + x2) / 2;
+      ctx.beginPath();
+      ctx.moveTo(x1, y1);
+      ctx.lineTo(mx, y1);
+      ctx.lineTo(mx, y2);
       ctx.lineTo(x2, y2);
       ctx.stroke();
     }
@@ -439,6 +486,12 @@
       var el0 = Math.min(p.lit, c.lit);
       var ea0 = Math.min(fade[cn.parentId] == null ? 1 : fade[cn.parentId], fade[cid] == null ? 1 : fade[cid]);
       var el = COL ? COL.edgeLook(cid, tNow) : null;
+      if (diag) {
+        // Diagram: de hele lijn in een kleur; tijdens de kleurgolf de nieuwe kleur zodra die over de helft is.
+        var drgb = el ? (el.f >= 0.5 ? el.to : el.from) : (COL ? COL.rgb(eff[cid] || null) : null);
+        edgeElbow(drgb, el0, ea0, p.x, p.y, c.x, c.y);
+        continue;
+      }
       if (!el) {
         edge(COL ? COL.rgb(eff[cid] || null) : null, el0, ea0, p.x, p.y, c.x, c.y);
         continue;
@@ -503,8 +556,9 @@
     }
 
     // Labels: midden en eerste ring altijd, dieper bij inzoomen of als de tak oplicht.
-    ctx.textAlign = 'center';
-    ctx.textBaseline = 'top';
+    // Diagram: label rechts naast het punt, verticaal gecentreerd op het punt.
+    ctx.textAlign = diag ? 'left' : 'center';
+    ctx.textBaseline = diag ? 'middle' : 'top';
     ctx.lineJoin = 'round';
     ctx.lineWidth = 3;
     ctx.strokeStyle = 'rgba(14, 14, 16, 0.9)';
@@ -535,10 +589,18 @@
       ctx.fillStyle = 'rgb(' + lc + ',' + lc + ',' + lc + ')';
       var text = labelText(ln);
       ctx.globalAlpha = clamp(lab, 0, 1);
-      var ty = l.y + l.r + 8;
-      ctx.strokeText(text, l.x, ty);
-      ctx.fillText(text, l.x, ty);
-      if (zoekQ && l.lit > 0.5) markeer(text, l.x, ty, lv === 0 ? 14 : (lv === 1 ? 13 : 12));
+      // Diagram: een punt met branches krijgt zijn naam boven het punt (anders loopt
+      // de lijn erdoor); een eindpunt rechts ernaast.
+      var fpx = lv === 0 ? 14 : (lv === 1 ? 13 : 12);
+      var boven = diag && ln.children && ln.children.length > 0;
+      var naast = diag && !boven;
+      var lx = naast ? l.x + l.r + 8 : l.x;
+      var ty = naast ? l.y : (boven ? l.y - l.r - 8 - fpx : l.y + l.r + 8);
+      ctx.textAlign = naast ? 'left' : 'center';
+      ctx.textBaseline = naast ? 'middle' : 'top';
+      ctx.strokeText(text, lx, ty);
+      ctx.fillText(text, lx, ty);
+      if (zoekQ && l.lit > 0.5) markeer(text, lx, ty, fpx, naast);
     }
 
     ctx.globalAlpha = 1;
@@ -683,6 +745,7 @@
         markDirty();
       });
       BM.bus.on('ui:popup-closed', function(){ selId = null; markDirty(); });
+      BM.bus.on('project:modus', function(){ markDirty(); });
       BM.bus.on('node:focus', function(d){
         if (d && d.nodeId && BM.anim && typeof BM.anim.pulse === 'function') BM.anim.pulse(d.nodeId);
         markDirty();

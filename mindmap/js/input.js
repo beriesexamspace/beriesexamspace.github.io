@@ -90,12 +90,24 @@
   function setCursor(c) {
     if (canvas && canvas.style.cursor !== c) canvas.style.cursor = c;
   }
+  // In diagram-modus staan de punten vast in de boom: niet slepen (achtergrond schuiven kan wel).
+  function isDiagram() {
+    try {
+      return !!(BM.modus && typeof BM.modus.get === 'function' && BM.modus.get() === 'diagram');
+    } catch (e) {
+      return false;
+    }
+  }
 
   // ---- punt verplaatsen ----
   function startNodeDrag(id, p) {
     var n = getNode(id);
     if (!n) return false;
+    // Geeft false terug: de aanroeper valt dan terug op pannen (zoals bij de achtergrond).
+    if (isDiagram()) return false;
     var w = toWorld(p.x, p.y);
+    // Lopende modus-overgang eerst afmaken, zodat het punt niet springt.
+    try { if (BM.modus && BM.modus.finishNow) BM.modus.finishNow(); } catch (e) { /* negeren */ }
     dragNodeId = id;
     if (BM.camera && typeof BM.camera.stop === 'function') BM.camera.stop();
     dragOff.x = (n.x || 0) - w.x;
@@ -148,13 +160,21 @@
   function releaseDrag() {
     if (!dragNodeId) return;
     var id = dragNodeId;
+    // Ids van punt + tak verzamelen voordat de tak leeg gaat.
+    var ids = [id];
+    for (var i = 0; i < dragTak.length; i++) ids.push(dragTak[i].id);
+    var verplaatst = dragVerplaatst;
     dragNodeId = null;
     dragTak = [];
-    // Zelf verplaatst = blijft op die plek staan (losmaken kan in de pop-up).
-    var vn = getNode(id);
-    if (vn && dragVerplaatst) vn.vast = true;
     dragVerplaatst = false;
     callFirst(BM.layout, ['unpin'], [id]);
+    // Geen node.vast meer: de modus bepaalt wat er met de nieuwe plek gebeurt
+    // (freeze bewaart hem, diagram glijdt terug naar de boom).
+    if (verplaatst) {
+      try {
+        if (BM.modus && typeof BM.modus.afterDrag === 'function') BM.modus.afterDrag(ids);
+      } catch (e) {}
+    }
     saveStore();
   }
 

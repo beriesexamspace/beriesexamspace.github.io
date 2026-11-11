@@ -57,6 +57,7 @@
     range.setAttribute('aria-valuetext', p + ' procent, ' + describe(p).toLowerCase());
     resetBtn.disabled = p === DEFAULT;
     syncTrigger(p);
+    syncModus();
   }
 
   // Knop: "Afstand", met het percentage als klein label als het niet 100% is.
@@ -224,6 +225,7 @@
     var rij = el('div', 'bm-view__rij');
     rij.appendChild(trigger);
     rij.appendChild(maakOog());
+    if (BM.modus) rij.appendChild(maakModus()); // zonder modus.js geen segmentknop
     root.appendChild(rij);
     document.body.appendChild(root);
 
@@ -310,6 +312,155 @@
     oog.click();
   });
 
+  // ---- Weergave-segment: Follow / Freeze / Diagram (rechts naast het oogje) ----
+  var MODI = [
+    { m: 'follow', label: 'Follow', title: 'Follow: punten volgen elkaar',
+      icon: '<circle cx="5" cy="12" r="2.2"/><circle cx="19" cy="6" r="2.2"/><circle cx="19" cy="18" r="2.2"/>' +
+        '<path d="M7 11l10-4M7 13l10 4"/>' },
+    { m: 'freeze', label: 'Freeze', title: 'Freeze: alles staat stil, sleep punten waar je wilt',
+      icon: '<path d="M12 3v18M4.2 7.5l15.6 9M19.8 7.5l-15.6 9"/>' +
+        '<path d="M9.5 4.8L12 6.8l2.5-2M9.5 19.2L12 17.2l2.5 2"/>' },
+    { m: 'diagram', label: 'Diagram', title: 'Diagram: alles in rechte lijnen',
+      icon: '<rect x="2.5" y="9.5" width="4.5" height="5" rx="1"/><rect x="15" y="3.5" width="6.5" height="5" rx="1"/>' +
+        '<rect x="15" y="15.5" width="6.5" height="5" rx="1"/><path d="M7 12h2.5M9.5 6v12M9.5 6H15M9.5 18H15"/>' }
+  ];
+  var MODUS_CSS = [
+    '.bm-modus{position:relative;display:inline-flex;align-items:stretch;box-sizing:border-box;min-height:38px;padding:3px;',
+    'border-radius:var(--bm-radius);background:var(--bm-panel);backdrop-filter:blur(16px) saturate(140%);',
+    '-webkit-backdrop-filter:blur(16px) saturate(140%);box-shadow:var(--bm-shadow-soft);}',
+    '.bm-modus__thumb{position:absolute;top:3px;bottom:3px;left:0;width:0;z-index:0;pointer-events:none;',
+    'border-radius:9px;background:rgba(var(--bm-accent-rgb),0.22);box-shadow:inset 0 0 0 1px rgba(var(--bm-accent-rgb),0.45);',
+    'transition:left 260ms var(--bm-ease),width 260ms var(--bm-ease);}',
+    '.bm-modus__opt{position:relative;z-index:1;display:inline-flex;align-items:center;justify-content:center;gap:6px;',
+    'min-height:32px;margin:0;padding:0 10px;border:0;border-radius:9px;background:transparent;color:var(--bm-text-dim);',
+    'font:inherit;font-size:12px;line-height:1;white-space:nowrap;cursor:pointer;-webkit-tap-highlight-color:transparent;',
+    'transition:color 200ms var(--bm-ease),transform 160ms var(--bm-ease);}',
+    '.bm-modus__opt:hover{color:var(--bm-text);}',
+    '.bm-modus__opt:active{transform:scale(0.94);}',
+    '.bm-modus__opt[aria-checked="true"]{color:var(--bm-text);}',
+    '.bm-modus__opt:focus-visible{outline:2px solid rgba(var(--bm-accent-rgb),0.7);outline-offset:1px;}',
+    '.bm-modus__opt svg{flex:none;}',
+    '.bm-modus__opt--tik svg{animation:bm-modus-tik 260ms var(--bm-ease);}',
+    '@keyframes bm-modus-tik{0%{transform:scale(0.7);opacity:0.4;}100%{transform:scale(1);opacity:1;}}',
+    '@media (max-width:640px){.bm-modus__label{display:none;}.bm-modus__opt{padding:0 9px;}}',
+    '@media (prefers-reduced-motion:reduce){.bm-modus__thumb{transition:none;}',
+    '.bm-modus__opt,.bm-modus__opt:active{transition:none;transform:none;}.bm-modus__opt--tik svg{animation:none;}}'
+  ].join('');
+
+  var modusEl = null, modusThumb = null, modusOpts = [], thumbKlaar = false;
+
+  function stijlModus() {
+    try {
+      if (document.getElementById('bm-modus-stijl')) return;
+      var s = document.createElement('style');
+      s.id = 'bm-modus-stijl';
+      s.textContent = MODUS_CSS;
+      document.head.appendChild(s);
+    } catch (e) { /* zonder stijl blijft de knop werken */ }
+  }
+
+  function modusHuidig() {
+    try { return BM.modus.get() || 'follow'; } catch (e) { return 'follow'; }
+  }
+
+  function modusIndex(m) {
+    for (var i = 0; i < MODI.length; i++) if (MODI[i].m === m) return i;
+    return 0;
+  }
+
+  // Schuivend blokje onder de actieve optie. Zonder animatie als het de eerste keer is of bij resize.
+  function plaatsThumb(zonderAnimatie) {
+    if (!modusThumb || !modusOpts.length) return;
+    var actief = modusOpts[modusIndex(modusHuidig())];
+    if (!actief) return;
+    var zonder = zonderAnimatie || !thumbKlaar;
+    if (zonder) modusThumb.style.transition = 'none';
+    modusThumb.style.left = actief.offsetLeft + 'px';
+    modusThumb.style.width = actief.offsetWidth + 'px';
+    if (zonder) {
+      void modusThumb.offsetWidth;
+      modusThumb.style.transition = '';
+    }
+    if (actief.offsetWidth) thumbKlaar = true;
+  }
+
+  // Aria-checked, tabindex en blokje bijwerken naar de modus van het huidige project.
+  function syncModus() {
+    if (!modusEl) return;
+    var m = modusHuidig();
+    for (var i = 0; i < modusOpts.length; i++) {
+      var aan = MODI[i].m === m;
+      modusOpts[i].setAttribute('aria-checked', aan ? 'true' : 'false');
+      modusOpts[i].tabIndex = aan ? 0 : -1;
+    }
+    plaatsThumb(false);
+  }
+
+  function tikKnop(btn) {
+    btn.classList.remove('bm-modus__opt--tik');
+    void btn.offsetWidth;
+    btn.classList.add('bm-modus__opt--tik');
+  }
+
+  function kiesModus(m) {
+    try { if (BM.modus && BM.modus.set) BM.modus.set(m); } catch (e) { /* best effort */ }
+    syncModus();
+  }
+
+  function maakModus() {
+    // Stijl staat in css/app.css (bm-modus).
+    modusEl = el('div', 'bm-modus');
+    modusEl.setAttribute('role', 'radiogroup');
+    modusEl.setAttribute('aria-label', 'Weergave');
+
+    modusThumb = el('span', 'bm-modus__thumb');
+    modusThumb.setAttribute('aria-hidden', 'true');
+    modusEl.appendChild(modusThumb);
+
+    modusOpts = [];
+    for (var i = 0; i < MODI.length; i++) {
+      (function (info) {
+        var b = el('button', 'bm-modus__opt');
+        b.type = 'button';
+        b.setAttribute('role', 'radio');
+        b.setAttribute('data-modus', info.m);
+        b.setAttribute('aria-checked', 'false');
+        b.setAttribute('aria-label', info.label);
+        b.title = info.title;
+        b.innerHTML = '<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" ' +
+          'stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' + info.icon + '</svg>';
+        b.appendChild(el('span', 'bm-modus__label', info.label));
+        b.addEventListener('click', function () {
+          tikKnop(b);
+          kiesModus(info.m);
+        });
+        modusEl.appendChild(b);
+        modusOpts.push(b);
+      })(MODI[i]);
+    }
+
+    // Pijltjes (links/rechts, omhoog/omlaag) verplaatsen de keuze; Home en End gaan naar het begin en eind.
+    modusEl.addEventListener('keydown', function (e) {
+      var k = e.key;
+      if (k !== 'ArrowLeft' && k !== 'ArrowRight' && k !== 'ArrowUp' && k !== 'ArrowDown' && k !== 'Home' && k !== 'End') return;
+      e.preventDefault();
+      var huidig = modusOpts.indexOf(e.target);
+      if (huidig < 0) huidig = modusIndex(modusHuidig());
+      var n = huidig;
+      var aantal = MODI.length;
+      if (k === 'ArrowLeft' || k === 'ArrowUp') n = (huidig - 1 + aantal) % aantal;
+      else if (k === 'ArrowRight' || k === 'ArrowDown') n = (huidig + 1) % aantal;
+      else if (k === 'Home') n = 0;
+      else n = aantal - 1;
+      kiesModus(MODI[n].m);
+      modusOpts[n].focus({ preventScroll: true });
+      tikKnop(modusOpts[n]);
+    });
+
+    syncModus();
+    return modusEl;
+  }
+
   function init() {
     if (inited) return;
     if (!document.body) {
@@ -323,8 +474,14 @@
       BM.bus.on('project:spacing', function (d) {
         if (!d || d.projectId === pid()) { sync(); onSpacingChanged(); }
       });
-      BM.bus.on('store:changed', function () { if (isOpen) sync(); });
+      BM.bus.on('store:changed', function () { if (isOpen) sync(); syncModus(); });
+      BM.bus.on('project:modus', function () { syncModus(); });
     }
+    window.addEventListener('resize', function () { plaatsThumb(true); });
+    window.addEventListener('load', function () { plaatsThumb(true); });
+    try {
+      if (document.fonts && document.fonts.ready) document.fonts.ready.then(function () { plaatsThumb(true); });
+    } catch (e) { /* best effort */ }
     sync();
   }
 
