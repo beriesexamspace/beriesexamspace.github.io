@@ -836,7 +836,7 @@
     menu.appendChild(themaDeel);
 
     // Uitleg opnieuw bekijken (alleen als de uitleg geladen is). De tekst staat in BM.welkomTeksten.
-    if (BM.uitleg && typeof BM.uitleg.start === 'function' && Array.isArray(BM.uitlegStappen)) {
+    if (BM.UITLEG_AAN === true && BM.uitleg && typeof BM.uitleg.start === 'function' && Array.isArray(BM.uitlegStappen)) {
       var uitlegDeel = el('div', 'bm-account__deel');
       var uitlegTekst = (BM.welkomTeksten && BM.welkomTeksten.menu && BM.welkomTeksten.menu.uitleg) ||
         'Uitleg opnieuw bekijken';

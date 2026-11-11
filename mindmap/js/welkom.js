@@ -978,7 +978,9 @@
   function naToegang() {
     if (!beschikbaar || !profiel) return;
     var regels = [];
-    var metUitleg = !profiel.uitleg_gezien;
+    // Stappenplan staat voorlopig uit (11-11): wordt eerst mooier gemaakt.
+    var eersteKeer = !profiel.uitleg_gezien;
+    var metUitleg = BM.UITLEG_AAN === true && eersteKeer;
     if (profiel.bekend && !profiel.bekend_gezien) {
       regels.push({
         soort: 'bekend',
@@ -991,12 +993,16 @@
       });
     }
     var hallo = begroetTekst();
-    if (metUitleg && hallo) {
+    if (eersteKeer && hallo) {
       regels.push({ soort: 'hallo', titel: hallo, verder: T.begroeting.verder });
     }
     if (!regels.length && !metUitleg) return;
     toonBegroeting(regels, function () {
-      if (!metUitleg) return;
+      if (!metUitleg) {
+        // Begroeting gezien: niet bij elke login opnieuw.
+        if (eersteKeer) { profiel.uitleg_gezien = true; meld('zet_uitleg_gezien'); }
+        return;
+      }
       uitlegWacht = true;
       uitlegAlsKlaar();
     });
