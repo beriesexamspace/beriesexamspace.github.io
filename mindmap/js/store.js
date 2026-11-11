@@ -108,6 +108,11 @@
     return v === 'diagram' ? v : 'follow'; // freeze is weggehaald (11-11): wordt follow
   }
 
+  // Richting van de diagram-modus: horizontaal (standaard, links en rechts) of verticaal (van boven naar beneden).
+  function cleanRichting(v) {
+    return v === 'verticaal' ? 'verticaal' : 'horizontaal';
+  }
+
   // Vaste plek (freeze): alleen een object met twee eindige getallen x en y telt.
   function cleanFz(v) {
     if (!v || typeof v !== 'object') return null;
@@ -318,6 +323,7 @@
       rootId: rootNid,
       spacing: cleanSpacing(raw.spacing),
       modus: cleanModus(raw.modus),
+      richting: cleanRichting(raw.richting),
       nodes: nodes
     };
   }
@@ -584,6 +590,7 @@
       rootId: rootId,
       spacing: 1,
       modus: 'follow',
+      richting: 'horizontaal',
       nodes: Object.create(null)
     };
     project.nodes[rootId] = makeNode(rootId, null, pname, 0, 0, 0, 0);
@@ -855,6 +862,24 @@
     return true;
   }
 
+  function getRichting(projectId) {
+    var p = getProject(projectId);
+    return p ? cleanRichting(p.richting) : 'horizontaal';
+  }
+
+  // Zet de richting. Geeft false bij een onbekend project of ongeldige waarde.
+  function setRichting(projectId, richting) {
+    var p = getProject(projectId);
+    if (!p) return false;
+    if (richting !== 'horizontaal' && richting !== 'verticaal') return false;
+    var vorige = cleanRichting(p.richting);
+    p.richting = richting;
+    if (vorige === richting) return true;
+    requestSave();
+    emit('project:richting', { projectId: p.id, richting: richting, vorige: vorige });
+    return true;
+  }
+
   // Bewaart de vaste plek van een punt (node.fz), afgerond op 2 decimalen. Geen emit.
   function setFreezePos(nodeId, x, y) {
     var project = projectOf(nodeId);
@@ -1042,6 +1067,8 @@
     releaseReadOnly: releaseReadOnly,
     getModus: getModus,
     setModus: setModus,
+    getRichting: getRichting,
+    setRichting: setRichting,
     setFreezePos: setFreezePos
   };
 })();

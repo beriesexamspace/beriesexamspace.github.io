@@ -363,6 +363,7 @@
     BM.bus.on('node:removed', onNodeChange);
     BM.bus.on('node:renamed', onNodeChange);
     BM.bus.on('project:spacing', onNodeChange);
+    BM.bus.on('project:richting', onNodeChange);
 
     BM.bus.on('project:switched', function(){
       finishNow();

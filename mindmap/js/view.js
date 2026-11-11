@@ -226,6 +226,7 @@
     rij.appendChild(trigger);
     rij.appendChild(maakOog());
     if (BM.modus) rij.appendChild(maakModus()); // zonder modus.js geen segmentknop
+    if (BM.modus) rij.appendChild(maakRichting());
     root.appendChild(rij);
     document.body.appendChild(root);
 
@@ -356,6 +357,41 @@
     } catch (e) { /* zonder stijl blijft de knop werken */ }
   }
 
+  // Knop om de diagram-modus horizontaal of verticaal te zetten. Alleen zichtbaar in diagram.
+  var richtingEl = null;
+  var richtingBtn = null;
+
+  function maakRichting() {
+    richtingEl = el('div', 'bm-modus bm-richting');
+    richtingEl.style.display = 'none';
+    richtingBtn = el('button', 'bm-modus__opt');
+    richtingBtn.type = 'button';
+    richtingBtn.addEventListener('click', function () {
+      var pid = null;
+      try { pid = BM.store.currentId(); } catch (e) { pid = null; }
+      if (!pid || !BM.store.getRichting) return;
+      var nu = BM.store.getRichting(pid);
+      BM.store.setRichting(pid, nu === 'verticaal' ? 'horizontaal' : 'verticaal');
+      syncRichting();
+    });
+    richtingEl.appendChild(richtingBtn);
+    return richtingEl;
+  }
+
+  function syncRichting() {
+    if (!richtingEl || !richtingBtn) return;
+    var pid = null;
+    try { pid = BM.store.currentId(); } catch (e) { pid = null; }
+    var diagram = modusHuidig() === 'diagram';
+    richtingEl.style.display = diagram ? '' : 'none';
+    if (!diagram || !pid || !BM.store.getRichting) return;
+    var nu = BM.store.getRichting(pid);
+    var volgende = nu === 'verticaal' ? 'Horizontaal' : 'Verticaal';
+    richtingBtn.textContent = volgende;
+    richtingBtn.title = 'Zet de diagram-weergave ' + volgende.toLowerCase();
+    richtingBtn.setAttribute('aria-label', 'Diagram ' + volgende.toLowerCase());
+  }
+
   function modusHuidig() {
     try { return BM.modus.get() || 'follow'; } catch (e) { return 'follow'; }
   }
@@ -391,6 +427,7 @@
       modusOpts[i].tabIndex = aan ? 0 : -1;
     }
     plaatsThumb(false);
+    syncRichting();
   }
 
   function tikKnop(btn) {
@@ -473,6 +510,8 @@
       });
       BM.bus.on('store:changed', function () { if (isOpen) sync(); syncModus(); });
       BM.bus.on('project:modus', function () { syncModus(); });
+      BM.bus.on('project:richting', function () { syncRichting(); });
+      BM.bus.on('project:switched', function () { syncModus(); });
     }
     window.addEventListener('resize', function () { plaatsThumb(true); });
     window.addEventListener('load', function () { plaatsThumb(true); });
