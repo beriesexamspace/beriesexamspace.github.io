@@ -14,6 +14,8 @@
   // Verticaal: afstand tussen de bladeren (links-rechts) en tussen de niveaus (boven-onder)
   var LEAF_V = 150;
   var DEPTH_V = 90;
+  // Plat: afstand tussen de bladeren naast elkaar (ruimer, zodat de namen elkaar niet overlappen)
+  var LEAF_PLAT = 200;
 
   // Collator voor natuurlijke sortering van titels (Nederlands, cijfers in getallen)
   var collator = null;
@@ -127,6 +129,7 @@
     }
     // Verticaal: alle takken naar beneden, dus één kant.
     var eenZijde = project.richting === 'verticaal';
+    var plat = project.richting === 'plat';
     var side = {};
     side[rootId] = 1;
     var top = kids[rootId] || [];
@@ -176,6 +179,14 @@
       var nid = order[k];
       if (nid === rootId) continue;
       var s = side[nid];
+      if (plat) {
+        // Plat: de takken van het hoofdpunt gaan naar boven en naar beneden, de bladeren liggen horizontaal.
+        result[nid] = {
+          x: round2((rowOf[nid] - midden[s]) * LEAF_PLAT * sp),
+          y: round2(s * depth[nid] * DEPTH_V * sp)
+        };
+        continue;
+      }
       if (eenZijde) {
         result[nid] = {
           x: round2((rowOf[nid] - midden['1']) * LEAF_V * sp),
