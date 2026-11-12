@@ -110,7 +110,7 @@
 
   // Richting van de diagram-modus: horizontaal (standaard, links en rechts) of verticaal (van boven naar beneden).
   function cleanRichting(v) {
-    return v === 'verticaal' ? 'verticaal' : 'horizontaal';
+    return v === 'verticaal' || v === 'plat' ? v : 'horizontaal';
   }
 
   // Vaste plek (freeze): alleen een object met twee eindige getallen x en y telt.
@@ -871,7 +871,7 @@
   function setRichting(projectId, richting) {
     var p = getProject(projectId);
     if (!p) return false;
-    if (richting !== 'horizontaal' && richting !== 'verticaal') return false;
+    if (richting !== 'horizontaal' && richting !== 'verticaal' && richting !== 'plat') return false;
     var vorige = cleanRichting(p.richting);
     p.richting = richting;
     if (vorige === richting) return true;

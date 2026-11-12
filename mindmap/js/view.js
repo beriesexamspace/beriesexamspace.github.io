@@ -359,6 +359,8 @@
 
   // Knop om de diagram-modus horizontaal of verticaal te zetten. Alleen zichtbaar in diagram.
   var richtingEl = null;
+  var VOLGENDE_RICHTING = { horizontaal: 'verticaal', verticaal: 'plat', plat: 'horizontaal' };
+  var RICHTING_NAAM = { horizontaal: 'Horizontaal', verticaal: 'Verticaal', plat: 'Plat' };
   var richtingBtn = null;
 
   function maakRichting() {
@@ -371,7 +373,7 @@
       try { pid = BM.store.currentId(); } catch (e) { pid = null; }
       if (!pid || !BM.store.getRichting) return;
       var nu = BM.store.getRichting(pid);
-      BM.store.setRichting(pid, nu === 'verticaal' ? 'horizontaal' : 'verticaal');
+      BM.store.setRichting(pid, VOLGENDE_RICHTING[nu] || 'verticaal');
       syncRichting();
     });
     richtingEl.appendChild(richtingBtn);
@@ -386,7 +388,7 @@
     richtingEl.style.display = diagram ? '' : 'none';
     if (!diagram || !pid || !BM.store.getRichting) return;
     var nu = BM.store.getRichting(pid);
-    var volgende = nu === 'verticaal' ? 'Horizontaal' : 'Verticaal';
+    var volgende = RICHTING_NAAM[VOLGENDE_RICHTING[nu]] || 'Verticaal';
     richtingBtn.textContent = volgende;
     richtingBtn.title = 'Zet de diagram-weergave ' + volgende.toLowerCase();
     richtingBtn.setAttribute('aria-label', 'Diagram ' + volgende.toLowerCase());
