@@ -1,0 +1,330 @@
+/* =========================================================
+   AI: bestanden inlezen (js/ai-lezen.js)
+   .bm-ai-sleep      laag over het scherm tijdens slepen
+   .bm-ai-bezig      kaartje bovenaan terwijl de AI leest
+   .bm-ai-menu       deel in het accountmenu (status, eigen sleutel)
+   .bm-ai-beheer     beheer voor Berat (AI aan/uit per mailadres)
+   .bm-popup__btn--ai  knop "Bestand inlezen met AI" in de pop-up
+   ========================================================= */
+
+/* ---------- Pop-up knop ---------- */
+
+.bm-popup__actions .bm-popup__btn--ai {
+  grid-column: 1 / -1;
+  background: var(--bm-accent-soft);
+  border-color: rgba(var(--bm-accent-rgb), 0.35);
+}
+
+.bm-popup__actions .bm-popup__btn--ai:hover {
+  background: rgba(var(--bm-accent-rgb), 0.26);
+  border-color: rgba(var(--bm-accent-rgb), 0.6);
+  transform: translateY(-1px);
+}
+
+.bm-popup__actions .bm-popup__btn--ai:active {
+  transform: scale(0.98);
+}
+
+/* ---------- Slepen ---------- */
+
+.bm-ai-sleep {
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  box-sizing: border-box;
+  background: rgba(10, 10, 14, 0.55);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity 220ms var(--bm-ease), visibility 0s linear 220ms;
+}
+
+.bm-ai-sleep.is-zichtbaar {
+  opacity: 1;
+  visibility: visible;
+  transition: opacity 220ms var(--bm-ease), visibility 0s;
+}
+
+.bm-ai-sleep__kaart {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  max-width: 420px;
+  padding: 32px 28px;
+  border-radius: 20px;
+  border: 1.5px dashed rgba(var(--bm-accent-rgb), 0.7);
+  background: var(--bm-panel-strong);
+  box-shadow: var(--bm-shadow);
+  text-align: center;
+  transform: scale(0.96);
+  transition: transform 320ms var(--bm-ease);
+}
+
+.bm-ai-sleep.is-zichtbaar .bm-ai-sleep__kaart {
+  transform: scale(1);
+}
+
+.bm-ai-sleep__icoon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  color: var(--bm-accent);
+  background: var(--bm-accent-soft);
+  animation: bm-ai-zweef 1.6s var(--bm-ease) infinite alternate;
+}
+
+.bm-ai-sleep__titel {
+  font-size: 17px;
+  font-weight: 600;
+  color: var(--bm-text);
+}
+
+.bm-ai-sleep__sub {
+  font-size: 13px;
+  line-height: 1.45;
+  color: var(--bm-text-dim);
+}
+
+@keyframes bm-ai-zweef {
+  from { transform: translate3d(0, 2px, 0); }
+  to { transform: translate3d(0, -4px, 0); }
+}
+
+/* ---------- Bezig ---------- */
+
+.bm-ai-bezig {
+  position: fixed;
+  top: calc(16px + env(safe-area-inset-top, 0px));
+  left: 50%;
+  z-index: 45;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  max-width: calc(100vw - 32px);
+  box-sizing: border-box;
+  padding: 6px 6px 6px 16px;
+  border-radius: 999px;
+  border: 1px solid var(--bm-line-strong);
+  background: var(--bm-panel-strong);
+  backdrop-filter: blur(18px) saturate(140%);
+  -webkit-backdrop-filter: blur(18px) saturate(140%);
+  box-shadow: var(--bm-shadow);
+  color: var(--bm-text);
+  font-size: 13px;
+  opacity: 0;
+  transform: translate3d(-50%, -12px, 0) scale(0.98);
+  transition: opacity 240ms var(--bm-ease), transform 320ms var(--bm-ease);
+}
+
+.bm-ai-bezig.is-zichtbaar {
+  opacity: 1;
+  transform: translate3d(-50%, 0, 0) scale(1);
+}
+
+.bm-ai-bezig__tekst {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.bm-ai-bezig__bol {
+  display: inline-flex;
+  gap: 4px;
+  flex: none;
+}
+
+.bm-ai-bezig__bol span {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--bm-accent);
+  animation: bm-ai-stip 1.1s var(--bm-ease) infinite;
+}
+
+.bm-ai-bezig__bol span:nth-child(2) { animation-delay: 0.15s; }
+.bm-ai-bezig__bol span:nth-child(3) { animation-delay: 0.3s; }
+
+@keyframes bm-ai-stip {
+  0%, 80%, 100% { opacity: 0.3; transform: translate3d(0, 0, 0); }
+  40% { opacity: 1; transform: translate3d(0, -3px, 0); }
+}
+
+.bm-ai-bezig__stop {
+  flex: none;
+  border-radius: 999px;
+}
+
+/* ---------- Accountmenu ---------- */
+
+.bm-ai-menu__uitleg,
+.bm-ai-menu__hint {
+  font-size: 12px;
+  line-height: 1.45;
+  color: var(--bm-text-faint);
+}
+
+.bm-ai-menu__status {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12.5px;
+  color: var(--bm-text-dim);
+}
+
+.bm-ai-menu__status::before {
+  content: "";
+  flex: none;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--bm-text-faint);
+  transition: background-color 200ms var(--bm-ease), box-shadow 200ms var(--bm-ease);
+}
+
+.bm-ai-menu__status[data-staat="aan"]::before {
+  background: var(--bm-ok);
+  box-shadow: 0 0 0 3px rgba(111, 211, 154, 0.18);
+}
+
+.bm-ai-menu__status[data-staat="op"]::before {
+  background: #f2c14e;
+}
+
+.bm-ai-menu__status[data-staat="laden"]::before {
+  animation: bm-pulse 1.2s var(--bm-ease) infinite;
+}
+
+.bm-ai-menu__sleutel,
+.bm-ai-beheer {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.bm-ai-beheer {
+  margin-top: 6px;
+  padding-top: 12px;
+  border-top: 1px solid var(--bm-line);
+}
+
+.bm-ai-menu__rij {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.bm-ai-menu__rij .bm-account__naamveld {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.bm-ai-menu__rij .bm-btn {
+  flex: none;
+  min-height: 36px;
+}
+
+.bm-ai-menu__sleuteltekst {
+  flex: 1 1 auto;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 12.5px;
+  color: var(--bm-text-dim);
+  font-variant-numeric: tabular-nums;
+}
+
+.bm-ai-menu__fout {
+  min-height: 0;
+  font-size: 12px;
+  line-height: 1.4;
+  color: #ffb3b8;
+}
+
+.bm-ai-menu__fout:empty {
+  display: none;
+}
+
+.bm-account__naamveld.is-schud {
+  animation: bm-shake 320ms var(--bm-ease);
+  border-color: rgba(240, 100, 110, 0.6);
+}
+
+.bm-ai-beheer__limiet {
+  flex: 0 0 76px !important;
+}
+
+.bm-ai-beheer__lijst {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  max-height: 160px;
+  overflow-y: auto;
+}
+
+.bm-ai-beheer__regel {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  width: 100%;
+  margin: 0;
+  padding: 7px 8px;
+  border: 0;
+  border-radius: 8px;
+  background: transparent;
+  color: var(--bm-text-dim);
+  font: inherit;
+  font-size: 12.5px;
+  text-align: left;
+  cursor: pointer;
+  transition: background-color 160ms var(--bm-ease), color 160ms var(--bm-ease);
+}
+
+.bm-ai-beheer__regel:hover {
+  background: rgba(255, 255, 255, 0.06);
+  color: var(--bm-text);
+}
+
+.bm-ai-beheer__regel:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 2px var(--bm-accent);
+}
+
+.bm-ai-beheer__regelmail {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.bm-ai-beheer__regeltal {
+  flex: none;
+  font-variant-numeric: tabular-nums;
+  color: var(--bm-text-faint);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .bm-ai-sleep,
+  .bm-ai-sleep__kaart,
+  .bm-ai-bezig {
+    transition: none;
+  }
+  .bm-ai-sleep__icoon,
+  .bm-ai-bezig__bol span,
+  .bm-ai-menu__status[data-staat="laden"]::before,
+  .bm-account__naamveld.is-schud {
+    animation: none;
+  }
+}

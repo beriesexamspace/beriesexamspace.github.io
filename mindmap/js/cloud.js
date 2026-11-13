@@ -223,6 +223,9 @@
   function zetMenu(open) {
     if (!ui) return;
     ui.menu.hidden = !open;
+    if (open && ui.aiDeel && typeof ui.aiDeel.ververs === 'function') {
+      try { ui.aiDeel.ververs(); } catch (e) { /* niet erg */ }
+    }
     ui.knop.setAttribute('aria-expanded', open ? 'true' : 'false');
     ui.knop.classList.toggle('bm-account--open', open);
   }
@@ -853,6 +856,14 @@
       menu.appendChild(uitlegDeel);
     }
 
+    // AI: bestanden inlezen (eigen sleutel, status van AI van Berie, beheer voor Berat).
+    if (BM.ai && typeof BM.ai.bouwMenuDeel === 'function') {
+      try {
+        var aiDeel = BM.ai.bouwMenuDeel({ sluit: function () { zetMenu(false); } });
+        menu.appendChild(aiDeel);
+      } catch (e) { warn('AI-deel in het menu mislukt', e); }
+    }
+
     // Accounts: eerder gebruikte accounts op dit toestel en "Account toevoegen".
     // Alleen het mailadres wordt onthouden. Wisselen = uitloggen en opnieuw inloggen
     // met wachtwoord en mailcode, net als altijd.
@@ -1014,7 +1025,7 @@
       if (inMenu) ui.knop.focus();
     }, true);
 
-    ui = { wrap: wrap, knop: knop, menu: menu, status: status };
+    ui = { wrap: wrap, knop: knop, menu: menu, status: status, aiDeel: aiDeel || null };
   }
 
   // ---------- publieke API ----------

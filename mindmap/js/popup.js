@@ -25,7 +25,8 @@
     add: '<path d="M12 5v14M5 12h14"/>',
     rename: '<path d="M4 20h4L19 9l-4-4L4 16v4z"/>',
     trash: '<path d="M4 7h16M9 7V4h6v3M6 7l1 13h10l1-13"/>',
-    open: '<path d="M14 4h6v6M20 4l-9 9"/><path d="M19 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1h5"/>'
+    open: '<path d="M14 4h6v6M20 4l-9 9"/><path d="M19 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1h5"/>',
+    file: '<path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5M12 18v-6M9.5 14.5L12 12l2.5 2.5"/>'
   };
 
   function safe(fn, fallback) {
@@ -136,6 +137,13 @@
     actions.appendChild(bRen);
     actions.appendChild(bDel);
     actions.appendChild(bOpen);
+    // Bestand inlezen met AI (alleen als ai-lezen.js geladen is).
+    var bAi = null;
+    if (BM.ai && typeof BM.ai.kiesBestand === 'function') {
+      bAi = mkBtn('Bestand inlezen met AI', 'file', 'bm-popup__btn--ai');
+      bAi.title = 'PDF, Word, PowerPoint, tekst of foto: de AI maakt er takken van onder deze branch';
+      actions.appendChild(bAi);
+    }
 
     // Zelf verplaatst punt: staat vast; met Losmaken gaat het weer vanzelf mee.
     var vastRow = el('div', 'bm-popup__vast');
@@ -224,7 +232,7 @@
     return {
       root: root, title: title, meta: meta, closeBtn: closeBtn, actions: actions,
       bAdd: bAdd, bMinus: bMinus, bPlus: bPlus, count: count,
-      bRen: bRen, bDel: bDel, bOpen: bOpen,
+      bRen: bRen, bDel: bDel, bOpen: bOpen, bAi: bAi,
       renameRow: renameRow, input: input, renameHint: renameHint,
       confirmRow: confirmRow, confirmText: confirmText, bCancel: bCancel, bConfirm: bConfirm,
       colors: colors, colorHead: colorHead, colorState: colorState, swatches: swatches, picker: picker,
@@ -533,6 +541,7 @@
     ui.bRen.addEventListener('click', startRename);
     ui.bDel.addEventListener('click', startDelete);
     ui.bOpen.addEventListener('click', openEditor);
+    if (ui.bAi) ui.bAi.addEventListener('click', function () { BM.ai.kiesBestand(state ? state.nodeId : s.nodeId); });
     ui.bCancel.addEventListener('click', cancelDelete);
     ui.bConfirm.addEventListener('click', confirmDelete);
     ui.input.addEventListener('keydown', onInputKey);
@@ -1108,7 +1117,7 @@
       }
       var group = s.mode === 'confirm'
         ? [s.ui.bCancel, s.ui.bConfirm]
-        : [s.ui.bAdd, s.ui.bMinus, s.ui.bPlus, s.ui.bRen, s.ui.bDel, s.ui.bOpen];
+        : [s.ui.bAdd, s.ui.bMinus, s.ui.bPlus, s.ui.bRen, s.ui.bDel, s.ui.bOpen, s.ui.bAi].filter(Boolean);
       group = group.filter(function (b) { return !b.disabled && b.offsetParent !== null; });
       var idx = group.indexOf(document.activeElement);
       if (idx === -1) return;

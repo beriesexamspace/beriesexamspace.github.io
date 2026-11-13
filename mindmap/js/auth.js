@@ -1196,6 +1196,13 @@
         });
       }
     } catch (e) { /* opslag kan geblokkeerd zijn */ }
+    // Eigen Claude-sleutels (bestanden inlezen met AI) nooit laten staan na uitloggen.
+    try {
+      for (var i = localStorage.length - 1; i >= 0; i--) {
+        var k = localStorage.key(i);
+        if (k && k.indexOf('bm-ai-sleutel:') === 0) localStorage.removeItem(k);
+      }
+    } catch (e) { /* opslag kan geblokkeerd zijn */ }
     try {
       if (client) {
         await Promise.race([
