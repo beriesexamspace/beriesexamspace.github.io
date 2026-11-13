@@ -39,7 +39,7 @@ window.BES_VAK = {
   },
   {
    "id": "nieuw",
-   "naam": "Nieuw materiaal (nov 2026)"
+   "naam": "Nieuw materiaal: Ontwikkelingspsychologie"
   }
  ],
  "vragen": [

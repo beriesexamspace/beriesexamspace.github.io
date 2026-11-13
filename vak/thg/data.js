@@ -27,7 +27,7 @@ window.BES_VAK = {
   },
   {
    "id": "nieuw",
-   "naam": "Nieuw materiaal (nov 2026)"
+   "naam": "Nieuw materiaal: Theoretische en historische grondslagen van de psychologie"
   }
  ],
  "vragen": [
