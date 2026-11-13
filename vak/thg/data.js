@@ -24,6 +24,10 @@ window.BES_VAK = {
   {
    "id": "h5",
    "naam": "Opvattingen over hersenen en bewustzijn"
+  },
+  {
+   "id": "nieuw",
+   "naam": "Nieuw materiaal: Theoretische en historische grondslagen van de psychologie"
   }
  ],
  "vragen": [
@@ -1445,6 +1449,246 @@ window.BES_VAK = {
    ],
    "a": 0,
    "u": "Dennett verklaart mentale functies fysisch en mechanistisch. Searle houdt vol dat betekenis en biologische hogere-orde-eigenschappen niet tot formele symboolmanipulatie te herleiden zijn."
+  },
+  {
+   "h": "nieuw",
+   "q": "Wat betekent het Griekse woord 'psyche' waaruit het woord psychologie is afgeleid?",
+   "o": [
+    "Lichaam",
+    "Geest",
+    "Gedrag",
+    "Hersenen"
+   ],
+   "a": 1,
+   "u": "Psyche is Grieks voor geest, dus psychologie is letterlijk de studie van de geest."
+  },
+  {
+   "h": "nieuw",
+   "q": "Op welke basis is psychologie als wetenschap gebaseerd?",
+   "o": [
+    "Volkswijsheid waarvan iedereen weet dat die waar is",
+    "Objectieve en testbare wetenschappelijke evidentie",
+    "Persoonlijke overtuigingen van de onderzoeker",
+    "Speculatie over de menselijke aard"
+   ],
+   "a": 1,
+   "u": "Psychologie is gebaseerd op objectieve en testbare wetenschappelijke evidentie."
+  },
+  {
+   "h": "nieuw",
+   "q": "Hoe noemt men de neiging om vooral bewijs te zoeken dat aansluit bij wat men al verwacht?",
+   "o": [
+    "Bevestigingsbias",
+    "Placebo-effect",
+    "Habituatie",
+    "Sensorische adaptatie"
+   ],
+   "a": 0,
+   "u": "Bevestigingsbias is de neiging om vooral informatie te zoeken, op te merken en te onthouden die de eigen verwachting bevestigt."
+  },
+  {
+   "h": "nieuw",
+   "q": "Waarom is astrologie geen psychologie?",
+   "o": [
+    "Het gebruikt geen empirische observatie of andere wetenschappelijke methode",
+    "Het bestudeert alleen dieren",
+    "Het richt zich op het lichaam en niet op de geest",
+    "Het is te recent ontstaan"
+   ],
+   "a": 0,
+   "u": "Astrologie wordt gezien als voorbeeld van pseudowetenschap: het verklaart verschijnselen zonder empirische observatie of een andere wetenschappelijke methode."
+  },
+  {
+   "h": "nieuw",
+   "q": "Welk perspectief ziet de geest als een product van de hersenen en voegt zo lichaam en geest weer samen?",
+   "o": [
+    "Het behavioristische perspectief",
+    "Het biologische perspectief",
+    "Het humanistische perspectief",
+    "Het ontwikkelingsperspectief"
+   ],
+   "a": 1,
+   "u": "Het moderne biologische perspectief ziet de geest als product van de hersenen, na de scheiding die Descartes voorstelde."
+  },
+  {
+   "h": "nieuw",
+   "q": "Welke Franse filosoof stelde een scheiding voor tussen de geest en het fysieke lichaam?",
+   "o": [
+    "Wilhelm Wundt",
+    "René Descartes",
+    "Sigmund Freud",
+    "John Watson"
+   ],
+   "a": 1,
+   "u": "Descartes, een 17e-eeuwse Franse filosoof, stelde deze scheiding (dualisme) voor. Het biologische perspectief keert dit later om door de geest als product van de hersenen te zien."
+  },
+  {
+   "h": "nieuw",
+   "q": "Welke onderzoeker gebruikte introspectie (naar de eigen ervaring kijken) als basismethode in het structuralisme?",
+   "o": [
+    "Wilhelm Wundt",
+    "John Watson",
+    "B.F. Skinner",
+    "Max Wertheimer"
+   ],
+   "a": 0,
+   "u": "Wundt opende het eerste laboratorium voor experimentele psychologie in Leipzig en wilde de basisstructuren van de geest ontrafelen via introspectie."
+  },
+  {
+   "h": "nieuw",
+   "q": "Wat betekent het Duitse woord 'gestalt' volgens het materiaal?",
+   "o": [
+    "Geheel of configuratie",
+    "Bewustzijn",
+    "Herinnering",
+    "Reactie"
+   ],
+   "a": 0,
+   "u": "Gestalt is het Duitse woord voor geheel of configuratie, en de gestaltpsychologie kijkt naar elementen die samen een geheel vormen."
+  },
+  {
+   "h": "nieuw",
+   "q": "Welk uitgangspunt past bij het behaviorisme van Watson en Skinner?",
+   "o": [
+    "Psychologie moet zich beperken tot observeerbare gebeurtenissen",
+    "Bewustzijn is het enige onderwerp van psychologie",
+    "Onbewuste conflicten bepalen al het gedrag",
+    "Gevoelens zijn belangrijker dan gedrag"
+   ],
+   "a": 0,
+   "u": "Het behaviorisme wil alleen observeerbare gebeurtenissen bestuderen en verwerpt het idee van structuralisme en functionalisme."
+  },
+  {
+   "h": "nieuw",
+   "q": "Welk perspectief legt de nadruk op onbewuste conflicten en onderdrukte herinneringen?",
+   "o": [
+    "Het cognitieve perspectief",
+    "Het socio-culturele perspectief",
+    "Het psychodynamische perspectief",
+    "Het biologische perspectief"
+   ],
+   "a": 2,
+   "u": "Het psychodynamische perspectief (psychoanalyse) verklaart psychische problemen uit onbewuste conflicten en onderdrukte herinneringen."
+  },
+  {
+   "h": "nieuw",
+   "q": "Wat is een operationele definitie volgens het materiaal?",
+   "o": [
+    "Een exacte omschrijving van hoe een experiment wordt uitgevoerd en hoe resultaten worden gemeten",
+    "Een bewering die de uitkomst van een studie voorspelt",
+    "Een statistische analyse van de resultaten",
+    "Een tijdschrift waarin studies worden gepubliceerd"
+   ],
+   "a": 0,
+   "u": "Een operationele definitie is een exacte omschrijving van de manier waarop een experiment uitgevoerd en gemeten wordt."
+  },
+  {
+   "h": "nieuw",
+   "q": "Welke onderzoeksmethode is de enige die oorzaak-gevolgrelaties kan nagaan?",
+   "o": [
+    "Survey",
+    "Correlatieonderzoek",
+    "Het experiment",
+    "Gevalstudie"
+   ],
+   "a": 2,
+   "u": "Een experiment is de enige methode die oorzaak-gevolgrelaties tussen variabelen kan nagaan."
+  },
+  {
+   "h": "nieuw",
+   "q": "Welke waarden kan de correlatiecoëfficiënt r volgens het materiaal aannemen?",
+   "o": [
+    "Van 0 tot 100",
+    "Van -1 tot +1",
+    "Van 1 tot 10",
+    "Enkel positieve getallen"
+   ],
+   "a": 1,
+   "u": "De correlatiecoëfficiënt r loopt van -1 tot +1 en geeft de mate en richting van samenhang aan."
+  },
+  {
+   "h": "nieuw",
+   "q": "Waarom mag uit een correlatie niet direct een oorzaak-gevolg verband worden afgeleid?",
+   "o": [
+    "Correlaties zijn altijd onbetrouwbaar",
+    "Bij correlatieonderzoek wordt de onafhankelijke variabele niet gemanipuleerd",
+    "Correlaties meten enkel gedrag van dieren",
+    "Correlaties gebruiken geen statistiek"
+   ],
+   "a": 1,
+   "u": "Bij een correlatieonderzoek wordt de relatie bestudeerd zonder manipulatie van de onafhankelijke variabele, dus geen oorzaak-gevolg."
+  },
+  {
+   "h": "nieuw",
+   "q": "Wat kenmerkt een dubbel-blind onderzoek volgens het materiaal?",
+   "o": [
+    "Alleen de proefpersonen weten niet welke behandeling zij krijgen",
+    "Noch de onderzoekers noch de proefpersonen weten wie welke onafhankelijke variabele krijgt",
+    "Alle deelnemers worden vooraf over de hypothese ingelicht",
+    "Het onderzoek heeft geen controlegroep"
+   ],
+   "a": 1,
+   "u": "Bij een dubbel-blind onderzoek weten zowel onderzoekers als proefpersonen niet wie welke onafhankelijke variabele krijgt."
+  },
+  {
+   "h": "nieuw",
+   "q": "Wat is een gevalstudie volgens het materiaal?",
+   "o": [
+    "Onderzoek van een enkel object of persoon, of een zeer gering aantal",
+    "Een opiniepeiling bij een representatieve steekproef",
+    "Het observeren van gedrag in de eigen omgeving",
+    "Het vergelijken van twee groepen zonder manipulatie"
+   ],
+   "a": 0,
+   "u": "Een gevalstudie onderzoekt een enkel object of persoon, of een zeer klein aantal, in de diepte."
+  },
+  {
+   "h": "nieuw",
+   "q": "Wat is het doel van een controleconditie in een experiment?",
+   "o": [
+    "De onderzoeker laten bewijzen dat de hypothese klopt",
+    "Een situatie bieden die op alle punten identiek is aan de experimentele conditie, behalve de speciale behandeling",
+    "De sterkste behandeling toedienen",
+    "Weggelaten worden bij de analyse"
+   ],
+   "a": 1,
+   "u": "De controleconditie is op elk onderdeel identiek aan de experimentele conditie, behalve de speciale behandeling."
+  },
+  {
+   "h": "nieuw",
+   "q": "Welke uitspraak omschrijft het best waarom psychologie als wetenschap zich onderscheidt van 'gezond verstand'-verklaringen?",
+   "o": [
+    "Psychologie gebruikt enkel kwantitatieve data",
+    "Psychologie steunt op objectieve, systematisch verzamelde en toetsbare evidentie",
+    "Psychologie bestudeert enkel observeerbaar gedrag",
+    "Psychologie vermijdt subjectieve ervaring volledig"
+   ],
+   "a": 1,
+   "u": "Het kernverschil is de wetenschappelijke methode: hypothesen moeten empirisch toetsbaar zijn. Subjectieve ervaring wordt wel bestudeerd, maar systematisch."
+  },
+  {
+   "h": "nieuw",
+   "q": "Wat is het belangrijkste verschil tussen het structuralisme van Wundt en het functionalisme van James?",
+   "o": [
+    "Wundt bestudeerde gedrag, James bestudeerde bewustzijn",
+    "Wundt zocht naar de basiselementen van bewuste ervaring, James zocht naar de adaptieve functie van mentale processen",
+    "Wundt gebruikte experimenten, James gebruikte enkel observatie",
+    "Wundt en James verschilden niet fundamenteel"
+   ],
+   "a": 1,
+   "u": "Structuralisme zoekt de bouwstenen van bewustzijn via introspectie. Functionalisme vraagt waartoe een mentaal proces dient, geïnspireerd door Darwin."
+  },
+  {
+   "h": "nieuw",
+   "q": "Hoe verschilt het onbewuste in het hedendaagse cognitieve model van Freuds visie?",
+   "o": [
+    "Beide visies zijn identiek",
+    "Freud zag het onbewuste als gevuld met verdrongen, vaak bedreigende verlangens; het cognitieve model ziet vooral efficiënte, automatische informatieverwerking",
+    "Het cognitieve model ontkent het bestaan van onbewuste processen volledig",
+    "Freud zag het onbewuste als louter automatische motoriek"
+   ],
+   "a": 1,
+   "u": "Het cognitieve perspectief erkent bewuste en onbewuste niveaus, maar ziet het onbewuste functioneler dan Freuds verdringingsmodel."
   }
  ],
  "hacks": [
@@ -1565,6 +1809,7 @@ window.BES_VAK = {
   "h2": 2,
   "h3": 2,
   "h4": 2,
-  "h5": 1
+  "h5": 1,
+  "nieuw": 1
  }
 };
