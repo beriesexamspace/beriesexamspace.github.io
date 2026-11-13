@@ -43,7 +43,7 @@ window.BES_VAK = {
   },
   {
    "id": "nieuw",
-   "naam": "Nieuw materiaal (nov 2026)"
+   "naam": "Nieuw materiaal: Psychopathologie van kinderen en adolescenten"
   }
  ],
  "vragen": [

@@ -55,7 +55,7 @@ window.BES_VAK = {
   },
   {
    "id": "nieuw",
-   "naam": "Nieuw materiaal (nov 2026)"
+   "naam": "Nieuw materiaal: Onderzoeksmethoden en -technieken I: psychometrie"
   }
  ],
  "vragen": [
