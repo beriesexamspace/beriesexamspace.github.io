@@ -1283,5 +1283,118 @@ window.BES_VAK = {
   "h7": 1,
   "h8": 2,
   "h9": 1
- }
+ },
+ "open": [
+  {
+   "h": "h1",
+   "concept": true,
+   "q": "Leg uit wat de fundamentele attributiefout is en geef een voorbeeld van hoe ze je oordeel over iemands gedrag kan vertekenen.",
+   "m": "De fundamentele attributiefout is de neiging om gedrag te veel te verklaren vanuit interne factoren, zoals persoonlijkheid, en de rol van externe, situationele factoren te onderschatten. Ze speelt vooral wanneer we het gedrag van anderen verklaren. Voorbeeld: iemand komt te laat en je denkt meteen dat die persoon slordig is, terwijl de trein vertraging had. De les: bij twijfel kijk je eerst naar de situatie.",
+   "k": [
+    "We overschatten interne factoren (persoonlijkheid) bij het verklaren van gedrag",
+    "We onderschatten externe, situationele factoren (de kracht van de situatie)",
+    "Het gaat vooral om het verklaren van het gedrag van anderen",
+    "Een concreet voorbeeld waarin de situatie het gedrag beter verklaart dan de persoon"
+   ]
+  },
+  {
+   "h": "h2",
+   "concept": true,
+   "q": "Waarom kan alleen een experiment een oorzaak-gevolgrelatie aantonen, en waarom volstaat een correlatie daarvoor niet? Gebruik een voorbeeld.",
+   "m": "In een experiment manipuleert de onderzoeker systematisch de onafhankelijke variabele en meet het effect op de afhankelijke variabele. Daardoor is het de enige methode die oorzaak en gevolg kan vaststellen. Een correlatie laat alleen zien dat twee variabelen samenhangen en helpt voorspellen, maar zegt niets over de oorzaak. Een derde factor kan het verband verklaren: in het voorbeeld van Rosenberg hadden vrouwen die op condooms vertrouwden vaker soa's, maar dat kwam doordat vrouwen met andere anticonceptie vaak minder wisselende partners hadden.",
+   "k": [
+    "In een experiment wordt de onafhankelijke variabele systematisch gemanipuleerd",
+    "Het effect wordt gemeten op de afhankelijke variabele",
+    "Een correlatie toont alleen samenhang (voorspellen), geen oorzaak",
+    "Een derde factor kan een correlatie verklaren, zoals in het voorbeeld van Rosenberg"
+   ]
+  },
+  {
+   "h": "h3",
+   "concept": true,
+   "q": "Wat is priming en hoe hangt het samen met de toegankelijkheid van schema's? Geef een voorbeeld.",
+   "m": "Priming is het tijdelijk activeren van een schema door een prikkel, zoals een woord. Daardoor worden verwante gedachten en interpretaties toegankelijker. Wie net woorden over agressie heeft gelezen, interpreteert een neutrale situatie sneller als vijandig. Priming maakt een schema tijdelijk toegankelijk, net als doelen en recente ervaringen. Chronisch toegankelijke schema's zijn daarentegen bijna altijd actief door voortdurende ervaringen.",
+   "k": [
+    "Priming is het tijdelijk activeren van een schema door een prikkel",
+    "Verwante gedachten en interpretaties worden daardoor toegankelijker",
+    "Voorbeeld: na woorden over agressie een neutrale situatie als vijandig zien",
+    "Onderscheid tussen tijdelijk toegankelijke en chronisch toegankelijke schema's"
+   ]
+  },
+  {
+   "h": "h4",
+   "concept": true,
+   "q": "Een werknemer komt te laat. Leg uit hoe je volgens het tweeledige attributieproces en het covariatiemodel van Kelley tot een verklaring komt.",
+   "m": "Volgens Heider gedragen mensen zich als amateurwetenschappers die informatie verzamelen tot ze een redelijke oorzaak vinden. Het maken van attributies verloopt in twee stappen: eerst schrijven we het gedrag automatisch toe aan de persoon (een interne attributie), pas daarna corrigeren we bewust voor de situatie. In het covariatiemodel van Kelley wijst hoge consensus, dus anderen gedragen zich in die situatie net zo, op een situationele oorzaak. Komen ook collega's te laat, dan ligt het waarschijnlijk aan de situatie.",
+   "k": [
+    "Eerst volgt een automatische interne attributie (aan de persoon)",
+    "Daarna volgt een bewuste correctie voor situationele factoren",
+    "Hoge consensus (anderen gedragen zich ook zo) wijst op een situationele oorzaak",
+    "Heider: mensen zoeken als amateurwetenschappers naar een redelijke oorzaak"
+   ]
+  },
+  {
+   "h": "h5",
+   "concept": true,
+   "q": "Leg de tweefactorentheorie van Schachter uit en illustreer ze met het brug-experiment.",
+   "m": "Volgens de tweefactorentheorie ontstaat een emotie uit fysiologische arousal en een cognitieve interpretatie (labeling) van die opwinding. De context bepaalt welke emotie we aan de opwinding toeschrijven. In het brug-experiment belden mannen op een wiebelige brug vaker de aantrekkelijke onderzoekster. Ze schreven de opwinding die de spannende brug veroorzaakte ten onrechte toe aan aantrekkingskracht: een misattributie van arousal.",
+   "k": [
+    "Een emotie bestaat uit fysiologische arousal",
+    "Plus een cognitieve interpretatie (labeling) van die opwinding, bepaald door de context",
+    "Brug-experiment: mannen op de wiebelige brug belden vaker de onderzoekster",
+    "Misattributie van arousal: opwinding door de brug toegeschreven aan aantrekkingskracht"
+   ]
+  },
+  {
+   "h": "h6",
+   "concept": true,
+   "q": "Leg uit wat cognitieve dissonantie is en hoe het experiment van Festinger en Carlsmith (1959) dit aantoont.",
+   "m": "Cognitieve dissonantie is volgens Festinger het onaangename gevoel van spanning dat ontstaat door onverenigbare cognities. Ze is het sterkst wanneer gedrag het zelfbeeld bedreigt. In het experiment van Festinger en Carlsmith vond de groep die 1 dollar kreeg het saaie experiment achteraf leuker dan de groep die 20 dollar kreeg. De groep met 1 dollar had weinig externe rechtvaardiging om te liegen en paste daarom haar houding intern aan. De groep met 20 dollar had wel een duidelijke externe rechtvaardiging.",
+   "k": [
+    "Dissonantie is een onaangename spanning door onverenigbare cognities",
+    "Ze is het sterkst wanneer gedrag het zelfbeeld bedreigt",
+    "De groep met 1 dollar vond het saaie experiment achteraf leuker",
+    "Weinig externe rechtvaardiging leidt tot een interne aanpassing van de houding",
+    "De groep met 20 dollar had een duidelijke externe rechtvaardiging"
+   ]
+  },
+  {
+   "h": "h7",
+   "concept": true,
+   "q": "Vergelijk de centrale en de perifere route van het Elaboration Likelihood Model. Welke route leidt tot duurzame attitudeverandering, en wanneer?",
+   "m": "Bij de centrale route verwerken mensen de inhoud en de argumenten van een boodschap grondig. Dat leidt tot duurzame attitudeverandering, en het gebeurt wanneer mensen gemotiveerd zijn en het vermogen hebben om na te denken. Bij de perifere route letten mensen op oppervlakkige kenmerken en heuristieken. Dat leidt slechts tot kortdurende of oppervlakkige verandering. Hoe meer iemand afgeleid is, hoe eerder iemand de perifere route volgt.",
+   "k": [
+    "Centrale route: grondige verwerking van de inhoud en de argumenten",
+    "De centrale route leidt tot duurzame attitudeverandering",
+    "De centrale route vraagt motivatie en vermogen",
+    "Perifere route: oppervlakkige kenmerken en heuristieken, kortdurende verandering",
+    "Afleiding maakt de perifere route waarschijnlijker"
+   ]
+  },
+  {
+   "h": "h8",
+   "concept": true,
+   "q": "Leg uit wat aangeleerde hulpeloosheid is, welke attributiestijl erbij hoort en hoe attributionele retraining kan helpen.",
+   "m": "Aangeleerde hulpeloosheid gaat terug op Seligman en het experiment met de hond in de kooi. Ze wordt gekenmerkt door interne, stabiele en globale attributies voor negatieve gebeurtenissen. Intern betekent een lagere zelfwaardering, stabiel dat men ook in de toekomst hulpeloosheid verwacht, en globaal dat men die ook in andere situaties verwacht. Attributionele retraining vervangt zulke onaangepaste attributies, zoals lage aanleg, door attributies die motivatie en prestatie verbeteren, zoals lage inzet of een foute methode: oorzaken die controleerbaar en onstabiel zijn.",
+   "k": [
+    "Seligman: het experiment met de hond in de kooi",
+    "Interne attributie van negatieve gebeurtenissen (lagere zelfwaardering)",
+    "Stabiele attributie: hulpeloosheid ook in de toekomst verwacht",
+    "Globale attributie: hulpeloosheid ook in andere situaties verwacht",
+    "Retraining vervangt lage aanleg door controleerbare, onstabiele oorzaken zoals lage inzet"
+   ]
+  },
+  {
+   "h": "h9",
+   "concept": true,
+   "q": "Hoe helpen het mentalizing systeem en de TPJ ons om anderen te begrijpen? Gebruik de Sally en Anne-taak als voorbeeld.",
+   "m": "Het mentalizing systeem helpt ons afleiden wat een ander denkt, voelt, gelooft of wil. De temporo-pariëtale junctie (TPJ) helpt bij het wisselen van perspectief: onderscheid maken tussen wat ik weet en wat de ander weet. In de Sally en Anne-taak moet je voorspellen waar Sally zal zoeken op basis van haar foute kennis, niet op basis van wat je zelf weet. De TPJ maakt het mogelijk om vanuit Sally te denken. Bij autisme zijn er moeilijkheden met zulke false-belief taken.",
+   "k": [
+    "Mentalizing systeem: afleiden wat een ander denkt, voelt, gelooft of wil",
+    "TPJ: onderscheid tussen het eigen perspectief en dat van een ander",
+    "Sally en Anne: voorspellen vanuit Sally's foute kennis, niet vanuit de eigen kennis",
+    "Bij autisme zijn er moeilijkheden bij false-belief taken"
+   ]
+  }
+ ]
 };

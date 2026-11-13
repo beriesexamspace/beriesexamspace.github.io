@@ -368,3 +368,43 @@ html.is-examen .thema-knop.is-los { display: none; }
   .hoofdstuk-detail-kop { font-size: 1.3125rem; }
   .hoofdstuk-oefen { max-width: none; }
 }
+
+/* Open vragen (assets/open-vragen.js): een derde modus naast Training en Simulatie, alleen bij vakken met open vragen. */
+@media (min-width: 900px) { #modus-keuzes.met-open:not(.met-duel) { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+@media (min-width: 768px) { #modus-keuzes.met-open.met-duel { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+#hoofdstukken.is-open-modus .hoofdstuk-voortgang { display: none; }
+.openscherm .open-label { display: block; margin: 24px 0 8px; font-weight: 600; }
+.openscherm textarea { display: block; width: 100%; min-height: 200px; resize: vertical; font: inherit; font-size: 1rem; line-height: 1.6; }
+.openscherm textarea[readonly] { background: var(--surface); color: var(--ink); }
+.openscherm .open-teken { margin: 6px 0 0; text-align: right; font-size: .8125rem; }
+.openscherm .open-status:empty { display: none; }
+.open-resultaat { display: grid; gap: 14px; margin-top: 24px; }
+.open-blok, .open-model, .open-melding { padding: 20px 24px; }
+.open-blok h3, .open-model h3 { margin: 0 0 10px; font-size: 1rem; font-weight: 600; }
+.open-blok p, .open-melding p { margin: 0; line-height: 1.55; overflow-wrap: anywhere; }
+.open-melding p + p { margin-top: 8px; color: var(--ink-soft); }
+.open-lijst { display: grid; gap: 6px; margin: 0; padding-left: 20px; line-height: 1.55; overflow-wrap: anywhere; }
+.open-kernpunten { display: grid; gap: 10px; margin: 0; padding: 0; list-style: none; }
+.open-kernpunt { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 4px 12px; align-items: start; line-height: 1.5; }
+.open-oordeel { padding: 2px 10px; border-radius: var(--radius-pill, 999px); font-size: .8125rem; font-weight: 600; white-space: nowrap; }
+.open-kernpunt.is-aanwezig .open-oordeel { background: var(--teal-zacht); color: var(--teal-tekst); }
+.open-kernpunt.is-gedeeltelijk .open-oordeel { background: var(--accent-zacht); color: var(--accent); }
+.open-kernpunt.is-ontbreekt .open-oordeel { background: var(--fout-zacht); color: var(--fout); }
+.open-punt { color: var(--ink); overflow-wrap: anywhere; }
+.open-toelichting { grid-column: 2; color: var(--ink-soft); font-size: .875rem; overflow-wrap: anywhere; }
+.open-tip { margin: 0; }
+.open-model summary { min-height: 44px; padding: 10px 0; color: var(--accent); font-weight: 600; cursor: pointer; }
+.open-model summary:focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; border-radius: 8px; }
+.open-model-tekst { margin: 4px 0 16px; line-height: 1.6; overflow-wrap: anywhere; }
+.open-einde { margin-top: 24px; padding: 28px; text-align: center; }
+.open-einde h2 { margin: 0 0 8px; }
+.open-einde .vak-knoppen { justify-content: center; }
+html.ball-cursor .openscherm textarea { cursor: text !important; }
+.vak-pagina :is(.open-blok, .open-model, .open-melding, .open-einde):active,
+:where(html.has-hover) .vak-pagina :is(.open-blok, .open-model, .open-melding, .open-einde):hover { transform: none; box-shadow: var(--shadow-soft); }
+@media (max-width: 480px) {
+  .open-blok, .open-model, .open-melding, .open-einde { padding: 18px; }
+  .open-kernpunt { grid-template-columns: minmax(0, 1fr); }
+  .open-toelichting { grid-column: 1; }
+  .open-oordeel { justify-self: start; }
+}
