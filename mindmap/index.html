@@ -7,12 +7,13 @@
   <meta name="theme-color" content="#0e0e10">
   <meta name="referrer" content="no-referrer">
   <meta name="robots" content="noindex, nofollow">
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js; connect-src 'self' https://*.supabase.co wss://*.supabase.co; img-src 'self' data: blob:; style-src 'self' 'unsafe-inline'; font-src 'self' data:; object-src 'none'; base-uri 'none'; form-action 'self'">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js; connect-src 'self' https://*.supabase.co wss://*.supabase.co https://api.anthropic.com; img-src 'self' data: blob:; style-src 'self' 'unsafe-inline'; font-src 'self' data:; object-src 'none'; base-uri 'none'; form-action 'self'">
   <title>Berie's mindmap</title>
   <link rel="stylesheet" href="css/app.css">
   <link rel="stylesheet" href="css/auth.css">
   <link rel="stylesheet" href="css/welkom.css">
   <link rel="stylesheet" href="css/uitleg.css">
+  <link rel="stylesheet" href="css/ai.css">
 </head>
 <body>
   <canvas id="bm-canvas" class="bm-canvas" aria-label="Mindmap"></canvas>
@@ -33,6 +34,8 @@
   <script src="js/render.js"></script>
   <script src="js/camera.js"></script>
   <script src="js/input.js"></script>
+  <script src="js/ai-prompt.js"></script>
+  <script src="js/ai-lezen.js"></script>
   <script src="js/popup.js"></script>
   <script src="js/overview.js"></script>
   <script src="js/editor.js"></script>
