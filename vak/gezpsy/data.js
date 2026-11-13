@@ -32,10 +32,6 @@ window.BES_VAK = {
   {
    "id": "h7",
    "naam": "Pijn"
-  },
-  {
-   "id": "nieuw",
-   "naam": "Nieuw materiaal: Gezondheidspsychologie"
   }
  ],
  "vragen": [
@@ -902,78 +898,6 @@ window.BES_VAK = {
    ],
    "a": 1,
    "u": "A-bètacellen zorgen voor een zacht en prettig gevoel, zoals bij wrijven of warmte, waardoor men minder pijn kan ervaren. A-deltavezels geven juist scherpe, kortdurende pijn en C-vezels doffe, trage pijn."
-  },
-  {
-   "h": "nieuw",
-   "q": "Welk kenmerk van type A-gedrag is het sterkst geassocieerd met een verhoogd risico op hartaandoeningen?",
-   "o": [
-    "Dwangmatigheid",
-    "Ongeduld",
-    "Competitiedrang",
-    "Vijandigheid"
-   ],
-   "a": 3,
-   "u": "Van de type A-kenmerken is vijandigheid de sterkste onafhankelijke voorspeller van cardiovasculaire problemen. Competitiedrang en ongeduld zijn minder schadelijk zonder chronische vijandigheid."
-  },
-  {
-   "h": "nieuw",
-   "q": "Welke fysiologische reactie hoort NIET bij acute stress?",
-   "o": [
-    "Versnelde hartslag",
-    "Verhoging van de bloeddruk",
-    "Verlaagd bloedsuikergehalte",
-    "Overvloedige transpiratie"
-   ],
-   "a": 2,
-   "u": "Bij acute stress activeert het sympathische zenuwstelsel de fight-or-flight respons. Het bloedsuikergehalte stijgt juist, doordat glycogeen in glucose wordt omgezet."
-  },
-  {
-   "h": "nieuw",
-   "q": "Jan is ontslagen. Hij vindt het vreselijk, maar ziet het tegelijk als een kans om na te denken over wat hij echt wil in het leven. Welke copingstrategie gebruikt hij?",
-   "o": [
-    "Afweer",
-    "Neerwaartse sociale vergelijking",
-    "Opwaartse sociale vergelijking",
-    "Cognitieve herstructurering"
-   ],
-   "a": 3,
-   "u": "Cognitieve herstructurering is het actief herinterpreteren van een negatieve situatie op een constructieve manier, zoals Jan doet door het ontslag als kans te zien."
-  },
-  {
-   "h": "nieuw",
-   "q": "Iemand kan na het overlijden van een geheime partner haar verdriet niet openlijk tonen of delen, omdat de relatie sociaal niet erkend werd. Hoe noemt men dit verschijnsel?",
-   "o": [
-    "Secundaire traumatisering",
-    "Posttraumatische stressstoornis",
-    "Integratie",
-    "Miskende rouw"
-   ],
-   "a": 3,
-   "u": "Miskende rouw, ook disenfranchised grief genoemd, is verdriet om een verlies dat sociaal niet erkend wordt. Het bemoeilijkt het verwerkingsproces omdat er geen sociale steun is."
-  },
-  {
-   "h": "nieuw",
-   "q": "Waarom gaan optimisten beter om met de uitdagingen in het leven?",
-   "o": [
-    "Ze vergelijken zichzelf met mensen die slechter presteren",
-    "Ze verbeteren hun cognitieve vermogens door positief te denken",
-    "Ze zien uitdagingen als beheersbaar en tijdelijk",
-    "Ze raken hevig teleurgesteld, wat hen motiveert"
-   ],
-   "a": 2,
-   "u": "Optimisten hanteren een verklaringsstijl waarbij tegenslagen als tijdelijk, specifiek en controleerbaar worden gezien. Pessimisten zien ze als permanent en universeel."
-  },
-  {
-   "h": "nieuw",
-   "q": "Welke uitspraak beschrijft de meervoudige-systemenbenadering van eten en honger correct?",
-   "o": [
-    "Eten wordt enkel bepaald door het bloedsuikergehalte",
-    "De beslissing om te eten hangt tegelijk af van meerdere factoren, zoals tijdstip, smaakvoorkeur, sociale context en het vorige eetmoment",
-    "Eten wordt volledig gecontroleerd door het setpoint van het lichaamsgewicht",
-    "Honger is enkel een psychologisch verschijnsel zonder biologische basis"
-   ],
-   "a": 1,
-   "u": "De benadering erkent dat eetgedrag bepaald wordt door een samenspel van biologische, psychologische en sociale factoren, en verklaart waarom mensen ook eten zonder biologische honger."
   }
  ],
  "hacks": [
@@ -1163,7 +1087,6 @@ window.BES_VAK = {
   "h3": 2,
   "h4": 1,
   "h6": 1,
-  "h7": 2,
-  "nieuw": 1
+  "h7": 2
  }
 };

@@ -52,10 +52,6 @@ window.BES_VAK = {
   {
    "id": "h12",
    "naam": "Testaccuraatheid"
-  },
-  {
-   "id": "nieuw",
-   "naam": "Nieuw materiaal: Onderzoeksmethoden en -technieken I: psychometrie"
   }
  ],
  "vragen": [
@@ -1006,102 +1002,6 @@ window.BES_VAK = {
    ],
    "a": 0,
    "u": "Een lagere cut-off classificeert meer mensen als positief: dit vangt meer echte positieven (hogere sensitiviteit) maar ook meer valse positieven (lagere specificiteit); een klassieke trade-off."
-  },
-  {
-   "h": "nieuw",
-   "q": "Een onderzoeker stelt vast dat mensen die veel koffie drinken vaker last hebben van slapeloosheid. Hij concludeert dat koffie slapeloosheid veroorzaakt. Wat is het meest fundamentele probleem met deze conclusie?",
-   "o": [
-    "De steekproef was waarschijnlijk te klein",
-    "Correlatie bewijst geen causaliteit; een derde variabele kan beide beïnvloeden",
-    "Koffie kan geen onafhankelijke variabele zijn",
-    "Slapeloosheid kan niet objectief gemeten worden"
-   ],
-   "a": 1,
-   "u": "Een correlatie sluit niet uit dat een derde factor beide veroorzaakt of dat het verband omgekeerd is. Alleen een gecontroleerd experiment met randomisering kan causaliteit vaststellen."
-  },
-  {
-   "h": "nieuw",
-   "q": "Een psycholoog wijst studenten willekeurig toe aan een nieuwe of een klassieke leermethode en meet daarna de examenresultaten. Wat is de afhankelijke variabele?",
-   "o": [
-    "De groep waarin de student zit",
-    "De leermethode",
-    "De examenresultaten",
-    "De randomisatie"
-   ],
-   "a": 2,
-   "u": "De leermethode is de onafhankelijke variabele, want die wordt gemanipuleerd. De afhankelijke variabele is wat als gevolg gemeten wordt, hier de examenresultaten."
-  },
-  {
-   "h": "nieuw",
-   "q": "Een advertentie zegt: 'Uit onderzoek blijkt dat 9 op de 10 tandartsen product X aanbevelen.' Welke kritische vraag is hier het meest relevant?",
-   "o": [
-    "Is de bewering te spectaculair om waar te zijn?",
-    "Wie heeft het onderzoek gefinancierd en hoe is de steekproef samengesteld?",
-    "Gebruiken tandartsen zelf wel producten?",
-    "Is dit een pseudowetenschappelijke bewering?"
-   ],
-   "a": 1,
-   "u": "De bron en het belang ervan bepalen hoe betrouwbaar het bewijs is. Een fabrikant die zelf tandartsen selecteert levert ander bewijs dan een onafhankelijke, gerandomiseerde steekproef."
-  },
-  {
-   "h": "nieuw",
-   "q": "Onderzoekers willen het effect van slaaptekort op reactietijd bestuderen, maar kunnen mensen om ethische redenen niet langdurig slaap ontnemen. Ze vergelijken daarom mensen die zelf slecht slapen met mensen die goed slapen. Welk type onderzoek is dit?",
-   "o": [
-    "Experimenteel onderzoek, want er is een onafhankelijke variabele",
-    "Correlatieonderzoek, want er wordt niet gemanipuleerd",
-    "Een gevalsstudie",
-    "Een natuurlijke observatie"
-   ],
-   "a": 1,
-   "u": "Omdat de onderzoeker de slaapkwaliteit niet zelf manipuleert en enkel bestaande groepen vergelijkt, is het geen experiment. Twee groepen vergelijken maakt van een studie nog geen experiment."
-  },
-  {
-   "h": "nieuw",
-   "q": "Waarom is een dubbelblind onderzoek beter dan een enkelblind onderzoek?",
-   "o": [
-    "Het voorkomt dat proefpersonen liegen over hun symptomen",
-    "Het voorkomt dat verwachtingen van de onderzoeker de waarneming en interpretatie van resultaten beïnvloeden",
-    "Het is wettelijk verplicht voor alle medisch onderzoek",
-    "Het verhoogt de steekproefgrootte"
-   ],
-   "a": 1,
-   "u": "Als de onderzoeker niet weet wie het echte middel kreeg, kan expectancy bias de registratie en interpretatie van resultaten niet kleuren."
-  },
-  {
-   "h": "nieuw",
-   "q": "Welke correlatiecoëfficiënt wijst op het sterkste verband tussen twee variabelen?",
-   "o": [
-    "+0,62",
-    "-0,81",
-    "+0,75",
-    "-0,15"
-   ],
-   "a": 1,
-   "u": "De sterkte van een correlatie hangt af van de absolute waarde. De coëfficiënt -0,81 ligt het dichtst bij -1, het teken bepaalt alleen de richting."
-  },
-  {
-   "h": "nieuw",
-   "q": "Een onderzoeker die overtuigd is dat extraverte mensen gelukkiger zijn, analyseert enkel de data die deze stelling bevestigen en negeert tegenstrijdige resultaten. Dit is een voorbeeld van:",
-   "o": [
-    "Expectancy bias",
-    "Confirmation bias (bevestigingsbias)",
-    "Hindsight bias",
-    "Sociale wenselijkheidsbias"
-   ],
-   "a": 1,
-   "u": "Confirmation bias is het selectief zoeken en onthouden van bevestigend bewijs en het negeren van tegenstrijdig bewijs. Expectancy bias gaat over invloed op het gedrag van de proefpersoon zelf."
-  },
-  {
-   "h": "nieuw",
-   "q": "Wat is het verschil tussen een experiment en een natuurlijke observatie als onderzoeksmethode?",
-   "o": [
-    "Bij een experiment manipuleert de onderzoeker een onafhankelijke variabele in een gecontroleerde setting; bij natuurlijke observatie wordt gedrag bestudeerd zoals het spontaan voorkomt",
-    "Beide methoden laten dezelfde causale conclusies toe",
-    "Natuurlijke observatie laat wel causale conclusies toe, een experiment niet",
-    "Een experiment kan enkel in een laboratorium plaatsvinden"
-   ],
-   "a": 0,
-   "u": "Enkel het experiment, door manipulatie en randomisatie, laat causale conclusies toe. Natuurlijke observatie is vaak correlationeel onderzoek."
   }
  ],
  "hacks": [
@@ -1342,7 +1242,6 @@ window.BES_VAK = {
   "h8": 1,
   "h9": 1,
   "h11": 1,
-  "h12": 1,
-  "nieuw": 1
+  "h12": 1
  }
 };
