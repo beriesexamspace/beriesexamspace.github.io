@@ -40,6 +40,10 @@ window.BES_VAK = {
   {
    "id": "h9",
    "naam": "H9 · Sociale brein"
+  },
+  {
+   "id": "nieuw",
+   "naam": "Nieuw materiaal: Sociale psychologie I: sociale cognitie"
   }
  ],
  "vragen": [
@@ -1122,6 +1126,390 @@ window.BES_VAK = {
    ],
    "a": 0,
    "u": "Sociale sequentievaardigheden zijn trainbaar (bv. verhalen in de juiste volgorde leren herkennen bij mensen met autisme) en het cerebellum kan gestimuleerd worden via tDCS (zwakke gelijkstroom) of TMS (magnetische stimulatie)."
+  },
+  {
+   "h": "nieuw",
+   "q": "Welk standpunt gaat ervan uit dat de externe omgeving subtiele maar krachtige effecten heeft op gedachten, gevoelens en gedrag?",
+   "o": [
+    "Situationisme",
+    "Dispositionisme",
+    "Behaviorisme",
+    "Structuralisme"
+   ],
+   "a": 0,
+   "u": "Situationisme stelt dat de externe of gedragsmatige context krachtige effecten heeft, tegenover dispositionisme dat gedrag verklaart met interne factoren."
+  },
+  {
+   "h": "nieuw",
+   "q": "Hoe noemt men kennis over de volgorde van gebeurtenissen en acties die in een bepaalde omgeving van een sociale rol verwacht worden?",
+   "o": [
+    "Script",
+    "Stereotype",
+    "Attributie",
+    "Conditionering"
+   ],
+   "a": 0,
+   "u": "Een script is kennis over de volgorde van gebeurtenissen en acties die in een omgeving verwacht worden van een sociale rol."
+  },
+  {
+   "h": "nieuw",
+   "q": "Wat toonden de lijnenexperimenten van Asch over groepsdruk?",
+   "o": [
+    "Ongeveer een derde van de kritische antwoorden was conform aan de foute meerderheid",
+    "Alle deelnemers blijven onafhankelijk oordelen",
+    "Niemand conformeert zich zolang het antwoord privé wordt gegeven",
+    "Conformisme komt alleen voor bij kinderen"
+   ],
+   "a": 0,
+   "u": "Asch vond dat ongeveer een derde van de kritische antwoorden conformistisch was. Een unanieme meerderheid versterkt dit effect."
+  },
+  {
+   "h": "nieuw",
+   "q": "Welke factor maakt conformisme sterker in de lijnenexperimenten van Asch?",
+   "o": [
+    "Een unanieme meerderheid",
+    "Een aanwezige partner die zich afzet tegen de groep",
+    "Een makkelijke taak",
+    "Een privaat gegeven antwoord"
+   ],
+   "a": 0,
+   "u": "Een unaniem meerderheidsoordeel verhoogt de kans op conformisme, een dissidente partner verlaagt die kans."
+  },
+  {
+   "h": "nieuw",
+   "q": "Welk perceptueel effect gebruikte Sherif om groepsnormen te bestuderen?",
+   "o": [
+    "Het autokinetisch effect",
+    "Het Hermann-raster",
+    "De Necker-kubus",
+    "De Stroop-test"
+   ],
+   "a": 0,
+   "u": "Sherif gebruikte het autokinetisch effect, de schijnbare beweging van een stilstaande lichtvlek in een donkere kamer, om normvorming te bestuderen."
+  },
+  {
+   "h": "nieuw",
+   "q": "Welke omstandigheid verhoogt de kans op groepsdenken?",
+   "o": [
+    "Hoge groepscohesie en directief leiderschap",
+    "Veel diversiteit in achtergrond en ideologie",
+    "Een ruime beschikbare tijd zonder stress",
+    "Een grote afstand tot de groep"
+   ],
+   "a": 0,
+   "u": "Hoge cohesie, directief leiderschap en isolatie verhogen de kans op groepsdenken; homogeniteit van de leden is ook een factor."
+  },
+  {
+   "h": "nieuw",
+   "q": "Hoeveel deelnemers dienden in Milgrams experiment de maximale 450 volt toe?",
+   "o": [
+    "Ongeveer twee derde",
+    "Ongeveer een op tien",
+    "Ongeveer een op vier",
+    "Niemand"
+   ],
+   "a": 0,
+   "u": "In Milgrams experiment dienden twee derde van de deelnemers de maximale 450 volt toe."
+  },
+  {
+   "h": "nieuw",
+   "q": "Welke situationele factor verhoogde de gehoorzaamheid in Milgrams experiment?",
+   "o": [
+    "De autoriteitsfiguur is fysiek aanwezig en het slachtoffer is niet zichtbaar",
+    "Het slachtoffer staat naast de deelnemer en kan worden gezien",
+    "De autoriteitsfiguur heeft een lagere status",
+    "De deelnemer kan het experiment vrijelijk verlaten zonder gevolgen"
+   ],
+   "a": 0,
+   "u": "Aanwezigheid van de autoriteit, een legitieme status van de autoriteit en een onzichtbaar of anoniem slachtoffer verhogen de gehoorzaamheid."
+  },
+  {
+   "h": "nieuw",
+   "q": "Welke combinatie hoort bij de stappen in het beslismodel van Darley en Latané over hulpgedrag?",
+   "o": [
+    "Het incident opmerken, het als noodgeval interpreteren en zich verantwoordelijk voelen",
+    "Het incident filmen, het delen op sociale media en de politie bellen",
+    "Het slachtoffer kennen, de kosten berekenen en een beloning verwachten",
+    "Het incident herhalen, de dader identificeren en wachten op bevel"
+   ],
+   "a": 0,
+   "u": "Het model van Darley en Latané bevat onder meer deze stappen: het incident opmerken, het als noodgeval interpreteren en zich verantwoordelijk voelen. Pas daarna komt hulp."
+  },
+  {
+   "h": "nieuw",
+   "q": "Hoe noemt men het verschijnsel waarbij elk groepslid zich minder verantwoordelijk voelt omdat de verantwoordelijkheid gedeeld wordt?",
+   "o": [
+    "Diffusie van verantwoordelijkheid",
+    "Cognitieve dissonantie",
+    "Self-serving bias",
+    "Matching hypothese"
+   ],
+   "a": 0,
+   "u": "Bij diffusie van verantwoordelijkheid verzwakt de neiging om te handelen omdat iedereen zich verantwoordelijk voelt en niemand handelt."
+  },
+  {
+   "h": "nieuw",
+   "q": "Welke factor is een belangrijke bron van aantrekking, waarbij regelmatig contact de positieve gevoelens verhoogt?",
+   "o": [
+    "Nabijheid",
+    "Competitie",
+    "Economische concurrentie",
+    "Dehumanisatie"
+   ],
+   "a": 0,
+   "u": "Nabijheid leidt tot aantrekking: door herhaald contact (loutere blootstelling) nemen positieve gevoelens toe."
+  },
+  {
+   "h": "nieuw",
+   "q": "Wat zegt de matching hypothese over de partnerkeuze van mensen?",
+   "o": [
+    "De meeste mensen kiezen vrienden en een partner die ongeveer even aantrekkelijk zijn als zijzelf",
+    "Mensen kiezen altijd de meest aantrekkelijke partner",
+    "Aantrekking hangt alleen af van geld",
+    "Mensen kiezen partners die het tegenovergestelde van zichzelf zijn"
+   ],
+   "a": 0,
+   "u": "De matching hypothese stelt dat mensen partners kiezen met een gelijkaardig aantrekkelijkheidsniveau."
+  },
+  {
+   "h": "nieuw",
+   "q": "Wat is cognitieve dissonantie volgens Festinger?",
+   "o": [
+    "Een motiverende toestand waarbij tegenstrijdige cognities of overtuigingen en gedrag met elkaar botsen",
+    "Een vorm van klassieke conditionering",
+    "Een stoornis van het geheugen",
+    "Een zelfbeeld dat zeer positief is"
+   ],
+   "a": 0,
+   "u": "Bij cognitieve dissonantie botsen gedrag en overtuiging, en past men vaak het denken aan het handelen aan."
+  },
+  {
+   "h": "nieuw",
+   "q": "Wat is self-serving bias?",
+   "o": [
+    "Succes aan zichzelf toeschrijven en mislukking aan externe oorzaken wijten",
+    "Gedrag van anderen altijd aan hun persoonlijkheid toeschrijven",
+    "Negatieve gevoelens onderdrukken",
+    "Altijd de schuld bij de situatie leggen"
+   ],
+   "a": 0,
+   "u": "Self-serving bias schrijft succes intern toe en mislukking extern, om het eigen zelfbeeld te beschermen."
+  },
+  {
+   "h": "nieuw",
+   "q": "Welke drie componenten noemt Sternbergs driehoekstheorie van liefde?",
+   "o": [
+    "Passie, intimiteit en toewijding",
+    "Warmte, competentie en macht",
+    "Eros, libido en thanatos",
+    "Zelfactualisatie, zelfachting en veiligheid"
+   ],
+   "a": 0,
+   "u": "Sternbergs theorie onderscheidt passie, intimiteit en toewijding; volmaakte liefde heeft alle drie."
+  },
+  {
+   "h": "nieuw",
+   "q": "Welke twee universele dimensies gebruiken mensen om anderen te beoordelen?",
+   "o": [
+    "Warmte en competentie",
+    "Ras en leeftijd",
+    "Intelligentie en lengte",
+    "Geld en status"
+   ],
+   "a": 0,
+   "u": "In alle culturen beoordelen mensen anderen op warmte (graag hebben) en competentie (respecteren)."
+  },
+  {
+   "h": "nieuw",
+   "q": "Hoe noemt men een overdreven beeld van een groep mensen dat vaak niet overeenkomt met de werkelijkheid?",
+   "o": [
+    "Een stereotype",
+    "Een vooroordeel",
+    "Een discriminatie",
+    "Een sociale norm"
+   ],
+   "a": 0,
+   "u": "Een stereotype is een overdreven beeld van een groep dat vaak niet volledig overeenkomt met de realiteit; een vooroordeel is een negatieve houding."
+  },
+  {
+   "h": "nieuw",
+   "q": "Welk proces beschrijft het ontnemen van menselijkheid aan anderen, die als volledig anders en waardeloos worden gezien?",
+   "o": [
+    "Dehumanisatie",
+    "Matching",
+    "Autokinetisch effect",
+    "Scaffolding"
+   ],
+   "a": 0,
+   "u": "Bij dehumanisatie worden anderen als minderwaardig en niet volledig menselijk gezien, wat discriminatie vergemakkelijkt."
+  },
+  {
+   "h": "nieuw",
+   "q": "Wat toonde het Stanford-gevangenisexperiment aan?",
+   "o": [
+    "Dat de situatie en de toegewezen rol het gedrag sterk beïnvloeden, zelfs bij willekeurig toegewezen deelnemers",
+    "Dat gevangenen altijd gewelddadiger zijn dan bewakers",
+    "Dat persoonlijkheid de enige verklaring van gedrag is",
+    "Dat er geen verschil is tussen bewakers en gevangenen"
+   ],
+   "a": 0,
+   "u": "Willekeurig toegewezen deelnemers gedroegen zich door de situatie zeer verschillend, waardoor het experiment stopgezet werd."
+  },
+  {
+   "h": "nieuw",
+   "q": "Welke vorm van agressie is een middel om een vooropgesteld doel te bereiken?",
+   "o": [
+    "Instrumentele agressie",
+    "Emotionele agressie",
+    "Reactieve agressie uit frustratie",
+    "Relationele agressie"
+   ],
+   "a": 0,
+   "u": "Instrumentele of proactieve agressie is een middel om een doel te bereiken, zoals Tyson die de wedstrijd wilde stoppen."
+  },
+  {
+   "h": "nieuw",
+   "q": "Welke vier schalen meet de Aggression Questionnaire van Buss en Perry (1992)?",
+   "o": [
+    "Fysieke agressie, verbale agressie, boosheid en vijandigheid",
+    "Angst, schaamte, schuld en trots",
+    "Intelligentie, empathie, geheugen en taal",
+    "Warmte, competentie, macht en status"
+   ],
+   "a": 0,
+   "u": "De Aggression Questionnaire van Buss en Perry meet fysieke en verbale agressie, boosheid en vijandigheid."
+  },
+  {
+   "h": "nieuw",
+   "q": "Wat stelt de frustratie-agressiehypothese van Dollard, en wat is de aanvulling van Berkowitz?",
+   "o": [
+    "Frustratie leidt tot agressie, maar het zijn vooral de negatieve gevoelens die agressie veroorzaken",
+    "Frustratie leidt nooit tot agressie",
+    "Agressie ontstaat alleen door aangeboren instincten",
+    "Agressie verdwijnt altijd na frustratie"
+   ],
+   "a": 0,
+   "u": "Berkowitz stelt dat niet de frustratie zelf, maar het negatieve affect dat ermee gepaard gaat, leidt tot agressie."
+  },
+  {
+   "h": "nieuw",
+   "q": "Welk effect beschreef Berkowitz en LePage waarbij de loutere aanwezigheid van wapens de agressie verhoogt?",
+   "o": [
+    "Het wapeneffect",
+    "Het matching-effect",
+    "Het catharsis-effect",
+    "Het omstandereffect"
+   ],
+   "a": 0,
+   "u": "Het wapeneffect toont dat wapens automatisch agressieve gedachten oproepen."
+  },
+  {
+   "h": "nieuw",
+   "q": "Welk effect heeft catharsis, het agressie 'eruit laten' door boos te worden of te slaan, volgens onderzoek op latere agressie?",
+   "o": [
+    "Het verhoogt latere agressie in plaats van ze te verlagen",
+    "Het verlaagt agressie altijd permanent",
+    "Het heeft geen enkel effect op agressie",
+    "Het vermindert agressie alleen bij vrouwen"
+   ],
+   "a": 0,
+   "u": "De catharsishypothese wordt door onderzoek niet ondersteund: boos uiten of agressie ventileren vergroot de agressie vaak juist."
+  },
+  {
+   "h": "nieuw",
+   "q": "Tessa heeft haar contactlens verloren tijdens een concert. Wat kan zij het best doen om hulp van omstanders te krijgen?",
+   "o": [
+    "Hard roepen: 'Kan iemand mij helpen?'",
+    "Hard gaan huilen om aandacht te trekken",
+    "Tegen één specifieke persoon naast haar zeggen dat ze hulp nodig heeft",
+    "Niets zeggen en zelf gaan zoeken"
+   ],
+   "a": 2,
+   "u": "Een ongerichte oproep aan een groep leidt tot diffusie van verantwoordelijkheid. Door één specifieke persoon aan te spreken, voelt die persoon zich verantwoordelijk."
+  },
+  {
+   "h": "nieuw",
+   "q": "Rosalie ziet een ongeluk met meerdere getuigen. Ze belt het alarmnummer niet, omdat ze aanneemt dat iemand anders dat al gedaan heeft. Dit is een voorbeeld van:",
+   "o": [
+    "Groepsdenken",
+    "Conformisme",
+    "Het omstandereffect of diffusie van verantwoordelijkheid",
+    "Het Asch-effect"
+   ],
+   "a": 2,
+   "u": "Hoe meer omstanders aanwezig zijn, hoe minder elk individu zich persoonlijk verantwoordelijk voelt om in te grijpen."
+  },
+  {
+   "h": "nieuw",
+   "q": "Welke ingreep verminderde het conformisme in de lijnexperimenten van Asch?",
+   "o": [
+    "De groepsgrootte werd vergroot van vier naar acht personen",
+    "Eén medeplichtige gaf het juiste antwoord, waardoor de sociale druk doorbroken werd",
+    "De moeilijkheidsgraad van de taak werd vergroot",
+    "De proefpersonen zaten in aparte kamers"
+   ],
+   "a": 1,
+   "u": "Wanneer slechts één persoon het juiste antwoord gaf, daalde de conformiteitsdruk sterk. Grotere groepen verhogen de druk juist."
+  },
+  {
+   "h": "nieuw",
+   "q": "Marieke noemt de automobilist die haar afsnijdt in de ochtendspits een 'opgefokte idioot'. Dit is een voorbeeld van:",
+   "o": [
+    "Cognitieve dissonantie",
+    "Self-serving bias",
+    "De fundamentele attributiefout",
+    "Conformisme"
+   ],
+   "a": 2,
+   "u": "De fundamentele attributiefout is de neiging het gedrag van anderen toe te schrijven aan hun karakter, terwijl situationele verklaringen worden onderschat."
+  },
+  {
+   "h": "nieuw",
+   "q": "Twee mensen trouwen na jarenlang intensief e-mailcontact zonder elkaar ooit ontmoet te hebben. De aantrekkingskracht ontstond vooral door:",
+   "o": [
+    "Nabijheid",
+    "Openheid en zelfonthulling",
+    "Cognitieve dissonantie",
+    "Conformisme"
+   ],
+   "a": 1,
+   "u": "Hoewel nabijheid meestal een sterke voorspeller van aantrekkingskracht is, ontstond hier de band door wederzijdse zelfonthulling in het intensieve contact."
+  },
+  {
+   "h": "nieuw",
+   "q": "Je denkt na over waarom je beste vriend zich de laatste tijd koeltjes gedraagt en zoekt naar een oorzaak. Welk proces pas je dan toe?",
+   "o": [
+    "Self-serving bias",
+    "Cognitieve dissonantie",
+    "Conformisme",
+    "Attributie"
+   ],
+   "a": 3,
+   "u": "Attributie is het proces waarbij we oorzaken toeschrijven aan het gedrag van anderen of onszelf. Fundamentele attributiefout en self-serving bias zijn vertekende vormen daarvan."
+  },
+  {
+   "h": "nieuw",
+   "q": "Welke uitspraak over systemen, zoals in het Stanford Prison Experiment, is correct?",
+   "o": [
+    "Systemen zijn transparant voor wie erin participeert",
+    "Kwaad gedrag in systemen wordt enkel veroorzaakt door rotte appels",
+    "Systemen institutionaliseren toestemming voor bepaald gedrag en betrekken individuen op verschillende machtniveaus",
+    "Systemen hebben enkel invloed in totalitaire staten"
+   ],
+   "a": 2,
+   "u": "Het Stanford Prison Experiment toonde aan dat normale mensen slecht gedrag vertonen in een systeem dat dat gedrag toestaat. De verklaring is dus systemisch."
+  },
+  {
+   "h": "nieuw",
+   "q": "Wat is het verschil tussen een sociale norm en de macht van een systeem?",
+   "o": [
+    "Sociale normen zijn cultuurgebonden, systemen zijn universeel",
+    "Sociale normen zijn ongeschreven gedragsregels die individuen beïnvloeden; systemen institutionaliseren en structureren gedrag via rollen, macht en toestemming",
+    "Er is geen betekenisvol onderscheid",
+    "Systemen vallen onder persoonlijkheidspsychologie, normen onder sociale psychologie"
+   ],
+   "a": 1,
+   "u": "Een systeem is een institutionele context met expliciete rollen en machtslijnen, en heeft daardoor een sterkere invloed op gedrag dan informele normen."
   }
  ],
  "hacks": [
@@ -1282,6 +1670,7 @@ window.BES_VAK = {
   "h6": 1,
   "h7": 1,
   "h8": 2,
-  "h9": 1
+  "h9": 1,
+  "nieuw": 1
  }
 };

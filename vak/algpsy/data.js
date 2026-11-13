@@ -44,6 +44,10 @@ window.BES_VAK = {
   {
    "id": "h10",
    "naam": "Psychopathologie"
+  },
+  {
+   "id": "nieuw",
+   "naam": "Nieuw materiaal: Algemene psychologie"
   }
  ],
  "vragen": [
@@ -1174,6 +1178,1194 @@ window.BES_VAK = {
    ],
    "a": 0,
    "u": "Theory of mind is het vermogen om te begrijpen dat anderen andere gedachten, wensen en kennis hebben dan jijzelf. Mensen met ASS hebben hier vaak moeite mee, wat blijkt uit taken zoals de Sally-Anne test (false belief)."
+  },
+  {
+   "h": "nieuw",
+   "q": "Wat is transductie?",
+   "o": [
+    "Het omzetten van stimulusenergie in een zenuwimpuls",
+    "Het opslaan van informatie in het langetermijngeheugen",
+    "Het toekennen van betekenis aan een percept",
+    "Het herhalen van een prikkel tot ze verdwijnt"
+   ],
+   "a": 0,
+   "u": "Transductie is de omzetting van stimulusinformatie (fysische energie) in een zenuwimpuls, het neurale bericht."
+  },
+  {
+   "h": "nieuw",
+   "q": "Koud water voelt na enige tijd minder koud aan, ook al blijft de temperatuur gelijk. Welk proces verklaart dit?",
+   "o": [
+    "Sensorische adaptatie",
+    "De absolute drempel",
+    "Signaaldetectie",
+    "Gestaltvorming"
+   ],
+   "a": 0,
+   "u": "Bij sensorische adaptatie worden receptorcellen minder gevoelig als de stimulus lang op hetzelfde niveau blijft."
+  },
+  {
+   "h": "nieuw",
+   "q": "Welke uitspraak over de wet van Weber klopt?",
+   "o": [
+    "Het juist waarneembare verschil is evenredig met de intensiteit van de stimulus",
+    "Het juist waarneembare verschil is voor alle stimuli even groot",
+    "Een stimulus wordt altijd opgemerkt boven de absolute drempel",
+    "Mensen merken alleen veranderingen die het dubbele zijn"
+   ],
+   "a": 0,
+   "u": "Volgens de wet van Weber is het juist waarneembaar verschil groot bij sterke stimuli en klein bij zwakke stimuli."
+  },
+  {
+   "h": "nieuw",
+   "q": "Een persoon ziet in een donkere ruimte alleen grijstinten en geen kleuren. Welke fotoreceptoren zijn dan vooral actief?",
+   "o": [
+    "Staafjes",
+    "Kegeltjes",
+    "De blinde vlek",
+    "De fovea"
+   ],
+   "a": 0,
+   "u": "Staafjes zijn gevoelig voor zwak licht maar niet voor kleuren; kegeltjes zijn gevoelig voor kleuren en fel licht."
+  },
+  {
+   "h": "nieuw",
+   "q": "Wat is de functie van de blinde vlek in het oog?",
+   "o": [
+    "Daar verlaat de optische zenuw het oog en zijn geen fotoreceptoren",
+    "Daar wordt het licht gefilterd door de iris",
+    "Daar bevindt zich de visuele cortex",
+    "Daar wordt het scherpste zicht gevormd"
+   ],
+   "a": 0,
+   "u": "De blinde vlek is de plaats waar de optische zenuw het oog verlaat; daar zijn geen fotoreceptoren."
+  },
+  {
+   "h": "nieuw",
+   "q": "Welke theorie stelt dat kleurzicht ontstaat door drie soorten kegeltjes, gevoelig voor rood, blauw en groen?",
+   "o": [
+    "De trichromatische theorie van Thomas Young",
+    "De opponente-procestheorie",
+    "De plaatstheorie",
+    "De wet van Weber"
+   ],
+   "a": 0,
+   "u": "De trichromatische theorie van Thomas Young verklaart de initiële stadia van kleurzicht met drie soorten kegeltjes."
+  },
+  {
+   "h": "nieuw",
+   "q": "Welk fysisch kenmerk van zichtbaar licht bepaalt de tint van de kleurervaring?",
+   "o": [
+    "De golflengte",
+    "De amplitude",
+    "De frequentie van het geluid",
+    "De temperatuur van het oppervlak"
+   ],
+   "a": 0,
+   "u": "De golflengte bepaalt de tint, terwijl de amplitude (intensiteit) de helderheid bepaalt."
+  },
+  {
+   "h": "nieuw",
+   "q": "Welk fysisch kenmerk van een geluidsgolf bepaalt het volume dat we horen?",
+   "o": [
+    "De amplitude",
+    "De frequentie",
+    "De complexiteit van de golf",
+    "De snelheid van het geluid"
+   ],
+   "a": 0,
+   "u": "Volume wordt bepaald door de amplitude, oftewel de intensiteit van de geluidsgolf."
+  },
+  {
+   "h": "nieuw",
+   "q": "Elementen die dicht bij elkaar staan worden als groep waargenomen. Welke Gestaltwet is dit volgens het materiaal?",
+   "o": [
+    "Nabijheid",
+    "Gelijkenis",
+    "Continuering",
+    "Prägnanz"
+   ],
+   "a": 0,
+   "u": "De wet van nabijheid stelt dat elementen die dicht bij elkaar staan als een geheel worden gezien."
+  },
+  {
+   "h": "nieuw",
+   "q": "Welke verwerking benadrukt de verwachtingen, concepten en herinneringen van de waarnemer?",
+   "o": [
+    "Top-down verwerking",
+    "Bottom-up verwerking",
+    "Transductie",
+    "Sensorische adaptatie"
+   ],
+   "a": 0,
+   "u": "Top-down verwerking benadrukt de cognitieve factoren van de waarnemer, zoals verwachtingen en herinneringen."
+  },
+  {
+   "h": "nieuw",
+   "q": "Welk visueel pad verwerkt informatie over waar iets zich in de ruimte bevindt?",
+   "o": [
+    "Het waar-pad",
+    "Het wat-pad",
+    "De auditieve cortex",
+    "De fonologische lus"
+   ],
+   "a": 0,
+   "u": "Het 'waar'-pad, dat naar de pariëtale kwab loopt, verwerkt waar iets staat; het 'wat'-pad verwerkt kleur en vorm."
+  },
+  {
+   "h": "nieuw",
+   "q": "Wat is de ongeconditioneerde stimulus in het experiment van Pavlov?",
+   "o": [
+    "Voedsel",
+    "De bel",
+    "De speekselafscheiding na de bel",
+    "De geconditioneerde reflex"
+   ],
+   "a": 0,
+   "u": "De ongeconditioneerde stimulus (UCS) is het voedsel dat automatisch een speekselrespons oproept."
+  },
+  {
+   "h": "nieuw",
+   "q": "Wat is uitdoving bij klassieke conditionering?",
+   "o": [
+    "De geleidelijke afname van de geconditioneerde associatie door het uitblijven van de ongeconditioneerde stimulus",
+    "Het onthouden van een associatie na vele jaren",
+    "Het aanleren van een volledig nieuwe reflex",
+    "Het opnieuw koppelen van een neutrale stimulus aan voedsel"
+   ],
+   "a": 0,
+   "u": "Bij uitdoving neemt de respons af wanneer de ongeconditioneerde stimulus wegblijft; de associatie wordt eerder onderdrukt dan gewist."
+  },
+  {
+   "h": "nieuw",
+   "q": "Iemand die angstig is voor één hond wordt ook angstig voor andere honden. Hoe noemt het materiaal dit proces?",
+   "o": [
+    "Stimulusgeneralisatie",
+    "Stimulusdiscriminatie",
+    "Uitdoving",
+    "Spontaan herstel"
+   ],
+   "a": 0,
+   "u": "Stimulusgeneralisatie is de uitbreiding van een aangeleerde respons naar stimuli die lijken op de geconditioneerde stimulus."
+  },
+  {
+   "h": "nieuw",
+   "q": "Wat kenmerkt aangeleerde smaakaversie volgens het materiaal?",
+   "o": [
+    "Na een enkele ervaring leert een organisme een voedsel te vermijden als het door ziekte werd gevolgd",
+    "Het vereist tientallen herhalingen van dezelfde ervaring",
+    "Het komt alleen voor bij dieren en niet bij mensen",
+    "Het treedt op zonder dat er ziekte optreedt"
+   ],
+   "a": 0,
+   "u": "Aangeleerde smaakaversie is een biologische neiging om na een enkele ervaring voedsel te mijden dat met ziekte geassocieerd werd."
+  },
+  {
+   "h": "nieuw",
+   "q": "Welk bekrachtigingsschema is het sterkste om gedrag vol te houden?",
+   "o": [
+    "Variabele ratio",
+    "Vast interval",
+    "Vaste ratio",
+    "Variabel interval"
+   ],
+   "a": 0,
+   "u": "De variabele ratio is het sterkste schema, omdat het aantal benodigde responsen steeds verschilt."
+  },
+  {
+   "h": "nieuw",
+   "q": "Een leerling krijgt een premie na elke tiende volledig afgewerkte taak. Welk schema is dit?",
+   "o": [
+    "Vaste ratio",
+    "Variabele ratio",
+    "Vast interval",
+    "Variabel interval"
+   ],
+   "a": 0,
+   "u": "Bij een vaste ratio wordt de bekrachtiging na een vast aantal responsen aangeboden."
+  },
+  {
+   "h": "nieuw",
+   "q": "Het weghalen van een aantrekkelijke stimulus na een respons noemt het materiaal:",
+   "o": [
+    "Negatieve straf",
+    "Positieve straf",
+    "Negatieve bekrachtiging",
+    "Primaire bekrachtiging"
+   ],
+   "a": 0,
+   "u": "Negatieve straf is het weghalen van een aantrekkelijke stimulus na een respons; het vermindert het gedrag."
+  },
+  {
+   "h": "nieuw",
+   "q": "Sultan, een chimpansee, combineerde dozen en stokken om fruit te bereiken. Welk type leren beschreef Köhler hiermee?",
+   "o": [
+    "Inzichtelijk leren door perceptuele reorganisatie",
+    "Klassieke conditionering",
+    "Operante conditionering met shaping",
+    "Habituatie"
+   ],
+   "a": 0,
+   "u": "Köhler toonde aan dat de dieren door inzicht leerden: ze reorganiseerden hun perceptie van het probleem."
+  },
+  {
+   "h": "nieuw",
+   "q": "Welke factoren bepalen of gedrag van een model wordt nagebootst bij leren door observatie?",
+   "o": [
+    "De gevolgen die het model ondervindt en de macht of het prestige van het model",
+    "De leeftijd van de observator en de kleur van de kamer",
+    "Alleen de frequentie van het gedrag",
+    "Enkel de intensiteit van de straf"
+   ],
+   "a": 0,
+   "u": "Bandura toonde dat de gevolgen van het model en diens macht of prestige bepalen of gedrag wordt gekopieerd."
+  },
+  {
+   "h": "nieuw",
+   "q": "Welk niveau van bewustzijn volgens Freud bevat informatie die nu niet in het bewustzijn is maar die bewust gemaakt kan worden als er aandacht naar gaat?",
+   "o": [
+    "Onbewuste",
+    "Voorbewuste",
+    "Bewuste",
+    "Perifeer bewustzijn"
+   ],
+   "a": 1,
+   "u": "Het voorbewuste bevat informatie die op aandacht bewust gemaakt kan worden, zoals wat je gisteren op tv zag."
+  },
+  {
+   "h": "nieuw",
+   "q": "Hoe vaak herhalen circadiaanse ritmes zich ongeveer?",
+   "o": [
+    "Ongeveer elke 24 uur",
+    "Ongeveer elke 90 minuten",
+    "Ongeveer elke week",
+    "Ongeveer elke 12 uur"
+   ],
+   "a": 0,
+   "u": "Circadiaanse ritmes zijn fysiologische patronen die zich ongeveer elke 24 uur herhalen en worden gereguleerd door een interne klok in de hypothalamus."
+  },
+  {
+   "h": "nieuw",
+   "q": "Wanneer vindt het dromen vooral plaats?",
+   "o": [
+    "Tijdens de REM-slaap",
+    "Tijdens stadium 4 van de NREM-slaap",
+    "Tijdens het slaapwandelen",
+    "Tijdens stadium 1 bij het inslapen"
+   ],
+   "a": 0,
+   "u": "Dromen vinden vooral plaats tijdens de REM-slaap, terwijl slaapwandelen bij NREM-slaap hoort."
+  },
+  {
+   "h": "nieuw",
+   "q": "In welke slaapfase vinden nachtelijke paniekaanvallen (night terror) plaats?",
+   "o": [
+    "Stadium 4 van de NREM-slaap",
+    "Tijdens de REM-slaap",
+    "Tijdens het wakker zijn",
+    "Tijdens stadium 1 van de slaap"
+   ],
+   "a": 0,
+   "u": "Night terror gebeurt in stadium 4 van de NREM-slaap; het verschilt daarom van nachtmerries, die in de REM-slaap voorkomen."
+  },
+  {
+   "h": "nieuw",
+   "q": "Welke onderzoeker stelde het idee van de 'verborgen observator' voor bij hypnose?",
+   "o": [
+    "Hilgard",
+    "Watson",
+    "Pavlov",
+    "Köhler"
+   ],
+   "a": 0,
+   "u": "Hilgard stelde dat een verborgen observator tijdens hypnose onbewust blijft, naast het normale bewustzijn."
+  },
+  {
+   "h": "nieuw",
+   "q": "Wat is tolerantie volgens het materiaal?",
+   "o": [
+    "Een grotere dosis is nodig om hetzelfde effect te bekomen",
+    "Het lichaam stopt met het aanmaken van neurotransmitters",
+    "Een intens psychologisch verlangen naar het middel",
+    "Het verdwijnen van onthoudingsverschijnselen"
+   ],
+   "a": 0,
+   "u": "Tolerantie betekent dat steeds meer van een middel nodig is om hetzelfde effect te krijgen."
+  },
+  {
+   "h": "nieuw",
+   "q": "Welke vier onderdelen vormen samen een emotie?",
+   "o": [
+    "Fysiologische arousal, cognitieve interpretatie, subjectieve gevoelens en gedragsmatige expressie",
+    "Waarneming, geheugen, aandacht en taal",
+    "Stimulus, respons, bekrachtiging en straf",
+    "Eros, libido, thanatos en ego"
+   ],
+   "a": 0,
+   "u": "Een emotie is een viervoudig proces van fysiologische arousal, cognitieve interpretatie, subjectieve gevoelens en gedragsmatige expressie."
+  },
+  {
+   "h": "nieuw",
+   "q": "Welke zeven emoties herkennen mensen overal ter wereld volgens Ekman?",
+   "o": [
+    "Verdriet, angst, woede, afkeer, minachting, geluk en verrassing",
+    "Vreugde, vertrouwen, angst, verrassing, verdriet, afkeer, woede en verwachting",
+    "Liefde, haat, hoop, schaamte, schuld, trots en jaloezie",
+    "Honger, dorst, pijn, slaap, kou, warmte en vermoeidheid"
+   ],
+   "a": 0,
+   "u": "Ekman toonde aan dat deze zeven emoties cross-cultureel herkend worden, wat wijst op een universele biologische basis."
+  },
+  {
+   "h": "nieuw",
+   "q": "Wat stelt de James-Lange theorie?",
+   "o": [
+    "De lichamelijke respons gaat vooraf en veroorzaakt de emotie",
+    "De emotie gaat vooraf en veroorzaakt de lichamelijke respons",
+    "Beide ontstaan gelijktijdig zonder oorzakelijk verband",
+    "Een emotie ontstaat zonder enige lichamelijke reactie"
+   ],
+   "a": 0,
+   "u": "Volgens James-Lange komen gevoelens voort uit fysieke sensaties; we zijn bang omdat we lopen, niet andersom."
+  },
+  {
+   "h": "nieuw",
+   "q": "Welke theorie stelt dat een emotie ontstaat uit een cognitieve inschatting van lichamelijke arousal en een externe stimulus?",
+   "o": [
+    "De tweefactorentheorie van Schachter",
+    "De theorie van James-Lange",
+    "De theorie van Cannon-Bard",
+    "De emotietheorie van Plutchik"
+   ],
+   "a": 0,
+   "u": "Schachter stelde dat emotie ontstaat uit de interpretatie van lichamelijke arousal in een bepaalde situatie."
+  },
+  {
+   "h": "nieuw",
+   "q": "Wat zegt de omgekeerde U-functie volgens het materiaal?",
+   "o": [
+    "Zowel lage als hoge arousal leiden tot slechtere prestaties dan een gemiddeld niveau",
+    "Hoe meer arousal, hoe beter de prestatie altijd",
+    "Prestatie is onafhankelijk van arousal",
+    "Lage arousal leidt altijd tot betere prestaties"
+   ],
+   "a": 0,
+   "u": "De omgekeerde U beschrijft dat een gemiddeld arousalniveau de beste prestaties oplevert."
+  },
+  {
+   "h": "nieuw",
+   "q": "Welke van de volgende is een component van emotionele intelligentie volgens het materiaal?",
+   "o": [
+    "Emoties waarnemen",
+    "Emoties vermijden",
+    "Emoties uitschakelen",
+    "Emoties negeren"
+   ],
+   "a": 0,
+   "u": "De vier componenten zijn emoties waarnemen, gebruiken, begrijpen en controleren."
+  },
+  {
+   "h": "nieuw",
+   "q": "Wat zijn uitingsregels (display rules) volgens het materiaal?",
+   "o": [
+    "Toegelaten manieren om emoties te tonen in een samenleving, die vroeg worden geleerd",
+    "Wetten die de politie gebruikt bij verhoren",
+    "Regels voor het afnemen van hersenscans",
+    "Systemen die de intensiteit van arousal meten"
+   ],
+   "a": 0,
+   "u": "Uitingsregels zijn culturele regels over welke emoties men mag tonen en met welke intensiteit."
+  },
+  {
+   "h": "nieuw",
+   "q": "Je woont naast een spoorlijn en hoort de voorbijrazende treinen na een paar weken niet meer bewust. Welk proces verklaart dit?",
+   "o": [
+    "Stimulusdiscriminatie",
+    "Sensorische adaptatie",
+    "Top-down verwerking",
+    "Perceptuele constantie"
+   ],
+   "a": 1,
+   "u": "Sensorische adaptatie betekent dat receptoren minder gevoelig worden bij aanhoudende, gelijkblijvende stimulatie. Dit speelt zich af op het niveau van de receptor zelf."
+  },
+  {
+   "h": "nieuw",
+   "q": "Wat zegt de wet van Weber over het Juist Waarneembaar Verschil (JWV)?",
+   "o": [
+    "Het is een vast absoluut getal dat voor alle stimuli geldt",
+    "Het is een vaste proportie van de oorspronkelijke stimulusintensiteit",
+    "Het is de minimale intensiteit waarbij een stimulus in de helft van de gevallen wordt waargenomen",
+    "Het is het verschil tussen bottom-up en top-down verwerking"
+   ],
+   "a": 1,
+   "u": "Volgens de wet van Weber is het JWV een vaste proportie van de oorspronkelijke intensiteit, geen vast absoluut getal."
+  },
+  {
+   "h": "nieuw",
+   "q": "Volgens de signaaldetectietheorie hangt het al dan niet detecteren van een zwakke stimulus af van:",
+   "o": [
+    "Enkel de intensiteit van de stimulus",
+    "De stimulus, de achtergrondruis en de beslissingscriteria of verwachtingen van de waarnemer",
+    "Enkel de motivatie van de waarnemer",
+    "De absolute drempel, die voor iedereen identiek is"
+   ],
+   "a": 1,
+   "u": "Signaaldetectietheorie stelt dat detectie geen vaste drempel is, maar een combinatie van sensatie, context en subjectieve besluitvorming."
+  },
+  {
+   "h": "nieuw",
+   "q": "Wanneer je van een goed verlicht lokaal naar een donkere bioscoopzaal loopt, duurt het even voor je weer goed kunt zien. Wat verklaart dit vooral?",
+   "o": [
+    "De staafjes, die gevoelig zijn voor zwak licht, moeten het zicht overnemen en dat kost tijd",
+    "De pupillen zijn volledig gesloten en laten geen licht door",
+    "De fovea neemt het zicht in het donker volledig over",
+    "De staafjes zijn tijdelijk uitgeschakeld en de kegeltjes werken niet"
+   ],
+   "a": 0,
+   "u": "Bij het overschakelen naar donker moeten de staafjes het werk overnemen. Dat vergt tijd, en daarom zie je in het donker moeilijker kleuren, want staafjes zijn ongevoelig voor kleur."
+  },
+  {
+   "h": "nieuw",
+   "q": "Wat houdt de Gestaltwet van prägnanz (het minimumprincipe) in?",
+   "o": [
+    "Mensen geven voorkeur aan de interpretatie die de minste cognitieve inspanning vergt",
+    "Mensen groeperen objecten die dicht bij elkaar liggen",
+    "Mensen groeperen objecten die op elkaar lijken",
+    "Mensen nemen bewegende objecten waar als één geheel"
+   ],
+   "a": 0,
+   "u": "Prägnanz is het overkoepelende principe om de eenvoudigste interpretatie te kiezen. Nabijheid, gelijkenis en gemeenschappelijk lot zijn afzonderlijke Gestaltwetten."
+  },
+  {
+   "h": "nieuw",
+   "q": "Welke combinatie beschrijft het juiste verband tussen de trichromatische theorie en de opponentprocestheorie van kleurenzien?",
+   "o": [
+    "Beide verklaren exact hetzelfde proces op hetzelfde niveau",
+    "Trichromatisch verklaart nabeelden, opponent-proces verklaart kleurenblindheid",
+    "Trichromatisch verklaart de eerste fase met drie typen kegeltjes, opponent-proces een latere fase met complementaire paren zoals rood-groen en blauw-geel",
+    "Beide theorieën zijn ondertussen volledig weerlegd"
+   ],
+   "a": 2,
+   "u": "De theorieën zijn complementair: de trichromatische theorie verklaart de receptoren, de opponentprocestheorie een latere verwerkingsstap die bijvoorbeeld nabeelden verklaart."
+  },
+  {
+   "h": "nieuw",
+   "q": "Een persoon heeft schade aan de 'wat'-route in de temporale kwab, maar niet aan de 'waar'-route in de pariëtale kwab. Welk verschijnsel past hier het best?",
+   "o": [
+    "Objecten niet kunnen lokaliseren, maar wel kunnen benoemen",
+    "Objecten niet kunnen herkennen of benoemen, maar er wel correct naar kunnen grijpen (visuele vormagnosie)",
+    "Volledig blind zijn",
+    "Enkel kleuren niet meer kunnen zien"
+   ],
+   "a": 1,
+   "u": "Schade aan de wat-route verstoort de herkenning van objecten, terwijl de waar-route en het grijpen intact blijven. Dit heet visuele vormagnosie. Blindzicht ontstaat door schade aan de primaire visuele cortex, niet aan de wat-route."
+  },
+  {
+   "h": "nieuw",
+   "q": "Een hond kwijlt bij het zien van zijn etensbak, nog voordat er voedsel in zit, omdat hij heeft geleerd dat de bak het voedsel voorspelt. Wat is in dit voorbeeld de geconditioneerde stimulus?",
+   "o": [
+    "Het voedsel",
+    "Het kwijlen bij het zien van de bak",
+    "De etensbak",
+    "Het kwijlen bij het zien van voedsel"
+   ],
+   "a": 2,
+   "u": "De bak was oorspronkelijk neutraal en werd door associatie met voedsel een geconditioneerde stimulus. Het voedsel is de ongeconditioneerde stimulus."
+  },
+  {
+   "h": "nieuw",
+   "q": "Iemand wordt ernstig ziek na het eten van garnalen en ontwikkelt daarna blijvende weerzin tegen garnalen. Welk fenomeen verklaart waarom deze conditionering zo snel en hardnekkig optreedt?",
+   "o": [
+    "Stimulusgeneralisatie",
+    "Biologische voorbereiding (prepared learning) en selectieve associaties, zoals Garcia en Koelling aantoonden",
+    "Operante conditionering",
+    "Habituatie"
+   ],
+   "a": 1,
+   "u": "Organismen zijn evolutionair voorbereid om bepaalde associaties, zoals smaak en ziekte, snel te leren, ook met een vertraging van uren. Bij gewone klassieke conditionering is zo'n vertraging meestal te groot."
+  },
+  {
+   "h": "nieuw",
+   "q": "Een kind krijgt een snoepje telkens het zijn kamer opruimt. Later krijgt het maar af en toe, onvoorspelbaar, een snoepje. Wat is het effect ten opzichte van continue bekrachtiging?",
+   "o": [
+    "Het gedrag verdwijnt sneller",
+    "Het gedrag wordt resistenter tegen uitdoving en houdt langer stand zonder bekrachtiging",
+    "Er is geen verschil tussen beide schema's",
+    "Het kind leert het gedrag trager aan in het begin"
+   ],
+   "a": 1,
+   "u": "Intermitterende bekrachtiging maakt gedrag resistenter tegen extinctie dan continue bekrachtiging, omdat het organisme het wegvallen van de beloning minder snel opmerkt."
+  },
+  {
+   "h": "nieuw",
+   "q": "Een leraar wil een verlegen leerling stap voor stap leren een vraag te stellen. Eerst beloont hij het opsteken van de hand, dan het zeggen van iets, en uiteindelijk een volledige, relevante vraag. Dit is een voorbeeld van:",
+   "o": [
+    "Premack-principe",
+    "Shaping",
+    "Stimulusdiscriminatie",
+    "Negatieve bekrachtiging"
+   ],
+   "a": 1,
+   "u": "Shaping is het stapsgewijs bekrachtigen van gedrag dat steeds dichter het uiteindelijke doelgedrag benadert."
+  },
+  {
+   "h": "nieuw",
+   "q": "Welke situatie is een voorbeeld van negatieve bekrachtiging, en niet van straf?",
+   "o": [
+    "Een kind krijgt huisarrest omdat het gelogen heeft",
+    "Een automobilist doet zijn gordel om, waardoor het piepgeluid stopt, en doet dit daarna vaker",
+    "Een werknemer krijgt een bonus voor goede prestaties",
+    "Een hond krijgt een schok van een halsband wanneer hij blaft"
+   ],
+   "a": 1,
+   "u": "Negatieve bekrachtiging betekent het wegnemen van een onaangename stimulus, waardoor het gedrag toeneemt. Negatief betekent hier wegnemen, niet slecht."
+  },
+  {
+   "h": "nieuw",
+   "q": "Tolman liet ratten een doolhof verkennen zonder beloning. Toen er later voedsel aan het einde werd gelegd, vonden de ratten onmiddellijk de kortste weg. Wat toont dit aan?",
+   "o": [
+    "Klassieke conditionering is sterker dan operante conditionering",
+    "Er heeft latent leren plaatsgevonden, gebaseerd op een cognitieve kaart, zonder zichtbare bekrachtiging",
+    "Ratten hebben geen cognitieve processen",
+    "Beloning is noodzakelijk voor elke vorm van leren"
+   ],
+   "a": 1,
+   "u": "Latent leren toont aan dat leren kan plaatsvinden zonder zichtbare bekrachtiging en pas zichtbaar wordt wanneer er een reden is om het te tonen. Dit was een bewijs tegen het strikte behaviorisme."
+  },
+  {
+   "h": "nieuw",
+   "q": "In Bandura's Bobo-pop experiment zagen kinderen een volwassen model dat beloond werd voor agressief gedrag. Die kinderen vertoonden zelf meer agressie dan kinderen die zagen dat het model gestraft werd. Welk concept verklaart dit het best?",
+   "o": [
+    "Klassieke conditionering",
+    "Vicariële bekrachtiging, de bekrachtiging via observatie van een ander",
+    "Habituatie",
+    "Stimulusgeneralisatie"
+   ],
+   "a": 1,
+   "u": "Bij leren door observatie hoeft het kind zelf niet bekrachtigd te worden. Het leert door te zien welke gevolgen het gedrag van het model heeft."
+  },
+  {
+   "h": "nieuw",
+   "q": "Wat is het belangrijkste verschil tussen klassieke en operante conditionering wat betreft de aard van de respons?",
+   "o": [
+    "Bij klassieke conditionering is de respons vrijwillig, bij operante onvrijwillig",
+    "Bij klassieke conditionering is de respons een reflex, passief en onvrijwillig; bij operante conditionering is de respons vrijwillig en actief gesteld gedrag",
+    "Er is geen verschil, beide types betreffen reflexen",
+    "Klassieke conditionering werkt enkel bij dieren, operante enkel bij mensen"
+   ],
+   "a": 1,
+   "u": "Bij klassieke conditionering wordt een bestaande reflex gekoppeld aan een nieuwe stimulus. Bij operante conditionering stelt het organisme actief gedrag dat gevolgen heeft."
+  },
+  {
+   "h": "nieuw",
+   "q": "Een proefpersoon krijgt een beloning voor een drukreactie, maar de wachttijd tussen twee beschikbare beloningen varieert onvoorspelbaar: soms na 10 seconden, soms na 2 minuten. Welk bekrachtigingsschema is dit?",
+   "o": [
+    "Vast-ratio",
+    "Variabel-ratio",
+    "Vast-interval",
+    "Variabel-interval"
+   ],
+   "a": 3,
+   "u": "Interval-schema's zijn gebaseerd op tijd en niet op het aantal responsen. Een wisselende tijd hoort bij het variabel-interval. Variabel-ratio is gebaseerd op een wisselend aantal responsen."
+  },
+  {
+   "h": "nieuw",
+   "q": "Wat is het kernverschil tussen sensatie en perceptie?",
+   "o": [
+    "Sensatie is de interpretatie van prikkels, perceptie is de fysieke registratie ervan",
+    "Sensatie is de fysieke omzetting van stimulatie in neurale signalen; perceptie is het proces waarbij aan die signalen betekenis wordt toegekend",
+    "Beide termen zijn synoniem in de psychologie",
+    "Sensatie gebeurt enkel bewust, perceptie enkel onbewust"
+   ],
+   "a": 1,
+   "u": "Sensatie is het registreren en omzetten van fysieke energie in neurale signalen. Perceptie is het interpreteren en er betekenis aan geven."
+  },
+  {
+   "h": "nieuw",
+   "q": "Wat is het verschil tussen positieve bekrachtiging en negatieve straf?",
+   "o": [
+    "Beide nemen een aangename stimulus weg",
+    "Positieve bekrachtiging voegt iets aangenaams toe om gedrag te versterken; negatieve straf neemt iets aangenaams weg om gedrag te verzwakken",
+    "Beide voegen een onaangename stimulus toe",
+    "Er bestaat geen verschil, positief en negatief zijn louter beschrijvend"
+   ],
+   "a": 1,
+   "u": "Positief en negatief slaan op toevoegen of wegnemen van een stimulus, bekrachtiging en straf op versterken of verzwakken van gedrag. Zo ontstaan vier combinaties."
+  },
+  {
+   "h": "nieuw",
+   "q": "Tijdens REM-slaap zijn de willekeurige spieren tijdelijk verlamd, terwijl de hersenen erg actief zijn. Hoe noemt men deze spierverlamming?",
+   "o": [
+    "Kataplexie",
+    "Slaapverlamming tijdens REM",
+    "Narcolepsie",
+    "Slaapapneu"
+   ],
+   "a": 1,
+   "u": "Slaapverlamming tijdens REM is normaal en voorkomt dat je je dromen uitvoert. Kataplexie is de wakkere vorm die bij narcolepsie optreedt."
+  },
+  {
+   "h": "nieuw",
+   "q": "Welke uitspraak over de activatie-synthesetheorie van dromen, tegenover de theorie van Freud, is correct?",
+   "o": [
+    "Beide theorieën stellen dat dromen betekenisloos zijn",
+    "Activatie-synthese stelt dat dromen beginnen als willekeurige neurale activiteit die achteraf geïnterpreteerd wordt; Freud stelde dat dromen verhulde, betekenisvolle wensvervulling zijn",
+    "Freud en de activatie-synthesetheorie zijn identiek, enkel andere terminologie",
+    "Activatie-synthese stelt dat dromen altijd seksuele inhoud bevatten"
+   ],
+   "a": 1,
+   "u": "Freud zag dromen als psychologisch betekenisvol, terwijl de activatie-synthesetheorie een biologisch startpunt veronderstelt waaraan de cortex achteraf betekenis geeft."
+  },
+  {
+   "h": "nieuw",
+   "q": "Wat verwijst het concept van de 'verborgen waarnemer' (hidden observer) van Hilgard bij hypnose naar?",
+   "o": [
+    "Het idee dat hypnose niet werkt en mensen gewoon doen alsof",
+    "Een dissociatieve verklaring: een deel van het bewustzijn registreert nog steeds pijn, ook al rapporteert het hoofdbewustzijn geen pijn",
+    "De hypnotiseur die observeert wat de patiënt doet",
+    "Het feit dat hypnose hetzelfde is als slaap"
+   ],
+   "a": 1,
+   "u": "In Hilgards experimenten gaven gehypnotiseerde proefpersonen aan geen pijn te voelen, maar gaven via een ander kanaal aan dat een deel van hen de pijn wel registreerde."
+  },
+  {
+   "h": "nieuw",
+   "q": "Welk verschil bestaat er tussen een instinct en een drijfveer (drive) als verklaring voor gemotiveerd gedrag?",
+   "o": [
+    "Instincten zijn aangeleerd, drijfveren zijn aangeboren",
+    "Instincten zijn vaste, aangeboren gedragspatronen; drijfveren zijn psychologische spanningstoestanden die ontstaan door een biologisch tekort en die aanzetten tot actie",
+    "Beide termen zijn volledig synoniem",
+    "Drijfveren verwijzen enkel naar menselijk gedrag, instincten enkel naar diergedrag"
+   ],
+   "a": 1,
+   "u": "Een instinct is een vast, aangeboren gedragspatroon dat onafhankelijk van leren optreedt. Een drijfveer is een spanningstoestand door een tekort die het organisme aanzet tot actie om de spanning te verminderen."
+  },
+  {
+   "h": "nieuw",
+   "q": "Erica ziet haar ex-vriend en merkt dat haar hart sneller begint te kloppen. Kun je op basis van de tweefactortheorie van Schachter en Singer zeggen of ze blij of bang is?",
+   "o": [
+    "Ze is bang, want haar sympathische zenuwstelsel is actief",
+    "Ze is blij, want hartkloppingen wijzen altijd op positieve emoties",
+    "Dat hangt af van hoe zij de situatie cognitief interpreteert",
+    "Het is onmogelijk te zeggen, want ze vertoont geen elementaire emotie"
+   ],
+   "a": 2,
+   "u": "De tweefactortheorie stelt dat een emotie bestaat uit fysiologische arousal en een cognitieve interpretatie. Dezelfde arousal kan als angst of als opwinding gelabeld worden, afhankelijk van de context."
+  },
+  {
+   "h": "nieuw",
+   "q": "Welk motivatiebegrip past het best bij zalmen die tegen de stroom in zwemmen om kuit te schieten?",
+   "o": [
+    "Drijfveer (drive)",
+    "Behoefte",
+    "Homeostase",
+    "Instinct"
+   ],
+   "a": 3,
+   "u": "Dit is een klassiek voorbeeld van een instinct: een vast, aangeboren en soortspecifiek gedragspatroon dat niet aangeleerd hoeft te worden."
+  },
+  {
+   "h": "nieuw",
+   "q": "Maslows behoeftehiërarchie heeft moeite om welke situatie te verklaren?",
+   "o": [
+    "Een kind dat eet wanneer het honger heeft",
+    "Twee collega's die verliefd worden",
+    "Een moeder die haar leven riskeert om haar kind te redden",
+    "Een student die hard studeert voor een goed cijfer"
+   ],
+   "a": 2,
+   "u": "De hiërarchie stelt dat hogere behoeften pas actief worden als lagere behoeften, zoals veiligheid en overleven, bevredigd zijn. Een moeder die haar eigen leven riskeert, stelt een hogere behoefte boven overleven."
+  },
+  {
+   "h": "nieuw",
+   "q": "Welke situatie is GEEN voorbeeld van operant gedrag?",
+   "o": [
+    "Een meisje dat haar huiswerk maakt omdat ze een compliment verwacht",
+    "Een kind dat stil is in de klas omdat het daarvoor een sticker krijgt",
+    "Een hond die met zijn ogen knippert bij fel licht",
+    "Een rat die op een hendel drukt omdat hij eerder voedsel kreeg"
+   ],
+   "a": 2,
+   "u": "Knipperen bij fel licht is een reflex, een automatische en onvrijwillige respons. Operant gedrag is vrijwillig en wordt beïnvloed door de gevolgen."
+  },
+  {
+   "h": "nieuw",
+   "q": "Iemand met een depressie zal het best terecht kunnen bij een ___.",
+   "o": [
+    "Sportpsycholoog",
+    "Forensisch psycholoog",
+    "Arbeids- en organisatiepsycholoog",
+    "Klinisch psycholoog"
+   ],
+   "a": 3,
+   "u": "Een klinisch psycholoog helpt mensen met psychische klachten zoals depressie."
+  },
+  {
+   "h": "nieuw",
+   "q": "Wat is een formele definitie van psychologie?",
+   "o": [
+    "Psychologie is een filosofische reflectie over de menselijke natuur.",
+    "Psychologie is de leer van groepen mensen.",
+    "Psychologie is de wetenschap van gedrag en mentale processen.",
+    "Psychologie is de wetenschap van psychische stoornissen."
+   ],
+   "a": 2,
+   "u": "Psychologie wordt gedefinieerd als de wetenschap van gedrag en mentale processen."
+  },
+  {
+   "h": "nieuw",
+   "q": "Horoscopen en grafologie (handschriftkunde) zijn allebei een voorbeeld van ___.",
+   "o": [
+    "Wetenschappelijk onderzoek",
+    "Toegepaste psychologie",
+    "Pseudopsychologie",
+    "Experimentele psychologie"
+   ],
+   "a": 2,
+   "u": "Horoscopen en grafologie hebben geen wetenschappelijke onderbouwing en worden daarom pseudopsychologie genoemd."
+  },
+  {
+   "h": "nieuw",
+   "q": "Welke vraag kan goed worden beantwoord met de wetenschappelijke methode?",
+   "o": [
+    "Is het gedrag van een corrupte politieagent zondig?",
+    "Verdient Madonna de titel Queen of Pop eigenlijk wel?",
+    "Zijn mannen gewelddadiger dan vrouwen?",
+    "Is een schilderij mooi of lelijk?"
+   ],
+   "a": 2,
+   "u": "Een vraag die met gegevens te toetsen is, zoals of mannen gewelddadiger zijn dan vrouwen, kan wetenschappelijk worden onderzocht. Vragen over zonde of titels zijn geen empirische vragen."
+  },
+  {
+   "h": "nieuw",
+   "q": "Wat houdt introspectie in?",
+   "o": [
+    "Het meten van hersenactiviteit met bijvoorbeeld fMRI",
+    "Het observeren van de interactie tussen mensen",
+    "Het beschrijven van interne gewaarwordingen, denken en emoties",
+    "Het bestuderen van kinderen in plaats van volwassenen"
+   ],
+   "a": 2,
+   "u": "Introspectie is het beschrijven van je eigen innerlijke gewaarwordingen, gedachten en emoties."
+  },
+  {
+   "h": "nieuw",
+   "q": "Door welke benadering in de psychologie werd benadrukt dat de onbewuste geest invloed heeft op het gedrag van mensen?",
+   "o": [
+    "Structuralisme",
+    "Cognitieve psychologie",
+    "Functionalisme",
+    "Psychodynamische psychologie"
+   ],
+   "a": 3,
+   "u": "De psychodynamische psychologie legt de nadruk op onbewuste processen die gedrag beïnvloeden."
+  },
+  {
+   "h": "nieuw",
+   "q": "Wat is het grootste verschil tussen een experiment en een correlatieonderzoek?",
+   "o": [
+    "Bij een correlatieonderzoek worden variabelen gemanipuleerd, bij een experiment niet.",
+    "Bij een experiment worden variabelen gemanipuleerd, bij een correlatieonderzoek niet.",
+    "Een experiment onderzoekt alleen groepen, een correlatieonderzoek alleen individuen.",
+    "Een experiment en een correlatieonderzoek verschillen niet in de manier waarop variabelen worden onderzocht."
+   ],
+   "a": 1,
+   "u": "Bij een experiment manipuleert de onderzoeker een variabele. Bij correlatieonderzoek wordt de relatie tussen variabelen bestudeerd zonder dat er iets wordt gemanipuleerd."
+  },
+  {
+   "h": "nieuw",
+   "q": "Welke van de volgende correlaties vertoont het sterkste verband tussen twee variabelen?",
+   "o": [
+    "+0,4",
+    "+0,38",
+    "-0,7",
+    "0,05"
+   ],
+   "a": 2,
+   "u": "De sterkte van een verband hangt af van de absolute waarde van de correlatiecoefficient. Een correlatie van -0,7 is het sterkst."
+  },
+  {
+   "h": "nieuw",
+   "q": "Welke van de volgende definities is een operationele definitie van angst?",
+   "o": [
+    "Een intens gevoel van vrees en afgrijzen als we aan een dreigende situatie denken",
+    "Een gevoel van onbehagen dat iemand in zichzelf waarneemt",
+    "Een verlangen om iets te vermijden",
+    "Het aantal keer dat iemand een gevreesde situatie vermijdt, geteld tijdens observatie"
+   ],
+   "a": 3,
+   "u": "Een operationele definitie beschrijft een begrip aan de hand van meetbare, waarneembare indicatoren. Het aantal vermijdingsgedragingen kan geobserveerd en geteld worden, terwijl gevoelens en verlangens alleen subjectief zijn."
+  },
+  {
+   "h": "nieuw",
+   "q": "Hoe noem je een deel van het chromosoom dat codeert voor een bepaalde erfelijke eigenschap?",
+   "o": [
+    "Autosoom",
+    "DNA",
+    "Gen",
+    "Genotype"
+   ],
+   "a": 2,
+   "u": "Een gen is een stukje van een chromosoom waarin de code voor een erfelijke eigenschap is opgeslagen. Een gen bestaat uit DNA."
+  },
+  {
+   "h": "nieuw",
+   "q": "Welke functie heeft myeline?",
+   "o": [
+    "Het produceren van neurotransmitters",
+    "Het versnellen van de neurale impuls",
+    "Het monitoren van de neurale activiteit",
+    "Het ontvangen van signalen van andere neuronen"
+   ],
+   "a": 1,
+   "u": "De myelineschede isoleert het axon en verhoogt de geleidingssnelheid van impulsen langs het axon."
+  },
+  {
+   "h": "nieuw",
+   "q": "Langs welke weg reist een zenuwimpuls?",
+   "o": [
+    "Eindknopjes, axon, soma, dendrieten",
+    "Dendrieten, axon, soma, eindknopjes",
+    "Dendrieten, soma, axon, eindknopjes",
+    "Axon, soma, dendrieten, eindknopjes"
+   ],
+   "a": 2,
+   "u": "Het neuron ontvangt impulsen via de dendrieten en het soma. Vanuit het soma gaat de impuls via het axon naar de eindknopjes."
+  },
+  {
+   "h": "nieuw",
+   "q": "Welk deel van de hersenstam regelt de ademhaling en de hartslag?",
+   "o": [
+    "Medulla",
+    "Formatio reticularis",
+    "Pons",
+    "Amygdala"
+   ],
+   "a": 0,
+   "u": "De medulla in de hersenstam regelt onder meer de ademhaling en de hartslag."
+  },
+  {
+   "h": "nieuw",
+   "q": "Het hebben van dorst wordt in de hersenen geregeld door de ___.",
+   "o": [
+    "Cerebellum",
+    "Thalamus",
+    "Hypothalamus",
+    "Amygdala"
+   ],
+   "a": 2,
+   "u": "De hypothalamus regelt basisbehoeften zoals dorst."
+  },
+  {
+   "h": "nieuw",
+   "q": "Welk onderdeel van de hersenen stelt je in staat om te tapdansen of over te koorddansen?",
+   "o": [
+    "Cerebellum",
+    "Hippocampus",
+    "Hypothalamus",
+    "Amygdala"
+   ],
+   "a": 0,
+   "u": "Het cerebellum is verantwoordelijk voor gecoordineerde bewegingen."
+  },
+  {
+   "h": "nieuw",
+   "q": "Onderzoekers denken dat schizofrenie het gevolg is van een verstoring in de huishouding van de neurotransmitter ___.",
+   "o": [
+    "Acetylcholine",
+    "Serotonine",
+    "Dopamine",
+    "Endorfine"
+   ],
+   "a": 2,
+   "u": "Volgens de dopamine-hypothese hangt schizofrenie samen met een verstoorde werking van dopamine in de hersenen."
+  },
+  {
+   "h": "nieuw",
+   "q": "Het ___ onderdeel van het autonome zenuwstelsel verhoogt je hartslag snel als je schrikt.",
+   "o": [
+    "Sympathische",
+    "Somatosensorische",
+    "Limbische",
+    "Parasympathische"
+   ],
+   "a": 0,
+   "u": "Het sympathische deel van het autonome zenuwstelsel bereidt het lichaam voor op actie en versnelt de hartslag."
+  },
+  {
+   "h": "nieuw",
+   "q": "Een meisje erft van haar vader een ___ chromosoom en van haar moeder een ___ chromosoom.",
+   "o": [
+    "X, Y",
+    "Y, X",
+    "X, X",
+    "Y, Y"
+   ],
+   "a": 2,
+   "u": "Een meisje heeft twee X-chromosomen: een van haar vader en een van haar moeder."
+  },
+  {
+   "h": "nieuw",
+   "q": "Welke functie heeft de frontaalkwab?",
+   "o": [
+    "Herinneringen, emoties en motivatie",
+    "Denken en waarnemen",
+    "Beweging, denken en persoonlijkheid",
+    "Langdurige herinneringen"
+   ],
+   "a": 2,
+   "u": "De frontaalkwab is betrokken bij beweging, denken en persoonlijkheid. Beschadiging ervan kan de persoonlijkheid veranderen."
+  },
+  {
+   "h": "nieuw",
+   "q": "Welke van de onderstaande constateringen is een goed voorbeeld van de Wet van Weber?",
+   "o": [
+    "Als je ouder wordt, kun je steeds minder goed contrasten tussen licht en donker zien.",
+    "Als je naast een spoorweg woont, hoor je na een tijdje de trein niet meer voorbijrazen.",
+    "Een hond kan hogere geluidsfrequenties waarnemen dan een mens.",
+    "Je merkt eerder dat een slanke filmster drie kilo is aangekomen dan dat je stevige tante drie kilo zwaarder is geworden."
+   ],
+   "a": 3,
+   "u": "Volgens de Wet van Weber hangt het juist waarneembare verschil af van de intensiteit van de stimulus. Drie kilo is bij een slank persoon relatief veel."
+  },
+  {
+   "h": "nieuw",
+   "q": "Welke van de volgende situaties is een goed voorbeeld van sensorische adaptatie?",
+   "o": [
+    "Je zus, die dierenarts is, ziet eerder het verschil tussen twee buurtkatten dan jij.",
+    "Je wordt je bewust van het gewicht van je rugzak als je hem oppakt.",
+    "Je leest een boek en hebt klassieke muziek op de achtergrond aanstaan. Na een tijdje hoor je de muziek niet meer.",
+    "De schok die je voelt als je in koud water duikt."
+   ],
+   "a": 2,
+   "u": "Sensorische adaptatie betekent dat je reactie op een constante stimulus afneemt. De muziek wordt na verloop van tijd niet meer opgemerkt."
+  },
+  {
+   "h": "nieuw",
+   "q": "Welk verwerkingsproces wordt bepaald door je verwachtingen en kennis, en niet alleen door de kenmerken van de stimulus?",
+   "o": [
+    "Olfactie",
+    "Bottom-up verwerking",
+    "Vormconstantie",
+    "Top-down verwerking"
+   ],
+   "a": 3,
+   "u": "Bij top-down verwerking sturen verwachtingen en kennis de waarneming, zoals wanneer je het kattenluikje hoort en aanneemt dat het je kat is."
+  },
+  {
+   "h": "nieuw",
+   "q": "Bij welke psychologische benadering hoort het idee dat een geheel percept meer is dan de som van de sensorische delen?",
+   "o": [
+    "Sociocultureel perspectief",
+    "Concluderen door leren",
+    "De gestaltbenadering",
+    "Bottom-up verwerking"
+   ],
+   "a": 2,
+   "u": "De gestaltpsychologie stelt dat het geheel meer is dan de som van de delen."
+  },
+  {
+   "h": "nieuw",
+   "q": "Welk deel van het netvlies is de blinde vlek?",
+   "o": [
+    "Het deel waar je slecht kunt focussen",
+    "Het deel waar je minder kegeltjes dan staafjes hebt",
+    "Het deel waar de oogzenuw doorheen loopt",
+    "Het deel waar je minder staafjes dan kegeltjes hebt"
+   ],
+   "a": 2,
+   "u": "Op de plek waar de oogzenuw het netvlies verlaat zijn geen fotoreceptoren. Dit is de blinde vlek."
+  },
+  {
+   "h": "nieuw",
+   "q": "Wat is een ander woord voor het juist waarneembare verschil (JWV)?",
+   "o": [
+    "De absolute drempel",
+    "Transductie",
+    "Verschildrempel",
+    "Sensorische adaptatie"
+   ],
+   "a": 2,
+   "u": "Het juist waarneembare verschil wordt ook wel verschildrempel genoemd: het kleinste verschil in intensiteit dat je kunt waarnemen."
+  },
+  {
+   "h": "nieuw",
+   "q": "Welk Gestaltprincipe zorgt ervoor dat je een doorlopende lijn ziet, ook als die door een ander element wordt onderbroken?",
+   "o": [
+    "De wet van gelijkenis",
+    "De wet van nabijheid",
+    "De wet van Prägnanz",
+    "De wet van continuering"
+   ],
+   "a": 3,
+   "u": "De wet van continuering stelt dat we lijnen en patronen als doorlopend waarnemen, ook wanneer ze worden onderbroken. De koppeling met het overlezen van eigen spelfouten is niet algemeen erkend en is daarom uit de vraag gehaald."
+  },
+  {
+   "h": "nieuw",
+   "q": "Welke hersenstructuur wordt ook wel het koppelstation van de hersenen genoemd en ligt recht boven de hersenstam?",
+   "o": [
+    "Amygdala",
+    "Thalamus",
+    "Hypothalamus",
+    "Hippocampus"
+   ],
+   "a": 1,
+   "u": "De thalamus is het centrale koppelstation: bijna alle boodschappen die de hersenen bereiken of verlaten, gaan hier doorheen."
+  },
+  {
+   "h": "nieuw",
+   "q": "Pavlov en zijn medewerkers konden de geconditioneerde responsen van hun honden weer wegpoetsen door alleen de CS aan te bieden en de UCS achterwege te laten. Hoe noemen we dit verschijnsel?",
+   "o": [
+    "Stimulusgeneralisatie",
+    "Spontaan herstel",
+    "Stimulusdiscriminatie",
+    "Extinctie"
+   ],
+   "a": 3,
+   "u": "Extinctie is de afname van een geconditioneerde associatie doordat de ongeconditioneerde stimulus afwezig is."
+  },
+  {
+   "h": "nieuw",
+   "q": "Welke uitspraak over operante conditionering is waar?",
+   "o": [
+    "Continue bekrachtiging leidt tot gedrag dat zich langer handhaaft dan gedrag dat is geleerd door intermitterende bekrachtiging.",
+    "Intermitterende bekrachtiging leidt tot gedrag dat zich langer handhaaft, omdat het organisme een mogelijke bekrachtiging blijft verwachten.",
+    "Zowel intermitterende als continue bekrachtiging leiden niet tot gedragsverandering op de lange termijn.",
+    "Continue en intermitterende bekrachtiging leiden tot gedrag dat zich even lang handhaaft."
+   ],
+   "a": 1,
+   "u": "Bij intermitterende bekrachtiging verwacht het organisme dat een bekrachtiging mogelijk komt, daarom houdt het gedrag langer stand."
+  },
+  {
+   "h": "nieuw",
+   "q": "Welk verschijnsel is het leren zonder bekrachtiging en zonder zichtbaar bewijs dat er een leerproces plaatsvindt?",
+   "o": [
+    "Placebo leren",
+    "Operant leren",
+    "Inzichtelijk leren",
+    "Latent leren"
+   ],
+   "a": 3,
+   "u": "Latent leren is het concept van Tolman: leren zonder bekrachtiging en zonder zichtbaar bewijs."
+  },
+  {
+   "h": "nieuw",
+   "q": "Het verschijnsel dat we leren door naar het gedrag van anderen te kijken, heet ___.",
+   "o": [
+    "Inzichtelijk leren",
+    "Extinctie",
+    "Cognitieve dissonantie",
+    "Sociaal leren"
+   ],
+   "a": 3,
+   "u": "Bij sociaal leren leert iemand gedrag door anderen te observeren. Bandura toonde dit aan."
+  },
+  {
+   "h": "nieuw",
+   "q": "Iemand met een allergie voor echte bloemen krijgt een niesbui als hij een papieren bloem ziet. Hoe noemen we dit verschijnsel?",
+   "o": [
+    "Spontaan herstel",
+    "Stimulusdiscriminatie",
+    "Stimulusgeneralisatie",
+    "Habituatie"
+   ],
+   "a": 2,
+   "u": "Stimulusgeneralisatie is de uitbreiding van een aangeleerde respons naar stimuli die lijken op de geconditioneerde stimulus, zoals een papieren bloem."
+  },
+  {
+   "h": "nieuw",
+   "q": "Als je een geluid hoort, zetten je oren de geluidsgolven om in zenuwimpulsen die de hersenen kunnen interpreteren. In het geheugenmodel heet deze eerste stap, het omzetten van informatie in een vorm die het geheugen kan verwerken, hoe?",
+   "o": [
+    "Elaboratie",
+    "Opslaan",
+    "Coderen",
+    "Evaluatie"
+   ],
+   "a": 2,
+   "u": "Coderen is in het geheugenmodel de eerste stap: de stimulus wordt omgezet in een vorm die het geheugen kan verwerken."
+  },
+  {
+   "h": "nieuw",
+   "q": "Als proefpersonen een rijtje letters moeten opnoemen dat ze net hebben gezien, verwarren ze vaak letters die ongeveer gelijk klinken, zoals de m en de n. Waardoor worden deze fouten veroorzaakt?",
+   "o": [
+    "Gebrekkige consolidatie",
+    "Chunking-eenheden",
+    "Infantiele amnesie",
+    "Akoestische codering"
+   ],
+   "a": 3,
+   "u": "Het werkgeheugen codeert klinkende letters akoestisch, daardoor verwar je letters die gelijk klinken."
+  },
+  {
+   "h": "nieuw",
+   "q": "Jelle vraagt Naima om de woorden hoppen, moppen en kloppen te zeggen. Daarna vraagt hij wat je bij een groen verkeerslicht doet, en zij antwoordt: stoppen. Waardoor gaf ze dit antwoord?",
+   "o": [
+    "Door foutieve attributie",
+    "Door specificiteit van codering",
+    "Door het puntje-van-de-tongfenomeen",
+    "Door priming"
+   ],
+   "a": 3,
+   "u": "Priming is het verschijnsel waarbij een eerdere prikkel het terughalen van een verwante herinnering beinvloedt zonder dat je het verband bewust opmerkt. Hier zorgen de rijmende woorden ervoor dat 'stoppen' sneller bij je opkomt."
+  },
+  {
+   "h": "nieuw",
+   "q": "Wat is een voorbeeld van een taak waarbij je een beroep doet op je prospectief geheugen?",
+   "o": [
+    "Je probeert te onthouden dat je vanmiddag een brief moet posten als je naar de supermarkt gaat.",
+    "Je probeert de melodie van een zomerhit van een paar weken geleden te herinneren.",
+    "Je probeert het nieuwe mobiele nummer van je vriend uit je hoofd te leren.",
+    "Je probeert een nieuwe combinatie van zetten te onthouden die je tijdens het schaken kunt gebruiken."
+   ],
+   "a": 0,
+   "u": "Prospectief geheugen is het onthouden dat je later een bepaalde actie moet uitvoeren."
+  },
+  {
+   "h": "nieuw",
+   "q": "Wat moet een baby volgens Erikson ontwikkelen tijdens het eerste psychosociale stadium?",
+   "o": [
+    "Zelfvertrouwen en initiatief",
+    "Een gevoel van vertrouwen in de omgeving",
+    "Het verkennen en manipuleren van objecten",
+    "Een gevoel van autonomie"
+   ],
+   "a": 1,
+   "u": "Volgens Erikson ontwikkelt een baby in het eerste stadium een gevoel van vertrouwen in de omgeving."
+  },
+  {
+   "h": "nieuw",
+   "q": "Tijdens REM-slaap ___.",
+   "o": [
+    "ervaar je korte uitbarstingen van hersenactiviteit, zogenaamde slaapspoelen",
+    "zijn je skeletspieren grotendeels verlamd",
+    "focust je mentale activiteit op gewone dagelijkse zaken",
+    "kun je slaapwandelen en praten in je slaap"
+   ],
+   "a": 1,
+   "u": "Tijdens REM-slaap zijn de skeletspieren grotendeels verlamd, zodat je droombewegingen niet uitvoert. Slaapspoelen horen bij NREM-slaap."
+  },
+  {
+   "h": "nieuw",
+   "q": "Wat is de term die we gebruiken voor alle processen die te maken hebben met de aanzet, de richting, de intensiteit en het volhouden van lichamelijke en psychische activiteiten?",
+   "o": [
+    "Arousal",
+    "Motivatie",
+    "Emotie",
+    "Prestatiedrang"
+   ],
+   "a": 1,
+   "u": "Motivatie omvat alle processen die gedrag activeren, richting geven, intensiteit bepalen en volhouden."
+  },
+  {
+   "h": "nieuw",
+   "q": "Welke term hoort niet thuis bij de Big Five persoonlijkheidsdimensies?",
+   "o": [
+    "Gelijkmatig versus nerveus",
+    "Intelligent versus dom",
+    "Betrouwbaar versus onbetrouwbaar",
+    "Open versus gesloten"
+   ],
+   "a": 1,
+   "u": "De Big Five zijn openheid, consciëntieusheid, extraversie, aangenaamheid en neuroticisme. Intelligentie is geen van deze vijf dimensies."
   }
  ],
  "hacks": [
@@ -1435,6 +2627,7 @@ window.BES_VAK = {
   "h7": 1,
   "h8": 1,
   "h9": 1,
-  "h10": 1
+  "h10": 1,
+  "nieuw": 1
  }
 };
