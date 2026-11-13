@@ -40,6 +40,10 @@ window.BES_VAK = {
   {
    "id": "h9",
    "naam": "Persoonlijkheidsstoornissen"
+  },
+  {
+   "id": "nieuw",
+   "naam": "Nieuw materiaal (nov 2026)"
   }
  ],
  "vragen": [
@@ -1146,6 +1150,306 @@ window.BES_VAK = {
    ],
    "a": 1,
    "u": "Bij het ouder worden verliezen pathologische persoonlijkheidstrekken over het algemeen aan scherpte, onder andere door neurobiologische veranderingen en toegenomen maturiteit van de persoonlijkheid, al verschilt het natuurlijk beloop per stoornis."
+  },
+  {
+   "h": "nieuw",
+   "q": "Hoeveel van de acht pseudopatiënten in Rosenhans experiment kregen de diagnose schizofrenie?",
+   "o": [
+    "Twee",
+    "Vijf",
+    "Zeven",
+    "Acht"
+   ],
+   "a": 2,
+   "u": "Op een na kregen alle pseudopatiënten de diagnose schizofrenie, dus zeven van de acht."
+  },
+  {
+   "h": "nieuw",
+   "q": "Welke drie klassieke symptomen wijzen op een ernstige psychische stoornis?",
+   "o": [
+    "Hallucinaties, wanen en ernstige affectieve verstoringen",
+    "Vergeetachtigheid, vermoeidheid en prikkelbaarheid",
+    "Hoofdpijn, koorts en misselijkheid",
+    "Verlegenheid, angst voor examens en slapeloosheid"
+   ],
+   "a": 0,
+   "u": "Hallucinaties, wanen en ernstige affectieve verstoringen gelden als klassieke symptomen van ernstige psychopathologie."
+  },
+  {
+   "h": "nieuw",
+   "q": "Iemand die tijdens een begrafenis begint te lachen, valt onder welk indicatorencriterium van abnormaliteit?",
+   "o": [
+    "Irrationaliteit",
+    "Distress",
+    "Onvoorspelbaarheid",
+    "Onaangepastheid"
+   ],
+   "a": 0,
+   "u": "Irrationaliteit betekent dat het gedrag niet te begrijpen is voor anderen, zoals lachen tijdens een begrafenis."
+  },
+  {
+   "h": "nieuw",
+   "q": "Welk classificatiesysteem is het meest gebruikte, met ongeveer 300 stoornissen?",
+   "o": [
+    "DSM-5 van de American Psychiatric Association",
+    "ICD-2 van de Verenigde Naties",
+    "Het Rorschach-systeem",
+    "De MMPI-2"
+   ],
+   "a": 0,
+   "u": "De DSM-5 van de APA is het meest aanvaarde classificatiesysteem en omvat ongeveer 300 stoornissen."
+  },
+  {
+   "h": "nieuw",
+   "q": "Wat is een ernstig depressieve stoornis, in tegenstelling tot bipolaire stoornis?",
+   "o": [
+    "Een depressie zonder afwisseling met manie, dus unipolair",
+    "Een depressie die afwisselt met manie",
+    "Een psychose zonder stemmingsstoornis",
+    "Een slaapstoornis zonder stemmingsklachten"
+   ],
+   "a": 0,
+   "u": "De ernstig depressieve stoornis is unipolair: er is geen afwisseling met manie."
+  },
+  {
+   "h": "nieuw",
+   "q": "Wat kenmerkt de bipolaire stoornis?",
+   "o": [
+    "Stemmingsschommelingen van manie naar depressie",
+    "Enkel hallucinaties zonder stemmingsklachten",
+    "Enkel angst zonder depressieve periodes",
+    "Een stoornis die alleen in de winter optreedt"
+   ],
+   "a": 0,
+   "u": "Bipolaire stoornis gaat samen met schommelingen van manische naar depressieve episodes."
+  },
+  {
+   "h": "nieuw",
+   "q": "Welke combinatie van criteria is nodig voor een diagnose van schizofrenie?",
+   "o": [
+    "Twee of meer kenmerken waarvan minstens een van wanen, hallucinaties of gedesorganiseerd spreken",
+    "Alleen depressieve stemming gedurende een jaar",
+    "Enkel angst voor sociale situaties",
+    "Een enkel symptoom van vergeetachtigheid"
+   ],
+   "a": 0,
+   "u": "Voor de diagnose zijn twee of meer kenmerken nodig, en een daarvan moet wanen, hallucinaties of gedesorganiseerd spreken zijn."
+  },
+  {
+   "h": "nieuw",
+   "q": "Welk model stelt dat genetische risico's pas tot een stoornis leiden als er een stressfactor uit de omgeving bijkomt?",
+   "o": [
+    "De diathese-stresshypothese",
+    "Het medische model",
+    "De wet van Weber",
+    "Het wederzijds determinisme"
+   ],
+   "a": 0,
+   "u": "In de diathese-stresshypothese vormen genetische factoren een risico, maar is een omgevingsstressor nodig om de stoornis in gang te zetten."
+  },
+  {
+   "h": "nieuw",
+   "q": "Wat is een belangrijk gevolg van een diagnostisch label?",
+   "o": [
+    "Het individu wordt als categorie behandeld, waardoor de persoon achter het label uit het oog verloren kan worden",
+    "Een automatische genezing van de stoornis",
+    "Een vanzelfsprekende verbetering van de sociale relaties",
+    "Een toename van zelfvertrouwen"
+   ],
+   "a": 0,
+   "u": "Diagnostische labels kunnen leiden tot een categorie-benadering waarbij de persoon achter het label uit het oog verloren wordt en de sociale context wordt genegeerd."
+  },
+  {
+   "h": "nieuw",
+   "q": "Wat beschouwt het medische model een psychische stoornis als?",
+   "o": [
+    "Een ziekte met objectieve oorzaken die een specifieke behandeling vereisen",
+    "Een demonische bezetenheid die door exorcisme wordt opgelost",
+    "Een keuze die het individu volledig zelf maakt",
+    "Een tijdelijke stemming zonder oorzaak"
+   ],
+   "a": 0,
+   "u": "Het medische model ziet psychische stoornissen als ziekten met objectieve oorzaken, die dus een specifieke behandeling vereisen."
+  },
+  {
+   "h": "nieuw",
+   "q": "Wat is het centrale idee van client-centered therapie?",
+   "o": [
+    "Gezonde groei door zelfactualisatie, met gevoelsreflectie en een ondersteunende omgeving",
+    "Het aanleren van gedrag via beloning en straf",
+    "Het uitdoven van angst door blootstelling",
+    "Het aanpassen van de hersenchemie met medicatie"
+   ],
+   "a": 0,
+   "u": "Client-centered therapie benadrukt zelfactualisatie en gebruikt reflectief luisteren en gevoelsreflectie in een ondersteunende omgeving."
+  },
+  {
+   "h": "nieuw",
+   "q": "Welke therapeut ontwikkelde de cognitieve therapie bij depressie, gebaseerd op terugkerende negatieve gedachten?",
+   "o": [
+    "Beck",
+    "Rogers",
+    "Skinner",
+    "Freud"
+   ],
+   "a": 0,
+   "u": "Becks cognitieve therapie stelt dat depressie het gevolg is van terugkerende negatieve gedachten, die men realistischer moet maken."
+  },
+  {
+   "h": "nieuw",
+   "q": "Welke techniek laat een patiënt angst afbouwen door hem de stimuli van zwak naar sterk bloot te stellen, na een ontspanningstraining?",
+   "o": [
+    "Systematische desensitisatie",
+    "Aversietherapie",
+    "Token economy",
+    "Participant modeling"
+   ],
+   "a": 0,
+   "u": "Bij systematische desensitisatie wordt een angsthiërarchie opgesteld, waarbij de patiënt geleidelijk van zwak naar sterk wordt blootgesteld."
+  },
+  {
+   "h": "nieuw",
+   "q": "Bij welke techniek wordt een aantrekkelijke stimulus gekoppeld aan een onaangename stimulus, zodat de patient er afschuw voor krijgt?",
+   "o": [
+    "Aversietherapie",
+    "Systematische desensitisatie",
+    "Contingentiemanagement",
+    "Observend leren"
+   ],
+   "a": 0,
+   "u": "Bij aversietherapie wordt een verleidelijke stimulus gekoppeld aan een weerzinwekkende stimulus, waardoor ze minder aantrekkelijk wordt."
+  },
+  {
+   "h": "nieuw",
+   "q": "Bij welke therapie worden patiënten beloond met tokens die later ingewisseld kunnen worden voor privileges, en wordt die vooral op groepen toegepast?",
+   "o": [
+    "Token economy",
+    "Client-centered therapie",
+    "Rationeel-emotieve therapie",
+    "Exposure therapie"
+   ],
+   "a": 0,
+   "u": "Bij een token economy worden patiënten beloond met tokens, die later ruilbaar zijn voor privileges of eten."
+  },
+  {
+   "h": "nieuw",
+   "q": "Welke therapeut stelde dat irrationele gedachten zoals 'iedereen moet mij graag hebben' de oorzaak zijn van psychische stoornissen?",
+   "o": [
+    "Ellis",
+    "Watson",
+    "Maslow",
+    "Kagan"
+   ],
+   "a": 0,
+   "u": "Ellis' rationeel-emotieve gedragstherapie (REBT) stelt dat irrationele gedachten de oorzaak zijn en probeert deze te elimineren."
+  },
+  {
+   "h": "nieuw",
+   "q": "Hoe verhouden psychologische en medische behandelingen van depressie zich op lange termijn?",
+   "o": [
+    "Cognitieve gedragstherapie is op lange termijn effectiever, en een combinatie is het meest effectief",
+    "Medicatie is op lange termijn altijd effectiever",
+    "Beide zijn op lange termijn even ineffectief",
+    "Psychologische therapie werkt alleen op korte termijn"
+   ],
+   "a": 0,
+   "u": "Op korte termijn zijn ze even effectief, op lange termijn is cognitieve gedragstherapie beter, en een combinatie is het meest effectief."
+  },
+  {
+   "h": "nieuw",
+   "q": "Wat toonde Rosenhans experiment 'On being sane in insane places' vooral aan?",
+   "o": [
+    "Psychiatrische diagnoses zijn altijd correct",
+    "Eenmaal een diagnostisch etiket is toegekend, wordt normaal gedrag vaak geherinterpreteerd in het licht van die diagnose",
+    "Pseudopatiënten konden nooit een instelling binnenraken",
+    "Psychiaters herkenden de pseudopatiënten onmiddellijk"
+   ],
+   "a": 1,
+   "u": "Eenmaal de diagnose schizofrenie gesteld was, werd zelfs onschuldig gedrag zoals notities maken als symptomatisch gezien. Alle pseudopatiënten werden wel opgenomen en niet ontmaskerd."
+  },
+  {
+   "h": "nieuw",
+   "q": "Volgens de diathese-stresshypothese ontstaat schizofrenie door:",
+   "o": [
+    "Enkel genetische factoren",
+    "Enkel omgevingsstress",
+    "Een samenspel van genetische kwetsbaarheid en omgevingsstressoren die deze kwetsbaarheid activeren",
+    "Een tekort aan serotonine"
+   ],
+   "a": 2,
+   "u": "De diathese-stresshypothese is een interactiemodel: een genetisch risico leidt pas tot een stoornis wanneer voldoende omgevingsstress aanwezig is."
+  },
+  {
+   "h": "nieuw",
+   "q": "Wat is het verschil tussen een waan en een hallucinatie?",
+   "o": [
+    "Een waan is een verkeerde perceptie, een hallucinatie een verkeerde overtuiging",
+    "Een waan is een hardnekkige foutieve overtuiging, een hallucinatie is een sensorische ervaring zonder externe stimulus",
+    "Beide termen zijn synoniemen",
+    "Een waan komt enkel voor bij depressie, een hallucinatie enkel bij schizofrenie"
+   ],
+   "a": 1,
+   "u": "Een waan is denkinhoud, een foutieve overtuiging. Een hallucinatie is waarnemingsinhoud, iets horen of zien dat er niet is."
+  },
+  {
+   "h": "nieuw",
+   "q": "Een therapeut helpt een cliënt met hoogtevrees door hem stapsgewijs bloot te stellen aan angstopwekkende situaties, van foto's van hoogtes tot een echt hoogteplatform, gecombineerd met ontspanningstechnieken. Dit is:",
+   "o": [
+    "Aversietherapie",
+    "Systematische desensitisatie",
+    "Token economy",
+    "Psychoanalyse"
+   ],
+   "a": 1,
+   "u": "Systematische desensitisatie combineert een angsthiërarchie met ontspanning, zodat de angstrespons geleidelijk uitdooft via tegenconditionering."
+  },
+  {
+   "h": "nieuw",
+   "q": "Wat is het belangrijkste verschil tussen rationeel-emotieve gedragstherapie (REBT) van Ellis en klassieke psychoanalyse?",
+   "o": [
+    "REBT focust op huidige irrationele gedachten, psychoanalyse op onbewuste, vroegkinderlijke conflicten",
+    "Beide therapieën zijn identiek qua aanpak",
+    "REBT gebruikt medicatie, psychoanalyse niet",
+    "Psychoanalyse is een vorm van gedragstherapie"
+   ],
+   "a": 0,
+   "u": "REBT identificeert en daagt huidige irrationele denkpatronen uit. Psychoanalyse zoekt naar onbewuste conflicten die vaak in de kindertijd wortelen, via vrije associatie en droomanalyse."
+  },
+  {
+   "h": "nieuw",
+   "q": "Waarom wordt een combinatie van cognitieve gedragstherapie en medicatie vaak het meest effectief bevonden bij stemmingsstoornissen?",
+   "o": [
+    "Medicatie en CGT werken via verschillende mechanismen en vullen elkaar aan, waardoor de combinatie vaak het meest effectief is",
+    "Medicatie en CGT doen exact hetzelfde",
+    "CGT werkt enkel als er geen medicatie gebruikt wordt",
+    "Dit is enkel een hypothese zonder neurowetenschappelijke ondersteuning"
+   ],
+   "a": 0,
+   "u": "Medicatie geeft vaak snellere symptoomverlichting, terwijl CGT een duurzamere verandering in denkpatronen bewerkstelligt; de combinatie benut beide."
+  },
+  {
+   "h": "nieuw",
+   "q": "Wat is het verschil tussen het nature-nurture debat en de diathese-stresshypothese?",
+   "o": [
+    "Het zijn volledig identieke concepten",
+    "Het nature-nurture debat gaat over de relatieve invloed van erfelijkheid en omgeving; diathese-stress is een specifiek interactiemodel waarbij genetische kwetsbaarheid pas onder omgevingsstress tot uiting komt",
+    "Nature-nurture is enkel van toepassing op persoonlijkheid, diathese-stress enkel op intelligentie",
+    "Diathese-stress ontkent elke rol van de omgeving"
+   ],
+   "a": 1,
+   "u": "Diathese-stress is een toegepast, interactioneel model binnen het bredere nature-nurture debat. Het stelt dat het niet of-of is, maar een samenspel van beide."
+  },
+  {
+   "h": "nieuw",
+   "q": "Het verschil tussen de biologische en de cognitieve benadering van psychische stoornissen is het best samengevat als:",
+   "o": [
+    "De biologische benadering focust op hersenstructuren, neurotransmitters en genetica; de cognitieve benadering op verstoorde denkpatronen en overtuigingen die het gedrag beïnvloeden",
+    "Beide benaderingen zijn identiek",
+    "De cognitieve benadering gebruikt enkel medicatie",
+    "De biologische benadering houdt geen rekening met de hersenen"
+   ],
+   "a": 0,
+   "u": "Cognitief betekent focus op denken en overtuigingen, niet enkel op waarneembaar gedrag zoals bij het behaviorisme."
   }
  ],
  "hacks": [
@@ -1386,6 +1690,7 @@ window.BES_VAK = {
   "h6": 1,
   "h7": 1,
   "h8": 2,
-  "h9": 1
+  "h9": 1,
+  "nieuw": 1
  }
 };

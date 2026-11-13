@@ -36,6 +36,10 @@ window.BES_VAK = {
   {
    "id": "h8",
    "naam": "Volwassenheid & ouder worden"
+  },
+  {
+   "id": "nieuw",
+   "naam": "Nieuw materiaal (nov 2026)"
   }
  ],
  "vragen": [
@@ -1046,6 +1050,270 @@ window.BES_VAK = {
    ],
    "a": 2,
    "u": "De samenvatting noemt bij succesvol ouder worden drie benaderingen: disengagement (terugtrekken), activity (selectieve optimalisatie) en continuiteit. Disengagement = zich geleidelijk terugtrekken uit sociale rollen en activiteiten."
+  },
+  {
+   "h": "nieuw",
+   "q": "Hoe verklaart het materiaal ontwikkeling?",
+   "o": [
+    "Als een proces van groei en verandering dat wordt aangestuurd door de interactie tussen erfelijkheid en omgeving",
+    "Enkel door erfelijkheid",
+    "Enkel door de omgeving",
+    "Als een vaste reeks die al bij de geboorte is bepaald zonder invloed van buitenaf"
+   ],
+   "a": 0,
+   "u": "Ontwikkeling wordt altijd aangestuurd door de interactie tussen erfelijkheid en omgeving, nooit door een van beide alleen."
+  },
+  {
+   "h": "nieuw",
+   "q": "Welk onderzoek bij eeneiige tweelingen wordt in het materiaal gebruikt om aangeboren en aangeleerde eigenschappen te onderscheiden?",
+   "o": [
+    "Tweelingonderzoek",
+    "Gevalstudie van een enkel kind",
+    "Experiment met de Skinnerbox",
+    "Observatie in de klas"
+   ],
+   "a": 0,
+   "u": "Tweelingonderzoek vergelijkt vooral eeneiige tweelingen om de genetische basis van eigenschappen te onderzoeken."
+  },
+  {
+   "h": "nieuw",
+   "q": "Hoe noemt men een verwachting die uitkomt omdat ze het gedrag van mensen zelf stuurt, bijvoorbeeld wanneer een kind van wie men verwacht dat het niets zal leren daardoor ook weinig leert?",
+   "o": [
+    "Self-fulfilling prophecy",
+    "Habituatie",
+    "Egocentrisme",
+    "Extinctie"
+   ],
+   "a": 0,
+   "u": "Een verwachting die uitkomt omdat ze het gedrag stuurt, noemt men een self-fulfilling prophecy."
+  },
+  {
+   "h": "nieuw",
+   "q": "Hoe lang duurt de embryonale periode van de prenatale ontwikkeling?",
+   "o": [
+    "De eerste acht weken na de conceptie",
+    "De eerste twee weken na de conceptie",
+    "De laatste drie maanden van de zwangerschap",
+    "Het eerste levensjaar"
+   ],
+   "a": 0,
+   "u": "De embryonale periode loopt van de innesteling tot ongeveer de achtste week na de conceptie."
+  },
+  {
+   "h": "nieuw",
+   "q": "Hoe noemt men giftige stoffen die schade kunnen toebrengen aan het zich ontwikkelende organisme?",
+   "o": [
+    "Teratogenen",
+    "Placenta",
+    "Differentiatie",
+    "Rijping"
+   ],
+   "a": 0,
+   "u": "Teratogenen zijn giftige substanties die schade toebrengen aan het ongeboren kind, zoals drugs en nicotine."
+  },
+  {
+   "h": "nieuw",
+   "q": "In Harlows experimenten met babyaapjes bleek welke factor het belangrijkst voor hechting?",
+   "o": [
+    "Lichamelijk contact en steun",
+    "Het voedsel dat de moeder geeft",
+    "Het imprinten op het eerste bewegende object",
+    "Het leren van taal"
+   ],
+   "a": 0,
+   "u": "Harlow toonde dat contactcomfort, oftewel fysieke steun en aanraking, belangrijker is dan enkel de voedselbron."
+  },
+  {
+   "h": "nieuw",
+   "q": "Welk hechtingspatroon beschrijft kinderen die gaan huilen van angst en woede bij het vertrek van de moeder, en bij terugkeer contact zoeken maar moeilijk te troosten zijn?",
+   "o": [
+    "Angstige-ambivalente hechting",
+    "Veilige hechting",
+    "Ontwijkend-vermijdende hechting",
+    "Gedesorganiseerde hechting"
+   ],
+   "a": 0,
+   "u": "Bij de angstige-ambivalente hechting zoeken kinderen wel contact na terugkeer, maar zijn ze boos en moeilijk te troosten."
+  },
+  {
+   "h": "nieuw",
+   "q": "Welke hechtingsstijl komt bij de meerderheid van de kinderen voor?",
+   "o": [
+    "Veilige hechting",
+    "Angstige-ambivalente hechting",
+    "Ontwijkend-vermijdende hechting",
+    "Gedesorganiseerde hechting"
+   ],
+   "a": 0,
+   "u": "Veilige hechting komt het vaakst voor: het kind vertrouwt erop dat de hechtingsfiguur terugkeert en gebruikt die als veilige basis."
+  },
+  {
+   "h": "nieuw",
+   "q": "Wat is imprinting?",
+   "o": [
+    "Het hechten van jonge dieren aan het eerste bewegende ding dat ze tegenkomen, vooral bij vogels",
+    "Het aanleren van een taal door het imiteren van volwassenen",
+    "Het ontwikkelen van de frontale kwab tijdens de adolescentie",
+    "Het verliezen van aangeboren reflexen"
+   ],
+   "a": 0,
+   "u": "Imprinting, zoals Lorenz beschreef, komt vooral bij vogels voor en is bij mensen veel minder duidelijk aanwezig."
+  },
+  {
+   "h": "nieuw",
+   "q": "Welk aangeboren systeem voor taalverwerving stelde Chomsky voor?",
+   "o": [
+    "Het taalverwervingssysteem (LAD)",
+    "Het socialisatiesysteem",
+    "Het habituatiesysteem",
+    "Het zenuwstelsel van de hypofyse"
+   ],
+   "a": 0,
+   "u": "Chomsky stelde een aangeboren taalverwervingssysteem (language acquisition device) voor, met een programma voor elementaire grammaticale regels."
+  },
+  {
+   "h": "nieuw",
+   "q": "Welk hersengebied is verantwoordelijk voor de spraakproductie?",
+   "o": [
+    "Het gebied van Broca",
+    "Het gebied van Wernicke",
+    "De auditieve cortex",
+    "De hippocampus"
+   ],
+   "a": 0,
+   "u": "Het gebied van Broca is verantwoordelijk voor de spraakproductie, het gebied van Wernicke voor het taalbegrip."
+  },
+  {
+   "h": "nieuw",
+   "q": "Welke twee dynamische processen zijn volgens Piaget verantwoordelijk voor cognitieve groei?",
+   "o": [
+    "Assimilatie en accommodatie",
+    "Conservatie en centratie",
+    "Egocentrisme en animisme",
+    "Habituatie en extinctie"
+   ],
+   "a": 0,
+   "u": "Piaget beschreef assimilatie (nieuwe informatie in bestaande schema's passen) en accommodatie (schema's aanpassen)."
+  },
+  {
+   "h": "nieuw",
+   "q": "Welk stadium van Piaget beschrijft egocentrisme, animistisch denken, centratie en onomkeerbaarheid?",
+   "o": [
+    "Het pre-operationele stadium",
+    "Het sensori-motorische stadium",
+    "Het concreet-operationele stadium",
+    "Het formeel-operationele stadium"
+   ],
+   "a": 0,
+   "u": "Het pre-operationele stadium (ongeveer 2 tot 7 jaar) kenmerkt zich door egocentrisme, animisme, centratie en onomkeerbaarheid."
+  },
+  {
+   "h": "nieuw",
+   "q": "Welk kenmerk hoort bij het concreet-operationele stadium (ongeveer 7 tot 11 jaar)?",
+   "o": [
+    "Het besef dat een hoeveelheid gelijk blijft als de vorm verandert (conservatie)",
+    "Het ontstaan van objectpermanentie",
+    "Het gebruik van egocentrische taal",
+    "Het ontstaan van abstract denken over de toekomst"
+   ],
+   "a": 0,
+   "u": "In het concreet-operationele stadium (ongeveer 7 tot 11 jaar) begrijpt het kind conservatie, maar abstract denken komt pas later."
+  },
+  {
+   "h": "nieuw",
+   "q": "Hoe noemt men de leerstrategie waarbij ouders of leerkrachten hulp bieden die net boven het huidige niveau van het kind ligt?",
+   "o": [
+    "Scaffolding",
+    "Habituatie",
+    "Conditionering",
+    "Imprinting"
+   ],
+   "a": 0,
+   "u": "Scaffolding is tijdelijke ondersteuning die aansluit bij de zone van naaste ontwikkeling, net boven het huidige niveau van het kind."
+  },
+  {
+   "h": "nieuw",
+   "q": "Welke opvoedingsstijl hoort volgens Baumrind bij kinderen die het meest onafhankelijk, nieuwsgierig en zelfbewust zijn?",
+   "o": [
+    "De autoritatieve of gezaghebbende ouders",
+    "De autoritaire ouders",
+    "De permissieve ouders",
+    "De onbetrokken ouders"
+   ],
+   "a": 0,
+   "u": "Gezaghebbende ouders combineren hoge aanvaarding en betrokkenheid met controle en uitleg; hun kinderen zijn meestal onafhankelijk en zelfbewust."
+  },
+  {
+   "h": "nieuw",
+   "q": "Welk stadium van Kohlbergs morele ontwikkeling kenmerkt zich door het 'goed kind'-denken, waarbij goedkeuring door anderen het centrale motief is?",
+   "o": [
+    "Conventionele moraal, stadium 3",
+    "Preconventionele moraal, stadium 1",
+    "Postconventionele moraal, stadium 5",
+    "Conventionele moraal, stadium 4"
+   ],
+   "a": 0,
+   "u": "In stadium 3, de 'goed kind'-oriëntatie, is goedkeuring door anderen het centrale motief."
+  },
+  {
+   "h": "nieuw",
+   "q": "Hoe noemt men het proces waarbij een adolescent verschillende rollen uitprobeert om een samenhangend zelf te vinden?",
+   "o": [
+    "Het oplossen van de identiteitscrisis",
+    "Het ontwikkelen van objectpermanentie",
+    "Het aanleren van conservatie",
+    "Het verliezen van de imprinting"
+   ],
+   "a": 0,
+   "u": "Adolescenten experimenteren met rollen om te ontdekken wie zij werkelijk zijn en zo een samenhangend zelf te ontwikkelen."
+  },
+  {
+   "h": "nieuw",
+   "q": "Een kind van 4 jaar ziet hoe water uit een breed glas wordt overgegoten in een hoog, smal glas. Het kind beweert dat er nu meer water in zit. Welk Piagetiaans concept ontbreekt nog?",
+   "o": [
+    "Objectpermanentie",
+    "Conservatie van vloeistof, het kind let door centratie enkel op de hoogte",
+    "Formeel-operationeel denken",
+    "Egocentrisme als verklaring"
+   ],
+   "a": 1,
+   "u": "Het kind richt zich op één dimensie tegelijk (centratie) en kan de hoogte en breedte niet mentaal compenseren. Dit is typisch voor het preoperationele stadium, van 2 tot 7 jaar."
+  },
+  {
+   "h": "nieuw",
+   "q": "Volgens Erikson heeft een 25-jarige die moeite heeft zich emotioneel aan een partner te binden, waarschijnlijk een onopgeloste crisis van:",
+   "o": [
+    "Identiteit versus rolverwarring",
+    "Intimiteit versus isolement",
+    "Autonomie versus schaamte en twijfel",
+    "Generativiteit versus stagnatie"
+   ],
+   "a": 1,
+   "u": "Het stadium intimiteit versus isolement draait om het aangaan van diepe, intieme relaties in de vroege volwassenheid."
+  },
+  {
+   "h": "nieuw",
+   "q": "Een kind dat veilig gehecht is aan zijn moeder, zoals gemeten met de Strange Situation van Ainsworth, zal typisch:",
+   "o": [
+    "Niet geraakt worden door de scheiding en geen contact zoeken bij terugkomst",
+    "De omgeving actief verkennen, van streek zijn bij de scheiding, maar zich snel laten troosten bij de terugkomst van de moeder",
+    "Boos en ontroostbaar blijven, ook na de hereniging",
+    "Inconsistent gedrag vertonen, zoals naar de moeder gaan maar haar niet aankijken"
+   ],
+   "a": 1,
+   "u": "Veilige hechting kenmerkt zich door vertrouwen: het kind verkent de omgeving omdat het weet dat de ouder als veilige basis terugkeert."
+  },
+  {
+   "h": "nieuw",
+   "q": "Het Harlow-experiment met babyaapjes en surrogaatmoeders, een moeder van draad met voeding en een moeder van zachte stof zonder voeding, toonde vooral aan dat:",
+   "o": [
+    "Voeding de belangrijkste factor is in hechting",
+    "Contactcomfort, oftewel fysiek zacht contact, is belangrijker voor hechting dan alleen voeding",
+    "Aapjes zich niet hechten aan surrogaatmoeders",
+    "Hechting volledig aangeleerd is via klassieke conditionering"
+   ],
+   "a": 1,
+   "u": "De aapjes verkozen massaal de zachte moeder boven de voedende draadmoeder. Dit weerlegde de theorie dat hechting puur draait om wie het voedsel geeft."
   }
  ],
  "hardPerHoofdstuk": {
@@ -1056,7 +1324,8 @@ window.BES_VAK = {
   "h5": 1,
   "h6": 2,
   "h7": 2,
-  "h8": 1
+  "h8": 1,
+  "nieuw": 1
  },
  "hacks": [
   {

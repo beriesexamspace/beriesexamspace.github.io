@@ -28,6 +28,10 @@ window.BES_VAK = {
   {
    "id": "h6",
    "naam": "Forensische instellingen, diagnostiek & overige"
+  },
+  {
+   "id": "nieuw",
+   "naam": "Nieuw materiaal (nov 2026)"
   }
  ],
  "vragen": [
@@ -594,6 +598,714 @@ window.BES_VAK = {
    ],
    "a": 2,
    "u": "Katatonie is een psychomotorisch syndroom dat zich onder meer uit in spierverstijving, houdingsverstarring en andere bewegingsstoornissen. Hallucinaties, affectvervlakking en wanen zijn andere symptoomdomeinen die niet de kern van katatoon gedrag vormen."
+  },
+  {
+   "h": "nieuw",
+   "q": "Hoe verhoudt forensische psychologie zich tot criminologische psychologie?",
+   "o": [
+    "Forensische psychologie is een onderdeel van de criminologische psychologie",
+    "Criminologische psychologie is een onderdeel van het brede werkveld forensische psychologie",
+    "Beide begrippen zijn identiek en worden nooit onderscheiden",
+    "Criminologische psychologie richt zich enkel op politioneel onderzoek"
+   ],
+   "a": 1,
+   "u": "Forensische psychologie wordt gezien als het brede werkveld, en criminologische psychologie is een onderdeel daarvan."
+  },
+  {
+   "h": "nieuw",
+   "q": "Op welk snijpunt situeert de forensische psychologie zich?",
+   "o": [
+    "Tussen de psychologie en de geneeskunde",
+    "Tussen de criminologie en de sociologie",
+    "Tussen de psychologie en het recht",
+    "Tussen het recht en de economie"
+   ],
+   "a": 2,
+   "u": "Forensische psychologie zit op de kruising tussen de psychologie en het recht, wat soms tot communicatiefouten leidt."
+  },
+  {
+   "h": "nieuw",
+   "q": "Waarop is de forensische psycholoog volgens de Vlaamse definitie vooral gespecialiseerd?",
+   "o": [
+    "Het opstellen van wetten en reglementen",
+    "Het uitvoeren van politionele opsporing",
+    "Het beheren van gevangenissen",
+    "Preventie van normoverschrijdend gedrag, forensische psychodiagnostiek en behandeling van plegers of slachtoffers"
+   ],
+   "a": 3,
+   "u": "De forensische psycholoog is volgens het materiaal gespecialiseerd in preventie van crimineel of normoverschrijdend gedrag, forensische psychodiagnostiek en/of de behandeling van plegers of slachtoffers."
+  },
+  {
+   "h": "nieuw",
+   "q": "Wanneer is iemand ontoerekeningsvatbaar?",
+   "o": [
+    "Wanneer hij een antisociale persoonlijkheidsstoornis heeft",
+    "Wanneer hij psychopathische trekken vertoont",
+    "Bij een ernstige geestesstoornis die het inzicht of de controle over het gedrag wegneemt",
+    "Wanneer hij ooit eerder veroordeeld is"
+   ],
+   "a": 2,
+   "u": "Iemand is ontoerekeningsvatbaar bij een ernstige geestesstoornis die het inzicht of de controle over het gedrag wegneemt. Een antisociale persoonlijkheidsstoornis of psychopathie worden op zichzelf zelden als reden gezien, en minderjarigheid valt onder een apart jeugdrechtelijk kader."
+  },
+  {
+   "h": "nieuw",
+   "q": "Hoe verschillen juristen en psychologen vaak in hun uitgangspunt bij justitiële vragen?",
+   "o": [
+    "Juristen willen vooral helpen, psychologen vooral beschermen",
+    "Juristen beschermen vooral rechten, psychologen vertrekken vooral vanuit hulp en het voorkomen dat gedrag zich herhaalt",
+    "Beide beroepsgroepen hebben dezelfde attitude",
+    "Psychologen zijn vooral bezig met het bewijzen van schuld"
+   ],
+   "a": 1,
+   "u": "Juristen richten zich vooral op het beschermen van rechten, terwijl psychologen eerder vertrekken vanuit hulpverlening en het voorkomen van herhaling van gedrag."
+  },
+  {
+   "h": "nieuw",
+   "q": "Welke zaak wordt vaak als beginpunt van de visie op ontoerekeningsvatbaarheid genoemd?",
+   "o": [
+    "De zaak van James Bulger",
+    "De moord op Edward Drummond door Daniel M'Naghten",
+    "De bankoverval in Stockholm",
+    "De zaak van Dean Verberckmoes"
+   ],
+   "a": 1,
+   "u": "Vaak wordt verwezen naar de zaak van Daniel M'Naghten, die Edward Drummond vermoordde. Die zaak wordt als beginpunt van de moderne visie op ontoerekeningsvatbaarheid gezien."
+  },
+  {
+   "h": "nieuw",
+   "q": "Welke auteur schreef The Mask of Sanity en wordt als basis van het psychopathiebegrip gezien?",
+   "o": [
+    "Robert D. Hare",
+    "Terrie Moffitt",
+    "Hervey Cleckley",
+    "Gerald Patterson"
+   ],
+   "a": 2,
+   "u": "Hervey Cleckley beschreef in The Mask of Sanity de kenmerken van psychopathie op basis van zijn klinische en forensische casussen."
+  },
+  {
+   "h": "nieuw",
+   "q": "Wat zag Cleckley als het centrale kenmerk van psychopathie?",
+   "o": [
+    "Een hoge intelligentie gecombineerd met berekend gedrag",
+    "Een tekort aan diepgaande emoties",
+    "Voortdurend crimineel gedrag",
+    "Een psychotische wanvoorstelling van de werkelijkheid"
+   ],
+   "a": 1,
+   "u": "Voor Cleckley was het centrale kenmerk een tekort aan diepgaande emoties. Liegen, impulsiviteit en crimineel gedrag zag hij als gevolgen daarvan."
+  },
+  {
+   "h": "nieuw",
+   "q": "Welke uitspraak over crimineel gedrag geeft Cleckley volgens het materiaal weer?",
+   "o": [
+    "Crimineel gedrag is de kern van psychopathie",
+    "Psychopathie leidt altijd tot een justitiële carrière",
+    "Crimineel gedrag is een mogelijke uitkomst maar geen kernkenmerk",
+    "Psychopathie komt enkel voor bij gedetineerden"
+   ],
+   "a": 2,
+   "u": "Cleckley benadrukte dat crimineel gedrag geen kernkenmerk is, maar eerder een mogelijke uitkomst. Mensen met psychopathische kenmerken kunnen ook buiten justitie functioneren."
+  },
+  {
+   "h": "nieuw",
+   "q": "Wat gebeurt er met de prevalentie van psychopathie als men de cut-off score op de PCL-R verlaagt?",
+   "o": [
+    "Ze daalt",
+    "Ze blijft gelijk",
+    "Ze wordt nul",
+    "Ze stijgt automatisch"
+   ],
+   "a": 3,
+   "u": "Wanneer men de grenswaarde verlaagt, stijgt de prevalentie automatisch. Daarom moet men voorzichtig zijn met hogere cijfers."
+  },
+  {
+   "h": "nieuw",
+   "q": "Welke diagnose hanteert de DSM-5 in plaats van psychopathie als aparte categorie?",
+   "o": [
+    "Narcistische persoonlijkheidsstoornis",
+    "Borderline persoonlijkheidsstoornis",
+    "Antisociale persoonlijkheidsstoornis",
+    "Schizotypische persoonlijkheidsstoornis"
+   ],
+   "a": 2,
+   "u": "In de DSM-5 wordt psychopathie niet als aparte diagnose opgenomen. In plaats daarvan gebruikt men de antisociale persoonlijkheidsstoornis."
+  },
+  {
+   "h": "nieuw",
+   "q": "Welk element van Cleckley's beschrijving van psychopathie ontbreekt grotendeels in de DSM-5-criteria voor antisociale persoonlijkheidsstoornis?",
+   "o": [
+    "Het gedragsmatige criterium van criminaliteit",
+    "Het criterium van de leeftijd van achttien jaar",
+    "Het adaptief vermogen en de diepgaande emotionele component",
+    "De verwijzing naar schizofrenie"
+   ],
+   "a": 2,
+   "u": "Het adaptief vermogen, zoals charme en kameleongedrag, en de diepgaande emotionele component van Cleckley krijgen in de DSM-5-criteria weinig aandacht."
+  },
+  {
+   "h": "nieuw",
+   "q": "Wat is de maximumscore op de PCL-R?",
+   "o": [
+    "20",
+    "30",
+    "60",
+    "40"
+   ],
+   "a": 3,
+   "u": "De PCL-R bevat 20 items die elk met 0, 1 of 2 worden gescoord, wat een maximum van 40 geeft."
+  },
+  {
+   "h": "nieuw",
+   "q": "Waarom mag de PCL-R nooit enkel op basis van een interview gescoord worden?",
+   "o": [
+    "Omdat interviews te kort duren",
+    "Omdat de wet dat verbiedt",
+    "Omdat leugenachtig en manipulatief gedrag een kenmerk van psychopathie is en de beoordelaar kan misleid worden",
+    "Omdat interviews enkel met de verdediging mogen gebeuren"
+   ],
+   "a": 2,
+   "u": "Leugenachtig en manipulatief gedrag is zelf een kenmerk van psychopathie. Iemand kan de beoordelaar dus misleiden of manipuleren."
+  },
+  {
+   "h": "nieuw",
+   "q": "Onder welk facet van de PCL-R valt gebrek aan wroeging en schuldgevoel?",
+   "o": [
+    "Interpersoonlijk gedrag",
+    "Levensstijl",
+    "Antisociaal gedrag",
+    "Affectieve kenmerken"
+   ],
+   "a": 3,
+   "u": "Gebrek aan wroeging en schuldgevoel behoort tot het facet affectieve kenmerken. Het interpersoonlijke facet bevat onder meer glad en oppervlakkig en grandioze eigenwaarde."
+  },
+  {
+   "h": "nieuw",
+   "q": "Welk model legt de nadruk op een verminderde angstbeleving bij psychopathie?",
+   "o": [
+    "Het respons modulatie model van Patterson en Newman",
+    "Het genest ecologisch model",
+    "Het coërcieve ontwikkelingsmodel",
+    "Het fearlessness model van Lykken"
+   ],
+   "a": 3,
+   "u": "Het fearlessness model van Lykken (1995) legt de nadruk op problemen in de angstbeleving. Minder angst maakt gevaar minder snel herkenbaar en straf minder afschrikwekkend."
+  },
+  {
+   "h": "nieuw",
+   "q": "Waar legt het respons modulatie model vooral de nadruk op?",
+   "o": [
+    "Op de hoeveelheid angst die iemand ervaart",
+    "Op genetische aanleg",
+    "Op de rol van aandacht voor emotionele signalen",
+    "Op het aantal veroordelingen"
+   ],
+   "a": 2,
+   "u": "Het model benadrukt dat emoties pas effect hebben als ze worden opgemerkt. Bij psychopathie trekken emotionele signalen minder snel de aandacht."
+  },
+  {
+   "h": "nieuw",
+   "q": "Welke conclusie trokken Rice en collega's uit hun onderzoek naar een therapeutische gemeenschap voor ernstige psychopathische daders?",
+   "o": [
+    "Psychopaten zijn onbehandelbaar",
+    "Behandeling maakt psychopaten altijd gewelddadiger",
+    "De therapeutische gemeenschap was het verkeerde programma voor ernstige psychopathische daders",
+    "Psychopathie verdwijnt na elke behandeling"
+   ],
+   "a": 2,
+   "u": "De onderzoekers concludeerden niet dat psychopaten onbehandelbaar zijn, maar dat deze specifieke vorm van behandeling niet geschikt was voor deze doelgroep."
+  },
+  {
+   "h": "nieuw",
+   "q": "Welke conclusie trekken meta-analyses over de behandelbaarheid van psychopathie?",
+   "o": [
+    "Psychopathie is bewezen onbehandelbaar",
+    "Er is geen bewijs dat psychopaten onbehandelbaar zijn en ook geen bewijs dat behandeling hen erger maakt",
+    "Behandeling verergert altijd de recidive",
+    "Er bestaat geen onderzoek naar behandeling van psychopathie"
+   ],
+   "a": 1,
+   "u": "Meta-analyses en reviews tonen dat er geen bewijs is voor onbehandelbaarheid, en ook niet dat behandeling schadelijk is."
+  },
+  {
+   "h": "nieuw",
+   "q": "Welke aanpak past bij volwassenen met psychopathische kenmerken?",
+   "o": [
+    "Uitsluitend empathietraining",
+    "Lange, abstracte doelen zonder tussentijdse feedback",
+    "Isolatie tot de cliënt zijn excuses aanbiedt",
+    "Korte, concrete doelen met directe feedback en bekrachtiging"
+   ],
+   "a": 3,
+   "u": "Behandeling moet afgestemd zijn op de kenmerken: korte termijn doelen, opgesplitste taken en directe feedback. Puur werken rond empathie werkt minder goed."
+  },
+  {
+   "h": "nieuw",
+   "q": "Waarom is een redenering problematisch die een hoog risico op nieuw geweld als vaststaand beschouwt?",
+   "o": [
+    "Omdat de PCL-R enkel bij jongeren gebruikt mag worden",
+    "Omdat deterministisch wordt aangenomen dat nieuw geweld vrijwel zeker is, ongeacht de context",
+    "Omdat de PCL-R nooit in een dossier mag staan",
+    "Omdat de PCL-R enkel door de rechter zelf mag afgenomen worden"
+   ],
+   "a": 1,
+   "u": "De redenering dat nieuw geweld vrijwel zeker is, ongeacht de omgeving of beperkingen, is deterministisch en laat weinig ruimte voor realistische of proportionele opties."
+  },
+  {
+   "h": "nieuw",
+   "q": "Wat blijkt uit onderzoek over juryleden als in het dossier een hoge PCL-R-score staat vermeld?",
+   "o": [
+    "Ze twijfelen sneller aan de schuld",
+    "Ze schrijven sneller schuld toe",
+    "Ze negeren het dossier volledig",
+    "Ze verlagen de straf automatisch"
+   ],
+   "a": 1,
+   "u": "Juryleden koppelen psychopathie dan onterecht aan schuld: hij heeft die stoornis, dus hij is schuldig."
+  },
+  {
+   "h": "nieuw",
+   "q": "Partnergeweld is volgens het materiaal een specifieke vorm van wat?",
+   "o": [
+    "Georganiseerde criminaliteit",
+    "Seksueel geweld buitenshuis",
+    "Intrafamiliaal geweld",
+    "Geweld door vreemden op straat"
+   ],
+   "a": 2,
+   "u": "Partnergeweld is een specifieke vorm van intrafamiliaal geweld en omvat alle vormen van geweld binnen een huidige of voormalige romantische relatie."
+  },
+  {
+   "h": "nieuw",
+   "q": "Welke vorm van partnergeweld komt het meest voor?",
+   "o": [
+    "Fysiek geweld",
+    "Seksueel geweld",
+    "Financiële uitbuiting",
+    "Psychische mishandeling"
+   ],
+   "a": 3,
+   "u": "Psychische mishandeling is in veel onderzoek de meest voorkomende vorm van partnergeweld."
+  },
+  {
+   "h": "nieuw",
+   "q": "Waarom leidt psychisch geweld minder vaak tot een veroordeling?",
+   "o": [
+    "Daders van psychisch geweld zijn meestal jonger dan vijftien jaar",
+    "Slachtoffers vragen zelden om hulp",
+    "Het is moeilijk te bewijzen, de signalen zijn minder zichtbaar en de impact wordt onderschat",
+    "Het komt enkel bij jonge koppels voor"
+   ],
+   "a": 2,
+   "u": "Psychisch geweld is vaak moeilijk te bewijzen, heeft minder zichtbare signalen dan fysieke letsels en de impact wordt nog regelmatig onderschat."
+  },
+  {
+   "h": "nieuw",
+   "q": "Wat stellen onderzoekers over kinderen in situaties van partnergeweld?",
+   "o": [
+    "Kinderen zijn zelden getuige, omdat ouders meestal pas ruziën als de kinderen slapen",
+    "Kinderen merken niets van het geweld als ze slapen",
+    "Kinderen zijn vaak getuige van het geweld of de spanning ervan, ook zonder dat ze het zien",
+    "Kinderen worden enkel indirect beïnvloed, zonder gevolgen voor hun ontwikkeling"
+   ],
+   "a": 2,
+   "u": "Onderzoek toont aan dat kinderen in situaties van partnergeweld vaak getuige zijn van het geweld of van de spanning ervan, ook zonder visuele getuigenis."
+  },
+  {
+   "h": "nieuw",
+   "q": "Waarom zoeken mannelijke slachtoffers van partnergeweld vaak geen hulp?",
+   "o": [
+    "Ze hebben geen gevoel van pijn",
+    "Hulpdiensten bestaan niet voor mannen",
+    "Ze denken dat niemand hen zal geloven of dat ze als dader gezien worden",
+    "Ze hebben geen geld om naar de huisarts te gaan"
+   ],
+   "a": 2,
+   "u": "Mannen geven in onderzoek aan dat ze denken dat niemand hen gelooft, dat ze als dader gezien worden of dat ze hun kinderen riskeren te verliezen."
+  },
+  {
+   "h": "nieuw",
+   "q": "Welk gevolg kan voortdurende stress door partnergeweld hebben?",
+   "o": [
+    "Een verbeterd zelfbeeld",
+    "Slaapproblemen en hart- en vaatklachten",
+    "Een verlaagd risico op middelenmisbruik",
+    "Betere emotieregulatie"
+   ],
+   "a": 1,
+   "u": "Zelfs zonder direct fysiek geweld kan voortdurende angst en stress slaapproblemen, hart- en vaatklachten en chronische stressklachten veroorzaken."
+  },
+  {
+   "h": "nieuw",
+   "q": "Welk type geweldpleger wordt gekenmerkt door borderline- of schizoïde persoonlijkheidsproblematiek en emotionele instabiliteit?",
+   "o": [
+    "Intrafamiliaal geweld",
+    "Antisociale groep",
+    "Dysforische geweldpleger",
+    "Situationeel koppelgeweld"
+   ],
+   "a": 2,
+   "u": "Dysforische geweldplegers vertonen vaker persoonlijkheidsproblematiek zoals borderline of schizoïde kenmerken, samen met emotionele instabiliteit en vaak middelenmisbruik."
+  },
+  {
+   "h": "nieuw",
+   "q": "Welk type uit de typologie van Johnson gaat over controle via dreiging, manipulatie, chantage en fysiek geweld?",
+   "o": [
+    "Gewelddadig verzet",
+    "Mutueel gewelddadige controle",
+    "Situationeel koppelgeweld",
+    "Intiem terrorisme"
+   ],
+   "a": 3,
+   "u": "Bij intiem terrorisme wil een partner vooral controle uitoefenen, met dreigen, manipuleren, chanteren en fysiek geweld als middel om die controle te behouden."
+  },
+  {
+   "h": "nieuw",
+   "q": "Welke vorm van partnergeweld komt het meest voor in de algemene populatie?",
+   "o": [
+    "Intiem terrorisme",
+    "Gewelddadig verzet",
+    "Complementair geweld",
+    "Situationeel koppelgeweld"
+   ],
+   "a": 3,
+   "u": "Situationeel koppelgeweld is de meest voorkomende vorm in de algemene populatie: conflicten escaleren, maar het geweld is niet voortdurend aanwezig."
+  },
+  {
+   "h": "nieuw",
+   "q": "Hoe noemt men de fase na een escalatie waarin de partner excuses aanbiedt en cadeaus geeft?",
+   "o": [
+    "Escalatiefase",
+    "Isolatiefase",
+    "Stille fase",
+    "Honeymoon fase"
+   ],
+   "a": 3,
+   "u": "Na een escalatie volgt vaak een fase waarin alles lijkt te verbeteren, de zogenaamde honeymoon fase."
+  },
+  {
+   "h": "nieuw",
+   "q": "Welk mechanisme beschrijft dat een slachtoffer sympathie of begrip ontwikkelt voor de dader?",
+   "o": [
+    "Cognitieve dissonantie",
+    "Equifinaliteit",
+    "Stockholmsyndroom",
+    "Multifinaliteit"
+   ],
+   "a": 2,
+   "u": "Het Stockholmsyndroom verwijst naar slachtoffers die sympathie of begrip ontwikkelen voor hun dader. Het wordt vaak gezien als een vorm van traumatische binding, al blijft de wetenschappelijke status omstreden."
+  },
+  {
+   "h": "nieuw",
+   "q": "Wat is cognitieve dissonantie in de context van partnergeweld?",
+   "o": [
+    "Een stoornis waarbij de pleger geen geweld meer kan voelen",
+    "Een vorm van fysieke verwaarlozing",
+    "Een spanning tussen wat iemand denkt en wat iemand doet, waardoor het slachtoffer overtuigingen aanpast om te blijven",
+    "Een fase waarin het slachtoffer excuses aanbiedt"
+   ],
+   "a": 2,
+   "u": "Het slachtoffer weet dat de relatie niet goed voor haar is, maar blijft toch. Om die tegenstelling draaglijk te maken, past het zijn overtuigingen of gedrag aan."
+  },
+  {
+   "h": "nieuw",
+   "q": "Welke voorafgaande ervaring wordt als risicofactor voor partnergeweld genoemd?",
+   "o": [
+    "Een stabiel en voorspelbaar gezinsleven",
+    "Een hoog inkomen",
+    "Een ruime vriendenkring",
+    "Getuige zijn geweest van geweld in het gezin"
+   ],
+   "a": 3,
+   "u": "Voorafgaande ervaringen zoals eigen trauma's, getuige zijn van geweld in het gezin of leren dat conflicten gewelddadig worden opgelost, verhogen het risico."
+  },
+  {
+   "h": "nieuw",
+   "q": "Op welk niveau van het genest ecologisch model situeren armoede en werkloosheid zich?",
+   "o": [
+    "Individueel niveau",
+    "Relationeel niveau",
+    "Maatschappelijk niveau",
+    "Gemeenschapsniveau"
+   ],
+   "a": 3,
+   "u": "Op gemeenschapsniveau kijkt men naar de ruimere leefomgeving. Armoede, werkloosheid en sociale isolatie kunnen het risico op intrafamiliaal geweld vergroten."
+  },
+  {
+   "h": "nieuw",
+   "q": "Wat gebeurt er volgens het materiaal als iemand ontoerekeningsvatbaar wordt verklaard?",
+   "o": [
+    "Vrijstelling van gevangenisstraf, maar vaak opname in een gespecialiseerde psychiatrische strafinrichting",
+    "Een volledige vrijspraak zonder verdere maatregelen",
+    "Een gevangenisstraf van het maximum",
+    "Een taakstraf zonder begeleiding"
+   ],
+   "a": 0,
+   "u": "Ontoerekeningsvatbaarheid betekent vrijstelling van gevangenisstraf, maar meestal wordt de persoon geinterneerd in een psychiatrische strafinrichting."
+  },
+  {
+   "h": "nieuw",
+   "q": "Wat houdt psychische overmacht volgens het materiaal in?",
+   "o": [
+    "Een onweerstaanbare drang door psychische druk, waarbij elk normaal mens de misdaad zou begaan",
+    "Het bewust plannen van een misdaad met een kalm hoofd",
+    "Een lichte geestesziekte zonder invloed op het gedrag",
+    "Het niet begrijpen van de wet"
+   ],
+   "a": 0,
+   "u": "Bij psychische overmacht staat de verdachte zo onder druk dat elk normaal mens de misdaad zou begaan; dit leidt tot vrijstelling van straf."
+  },
+  {
+   "h": "nieuw",
+   "q": "Welke uitspraak over het voorspellen van geweld klopt?",
+   "o": [
+    "Er is een inherente foutenmarge, en de voorspelling wordt onzekerder naarmate het tijdsinterval groter is",
+    "Geweld kan met 100 procent zekerheid worden voorspeld",
+    "Het tijdsinterval heeft geen invloed op de voorspelling",
+    "Voorspellingen gelden altijd voor elke omgeving"
+   ],
+   "a": 0,
+   "u": "Elke voorspelling van geweld heeft een inherente foutenmarge, en de onzekerheid neemt toe naarmate het tijdsinterval groter wordt."
+  },
+  {
+   "h": "nieuw",
+   "q": "Welke van deze factoren is een beschermingsfactor tegen geweld?",
+   "o": [
+    "Therapietrouw",
+    "Impulsiviteit",
+    "Misbruik van psychoactieve middelen",
+    "Een geschiedenis van geweld"
+   ],
+   "a": 0,
+   "u": "Therapietrouw is een beschermingsfactor; impulsiviteit, middelenmisbruik en een geschiedenis van geweld zijn risicofactoren."
+  },
+  {
+   "h": "nieuw",
+   "q": "Wat is het wapenfocus-effect volgens het materiaal?",
+   "o": [
+    "Bij een wapen gaat alle aandacht naar het wapen, waardoor de getuige de dader minder goed onthoudt",
+    "Getuigen onthouden wapens beter dan gezichten",
+    "Een wapen verbetert altijd de zekerheid van de getuige",
+    "Het wapen wordt vergeten zodra de misdaad voorbij is"
+   ],
+   "a": 0,
+   "u": "Bij het wapenfocus-effect trekt het wapen de centrale aandacht, zodat getuigen minder letten op de dader."
+  },
+  {
+   "h": "nieuw",
+   "q": "Welke vertekening wordt beschreven bij crossraciale identificatie?",
+   "o": [
+    "Men identificeert mensen van het eigen ras nauwkeuriger dan mensen van een ander ras",
+    "Men identificeert alle rassen even goed",
+    "Men herkent alleen mensen van een ander ras",
+    "Ras speelt geen enkele rol bij herkenning"
+   ],
+   "a": 0,
+   "u": "Het cross-race-effect betekent dat mensen gezichten van hun eigen etnische groep doorgaans nauwkeuriger herkennen dan gezichten van andere groepen."
+  },
+  {
+   "h": "nieuw",
+   "q": "Welk effect is bekend uit het onderzoek van Loftus en Palmer naar ooggetuigen?",
+   "o": [
+    "Misleidende informatie na een gebeurtenis vervormt de herinnering van de getuige",
+    "Getuigen onthouden altijd exact dezelfde herinnering",
+    "Zekerheid van een getuige garandeert altijd de juistheid",
+    "Ooggetuigen zien nooit de misdaad zelf"
+   ],
+   "a": 0,
+   "u": "Het misinformatie-effect van Loftus en Palmer toont dat informatie die later verkregen wordt de herinnering vervormt."
+  },
+  {
+   "h": "nieuw",
+   "q": "Welke groep is bijzonder gevoelig voor misleidende informatie bij getuigenverklaringen?",
+   "o": [
+    "Jonge kinderen en ouderen vanaf 65 jaar",
+    "Mensen tussen 30 en 40 jaar",
+    "Mensen met een universitair diploma",
+    "Alleen volwassen mannen"
+   ],
+   "a": 0,
+   "u": "Jonge kinderen en oudere volwassenen, zeker vanaf 65 jaar, zijn gevoeliger voor misleidende informatie."
+  },
+  {
+   "h": "nieuw",
+   "q": "Wat toonde onderzoek met kleuters en suggestieve vragen over een fictieve gebeurtenis?",
+   "o": [
+    "Suggestieve vragen leidden ertoe dat veel kleuters beweerden dat een fictieve persoon de schade had gemaakt",
+    "Kleuters onthouden altijd exact wat ze gehoord hebben",
+    "Kleuters vergeten alles na een week",
+    "Suggestieve vragen hebben geen effect op kinderen"
+   ],
+   "a": 0,
+   "u": "Suggestieve vragen kunnen kleuters ertoe brengen valse herinneringen te vertellen, ook over gebeurtenissen die nooit plaatsvonden."
+  },
+  {
+   "h": "nieuw",
+   "q": "Wat is de voir dire?",
+   "o": [
+    "De eerste fase van juryselectie, waarin vooringenomenheid van kandidaat-juryleden wordt getest",
+    "De uitspraak van het vonnis door de jury",
+    "Het beroep na een veroordeling",
+    "De schriftelijke instructie van de rechter"
+   ],
+   "a": 0,
+   "u": "Bij de voir dire, de eerste fase van juryselectie in de VS, wordt vooringenomenheid van juryleden getest."
+  },
+  {
+   "h": "nieuw",
+   "q": "Welk beslissingscriterium geldt meestal voor een jury in de VS?",
+   "o": [
+    "Volledige consensus",
+    "Een tweederde meerderheid",
+    "Een gewone meerderheid",
+    "Een stemming door de voorzitter alleen"
+   ],
+   "a": 0,
+   "u": "In de VS is voor een veroordeling in strafzaken doorgaans unanimiteit vereist, terwijl in België een gekwalificeerde meerderheid geldt."
+  },
+  {
+   "h": "nieuw",
+   "q": "Welke straftheorie rechtvaardigt straf door naar de daad uit het verleden te kijken, en eist die dat de straf proportioneel is aan het delict?",
+   "o": [
+    "Retributivisme",
+    "Utilitarisme",
+    "Rehabilitatie",
+    "Individuele afschrikking"
+   ],
+   "a": 0,
+   "u": "Het retributivisme stelt dat de straf zich in het verleden rechtvaardigt en proportioneel moet zijn aan het delict."
+  },
+  {
+   "h": "nieuw",
+   "q": "Welke straftheorie rechtvaardigt straf door het toekomstige algemeen welzijn te vergroten?",
+   "o": [
+    "Utilitarisme",
+    "Retributivisme",
+    "Inquisitoir recht",
+    "Voir dire"
+   ],
+   "a": 0,
+   "u": "Het utilitarisme rechtvaardigt straf via reductie en preventie van criminaliteit, zoals afschrikking, rehabilitatie en onschadelijk maken."
+  },
+  {
+   "h": "nieuw",
+   "q": "Wat toonden Partridge en Eldridge aan?",
+   "o": [
+    "Dat identieke dossiers door verschillende rechters zeer uiteenlopende straffen kregen, van 3 tot 20 jaar",
+    "Dat rechters altijd dezelfde straf opleggen",
+    "Dat rechters geen dossiers lezen",
+    "Dat straffen nooit verschillen"
+   ],
+   "a": 0,
+   "u": "Vijftig rechters beoordeelden identieke dossiers en kwamen tot straffen van 3 tot 20 jaar, wat het gelijkheidsbeginsel bedreigt."
+  },
+  {
+   "h": "nieuw",
+   "q": "Welk type valse bekentenis ontstaat volgens het materiaal wanneer de verdachte er zelf van overtuigd raakt dat de beschuldigingen waar kunnen zijn?",
+   "o": [
+    "Geïnternaliseerde valse bekentenis",
+    "Vrijwillige valse bekentenis",
+    "Gedwongen valse bekentenis",
+    "Onbewuste bekentenis"
+   ],
+   "a": 0,
+   "u": "Bij een geïnternaliseerde valse bekentenis, na druk tijdens het verhoor, twijfelt de verdachte of hij het misdrijf zelf gepleegd heeft."
+  },
+  {
+   "h": "nieuw",
+   "q": "Welke twee factoren kunnen het risico op een valse bekentenis volgens het materiaal vergroten?",
+   "o": [
+    "De verdachte kan zich het incident niet duidelijk herinneren, en er wordt vals bewijsmateriaal gepresenteerd",
+    "De verdachte is zeer zelfverzekerd en heeft een sterk alibi",
+    "De verdachte heeft een advocaat en is goed opgeleid",
+    "De zaak is al lang geleden en er zijn veel getuigen"
+   ],
+   "a": 0,
+   "u": "Een onduidelijk geheugen van het incident en vals bewijsmateriaal vergroten het risico op valse bekentenissen."
+  },
+  {
+   "h": "nieuw",
+   "q": "Wat toonde het onderzoek van Kassin en Sukel over de invloed van een bekentenis op een jury?",
+   "o": [
+    "Een bekentenis beïnvloedt de jury sterk, ook wanneer juryleden weten dat de bekentenis afgedwongen was",
+    "Juryleden negeren bekentenissen altijd volledig",
+    "Een bekentenis heeft geen invloed op het oordeel van een jury",
+    "Juryleden vinden bekentenissen altijd onbetrouwbaar"
+   ],
+   "a": 0,
+   "u": "In dit onderzoek bleven juryleden een bekentenis zwaar meewegen, ook toen ze wisten dat die afgedwongen was."
+  },
+  {
+   "h": "nieuw",
+   "q": "Wat meet de polygraaf eigenlijk?",
+   "o": [
+    "Fysiologische arousal; het is eerder een arousaldetector dan een leugendetector",
+    "De waarheid van elke uitspraak",
+    "Hersengolven in de frontale kwab",
+    "Het aantal neuronen in de amygdala"
+   ],
+   "a": 0,
+   "u": "De polygraaf meet lichamelijke opwinding en is eigenlijk een arousaldetector, geen leugendetector."
+  },
+  {
+   "h": "nieuw",
+   "q": "Waarom worden mensen die kort na een gebeurtenis door de politie worden ondervraagd als betrouwbaarder beschouwd dan mensen die pas maanden later worden ondervraagd?",
+   "o": [
+    "Hoe meer tijd verstrijkt, hoe groter de kans op vervorming, vergeten en gevoeligheid voor misleidende informatie",
+    "Geheugen verbetert na verloop van tijd door consolidatie",
+    "Er is geen verschil aangetoond in onderzoek",
+    "Recente herinneringen zijn altijd opgeslagen in het sensorisch geheugen"
+   ],
+   "a": 0,
+   "u": "Langere tijdsintervallen vergroten de kwetsbaarheid voor interferentie, vergeten en misleidende vragen, zoals het misinformatie-effect laat zien."
+  },
+  {
+   "h": "nieuw",
+   "q": "Waarom is hypnose omstreden als hulpmiddel bij getuigenverklaringen in de rechtbank?",
+   "o": [
+    "Hypnose verbetert het geheugen aantoonbaar",
+    "Onder hypnose is de gevoeligheid voor suggestie verhoogd, wat kan leiden tot foutieve maar zelfverzekerd gerapporteerde herinneringen",
+    "Hypnose werkt bij minder dan 5 procent van de bevolking",
+    "Rechtbanken accepteren geen enkele vorm van getuigenverklaring"
+   ],
+   "a": 1,
+   "u": "Gehypnotiseerde proefpersonen presteerden slechter bij identificatie en waren vatbaarder voor misleidende suggesties, terwijl ze zelfverzekerder overkwamen."
+  },
+  {
+   "h": "nieuw",
+   "q": "Wat is het belangrijkste verschil tussen ontoerekeningsvatbaarheid en onweerstaanbare dwang in het Belgisch recht?",
+   "o": [
+    "Beide leiden tot internering in een psychiatrische instelling",
+    "Ontoerekeningsvatbaarheid betekent dat de persoon de betekenis van zijn daad niet kon overzien en kan leiden tot internering; onweerstaanbare dwang betekent dat een normaal mens in dezelfde omstandigheden ook zo zou handelen en leidt tot vrijstelling zonder internering",
+    "Onweerstaanbare dwang is enkel van toepassing bij psychische stoornissen",
+    "Er bestaat geen juridisch onderscheid tussen beide begrippen"
+   ],
+   "a": 1,
+   "u": "Bij ontoerekeningsvatbaarheid is er een psychiatrische grondslag en is internering mogelijk. Bij onweerstaanbare dwang is er geen psychiatrische grondslag en volgt vrijstelling zonder internering."
+  },
+  {
+   "h": "nieuw",
+   "q": "Waarom presteren psychologen die geweld bij een verdachte proberen te voorspellen beter wanneer ze een gestructureerd interview en psychologische testen gebruiken, dan wanneer ze enkel op hun klinisch oordeel afgaan?",
+   "o": [
+    "Gestructureerde methodes elimineren elke foutenmarge volledig",
+    "Puur klinisch oordeel presteert niet beter dan inschattingen door leken; systematische evaluatie van risico- en beschermingsfactoren verbetert de voorspelling, al blijft 100 procent zekerheid onmogelijk",
+    "Psychologische testen zijn wettelijk verplicht en daarom altijd accurater",
+    "Klinisch oordeel is per definitie onbetrouwbaar en wordt nooit gebruikt"
+   ],
+   "a": 1,
+   "u": "Een combinatie van gestructureerd interview, tests en systematische factoranalyse verbetert de voorspelling, zonder ooit volledige zekerheid te garanderen."
+  },
+  {
+   "h": "nieuw",
+   "q": "Bij een politieopstelling (line-up) is het een procedurefout wanneer:",
+   "o": [
+    "De getuige expliciet wordt verteld dat de dader mogelijk niet in de rij staat",
+    "De andere personen in de rij duidelijk niet overeenkomen met het signalement, bijvoorbeeld wanneer enkel de verdachte een litteken heeft terwijl de dader dat had",
+    "Meerdere getuigen apart worden ondervraagd",
+    "De line-up wordt gefilmd"
+   ],
+   "a": 1,
+   "u": "Als de andere personen evident afwijken van de beschrijving, is de procedure waardeloos. Het expliciet vermelden dat de dader mogelijk ontbreekt, is juist een correcte werkwijze."
   }
  ],
  "hacks": [
@@ -746,6 +1458,7 @@ window.BES_VAK = {
   "h2": 2,
   "h3": 1,
   "h4": 2,
-  "h5": 2
+  "h5": 2,
+  "nieuw": 1
  }
 };
