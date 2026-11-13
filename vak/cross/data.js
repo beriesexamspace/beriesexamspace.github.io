@@ -24,10 +24,6 @@ window.BES_VAK = {
   {
    "id": "h5",
    "naam": "Migratie & trauma"
-  },
-  {
-   "id": "nieuw",
-   "naam": "Nieuw materiaal: Cross-cultural psychology"
   }
  ],
  "vragen": [
@@ -450,18 +446,6 @@ window.BES_VAK = {
    ],
    "a": 0,
    "u": "Minimal impact resilience heet enkelvoudig en individueel, terwijl emergent resilience meervoudig en omgevingsgebonden is."
-  },
-  {
-   "h": "nieuw",
-   "q": "Welk onderscheid tussen culturen wordt in cross-cultureel psychologisch onderzoek het vaakst gebruikt om culturen te vergelijken?",
-   "o": [
-    "Kapitalisme versus socialisme",
-    "Interne versus externe locus of control",
-    "Individualisme versus collectivisme",
-    "Introversie versus extraversie"
-   ],
-   "a": 2,
-   "u": "Het individualisme-collectivisme-continuüm is de meest gebruikte culturele dimensie in cross-cultureel onderzoek. Het bepaalt of het individu of de groep de basiseenheid van de samenleving is en beïnvloedt attributie, zelfconcept en motivatie."
   }
  ],
  "hacks": [
@@ -588,7 +572,6 @@ window.BES_VAK = {
   "h2": 2,
   "h3": 2,
   "h4": 2,
-  "h5": 2,
-  "nieuw": 1
+  "h5": 2
  }
 };
