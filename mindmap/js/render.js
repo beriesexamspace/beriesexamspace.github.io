@@ -248,6 +248,7 @@
       var n = nodes[id];
       if (!isNum(n.x) || !isNum(n.y)) continue;
       if (BM.anim && typeof BM.anim.alphaOf === 'function' && BM.anim.alphaOf(id) < 0.05) continue;
+      if (BM.afspelen && BM.afspelen.verborgen(id)) continue;
       var s = toScreen(n.x, n.y);
       var kids = n.children ? n.children.length : 0;
       var r = radiusFor(kids, n.parentId == null, zoom) + 6;
@@ -319,6 +320,10 @@
     var zoom = zoomLevel();
     var labelZ = clamp((zoom - LABEL_Z0) / (LABEL_Z1 - LABEL_Z0), 0, 1);
     var ids = Object.keys(nodes);
+    // Opbouw afspelen: punten die nog niet aan de beurt zijn, worden niet getekend.
+    if (BM.afspelen && BM.afspelen.bezig()) {
+      ids = ids.filter(function (fid) { return !BM.afspelen.verborgen(fid); });
+    }
 
     // Modus van dit project: 'diagram' tekent een boom in rechte lijnen (geen drift, haakse lijnen).
     var diag = false;

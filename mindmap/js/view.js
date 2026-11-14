@@ -227,6 +227,7 @@
     rij.appendChild(maakOog());
     if (BM.modus) rij.appendChild(maakModus()); // zonder modus.js geen segmentknop
     if (BM.modus) rij.appendChild(maakRichting());
+    if (BM.afspelen) rij.appendChild(maakAfspelen());
     root.appendChild(rij);
     document.body.appendChild(root);
 
@@ -336,6 +337,7 @@
     '.bm-modus__opt:hover{color:var(--bm-text);}',
     '.bm-modus__opt:active{transform:scale(0.94);}',
     '.bm-modus__opt[aria-checked="true"]{color:var(--bm-text);}',
+    '.bm-afspelen .bm-modus__opt[aria-pressed="true"]{color:var(--bm-text);background:rgba(var(--bm-accent-rgb),0.22);box-shadow:inset 0 0 0 1px rgba(var(--bm-accent-rgb),0.45);}',
     '.bm-modus__opt:focus-visible{outline:2px solid rgba(var(--bm-accent-rgb),0.7);outline-offset:1px;}',
     '.bm-modus__opt svg{flex:none;}',
     '.bm-modus__opt--tik svg{animation:bm-modus-tik 260ms var(--bm-ease);}',
@@ -392,6 +394,37 @@
     richtingBtn.textContent = volgende;
     richtingBtn.title = 'Zet de diagram-weergave ' + volgende.toLowerCase();
     richtingBtn.setAttribute('aria-label', 'Diagram ' + volgende.toLowerCase());
+  }
+
+  // Knop om de opbouw van de map opnieuw af te spelen (BM.afspelen).
+  var ICON_SPELEN = '<svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5.5v13a1 1 0 0 0 1.5.86l10.5-6.5a1 1 0 0 0 0-1.72L9.5 4.64A1 1 0 0 0 8 5.5z"/></svg>';
+  var ICON_STOP = '<svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><rect x="6" y="6" width="12" height="12" rx="2.5"/></svg>';
+  var afspeelBtn = null;
+
+  function maakAfspelen() {
+    var wrap = el('div', 'bm-modus bm-afspelen');
+    afspeelBtn = el('button', 'bm-modus__opt');
+    afspeelBtn.type = 'button';
+    afspeelBtn.addEventListener('click', function () {
+      if (BM.afspelen.bezig()) BM.afspelen.stop();
+      else BM.afspelen.start();
+    });
+    wrap.appendChild(afspeelBtn);
+    syncAfspelen();
+    if (BM.bus && BM.bus.on) BM.bus.on('afspelen:status', syncAfspelen);
+    return wrap;
+  }
+
+  function syncAfspelen() {
+    if (!afspeelBtn) return;
+    var bezig = !!(BM.afspelen && BM.afspelen.bezig());
+    afspeelBtn.innerHTML = (bezig ? ICON_STOP : ICON_SPELEN) + '<span class="bm-modus__label">' + (bezig ? 'Stoppen' : 'Afspelen') + '</span>';
+    afspeelBtn.title = bezig ? 'Stop het afspelen' : 'Speel de opbouw van deze map opnieuw af';
+    afspeelBtn.setAttribute('aria-label', bezig ? 'Stop het afspelen' : 'Opbouw afspelen');
+    afspeelBtn.setAttribute('aria-pressed', bezig ? 'true' : 'false');
+    afspeelBtn.classList.remove('bm-modus__opt--tik');
+    void afspeelBtn.offsetWidth;
+    afspeelBtn.classList.add('bm-modus__opt--tik');
   }
 
   function modusHuidig() {
