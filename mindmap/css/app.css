@@ -2926,3 +2926,55 @@ body {
     z-index: 18;
   }
 }
+
+/* ---------- Pop-up groter op brede schermen (14-11) ---------- */
+@media (min-width: 721px) {
+  .bm-popup {
+    width: 372px;
+    max-height: min(80vh, 680px);
+    padding: 18px;
+  }
+  .bm-popup__head {
+    margin-bottom: 14px;
+  }
+  .bm-popup__title {
+    font-size: 18px;
+  }
+  .bm-popup__meta {
+    font-size: 13px;
+  }
+  .bm-popup__close {
+    width: 36px;
+    height: 36px;
+    font-size: 22px;
+  }
+  .bm-popup__actions {
+    gap: 12px;
+  }
+  .bm-popup__actions .bm-btn {
+    min-height: 44px;
+    font-size: 14.5px;
+    border-radius: 12px;
+  }
+  .bm-popup__actions .bm-btn svg {
+    width: 17px;
+    height: 17px;
+  }
+  .bm-popup__actions .bm-popup__step {
+    width: 34px;
+    min-width: 34px;
+    height: 34px;
+    font-size: 17px;
+  }
+  .bm-popup__count {
+    min-width: 20px;
+    font-size: 15px;
+  }
+  .bm-popup__label,
+  .bm-popup__colorlabel {
+    font-size: 12px;
+  }
+  .bm-popup .bm-overview {
+    font-size: 14px;
+  }
+}
