@@ -1295,3 +1295,68 @@ details[open] > :not(summary) { animation: menu-open 200ms var(--ease); }
   .cursor-dot.is-releasing::after { animation: none !important; }
   details::details-content { transition: none !important; }
 }
+
+/* Inlogscherm: Brussel 's nachts vanuit de ruimte als achtergrond.
+   De foto is donker, dus deze pagina gebruikt altijd de donkere kleuren, ook in de lichte stand. */
+body.auth-ruimte {
+  --bg: #05070D;
+  --card: #1C1C1E;
+  --input-bg: rgba(18,20,28,.72);
+  --surface: #2C2C2E;
+  --line: rgba(255,255,255,.16);
+  --ink: #F5F5F7;
+  --ink-soft: #B4B4BA;
+  --grey-title: #8E8E93;
+  --accent: #0A84FF;
+  --accent-dark: #409CFF;
+  --accent-zacht: rgba(10,132,255,.16);
+  --teal-tekst: #5fd0c9;
+  --nav-bg: rgba(12,14,20,.6);
+  --nav-vlak: #12141A;
+  --nav-rand: rgba(255,255,255,.16);
+  --fout: #FF6B60;
+  --fout-zacht: rgba(255,107,96,.12);
+  --cursor-tone: 255 255 255;
+  color-scheme: dark;
+  background: transparent;
+  color: var(--ink);
+}
+html:has(body.auth-ruimte) { background: #05070D; }
+body.auth-ruimte::before,
+body.auth-ruimte::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+}
+body.auth-ruimte::before {
+  background: #05070D url("inlog/brussel-laptop.webp") center right / cover no-repeat;
+  background-image: image-set(url("inlog/brussel-laptop-1600.webp") 1x, url("inlog/brussel-laptop.webp") 2x);
+  animation: ruimte-in 1.6s var(--ease) both;
+}
+/* Zachte schaduw in het midden, zodat tekst en invulvakken altijd goed leesbaar blijven. */
+body.auth-ruimte::after {
+  background:
+    radial-gradient(ellipse 46% 62% at 50% 52%, rgba(5,7,13,.72), rgba(5,7,13,.35) 70%, rgba(5,7,13,.15)),
+    linear-gradient(to bottom, rgba(5,7,13,.55), transparent 22%, transparent 78%, rgba(5,7,13,.7));
+}
+body.auth-ruimte .auth-input { -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px); }
+body.auth-ruimte h1 { text-shadow: 0 2px 24px rgba(0,0,0,.6); }
+@media (max-width: 700px) {
+  body.auth-ruimte::before {
+    background-image: url("inlog/brussel-telefoon.webp");
+    background-position: center top;
+  }
+  body.auth-ruimte::after {
+    background:
+      linear-gradient(to bottom, rgba(5,7,13,.3), rgba(5,7,13,.12) 28%, rgba(5,7,13,.5) 58%, rgba(5,7,13,.8));
+  }
+}
+@keyframes ruimte-in {
+  from { opacity: 0; transform: scale(1.04); }
+  to { opacity: 1; transform: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  body.auth-ruimte::before { animation: none; }
+}
