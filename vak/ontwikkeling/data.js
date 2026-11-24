@@ -1053,7 +1053,7 @@ window.BES_VAK = {
   },
   {
    "h": "nieuw",
-   "q": "Hoe verklaart het materiaal ontwikkeling?",
+   "q": "Hoe komt ontwikkeling volgens de ontwikkelingspsychologie tot stand?",
    "o": [
     "Als een proces van groei en verandering dat wordt aangestuurd door de interactie tussen erfelijkheid en omgeving",
     "Enkel door erfelijkheid",
@@ -1065,7 +1065,7 @@ window.BES_VAK = {
   },
   {
    "h": "nieuw",
-   "q": "Welk onderzoek bij eeneiige tweelingen wordt in het materiaal gebruikt om aangeboren en aangeleerde eigenschappen te onderscheiden?",
+   "q": "Met welk soort onderzoek bij eeneiige tweelingen onderscheidt men aangeboren en aangeleerde eigenschappen?",
    "o": [
     "Tweelingonderzoek",
     "Gevalstudie van een enkel kind",
