@@ -1,4 +1,4 @@
-// Pop-up Nieuwe feature: Duel (alleen op de hub, één keer per toestel, alleen ingelogd).
+// Pop-up Nieuwe feature: Duel (alleen op de hub, één keer per account, alleen ingelogd).
 // Drie schermen in één venster: uitleg -> kies je jaar -> kies je vak. Een vak kiezen gaat naar vak/<id>/?duel=10:
 // daar opent duel-start.js meteen het kiesscherm met hoofdstukken en aantal vragen. Daarna is alles zoals altijd.
 (() => {
@@ -76,12 +76,16 @@
     let gebruiker = null;
     try { await BES.auth?.gereed; gebruiker = await BES.auth?.gebruiker?.(); } catch {}
     if (!gebruiker) return;
+    // Al gezien met dit account (op een ander toestel of voor het uitloggen): nooit meer tonen.
+    if (BES.auth?.duelNieuwsGezien) { try { window.localStorage.setItem(SLEUTEL, '1'); } catch {} return; }
     // Staat er al een venster open (zoals Er is geen abonnement meer): later nog eens proberen.
     if (document.querySelector('dialog[open]')) {
       if (pogingen > 0) window.setTimeout(() => BES.duelNieuws(pogingen - 1), 3000);
       return;
     }
     try { if (window.localStorage.getItem(SLEUTEL)) return; window.localStorage.setItem(SLEUTEL, '1'); } catch { return; }
+    // Ook op het account bewaren, zodat de pop-up op geen enkel toestel terugkomt.
+    try { BES.auth?.profielBijwerken?.({ duelNieuwsGezien: true })?.catch?.(() => {}); } catch {}
 
     const jaren = JAREN[await richtingVan()];
     const vakken = (window.BES_VAKKEN || []).filter(v => jaren.includes(v.jaar));

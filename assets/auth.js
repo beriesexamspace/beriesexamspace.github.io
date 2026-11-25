@@ -412,6 +412,7 @@
       return pagePrefix + waarde;
     },
     get versieGezien() { return Number(currentUser?.user_metadata?.versie_gezien) || 0; },
+    get duelNieuwsGezien() { return currentUser?.user_metadata?.duel_nieuws_gezien === true; },
     avatarVullen: fillAvatar,
     naamGegevens: nameDetails,
     overGegevens: user => overDetails(user?.user_metadata?.over),
@@ -593,6 +594,7 @@
         metadata.over = over.studie || over.jaar || over.tekst ? { ...over, bijgewerkt: new Date().toISOString() } : null;
       }
       if (Object.hasOwn(patch, 'versieGezien')) metadata.versie_gezien = Math.max(0, Math.floor(Number(patch.versieGezien) || 0));
+      if (Object.hasOwn(patch, 'duelNieuwsGezien')) metadata.duel_nieuws_gezien = patch.duelNieuwsGezien === true;
       if (Object.hasOwn(patch, 'thema')) {
         if (!['licht', 'donker'].includes(patch.thema)) throw failure('unknown');
         metadata.thema = patch.thema;

@@ -69,8 +69,8 @@
   <script src="assets/vakken.js?v=95"></script>
   <script src="assets/config.js?v=89" defer></script>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js" defer></script>
-  <script src="assets/auth.js?v=100" defer></script>
-  <script src="assets/duel-nieuws.js?v=1" defer></script>
+  <script src="assets/auth.js?v=101" defer></script>
+  <script src="assets/duel-nieuws.js?v=2" defer></script>
   <script src="assets/plan.js?v=90" defer></script>
   <script src="assets/comit.js?v=90" defer></script>
   <script src="assets/activiteit.js?v=90" defer></script>
@@ -540,15 +540,18 @@
       if (window.BES_VERSIE_CHECK) document.addEventListener('DOMContentLoaded', () => {
         const versie = window.BES_VERSIE || 0;
         const auth = window.BES.auth;
-        const klaar = new Promise(resolve => window.setTimeout(resolve, 2000));
-        Promise.race([auth?.gereed || klaar, klaar]).then(() => {
-          if ((auth?.versieGezien || 0) >= versie) {
-            try { window.localStorage.setItem('bes_versie_gezien', String(versie)); } catch {}
-            document.documentElement.classList.remove('versie-check');
-          } else {
+        // Alleen doorsturen als het account zeker bekend is en deze versie nog niet gezien heeft.
+        // Trage verbinding of geen account: niet doorsturen, anders komt het scherm steeds opnieuw.
+        const telaat = new Promise(resolve => window.setTimeout(() => resolve('telaat'), 2000));
+        Promise.race([Promise.resolve(auth?.gereed).then(() => auth?.gebruiker?.()), telaat]).then(gebruiker => {
+          const bekend = gebruiker && gebruiker !== 'telaat';
+          if (bekend && (auth?.versieGezien || 0) < versie) {
             window.location.replace('nieuw.html' + window.location.hash);
+            return;
           }
-        });
+          if (bekend) { try { window.localStorage.setItem('bes_versie_gezien', String(versie)); } catch {} }
+          document.documentElement.classList.remove('versie-check');
+        }, () => document.documentElement.classList.remove('versie-check'));
       });
 
       window.BES.carrousel(document.getElementById('hub-intro'), { soorten: ['uitleg'] });
