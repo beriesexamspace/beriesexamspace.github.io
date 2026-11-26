@@ -1,23 +1,29 @@
 // Versies: het welkomstscherm (Wat is nieuw) verschijnt één keer per persoon per versie.
 // Nieuwe versie uitbrengen: 1) updates toevoegen met versie: N, 2) BES_VERSIE = N zetten, 3) cachenummer verhogen.
 // Iedereen die daarna inlogt (nieuw of bestaand account) ziet het scherm één keer; daarna niet meer tot de volgende versie.
+// Per update:
+//   link  waar de update naartoe gaat (pad vanaf de hoofdmap, zoals in de hub-links).
+//   tool  de tool-kaart op de hub waar de update bij hoort: de bestandsnaam van die kaart zonder .html
+//         (reken, examen-info, leren, fouten, boeken, sjablonen, games). Geen tool-kaart: null.
+//   Hiermee kunnen later het Nieuw-label op een tool-kaart en de teller van ongelezen updates automatisch werken.
 window.BES_VERSIE = 1;
 
 window.BES_UPDATES = [
-  { versie: 1, soort: 'nieuw', datum: '8 november 2026', tekst: '**Duel**: een buzzergame waarmee je ziet wie van je vrienden het beste heeft geleerd. Open een vak, kies je hoofdstukken en hoeveel vragen, en nodig tot 10 vrienden uit met een code.' },
-  { versie: 1, soort: 'verbeterd', datum: '4 november 2026', tekst: '**Er is geen abonnement meer.** Alles staat open voor iedereen: onbeperkt simulaties, 60 vragen per dag aan Comit, uitleg bij je foute antwoorden en ezelsbruggetjes. We werken aan een betere deal.' },
-  { versie: 1, soort: 'nieuw', datum: '1 november 2026', tekst: '**Games**: even pauze? Speel kruisje bolletje tegen de robot. Er komen meer games bij.' },
-  { versie: 1, soort: 'nieuw', datum: '1 november 2026', tekst: '**Nieuwe startpagina met een kaart**: kies je school en richting op de kaart van België en Nederland.' },
-  { versie: 1, soort: 'nieuw', datum: '31 oktober 2026', tekst: '**Insturen**: stuur je samenvatting in, ook zonder account. Daarmee maken we oefenvragen voor nieuwe vakken en richtingen.' },
-  { versie: 1, soort: 'nieuw', datum: '20 september 2026', tekst: '**Inloggen met Google**: één klik, geen wachtwoord nodig.' },
-  { versie: 1, soort: 'nieuw', datum: '19 september 2026', tekst: '**Sociologie I** staat erin, met 153 vragen en uitleg.' },
-  { versie: 1, soort: 'nieuw', datum: '19 september 2026', tekst: '**Leren leren**: slim studeren, focus en hulp als het even niet gaat.' },
-  { versie: 1, soort: 'nieuw', datum: '19 september 2026', tekst: '**Feedbackpagina**: meld een fout of stuur een idee.' },
-  { versie: 1, soort: 'nieuw', datum: '18 september 2026', tekst: '**Hard mode** bij Inleiding tot de pedagogiek, met minstens 8 vragen per ronde.' },
-  { versie: 1, soort: 'verbeterd', datum: '16 september 2026', tekst: '**Reken je punten** en **Examen-info** staan in de nieuwe stijl.' },
-  { versie: 1, soort: 'verbeterd', datum: '15 september 2026', tekst: 'Alle vakken staan in de **nieuwe vakpagina**, met **voortgang bij je account**.' },
-  { versie: 1, soort: 'nieuw', datum: '15 september 2026', tekst: '**Aanmelden en inloggen** met je eigen account.' },
-  { versie: 1, soort: 'nieuw', datum: '14 september 2026', tekst: "Nieuwe **startpagina**, **hub**, **jaarpagina's** en **WhatsApp-pagina**." }
+  { versie: 1, soort: 'nieuw', datum: '10 november 2026', tekst: '**Taakverdeling** bij Sjablonen: verdeel samen de taken van je groepswerk, met afspraken, tussendoelen en een ingevuld voorbeeld.', link: 'sjablonen.html', tool: 'sjablonen' },
+  { versie: 1, soort: 'nieuw', datum: '8 november 2026', tekst: '**Duel**: een buzzergame waarmee je ziet wie van je vrienden het beste heeft geleerd. Open een vak, kies je hoofdstukken en hoeveel vragen, en nodig tot 10 vrienden uit met een code.', link: 'duel.html', tool: null },
+  { versie: 1, soort: 'verbeterd', datum: '4 november 2026', tekst: '**Er is geen abonnement meer.** Alles staat open voor iedereen: onbeperkt simulaties, 60 vragen per dag aan Comit, uitleg bij je foute antwoorden en ezelsbruggetjes. We werken aan een betere deal.', link: 'abonnement.html', tool: null },
+  { versie: 1, soort: 'nieuw', datum: '1 november 2026', tekst: '**Games**: even pauze? Speel kruisje bolletje tegen de robot. Er komen meer games bij.', link: 'games.html', tool: 'games' },
+  { versie: 1, soort: 'nieuw', datum: '1 november 2026', tekst: '**Nieuwe startpagina met een kaart**: kies je school en richting op de kaart van België en Nederland.', link: 'kaart.html', tool: null },
+  { versie: 1, soort: 'nieuw', datum: '31 oktober 2026', tekst: '**Insturen**: stuur je samenvatting in, ook zonder account. Daarmee maken we oefenvragen voor nieuwe vakken en richtingen.', link: 'insturen/formulier.html', tool: null },
+  { versie: 1, soort: 'nieuw', datum: '20 september 2026', tekst: '**Inloggen met Google**: één klik, geen wachtwoord nodig.', link: 'inloggen.html', tool: null },
+  { versie: 1, soort: 'nieuw', datum: '19 september 2026', tekst: '**Sociologie I** staat erin, met 153 vragen en uitleg.', link: 'vak/sociologie/', tool: null },
+  { versie: 1, soort: 'nieuw', datum: '19 september 2026', tekst: '**Leren leren**: slim studeren, focus en hulp als het even niet gaat.', link: 'leren.html', tool: 'leren' },
+  { versie: 1, soort: 'nieuw', datum: '19 september 2026', tekst: '**Feedbackpagina**: meld een fout of stuur een idee.', link: 'feedback.html', tool: null },
+  { versie: 1, soort: 'nieuw', datum: '18 september 2026', tekst: '**Hard mode** bij Inleiding tot de pedagogiek, met minstens 8 vragen per ronde.', link: 'vak/inlped/', tool: null },
+  { versie: 1, soort: 'verbeterd', datum: '16 september 2026', tekst: '**Reken je punten** en **Examen-info** staan in de nieuwe stijl.', link: 'reken.html', tool: 'reken' },
+  { versie: 1, soort: 'verbeterd', datum: '15 september 2026', tekst: 'Alle vakken staan in de **nieuwe vakpagina**, met **voortgang bij je account**.', link: 'jaar-1ba.html', tool: null },
+  { versie: 1, soort: 'nieuw', datum: '15 september 2026', tekst: '**Aanmelden en inloggen** met je eigen account.', link: 'aanmelden.html', tool: null },
+  { versie: 1, soort: 'nieuw', datum: '14 september 2026', tekst: "Nieuwe **startpagina**, **hub**, **jaarpagina's** en **WhatsApp-pagina**.", link: 'hub.html', tool: null }
 ];
 
 window.BES = window.BES || {};
